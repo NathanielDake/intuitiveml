@@ -37,9 +37,11 @@ This repo consists of two main directories
 
 ## Machine Learning Perspective
 This repo is mainly based on Andrew NG's free Machine Learning course.
+Link: https://www.coursera.org/learn/machine-learning
 
 ## Statistical Learning Perspective
 This repo is mainly based on the textbook **Introduction to Statistical Learning with Applications in R**. 
+Link: http://www-bcf.usc.edu/~gareth/ISL/index.html
 
 To gain maximal insight from the notebooks I recommend following along with the resources associated with each (I will detail my recommendations at the start of each notebook)
 
