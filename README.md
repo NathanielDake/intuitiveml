@@ -46,5 +46,13 @@ Link: http://www-bcf.usc.edu/~gareth/ISL/index.html
 To gain maximal insight from the notebooks I recommend following along with the resources associated with each (I will detail my recommendations at the start of each notebook)
 
 
+# Setup Instructions
+1. Navigate to the directory where you would like to be storing this repo
+2. Run `git clone https://github.com/NathanielDake/machine-learning-tutorial-notebooks.git` 
+3. Change directories into that notebook, i.e. `cd machine-learning-tutorial-notebooks`
+4. Run `jupyter notebook`
+5. This will spin up the notebook frontend as well as the kernel. 
+6. Stay up to date with the most recent changes by running `git pull`
+
 # Good Luck!
 I wish anyone following along with these tutorial the best of luck on the Journey to understanding Machine Learning.
