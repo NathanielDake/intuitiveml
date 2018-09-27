@@ -163,3 +163,60 @@ def max_dict(d):
       max_val = v
       max_key = k
   return max_key, max_val
+
+SMALL_ENOUGH = 1e-3
+GAMMA = 0.9
+ALL_POSSIBLE_ACTIONS = ('U', 'D', 'L', 'R')
+
+def random_action(a):
+  # 0.5 probability of performing chosen action
+  # 0.5/3 probability of doing some action a' != a
+  p = np.random.random()
+  if p < 0.5:
+    return a
+  else:
+    tmp = list(ALL_POSSIBLE_ACTIONS)
+    tmp.remove(a)
+    return np.random.choice(tmp)
+  
+def play_game(grid, policy):
+  """Returns a list of states and corresponding returns"""
+  
+  # Reset game to start at a random position. We need to do this, because given our 
+  # current deterministic policy (we take upper left path all the way to goal state, and 
+  # for any state not in that path, to go all the way to losing state. Since MC only 
+  # calculates values for states that are actually visited, and if we only started at the
+  # prescribed start state, there will be some states that we never visit. So we need this 
+  # little hack at the beginning of play game, that allows us to start the game at any 
+  # state. This is called the exploring starts method. 
+  start_states = list(grid.actions.keys())
+  start_idx = np.random.choice(len(start_states))
+  grid.set_state(start_states[start_idx])
+  
+  # Play the game -> goal is to make a list of all states we have visited, and all rewards
+  # we have received
+  s = grid.current_state()
+  states_and_rewards = [(s, 0)] # list of tuples of (state, reward)
+  while not grid.game_over():
+    a = policy[s] 
+    a = random_action(a) # ----- THIS IS THE UPDATE FOR WINDY GRIDWORLD -----
+    r = grid.move(a)
+    s = grid.current_state()
+    states_and_rewards.append((s, r))
+    
+  # Calculate the returns by working backward from the terminal state. We visit each state
+  # in reverse, and recursively calculate the return. 
+  G = 0 
+  states_and_returns = []
+  first = True
+  for s, r in reversed(states_and_rewards): 
+    # The value of the terminal state is 0 by definition. We should ignore the first state 
+    # we encounter, and ignore the last G, which is meaningless since it doesn't 
+    # correspond to any move. 
+    if first:
+      first = False
+    else:
+      states_and_returns.append((s, G))
+    G = r + GAMMA * G
+  states_and_returns.reverse() # we want it in the order of state visited
+  return states_and_returns
