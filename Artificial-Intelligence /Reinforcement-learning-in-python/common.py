@@ -167,6 +167,7 @@ def max_dict(d):
 SMALL_ENOUGH = 1e-3
 GAMMA = 0.9
 ALL_POSSIBLE_ACTIONS = ('U', 'D', 'L', 'R')
+ALPHA = 0.1
 
 def random_action(a):
   # 0.5 probability of performing chosen action
@@ -178,6 +179,15 @@ def random_action(a):
     tmp = list(ALL_POSSIBLE_ACTIONS)
     tmp.remove(a)
     return np.random.choice(tmp)
+
+def random_action_td(a, eps=0.1):
+  # we'll use epsilon-soft to ensure all states are visited
+  # what happens if you don't do this? i.e. eps=0
+  p = np.random.random()
+  if p < (1 - eps):
+    return a
+  else:
+    return np.random.choice(ALL_POSSIBLE_ACTIONS)
   
 def play_game(grid, policy):
   """Returns a list of states and corresponding returns"""
@@ -220,3 +230,17 @@ def play_game(grid, policy):
     G = r + GAMMA * G
   states_and_returns.reverse() # we want it in the order of state visited
   return states_and_returns
+
+def play_game_td(grid, policy):
+  """Much simpler than MC version, because we don't need to calculate any returns. All
+  we need to do is return a list of states and rewards."""
+  s = (2, 0)
+  grid.set_state(s)
+  states_and_rewards = [(s, 0)] # list of tuples of (state, reward)
+  while not grid.game_over():
+    a = policy[s]
+    a = random_action(a)
+    r = grid.move(a)
+    s = grid.current_state()
+    states_and_rewards.append((s, r))
+  return states_and_rewards
