@@ -1,5 +1,5 @@
 # Truly understanding Machine Learning
-During my time studying Mechanical Engineering, Computer Engineering, Software Development, and finally breaking into the field of Data Science and Machine Learning, I have learned a lot about the best way the I learn. It is clear at this point that for a beginner, jumping right into a text book is rarely the best route to follow. The concepts, and more importantly just the language, will seem very difficult to comprehend, and most likely leave you discouraged that the material is simply outside of your grasp.
+During my time studying Data Science and Machine Learning, Software Development, Computer Engineering, Physics, and Mechanical Engineering, I have learned a lot about the best way the I learn. It is clear at this point that for a beginner, jumping right into a text book is rarely the best route to follow. The concepts, and more importantly just the language, will seem very difficult to comprehend, and most likely leave you discouraged that the material is simply outside of your grasp.
 
 This is especially true in the field of Data Science and Machine Learning, where several other technical disciplines intertwine:
 - Statistics
