@@ -19,15 +19,6 @@ div.rendered_html h5 {
   font-family:"Raleway","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
-div.text_cell_render p, 
-div.rendered_html p {
-  text-align: justify;
-}
-
-p {
-  text-align: justify;
-}
-
 .rendered_html h1,
 .text_cell_render h1 {
  color: #000;
