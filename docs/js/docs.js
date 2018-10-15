@@ -1,9 +1,6 @@
 var analysisArray = []
-var analysisDict = {'1.-Fundamental-Theorem-of-Calculus-1': 'Fundamental Theorem of Calculus', 'A-first-glance-at-the-Divvy-data-1': 'first-glance', 'Divvy-usage-over-the-year-1': 'seasonal-trends', 'A-map-of-the-Divvy-stations-in-Chicago-1': 'station-map', 'Divvy-usage-by-time-of-day-1': 'time-of-day-trends'}
-var analysisArrayMap = {'Fundamental Theorem of Calculus': '1. Fundamental Theorem of Calculus', 'first-glance': 'A first glance at the Divvy data', 'seasonal-trends': 'Divvy usage over the year', 'station-map': 'A map of the Divvy stat ... s in Chicago', 'time-of-day-trends': 'Divvy usage by time-of-day'}
-var Ensemble-MethodsArray = ['Appendix - Bias-Variance Regression Demo', 'Section 2 - Bootstrap Estimates and Bagging', 'Section 3 - Random Forest', 'Section 4 - AdaBoost', 'Section 5 - Summary of Concepts', 'Section1 -  Bias-Variance Trade-Off ']
-var Ensemble-MethodsDict = {'1.-Basic-Definitions-1': 'Appendix - Bias-Variance Regression Demo', '1.-Bootstrap-Estimation-1': 'Section 2 - Bootstrap Estimates and Bagging', '1.-Random-Forest-Algorithm-1': 'Section 3 - Random Forest', '1.-AdaBoost-Algorithm-1': 'Section 4 - AdaBoost', '-1': 'Section 5 - Summary of Concepts', '1.-Bias-Variance-Trade-Off-1': 'Section1 -  Bias-Variance Trade-Off'}
-var Ensemble-MethodsArrayMap = {'Appendix - Bias-Variance Regression Demo': '1. Basic Definitions', 'Section 2 - Bootstrap Estimates and Bagging': '1. Bootstrap Estimation', 'Section 3 - Random Forest': '1. Random Forest Algorithm', 'Section 4 - AdaBoost': '1. AdaBoost Algorithm', 'Section 5 - Summary of Concepts': '---', 'Section1 -  Bias-Variance Trade-Off': '1. Bias-Variance Trade-Off'}
+var analysisDict = {'A-first-glance-at-the-Divvy-data-1': 'first-glance', 'Divvy-usage-over-the-year-1': 'seasonal-trends', 'A-map-of-the-Divvy-stations-in-Chicago-1': 'station-map', 'Divvy-usage-by-time-of-day-1': 'time-of-day-trends'}
+var analysisArrayMap = {'first-glance': 'A first glance at the Divvy data', 'seasonal-trends': 'Divvy usage over the year', 'station-map': 'A map of the Divvy stat ... s in Chicago', 'time-of-day-trends': 'Divvy usage by time-of-day'}
 var licenseArray = []
 var licenseDict = {}
 var licenseArrayMap = {}

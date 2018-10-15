@@ -1,13 +1,4 @@
-docs/Ensemble-Methods.html
-docs/Ensemble-Methods.tpl
-docs/Ensemble-Methods/Appendix - Bias-Variance Regression Demo.html
-docs/Ensemble-Methods/Section 2 - Bootstrap Estimates and Bagging.html
-docs/Ensemble-Methods/Section 3 - Random Forest.html
-docs/Ensemble-Methods/Section 4 - AdaBoost.html
-docs/Ensemble-Methods/Section 5 - Summary of Concepts.html
-docs/Ensemble-Methods/Section1 -  Bias-Variance Trade-Off .html
 docs/analysis.tpl
-docs/analysis/Fundamental Theorem of Calculus.html
 docs/analysis/first-glance.html
 docs/analysis/seasonal-trends.html
 docs/analysis/station-map.html
