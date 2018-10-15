@@ -1,235 +1,58 @@
-# ipynb website: Simple data science website using Jupyter notebooks
+# Truly understanding Machine Learning
+During my time studying Data Science and Machine Learning, Software Development, Computer Engineering, Physics, and Mechanical Engineering, I have learned a lot about the best way the I learn. It is clear at this point that for a beginner, jumping right into a text book is rarely the best route to follow. The concepts, and more importantly just the language, will seem very difficult to comprehend, and most likely leave you discouraged that the material is simply outside of your grasp.
 
-This repository is an adaptable framework for publishing websites from
-[Jupyter interactive notebooks](https://jupyter.org).
+This is especially true in the field of Data Science and Machine Learning, where several other technical disciplines intertwine:
+- Statistics
+- Probability
+- Computer Science
+- Calculus
+- Linear Algebra
 
-*Please copy and adapt this repository for your own project.*
+By jumping into formula heavy text books, and skipping out on the real world applications of Machine Learning (which lets be honest, are pretty awesome), there is no incentive to continue and push forward. This is where the Top down approach was introduced. Schools systems generally teach via a bottom up approach - giving students the small building block thats can be combined in the end to create a grand system. Again, this leaves the learner wanting more, and often struggling to connect the dots of *why this small building is useful* and *why should I care*?
 
-View the demo project website
-[here](https://stephenslab.github.io/ipynb-website).
+The top down approach throws you right into the deep end, allowing you to work with premade algorithms and libraries, without fully understanding the math and intuitions behind the overall system. This, in my opinion, is a much better approach, but still leaves a bit to be desired. As with anything, I feel that balance is the key here. The goal should be to use real world examples to teach the mechanics of what is going on under the hood. To often concepts that are taught are treated as black boxes, and rote memorization is used to get through. This worked for a time, but in the field of Data Science and Machine Learning, it will not. There is no one size fits all - it is messy, chaotic, and unclear. And that is **our job** as a Data Scientist - to bring clarity to a problem, and help find a resolution.
 
-If you find any problems, or would like to suggest new features,
-please open an
-[Issue](https://github.com/stephenslab/ipynb-website/issues). We also
-encourage community contributions, e.g., by forking the repository,
-making your suggested changes, and issuing a pull request.
+With that said, when learning anything (especially since the advent of the internet), I find that there are **many** resources a person ends up utilizing to reach a point of mastery. There are open courses, blogs, text books, academic papers, youtube videos, tutorials, and so on. This is wonderful, but what I find is that they end up spread out all over the place and end up being very difficult to keep track of. For example, say while learning about Linear Regression you realize you don't fully understand the linear algebra behind it. You then search around, do a bit of googling, and find the following: 
+- a youtube video with a nice animation of what it actually represents
+- a blog post going through a relevant example
+- a set of images that walk through the mechanics of matrix multiplication
 
-## License
+At that point, you have a solid intuitive grasp of what is going on. Two weeks later, however, it has slightly faded and you don't remember where you found those resources. That is part of the goal of this repo. When learning anything, there are blocking points that we all hit- I wanted to specifically detail mine at the exact moments they occured, and then pull in the resources, links, images, summary's, etc, from all different avenues that I found helpful.
 
-Copyright (c) 2017, Peter Carbonetto & Gao Wang.
+The goal at the end of the day is to build **intuitions**. Anyone can follow a basic process of predetermined steps and arrive at a solution. But we want to create intuitions of what is *actually* going on, so that if the situation was broken from its cookie cutter form we would be able to take that in stride and still understand what is going on. So with that said...
 
-All source code and software in this repository are made available
-under the terms of the [MIT license](https://opensource.org/licenses/MIT).
 
-## Quick Start
+These notebooks are designed with two main purposes in mind:
+1. High light my exact journey to teach myself machine learning and data science
+2. Develop key intuitions about what is really happening. 
 
-To start your own Jupyter-notebook-based research website, please
-follow these steps.
+With that said, here is one final quote to always remember (and one that I remind myself of as I put together each one of these notebooks). It is from Richard Feynman as he was attempting to explain Fermi-Dirac statistics.
 
-*Note:* These instructions assume that you are managing your project
-files inside a git repository, but this is not strictly necessary; if
-you prefer not to do this, skip the git commands in the steps
-below. (For an introduction to git, see
-[here](https://swcarpentry.github.io/git-novice) or
-[here](https://doi.org/10.1371/journal.pcbi.1004668).)
+> Feynman was a truly great teacher. He prided himself on being able to devise ways to explain even the most profound ideas to beginning students. Once, I said to him, “Dick, explain to me, so that I can understand it, why spin one-half particles obey Fermi-Dirac statistics.” Sizing up his audience perfectly, Feynman said, “I’ll prepare a freshman lecture on it.” But he came back a few days later to say, “I couldn’t do it. I couldn’t reduce it to the freshman level. That means we don’t really understand it.”
 
-1. Install Python >= 3.6 and Jupyter. The recommended way to do this
-   is to download and install
-   [Anaconda 3](https://www.continuum.io/anaconda-overview). Note that
-   Python >= 3.6 comes with [pip](https://pip.pypa.io), so you should
-   not need to install it separately.
+# How is this repo setup
+This repo consists of two main directories
+1. A machine learning perspective
+2. A Statistical Persective
 
-2. **Please also note:** If you already have Jupyter installed for
-   Python 2.x (e.g., Anaconda 2), or any other version of Python, then
-   in the next step you will need to be careful that you install SoS
-   for the same Python >= 3.6. In other words, you need Jupyter and
-   SoS to be installed with the same Python >= 3.6. Run `pip
-   --version` to make sure.)
-   
-   ```bash
-   pip --version
-   # pip 9.0.1 from /Users/pcarbo/anaconda3/lib/python3.6/site-packages (python 3.6)
-   ```
+## Machine Learning Perspective
+This repo is mainly based on Andrew NG's free Machine Learning course.
+Link: https://www.coursera.org/learn/machine-learning
 
-3. Install [SoS](https://github.com/vatlab/SOS) ("Script of Scripts")
-   for Python 3.6:
+## Statistical Learning Perspective
+This repo is mainly based on the textbook **Introduction to Statistical Learning with Applications in R**. 
+Link: http://www-bcf.usc.edu/~gareth/ISL/index.html
 
-   ```bash
-   pip install sos-essentials
-   ```
+To gain maximal insight from the notebooks I recommend following along with the resources associated with each (I will detail my recommendations at the start of each notebook)
 
-   Note that you may need to
-   include the `--user` flag if you do not have administrative
-   privileges on the computer.
 
-   If you get a warning, "Could not find .egg-info directory in
-   install record for sos...", please ignore it.
+# Setup Instructions
+1. Navigate to the directory where you would like to be storing this repo
+2. Run `git clone https://github.com/NathanielDake/machine-learning-tutorial-notebooks.git` 
+3. Change directories into that notebook, i.e. `cd machine-learning-tutorial-notebooks`
+4. Run `jupyter notebook`
+5. This will spin up the notebook frontend as well as the kernel. 
+6. Stay up to date with the most recent changes by running `git pull`
 
-4. Install [git](https://git-scm.com/downloads). 
-
-5. At this point, you should have all the software you need to build
-   webpages from the Jupyter notebooks. Please double-check this. For
-   example, this is the setup on my MacBook Air with macOS 10.12.5:
-
-   ```bash
-   which python; python --version
-   # /Users/pcarbo/anaconda3/bin/python
-   # Python 3.6.1 :: Anaconda 4.4.0 (x86_64)
-   which jupyter; jupyter --version
-   # /Users/pcarbo/anaconda3/bin/jupyter
-   # 4.3.0
-   which sos; sos --version
-   # /Users/pcarbo/anaconda3/bin/sos
-   # sos 0.9.10.16 for Python 3.6.1
-   which git; git --version
-   $ which git; git --version
-   # /usr/bin/git
-   # git version 2.9.3 (Apple Git-75)
-   ```
-
-6. Make a personal copy of this repository:
-
-   + Download the [latest release](https://github.com/stephenslab/ipynb-website/releases/tag/v0.9.3) of this repository from Github.
-
-   + Create a new git repository (`git init ...`), copy all the files
-     from this repository to the new repository folder.
-
-   + Change the working directory to the new repository folder and
-     commit these files to the new repository:
-
-     ```bash
-     git add ./
-     git commit
-     ```
-
-   + Alternatively, if you are not using git, create a new folder
-     (`mkdir ...`) and add copy the files to this new folder.
-
-7. Inside your new project directory, clean up and then re-generate
-   all the webpages using the SoS release script:
-
-   ```bash
-   sos run release.sos clean
-   sos run release.sos -s force
-   ```
-
-   Or, simply:
-
-   ```bash
-   ./release.sos clean
-   ./release.sos -s force
-   ```
-   if `release.sos` is granted executable permission.
-
-   **Important note:** Building the webpages from the Jupyter
-   notebooks does not actually run the code in the notebooks. If you
-   would like to run the code prior to generating the webpages, this
-   must be done interactively in Jupyter, or from the command line
-   using `jupyter nbconvert --execute`.
-
-   All the webpages are created and stored in the "docs"
-   directory. This is convenient for git repositories hosted on
-   Github because 
-   [Github Pages](https://help.github.com/categories/github-pages-basics)
-   can be configured to publish the webpages from the "docs" folder.
-
-8. View the newly generated home page `docs/index.html` in your
-   favorite Web browser.
-
-9. If you would like to upload your new git repository to a git
-   hosting website, do the following:
-
-   + Create a new empty repository on tour favorite git hosting
-     website (e.g., [Github](http://github.com),
-     [GitLab](http://gitlab.com), [Bitbucket](https://bitbucket.org).
-     Currently, only Github has been tested; other sites may work as
-     well, but may not support all the website publishing features.
-
-   + Determine the URL of the host repository, and add this URL to the
-     repository on your computer with `git remote add origin ...`.
-
-   + Upload to the host repository with `git push origin master`.
-
-   + Configure the repository settings to publish the webpages; e.g.,
-     using [Github Pages](https://help.github.com/categories/github-pages-basics)).
-
-10. You are now ready to adapt the Jupyter-notebook-based website for
-   your own project:
-
-   + Modify the website settings by editing `config.yml`. See the
-     comments in this file for more detailed instructions.
-
-   + Copy, rename or delete the notebooks in the "analysis", "setup"
-     and "license" directories.
-
-   + Edit the notebooks interactively in Jupyter.
-
-   + After you are satisfied with your changes, re-build the modified
-     webpages by running `sos run release.sos`, or use
-     `sos run release.sos -s force` to re-build all the webpages,
-     then commit your changes to the git repository.
-
-## More setup details
-
-+ Whenever you make global changes to the website (e.g., you change
-  the Boostrap theme in `config.yml`), use the `-s force` option to force
-  updates to all the webpages, not just the ones that have been modified.
-
-+ The website is built by [`jnbinder`](https://github.com/vatlab/jnbinder)
-  which does not make any formal releases. This repo releases / ships with
-  its latest stable version.
-  
-  To upgrade `jnbinder` to its latest, type:
-  ```
-  ./release.sos upgrade-jnbinder
-  ```
-  
-  If you are on version < 0.9.2 you need to run this command twice to upgrade:
-  ```
-   ./release.sos upgrade-jnbinder  
-   ./release.sos upgrade-jnbinder
-  ```
-
-## Tips for adapting this framework for your project
-
-+ You can add option `-j` to the command if you want to control the 
-  number of parallel processes that generate the notebook. For example
-  `-j 8` uses 8 processes.
-
-+ The `include_dir` setting in `config.yml` specifies the project
-  subdirectories containing Jupyter notebooks to render into
-  webpages. If no `index.ipynb` file is provided within a given
-  subdirectory, an index will automatically be generated that lists
-  links to all notebooks under that directory.
-
-+ There is also the option of adding a table of contents to each
-  notebook by setting `notebook_toc: True` in `config.yml`.
-
-+ For the table of contents and the automatically generated index, it
-  is recommended that the notebooks have descriptive names; e.g.,
-  `Plot_station_map.ipynb`. All underscores are automatically treated
-  as spaces, so `Plot_station_map.ipynb` will show as "Plot station
-  map" in the index file and table of contents.
-
-+ So far, only the Cerulean, Flatly and Readable Bootstrap themes have
-  been adapted and tested for this framework. It is possible to select
-  other themes (see [here](https://bootswatch.com) for a larger
-  collection), although they may not work as well. Also note that
-  there may be style conflicts or inconsistencies in the included CSS
-  files; please report these style conflicts by posting an
-  [Issue](https://github.com/stephenslab/ipynb-website/issues).
-
-+ For more website customization details, please refer to the comments
-  in the [config.yml](config.yml) file.
-
-## Credits
-
-**ipynb website** was developed by:
-
-Peter Carbonetto and Gao Wang<br>
-Dept. of Human Genetics<br>
-University of Chicago<br>
-
-[John Blischak](https://github.com/jdblischak),
-[Matthew Stephens](http://stephenslab.uchicago.edu) and others have
-also contributed to the development of this software.
+# Good Luck!
+I wish anyone following along with these tutorial the best of luck on the Journey to understanding Machine Learning.
