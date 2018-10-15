@@ -23,7 +23,7 @@ div.rendered_html h5 {
 .text_cell_render h1 {
  color: #000;
  font-size: 220%;
- text-align: left;
+ text-align: justify;
  font-weight: bold;
 }
 .rendered_html h2,
@@ -56,6 +56,6 @@ div.rendered_html h5 {
  text-decoration: underline;
 }
 
-.navbar-default {
-  color: #000;
+p {
+  text-align: justify;
 }
