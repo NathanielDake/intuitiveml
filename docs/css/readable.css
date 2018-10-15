@@ -55,3 +55,7 @@ div.rendered_html h5 {
  font-weight: bold;
  text-decoration: underline;
 }
+
+.navbar-default {
+  color: #000;
+}
