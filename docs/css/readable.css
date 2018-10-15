@@ -24,8 +24,7 @@ div.rendered_html p {
   text-align: justify;
 }
 
-.text_cell_render p, 
-.rendered_html p {
+p {
   text-align: justify;
 }
 
