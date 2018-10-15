@@ -41,7 +41,7 @@ source_label: "source"
 
 # Bootstrap theme. Current supported themes are "cerulean", "flatly"
 # and "readable"; see the docs/css directory.
-theme: "readable"
+theme: "flatly"
 
 # Font used to show all code and text in the Jupyter notebooks (e.g.,
 # "Droid Sans"). Set to NULL to inherit the font used by the Bootsrap
