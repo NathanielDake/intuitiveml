@@ -1,12 +1,12 @@
 # The name of the project shown in the navigation bar (it links to the
 # home page).
-name: "Divvy data exploration project"
+name: "Intuitive ML"
 
 # Link to the source repository (e.g., on Github, Gitlab).
-repo: "http://github.com/stephenslab/ipynb-website"
+repo: "https://github.com/NathanielDake/nathanieldake.github.io"
 
 # Footer added to the bottom of some webpages.
-footer: "&copy; 2017 Peter Carbonetto &amp; Gao Wang"
+footer: "&copy; 2018 Nathaniel Dake"
 
 # When set to True, populate the footer of each notebook with the git
 # commit id (SHA1) and commit modification date.
@@ -31,7 +31,7 @@ homepage: "analysis/index.ipynb"
 
 # The name of the homepage link shown in the navigation bar.
 # Set to NULL to hide it
-homepage_label: "Overview"
+homepage_label: "Home"
 
 # The name of the link to the source repository. It is shown in the
 # top-right corner of the navigation bar. Set it to NULL to hide it.

@@ -148,7 +148,7 @@ $(document).ready(function () {
 
 
 
-<title>Divvy data exploration project</title>
+<title>Intuitive ML</title>
 
 <style type = "text/css">
 body {
@@ -173,13 +173,13 @@ body {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">Divvy data exploration project</a>
+      <a class="navbar-brand" href="../index.html">Intuitive ML</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         
 <li>
-  <a href="../index.html">Overview</a>
+  <a href="../index.html">Home</a>
 </li>
         
 <li>
@@ -202,7 +202,7 @@ body {
         
 <ul class="nav navbar-nav navbar-right">
 <li>
-   <a href="http://github.com/stephenslab/ipynb-website"> source </a>
+   <a href="https://github.com/NathanielDake/nathanieldake.github.io"> source </a>
 </li>
 </ul>
         
@@ -214,7 +214,7 @@ body {
 
 {% block footer %}
 <hr>
-&copy; 2017 Peter Carbonetto &amp; Gao Wang
+&copy; 2018 Nathaniel Dake
 </div>
 </div>
 </body>
