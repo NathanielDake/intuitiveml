@@ -24,6 +24,11 @@ div.rendered_html p {
   text-align: justify;
 }
 
+.text_cell_render p, 
+.rendered_html p {
+  text-align: justify;
+}
+
 .rendered_html h1,
 .text_cell_render h1 {
  color: #000;
