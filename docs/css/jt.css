@@ -1901,7 +1901,7 @@ div.output_unrecognized a:hover {
   margin-top: 1em;
 }
 .rendered_html p {
-  text-align: left;
+  text-align: justify;
 }
 .rendered_html * + p {
   margin-top: 1em;
