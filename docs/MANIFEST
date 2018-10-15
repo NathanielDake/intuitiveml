@@ -1,10 +1,8 @@
 docs/analysis.tpl
+docs/analysis/Section 2 - Multi-Armed Bandit.html
 docs/analysis/first-glance.html
 docs/analysis/seasonal-trends.html
 docs/analysis/station-map.html
-docs/analysis/test.html
-docs/analysis/test.tpl
-docs/analysis/test/Section 2 - Multi-Armed Bandit.html
 docs/analysis/time-of-day-trends.html
 docs/index.html
 docs/index.tpl

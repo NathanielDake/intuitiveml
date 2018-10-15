@@ -214,10 +214,6 @@ $(document).ready(function () {
 </li>
         
 <li>
-  <a href="./analysis/test.html">Analysis/test</a>
-</li>
-        
-<li>
   <a href="./license.html">License</a>
 </li>
         
