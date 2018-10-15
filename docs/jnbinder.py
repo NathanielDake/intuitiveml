@@ -331,6 +331,10 @@ ul ul,ol ul,ul ol,ol ol {
   font-weight:500
 }
 
+blockquote p {
+  font-weight:900
+}
+
 a.anchor-link:link {
   text-decoration: none;
   padding: 0px 20px;
