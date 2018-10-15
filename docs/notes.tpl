@@ -183,10 +183,6 @@ body {
 </li>
         
 <li>
-  <a href="../Ensemble-Methods.html">Ensemble-methods</a>
-</li>
-        
-<li>
   <a href="../license.html">License</a>
 </li>
         
