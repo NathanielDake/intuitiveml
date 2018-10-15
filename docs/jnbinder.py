@@ -307,6 +307,14 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 20px;
  }
 
+p {
+    text-align:justify;
+    line-height:1.5;
+    font-family:Helvetica,Arial,sans-serif;
+    font-size:16px;
+    font-weight:500
+}
+
 a.anchor-link:link {
   text-decoration: none;
   padding: 0px 20px;
