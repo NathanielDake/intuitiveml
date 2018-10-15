@@ -127,7 +127,7 @@ ul ul,ol ul,ul ol,ol ol {
 }
 
 blockquote p {
-  font-weight:900
+  font-weight:300
 }
 
 a.anchor-link:link {
