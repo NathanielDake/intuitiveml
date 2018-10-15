@@ -329,6 +329,7 @@ h6:hover .anchor-link {
 }
 code {
   color: inherit;
+  background-color: #EEEEFF;
 }
 img {
   max-width:100%%;

@@ -124,7 +124,6 @@ h6:hover .anchor-link {
 }
 code {
   color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
