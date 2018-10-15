@@ -1,0 +1,4 @@
+- Release v0.9.2:
+  - Implements parallel build via `-J` option
+  - Add `long_autoindex` and `reverse_autoindex`
+  - Bug fixes and various minor improvements
