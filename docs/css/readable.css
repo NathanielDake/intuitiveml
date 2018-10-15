@@ -56,6 +56,6 @@ div.rendered_html h5 {
  text-decoration: underline;
 }
 
-.p {
+.text_cell_render p {
   text-align: justify;
 }
