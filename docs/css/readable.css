@@ -20,7 +20,7 @@ div.rendered_html h5 {
 }
 
 div.text_cell_render p, 
-div.rendered_html p, {
+div.rendered_html p {
   text-align: justify;
 }
 
