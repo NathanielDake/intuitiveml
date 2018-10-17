@@ -1224,6 +1224,7 @@ div.input_area {
 div.prompt:empty {
   padding-top: 0;
   padding-bottom: 0;
+  display: none;
 }
 div.unrecognized_cell {
   padding: 5px 5px 5px 0px;
@@ -1670,6 +1671,9 @@ div.output_area pre {
    the prompt div. */
 div.output_subarea {
   overflow-x: auto;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
   /* padding: 0.4em; */
   /* Old browsers */
   -webkit-box-flex: 1;
@@ -4303,6 +4307,10 @@ div.output_subarea.output_text {
  border-top-left-radius: 0px;
  border-bottom-left-radius: 2px;
  border-bottom-right-radius: 2px;
+ margin-top: 20px;
+ margin-bottom: 20px;
+ /* margin-right: auto;
+ display: block; */
 }
 div.output_area pre {
  font-family: "PT Mono", monospace;
@@ -4448,8 +4456,9 @@ div.cell.text_cell.unrendered .input_prompt {
  border-right: 2px solid transparent;
 }
 div.rendered_html code {
- font-family: "PT Mono", monospace;
- /* font-size: 11pt; */
+ font-family: monospace;
+ font-size: 15px;
+ font-weight: 500;
  padding-top: 3px;
  color: #303030;
  background: #eeeeff;
@@ -4463,8 +4472,8 @@ samp {
  white-space: pre-wrap;
 }
 code {
- font-family: "PT Mono", monospace;
- /* font-size: 11pt !important; */
+ font-family: monospace;
+ font-size: 11pt !important;
  line-height: 170% !important;
  color: #353535;
  background: #efefef;
@@ -4496,7 +4505,7 @@ div.rendered_html pre,
 div.text_cell_render pre {
  font-family: "PT Mono", monospace;
  font-size: 10pt !important;
- font-weight: 600;
+ font-weight: 700;
  line-height: 170% !important;
  color: #353535;
  background: #eeeeff;
