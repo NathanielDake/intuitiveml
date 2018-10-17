@@ -1210,10 +1210,13 @@ div.inner_cell {
 }
 /* input_area and input_prompt must match in top border and margin for alignment */
 div.input_area {
-  border: 1px solid #cfcfcf;
-  border-radius: 2px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
   background: #f7f7f7;
   line-height: 1.21429em;
+  padding-left: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 /* This is needed so that empty prompt areas can collapse to zero height when there
    is no content in the output_subarea and the prompt. The main purpose of this is
@@ -1308,6 +1311,7 @@ div.input {
 div.input_prompt {
   color: #303F9F;
   border-top: 1px solid transparent;
+  display: none;
 }
 div.input_area > div.highlight {
   margin: 0.4em;
@@ -4212,12 +4216,13 @@ div.output.output_scroll {
 div.input_area {
  background-color: whitesmoke;
  padding-right: 1.2em;
- border: 0px;
- border-top-left-radius: 0px;
+ /* border: 0px; */
+ /* border-top-left-radius: 0px;
  border-top-right-radius: 2px;
  border-bottom-left-radius: 0px;
- border-bottom-right-radius: 0px;
+ border-bottom-right-radius: 0px; */
  opacity: 0.95;
+ /* margin-left: 15px; */
 }
 div.cell {
  padding: 0px;
@@ -4445,8 +4450,9 @@ div.rendered_html code {
  /* font-size: 11pt; */
  padding-top: 3px;
  color: #303030;
- background: #efefef;
- background-color: #efefef;
+ background: #eeeeff;
+ background-color: #eeeeff;
+ /* border: 2px solid #d5d5e9; */
 }
 pre,
 code,
@@ -4487,14 +4493,19 @@ div.rendered_html {
 div.rendered_html pre,
 div.text_cell_render pre {
  font-family: "PT Mono", monospace;
- font-size: 11pt !important;
+ font-size: 10pt !important;
+ font-weight: 600;
  line-height: 170% !important;
  color: #353535;
-  background: #efefef;
- background-color: #efefef;
+ background: #eeeeff;
+ background-color: #eeeeff;
+ padding-left: 15px;
+ padding-bottom: 15px;
+ padding-top: 15px;
+ border: 1px solid #d5d5e9;
  /* border: 2px #e7e7e7  solid; */
  max-width: 86%;
- border-radius: 2px;
+ border-radius: 3px;
  /* padding: 5px; */
 }
 div.text_cell_render h1,
