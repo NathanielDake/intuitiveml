@@ -1,6 +1,6 @@
 # The name of the project shown in the navigation bar (it links to the
 # home page).
-name: "Intuitive ML"
+name: "Nathaniel Dake Blog"
 
 # Link to the source repository (e.g., on Github, Gitlab).
 repo: "https://github.com/NathanielDake/nathanieldake.github.io"
@@ -10,15 +10,15 @@ footer: "&copy; 2018 Nathaniel Dake"
 
 # When set to True, populate the footer of each notebook with the git
 # commit id (SHA1) and commit modification date.
-add_commit_info: True
+add_commit_info: False
 
 # These subdirectories contain Jupyter notebooks that will be rendered
 # into webpages.
-include_dir: ["analysis", "analysis/test", "license", "notes", "protected"]
+include_dir: ["homepage", "Artificial_Intelligence"]
 
 # Do not add links in the navigation bar for the Jupyter notebooks in
 # these subdirectories.
-hide_navbar: ["analysis"]
+hide_navbar: ["homepage"]
 
 # Any Jupyter notebooks listed here will not be rendered into webpages
 # (e.g., "analysis/temp.ipynb").
@@ -27,11 +27,11 @@ exclude_file: []
 # This is the notebook used to generate the home page for the
 # website. If no home page is set, an Overview.ipynb file is
 # automatically generated and saved in the base project directory.
-homepage: "analysis/homepage.ipynb"
+homepage: "homepage/homepage.ipynb"
 
 # The name of the homepage link shown in the navigation bar.
 # Set to NULL to hide it
-homepage_label: "Home"
+homepage_label: NULL
 
 # The name of the link to the source repository. It is shown in the
 # top-right corner of the navigation bar. Set it to NULL to hide it.

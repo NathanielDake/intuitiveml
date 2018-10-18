@@ -116,9 +116,11 @@ def get_nav(dirs, home_label, prefix = './'):
     for item in dirs:
         out += '''
 <li>
-  <a href="{}{}.html">{}</a>
+  <a href="{}{}{}">{}</a>
 </li>
-        '''.format(prefix, item, ' '.join([x.capitalize() if x.upper() != x else x for x in item.split('_')]))
+        '''.format(prefix, item,
+                   '/index.html' if os.path.isfile(f'{item}/{item}.ipynb') or os.path.isfile(f'{item}/{item}.Rmd') else '.html',
+                   ' '.join([x.capitalize() if x.upper() != x else x for x in item.split('_')]))
     return out
 
 def get_right_nav(repo, source_label):
@@ -307,34 +309,6 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 20px;
  }
 
-p {
-  text-align:justify;
-  line-height:1.5;
-  font-family:Helvetica,Arial,sans-serif;
-  font-size:16px;
-  font-weight:300
-}
-
-ul,ol {
-  text-align:justify;
-  line-height:1.5;
-  font-family:Helvetica,Arial,sans-serif;
-  font-size:16px;
-  font-weight:500
-}
-
-ul ul,ol ul,ul ol,ol ol {
-  text-align:justify;
-  line-height:1.5;
-  font-family:Helvetica,Arial,sans-serif;
-  font-size:16px;
-  font-weight:500
-}
-
-blockquote p {
-  font-weight:450
-}
-
 a.anchor-link:link {
   text-decoration: none;
   padding: 0px 20px;
@@ -357,7 +331,7 @@ h6:hover .anchor-link {
 }
 code {
   color: inherit;
-  background-color: #EEEEFF;
+  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%%;
@@ -1067,7 +1041,7 @@ def make_index_nb(path, exclude, long_description = False, reverse_alphabet = Fa
    "source": [
     "# %s"
    ]
-  },''' % os.path.basename(path.capitalize())
+  },''' % os.path.basename(path).replace('_', ' ').capitalize()
     if len(sos_files):
         out += '''
   {
@@ -1109,6 +1083,7 @@ def make_index_nb(path, exclude, long_description = False, reverse_alphabet = Fa
     "### %s\\n"
    ]
   },''' % date_section
+        html_link = (os.path.splitext(os.path.basename(fn))[0] + '.html') if os.path.splitext(os.path.basename(fn))[0] != os.path.basename(os.path.dirname(fn)) else 'index.html'
         if title != description:
             out += '''
   {
@@ -1118,7 +1093,7 @@ def make_index_nb(path, exclude, long_description = False, reverse_alphabet = Fa
     "[**%s**](%s/%s)<br>\\n",
     %s
    ]
-  },''' % (title, path, os.path.splitext(os.path.basename(fn))[0] + '.html', json.dumps("&nbsp; &nbsp;" + description))
+  },''' % (title, path, html_link, json.dumps("&nbsp; &nbsp;" + description))
         else:
             out += '''
   {
@@ -1127,7 +1102,7 @@ def make_index_nb(path, exclude, long_description = False, reverse_alphabet = Fa
    "source": [
     "[**%s**](%s/%s)<br>"
    ]
-  },''' % (title, path, os.path.splitext(os.path.basename(fn))[0] + '.html')
+  },''' % (title, path, html_link)
     if len(sos_files):
         out += '''
   {

@@ -23,7 +23,7 @@ div.rendered_html h5 {
 .text_cell_render h1 {
  color: #000;
  font-size: 220%;
- text-align: justify;
+ text-align: left;
  font-weight: bold;
 }
 .rendered_html h2,
