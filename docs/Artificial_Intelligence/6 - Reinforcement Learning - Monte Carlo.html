@@ -145,7 +145,7 @@ $(document).ready(function () {
 
 
 
-<title>Intuitive ML</title>
+<title>Nathaniel Dake Blog</title>
 
 <style type = "text/css">
 body {
@@ -170,14 +170,10 @@ body {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">Intuitive ML</a>
+      <a class="navbar-brand" href="../index.html">Nathaniel Dake Blog</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        
-<li>
-  <a href="../index.html">Home</a>
-</li>
         
 <li>
   <a href="../Artificial_Intelligence.html">Artificial Intelligence</a>
@@ -198,7 +194,7 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="1.-Monte-Carlo-Intro">1. Monte Carlo Intro<a class="anchor-link" href="#1.-Monte-Carlo-Intro">&#182;</a></h1><p>In this section we are going to be discussing another technique for solving MDP's, known as <strong>Monte Carlo</strong>. In the last section, you may have noticed something a bit odd; we have talked about how RL is all about learning from experience and playing games. Yet, in none of our dynamic programming algorithms did we actually play the game. We had a full model of the environment, which included all of the state transition probabilities. You may wonder: is it reasonable to assume that we would have that type of information in a real life environment? For board games, perhaps. But, what about self driving cars?</p>
+<h1 id="6.-Monte-Carlo-Intro">6. Monte Carlo Intro<a class="anchor-link" href="#6.-Monte-Carlo-Intro">&#182;</a></h1><p>In this section we are going to be discussing another technique for solving MDP's, known as <strong>Monte Carlo</strong>. In the last section, you may have noticed something a bit odd; we have talked about how RL is all about learning from experience and playing games. Yet, in none of our dynamic programming algorithms did we actually play the game. We had a full model of the environment, which included all of the state transition probabilities. You may wonder: is it reasonable to assume that we would have that type of information in a real life environment? For board games, perhaps. But, what about self driving cars?</p>
 <p>The way that we manipulated our dynamic programming algorithms required us to put an agent into a state. That may not always be possible, especially when talking about self driving cars, or even video games. A video game starts in the state that it decides-you can't choose any state you want. This is another instance of having god mode capabilities, so it is not always realistic to assume that that is always possible. In this section, we will be playing the game and learning purely from experience.</p>
 <h2 id="1.2-Monte-Carlo-Methods">1.2 Monte Carlo Methods<a class="anchor-link" href="#1.2-Monte-Carlo-Methods">&#182;</a></h2><p>Monte Carlo is a rather poorly defined term. Usually, it refers to any algorithm that involves a significantly random component. With Monte Carlo Methods in RL, the random component is the <em><strong>return</strong></em>. Recall that what we are always looking for is the expected return given that you are in state $s$. With MC, instead of calculating the true expected value of G (which requires probability distributions), we instead calculate its sample mean.</p>
 <p>In order for this to work, we need to assume that we are doing episodic tasks only. The reason is because an episode has to terminate before we can calculate any of the returns. This also means that MC methods are <em>not</em> fully online algorithms. We don't do an update after every action, but rather after every episode.</p>

@@ -1,19 +1,15 @@
 docs/Artificial_Intelligence.html
 docs/Artificial_Intelligence.tpl
 docs/Artificial_Intelligence/1 - Reinforcement Learning - Introduction .html
-docs/Artificial_Intelligence/Section 2 - Multi-Armed Bandit.html
-docs/Artificial_Intelligence/Section 3 - Build an Intelligent Tic-Tac-Toe Agent.html
-docs/Artificial_Intelligence/Section 4 - Markov Decision Processes.html
-docs/Artificial_Intelligence/Section 5 - Dynamic Programming.html
-docs/Artificial_Intelligence/Section 6 - Monte Carlo.html
-docs/Artificial_Intelligence/Section 7 - Temporal Difference Learning.html
-docs/Artificial_Intelligence/Section 8 - Approximation Methods.html
-docs/analysis.tpl
-docs/analysis/Section 2 - Multi-Armed Bandit.html
-docs/analysis/first-glance.html
-docs/analysis/seasonal-trends.html
-docs/analysis/station-map.html
-docs/analysis/time-of-day-trends.html
+docs/Artificial_Intelligence/2 - Reinforcement Learning - Multi-Armed Bandit.html
+docs/Artificial_Intelligence/3 - Reinforcement Learning - Build an Intelligent Tic-Tac-Toe Agent.html
+docs/Artificial_Intelligence/4 - Reinforcement Learning - Markov Decision Processes.html
+docs/Artificial_Intelligence/5 - Reinforcement Learning - Dynamic Programming.html
+docs/Artificial_Intelligence/6 - Reinforcement Learning - Monte Carlo.html
+docs/Artificial_Intelligence/7 - Reinforcement Learning - Temporal Difference Learning.html
+docs/Artificial_Intelligence/8 - Reinforcement Learning - Approximation Methods.html
+docs/homepage.tpl
+docs/homepage/Untitled.html
 docs/index.html
 docs/index.tpl
 docs/js/docs.js

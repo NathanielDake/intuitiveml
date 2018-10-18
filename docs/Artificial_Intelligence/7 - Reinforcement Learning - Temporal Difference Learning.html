@@ -145,7 +145,7 @@ $(document).ready(function () {
 
 
 
-<title>Intuitive ML</title>
+<title>Nathaniel Dake Blog</title>
 
 <style type = "text/css">
 body {
@@ -170,14 +170,10 @@ body {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">Intuitive ML</a>
+      <a class="navbar-brand" href="../index.html">Nathaniel Dake Blog</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        
-<li>
-  <a href="../index.html">Home</a>
-</li>
         
 <li>
   <a href="../Artificial_Intelligence.html">Artificial Intelligence</a>
@@ -198,7 +194,7 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="1.-Temporal-Difference-Learning-Introduction">1. Temporal Difference Learning Introduction<a class="anchor-link" href="#1.-Temporal-Difference-Learning-Introduction">&#182;</a></h1><p>We are now going to look at a third method for solving MDPs, <em><strong>Temporal Difference Learning</strong></em>. TD is one of the most important ideas in RL, and we will see how it combines ideas from the first two techniques, Dynamic Programming and Monte Carlo.</p>
+<h1 id="7.-Temporal-Difference-Learning-Introduction">7. Temporal Difference Learning Introduction<a class="anchor-link" href="#7.-Temporal-Difference-Learning-Introduction">&#182;</a></h1><p>We are now going to look at a third method for solving MDPs, <em><strong>Temporal Difference Learning</strong></em>. TD is one of the most important ideas in RL, and we will see how it combines ideas from the first two techniques, Dynamic Programming and Monte Carlo.</p>
 <p>Recall that one of the disadvantages of DP was that it requires a full model of environment, and never learns from experience. On the other hand, we saw that MC does learn from experience, and we will shortly see that TD learns from experience as well.</p>
 <p>With the Monte Carlo method, we saw that we could only update the value function after completing an episode. On the other hand, DP uses bootstrapping and was able to improve its estimates based on existing estimates. We will see that TD learning also uses bootstrapping, and furthermore is fully online, so we don't need to wait for an episode to finish before we start updating our value estimates.</p>
 <p>In this section we will take our standard approach:</p>

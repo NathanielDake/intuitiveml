@@ -7,7 +7,7 @@
 <meta name="ipynb_website:version" content="0.9.4" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>Intuitive ML</title>
+<title>Nathaniel Dake Blog</title>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
 <link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
@@ -201,14 +201,10 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Intuitive ML</a>
+      <a class="navbar-brand" href="index.html">Nathaniel Dake Blog</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        
-<li>
-  <a href="./index.html">Home</a>
-</li>
         
 <li>
   <a href="./Artificial_Intelligence.html">Artificial Intelligence</a>
@@ -247,8 +243,8 @@ $(document).ready(function () {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="Artificial_Intelligence/Section 2 - Multi-Armed Bandit.html"><strong>1. Multi-Armed Bandit</strong></a><br>
-&nbsp; &nbsp;&gt; Imagine you are at a casino playing slots (hence the term "arm"). The slot machines are bandits because they are taking your money. Not all the slot machines are equal, and the win rate is generally unknown. For example, they may be:</p>
+<p><a href="Artificial_Intelligence/2 - Reinforcement Learning - Multi-Armed Bandit.html"><strong>2. Multi-Armed Bandit</strong></a><br>
+&nbsp; &nbsp;Imagine you are at a casino playing slots (hence the term "arm"). The slot machines are bandits because they are taking your money. Not all the slot machines are equal, and the win rate is generally unknown. For example, they may be:</p>
 
 </div>
 </div>
@@ -257,8 +253,8 @@ $(document).ready(function () {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="Artificial_Intelligence/Section 3 - Build an Intelligent Tic-Tac-Toe Agent.html"><strong>1. Components of an RL System</strong></a><br>
-&nbsp; &nbsp;<img src="images/sar-flow.png" width="500"></p>
+<p><a href="Artificial_Intelligence/3 - Reinforcement Learning - Build an Intelligent Tic-Tac-Toe Agent.html"><strong>3. Components of an RL System</strong></a><br>
+&nbsp; &nbsp;Let's quickly recall what we had discussed earlier concerning the components of an RL system. We talked about the following:</p>
 
 </div>
 </div>
@@ -267,7 +263,7 @@ $(document).ready(function () {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="Artificial_Intelligence/Section 4 - Markov Decision Processes.html"><strong>1. Markov Decision Processes</strong></a><br>
+<p><a href="Artificial_Intelligence/4 - Reinforcement Learning - Markov Decision Processes.html"><strong>4. Markov Decision Processes</strong></a><br>
 &nbsp; &nbsp;We are now going to formalize some of the concepts that we have learned about in reinforcement learning. We have learning about the terms:</p>
 
 </div>
@@ -277,7 +273,7 @@ $(document).ready(function () {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="Artificial_Intelligence/Section 5 - Dynamic Programming.html"><strong>1. Intro to Dynamic Programming and Iterative Policy Evaluation</strong></a><br>
+<p><a href="Artificial_Intelligence/5 - Reinforcement Learning - Dynamic Programming.html"><strong>5. Intro to Dynamic Programming and Iterative Policy Evaluation</strong></a><br>
 &nbsp; &nbsp;We are now going to start looking at solutions to MDP's. As we saw in the last section, the center piece of the discussion is the <strong>Bellman Equation</strong>:</p>
 
 </div>
@@ -287,7 +283,7 @@ $(document).ready(function () {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="Artificial_Intelligence/Section 6 - Monte Carlo.html"><strong>1. Monte Carlo Intro</strong></a><br>
+<p><a href="Artificial_Intelligence/6 - Reinforcement Learning - Monte Carlo.html"><strong>6. Monte Carlo Intro</strong></a><br>
 &nbsp; &nbsp;In this section we are going to be discussing another technique for solving MDP's, known as <strong>Monte Carlo</strong>. In the last section, you may have noticed something a bit odd; we have talked about how RL is all about learning from experience and playing games. Yet, in none of our dynamic programming algorithms did we actually play the game. We had a full model of the environment, which included all of the state transition probabilities. You may wonder: is it reasonable to assume that we would have that type of information in a real life environment? For board games, perhaps. But, what about self driving cars?</p>
 
 </div>
@@ -297,7 +293,7 @@ $(document).ready(function () {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="Artificial_Intelligence/Section 7 - Temporal Difference Learning.html"><strong>1. Temporal Difference Learning Introduction</strong></a><br>
+<p><a href="Artificial_Intelligence/7 - Reinforcement Learning - Temporal Difference Learning.html"><strong>7. Temporal Difference Learning Introduction</strong></a><br>
 &nbsp; &nbsp;We are now going to look at a third method for solving MDPs, <em><strong>Temporal Difference Learning</strong></em>. TD is one of the most important ideas in RL, and we will see how it combines ideas from the first two techniques, Dynamic Programming and Monte Carlo.</p>
 
 </div>
@@ -307,7 +303,7 @@ $(document).ready(function () {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="Artificial_Intelligence/Section 8 - Approximation Methods.html"><strong>1. Approximation Methods</strong></a><br>
+<p><a href="Artificial_Intelligence/8 - Reinforcement Learning - Approximation Methods.html"><strong>8. Approximation Methods</strong></a><br>
 &nbsp; &nbsp;We are now going to look at approximation methods. Recall that in the last section, we discussed a major disadvantage to all of the methods we have studied so far. That is, they all require us to estimate the value function for each state, and in the case of the action-value function, we have to estimate it for each state and action pair. We learned early on that the state space can grow very large, very quickly. This makes <em>all</em> of the methods we have studied impractical.</p>
 
 </div>

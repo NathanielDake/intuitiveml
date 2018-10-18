@@ -145,7 +145,7 @@ $(document).ready(function () {
 
 
 
-<title>Intuitive ML</title>
+<title>Nathaniel Dake Blog</title>
 
 <style type = "text/css">
 body {
@@ -170,14 +170,10 @@ body {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">Intuitive ML</a>
+      <a class="navbar-brand" href="../index.html">Nathaniel Dake Blog</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        
-<li>
-  <a href="../index.html">Home</a>
-</li>
         
 <li>
   <a href="../Artificial_Intelligence.html">Artificial Intelligence</a>
@@ -198,13 +194,12 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="2.-Multi-Armed-Bandit">2. Multi-Armed Bandit<a class="anchor-link" href="#2.-Multi-Armed-Bandit">&#182;</a></h1><blockquote><p>Imagine you are at a casino playing slots (hence the term "arm"). The slot machines are bandits because they are taking your money. Not all the slot machines are equal, and the win rate is generally unknown. For example, they may be:</p>
+<h1 id="2.-Multi-Armed-Bandit">2. Multi-Armed Bandit<a class="anchor-link" href="#2.-Multi-Armed-Bandit">&#182;</a></h1><p>Imagine you are at a casino playing slots (hence the term "arm"). The slot machines are bandits because they are taking your money. Not all the slot machines are equal, and the win rate is generally unknown. For example, they may be:</p>
 <ul>
 <li>1 pays out 30% of the time</li>
 <li>1 pays out 20% of the time</li>
 <li>and 1 pays out 10% of the time</li>
 </ul>
-</blockquote>
 <p>Keep in mind that you wouldn't know this, and would only be able to discover it by collecting data. Your goal is to <em>maximize your winnings</em>. If you were psychic and you could determine the machine with the highest win rate, you would play only that machine, and that is how you would maximize your winnings. But, since you don't know the win rates and your need to estimate them by collecting data, that means you need to play each of the machines.</p>
 <p>This is where the dilemma comes in: You need to collect enough data for your estimates to be accurate, but if you collect lots of data then you are going to spend lots of time playing suboptimal bandits. So, you need to balance between trying to maximize your earnings, and trying to obtain accurate measurements of each bandits win rate, since in order to maximize your earnings, you need to know that information.</p>
 <h2 id="1.0-Traditional-A/B-Testing">1.0 Traditional A/B Testing<a class="anchor-link" href="#1.0-Traditional-A/B-Testing">&#182;</a></h2><p>In traditional A/B testing, you would predetermine ahead of time the number of times you need to play each bandit in order to obtain statistical significance. The number of times you need to play is dependent upon a number of things, such as the difference in win rates between each bandit. If the difference is bigger you need less samples, but if the difference is smaller you need more samples. This is kind of odd, since you <em>don't know the difference before you start the test</em>. An important rule of traditional A/B testing is that you do not stop your test early. So if you decide before hand that you need to play each bandit 1000 times (N = 1000), and after 500 trials you have calculated a 90% win rate for one bandit, and a 10% win rate for the other, you are not allowed to stop. However, we are not going to care about statistical significance in these notebooks, so we don't need to follow those rules.</p>

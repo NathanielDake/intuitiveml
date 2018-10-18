@@ -145,7 +145,7 @@ $(document).ready(function () {
 
 
 
-<title>Intuitive ML</title>
+<title>Nathaniel Dake Blog</title>
 
 <style type = "text/css">
 body {
@@ -170,14 +170,10 @@ body {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">Intuitive ML</a>
+      <a class="navbar-brand" href="../index.html">Nathaniel Dake Blog</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        
-<li>
-  <a href="../index.html">Home</a>
-</li>
         
 <li>
   <a href="../Artificial_Intelligence.html">Artificial Intelligence</a>
@@ -198,7 +194,7 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="1.-Intro-to-Dynamic-Programming-and-Iterative-Policy-Evaluation">1. Intro to Dynamic Programming and Iterative Policy Evaluation<a class="anchor-link" href="#1.-Intro-to-Dynamic-Programming-and-Iterative-Policy-Evaluation">&#182;</a></h1><p>We are now going to start looking at solutions to MDP's. As we saw in the last section, the center piece of the discussion is the <strong>Bellman Equation</strong>:</p>
+<h1 id="5.-Intro-to-Dynamic-Programming-and-Iterative-Policy-Evaluation">5. Intro to Dynamic Programming and Iterative Policy Evaluation<a class="anchor-link" href="#5.-Intro-to-Dynamic-Programming-and-Iterative-Policy-Evaluation">&#182;</a></h1><p>We are now going to start looking at solutions to MDP's. As we saw in the last section, the center piece of the discussion is the <strong>Bellman Equation</strong>:</p>
 <h4 id="$$\text{Bellman-Equation}-\rightarrow-V_\pi(s)-=-\sum_a-\pi(a-\mid-s)-*-\sum_{s'}\sum_r-p(s',r-\mid-s,a)-\Big-\{-r-+-\gamma-V_\pi(s')-\Big-\}$$"><span style="color:#0000cc">$$\text{Bellman Equation} \rightarrow V_\pi(s) = \sum_a \pi(a \mid s) * \sum_{s'}\sum_r p(s',r \mid s,a) \Big \{ r + \gamma V_\pi(s') \Big \}$$</span><a class="anchor-link" href="#$$\text{Bellman-Equation}-\rightarrow-V_\pi(s)-=-\sum_a-\pi(a-\mid-s)-*-\sum_{s'}\sum_r-p(s',r-\mid-s,a)-\Big-\{-r-+-\gamma-V_\pi(s')-\Big-\}$$">&#182;</a></h4><p>In fact, the bellman equation can be used directly to solve for the value function. If you look carefully, you will see that this is actually a set of $S$ equations with $S$ unknowns. In fact, it is a linear equation, meaning it is not too difficult to solve. In addtion, a lot of the matrix entries will be zero, since the state transitions will most likely be sparse.</p>
 <p>However, this is <em>not</em> the approach we will take. Instead, we will do what is called <strong>iterative policy evaluation</strong>.</p>
 <h2 id="1.1-Iterative-Policy-Evaluation">1.1 Iterative Policy Evaluation<a class="anchor-link" href="#1.1-Iterative-Policy-Evaluation">&#182;</a></h2><p>What exactly is iterative policy evaluation? Well, essentially it means that we apply the bellman equation again and again, and eventually it will just converge. We can write down the algorithm in pseudocode as follows:</p>
