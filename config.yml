@@ -10,11 +10,11 @@ footer: "&copy; 2018 Nathaniel Dake"
 
 # When set to True, populate the footer of each notebook with the git
 # commit id (SHA1) and commit modification date.
-add_commit_info: True
+add_commit_info: False
 
 # These subdirectories contain Jupyter notebooks that will be rendered
 # into webpages.
-include_dir: ["analysis", "analysis/test", "license", "notes", "protected"]
+include_dir: ["analysis", "Artificial_Intelligence"]
 
 # Do not add links in the navigation bar for the Jupyter notebooks in
 # these subdirectories.

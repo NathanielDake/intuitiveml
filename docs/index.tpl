@@ -214,15 +214,7 @@ $(document).ready(function () {
 </li>
         
 <li>
-  <a href="./license.html">License</a>
-</li>
-        
-<li>
-  <a href="./notes.html">Notes</a>
-</li>
-        
-<li>
-  <a href="./protected.html">Protected</a>
+  <a href="./Artificial_Intelligence.html">Artificial Intelligence</a>
 </li>
         
       </ul>

@@ -1,12 +1,6 @@
 var analysisArray = []
 var analysisDict = {'1.-Multi-Armed-Bandit-1': 'Section 2 - Multi-Armed Bandit', 'A-first-glance-at-the-Divvy-data-1': 'first-glance', 'Divvy-usage-over-the-year-1': 'seasonal-trends', 'A-map-of-the-Divvy-stations-in-Chicago-1': 'station-map', 'Divvy-usage-by-time-of-day-1': 'time-of-day-trends'}
 var analysisArrayMap = {'Section 2 - Multi-Armed Bandit': '1. Multi-Armed Bandit', 'first-glance': 'A first glance at the Divvy data', 'seasonal-trends': 'Divvy usage over the year', 'station-map': 'A map of the Divvy stat ... s in Chicago', 'time-of-day-trends': 'Divvy usage by time-of-day'}
-var licenseArray = []
-var licenseDict = {}
-var licenseArrayMap = {}
-var notesArray = []
-var notesDict = {}
-var notesArrayMap = {}
-var protectedArray = ['protected_page']
-var protectedDict = {'This-page-is-password-protected-1': 'protected_page'}
-var protectedArrayMap = {'protected_page': 'This page is password protected'}
+var Artificial_IntelligenceArray = ['1 - Reinforcement Learning - Introduction ', 'Section 2 - Multi-Armed Bandit', 'Section 3 - Build an Intelligent Tic-Tac-Toe Agent', 'Section 4 - Markov Decision Processes', 'Section 5 - Dynamic Programming', 'Section 6 - Monte Carlo', 'Section 7 - Temporal Difference Learning', 'Section 8 - Approximation Methods']
+var Artificial_IntelligenceDict = {'1.-What-is-Reinforcement-Learning-1': '1 - Reinforcement Learning - Introduction', '1.-Multi-Armed-Bandit-1': 'Section 2 - Multi-Armed Bandit', '1.-Components-of-an-RL-System-1': 'Section 3 - Build an Intelligent Tic-Tac-Toe Agent', '1.-Markov-Decision-Processes-1': 'Section 4 - Markov Decision Processes', '1.-Intro-to-Dynamic-Programming-and-Iterative-Policy-Evaluation-1': 'Section 5 - Dynamic Programming', '1.-Monte-Carlo-Intro-1': 'Section 6 - Monte Carlo', '1.-Temporal-Difference-Learning-Introduction-1': 'Section 7 - Temporal Difference Learning', '1.-Approximation-Methods-1': 'Section 8 - Approximation Methods'}
+var Artificial_IntelligenceArrayMap = {'1 - Reinforcement Learning - Introduction': '1. What is Reinforcement Learning', 'Section 2 - Multi-Armed Bandit': '1. Multi-Armed Bandit', 'Section 3 - Build an Intelligent Tic-Tac-Toe Agent': '1. Components of an RL System', 'Section 4 - Markov Decision Processes': '1. Markov Decision Processes', 'Section 5 - Dynamic Programming': '1. Intro to Dynamic Pro ... y Evaluation', 'Section 6 - Monte Carlo': '1. Monte Carlo Intro', 'Section 7 - Temporal Difference Learning': '1. Temporal Difference  ... Introduction', 'Section 8 - Approximation Methods': '1. Approximation Methods'}

@@ -1,0 +1,1209 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/readable.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Intuitive ML</title>
+
+<style type = "text/css">
+body {
+  font-family: "sans-serif";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Intuitive ML</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../index.html">Home</a>
+</li>
+        
+<li>
+  <a href="../Artificial_Intelligence.html">Artificial Intelligence</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="https://github.com/NathanielDake/nathanieldake.github.io"> source </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="1.-Monte-Carlo-Intro">1. Monte Carlo Intro<a class="anchor-link" href="#1.-Monte-Carlo-Intro">&#182;</a></h1><p>In this section we are going to be discussing another technique for solving MDP's, known as <strong>Monte Carlo</strong>. In the last section, you may have noticed something a bit odd; we have talked about how RL is all about learning from experience and playing games. Yet, in none of our dynamic programming algorithms did we actually play the game. We had a full model of the environment, which included all of the state transition probabilities. You may wonder: is it reasonable to assume that we would have that type of information in a real life environment? For board games, perhaps. But, what about self driving cars?</p>
+<p>The way that we manipulated our dynamic programming algorithms required us to put an agent into a state. That may not always be possible, especially when talking about self driving cars, or even video games. A video game starts in the state that it decides-you can't choose any state you want. This is another instance of having god mode capabilities, so it is not always realistic to assume that that is always possible. In this section, we will be playing the game and learning purely from experience.</p>
+<h2 id="1.2-Monte-Carlo-Methods">1.2 Monte Carlo Methods<a class="anchor-link" href="#1.2-Monte-Carlo-Methods">&#182;</a></h2><p>Monte Carlo is a rather poorly defined term. Usually, it refers to any algorithm that involves a significantly random component. With Monte Carlo Methods in RL, the random component is the <em><strong>return</strong></em>. Recall that what we are always looking for is the expected return given that you are in state $s$. With MC, instead of calculating the true expected value of G (which requires probability distributions), we instead calculate its sample mean.</p>
+<p>In order for this to work, we need to assume that we are doing episodic tasks only. The reason is because an episode has to terminate before we can calculate any of the returns. This also means that MC methods are <em>not</em> fully online algorithms. We don't do an update after every action, but rather after every episode.</p>
+<p>The methods that we use in the Monte Carlo section should be somewhat reminiscent of the multi armed bandit problem. With the multi armed bandit problem, we were always averaging the reward after every action. With MDP's we are always averaging the return. One way to think of Monte Carlo, is that <em>every state</em> is a <em>separate multi-armed bandit problem</em>. What we are trying to do is learn to behave optimally for all of the multi armed bandit problems, all at once. In this section, we are again going to follow the same pattern that we did in the DP section. We will start by looking at the <em><strong>prediction problem</strong></em> (<em>find the value given the policy</em>), and then look at the <em><strong>control problem</strong></em> (<em>finding the optimal policy</em>).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="2.0-Monte-Carlo-Policy-Evaluation">2.0 Monte Carlo Policy Evaluation<a class="anchor-link" href="#2.0-Monte-Carlo-Policy-Evaluation">&#182;</a></h1><p>We are now going to solve the prediction problem using Monte Carlo Estimation. Recall that the definition of the value function is that it is the expected value of the future return, given that the current state is $s$:</p>
+<p>$$V_\pi(s) = E \big[G(t) \mid S_t = s\big]$$</p>
+<p>We know that we can estimate any expected value simply by adding up samples and dividing by the total number of samples:</p>
+<p>$$\bar{V}_\pi(s) = \frac{1}{N} \sum_{i =1}^N G_{i,s}$$</p>
+<p>Where above, $i$ is indexing the episode, and $s$ is indexing the state. The question now, is how do we get these sample returns.</p>
+<h2 id="2.1-How-do-we-generate-$G$?">2.1 How do we generate $G$?<a class="anchor-link" href="#2.1-How-do-we-generate-$G$?">&#182;</a></h2><p>In order to get these sample returns, we need to play many episodes to generate them! For every episode that we play, we will have a sequence of states and rewards. And from the rewards, we can calculate the returns by definition, which is just the sum of all future rewards:</p>
+<p>$$G(t) = r(t+1) + \gamma * G(t+1)$$</p>
+<p>Notice how, to actually implement this in code, it would be very useful to loop through the states in reverse order, since $G$ depends only on future values. Once we have done this for many episodes, we will have multiple lists of $s$'s and $G$'s. We can then take the sample mean.</p>
+<h2 id="2.2-Mutliple-Visits-to-$s$">2.2 Mutliple Visits to $s$<a class="anchor-link" href="#2.2-Mutliple-Visits-to-$s$">&#182;</a></h2><p>One interesting question that comes up is, what if you see the same state more than once in an episode? For instance if you see state $s$ at $t=1$ and $t=3$? What is the return for state $s$? Should we use $G(1)$ or $G(3)$? There are two answers to this question, and surprisingly they both lead to the same answer.</p>
+<p><strong>First Visit Monte Carlo</strong><br>
+The first method is called <em>first visit monte carlo</em>. That means that you would only count the return for time $t=1$.</p>
+<p><strong>Every Visit Monte Carlo</strong><br>
+The second method is called <em>every visit monte carlo</em>. That means that you would calculate the return for every time you visited the state $s$, and all of them would contribute to the sample mean; i.e. use both $t=1$ and $t=3$ as samples.</p>
+<p>Surprisingly, it has been proven that both lead to the same answer.</p>
+<h2 id="2.3-First-Visit-MC-Pseudocode">2.3 First-Visit MC Pseudocode<a class="anchor-link" href="#2.3-First-Visit-MC-Pseudocode">&#182;</a></h2><p>Let's now look at some pseudocode for first visit monte carlo prediction.</p>
+<hr>
+
+<pre><code>def first_visit_monte_carlo_prediction(pi, N):
+  V = random initialization
+  all returns = {} # default = []
+  do N times:
+    states, returns = play_episode
+    for s, g in zip(states, returns):
+      if not seen s in this episode yet:
+        all_returns[s].append(g)
+        V(s) = sample_mean(all_returns[s])
+  return V</code></pre>
+<hr>
+<p>In the above pseudocode we can see the following:</p>
+<blockquote><ul>
+<li>The input is a policy, and the number of samples we want to generate</li>
+<li>We initialize $V$ randomly, and we create a dictionary to store our returns, with a default value being an empty list</li>
+<li>We loop N times. Inside the loop we generate an episode by playing the game. </li>
+<li>Next, we loop through the state sequence and return sequence. We only include the return if this the first time we have seen this state in this episode since this is first visit MC.</li>
+<li>If so, we add this return to our list of returns for this state. </li>
+<li>Next, we update V(s) to be the sample mean of all the returns we have collected for this state. </li>
+<li>At the end, we return $V$. </li>
+</ul>
+</blockquote>
+<h2 id="2.4-Sample-Mean">2.4 Sample Mean<a class="anchor-link" href="#2.4-Sample-Mean">&#182;</a></h2><p>One thing that you may have noticed for the pseudocode, is that it requires us to store all of the returns that we get for each state so that the sample mean can be calculated. But, if you recall from our section on the multi armed bandit, there are more efficient ways to calculate the mean, such as calculating it from the previous mean. There are also techniques for nonstationary problems, like using a moving average. So, all of the techniques we have learned already still apply here.</p>
+<p>Another thing that we should notice about the MCM, is that because we are calculating the sample mean, all of the same rules of probability apply. That means that the confidence interval is approximately Gaussian, and the variance if the original variance of the data, divided by the number of samples collected:</p>
+<p>$$\text{Variance of Estimate} = \frac{\text{variance of RV}}{N}$$</p>
+<p>Therefore, we are going to more confident in data that has more samples, but it grows slowly with respect to the number of samples.</p>
+<h2 id="2.5-Calculating-Returns-from-Rewards">2.5 Calculating Returns from Rewards<a class="anchor-link" href="#2.5-Calculating-Returns-from-Rewards">&#182;</a></h2><p>For full clarity, we will also quickly go over how to calculate the returns from the rewards in pseudocode.</p>
+<hr>
+
+<pre><code># Calculating State and Reward Sequences 
+s = grid.current_state()
+states_and_rewards = [(s, 0)]
+while not game_over:
+  a = policy(s)
+  r = grid.move(a)
+  s = grid.current_state()
+  states_and_rewards.append((s, r))
+
+# Calculating the Returns
+G = 0 
+states_and_returns = []
+for s, r in reverse(states_and_rewards):
+  states_and_returns.append((s, G))
+  G = r + gamma*G
+states_and_returns.reverse()</code></pre>
+<hr>
+<p>The above pseudocode shows two main steps:</p>
+<ol>
+<li>Calculating State and Reward Sequences. This is just playing the game, and keeping a log of all the states and rewards that we get, in the order we get them. Notice, this is a list of tuples. Also, first award is assumed to be 0. We do not get any reward simply for arriving at the start state. </li>
+<li>Calculating the Returns. We start with empty list, and then loop through the states and rewards in reverse order. In the first order of this loop, the state s represents the terminal state and G will be 0. Next we update G. Notice how, on the first iteration of the loop, this includes the reward for the terminal state. Once the loop is done, we reverse the list of states and returns, since we want it to be in the order that we visited the states. </li>
+</ol>
+<h2 id="2.6-Note-on-MC">2.6 Note on MC<a class="anchor-link" href="#2.6-Note-on-MC">&#182;</a></h2><p>One final thing to note about MC. Recall that one of the disadvantages of DP is that we have to loop through the entire set of states on every iteration, and that this is bad for most practical scenarios in which there are a large number of states. Notice how MC only updates the value for states that we actually visit. That means even if the state space is large, if we only ever visit a small subset of states, then it doesn't matter.</p>
+<p>Also notice, we don't even need to know what the states are! We can simply discover them by playing the game. So, there are some advantages to MC in situations where doing full exact calculations is infeasible.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="3.0-Monte-Carlo-Policy-Evaluation-in-Code">3.0 Monte Carlo Policy Evaluation in Code<a class="anchor-link" href="#3.0-Monte-Carlo-Policy-Evaluation-in-Code">&#182;</a></h1><p>We are now going to implement Monte Carlo for finding the State-Value function in code.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">common</span> <span class="k">import</span> <span class="n">standard_grid</span><span class="p">,</span> <span class="n">negative_grid</span><span class="p">,</span> <span class="n">print_policy</span><span class="p">,</span> <span class="n">print_values</span>
+
+<span class="n">SMALL_ENOUGH</span> <span class="o">=</span> <span class="mf">10e-4</span>
+<span class="n">GAMMA</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">ALL_POSSIBLE_ACTIONS</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">)</span>
+
+<span class="c1"># NOTE: This is only policy evaluation, NOT optimization</span>
+
+<span class="k">def</span> <span class="nf">play_game</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">policy</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Returns a list of states and corresponding returns&quot;&quot;&quot;</span>
+  
+  <span class="c1"># Reset game to start at a random position. We need to do this, because given our </span>
+  <span class="c1"># current deterministic policy (we take upper left path all the way to goal state, and </span>
+  <span class="c1"># for any state not in that path, to go all the way to losing state. Since MC only </span>
+  <span class="c1"># calculates values for states that are actually visited, and if we only started at the</span>
+  <span class="c1"># prescribed start state, there will be some states that we never visit. So we need this </span>
+  <span class="c1"># little hack at the beginning of play game, that allows us to start the game at any </span>
+  <span class="c1"># state. This is called the exploring starts method. </span>
+  <span class="n">start_states</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+  <span class="n">start_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">start_states</span><span class="p">))</span>
+  <span class="n">grid</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">start_states</span><span class="p">[</span><span class="n">start_idx</span><span class="p">])</span>
+  
+  <span class="c1"># Play the game -&gt; goal is to make a list of all states we have visited, and all rewards</span>
+  <span class="c1"># we have received</span>
+  <span class="n">s</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">current_state</span><span class="p">()</span>
+  <span class="n">states_and_rewards</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span> <span class="c1"># list of tuples of (state, reward)</span>
+  <span class="k">while</span> <span class="ow">not</span> <span class="n">grid</span><span class="o">.</span><span class="n">game_over</span><span class="p">():</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">policy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> 
+    <span class="n">r</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">current_state</span><span class="p">()</span>
+    <span class="n">states_and_rewards</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
+    
+  <span class="c1"># Calculate the returns by working backward from the terminal state. We visit each state</span>
+  <span class="c1"># in reverse, and recursively calculate the return. </span>
+  <span class="n">G</span> <span class="o">=</span> <span class="mi">0</span> 
+  <span class="n">states_and_returns</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">first</span> <span class="o">=</span> <span class="kc">True</span>
+  <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">states_and_rewards</span><span class="p">):</span> 
+    <span class="c1"># The value of the terminal state is 0 by definition. We should ignore the first state </span>
+    <span class="c1"># we encounter, and ignore the last G, which is meaningless since it doesn&#39;t </span>
+    <span class="c1"># correspond to any move. </span>
+    <span class="k">if</span> <span class="n">first</span><span class="p">:</span>
+      <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">states_and_returns</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="n">G</span><span class="p">))</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="n">GAMMA</span> <span class="o">*</span> <span class="n">G</span>
+  <span class="n">states_and_returns</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span> <span class="c1"># we want it in the order of state visited</span>
+  <span class="k">return</span> <span class="n">states_and_returns</span>
+      
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="c1"># use the standard grid again (0 for every step) so that we can compare</span>
+  <span class="c1"># to iterative policy evaluation</span>
+  <span class="n">grid</span> <span class="o">=</span> <span class="n">standard_grid</span><span class="p">()</span>
+
+  <span class="c1"># print rewards</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rewards:&quot;</span><span class="p">)</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">rewards</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+
+  <span class="c1"># state -&gt; action</span>
+  <span class="n">policy</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span>
+  <span class="p">}</span>
+  
+  <span class="c1"># Initialize V(s) and returns</span>
+  <span class="n">V</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="n">returns</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="n">states</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">all_states</span><span class="p">()</span>
+  <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">states</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">grid</span><span class="o">.</span><span class="n">actions</span><span class="p">:</span>
+      <span class="n">returns</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="c1"># terminal state or state we can&#39;t get to otherwise</span>
+      <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> 
+      
+  <span class="c1"># ------ Monte Carlo Loop ------</span>
+  <span class="c1"># Plays the games and gets the states and returns list. </span>
+  <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="c1"># Generate an episode using pi. Create set to keep track of all the states that we </span>
+    <span class="c1"># have seen, since we only want to add a return if it is the first time we have seen</span>
+    <span class="c1"># the state in this episode. </span>
+    <span class="n">states_and_returns</span> <span class="o">=</span> <span class="n">play_game</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">policy</span><span class="p">)</span>
+    <span class="n">seen_states</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    
+    <span class="c1"># Loop through all states and returns.</span>
+    <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">G</span> <span class="ow">in</span> <span class="n">states_and_returns</span><span class="p">:</span>
+      <span class="c1"># Check if we have already seen s, called &quot;first-visit: MC policy evaluation</span>
+      <span class="k">if</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen_states</span><span class="p">:</span>
+        <span class="n">returns</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+        <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">returns</span><span class="p">[</span><span class="n">s</span><span class="p">])</span> <span class="c1"># Recalculate V(s) because we have new sample return</span>
+        <span class="n">seen_states</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;values:&quot;</span><span class="p">)</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;policy:&quot;</span><span class="p">)</span>
+  <span class="n">print_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>rewards:
+---------------------------
+ 0.00| 0.00| 0.00| 1.00|
+---------------------------
+ 0.00| 0.00| 0.00|-1.00|
+---------------------------
+ 0.00| 0.00| 0.00| 0.00|
+values:
+---------------------------
+ 0.81| 0.90| 1.00| 0.00|
+---------------------------
+ 0.73| 0.00|-1.00| 0.00|
+---------------------------
+ 0.66|-0.81|-0.90|-1.00|
+policy:
+---------------------------
+  R  |  R  |  R  |     |
+---------------------------
+  U  |     |  R  |     |
+---------------------------
+  U  |  R  |  R  |  U  |
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="4.0-Policy-Evaluation-in-Windy-Grid-World">4.0 Policy Evaluation in Windy Grid World<a class="anchor-link" href="#4.0-Policy-Evaluation-in-Windy-Grid-World">&#182;</a></h1><p>We are now going to use MC predicton algorithm to find $V$, but this time we will be in windy gridworld and will be using a slightly different policy. One thing that you may have noticed with the last script is that MC wasn't really needed since the returns were deterministic. This was because the two probability distributions that we are interested in- $\pi(a \mid s)$ and $p(s,a \mid s',r)$- were both <em>deterministic</em>.</p>
+<p>In windy gridworld the state transitions are not deterministic, so we will have a source of randomness, and hence a need for MC. Also, the policy will be different. In particular, this policy is always going to try and win; in other words, travel to the goal state. We will see that even though this policy is to go to the goal state, not all values will end up positive, since in windy gridworld the wind can still end up pushing you into the losing state. So on average, the return for that state is negative.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">common</span> <span class="k">import</span> <span class="n">standard_grid</span><span class="p">,</span> <span class="n">negative_grid</span><span class="p">,</span> <span class="n">print_policy</span><span class="p">,</span> <span class="n">print_values</span>
+
+<span class="n">SMALL_ENOUGH</span> <span class="o">=</span> <span class="mf">10e-4</span>
+<span class="n">GAMMA</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">ALL_POSSIBLE_ACTIONS</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">random_action</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+  <span class="c1"># 0.5 probability of performing chosen action</span>
+  <span class="c1"># 0.5/3 probability of doing some action a&#39; != a</span>
+  <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+  <span class="k">if</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">a</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ALL_POSSIBLE_ACTIONS</span><span class="p">)</span>
+    <span class="n">tmp</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+  
+<span class="k">def</span> <span class="nf">play_game</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">policy</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Returns a list of states and corresponding returns&quot;&quot;&quot;</span>
+  
+  <span class="c1"># Reset game to start at a random position. We need to do this, because given our </span>
+  <span class="c1"># current deterministic policy (we take upper left path all the way to goal state, and </span>
+  <span class="c1"># for any state not in that path, to go all the way to losing state. Since MC only </span>
+  <span class="c1"># calculates values for states that are actually visited, and if we only started at the</span>
+  <span class="c1"># prescribed start state, there will be some states that we never visit. So we need this </span>
+  <span class="c1"># little hack at the beginning of play game, that allows us to start the game at any </span>
+  <span class="c1"># state. This is called the exploring starts method. </span>
+  <span class="n">start_states</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+  <span class="n">start_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">start_states</span><span class="p">))</span>
+  <span class="n">grid</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">start_states</span><span class="p">[</span><span class="n">start_idx</span><span class="p">])</span>
+  
+  <span class="c1"># Play the game -&gt; goal is to make a list of all states we have visited, and all rewards</span>
+  <span class="c1"># we have received</span>
+  <span class="n">s</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">current_state</span><span class="p">()</span>
+  <span class="n">states_and_rewards</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span> <span class="c1"># list of tuples of (state, reward)</span>
+  <span class="k">while</span> <span class="ow">not</span> <span class="n">grid</span><span class="o">.</span><span class="n">game_over</span><span class="p">():</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">policy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> 
+    <span class="n">a</span> <span class="o">=</span> <span class="n">random_action</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># ----- THIS IS THE UPDATE FOR WINDY GRIDWORLD -----</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">current_state</span><span class="p">()</span>
+    <span class="n">states_and_rewards</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
+    
+  <span class="c1"># Calculate the returns by working backward from the terminal state. We visit each state</span>
+  <span class="c1"># in reverse, and recursively calculate the return. </span>
+  <span class="n">G</span> <span class="o">=</span> <span class="mi">0</span> 
+  <span class="n">states_and_returns</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">first</span> <span class="o">=</span> <span class="kc">True</span>
+  <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">states_and_rewards</span><span class="p">):</span> 
+    <span class="c1"># The value of the terminal state is 0 by definition. We should ignore the first state </span>
+    <span class="c1"># we encounter, and ignore the last G, which is meaningless since it doesn&#39;t </span>
+    <span class="c1"># correspond to any move. </span>
+    <span class="k">if</span> <span class="n">first</span><span class="p">:</span>
+      <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">states_and_returns</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="n">G</span><span class="p">))</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="n">GAMMA</span> <span class="o">*</span> <span class="n">G</span>
+  <span class="n">states_and_returns</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span> <span class="c1"># we want it in the order of state visited</span>
+  <span class="k">return</span> <span class="n">states_and_returns</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="n">grid</span> <span class="o">=</span> <span class="n">standard_grid</span><span class="p">()</span>
+
+  <span class="c1"># print rewards</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rewards:&quot;</span><span class="p">)</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">rewards</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+  
+  <span class="c1"># state -&gt; action</span>
+  <span class="c1"># found by policy_iteration_random on standard_grid</span>
+  <span class="c1"># MC method won&#39;t get exactly this, but should be close</span>
+  <span class="c1"># values:</span>
+  <span class="c1"># ---------------------------</span>
+  <span class="c1">#  0.43|  0.56|  0.72|  0.00|</span>
+  <span class="c1"># ---------------------------</span>
+  <span class="c1">#  0.33|  0.00|  0.21|  0.00|</span>
+  <span class="c1"># ---------------------------</span>
+  <span class="c1">#  0.25|  0.18|  0.11| -0.17|</span>
+  <span class="c1"># policy:</span>
+  <span class="c1"># ---------------------------</span>
+  <span class="c1">#   R  |   R  |   R  |      |</span>
+  <span class="c1"># ---------------------------</span>
+  <span class="c1">#   U  |      |   U  |      |</span>
+  <span class="c1"># ---------------------------</span>
+  <span class="c1">#   U  |   L  |   U  |   L  |</span>
+  <span class="c1"># ----- This policy has changed from the previous example! -----</span>
+  <span class="n">policy</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="s1">&#39;L&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span> <span class="s1">&#39;L&#39;</span><span class="p">,</span>
+  <span class="p">}</span>
+  
+  <span class="c1"># Everything else from here down is the same. The Monte Carlo algorithm doesn&#39;t change</span>
+  <span class="c1"># becasue the fact that we are taking averages already takes into account any </span>
+  <span class="c1"># randomness both in the policy and in the state transitions. </span>
+  
+  <span class="c1"># initialize V(s) and returns</span>
+  <span class="n">V</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="n">returns</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># dictionary of state -&gt; list of returns we&#39;ve received</span>
+  <span class="n">states</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">all_states</span><span class="p">()</span>
+  <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">states</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">grid</span><span class="o">.</span><span class="n">actions</span><span class="p">:</span>
+      <span class="n">returns</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="c1"># terminal state or state we can&#39;t otherwise get to</span>
+      <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+      
+  <span class="c1"># repeat until convergence</span>
+  <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5000</span><span class="p">):</span>
+
+    <span class="c1"># generate an episode using pi</span>
+    <span class="n">states_and_returns</span> <span class="o">=</span> <span class="n">play_game</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">policy</span><span class="p">)</span>
+    <span class="n">seen_states</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">G</span> <span class="ow">in</span> <span class="n">states_and_returns</span><span class="p">:</span>
+      <span class="c1"># check if we have already seen s</span>
+      <span class="c1"># called &quot;first-visit&quot; MC policy evaluation</span>
+      <span class="k">if</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen_states</span><span class="p">:</span>
+        <span class="n">returns</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+        <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">returns</span><span class="p">[</span><span class="n">s</span><span class="p">])</span>
+        <span class="n">seen_states</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;values:&quot;</span><span class="p">)</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;policy:&quot;</span><span class="p">)</span>
+  <span class="n">print_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>rewards:
+---------------------------
+ 0.00| 0.00| 0.00| 1.00|
+---------------------------
+ 0.00| 0.00| 0.00|-1.00|
+---------------------------
+ 0.00| 0.00| 0.00| 0.00|
+values:
+---------------------------
+ 0.42| 0.55| 0.72| 0.00|
+---------------------------
+ 0.32| 0.00| 0.20| 0.00|
+---------------------------
+ 0.25| 0.18| 0.09|-0.17|
+policy:
+---------------------------
+  R  |  R  |  R  |     |
+---------------------------
+  U  |     |  U  |     |
+---------------------------
+  U  |  L  |  U  |  L  |
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="5.0-Monte-Carlo-Control">5.0 Monte Carlo Control<a class="anchor-link" href="#5.0-Monte-Carlo-Control">&#182;</a></h1><p>If you recall, the pattern that we are generally trying to follow is:</p>
+<blockquote><p>First look at how to solve the <em>prediction problem</em>, which finding the value function given a policy. We then want to look at how to solve the <em>control problem</em>, which is how to find the optimal policy.</p>
+</blockquote>
+<p>We are now going to go about finding the optimal policy using MC.</p>
+<h2 id="5.1-MC-for-Control-Problem">5.1 MC for Control Problem<a class="anchor-link" href="#5.1-MC-for-Control-Problem">&#182;</a></h2><p>When we first try and do this, you will see that we come across a big problem. That is, we only have $V(s)$ for a given policy, but we don't know what actions will lead to a better $V(s)$ because we can't do a look ahead search. With MC, all we are able to do is play an episode straight through and use the returns as samples. The key to using MC for the control problem then, is to find $Q(s,a)$, since $Q$ is indexed by both $s$ and $a$, and we can choose the argmax over $a$ to find the best policy:</p>
+<p>$$argmax_a\big( Q(s,a)\big)$$</p>
+<h2 id="5.2-MC-for-$Q(s,a)$">5.2 MC for $Q(s,a)$<a class="anchor-link" href="#5.2-MC-for-$Q(s,a)$">&#182;</a></h2><p>So, how exactly do we use MC to find $Q$? The process is nearly the same as we used to find $V$, except that instead of just returning tuples of states and returns, (s, G), we will return triples of states, actions, and returns, (s, a, G).</p>
+<p>We can quickly see how this may be problematic. Recall that the number of values we need to store grows quadratically with the state set size and action set size. With $V(s)$ we only need $\mid S \mid$ different estimates. With $Q(s,a)$ we need $\mid S \mid * \mid A \mid$ different estimates. That means that we have a lot more values to approximate, and we need to do many more steps of MC in order to get a good answer.</p>
+<p>There is another problem with trying to estimate $Q$, which goes back to our explore/exploit dilemma. If we have a fixed policy, then every $Q(s,a)$ will only have samples for <em>one</em> action. That means, out of the total $\mid S \mid * \mid A \mid$ values we need to fill in, we will only be able to fill in $\frac{1}{\mid A \mid}$ of those values.</p>
+<p>The way to fix this, as we discussed earlier, is using the exploring starts method. In this case, we now randomly choose an initial state and an initial action. Thereafter we follow the policy. So, the answer that we get is $Q_\pi(s,a)$. This is consistent with our defintion of $Q$:</p>
+<p>$$Q_\pi(s,a) = E_\pi \big[G(t) \mid S_t = s, A_t=a\big]$$</p>
+<h2 id="5.3-Back-to-Control-Problem">5.3 Back to Control Problem<a class="anchor-link" href="#5.3-Back-to-Control-Problem">&#182;</a></h2><p>Let's now return to the control problem. If you think carefully, you'll realize that we already know the answer to this problem. We discussed earlier how the method that we always used to find an optimal policy is generalized policy iteration, where we alternate between policy evaluation and policy improvement. For policy evaulation, we just discussed it-we will simply use MC to get an estimate for $Q$. The policy improvement step is the same as always, we just take the argmax over the actions from $Q$:</p>
+<p>$$\pi(s) = argmax_a Q(s,a)$$</p>
+<h2 id="5.4-Problem-with-MC">5.4 Problem with MC<a class="anchor-link" href="#5.4-Problem-with-MC">&#182;</a></h2><p>One issue with this as we have already discussed, is that because we need to find $Q$ over all states and all actions, this can take a very long time using sampling. We again have a problem where there is an iterative algorithm inside an iterative algorithm.</p>
+<p>The solution to this is to take the same approach that we do with value iteration. Instead of doing a fresh MC policy evaluation on each round, where it would take a long time to collect samples, we instead update the same $Q$ and do policy improvement after every single episode. This means that on every iteration of the outer loop we generate only one episode, use that episode to improve our estimate of $Q$, and then immediately do the policy improvement step.</p>
+<h2 id="5.5-Pseudocode">5.5 Pseudocode<a class="anchor-link" href="#5.5-Pseudocode">&#182;</a></h2><p>We can now look at this in pseudocode to solidify this idea:</p>
+<hr>
+
+<pre><code>Q = random, pi = random
+
+while True: 
+  s, a = randomly select from S and A     # Exploring starts method
+
+  # Generate an episode from this starting position, following current policy
+  # Receive a list of triply containing states, actions, and returns
+  states_actions_returns = play_game(start=(s,a))
+
+  # Policy Evaluation Step
+  for s,a,G in states_actions_returns:
+    returns(s,a).append(G)
+
+    # Recalculate Q as average of all returns for this state action pair
+    Q(s,a) = average(returns(s,a)) 
+
+  # Policy improvement step
+  for s in states:
+    pi(s) = argmax[a] { Q(s,a) }</code></pre>
+<hr>
+<h1 id="5.6-One-more-problem">5.6 One more problem<a class="anchor-link" href="#5.6-One-more-problem">&#182;</a></h1><p>There is one more subtle problem with this algorithm; Recall that if we take an action that results in us bumping into a wall, we end up in the same state as before. So, if we follow this policy we will never end up in a terminal state and therefore never finish the episode. To avoid this problem, we can introduce a hack: if we end up in the same state after doing an action, this will give us a reward of -100 and end the episode.</p>
+<h2 id="5.7-MC">5.7 MC<a class="anchor-link" href="#5.7-MC">&#182;</a></h2><p>It is interesting that this method converges, even though the returns that we average for $Q$ are for different policies. Intuitively, $Q$ has to converge, since if it is suboptimal, then the policy will change, and that will in turn cause $Q$ to change. We can only achieve stability when both the value and policy to converge to the optimal value and optimal policy. Interestingly, this have never been formally proven.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="6.-Monte-Carlo-Control-in-Code">6. Monte Carlo Control in Code<a class="anchor-link" href="#6.-Monte-Carlo-Control-in-Code">&#182;</a></h1><p>We are now going to use Monte Carlo exploring starts to solve the control problem, aka find the optimal policy and the optimal value function.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">GAMMA</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">ALL_POSSIBLE_ACTIONS</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">play_game</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">policy</span><span class="p">):</span>
+  <span class="c1"># Reset game to start at a random position. We need to do this, because given our </span>
+  <span class="c1"># current deterministic policy (we take upper left path all the way to goal state, and </span>
+  <span class="c1"># for any state not in that path, to go all the way to losing state. Since MC only </span>
+  <span class="c1"># calculates values for states that are actually visited, and if we only started at the</span>
+  <span class="c1"># prescribed start state, there will be some states that we never visit. So we need this </span>
+  <span class="c1"># little hack at the beginning of play game, that allows us to start the game at any </span>
+  <span class="c1"># state. This is called the exploring starts method. </span>
+  <span class="n">start_states</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+  <span class="n">start_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">start_states</span><span class="p">))</span>
+  <span class="n">grid</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">start_states</span><span class="p">[</span><span class="n">start_idx</span><span class="p">])</span>
+  
+  <span class="n">s</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">current_state</span><span class="p">()</span>
+  <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">ALL_POSSIBLE_ACTIONS</span><span class="p">)</span> <span class="c1"># first action is uniformly random</span>
+  
+  
+  <span class="c1"># Be aware of the timing. Each triple is s(t), a(t), r(t) but r(t) results </span>
+  <span class="c1"># from taking action a(t-1) from s(t-1) and landing in s(t)</span>
+  <span class="n">states_actions_rewards</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>
+  <span class="n">seen_states</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+  <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">old_s</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">current_state</span><span class="p">()</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">current_state</span><span class="p">()</span>
+    
+    <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">seen_states</span><span class="p">:</span>
+      <span class="c1"># Hack so that we don&#39;t end up in infinitely long episode, bumping into wall</span>
+      <span class="n">states_actions_rewards</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">))</span>
+      <span class="k">break</span>
+    <span class="k">elif</span> <span class="n">grid</span><span class="o">.</span><span class="n">game_over</span><span class="p">():</span>
+      <span class="n">states_actions_rewards</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
+      <span class="k">break</span>
+    <span class="k">else</span><span class="p">:</span> 
+      <span class="n">a</span> <span class="o">=</span> <span class="n">policy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+      <span class="n">states_actions_rewards</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
+    <span class="n">seen_states</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    
+  <span class="c1"># calculate the returns by working backwards from the terminal state, </span>
+  <span class="c1"># NOW ADDING IN ACTIONS</span>
+  <span class="n">G</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">states_actions_returns</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">first</span> <span class="o">=</span> <span class="kc">True</span>
+  <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">states_actions_rewards</span><span class="p">):</span>
+    <span class="c1"># the value of the terminal state is 0 by definition</span>
+    <span class="c1"># we should ignore the first state we encounter</span>
+    <span class="c1"># and ignore the last G, which is meaningless since it doesn&#39;t correspond to any move</span>
+    <span class="k">if</span> <span class="n">first</span><span class="p">:</span>
+      <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">states_actions_returns</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">G</span><span class="p">))</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="n">GAMMA</span><span class="o">*</span><span class="n">G</span>
+  <span class="n">states_actions_returns</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span> <span class="c1"># we want it to be in order of state visited</span>
+  <span class="k">return</span> <span class="n">states_actions_returns</span>
+
+
+<span class="c1"># Function to do max and argmax from a dictionary (what we are using to store Q)</span>
+<span class="k">def</span> <span class="nf">max_dict</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+  <span class="c1"># returns the argmax (key) and max (value) from a dictionary</span>
+  <span class="c1"># put this into a function since we are using it so often</span>
+  <span class="n">max_key</span> <span class="o">=</span> <span class="kc">None</span>
+  <span class="n">max_val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;-inf&#39;</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="n">max_val</span><span class="p">:</span>
+      <span class="n">max_val</span> <span class="o">=</span> <span class="n">v</span>
+      <span class="n">max_key</span> <span class="o">=</span> <span class="n">k</span>
+  <span class="k">return</span> <span class="n">max_key</span><span class="p">,</span> <span class="n">max_val</span>
+  
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="c1"># Try the negative grid too, to see if agent will learn to go past the &quot;bad spot&quot;</span>
+  <span class="c1"># in order to minimize number of steps</span>
+  <span class="n">grid</span> <span class="o">=</span> <span class="n">negative_grid</span><span class="p">(</span><span class="n">step_cost</span><span class="o">=-</span><span class="mf">0.9</span><span class="p">)</span>
+  
+  <span class="c1"># Print rewards</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rewards:&quot;</span><span class="p">)</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">rewards</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+  
+  <span class="c1"># state -&gt; action</span>
+  <span class="c1"># initialize a random policy</span>
+  <span class="n">policy</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">grid</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">policy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">ALL_POSSIBLE_ACTIONS</span><span class="p">)</span>
+
+  <span class="c1"># initialize Q(s,a) and returns</span>
+  <span class="n">Q</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="n">returns</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># dictionary of state -&gt; list of returns we&#39;ve received</span>
+  <span class="n">states</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">all_states</span><span class="p">()</span>
+  <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">states</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">grid</span><span class="o">.</span><span class="n">actions</span><span class="p">:</span> <span class="c1"># not a terminal state</span>
+      <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+      <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ALL_POSSIBLE_ACTIONS</span><span class="p">:</span>
+        <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># needs to be initialized to something so we can argmax it</span>
+        <span class="n">returns</span><span class="p">[(</span><span class="n">s</span><span class="p">,</span><span class="n">a</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="c1"># terminal state or state we can&#39;t otherwise get to</span>
+      <span class="k">pass</span>
+    
+  <span class="c1"># Main Loop - repeat until convergence</span>
+  <span class="n">deltas</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># For debugging purposes </span>
+  <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2000</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">t</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+    <span class="c1"># Generate an episode using pi. Play a game, get states, actions, and returns triples</span>
+    <span class="n">biggest_change</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">states_actions_returns</span> <span class="o">=</span> <span class="n">play_game</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">policy</span><span class="p">)</span>
+    <span class="n">seen_state_action_pairs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span> <span class="c1"># Create set to store state-actions pairs we have seen</span>
+    
+    <span class="c1"># Loop through all state action pairs in episode, update their returns list, and </span>
+    <span class="c1"># update Q</span>
+    <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">G</span> <span class="ow">in</span> <span class="n">states_actions_returns</span><span class="p">:</span>
+      <span class="c1"># check if we have already seen s</span>
+      <span class="c1"># called &quot;first-visit&quot; MC policy evaluation</span>
+      <span class="n">sa</span> <span class="o">=</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">sa</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen_state_action_pairs</span><span class="p">:</span>
+        <span class="n">old_q</span> <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span>
+        <span class="n">returns</span><span class="p">[</span><span class="n">sa</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+        <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">returns</span><span class="p">[</span><span class="n">sa</span><span class="p">])</span>
+        <span class="n">biggest_change</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">biggest_change</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">old_q</span> <span class="o">-</span> <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]))</span>
+        <span class="n">seen_state_action_pairs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sa</span><span class="p">)</span>
+    <span class="n">deltas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">biggest_change</span><span class="p">)</span>
+
+    <span class="c1"># ---- Policy Improvement Step ---- update policy </span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">policy</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+      <span class="n">policy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_dict</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+
+  <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">deltas</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;final policy:&quot;</span><span class="p">)</span>
+  <span class="n">print_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+
+  <span class="c1"># find V</span>
+  <span class="n">V</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">Qs</span> <span class="ow">in</span> <span class="n">Q</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_dict</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span>
+
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;final values:&quot;</span><span class="p">)</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>rewards:
+---------------------------
+-0.90|-0.90|-0.90| 1.00|
+---------------------------
+-0.90| 0.00|-0.90|-1.00|
+---------------------------
+-0.90|-0.90|-0.90|-0.90|
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+1200
+1300
+1400
+1500
+1600
+1700
+1800
+1900
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>final policy:
+---------------------------
+  R  |  R  |  R  |     |
+---------------------------
+  U  |     |  R  |     |
+---------------------------
+  U  |  L  |  U  |  U  |
+final values:
+---------------------------
+-0.90| 0.00| 1.00| 0.00|
+---------------------------
+-1.83| 0.00|-1.00| 0.00|
+---------------------------
+-3.81|-5.56|-2.18|-1.00|
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="7.-Monte-Carlo-Control-without-Exploring-Starts">7. Monte Carlo Control <em>without</em> Exploring Starts<a class="anchor-link" href="#7.-Monte-Carlo-Control-without-Exploring-Starts">&#182;</a></h1><p>Recall that one of the disadvantages of the method we just looked at, is that we need to use exploring starts. We talked about how that may be infeasible for any game we are not playing in "God-mode". For example, think of a self driving car; it wouldn't be possible to enumerate all of the possible edge cases that the car may find itself in. And even if you could, it would take a lot of work to put the car in those exact states. So, we will now look at how we could use MC for control, <em>without</em> using exploring starts.</p>
+<p>Earlier, we briefly touched upon the fact that all techniques we learning for the multi armed bandit problem are applicable here. In particular, we don't want to follow the <em>greedy</em> policy, but the <em>espilon-greedy</em> policy instead (or any other method that allows for more exploration).</p>
+<p>The modifications to the code should be fairly simple. All we need to do is remove exploring starts (always start at official starting position), and change the policy to sometimes be random (in portion where we play the game, instead of just following the greedy policy, we will have a small probability $\epsilon$ of doing a random action).</p>
+<h2 id="7.2-Epsilon-Soft">7.2 Epsilon-Soft<a class="anchor-link" href="#7.2-Epsilon-Soft">&#182;</a></h2><p>Note, in some sources you will see an algorithm called epsilon-soft. This looks a little bit different, but essentially does the same thing. The idea is that epsilon is used to ensure that every action has the possibility of being selected. We state this as:</p>
+<blockquote><p>The probability of $a$ given $s$ is greater than or equal to $\epsilon$ divided by the number of possible actions.</p>
+</blockquote>
+<p>$$\pi(a \mid s) \geq \frac{\epsilon}{\mid A(s)\mid} , \forall a \in A(s)$$</p>
+<p>But, we also use epsilon to decide whether or not we are going to explore. So, we can write this in total as:</p>
+<p>$$a^* = argmax_aQ(s,a)$$
+$$\pi(s \mid a) = 1 - \epsilon + \frac{\epsilon}{\mid A(s)\mid} \; if \; a = a^*$$
+$$\pi(s \mid a) = \frac{\epsilon}{\mid A(s)\mid} \; if \; a \neq a^*$$</p>
+<p>From now on we will just refer to this as epsilon greedy.</p>
+<h2 id="7.3-How-often-will-we-reach-off-policy-states?">7.3 How often will we reach off-policy states?<a class="anchor-link" href="#7.3-How-often-will-we-reach-off-policy-states?">&#182;</a></h2><p>It is interesting to think about how often we will reach off-policy states. For a state that is $K$ steps away from the start state, we would need to be in exploration mode on each step, and chose the necessary states to get to the target state. So in total, that is:</p>
+<p>$$p \geq \Big(\frac{\epsilon}{\mid A(s)\mid}\Big)^K$$</p>
+<p>You can imagine that this is a very small number, so for states that are very far off from the policies trajectory, you will need to do many iterations of MC for the value to be accurate for those states.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="8.-MC-Control-without-Exploring-Starts-in-code">8. MC Control <em>without</em> Exploring Starts in code<a class="anchor-link" href="#8.-MC-Control-without-Exploring-Starts-in-code">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">random_action</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+  <span class="c1"># choose given a with probability 1 - eps + eps/4</span>
+  <span class="c1"># choose some other a&#39; != a with probability eps/4</span>
+  <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+  <span class="c1"># if p &lt; (1 - eps + eps/len(ALL_POSSIBLE_ACTIONS)):</span>
+  <span class="c1">#   return a</span>
+  <span class="c1"># else:</span>
+  <span class="c1">#   tmp = list(ALL_POSSIBLE_ACTIONS)</span>
+  <span class="c1">#   tmp.remove(a)</span>
+  <span class="c1">#   return np.random.choice(tmp)</span>
+  <span class="c1">#</span>
+  <span class="c1"># this is equivalent to the above</span>
+  <span class="k">if</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">eps</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">ALL_POSSIBLE_ACTIONS</span><span class="p">)</span>
+  
+<span class="k">def</span> <span class="nf">play_game</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">policy</span><span class="p">):</span>
+  <span class="c1"># returns a list of states and corresponding returns</span>
+  <span class="c1"># in this version we will NOT use &quot;exploring starts&quot; method</span>
+  <span class="c1"># instead we will explore using an epsilon-soft policy</span>
+  <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="n">grid</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+  <span class="n">a</span> <span class="o">=</span> <span class="n">random_action</span><span class="p">(</span><span class="n">policy</span><span class="p">[</span><span class="n">s</span><span class="p">])</span>
+
+  <span class="c1"># be aware of the timing</span>
+  <span class="c1"># each triple is s(t), a(t), r(t)</span>
+  <span class="c1"># but r(t) results from taking action a(t-1) from s(t-1) and landing in s(t)</span>
+  <span class="n">states_actions_rewards</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>
+  <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">current_state</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">grid</span><span class="o">.</span><span class="n">game_over</span><span class="p">():</span>
+      <span class="n">states_actions_rewards</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
+      <span class="k">break</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="c1"># HERE WE HAVE ADDED EPSILON GREEDY POLICY</span>
+      <span class="n">a</span> <span class="o">=</span> <span class="n">random_action</span><span class="p">(</span><span class="n">policy</span><span class="p">[</span><span class="n">s</span><span class="p">])</span> <span class="c1"># the next state is stochastic</span>
+      <span class="n">states_actions_rewards</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
+
+  <span class="c1"># calculate the returns by working backwards from the terminal state</span>
+  <span class="n">G</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">states_actions_returns</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">first</span> <span class="o">=</span> <span class="kc">True</span>
+  <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">states_actions_rewards</span><span class="p">):</span>
+    <span class="c1"># the value of the terminal state is 0 by definition</span>
+    <span class="c1"># we should ignore the first state we encounter</span>
+    <span class="c1"># and ignore the last G, which is meaningless since it doesn&#39;t correspond to any move</span>
+    <span class="k">if</span> <span class="n">first</span><span class="p">:</span>
+      <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">states_actions_returns</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">G</span><span class="p">))</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="n">GAMMA</span><span class="o">*</span><span class="n">G</span>
+  <span class="n">states_actions_returns</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span> <span class="c1"># we want it to be in order of state visited</span>
+  <span class="k">return</span> <span class="n">states_actions_returns</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="c1"># use the standard grid again (0 for every step) so that we can compare</span>
+  <span class="c1"># to iterative policy evaluation</span>
+  <span class="c1"># grid = standard_grid()</span>
+  <span class="c1"># try the negative grid too, to see if agent will learn to go past the &quot;bad spot&quot;</span>
+  <span class="c1"># in order to minimize number of steps</span>
+  <span class="n">grid</span> <span class="o">=</span> <span class="n">negative_grid</span><span class="p">(</span><span class="n">step_cost</span><span class="o">=-</span><span class="mf">0.1</span><span class="p">)</span>
+
+  <span class="c1"># print rewards</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rewards:&quot;</span><span class="p">)</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">rewards</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+
+  <span class="c1"># state -&gt; action</span>
+  <span class="c1"># initialize a random policy</span>
+  <span class="n">policy</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">grid</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">policy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">ALL_POSSIBLE_ACTIONS</span><span class="p">)</span>
+
+  <span class="c1"># initialize Q(s,a) and returns</span>
+  <span class="n">Q</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="n">returns</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># dictionary of state -&gt; list of returns we&#39;ve received</span>
+  <span class="n">states</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">all_states</span><span class="p">()</span>
+  <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">states</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">grid</span><span class="o">.</span><span class="n">actions</span><span class="p">:</span> <span class="c1"># not a terminal state</span>
+      <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+      <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ALL_POSSIBLE_ACTIONS</span><span class="p">:</span>
+        <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">returns</span><span class="p">[(</span><span class="n">s</span><span class="p">,</span><span class="n">a</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="c1"># terminal state or state we can&#39;t otherwise get to</span>
+      <span class="k">pass</span>
+
+  <span class="c1"># repeat until convergence</span>
+  <span class="n">deltas</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5000</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">t</span> <span class="o">%</span> <span class="mi">1000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+    <span class="c1"># generate an episode using pi</span>
+    <span class="n">biggest_change</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">states_actions_returns</span> <span class="o">=</span> <span class="n">play_game</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">policy</span><span class="p">)</span>
+
+    <span class="c1"># calculate Q(s,a)</span>
+    <span class="n">seen_state_action_pairs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">G</span> <span class="ow">in</span> <span class="n">states_actions_returns</span><span class="p">:</span>
+      <span class="c1"># check if we have already seen s</span>
+      <span class="c1"># called &quot;first-visit&quot; MC policy evaluation</span>
+      <span class="n">sa</span> <span class="o">=</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">sa</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen_state_action_pairs</span><span class="p">:</span>
+        <span class="n">old_q</span> <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span>
+        <span class="n">returns</span><span class="p">[</span><span class="n">sa</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+        <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">returns</span><span class="p">[</span><span class="n">sa</span><span class="p">])</span>
+        <span class="n">biggest_change</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">biggest_change</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">old_q</span> <span class="o">-</span> <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]))</span>
+        <span class="n">seen_state_action_pairs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sa</span><span class="p">)</span>
+    <span class="n">deltas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">biggest_change</span><span class="p">)</span>
+
+    <span class="c1"># calculate new policy pi(s) = argmax[a]{ Q(s,a) }</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">policy</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+      <span class="n">a</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">max_dict</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">])</span>
+      <span class="n">policy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span>
+
+  <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">deltas</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+  <span class="c1"># find the optimal state-value function</span>
+  <span class="c1"># V(s) = max[a]{ Q(s,a) }</span>
+  <span class="n">V</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">policy</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_dict</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span>
+
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;final values:&quot;</span><span class="p">)</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;final policy:&quot;</span><span class="p">)</span>
+  <span class="n">print_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>rewards:
+---------------------------
+-0.10|-0.10|-0.10| 1.00|
+---------------------------
+-0.10| 0.00|-0.10|-1.00|
+---------------------------
+-0.10|-0.10|-0.10|-0.10|
+0
+1000
+2000
+3000
+4000
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>final values:
+---------------------------
+ 0.58| 0.77| 1.00| 0.00|
+---------------------------
+ 0.41| 0.00| 0.77| 0.00|
+---------------------------
+ 0.25| 0.39| 0.56| 0.46|
+final policy:
+---------------------------
+  R  |  R  |  R  |     |
+---------------------------
+  U  |     |  U  |     |
+---------------------------
+  U  |  R  |  U  |  L  |
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="9.-Summary">9. Summary<a class="anchor-link" href="#9.-Summary">&#182;</a></h1><p>Let's take a brief moment to summarize everything we have learned about in this section. This section was all about MC methods. In the last section on Dynamic programming, we made a rather weird assumption that we <em>knew</em> all of the state transition probabilities and never actually played the game. Hence, we were never able to learn from experience, as you would expect a reinforcement learning agent to do.</p>
+<p>We followed our usual pattern of first looking at the prediction problem and then looking a the control problem. The main technique that we used with Monte Carlo is that the Value function is the expected return given a state:</p>
+<p>$$V_\pi(s) = \Big[G(t) \mid S_t=s\Big]$$</p>
+<p>We know from probability theory that the expected value of something can be approximated by its sample mean:</p>
+<p>$$\bar{V}_\pi(s) = \frac{1}{N} \sum_{i=1}^N G_{i,s}$$</p>
+<p>In order to use Monte Carlo, we needed to generate episodes, and calculate the returns for each episode. This gave a list of pairs of states and returns. We then average these returns to find the value for each state.</p>
+<p>Recall, there are two methods for average the returns: <strong>first visit</strong> and <strong>every visit</strong>. While these have both been proven to converge to the same result, we use first visit because it is simpler.</p>
+<h2 id="9.1-MC-vs.-DP">9.1 MC vs. DP<a class="anchor-link" href="#9.1-MC-vs.-DP">&#182;</a></h2><p>We saw that MC can be more efficient than DP because we don't need to loop through the entire state space. Because of this, we may never get the full value function, however it may not matter if many of those states may never be reached, or only be reached very rarely. In other words, the more we visit a state, the more accurate the value will be for that state. Since the MC method results in each state being visited a different number of times depending on the policy, we used the exploring starts technique in order to make sure we had adequate data for each state.</p>
+<h2 id="9.2-MC-Control">9.2 MC Control<a class="anchor-link" href="#9.2-MC-Control">&#182;</a></h2><p>We then looked at the control problem. The difference with MC is that we now need to use $Q$ instead of $V$, so that we can take the argmax of $Q$ over all of the actions. This is required since we can't do the same kind of look ahead search with MC, as we did with DP. We then saw that we can continue to use the idea of policy iteration that we had used in the DP section. Recall, this is where we alternate between policy evaluation and policy improvement. We talked about the fact that MC has one major disadvantage here: it needs many samples in order to be accurate, and it has to be inside of a loop, which makes it very inefficient. We ended up taking the same approach here as we did with value iteration; we only did one update for evaluation per iteration. What is surprising is that it converges even though the samples are not all for the same policy! Note, it never has been formally proven to converge.</p>
+<p>One of the disadvantages of the control solution we looked at was that we needed to use the exploring starts method in order to get a full measurement of $Q$. We saw that it is not necessary to use exploring starts, if we use epsilon greedy instead. This is because epsilon greedy allows us to continually explore all of the states in the state space. We learned that all of the techniques we learned about in the multi armed bandit still apply here. In fact, MDPs are like having different multi armed bandit problems at each state.</p>
+
+</div>
+</div>
+</div>
+<hr>
+&copy; 2018 Nathaniel Dake
+
+</div>
+</div>
+</body>
+</html>

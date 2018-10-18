@@ -1,0 +1,1191 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/readable.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Intuitive ML</title>
+
+<style type = "text/css">
+body {
+  font-family: "sans-serif";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Intuitive ML</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../index.html">Home</a>
+</li>
+        
+<li>
+  <a href="../Artificial_Intelligence.html">Artificial Intelligence</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="https://github.com/NathanielDake/nathanieldake.github.io"> source </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="1.-Intro-to-Dynamic-Programming-and-Iterative-Policy-Evaluation">1. Intro to Dynamic Programming and Iterative Policy Evaluation<a class="anchor-link" href="#1.-Intro-to-Dynamic-Programming-and-Iterative-Policy-Evaluation">&#182;</a></h1><p>We are now going to start looking at solutions to MDP's. As we saw in the last section, the center piece of the discussion is the <strong>Bellman Equation</strong>:</p>
+<h4 id="$$\text{Bellman-Equation}-\rightarrow-V_\pi(s)-=-\sum_a-\pi(a-\mid-s)-*-\sum_{s'}\sum_r-p(s',r-\mid-s,a)-\Big-\{-r-+-\gamma-V_\pi(s')-\Big-\}$$"><span style="color:#0000cc">$$\text{Bellman Equation} \rightarrow V_\pi(s) = \sum_a \pi(a \mid s) * \sum_{s'}\sum_r p(s',r \mid s,a) \Big \{ r + \gamma V_\pi(s') \Big \}$$</span><a class="anchor-link" href="#$$\text{Bellman-Equation}-\rightarrow-V_\pi(s)-=-\sum_a-\pi(a-\mid-s)-*-\sum_{s'}\sum_r-p(s',r-\mid-s,a)-\Big-\{-r-+-\gamma-V_\pi(s')-\Big-\}$$">&#182;</a></h4><p>In fact, the bellman equation can be used directly to solve for the value function. If you look carefully, you will see that this is actually a set of $S$ equations with $S$ unknowns. In fact, it is a linear equation, meaning it is not too difficult to solve. In addtion, a lot of the matrix entries will be zero, since the state transitions will most likely be sparse.</p>
+<p>However, this is <em>not</em> the approach we will take. Instead, we will do what is called <strong>iterative policy evaluation</strong>.</p>
+<h2 id="1.1-Iterative-Policy-Evaluation">1.1 Iterative Policy Evaluation<a class="anchor-link" href="#1.1-Iterative-Policy-Evaluation">&#182;</a></h2><p>What exactly is iterative policy evaluation? Well, essentially it means that we apply the bellman equation again and again, and eventually it will just converge. We can write down the algorithm in pseudocode as follows:</p>
+<hr>
+<p>$
+\text{def iterative_policy_evaluation}(\pi)\text{:} \\
+\hspace{1cm} \text{initialize V(s) = 0 for all s} \in \text{S} \\
+\hspace{1cm} \text{while True:} \\
+\hspace{2cm} \Delta = 0 \\
+\hspace{2cm} \text{for each s} \in \text{S:} \\
+\hspace{3cm} \text{old_v = V(s)} \\
+\hspace{3cm} V_\pi(s) = \sum_a \pi(a \mid s) * \sum_{s'}\sum_r p(s',r \mid s,a) \Big \{ r + \gamma V_\pi(s') \Big \}\\
+\hspace{3cm} \Delta = \text{max(} \Delta \text{, |V(s) - old_v|)} \\
+\hspace{2cm} \text{if} \Delta \text{&lt; threshold: break} \\
+\hspace{1cm} \text{return V(s)}
+$</p>
+<hr>
+<p>We can see above that the input to iterative policy evaluation is a policy, $\pi$, and the output is the value function for that particular policy. It works as follows:</p>
+<blockquote><ul>
+<li>We start by initializing $V(s)$ to 0 for all states. </li>
+<li>Then, in an infinite loop, we initialize a variable called $\Delta$, which represents the maximum change during the current iteration. $\Delta$ is used to determine when to quit. When it is small enough, that is when we will break out of the loop. </li>
+<li>Then, for every state in the state space, we keep a copy of the old $V(s)$, and then we use bellmans equation to update V(s). </li>
+<li>We set $\Delta$ to be the maximum change for $V(s)$ in that iteration. </li>
+<li>Once this converges, we return $V(s)$</li>
+</ul>
+</blockquote>
+<p>The main point of interest in this algorithm, is of course the part that contains the bellman equation. Notice how strictly speaking, the value at iteration $k+1$ depend only on the values at iteration $k$:</p>
+<p>$$ V_{k+1}(s) = \sum_a \pi(a \mid s) * \sum_{s'}\sum_r p(s',r \mid s,a) \Big \{ r + \gamma V_{k}(s') \Big \}$$</p>
+<p>However, this need not be the case. In fact, we can always just use our most up to date versions of the value function for any state. This actually ends up converging faster.</p>
+<h2 id="1.2-Definitions">1.2 Definitions<a class="anchor-link" href="#1.2-Definitions">&#182;</a></h2><p>A final note; we generally call the act of finding the value function for a given policy the <em><strong>prediction problem</strong></em>. Soon, we will learn an algorithm for finding the optimal policy, which is known as the <em><strong>control problem</strong></em>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="2.-Gridworld-in-Code">2. Gridworld in Code<a class="anchor-link" href="#2.-Gridworld-in-Code">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="sd">&quot;&quot;&quot;Environment&quot;&quot;&quot;</span>
+<span class="k">class</span> <span class="nc">Grid</span><span class="p">:</span> 
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">start</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="n">start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># start is a tuple of 2 integers</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">j</span> <span class="o">=</span> <span class="n">start</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    
+  <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rewards</span><span class="p">,</span> <span class="n">actions</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;actions enumerate all possible actions that can take you to new state.</span>
+<span class="sd">       actions should be a dict of: (i, j): A (row, col): list of possible actions</span>
+<span class="sd">       rewards should be a dict of: (i, j): r (row, col): reward</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">rewards</span> <span class="o">=</span> <span class="n">rewards</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">actions</span> <span class="o">=</span> <span class="n">actions</span>
+    
+  <span class="k">def</span> <span class="nf">set_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Useful for various algorithms we will use. For example, iterative policy evaluation</span>
+<span class="sd">    requires looping through all the states, and then doing an action to get to the next</span>
+<span class="sd">    state. In order to know what the next state is, we have to put the agent into that </span>
+<span class="sd">    state, do the action, and then determine the next state. We do not automatically have</span>
+<span class="sd">    a master list of state transitions, we must figure them out by playing the game.&quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">j</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    
+  <span class="k">def</span> <span class="nf">current_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="s2">&quot;Returns current (i,j) position of agent.&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">j</span><span class="p">)</span>
+  
+  <span class="k">def</span> <span class="nf">is_terminal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns true if s is terminal state, false if not. Easy way to check this is to see</span>
+<span class="sd">    if the state is in the action dictionary. If you can do an action from the state, then</span>
+<span class="sd">    you can transition to a different state, and hence your state is not terminal.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">actions</span>
+  
+  <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Checks if action is in actions dictionary. If not, we are not able to do this move,</span>
+<span class="sd">    so we simply stay in same position.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">action</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">actions</span><span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">j</span><span class="p">)]:</span>
+      <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;U&#39;</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">-=</span> <span class="mi">1</span>
+      <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;D&#39;</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+      <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;R&#39;</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+      <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;L&#39;</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">j</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="c1"># Return reward (if any, default is 0)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rewards</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">j</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+  
+  <span class="k">def</span> <span class="nf">undo_move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Pass in the action you just took, and the environment will undo it. </span>
+<span class="sd">    Ex -&gt; Just went up, it will move you back down.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;U&#39;</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;D&#39;</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;R&#39;</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">j</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;L&#39;</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="c1"># Raise an exception if we arrive somewhere we shouldn&#39;t be -&gt; Should never happen</span>
+    <span class="k">assert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_state</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_states</span><span class="p">())</span>
+    
+  <span class="k">def</span> <span class="nf">game_over</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="s2">&quot;Returns true if game over, false otherwise. Only need to check if in terminal state.&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">j</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">actions</span>
+  
+  <span class="k">def</span> <span class="nf">all_states</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;We can calculate all of the states simply by enumerating all of the states from </span>
+<span class="sd">    which we can take an action (which don&#39;t include terminal states), and all of the </span>
+<span class="sd">    states that return a reward (which do include terminal states). Since there may be</span>
+<span class="sd">    some of the same states in both actions and rewards, we cast it to a set. This also</span>
+<span class="sd">    makes the data structure O(1) for search.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rewards</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+  
+<span class="k">def</span> <span class="nf">standard_grid</span><span class="p">():</span>
+  <span class="sd">&quot;&quot;&quot;Returns standard grid. This is a grid that has the structure shown in section 4.</span>
+<span class="sd">  All of the actions are defined such that we can move within the grid, but never off</span>
+<span class="sd">  of it. We also cannot walk into the wall, nor out of the terminal state. Upper left</span>
+<span class="sd">  is defined to be (0,0). We define rewards for arriving at each state. The grid looks</span>
+<span class="sd">  like:</span>
+<span class="sd">      .  .  .  1</span>
+<span class="sd">      .  x  . -1</span>
+<span class="sd">      s  .  .  .</span>
+<span class="sd">  * x means you can&#39;t go there</span>
+<span class="sd">  * s means start position</span>
+<span class="sd">  * number means reward at that state</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">g</span> <span class="o">=</span> <span class="n">Grid</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+  <span class="n">rewards</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span> <span class="o">-</span><span class="mi">1</span><span class="p">}</span>
+  <span class="n">actions</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="p">(</span><span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="p">(</span><span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="p">(</span><span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span> <span class="s1">&#39;U&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span> <span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;U&#39;</span><span class="p">),</span>
+  <span class="p">}</span>
+  <span class="n">g</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">rewards</span><span class="p">,</span> <span class="n">actions</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">g</span>
+
+<span class="k">def</span> <span class="nf">negative_grid</span><span class="p">(</span><span class="n">step_cost</span><span class="o">=-</span><span class="mf">0.1</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Here we want to penalize each move. This is done to prevent a robot from moving </span>
+<span class="sd">  randomly to solve the maze. If you only gave it a reward for solving the maze, then it</span>
+<span class="sd">  would never learn anything beyond a random strategy. We know that we can incentivize</span>
+<span class="sd">  the robot to solve the maze more efficiently by giving it a negative reward for each</span>
+<span class="sd">  step taken. That is what we are doing here-incentivizing the robot to solve the maze </span>
+<span class="sd">  efficiently, rather than moving randomly until it reaches the goal.&quot;&quot;&quot;</span>
+  <span class="n">g</span> <span class="o">=</span> <span class="n">standard_grid</span><span class="p">()</span>
+  <span class="n">g</span><span class="o">.</span><span class="n">rewards</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="n">step_cost</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="n">step_cost</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="n">step_cost</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="n">step_cost</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="n">step_cost</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="n">step_cost</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="n">step_cost</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="n">step_cost</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span> <span class="n">step_cost</span><span class="p">,</span>
+  <span class="p">})</span>
+  <span class="k">return</span> <span class="n">g</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="3.-Iterative-Policy-Evaluation-In-Code">3. Iterative Policy Evaluation In Code<a class="anchor-link" href="#3.-Iterative-Policy-Evaluation-In-Code">&#182;</a></h1><p>We are now going to implement iterative policy evaluation in code. To demonstrate how we can find the value function for different policies, we are going to do iterative policy evaluation on two different policies.</p>
+<blockquote><p>The first policy we will look at is a completely random (<em>uniform</em>) policy.</p>
+</blockquote>
+<p>Remember, there are two probability distributions involved in bellmans equation:</p>
+<p>$$\text{Policy probability: }\hspace{1cm}\pi(a \mid s)$$</p>
+<p>$$\text{Markov State Transition Probability: }\hspace{1cm}p(s',r \mid s,a)$$</p>
+<p>The probability that is relevant for implementing bellmans equation is $\pi(a \mid s)$. This is the probability that we take an action $a$, given that we are in state $s$. For a <em>uniform random</em> policy, this probability will be:</p>
+<p>$$\frac{1}{\mid A(s) \mid}$$</p>
+<p>Where $A(s)$ is the set of all possible actions to take from state $s$. In other words, our probability will be 1 divided by the total number of possible actions from state $s$.</p>
+<p>The other probability, $p(s', r \mid s, a)$ is only relevant when state transitions themselves are random. That is a scenario when you try to move left, but instead you end up going right.</p>
+<blockquote><p>The second policy we will look at is a completely deterministic policy.</p>
+</blockquote>
+<p>From the start position you go directly to the goal state (up, up, right, right, right). However, if you are starting from any other state, the policy is to go directly to the losing state. So, we should expect the values on the upper left path to be positive, and the other values to be negative.</p>
+<p>Also, as a note/clarification-when performing iterative policy evaluation with random actions, our final value function will differ from the bellman equation as follows; the original bellman equation starts off as:</p>
+<h4 id="$$\text{Bellman-Equation}-\rightarrow-V_\pi(s)-=-\sum_a-\pi(a-\mid-s)-*-\sum_{s'}\sum_r-p(s',r-\mid-s,a)-\Big-\{-r-+-\gamma-V_\pi(s')-\Big-\}$$"><span style="color:#0000cc">$$\text{Bellman Equation} \rightarrow V_\pi(s) = \sum_a \pi(a \mid s) * \sum_{s'}\sum_r p(s',r \mid s,a) \Big \{ r + \gamma V_\pi(s') \Big \}$$</span><a class="anchor-link" href="#$$\text{Bellman-Equation}-\rightarrow-V_\pi(s)-=-\sum_a-\pi(a-\mid-s)-*-\sum_{s'}\sum_r-p(s',r-\mid-s,a)-\Big-\{-r-+-\gamma-V_\pi(s')-\Big-\}$$">&#182;</a></h4><p>We can drop the $p(s', r \mid s, a)$, since as we stated earlier, our state transitions are not currently random. That means our value function looks like:</p>
+<p>$$V_\pi(s) = \sum_a \pi(a \mid s) *  \Big \{ r + \gamma V_\pi(s') \Big \}$$</p>
+<p>Because $\pi(a \mid s)$ is a uniform random distribution, it is <em>not</em> dependent on the state and is actually equal to:</p>
+<p>$$\pi(a) = \frac{1}{\mid A(s) \mid}$$</p>
+<p>Hence, we can update our value equation to be:</p>
+<p>$$V_\pi(s) = \sum_a \frac{1}{\mid A(s) \mid} *  \Big \{ r + \gamma V_\pi(s') \Big \}$$</p>
+<p>In pseudocode, that will look like:</p>
+<hr>
+
+<pre><code>new_v += p_a * (r + gamma * V[grid.current_state()])</code></pre>
+<hr>
+<p><strong>Key Takeaway</strong>:<br></p>
+<blockquote><p>Another key thing to keep in mind, is how our value function is actually represented. Generally, when we think of a <em>function</em> we envision an equation of some sort, that maps one domain to another, such as: <br>
+<br>
+$$f(x) = x^2 + 4x + 8 $$
+<br>
+However, a function can be more generally defined as: <em><strong>A rule that relates inputs to outputs in a dataset or system.</strong></em> This allows us to have an alternative way of viewing functions: <em>As the actual set of input/output pairs it defines, or in other words, as a dataset.</em> This is the way in which our value function is defined. As we converge on a final value function, we are not determining some final equation, but rather a final mapping of our input domain (our 11 states) to our output domain, the value associated with each state.</p>
+</blockquote>
+<p>So remember:</p>
+<blockquote><p><em>We can view an equation equivalently in two ways: either via its mathematical expression or as a dataset consisting of a complete listing of the function's input/output pairs.</em></p>
+</blockquote>
+<p>We can now get to the code!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">SMALL_ENOUGH</span> <span class="o">=</span> <span class="mf">10e-4</span> <span class="c1"># Threshold for convergence</span>
+
+<span class="sd">&quot;&quot;&quot;Functions to help us visualize policies and values.&quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">print_values</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">g</span><span class="p">):</span> 
+  <span class="sd">&quot;&quot;&quot;Takes in values dictionary and grid, draws grid, and in each position it prints</span>
+<span class="sd">  the value. &quot;&quot;&quot;</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">width</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------------------&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">height</span><span class="p">):</span>
+      <span class="n">v</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; </span><span class="si">%.2f</span><span class="s2">|&quot;</span> <span class="o">%</span> <span class="n">v</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%.2f</span><span class="s2">|&quot;</span> <span class="o">%</span> <span class="n">v</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="c1"># -ve sign takes up an extra space</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    
+<span class="k">def</span> <span class="nf">print_policy</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">g</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Takes in policy and grid, draws grid, and in each position it prints</span>
+<span class="sd">  the action from the policy. Note, this will only work for deterministic policies, </span>
+<span class="sd">  since we can&#39;t print more than 1 thing per location.&quot;&quot;&quot;</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">width</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------------------&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">height</span><span class="p">):</span>
+      <span class="n">a</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  </span><span class="si">%s</span><span class="s2">  |&quot;</span> <span class="o">%</span> <span class="n">a</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="sd">&quot;&quot;&quot;Iterative Policy Evaluation:</span>
+<span class="sd">      * Given a Policy -&gt; find its value function V(s)</span>
+<span class="sd">      * We will do this for both uniform random policy and fixed deterministic policy</span>
+<span class="sd">      * NOTE: There are 2 sources of randomness</span>
+<span class="sd">      * p(a|s)      -&gt; deciding what action to take given the state</span>
+<span class="sd">      * p(s&#39;,r|s,a) -&gt; the next state and reward given your action-state pair</span>
+<span class="sd">      * we are only modeling p(a|s) = uniform&quot;&quot;&quot;</span>
+  <span class="n">grid</span> <span class="o">=</span> <span class="n">standard_grid</span><span class="p">()</span>
+  
+  <span class="c1"># States will be positions (i, j). Simpler than tic-tac-toe, because we only have </span>
+  <span class="c1"># 1 game piece that can only be at one position at a time. We get the set of all states</span>
+  <span class="c1"># from the grid, since these will be the keys to the value function dictionary.</span>
+  <span class="n">states</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">all_states</span><span class="p">()</span>
+  
+  <span class="c1"># ----- Perform Iterative Policy Evaluation for Uniform Random Actions -----</span>
+  
+  <span class="c1"># Initialize all V(s) to be 0</span>
+  <span class="n">V</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">states</span><span class="p">}</span>
+  <span class="n">gamma</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="c1"># Discount factor</span>
+  
+  <span class="c1"># Enter infinite loop, repeat until convergence</span>
+  <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">biggest_change</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># Loop through all of the states, since we need to find Value function at all states</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">states</span><span class="p">:</span> 
+      <span class="n">old_v</span> <span class="o">=</span> <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="c1"># Keep copy of old V(s), so we can track magnitude of each change</span>
+      
+      <span class="c1"># Loop through all possible actions from this state. V(s) only has value if it is </span>
+      <span class="c1"># not a terminal state.</span>
+      <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">grid</span><span class="o">.</span><span class="n">actions</span><span class="p">:</span>
+        <span class="n">new_v</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># we will accumulate the answer</span>
+        <span class="n">p_a</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">actions</span><span class="p">[</span><span class="n">s</span><span class="p">])</span> <span class="c1"># Each action has equal probability</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">grid</span><span class="o">.</span><span class="n">actions</span><span class="p">[</span><span class="n">s</span><span class="p">]:</span>
+          <span class="c1"># Look ahead action comes into play. Must first set state to s, and then do the</span>
+          <span class="c1"># action, so that we can determine the next state s&#39;, since that is required</span>
+          <span class="c1"># to use the bellman equation</span>
+          <span class="n">grid</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> 
+          <span class="n">r</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+          <span class="n">new_v</span> <span class="o">+=</span> <span class="n">p_a</span> <span class="o">*</span> <span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="n">gamma</span> <span class="o">*</span> <span class="n">V</span><span class="p">[</span><span class="n">grid</span><span class="o">.</span><span class="n">current_state</span><span class="p">()])</span> <span class="c1"># This is RL portion!</span>
+        <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_v</span>
+        <span class="n">biggest_change</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">biggest_change</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">old_v</span> <span class="o">-</span> <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]))</span>
+      
+    <span class="k">if</span> <span class="n">biggest_change</span> <span class="o">&lt;</span> <span class="n">SMALL_ENOUGH</span><span class="p">:</span>
+      <span class="k">break</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;values for uniformly random actions:&quot;</span><span class="p">)</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+  <span class="c1"># ----- Perform Iterative Policy Evaluation for Fixed Policy -----</span>
+  <span class="c1"># Print policy so we know what it looks like</span>
+  <span class="n">policy</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span>
+  <span class="p">}</span>
+  <span class="n">print_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+  
+  <span class="c1"># Reinitialize all V(s) to be 0</span>
+  <span class="n">V</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">states</span><span class="p">}</span>
+  
+  <span class="c1"># Let&#39;s see how V(s) changes as we get further away from the reward</span>
+  <span class="n">gamma</span> <span class="o">=</span> <span class="mf">0.9</span> <span class="c1"># discount factor</span>
+  
+  <span class="c1"># Repeat until convergence. Simpler loop, we don&#39;t need to loop through any actions, </span>
+  <span class="c1"># because there is only one action per state. Because there is only 1 action per state,</span>
+  <span class="c1"># the probability of that action in that state is 1. </span>
+  <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">biggest_change</span> <span class="o">=</span> <span class="mi">0</span> 
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">states</span><span class="p">:</span> 
+      <span class="n">old_v</span> <span class="o">=</span> <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+      
+      <span class="c1"># V(s) only has value if it&#39;s not a terminal state</span>
+      <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">policy</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">policy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="n">gamma</span> <span class="o">*</span> <span class="n">V</span><span class="p">[</span><span class="n">grid</span><span class="o">.</span><span class="n">current_state</span><span class="p">()]</span>
+        <span class="n">biggest_change</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">biggest_change</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">old_v</span> <span class="o">-</span> <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]))</span>
+
+    <span class="k">if</span> <span class="n">biggest_change</span> <span class="o">&lt;</span> <span class="n">SMALL_ENOUGH</span><span class="p">:</span>
+      <span class="k">break</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;values for fixed policy:&quot;</span><span class="p">)</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>values for uniformly random actions:
+---------------------------
+-0.03| 0.09| 0.22| 0.00|
+---------------------------
+-0.16| 0.00|-0.44| 0.00|
+---------------------------
+-0.29|-0.41|-0.54|-0.77|
+
+
+
+---------------------------
+  R  |  R  |  R  |     |
+---------------------------
+  U  |     |  R  |     |
+---------------------------
+  U  |  R  |  R  |  U  |
+values for fixed policy:
+---------------------------
+ 0.81| 0.90| 1.00| 0.00|
+---------------------------
+ 0.73| 0.00|-1.00| 0.00|
+---------------------------
+ 0.66|-0.81|-0.90|-1.00|
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As we look at the results, we can see that most of the value for the uniform random policy are negative. That is because if you are moving randomly, there is a good chance you end up in the losing state. Remember, there are two ways you can end up in the losing state, but only one way you can enter the goal state. The most negative value is for the state right underneath the losing state, which makes sense.</p>
+<p>Now, for the fixed policy and discount factor 0.9, we see exactly what we expect to see: the further away we get from the terminal state, the more the value decreases, and each time it decreases by exactly 10%.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="4.-Policy-Improvement">4. Policy Improvement<a class="anchor-link" href="#4.-Policy-Improvement">&#182;</a></h1><p>We can now start discussing the <em>control problem</em>, the problem of how to find better policies, eventually leading to the optimal policy. What we know so far is how to find the value function given a fixed policy. Let's look at our recursive definition of $Q_\pi(s,a)$ again:</p>
+<p>$$Q_{\pi}(s,a) = \sum_{s',r}p(s',r \mid s,a)\big[r + \gamma V_\pi (s')\big]$$</p>
+<p>This tells us the value of doing action $a$, while in state $s$, using the policy $\pi$. Using the current policy, we simply get the current state value function.</p>
+<p>$$V_\pi(s) = Q_\pi(s, \pi(s)) = \sum_{s',r}p(s',r \mid s,\pi(s))\big[r + \gamma V_\pi (s')\big] $$</p>
+<p>Now let's say that we want to change just one of the actions in the policy; Can we do this? Of course we can! We have a finite set of actions, so all we need to do is just go through each one until we get a better Q, than $\pi(s)$ does:</p>
+<p>$$find \; a \in A \; s.t. Q_\pi(s,a) &gt; Q_\pi(s, \pi(s)) $$</p>
+<p>This is where doing all of the programming exercises we go through becomes <em>very useful</em>. This looks like a really abstract equation, but all it's saying is:</p>
+<blockquote><p><em>If the policy is currently to go up, let's look at left, right, and down to see if we can get a bigger Q. If it does, let's change our policy for that state to this new action.</em></p>
+</blockquote>
+<p>Formally speaking, what we are doing when we choose a new action for the state is finding a new policy $\pi'$, that has a bigger value for the state than $\pi$:</p>
+<p>$$V_\pi(s) \leq V_{\pi'}(s)$$</p>
+<p>All we need to do this is to pick an action that gives us maximum $Q$. We can write this in the form where we are using $Q$:</p>
+<p>$$\pi'(s) = argmax_a\big(Q_\pi(s,a)\big)$$</p>
+<p>Or in the form where we are doing a lookahead search on $V$:</p>
+<p>$$\pi'(s) = argmax_a \big(\sum_{s', r} p(s', r \mid s,a) \big[r + \gamma V_\pi(s')\big]\big)$$</p>
+<h2 id="4.1-Things-to-notice">4.1 Things to notice<a class="anchor-link" href="#4.1-Things-to-notice">&#182;</a></h2><p>There are a few things about policy improvement that you should notice:</p>
+<ol>
+<li><p>First, notice that it is <em>greedy</em>. We are never considering globally the value function at all states. We are only looking at the current state, and picking the best action based on the value function at that state.</p>
+</li>
+<li><p>Second, notice how it uses an imperfect version of $V_\pi(s)$. Once we change $\pi$, $V_\pi(s)$ also changes. We will see soon why this is not a problem.</p>
+</li>
+</ol>
+<p>One question that may arise is: How do we know when we are finished trying to change the policy? When we have found the optimal policy, the policy will not change with respect to the value function. In addition, the value function will no longer improve-it will stay constant. Notice how the inequality we had earlier was less than or equal to:</p>
+<p>$$V_\pi(s) \leq V_{\pi'}(s)$$</p>
+<p>In the case where it is less than, we are still improving. In the case where it is equal to, then we have found the optimal policy.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="5.-Policy-Iteration">5. Policy Iteration<a class="anchor-link" href="#5.-Policy-Iteration">&#182;</a></h1><p>We are now going to discuss the algorithm we are going to use to find the optimal policy. It will solve the problem we encountered in the previous lecture, specifically, when we change the policy the value function also changes and becomes out of date. We will now see how we can rectify that problem.</p>
+<p>So, what do we do when we change the policy and the value funcion becomes out of date? Well, we can simply recalculate the value function. Luckily we already know how to do find $V$ given $\pi$! We have written the code already, and the algorithm is called <em>iterative policy evalutation</em>. At a high level this algorithm is very simple: We just alternate between <em>policy evaluation</em> and <em>policy improvement</em>. We keep doing this until the policy doesn't change. Note that what we are <em>not</em> checking for is the value function converging (although it will anyway because once the policy stops changing we only need to do one more iteration of policy evaluation).</p>
+<p>In pseudcode <strong>policy iteration</strong> looks like:</p>
+
+<pre><code>Step 1. Randomly initialize V(s) and policy pi(s)
+
+Step 2. V(s) = iterative_policy_evaluation(pi)
+
+Step 3. Policy Improvement
+policy_changed = False
+for s in all_states:      # Loop through all states
+  old_a = policy(s)
+  policy(s) = argmax[a] { sum[s', r] { p(s',r | s,a) [r + gamma*V(s')] } }
+  if policy(s) != old_a:
+    policy_changed = True
+if policy_changed:
+  go back to step 2</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="6.-Policy-Iteration-in-Code">6. Policy Iteration in Code<a class="anchor-link" href="#6.-Policy-Iteration-in-Code">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">SMALL_ENOUGH</span> <span class="o">=</span> <span class="mf">1e-3</span>
+<span class="n">GAMMA</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">ALL_POSSIBLE_ACTIONS</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">)</span>
+
+<span class="c1"># Note: This is deterministic -&gt; All p(s&#39;,r|s,a) = 1 or 0. In other words, when you try </span>
+<span class="c1"># to go up, you go up. The transition probability is always 0 or 1.</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="c1"># Negative grid gives reward of -0.1 for every non-terminal state</span>
+  <span class="c1"># We will use this to see if it encourages finding a shorter path to the goal</span>
+  <span class="n">grid</span> <span class="o">=</span> <span class="n">negative_grid</span><span class="p">()</span>
+  
+  <span class="c1"># Print Rewards</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Rewards: &quot;</span><span class="p">)</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">rewards</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+  
+  <span class="c1"># Create a deterministic random policy. We will randomly chose an action out of the set </span>
+  <span class="c1"># of possible actions for every state. </span>
+  <span class="n">policy</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">ALL_POSSIBLE_ACTIONS</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">grid</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+  
+  <span class="c1"># Initial policy</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Initial policy:&quot;</span><span class="p">)</span>
+  <span class="n">print_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+  
+  <span class="c1"># Initialize V(s) randomly -&gt; terminal state initialized to 0</span>
+  <span class="n">V</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">grid</span><span class="o">.</span><span class="n">actions</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">states</span><span class="p">}</span>
+  
+  <span class="c1"># Repeat until convergence -&gt; will break out when policy does not change. Alternates</span>
+  <span class="c1"># between policy evaluation and policy improvement</span>
+  <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    
+    <span class="c1"># ----- Policy evaluation step -----</span>
+    <span class="c1"># Same as before, but simpler version because all of actions, next states, and rewards</span>
+    <span class="c1"># are all deterministic</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+      <span class="n">biggest_change</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">states</span><span class="p">:</span>
+        <span class="n">old_v</span> <span class="o">=</span> <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+        
+        <span class="c1"># V(s) only has a value if it&#39;s not a terminal state</span>
+        <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">policy</span><span class="p">:</span> 
+          <span class="n">a</span> <span class="o">=</span> <span class="n">policy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+          <span class="n">grid</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+          <span class="n">r</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+          <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="n">GAMMA</span> <span class="o">*</span> <span class="n">V</span><span class="p">[</span><span class="n">grid</span><span class="o">.</span><span class="n">current_state</span><span class="p">()]</span>
+          <span class="n">biggest_change</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">biggest_change</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">old_v</span> <span class="o">-</span> <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]))</span>
+          
+      <span class="k">if</span> <span class="n">biggest_change</span> <span class="o">&lt;</span> <span class="n">SMALL_ENOUGH</span><span class="p">:</span>
+        <span class="k">break</span>
+    
+    <span class="c1"># ----- Policy Improvement step -----</span>
+    <span class="n">is_policy_converged</span> <span class="o">=</span> <span class="kc">True</span>
+    
+    <span class="c1"># Loop through all states</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">states</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">policy</span><span class="p">:</span>
+        <span class="n">old_a</span> <span class="o">=</span> <span class="n">policy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="c1"># Grab existing action and assign to old_a</span>
+        <span class="n">new_a</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">best_value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;-inf&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># Loop through all possible actions to find the best lookahead value</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ALL_POSSIBLE_ACTIONS</span><span class="p">:</span>
+          <span class="n">grid</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+          <span class="n">r</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+          <span class="n">v</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="n">GAMMA</span> <span class="o">*</span> <span class="n">V</span><span class="p">[</span><span class="n">grid</span><span class="o">.</span><span class="n">current_state</span><span class="p">()]</span>
+          <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="n">best_value</span><span class="p">:</span> 
+            <span class="n">best_value</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="n">new_a</span> <span class="o">=</span> <span class="n">a</span> <span class="c1"># Choose action that gives us best lookahead value</span>
+        <span class="n">policy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_a</span>
+        <span class="k">if</span> <span class="n">new_a</span> <span class="o">!=</span> <span class="n">old_a</span><span class="p">:</span>
+          <span class="n">is_policy_converged</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># If actions in policy change, we aren&#39;t converged</span>
+    
+    <span class="k">if</span> <span class="n">is_policy_converged</span><span class="p">:</span>
+      <span class="k">break</span>
+      
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;values:&quot;</span><span class="p">)</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;policy:&quot;</span><span class="p">)</span>
+  <span class="n">print_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Rewards: 
+---------------------------
+-0.10|-0.10|-0.10| 1.00|
+---------------------------
+-0.10| 0.00|-0.10|-1.00|
+---------------------------
+-0.10|-0.10|-0.10|-0.10|
+Initial policy:
+---------------------------
+  U  |  R  |  D  |     |
+---------------------------
+  D  |     |  R  |     |
+---------------------------
+  U  |  U  |  D  |  L  |
+values:
+---------------------------
+ 0.62| 0.80| 1.00| 0.00|
+---------------------------
+ 0.46| 0.00| 0.80| 0.00|
+---------------------------
+ 0.31| 0.46| 0.62| 0.46|
+policy:
+---------------------------
+  R  |  R  |  R  |     |
+---------------------------
+  U  |     |  U  |     |
+---------------------------
+  U  |  R  |  U  |  L  |
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Notice how if we are in the position below the wall the agent will choose to go right, instead of left and then up around the top left corner. This is because each step has a negative reward associated with it, and future rewards are discounted, so we want to try and get to the goal state as quickly as possible.</p>
+<p>Again, we should keep in mind the current form of the bellman equation we are utilizing:</p>
+<p>$$V_\pi(s) = \sum_a \pi(s \mid a) *  \Big \{ r + \gamma V_\pi(s') \Big \}$$</p>
+<p>Where are missing the transition probability term:</p>
+<p>$$p(s',r \mid s,a)$$</p>
+<p>Because we have created a deterministic system where if you are at position (0,0) and you try and go right you will. That probability is specifically saying:</p>
+<blockquote><p><em>Given you take the action to move the right and you are at position (0,0), what is the probability you get to state s' and have reward r?</em></p>
+</blockquote>
+<p>Well, because we have created a deterministic system, the probability is just 1, and we can drop that term.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="7.-Policy-Iteration-in-Windy-Grid-World">7. Policy Iteration in Windy Grid World<a class="anchor-link" href="#7.-Policy-Iteration-in-Windy-Grid-World">&#182;</a></h1><p>We are now going to go over a modification of our environment called <em>windy grid world</em>. Recall that we have two probability distributions to deal with:</p>
+<blockquote><ol>
+<li>Probability of doing an action $a$ when in state $s$: 
+$$\pi(a \mid s)$$</li>
+<li>State Transition Probability: 
+$$p(s',r \mid s,a)$$</li>
+</ol>
+</blockquote>
+<p>So far our state transition probability has been deterministic! When we do an action $a$ in state $s$ we always end up in state $s'$. This is also tied to the reward, since gridworld gives you a reward based on the state that you landed in. We will now consider the case where this probability distribution is <em>not</em> deterministic. In other words, the probability will have a value between 0 and 1.</p>
+<h2 id="7.1-Windy-Gridworld">7.1 Windy Gridworld<a class="anchor-link" href="#7.1-Windy-Gridworld">&#182;</a></h2><p>Imaginge you are walking along a windy street. You try to walk straight, but the wind pushes you to the side or backwards. This is what happens in windy gridworld. If the agent tries to go up, it will do so with probability 0.5. But it can also go left, down, or right with probability 0.5/3.</p>
+<p>Let's dig into the code!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&quot;&quot;&quot;Next state and reward will now have some randomness. The agent will go in the desired</span>
+<span class="sd">direction with probability 0.5. The agent will go in a random direction with probability</span>
+<span class="sd">0.5/3&quot;&quot;&quot;</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="sd">&quot;&quot;&quot;Change of step_cost. It was -0.1, now it is -1.0. Because the goal only gives +1 </span>
+<span class="sd">  reward, and the losing state gives -1 reward, the agent is going to want to end the </span>
+<span class="sd">  game as soon as possible, even if this means ending up in the losing state. For example,</span>
+<span class="sd">  if the agent is 3 steps away from the goal, they will get -3 reward before they can even</span>
+<span class="sd">  reach the goal. But, if they are only 1 step away from the losing state, then they only</span>
+<span class="sd">  get -1 reward. Remember, the goal of the agent is not to get to what we have defined as </span>
+<span class="sd">  the winning or losing states; all it does is try and maximize its reward. &quot;&quot;&quot;</span>
+  <span class="n">grid</span> <span class="o">=</span> <span class="n">negative_grid</span><span class="p">(</span><span class="n">step_cost</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">)</span>
+  
+  <span class="c1"># print rewards</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rewards:&quot;</span><span class="p">)</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">rewards</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+  
+  <span class="c1"># Create a deterministic random policy. We will randomly chose an action out of the set </span>
+  <span class="c1"># of possible actions for every state. </span>
+  <span class="n">policy</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">ALL_POSSIBLE_ACTIONS</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">grid</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+  
+  <span class="c1"># Initialize V(s) randomly -&gt; terminal state initialized to 0</span>
+  <span class="n">V</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">grid</span><span class="o">.</span><span class="n">actions</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">states</span><span class="p">}</span>
+  
+  <span class="c1"># Repeat until convergence - Will break when policy does not change</span>
+  <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    
+    <span class="c1"># ----- Policy Evaluation step -----</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+      <span class="n">biggest_change</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">states</span><span class="p">:</span>
+        <span class="n">old_v</span> <span class="o">=</span> <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+        
+        <span class="c1"># V(s) only has value if it&#39;s not a terminal state</span>
+        <span class="n">new_v</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">policy</span><span class="p">:</span>
+          <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ALL_POSSIBLE_ACTIONS</span><span class="p">:</span> 
+            <span class="c1"># Adding in state transition probability. Policy itself is deterministic.</span>
+            <span class="c1"># There are two probabilities we can play with, but we are only playing with the </span>
+            <span class="c1"># state transitions this time. </span>
+            <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="n">policy</span><span class="p">[</span><span class="n">s</span><span class="p">]:</span>             
+              <span class="n">p</span> <span class="o">=</span> <span class="mf">0.5</span>
+            <span class="k">else</span><span class="p">:</span>
+              <span class="n">p</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">/</span> <span class="mi">3</span>
+            <span class="n">grid</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+            <span class="n">new_v</span> <span class="o">+=</span> <span class="n">p</span><span class="o">*</span><span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="n">GAMMA</span> <span class="o">*</span> <span class="n">V</span><span class="p">[</span><span class="n">grid</span><span class="o">.</span><span class="n">current_state</span><span class="p">()])</span>
+          <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_v</span>
+          <span class="n">biggest_change</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">biggest_change</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">old_v</span> <span class="o">-</span> <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]))</span>
+          
+      <span class="k">if</span> <span class="n">biggest_change</span> <span class="o">&lt;</span> <span class="n">SMALL_ENOUGH</span><span class="p">:</span>
+        <span class="k">break</span>
+        
+    <span class="c1"># ----- Policy Improvement step -----</span>
+    <span class="n">is_policy_converged</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">states</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">policy</span><span class="p">:</span>
+        <span class="n">old_a</span> <span class="o">=</span> <span class="n">policy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+        <span class="n">new_a</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">best_value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;-inf&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># loop through all possible actions to find the best current action</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ALL_POSSIBLE_ACTIONS</span><span class="p">:</span> <span class="c1"># chosen action</span>
+          <span class="n">v</span> <span class="o">=</span> <span class="mi">0</span>
+          <span class="k">for</span> <span class="n">a2</span> <span class="ow">in</span> <span class="n">ALL_POSSIBLE_ACTIONS</span><span class="p">:</span> <span class="c1"># resulting action</span>
+            <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="n">a2</span><span class="p">:</span>
+              <span class="n">p</span> <span class="o">=</span> <span class="mf">0.5</span>
+            <span class="k">else</span><span class="p">:</span>
+              <span class="n">p</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">/</span><span class="mi">3</span>
+            <span class="n">grid</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">a2</span><span class="p">)</span>
+            <span class="n">v</span> <span class="o">+=</span> <span class="n">p</span><span class="o">*</span><span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="n">GAMMA</span> <span class="o">*</span> <span class="n">V</span><span class="p">[</span><span class="n">grid</span><span class="o">.</span><span class="n">current_state</span><span class="p">()])</span>
+          <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="n">best_value</span><span class="p">:</span>
+            <span class="n">best_value</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="n">new_a</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="n">policy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_a</span>
+        <span class="k">if</span> <span class="n">new_a</span> <span class="o">!=</span> <span class="n">old_a</span><span class="p">:</span>
+          <span class="n">is_policy_converged</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">is_policy_converged</span><span class="p">:</span>
+      <span class="k">break</span>
+      
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;values:&quot;</span><span class="p">)</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;policy:&quot;</span><span class="p">)</span>
+  <span class="n">print_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+  <span class="c1"># result: every move is as bad as losing, so lose as quickly as possible</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>rewards:
+---------------------------
+-1.00|-1.00|-1.00| 1.00|
+---------------------------
+-1.00| 0.00|-1.00|-1.00|
+---------------------------
+-1.00|-1.00|-1.00|-1.00|
+values:
+---------------------------
+-4.52|-2.95|-0.86| 0.00|
+---------------------------
+-5.57| 0.00|-1.94| 0.00|
+---------------------------
+-5.76|-4.88|-3.44|-2.17|
+policy:
+---------------------------
+  R  |  R  |  R  |     |
+---------------------------
+  U  |     |  R  |     |
+---------------------------
+  R  |  R  |  U  |  U  |
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="8.-Value-Iteration">8. Value Iteration<a class="anchor-link" href="#8.-Value-Iteration">&#182;</a></h1><p>We are now going to talk about an alternative technique to solve the <em><strong>control problem</strong></em>. This new technique is called <strong>value iteration</strong>. Recall that the previous technique that we just went over was called <em>policy iteration</em>. It is easy to get all of these confused, because all of these look and sound the same. So, coding these will definitely help getting used to the variety of solutions that we have for MDP's.</p>
+<p>One of the disadvantages of policy iteration is that it is an iterative algorithm, and hence we have to wait for it to converge. At the same time the main loop contains two steps, and the first step itself is also an iterative algorithm. This leaves us with one iterative algorithm inside of another. The question arises: is there a more efficient way to go about solving this problem?</p>
+<p>Recall that the policy evaluation algorithm ends when $V$ converges. It is reasonable to ask: Is there a point before $V$ converges, such that the resulting greedy policy wouldn't change? In fact, studies have shown that after only a few iterations of policy evaluation the resulting greedy policy is constant. What this tells us is that we don't actually need to wait for <em>policy evaluation</em> to converge when we are doing <em>policy iteration</em>. We can just do a few steps and then break, because the policy improvement step would find the same policy given additional iterations of policy evaluation.</p>
+<h2 id="8.1-Value-Iteration-Algorithm">8.1 Value Iteration Algorithm<a class="anchor-link" href="#8.1-Value-Iteration-Algorithm">&#182;</a></h2><p>However, the algorithm that we are studying in this lecture takes this one step further. It is called <strong>value iteration</strong>. What is does is combines the policy evaluation and policy improvement into one step:</p>
+<p>$$V_{k+1}(s) = max_a \sum_{s'}\sum_r p(s',r \mid s,a) \big\{ r + \gamma V_k(s') \big\}$$</p>
+<p>What is interesting about this is that it looks almost exactly like the equations that we have already seen. In fact, if you weren't paying attention it would look identical. So this equation is very similar to the policy evaluation equation, except we are taking the max over all possible actions.</p>
+<p>It is also iterative, as we can see via the k index. Similar to policy evaluation, we don't actually need to wait for the entire kth iteration of $V$ to finish before calculating the (k+1)th iteration of $V$. Notice how this does both policy evaluation and policy improvement in one step. This is because <em>policy improvement</em> occurs by taking the <em>argmax</em> of the expression on the right. So, by just taking the <em>max</em>, we are doing the policy evaluation step on the policy we would have chosen had we taken the argmax.</p>
+<h2 id="8.2-Value-Iteration-Pseudocode">8.2 Value Iteration Pseudocode<a class="anchor-link" href="#8.2-Value-Iteration-Pseudocode">&#182;</a></h2><p>We can now write this out in pseudocode:</p>
+<hr>
+<p>$
+\text{initialize V(s) = 0 for all s}\in\text{S} \\
+\text{while True:} \\
+\hspace{2cm} \Delta = 0 \\
+\hspace{2cm} \text{for each s} \in \text{S:} \\
+\hspace{3cm} \text{old_v = V(s)} \\
+\hspace{3cm} V(s) = max_a \sum_{s'}\sum_r p(s',r \mid s,a) \big\{ r + \gamma V(s') \big\}\\
+\hspace{3cm} \Delta = \text{max(} \Delta \text{, |V(s) - old_v|)} \\
+\hspace{2cm} \text{if} \Delta \text{&lt; threshold: break} \\
+\text{for each s} \in \text{S:} \\
+\hspace{2cm} \pi(s) = argmax_A \sum_{s'}\sum_r p(s',r \mid s,a) \big\{ r + \gamma V(s') \big\}
+$</p>
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="9.-Value-Iteration-in-Code">9. Value Iteration in Code<a class="anchor-link" href="#9.-Value-Iteration-in-Code">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">SMALL_ENOUGH</span> <span class="o">=</span> <span class="mf">1e-3</span>
+<span class="n">GAMMA</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">ALL_POSSIBLE_ACTIONS</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">)</span>
+
+<span class="c1"># Note: This is deterministic -&gt; All p(s&#39;,r|s,a) = 1 or 0. In other words, when you try </span>
+<span class="c1"># to go up, you go up. The transition probability is always 0 or 1.</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="c1"># Negative grid gives reward of -0.1 for every non-terminal state</span>
+  <span class="c1"># We will use this to see if it encourages finding a shorter path to the goal</span>
+  <span class="n">grid</span> <span class="o">=</span> <span class="n">negative_grid</span><span class="p">()</span>
+  
+  <span class="c1"># Print Rewards</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Rewards: &quot;</span><span class="p">)</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">rewards</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+  
+  <span class="c1"># Create a deterministic random policy. We will randomly chose an action out of the set </span>
+  <span class="c1"># of possible actions for every state. </span>
+  <span class="n">policy</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">ALL_POSSIBLE_ACTIONS</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">grid</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+  
+  <span class="c1"># Initial policy</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Initial policy:&quot;</span><span class="p">)</span>
+  <span class="n">print_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+  
+  <span class="c1"># Initialize V(s) randomly -&gt; terminal state initialized to 0</span>
+  <span class="n">V</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">grid</span><span class="o">.</span><span class="n">actions</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">states</span><span class="p">}</span>
+  
+  <span class="c1"># Repeat until convergence. </span>
+  <span class="c1"># ---- Value iteration Loop. ----</span>
+  <span class="c1"># Looks very similar to policy evaluation, except now we are looping through all </span>
+  <span class="c1"># actions, and taking the maximum value. We break when the biggest change is below the</span>
+  <span class="c1"># SMALL_ENOUGH threshold</span>
+  <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">biggest_change</span> <span class="o">=</span> <span class="mi">0</span> 
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">states</span><span class="p">:</span>
+      <span class="n">old_v</span> <span class="o">=</span> <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+      
+      <span class="c1"># V(s) only has value if it&#39;s not a terminal state</span>
+      <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">policy</span><span class="p">:</span>
+        <span class="n">new_v</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;-inf&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ALL_POSSIBLE_ACTIONS</span><span class="p">:</span>
+          <span class="n">grid</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+          <span class="n">r</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+          <span class="n">v</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="n">GAMMA</span> <span class="o">*</span> <span class="n">V</span><span class="p">[</span><span class="n">grid</span><span class="o">.</span><span class="n">current_state</span><span class="p">()]</span>
+          <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="n">new_v</span><span class="p">:</span>
+            <span class="n">new_v</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_v</span>
+        <span class="n">biggest_change</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">biggest_change</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">old_v</span> <span class="o">-</span> <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]))</span>
+    
+    <span class="k">if</span> <span class="n">biggest_change</span> <span class="o">&lt;</span> <span class="n">SMALL_ENOUGH</span><span class="p">:</span>
+      <span class="k">break</span> 
+      
+    <span class="c1"># Take our optimal value function, find optimal policy. Recall this is just argmax. </span>
+    <span class="c1"># We loop through all of the actions, and we find the action that gives us the best </span>
+    <span class="c1"># future reward.</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">policy</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+      <span class="n">best_a</span> <span class="o">=</span> <span class="kc">None</span>
+      <span class="n">best_value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;-inf&#39;</span><span class="p">)</span>
+      <span class="c1"># Loop through all possible actions to find the best current action</span>
+      <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ALL_POSSIBLE_ACTIONS</span><span class="p">:</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="n">GAMMA</span> <span class="o">*</span> <span class="n">V</span><span class="p">[</span><span class="n">grid</span><span class="o">.</span><span class="n">current_state</span><span class="p">()]</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="n">best_value</span><span class="p">:</span>
+          <span class="n">best_value</span> <span class="o">=</span> <span class="n">v</span>
+          <span class="n">best_a</span> <span class="o">=</span> <span class="n">a</span>
+      <span class="n">policy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">best_a</span>
+      
+  <span class="c1"># our goal here is to verify that we get the same answer as with policy iteration</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;values:&quot;</span><span class="p">)</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;policy:&quot;</span><span class="p">)</span>
+  <span class="n">print_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Rewards: 
+---------------------------
+-0.10|-0.10|-0.10| 1.00|
+---------------------------
+-0.10| 0.00|-0.10|-1.00|
+---------------------------
+-0.10|-0.10|-0.10|-0.10|
+Initial policy:
+---------------------------
+  U  |  R  |  R  |     |
+---------------------------
+  D  |     |  D  |     |
+---------------------------
+  L  |  L  |  D  |  L  |
+values:
+---------------------------
+ 0.62| 0.80| 1.00| 0.00|
+---------------------------
+ 0.46| 0.00| 0.80| 0.00|
+---------------------------
+ 0.31| 0.46| 0.62| 0.46|
+policy:
+---------------------------
+  R  |  R  |  R  |     |
+---------------------------
+  U  |     |  U  |     |
+---------------------------
+  U  |  R  |  U  |  L  |
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="10.-Dynamic-Programming-Summary">10. Dynamic Programming Summary<a class="anchor-link" href="#10.-Dynamic-Programming-Summary">&#182;</a></h1><p>In the last section, we defined the <strong>Markov Decision Process</strong>. In this section we looked at one method for finding solutions to the MDP: <strong>Dynamic Programming</strong>. In particular we looked at:</p>
+<blockquote><ul>
+<li><strong>Prediciton Problem:</strong> Find the <em>value function</em> given a <em>policy</em>. The algorithm we looked at to solve this was <strong>iterative policy evaluation</strong>.</li>
+<li><strong>Control Problem:</strong> Find the optimal policy and optimal value function. We looked at two algorithms that could do this. The first was called <strong>policy iteration</strong>, and it involved an iterative algorithm inside of another iterative algorithm, which could be inefficient. We then looked at <strong>value iteration</strong>, which truncates the policy evaluation step, and combines both <em>policy evaluation</em> and <em>policy iteration</em> into one step. </li>
+</ul>
+</blockquote>
+<h2 id="10.1-Asynchronous-Dynamic-Programming">10.1 Asynchronous Dynamic Programming<a class="anchor-link" href="#10.1-Asynchronous-Dynamic-Programming">&#182;</a></h2><p>Notice how all of the algorithms we have looked at so far have involved looping through the entire set of states. As we have discussed before, the state space in many realistic games can be incredibly large. Thus, even one iteration of value iteration can take a very long time. Also, recall that one way to speed up value iteration is to do the update "in place", meaning that we don't exclusively use the values from the previous iteration to update the values in the current iteration.</p>
+<p>We can take that a step further with what is called <em><strong>asynchronous dynamic programming</strong></em>. The modification is simple: instead of looping through the entire state set, we loop through just a few or even just one of the states per iteration. We can chose these states randomly, or based on which states are more likely to be visited. You can learn this information by having the agent play a few rounds of the game.</p>
+<h2 id="10.2-Generalized-Policy-Iteration">10.2 Generalized Policy Iteration<a class="anchor-link" href="#10.2-Generalized-Policy-Iteration">&#182;</a></h2><p>Although we introduced policy iteration as a dynamic programming algorithm in this section, we will see that the main idea behind policy iteration will appear again and again through the course.</p>
+<p>This main concept is:</p>
+<blockquote><p>We iteratively perform 2 steps: policy evaluation and policy improvement, and we alternate between the two until we reach convergence. The only way that we can reach convergence is when Bellman's equation has come true. In other words, the value has converged for the given policy, and the value has stabilized with respect to greedy selection on the value function.</p>
+</blockquote>
+<p>A way to visualize this can be seen below:</p>
+<p><img src="images/dp-summary.png"></p>
+<p>Initially the policy and value function can be highly suboptimal. But, by requiring the policy to be greedy with respect to the value function, and the value function to be consistent with the policy, we can converge to the optimal policy and optimal value function.</p>
+<h2 id="10.3-Efficiency-of-Dynamic-Programming">10.3 Efficiency of Dynamic Programming<a class="anchor-link" href="#10.3-Efficiency-of-Dynamic-Programming">&#182;</a></h2><p>Let's consider how much better dynamic programming is than brute force search. Well, let's call the number of states $N$ and the number of possible actions $M$. If we assume that the agent can go from the start state to the goal state in $O(N)$ time, then we want a sequence of actions of length $O(N)$. The number of possible actions is then:</p>
+<p>$$M*M*M*M...*M \rightarrow O(M^N)$$</p>
+<p>Hence the number of possible permutations is $O(M^N)$. How you would solve this practically, is you would a list of all the possible permutations of state sequences and then do policy evaluation on all of them. You would then keep the policy that gives you the maximum value function. This is exponential in the number of states, so we can see how DP is a much more efficient solution.</p>
+<h2 id="10.4-Model-based-vs.-Model-free">10.4 Model-based vs. Model-free<a class="anchor-link" href="#10.4-Model-based-vs.-Model-free">&#182;</a></h2><p>Lastly, the DP solutions require a full of the environment. In particular, the state transition probabilities $p(s',r \mid s,a)$. In the real world, these may be hard to measure, especially if $|S|$ is large. In the remaining sections we are going to look at methods with <em>don't</em> require such a model of the environment. These are called <em><strong>model-free methods</strong></em>.</p>
+<p>You also may have noticed, that these iterative methods require an initial estimate. In policy iteration and value iteration, we are essentially making estimates from other estimates; going back and forth between the value function and the policy. Making that initial estimate is called <em><strong>bootstrapping</strong></em>. You will see that the next method we look at, <strong>Monte Carlo</strong> does not require bootstrapping, while the method after that, <strong>Temporal Difference Learning</strong>, does require bootstrapping.</p>
+
+</div>
+</div>
+</div>
+<hr>
+&copy; 2018 Nathaniel Dake
+
+</div>
+</div>
+</body>
+</html>
