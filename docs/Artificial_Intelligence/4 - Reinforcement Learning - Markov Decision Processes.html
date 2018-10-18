@@ -1,0 +1,840 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/readable.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Intuitive ML</title>
+
+<style type = "text/css">
+body {
+  font-family: "sans-serif";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Intuitive ML</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../index.html">Home</a>
+</li>
+        
+<li>
+  <a href="../Artificial_Intelligence.html">Artificial Intelligence</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="https://github.com/NathanielDake/nathanieldake.github.io"> source </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="1.-Markov-Decision-Processes">1. Markov Decision Processes<a class="anchor-link" href="#1.-Markov-Decision-Processes">&#182;</a></h1><p>We are now going to formalize some of the concepts that we have learned about in reinforcement learning. We have learning about the terms:</p>
+<blockquote><ul>
+<li><strong>Agent</strong></li>
+<li><strong>Environment</strong></li>
+<li><strong>Action</strong></li>
+<li><strong>State</strong></li>
+<li><strong>Reward</strong></li>
+<li><strong>Episode</strong></li>
+</ul>
+</blockquote>
+<p>This section is about putting these concepts into a formal framework called <strong>Markov Decision Processes</strong>.</p>
+<h2 id="1.1-Gridworld">1.1 Gridworld<a class="anchor-link" href="#1.1-Gridworld">&#182;</a></h2><p>In this section we are going to describe the game that we are going to use for the rest of this course. It is in some ways simpler than tic-tac-toe, but it has some properties that allow us to explore some of the more interesting properties of RL.</p>
+<p><img src="images/gridworld.png"></p>
+<p>In this game our agent is a robot, and the environment is a grid. The agent is allowed to move in 4 directions: up, down, left, and right. Grid world is generally built in the following way:</p>
+<blockquote><ul>
+<li>at position (1, 1) there is a wall, so if the robot tries to go there it will bump into the wall. </li>
+<li>(0,3) is a winning state (terminal state with a +1 reward)</li>
+<li>(1, 3) is a losing state (terminal state with a -1 reward)</li>
+</ul>
+</blockquote>
+<p>One thing we will notice about gridworld is that it has a much smaller number of states than tic-tac-toe; there are only 12 positions, 11 states (where the robot is), and 4 actions-that is a small game! However, there are many concepts to be learned!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="2.-The-Markov-Property">2. The Markov Property<a class="anchor-link" href="#2.-The-Markov-Property">&#182;</a></h1><p>Let us first review the <strong>Markov Property</strong> in the strict mathematical sense. Suppose we have a sequence:</p>
+<p>$$\{x_1, x_2,...,x_t\}$$</p>
+<p>We can define a conditional probability on $x_t$, given all the previous $x$'s:</p>
+<p>$$p\{x_t \mid x_{t-1}, x_{t-2}, ..., x_1\}$$</p>
+<p>Generally speaking, this can't be simplified. However, if we assume that the markov property is true, than it can be simplified. The markov property specifies how many previous $x$'s the current $x$ depends on. So, <strong>First-Order Markov</strong> means that $x_t$ depends only on $x_{t-1}$:</p>
+<p>$$p\{x_t \mid x_{t-1}, x_{t-2}, ..., x_1\} = p \{x_t \mid x_{t-1} \}$$</p>
+<p>A <strong>Second Order Markov</strong> means that $x_t$ only depends on $x_{t-1}$ and $x_{t-2}$:</p>
+<p>$$p\{x_t \mid x_{t-1}, x_{t-2}, ..., x_1\} = p \{x_t \mid x_{t-1}, x_{t-2} \}$$</p>
+<p>For now we will be working with the first order markove only, and we typically refer to this as <em>the markov property</em>.</p>
+<h2 id="2.1-Simple-Example">2.1 Simple Example<a class="anchor-link" href="#2.1-Simple-Example">&#182;</a></h2><p>Consider the sentence: <strong>"Let's do a simple example"</strong>. Let's say that you are given:</p>
+<blockquote><p>"Let's do a simple"</p>
+</blockquote>
+<p>In this case it is relatively easy to guess that the next word is "example". Now, all we are given is:</p>
+<blockquote><p>"simple"</p>
+</blockquote>
+<p>It is not longer easy to predict the next word. This can be even hard! For instance, what if we were just given:</p>
+<blockquote><p>"a"</p>
+</blockquote>
+<p>Now it is <em>very</em> difficult to predic the next word, "simple". Well, that is what the markov assumption is; we can clearly see that it can be quite limiting. However, we can also define the problem so that it is not.</p>
+<h2 id="2.2-Markov-Property-in-RL">2.2 Markov Property in RL<a class="anchor-link" href="#2.2-Markov-Property-in-RL">&#182;</a></h2><p>So, what exactly does the markov property look like in RL? Recall, that taking an action $A(t)$ while in state $S(t)$ produces two things: the next state $S(t+1)$ and a reward $R(t+1)$:</p>
+<p>$$\{S(t), A(t) \} \rightarrow \{ S(t+1), R(t+1)\}$$</p>
+<p>What the markov property in this case says, is that $S(t+1)$ and $R(t+1)$ depend only on $A(t)$ and $S(t)$, but not any $A$ or $S$ before that:</p>
+<p>$$p\big(S_{t+1}, R_{t+1} \mid S_t, A_t, S_{t-1}, A_{t-1},...,S_0, A_0\big) = p \big( S_{t+1}, R_{t+1} \mid S_t, A_t\big) $$</p>
+<p>For convenience, we can also use the shorthand symbols we have mentioned earlier: $s, a,  r, s'$:</p>
+<p>$$p(s', r \mid s, a) = p(S_{t+1} = s', R_{t+1} = r \mid S_t = s, A_t = a)$$</p>
+<p>So, how is the different from the normal way that we usually write the markov property? Well, notice that this is a <em>joint distribution</em> on $s'$ and $r$. So, it is telling us the joint distribution of two variables, conditioned on two other variables. This is different from the usual markov form, where we have one variable on the left, and one variable on the right.</p>
+<h2 id="2.3-Other-Conditional-Distributions">2.3 Other Conditional Distributions<a class="anchor-link" href="#2.3-Other-Conditional-Distributions">&#182;</a></h2><p>Given the above joint conditional distribution, it is of course just a matter of using the rules of probability to find the marginal and conditional distributions. For example, if we just want to know $s'$ given $s$ and $a$ we can use:</p>
+<p>$$p(s' \mid s, a) = \sum_{r \in R}p(s', r \mid s, a )$$</p>
+<p>And if we just wanted to know $r$ given $s$ and $a$:</p>
+<p>$$p(r \mid s,a) = \sum_{s' \in S} p(s', r \mid s, a)$$</p>
+<p>Also, note that for essentially all cases that we will consider, these probabilities will be deterministic. That means that the reward you get for going to the state will always be the same reward, and taking an action in a state will always take you to the same next state.</p>
+<h2 id="2.4-Is-the-Markov-Assumption-Limiting?">2.4 Is the Markov Assumption Limiting?<a class="anchor-link" href="#2.4-Is-the-Markov-Assumption-Limiting?">&#182;</a></h2><p>Let's look at a recent application of RL to demonstrate that the markov assumption is not necessarily limiting. DeepMind used the concatenation of the 4 most recent frames in order to represent the current state when playing Atari games.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="3.-Markov-Decision-Processes-(MDPs)">3. Markov Decision Processes (MDPs)<a class="anchor-link" href="#3.-Markov-Decision-Processes-(MDPs)">&#182;</a></h1><p>We have essentially been looking at MDPs this entire time, but just not referring to them by name. Any RL task with a set of states, actions, and rewards, that follows the markov property is a markov decision process.</p>
+<p>Formally speaking, the MDP is a 5 tuple, made up of:</p>
+<blockquote><ul>
+<li><strong>Set of states</strong></li>
+<li><strong>Set of actions</strong></li>
+<li><strong>Set of rewards</strong></li>
+<li><strong>State-transition probabilities, reward probabilities (as defined jointly earlier</strong></li>
+<li><strong>Discount factor</strong></li>
+</ul>
+</blockquote>
+<h2 id="3.1-Policy">3.1 Policy<a class="anchor-link" href="#3.1-Policy">&#182;</a></h2><p>There is one final piece needed to complete our puzzle. The other key term in markov decission process is <strong>decision</strong>. The way that we make decisions, and chose what actions to take in what states, is called a policy. We generally denote the policy with the symbole $\pi$. Technically, $\pi$ is not part of the MDP itself, but it is part of the solution, along with the value function.</p>
+<p>The reason we are just talking about the policy now is because it is somewhat of a weird symbol. We write down $\pi$ as a mathematical symbol, but there is no equation for $\pi$. For example, if $\pi$ is epsilon-greedy, how do we write that as an equation? It is more like an algorithm. The only exception to this is when you want to write down the <strong>optimal policy</strong>, which can be defined mathematically, in terms of the <em>value function</em>; we will discuss this later. So, for now we can just think of $\pi$ as the shorthand notation for the algorithm that the agent is using to navigate the environment.</p>
+<h2 id="3.2-State-transition-Probability">3.2 State-transition Probability<a class="anchor-link" href="#3.2-State-transition-Probability">&#182;</a></h2><p>Let's look at the state transition probability again:</p>
+<p>$$p(s' \mid s, a)$$</p>
+<p>Recall that we said that this is typically deterministic, but that is not always the case. Why might that be so? Recall, that the state is only what is derived from what the agent senses from the environment; it is not the environment itself. The state can be an imperfect representation of the environment, in which case you would expect the state transition to be probabilistic. For example, the state you measure could represent multiple configurations of the environment. As an example of an imperfect representation of the environment, think about blackjack; you may think of the dealers next card as part of the state. But, as the agent, you can't see the next card so it is not part of your state. It <em>is</em> part of the environment.</p>
+<h2 id="3.3-Actions">3.3 Actions<a class="anchor-link" href="#3.3-Actions">&#182;</a></h2><p>When we think of actions, we typically think of joystick inputs (up/down/left/right/jump) or blackjack moves (hit/stand). However, actions can be very broad as well, such as how to distribute government funding. So, RL can be applied to making political decisions as well.</p>
+<h2 id="3.4-Agent-vs-Environment">3.4 Agent vs Environment<a class="anchor-link" href="#3.4-Agent-vs-Environment">&#182;</a></h2><p>Sometimes there is a bit of confusion surrounding what constitutes the agent vs. the environment. You are navigating your environment, but what constitutes you? Are you your body? Your body is, more correctly, part of the environment! Your body isn't making decisions or learning; your body has sensors which pass on signals to your brain, but it is your brain and mind that make all decisions and do all learning!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="4.-Future-Rewards">4. Future Rewards<a class="anchor-link" href="#4.-Future-Rewards">&#182;</a></h1><h2 id="4.1-Total-Reward">4.1 Total Reward<a class="anchor-link" href="#4.1-Total-Reward">&#182;</a></h2><p>We are now going to formalize the idea of <strong>total future reward</strong>. This refers to everything from $t+1$ and onward. We call this the <strong>return</strong>, $G(t)$:</p>
+<p>$$G(t) = \sum_{\tau = 1}^\infty R(t + \tau)$$</p>
+<p>Notice how it does not depend on the current reward, $R(t)$. This is because when we arrive a state, we receive the reward for that state-there is nothing to predict about it, because it has already happened.</p>
+<p>Now, think of a very long task, potentially containing thousands of steps. Your goal is to maximize your total reward. However, is there a difference between getting a reward now, and getting that same reward 10 years from now? Think about finance; we know that \$1000 today is worth less than $1000 10 years ago. Would you rather get \$1000 now, or 10 year from now? Choose today!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="4.2-Discount-Factor">4.2 Discount Factor<a class="anchor-link" href="#4.2-Discount-Factor">&#182;</a></h2><p>This causes us to introduce a discount factor on future rewards. We call the discount factor $\gamma$, and we use a number between 0 and 1 to represent it:</p>
+<p>$$G(t) = \sum_{\tau = 0}^ \infty \gamma ^{\tau} R(t + \tau + 1)$$</p>
+<p>A $\gamma = 1$ means that we don't care how far in the future a reward is, all rewards should be weighted equally. A $\gamma = 0$ means that we don't care about the future rewards at all, and is a truly greedy algorithm since the agent would only try to maximize its immediate reward. Usually we choose something close to 1, such as 0.9. If we have a very short episodic task, it may not be worth discounting at all. An intuitive reason for discounting future rewards is that the further you look into the future, the harder it is to predict. Hence, there is not a lot of sense getting something 10 years from now, unless you are sure you can make it happen, and that your circumstances won't change.</p>
+<h2 id="4.3-Merging-Continuous-and-Episodic-Tasks">4.3 Merging Continuous and Episodic Tasks<a class="anchor-link" href="#4.3-Merging-Continuous-and-Episodic-Tasks">&#182;</a></h2><p>You may notice that the sum for the return goes from 0 to $\infty$; this implies that we are looking at a continuous task, when in reality the tasks we have looked at so far (tic-tac-toe) are episodic. This is a mathematical subtlety, but we actually want to write all of our equations in continuous form; simply put, it makes the math a little easier to work with.</p>
+<p>There is a way to merge episodic and continuous tasks so that they are equivalent. The way you do it is this: The episodic task has a terminal state. Pretend that there is a state transition from the terminal state to itself, that always happens with probability of 1, and always yields a reward of 0. In this way, the episodic task remains the same, but since it goes on forward, it is technically a continuous task.</p>
+<p><img src="images\continuous-episodic.png"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="5.-Value-Function-Introduction-&amp;-The-Bellman-Equation">5. Value Function Introduction &amp; The Bellman Equation<a class="anchor-link" href="#5.-Value-Function-Introduction-&amp;-The-Bellman-Equation">&#182;</a></h1><p>We are now going to go over a very intuitive, graphical explanation of the bellman equation.</p>
+<h3 id="5.0-Expected-Values">5.0 Expected Values<a class="anchor-link" href="#5.0-Expected-Values">&#182;</a></h3><p>The most important concept in understanding the bellman equation, is the <strong>expected value</strong>. This concept is strange to many people as first; here is why: suppose we have a coin that has heads and tails, where heads is a win, and tails is a loss. Numerically, we encode these as heads = 1 and tails = 0. Now suppose the probability of winning is 60%, i.e. P(win) = 60%. Our expected value is then:</p>
+<p>$$0.6 * 1 + 0.4 * 0 = 0.6$$</p>
+<p>Why is this weird? Because, in this case, the expected value is a value that you can never expect to get! You will never flip a 0.6!</p>
+<h3 id="5.01-So-what-is-the-point?">5.01 So what is the point?<a class="anchor-link" href="#5.01-So-what-is-the-point?">&#182;</a></h3><p>The point of an expected value is that it tells us its mean, or the average. We may be gathering the heights of students in a classroom and find the average height; perhaps no student has that height, it is still a useful statistic. Similarly, it doesn't matter if the coin flip will never yield 0.6. If we flip the coin 1000 times, we know to expect 600 wins!</p>
+<h3 id="5.02-Expected-Value---Mathematical-Definition">5.02 Expected Value - Mathematical Definition<a class="anchor-link" href="#5.02-Expected-Value---Mathematical-Definition">&#182;</a></h3><p>We can define expected value to be:</p>
+<p>$$E(X) = \sum_x p(x)x$$</p>
+<h3 id="5.03-Why-are-averages-so-important">5.03 Why are averages so important<a class="anchor-link" href="#5.03-Why-are-averages-so-important">&#182;</a></h3><p>Suppose we are playing the game of tic tac toe. Realistically, we can't perfectly predict what our opponent is going to do next. They can do any number of things, and sometimes we may end up winnings, other times losing. Each time, this will leave us with a different total reward. Again, we can use a tree to represent this idea:</p>
+<p><img src="images/tic-tac-toe-tree.png" width="350"></p>
+<p>You may also recall that trees are recursive. So, if we take the tree above, and look at one of the children nodes by the root, that is also called at tree! In other words, the child of any node in the tree, is the root of another tree! This idea of recursiveness will become very important later on.</p>
+<p>Now, every time we play this game we are going to take a different path down the tree. Each path has a different probability, but we can still have this concept of:</p>
+<blockquote><p><em>What is the weighted sum of total rewards I get with this tree, with these states and these probabilities.</em></p>
+</blockquote>
+<p>And so, the value of this state is precisely the <strong>average reward</strong> I will accumulate in the future, by being in this state now. Note this is not the <em>exact reward</em>, because that can be different every time. We are saying that it is the <em>average</em>, or what we would get on average if we chose that tree many times.</p>
+<h1 id="5.1-The-Value-Function">5.1 The Value Function<a class="anchor-link" href="#5.1-The-Value-Function">&#182;</a></h1><p>So, lets quickly recap what we know so far:</p>
+<blockquote><ul>
+<li>At each state $s$, we are going to get a reward $R$.</li>
+<li>The overall return, $G$, is the sum of all the rewards we get. </li>
+</ul>
+</blockquote>
+<p>However, games are random, so we need to be able to answer: "If we are in state $s$, what is the sum of rewards we will get in the future, on average?" To answer this we can say:</p>
+<p>$$V(s) = E( G \mid s)$$</p>
+<p>In english this just means "The value at state $s$ is equal to the expected value of the overall return, $G$, given that we are in state $s$." As a note, anything to the left of the $\mid$ (given) symbol is random, while that to the right is not random. This is called a <strong>conditional expectation</strong>.</p>
+<h2 id="5.2-Fundamental-Concept">5.2 Fundamental Concept<a class="anchor-link" href="#5.2-Fundamental-Concept">&#182;</a></h2><p>The next concept we discuss is one of the most fundamental concepts in RL. The idea is as follows:</p>
+<p>We know that every game is going to consist of a series of states and rewards:</p>
+<p><img src="images/rewards-states.png"></p>
+<p>Let's pretend for a moment that everything is deterministic, hence the reward we would get is the only reward we could possibly get at any state. This lets us drop the expected value symbol for now. You may recall, the expected value of a value that is not random, is just the value itself. I.e., the expected value of 3 is 3: $E(3) = 3$.</p>
+<p>So, because the value of a state is just the sum of all future rewards (if they are deterministic), we can say that:</p>
+<p>$$V(s_1) = r_2 + r_3 + r_4 + ... + r_N$$
+$$V(s_2) = r_3 + r_4 + ... + r_N$$</p>
+<p>But, we can now see a special relationship between the values of successive states! In particular, we can plug in the expression for $V(s_2)$ into the expression for $V(s_1)$:</p>
+<p>$$V(s_1) = r_2 + V(s_2)$$</p>
+<p>In other words, this is a <strong>recursive</strong> equation!</p>
+<h3 id="5.2.1-Discounted-Version">5.2.1 Discounted Version<a class="anchor-link" href="#5.2.1-Discounted-Version">&#182;</a></h3><p>Of course, if you wanted to discount future rewards, that can be done too without any significant changes. We can say that:</p>
+<p>$$V(s_1) = r_2 + \gamma r_3 + \gamma^2 r_4 + ...$$
+$$V(s_2) = r_3 + \gamma r_4 + ... $$
+$$V(s_1) = r_2 + \gamma V(s_2)$$</p>
+<p>This recursiveness is going to be a <em>very</em> important theme in this course. We know that this value function is going to be an expected value. And we know from our tic tac toe example that our job is to estimate this value. But we can see how it has this recursive structure. The value at this state is an estimate, and it depends on the value at another state-which is also an estimate. So, it is an estimate which itself depends on an estimate. This set of notebooks, in general, is all about how we optimize this array of estimates-which depend on eachother-all at the same time.</p>
+<h2 id="5.3-General-Terms">5.3 General Terms<a class="anchor-link" href="#5.3-General-Terms">&#182;</a></h2><p>So, what can we do now that we have this relationship between the value at state $s$, and the value at state $s'$ (Notice that $s_1$ and $s_2$ have been replaced with $s$ and $s'$ just be more general). So:</p>
+<blockquote><p><strong>$s$ = current state</strong><br>
+<strong>$s'$ = next state</strong></p>
+</blockquote>
+<p>We can call the reward $r$, but it can also be denoted as $R(s, s')$ since it is technically the reward we get going from $s$ to $s'$.</p>
+<blockquote><p><strong>$r$ = $R(s, s')$ = reward</strong></p>
+</blockquote>
+<p>In any case, remember that we said that the rewards and state transitions can all be probabilistic. So, in order to denote that, we just put the expected value symbol back in our equation:</p>
+<p>$$V(s) = E \Big[ r + \gamma V(s')\Big]$$</p>
+<p>This is the essence of the Bellman Equation!</p>
+<h3 id="5.3.1-Expansion">5.3.1 Expansion<a class="anchor-link" href="#5.3.1-Expansion">&#182;</a></h3><p>Since we can express $V(s)$ as an expected value, we can even expand it out:</p>
+<p>$$V(s) = E \Big[ r + \gamma E[r' + \gamma V(s'')]\Big]$$
+$$V(s) = E \Big[ r + \gamma E\big[r' + \gamma E[r''+...]\big]\Big]$$</p>
+<p>What we have done above is just expand the recursion. This is mainly done for visual purposes, and we won't actually do this in any of our algorithms.</p>
+<h3 id="5.3.2-Adding-Details-back-in">5.3.2 Adding Details back in<a class="anchor-link" href="#5.3.2-Adding-Details-back-in">&#182;</a></h3><p>For simplicity sake, the conditional was dropped (among other things). We can put that back in easily:</p>
+<p>$$V(s) = E \Big[ r + \gamma V(s') \mid s\Big]$$</p>
+<h3 id="5.3.3-Extension">5.3.3 Extension<a class="anchor-link" href="#5.3.3-Extension">&#182;</a></h3><p>One useful function of the value function, $V$, which depends on $s$, is another value function $Q$. $Q$ not only depends on $s$, but also the action $a$. We call $V(s)$ the state-value function, and $Q(s,a)$ the action-value function:</p>
+<blockquote><p><strong>V(s) = state-value function</strong><br>
+What is my expected future return, now that I am in state $s$?<br>
+<br>
+<strong>Q(s,a) = action-value function</strong><br>
+What is my expected future return, given that I am now in state $s$ and I take action $a$?</p>
+</blockquote>
+<p>Hence, $Q$ provides a way of incorporating more data into the prediction, and provide more granularity. What this means is that since $V$ doesn't depend on $a$, it must somehow take it into account, we just don't know how yet. We will discuss this more in a later section!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="6.-Value-Function-Derivation">6. Value Function Derivation<a class="anchor-link" href="#6.-Value-Function-Derivation">&#182;</a></h1><p>Earlier, we saw value functions when we discussed tic-tac-toe, but that was rather informal. Everything from here on out is pertaining to the official value function.</p>
+<h2 id="6.1-Base-Definition">6.1 Base Definition<a class="anchor-link" href="#6.1-Base-Definition">&#182;</a></h2><p>A value function is determined by a <strong><em>policy</em></strong> and has a <strong><em>state</em></strong> as a parameter. It is equal to the <em>expected value of the return, given you are in state s</em>:</p>
+<p>$$V_\pi(s) = E_\pi \big[G(t) \mid S_t = s  \big] = E_\pi \big[\sum_{\tau = 0}^\infty \gamma ^ \tau R(t + \tau + 1) \mid S_t = s  \big] $$</p>
+<p>Where recall that we defined the return (total return), as $G(t)$:</p>
+<p>$$G(t) = \sum_{\tau = 0}^ \infty \gamma ^{\tau} R(t + \tau + 1)$$</p>
+<p>Two things to note here:</p>
+<ol>
+<li>Because of how it is defined, the value function is dependent on the policy. This is because any future state transitions are dependent upon what your policy is. For instance, if the policy was epsilon greedy, that will directly influence the action that we take (it can be random or greedy).</li>
+<li>The value function depends <em>only</em> on future rewards. That means that the value of any terminal state is 0, because by definition once you reach a terminal state you won't be doing any more state transitions, and hence you won't be receiving any future rewards. </li>
+</ol>
+<h2 id="6.2-Recursiveness">6.2 Recursiveness<a class="anchor-link" href="#6.2-Recursiveness">&#182;</a></h2><p>We can now do some basic algebra, noticing that the return is recursive; we can separate $R(t+1)$, $R(t+2)$, and so on.</p>
+<p>$$V_\pi(s) = E_\pi \big[R(t + 1) + \gamma \sum_{\tau = 0}^\infty \gamma ^ \tau R(t + \tau + 2) \mid S_t = s  \big] $$</p>
+<p>$$V_\pi(s) = E_\pi \big[R(t + 1) + \gamma G(t+1) \mid S_t = s  \big] $$</p>
+<h3 id="6.2.1-Expected-Value-Addendum">6.2.1 Expected Value Addendum<a class="anchor-link" href="#6.2.1-Expected-Value-Addendum">&#182;</a></h3><p>Before we jump to the next portion of this derivation, there is something worth clearing up regarding expected value. Generally, if we want to find the expected value of a random variable $X$, we need two things:</p>
+<blockquote><ul>
+<li>The different values that X can take on</li>
+<li>The probability associated with X taking on each of those values </li>
+</ul>
+</blockquote>
+<p>This is seen clearly by the definition of expected value:</p>
+<p>$$E(X) = \sum_X p(X)X$$</p>
+<p>We sum over <em>all</em> different values that $X$ can exhibit, and the associated probability of each value.</p>
+<p>As a quick example, imagine playing the lottery. You can win the following prizes (prizes in this case represent our random variable):</p>
+<blockquote><p><strong>Prize Values</strong>: 1, 5, 10, 20, 50, 100, 1000, 10000, and 100000 dollars.</p>
+</blockquote>
+<p>So, we have the values that our random variable can hold. Now, we can define the associated probabilities:</p>
+<blockquote><p><strong>Prize Probabilities</strong>: P(1) = 0.1, P(5) = 0.05, P(10) = 0.01, P(20) = 0.005, P(50) = 0.0001, P(100) = 0.00005, P(1000) = 0.00001, P(10000) = 0.000001, and P(100000) = 0.0000001</p>
+</blockquote>
+<p>Great, we now have everthing we need to perform a quick calculation and determine our expected value of the lottery ticket:</p>
+<p>$$1*0.1 + 5 * 0.5 + 10 * 0.01 + 20 * 0.005 + 50 * 0.0001 + 100 * 0.00005 + 1000 * 0.00001 + 100000 * 0.000001 + 100000 * 0.0000001 = 2.92$$</p>
+<p>So, in this case the expected value of our lottery ticket is 2.92 dollars. This means that if you pay 5 dollars for the ticket, over time (<a href="https://en.wikipedia.org/wiki/Law_of_large_numbers">law of large numbers</a>)  you can expect to lose 2.08 each time you buy the ticket.</p>
+<p>Okay, with that example out of the way, and hopefully a bit more intuition under our belts, let's talk about the notation of our expected value definition. We see that we simply define it as $E(X)$. However, in the value function equation, the expected value has a subscript referring to $\pi$, specifically: $E_\pi [...$. What exactly does this mean?</p>
+<p>We can certainly agree that in our lottery example the final result that we calculated was most definitely dependent upon the probability distribution surrounding the prizes. In other words, we could say that we were calculating the expected value of the lottery ticket, <em>with respect to</em> the prize probability distribution. That means that we could have written it as:</p>
+<p>$$E(X) = E_X(X) = E_{P(X)}(X)$$</p>
+<p>Each different notation above simply means that we are trying to determine the expected value of a the random variable X, with respect to its specific distribution. Now, the notation surrounding expected value and probability can be rather ambiguous, with different authors changing things seemingly haphazardly, however we should just be prepared to interpret the above as identical.</p>
+<p>So, as we tie back into the example at hand, we can say that our <strong>policy</strong> will most definitely have an effect on the reward (since our reward is based on an action, and the action we take is based on the policy). Hence, we want to find the expected value of the total return $G(t)$, <em>with respect to</em> the distribution associated with our policy.</p>
+<h2 id="6.3-$\pi$-as-a-Distribution">6.3 $\pi$ as a Distribution<a class="anchor-link" href="#6.3-$\pi$-as-a-Distribution">&#182;</a></h2><p>Given the above discussion concerning expected value, let's now tie together many of the things that we have been talking about so far. Because our expected value is over (with respect to) $\pi$, we can express $\pi$ as a probability distribution:</p>
+<p>$$\pi = \pi(a \mid s)$$</p>
+<h2 id="6.4-Solve-Expected-Value-of-$R(t+1)$">6.4 Solve Expected Value of $R(t+1)$<a class="anchor-link" href="#6.4-Solve-Expected-Value-of-$R(t+1)$">&#182;</a></h2><p>Now given the equation we had left off on:</p>
+<p>$$V_\pi(s) = E_\pi \big[R(t + 1) + \gamma \sum_{\tau = 0}^\infty \gamma ^ \tau R(t + \tau + 2) \mid S_t = s  \big] $$</p>
+<p>We can take advantage of the fact that <a href="https://brilliant.org/wiki/linearity-of-expectation/">expected values are linear operators</a>, and find each term individually. So, we can first look at the expected value of $R(t+1)$, given $s$:</p>
+<p>$$E_\pi \big[R(t + 1) \mid S_t = s \big]$$</p>
+<p>Now in order to find this, let's first clarify what the above equation is representing:</p>
+<blockquote><p>In english is it saying: "<em>What is the expected value of the reward $R(t+1)$, given that we are in state $s$?</em>"</p>
+</blockquote>
+<p>Well, to gain intuition before jumping into the derivation, let's think about what is actually going into determining a reward? If we look back at section 2.2 concerning MDP's, we can see that a reward is yielded after an action $a$ is taken while being in a state $s$. This is illustrated below:</p>
+<p><img src="images/mdp.png" width="500"></p>
+<p>Great, so we can clearly see that in order to find the expected value of $R(t+1)$, we will need two things:</p>
+<blockquote><ul>
+<li><strong>Distribution of policy $\pi$</strong><br>
+Our reward is dependent upon the action we take, and the action we take is dependent on our policy. Hence, we need to incorporate $\pi(a \mid s)$ into our solution.<br>
+<br></li>
+<li><strong>Probability of r (aka $R(t+1)$) given s and a</strong><br>
+By definition, the expected value of a random variable depends on the probability distribution associated with that random variable. In this case, our random variable is $r$, and the distribution of $r$ depends on the state $s$ and action $a$ that we take. This leaves us with: <br>
+<br>
+$$E_{p(r \mid s, a)} = \sum_r r * p(r \mid s, a) $$</li>
+</ul>
+</blockquote>
+<p>With those two things in mind, we can derive the following:</p>
+<p>$$E_\pi \big[R(t + 1) \mid S_t = s \big] = \sum_a \pi(a \mid s) * \sum_r r * p(r \mid s,a)$$</p>
+<p>And elaborate in the following image:</p>
+<p><img src="images/eq-1.png" width="550"></p>
+<p><strong>A Note on the traditional expected value and marginalization:</strong><br>
+Now pertaining to the probability in the tradtional expected value, i.e.:</p>
+<p>$$\sum_r r * p(r \mid s,a)$$</p>
+<p>Recall, from section 2.2, that MDP states that:</p>
+<p>$$p\big(S_{t+1}, R_{t+1} \mid S_t, A_t, S_{t-1}, A_{t-1},...,S_0, A_0\big) = p \big( S_{t+1}, R_{t+1} \mid S_t, A_t\big) $$</p>
+<p>And we can subsequently rewrite it as:</p>
+<p>$$p(s', r \mid s, a)$$</p>
+<p>If we then marginalize out the $s'$, we can find the probability we are seeking, $p(r \mid s,a)$:</p>
+<p>$$p(r \mid s,a) = \sum_{s' \in S} p(s', a \mid s, a)$$</p>
+<p>As a note, this marginalization process works by considering a value of $r$, and then iterating through every single value of $s'$ (all the ways that $r$ could happen given $s'$, and summing them up). For example, if our reward could take on a value from ${1...5}$, and our state could take on a value from ${1...3}$, we can find the probability that the reward is equal to 5 as follows:</p>
+<p>$$p(r = 5 \mid s,a) = \sum_{s' \in S} p(s', r =5 \mid s,a)$$
+$$p(r = 5 \mid s,a) = p(s' = 1, r =5 \mid s,a) +p(s' = 2, r =5 \mid s,a)+ p(s' = 3, r =5 \mid s,a)$$</p>
+<p>And we have subsequently found $p(r \mid s,a)$, marginalizing out $s'$.</p>
+<p><strong>A simple example:</strong><br>
+Based on the equation that we found earlier:</p>
+<p>$$E_\pi \big[R(t + 1) \mid S_t = s \big] = \sum_a \pi(a \mid s) * \sum_r r * p(r \mid s,a)$$</p>
+<p>We can look at a small example to see how it looks in action. Imagine for a second that we are inside of the right summation, and the r index is currently equal to 5:</p>
+<p>$$5 * p(r = 5 \mid s,a)$$</p>
+<p>But what is the action a? This where the left term comes in; we must include it, and hence set a, which will be used in above equation, andthen multiply by the specific $\pi(a \mid s)$ probability. This can be thought of as two nested for loops.</p>
+<h2 id="6.5-Rewrite-in-Terms-of-$p(s',-r-\mid-s,-a)$">6.5 Rewrite in Terms of $p(s', r \mid s, a)$<a class="anchor-link" href="#6.5-Rewrite-in-Terms-of-$p(s',-r-\mid-s,-a)$">&#182;</a></h2><p>Of course, we can rewrite our above solution in terms in $p(s', r \mid s, a)$:</p>
+<p>$$E_\pi \big[R(t + 1) \mid S_t = s \big] = \sum_a \pi(a \mid s) * \sum_{s'}\sum_r r * p(s',r \mid s,a)$$</p>
+<h2 id="6.6-We-can-do-this-for-anything">6.6 We can do this for anything<a class="anchor-link" href="#6.6-We-can-do-this-for-anything">&#182;</a></h2><p>In fact, what we have just determined above is a general expression for expected values, meaning that we can use it to calculate the expected value of anything, given the policy and the current state</p>
+<p>$$E_\pi \big[ANY \mid S_t = s \big] = \sum_a \pi(a \mid s) * \sum_{s'}\sum_r (ANY) * p(s',r \mid s,a)$$</p>
+<h3 id="6.6.1-For-all-V(s)">6.6.1 For all V(s)<a class="anchor-link" href="#6.6.1-For-all-V(s)">&#182;</a></h3><p>This means that we can use the above equation to calculate the second part of the expected value from our original equation:</p>
+<p>$$V_\pi(s) = E_\pi \Big[R(t + 1) + \gamma \sum_{\tau = 0}^\infty \gamma ^ \tau R(t + \tau + 2) \mid S_t = s  \Big] $$</p>
+<p>$$V_\pi(s) = \sum_a \pi(a \mid s) * \sum_{s'}\sum_r p(s',r \mid s,a) \Big \{ r + \gamma E_{\pi} \Big[ \sum_{\tau = 0}^\infty \gamma^{\tau} R(t + \tau + 2) \mid S_{t+1} = s' \Big] \Big \}$$</p>
+<p>Now, going from the first to second line's above, there may be some confusion. It is most likely clear how the left hand side of the inner portion of the curly brackets, $r$, was derived-it is entirely identical to what we had just done early. But, there was something slightly tricky done related to right hand side; we added a nested expected value directly the right of the $\gamma$ term:</p>
+<p>$$E_{\pi} \Big[ \sum_{\tau = 0}^\infty \gamma^{\tau} R(t + \tau + 2) \mid S_{t+1} = s' \Big]$$</p>
+<p>So, one expected value was taken away and another added in its place. Why was this done? Well, to see we must again go back to the rules of probability.</p>
+<p><strong>Expected Value of an Expected Value</strong><br>
+Recall that the expected value of the expected value of a random variable is just the expected value of the random variable:</p>
+<p>$$E\big(E(X)\big) = E(X)$$</p>
+<p>This can be done infinitely, and it will not change:</p>
+<p>$$E\big(E(E(E(...E(X))))\big) = E(X)$$</p>
+<p>Therefore, if we have one expected value, $E(A + B)$, we can insert another value in there, without breaking any rules of probability:</p>
+<p>$$E(A + B) = E(A + E(B))$$</p>
+<p><strong>Conditional Expectation</strong><br>
+We then make use of the conditional expectation rule, which says that the expected value of $X$ given $Y$, is a <em>function</em> of the random variable $Y$ (assuming $Y$ is not fixed). That means we can write:</p>
+<p>$$E(X \mid Y) = f(Y)$$</p>
+<p><strong>Law of the unconcious Statistician</strong><br>
+We can then use the law of the unconcious statistician to help us even further. The law is used to calculate the expected value of a function, $f(Y)$, when the probability distribution of $Y$ is know, but the distribution of $f(Y)$ is not known directly:</p>
+<p>$$E\big( f(Y) \big) = E \big( E(X \mid Y) \big) = \sum_{y \in Y} f(Y) * P(Y = y)$$</p>
+<p><strong>Law of Total Expectation</strong><br>
+This can then be utilized finally in the law of total expectation! The lay of total expectation show that:</p>
+<p>$$E(X) = E\big(E(X \mid Y)\big)$$</p>
+<p>To reach this conclusion, we take our result from the LOTUS:</p>
+<p>$$ E\big(E(X \mid Y)\big) = E\big( f(Y) \big) = \sum_{y \in Y} f(Y) * P(Y = y)$$</p>
+<p>And we replace $f(Y)$ with what it was representing all along:</p>
+<p>$$E\big(E(X \mid Y)\big) = \sum_{y \in Y} E(X \mid Y) * P(Y = y)$$</p>
+<p>By definition we know that the inner expected value, $E(X \mid Y)$, is defined as:</p>
+<p>$$\sum_{x \in X} x * P(X = x \mid Y)$$</p>
+<p>So we can substitute that in:</p>
+<p>$$E\big(E(X \mid Y)\big) = \sum_{y \in Y} \sum_{x \in X} x * P(X = x \mid Y) * P(Y = y)$$</p>
+<p>By the definition of conditional probability, we can represent the conditional times marginal distribution as the joint distribution of $X$ and $Y$:</p>
+<p>$$E\big(E(X \mid Y)\big) = \sum_{y \in Y} \sum_{x \in X} x * P(X = x, Y =y)$$</p>
+<p>Assuming the series is finite (or countably infinite), we can switch the summations around:</p>
+<p>$$E\big(E(X \mid Y)\big) = \sum_{x \in X} x \sum_{y \in Y} P(X = x, Y =y)$$</p>
+<p>At which point the summation over $Y$ will reduce our probability to $P(X = x)$:</p>
+<p>$$E\big(E(X \mid Y)\big) = \sum_{x \in X} x * P(X = x)$$</p>
+<p>Which is simply $E(X)$!</p>
+<p>$$E\big(E(X \mid Y)\big) = E(X)$$</p>
+<p><strong>Back to V(S)</strong><br>
+Okay so what does this all mean for our scenario? Let's use our new tools and make a few quick simplifications; we started with the following for $V_\pi(s)$:</p>
+<p>$$V_\pi(s) = E_\pi \Big[R(t + 1) + \gamma \sum_{\tau = 0}^\infty \gamma ^ \tau R(t + \tau + 2) \mid S_t = s  \Big] $$</p>
+<p>We will let the left and right terms be represented by $A$ and $B$ respectively:</p>
+<p>$$A = R(t + 1) $$
+$$B = \gamma \sum_{\tau = 0}^\infty \gamma ^ \tau R(t + \tau + 2)$$</p>
+<p>We can see via the rule derived earlier, we can place an expected value around $B$ without breaking any rules:</p>
+<p>$$E(A + B) = E(A + E(B))$$</p>
+<p>Meaning our full equation (keeping $A$ and $B$) is now:</p>
+<p>$$E_\pi(A + B \mid S_t = s) = E_\pi(A \mid S_t = s + E_\pi(B \mid S_t = s))$$</p>
+<p>Now, looking at the other rule we derived (LOTUS):</p>
+<p>$$E\big(E(X \mid Y)\big) = E(X)$$</p>
+<p>It can be applied to our above equation as follows; first separate our left and right term because the expected value is a linear operator:</p>
+<p>$$ E_\pi(A \mid S_t = s + E_\pi(B \mid S_t = s)) = E_\pi(A  \mid S_t = s) + E_\pi \big( E_\pi(B \mid S_t = s)\big)$$</p>
+<p>At which point the right hand term has the form of our LOTUS rule:</p>
+<p>$$E\big(E(X \mid Y)\big) \leftrightarrow E_\pi \big(E_\pi(B \mid S_t = s)\big)$$</p>
+<p>Then because we know the the conditional term in the above equations can be removed, (i.e. on the left $Y$ will be reduced away, and on the left $S_t = s$ will), we can take advantage and place any conditional expectation in its place:</p>
+<p>$$E_\pi \big(E_\pi(B \mid S_t = s)\big) \rightarrow E_\pi \big(E_\pi(B \mid ANY )\big) \rightarrow E_\pi(B)$$</p>
+<p>So we pick ANY to be that which corresponds to <strong>the value function for</strong> $s'$!</p>
+<p>$$ E_\pi \big(E_\pi(B \mid ANY )\big) \rightarrow E_\pi \big(E_\pi(B \mid S_{t+1} = s' )\big)$$</p>
+<p>And if we replace $B$ with its definition:</p>
+<p>$$E_\pi \big(E_\pi(\gamma \sum_{\tau = 0}^\infty \gamma ^ \tau R(t + \tau + 2) \mid S_{t+1} = s' )\big)$$</p>
+<p>And since we know that the expected value of an expected value just the inner expected value, this reduces to:</p>
+<p>$$E_\pi \big [\gamma \sum_{\tau = 0}^\infty \gamma ^ \tau R(t + \tau + 2) \mid S_{t+1} = s' \big ] $$</p>
+<p>Which is just equal to $V(s')$!</p>
+<p>$$V(s') = E_\pi \big [ \gamma \sum_{\tau = 0}^\infty \gamma ^ \tau R(t + \tau + 2) \mid S_{t+1} = s' \big ]$$</p>
+<p><strong>Bringing it all together:</strong><br>
+So, we started with the following:
+$$V_\pi(s) = E_\pi \Big[R(t + 1) + \gamma \sum_{\tau = 0}^\infty \gamma ^ \tau R(t + \tau + 2) \mid S_t = s  \Big] $$</p>
+<p>And then determined a general expression for expected value:</p>
+<p>$$V_\pi(s) = \sum_a \pi(a \mid s) * \sum_{s'}\sum_r p(s',r \mid s,a) \Big \{R(t + 1) + \gamma \sum_{\tau = 0}^\infty \gamma ^ \tau R(t + \tau + 2) \mid S_t = s \Big \}$$</p>
+<p>Then, we made some alterations based on allowed manipulations of expected value:</p>
+<p>$$V_\pi(s) = \sum_a \pi(a \mid s) * \sum_{s'}\sum_r p(s',r \mid s,a) \Big \{ r + \gamma E_{\pi} \Big[ \sum_{\tau = 0}^\infty \gamma^{\tau} R(t + \tau + 2) \mid S_{t+1} = s' \Big] \Big \}$$</p>
+<p>And that brings us to the final line in the derivation, which we replace what we know is equal to $V(s')$, with $V(s')$ itself.</p>
+<p>$$V_\pi(s) = \sum_a \pi(a \mid s) * \sum_{s'}\sum_r p(s',r \mid s,a) \Big \{ r + \gamma V_\pi(s') \Big \}$$</p>
+<p>We can now appreciate this equation in all of its glory! This recursive structure shows that $V$ at a certain state, depends on $V$ at the next subsequent state. What we care about is the total future reward-which could be infinite-but we don't have to look that far in to the future!</p>
+<p>We know that $V(s')$ already encapsulates the future by definition, so $V(s')$ is as far as we need to look. In other words, in order to tell the future, all we need to do is look one step ahead!</p>
+<h1 id="6.7-No-Need-to-enumerate-all-possible-future-states">6.7 No Need to enumerate all possible future states<a class="anchor-link" href="#6.7-No-Need-to-enumerate-all-possible-future-states">&#182;</a></h1><p>The key to remember here is that this allows us to avoid enumerating all possible future states (which could be <em>infinitely</em> long, in order to choose every action! In any situation we want to do a global optimization-we are not so much interested in making 5 dollars in the next minute; we want to know how to make 1 billion dollars in a lifetime.</p>
+<p>What RL says is that we do not need to consider every future step; as long as you know the value function, then you can always safely look just one step ahead! Everything we need to know about future rewards is already encapsulated in the value function by definition.</p>
+<h1 id="6.8-Bellman-Equation">6.8 Bellman Equation<a class="anchor-link" href="#6.8-Bellman-Equation">&#182;</a></h1><p>This recursive equation has a special place in RL, and it is the equation from which all of the algorithms we learn are based. It is known as the <strong>Bellman Equation</strong>:</p>
+<h4 id="$$\text{Bellman-Equation}-\rightarrow-V_\pi(s)-=-\sum_a-\pi(a-\mid-s)-*-\sum_{s'}\sum_r-p(s',r-\mid-s,a)-\Big-\{-r-+-\gamma-V_\pi(s')-\Big-\}$$"><span style="color:#0000cc">$$\text{Bellman Equation} \rightarrow V_\pi(s) = \sum_a \pi(a \mid s) * \sum_{s'}\sum_r p(s',r \mid s,a) \Big \{ r + \gamma V_\pi(s') \Big \}$$</span><a class="anchor-link" href="#$$\text{Bellman-Equation}-\rightarrow-V_\pi(s)-=-\sum_a-\pi(a-\mid-s)-*-\sum_{s'}\sum_r-p(s',r-\mid-s,a)-\Big-\{-r-+-\gamma-V_\pi(s')-\Big-\}$$">&#182;</a></h4><p>It is named after the mathematician Richard Bellman. He also pioneered the technique known as <em>dynamic programming</em>. It is related to recursion, but is efficient due to building up a solution with a bottom up approach.</p>
+<h1 id="6.9-State-Value-and-Action-Value">6.9 State-Value and Action-Value<a class="anchor-link" href="#6.9-State-Value-and-Action-Value">&#182;</a></h1><p>There is one more value function that we will need to learn about in our discussion of value functions. What we just learned about, $V(s)$, is called the <strong>state-value</strong> function:</p>
+<p>$$ V_\pi(s) = E_\pi \big [ G(t) \mid S_t = s\big ]$$</p>
+<p>There is another value function, $Q(s,a)$, called the <strong>action-value</strong> function:</p>
+<p>$$Q(s,a) = E_\pi \big[ G(t) \mid S_t =s , A_t = a\big]$$</p>
+<p>It is called this because the action $a$ is also a parameter of the function. Notice that because $Q$ has two inputs, the amount of space we need to store it is quadratic. In particular, the amount of space we need to store it is the size of the set of states, times the size of the set of actions:</p>
+<p>$$\text{Space required: } |S| * |A|$$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="7.-Bellman-Examples">7. Bellman Examples<a class="anchor-link" href="#7.-Bellman-Examples">&#182;</a></h1><p>Let's work through a few simple models that contain a handful of states, which are hence easy to solve by hand. We also want to keep in mind throughout these examples, the central idea of "<em>solving for V(s)</em>". That is essentially what these RL notebooks are about:</p>
+<blockquote><ul>
+<li>We have model called an MDP</li>
+<li>There is a value function, V(s). All we need to do is find it. </li>
+</ul>
+</blockquote>
+<p>It really is that simple! Once the details have been worked out, we are able to take a step back and appreciate the generality of this framework to solve problems.</p>
+<p>Before our first example, we should highlight the <em>goal</em> of the value function one more time:</p>
+<blockquote><p><strong>Goal Of Value Function</strong>: The value function allows us to answer the following question: "If we are in state s , what is the sum of rewards we will get in the future, on average?"</p>
+</blockquote>
+<h2 id="7.1-Example-1">7.1 Example 1<a class="anchor-link" href="#7.1-Example-1">&#182;</a></h2><p>We will start with the most basic example: We have 2 states, <em>start</em> and <em>end</em>. The probability of going from start to end is 1.</p>
+<p><img src="images/bellman-ex-1.png" width="350"></p>
+<p>Clearly, every time we play this game it is completely deterministic. We can say that the end state gives us a reward of 1, and the discount factor is $\gamma = 0.9$. The question is, what do we need to find?</p>
+<p>Remember, we want to be solving for the value function! Because there are only two states, in particular we need to find $V(start)$ and $V(end)$.</p>
+<p>To do this, we must first recall that the <em>value</em> is the <em>sum of all future rewards</em>. At the terminal state there are no longer any <em>future rewards</em>, meaning the value of a terminal state is 0. Hence:</p>
+<p>$$V(end) = 0$$</p>
+<p>It follows that because everything else is deterministic:</p>
+<p>$$V(start) = 1$$</p>
+<p>Why is this? Well, from an intuitive standpoint we can think of this as a probability tree. Since this is the only edge in that tree, the weight of the edge is 1, and the reward is 1, leaving us with one as our answer. This would still hold true when using the Bellman equation:</p>
+<p>$$V(start) = V(s = start) = E\big[ R(end) \mid s = start\big]$$
+$$V(start) = E \big[1 \mid start \big]$$
+$$V(start) =1 $$</p>
+<p>Keep in mind that we do not multiply this by $\gamma$, because $\gamma$ only applies to future states. So, the full equation is technically:</p>
+<p>$$V(start) = R + \gamma V(end)$$</p>
+<p>But the second term just resolves to 0.</p>
+<h2 id="7.2-Example-2">7.2 Example 2<a class="anchor-link" href="#7.2-Example-2">&#182;</a></h2><p>We can now add a 3rd state:</p>
+<p><img src="images/bellman-ex-2.png" width="550"></p>
+<p>Note that everything is still deterministic, and every game just has 3 steps: start, middle, and end. The reward again is 1 for arriving in the end start, and 0 at the middle state. $\gamma$ will remain at 0.9.</p>
+<p>As we know, our goal is to find $V(start)$, $V(middle)$, and $V(end)$.</p>
+<p>Because end is a terminal state, we again know its value is:</p>
+<p>$$V(end) = 0$$</p>
+<p>The middle state takes on the role that start did in example 1, so it is subsequently:</p>
+<p>$$V(middle) = 1$$</p>
+<p>Finally, we can use the bellman equation to determine the value of the start state:</p>
+<p>$$V(start) = R(start, mid) + \gamma V(mid) = 0 + 0.9 *1 = 0.9$$</p>
+<h2 id="7.3-Example-3">7.3 Example 3<a class="anchor-link" href="#7.3-Example-3">&#182;</a></h2><p>We are now going to slightly tweak example 3, by changing the reward at the middle state to be $R = -0.1$.</p>
+<p><img src="images/bellman-ex-3.png" width="550"></p>
+<p>Again, we know the value of the start and middle states:</p>
+<p>$$V(end) = 0$$
+$$V(middle) = 1$$</p>
+<p>Keep in mind, the reason that the value of the middle state did not change is because it is only effected by <em>future rewards</em>. And in the case of the start state:</p>
+<p>$$V(start) = R(start, mid) + \gamma V(mid) = 1*-0.1 + 0.9 *1 = 0.8$$</p>
+<h2 id="7.4-Example-4">7.4 Example 4<a class="anchor-link" href="#7.4-Example-4">&#182;</a></h2><p>In this example, we are going to introduce some randomness:</p>
+<p><img src="images/bellman-ex-4.png" width="400"></p>
+<p>Our states are $S_1, S_2, S_3, S_4$. $S_4$ is a terminal state, and you always get a reward of 1 when you go here. $S_2$ and $S_3$ always go to $S_4$ 100% of the time, so this part is deterministic. $S_1$ goes to $S_2$ 50% of the time, and to $S_3$ 50% of the time, hence this portion is random. The reward for $S_4$ is 1, for $S_2$ is -0.2, and for $S_3$ is -0.3.</p>
+<p>Before we begin trying to find a solution, it would be beneficial to clear up a potential nuance that was just introduced; what do the probabilities we are working with refer to? When we say "there is a 50% chance of going to $S_2$ and a 50% chance of going to $S_3$", what does that really man? Becuse this is reinforcement learning, and there are multiple components in an MDP, this is not just a simple coin flip. We don't flip a coin and go which way it tells us to go. We are an <em>intelligent agent</em>, and as such have an internal policy, $\pi(a \mid s)$, that tells us which action to take. So, importantly we should make clear:</p>
+<blockquote><p>$\pi(a \mid s)$ does not tell us <em>where to go</em>, but rather <em>what action to take</em>.</p>
+</blockquote>
+<p>But, we must recall that this is not the only relevant probability. We also have the probability:</p>
+<p>$$p(s', r \mid s, a)$$</p>
+<p>This just means that by doing some action $a$ in state $s$, the result can be random. So if the action is to flip a coin, of course there can be multiple possible results. We may get heads, or we may get tails. That is one way an action may result in a probabilistic next state.</p>
+<blockquote><p>$p(s', r \mid s, a)$ tells us where we end up, after taking a certain action.</p>
+</blockquote>
+<p>So, when we say that there is a 50% chance of going to $S_2$ and a 50% chance of going to $S_3$, that sounds very intuitive and simple, but it oversimplifies MDP's and results in some ambiguity (although when you verbalize it, it sounds simpler).</p>
+<p>For this example, let's assume that $p(r,s' \mid s,a)$ is deterministic, and the 50% probabilities mentioned earlier, refer to the policy $\pi(a \mid s)$, where the action is simply just to go to the next state. That means that the agent itself decides where to go by random chance, and it is not the result of the environment.</p>
+<p>So, as before, our terminal state $S_4$ has a value of 0:</p>
+<p>$$V(S_4) = 0$$</p>
+<p>Because moving from $S_2$ and $S_3$ is deterministic, they both have the same value as well:</p>
+<p>$$V(S_2) = 1$$
+$$V(S_3) = 1$$</p>
+<p>Finally, $V(S_1)$ must be calculated using expected values:</p>
+<p>$$V(S_1) = p(S_2 \mid S_1) \big[R_2 + \gamma V(S_2) \big] + p(S_3 \mid S_1) \big[R_3 + \gamma V(S_3) \big]$$
+$$V(S_1) = 0.5 * \big[-0.2 + 0.9 *1 \big] + 0.5 * \big[-0.3 + 0.9 *1 \big] = 0.65$$</p>
+<h2 id="7.5-Example-5">7.5 Example 5<a class="anchor-link" href="#7.5-Example-5">&#182;</a></h2><p>We will now extend the previous example a bit further. In example 4, the expected value was easy to calculate because we knew we would end up in the same terminal state $S_4$. In this example that won't be the case. Note that $S_1$ can go to either $S_2$ or $S_3$, and from $S_2$ and $S_3$ we can end up in either $S_4$ or $S_5$.</p>
+<p><img src="images/bellman-ex-5.png" width="300"></p>
+<p>So, now we have 2 terminal states, with multple paths to either one. The only relevant rewards for this example are +1 if we end up in $S_5$, and -1 if we end up in $S_4$.</p>
+<p>We know that $S_4$ and $S_5$ are terminal states, hence:</p>
+<p>$$V(S_4) = 0$$
+$$V(S_5) = 0$$</p>
+<p>Secondly, we can calculate $V(S_2)$ and $V(S_3)$ just from the rewards, just because we know the next state must be terminal (so we don't need to use the full bellman equation).</p>
+<p>$$V(S_2) = 0.8 * -1 + 0.2 * 1 = -0.6$$
+$$V(S_3) = 0.9*1 + 0.1*-1 = 0.8$$</p>
+<p>Finally, to determine $V(S_1)$ we must consider both $V(S_2)$ and $V(S_3)$. It is still simple, however, because the rewards at those states are 0.</p>
+<p>$$V(S_1) = p(S_2 \mid S_1) \big[R_2 + \gamma V(S_2) \big] + p(S_3 \mid S_1) \big[R_3 + \gamma V(S_3) \big]$$
+$$V(S_1) = 0.5\big[0 + 0.9 * -0.6 \big] + 0.5 \big[0 + 0.9 * 0.8 \big]$$
+$$V(S_1) = 0.09$$</p>
+<h2 id="7.6-Example-6">7.6 Example 6<a class="anchor-link" href="#7.6-Example-6">&#182;</a></h2><p>Now, in this example we are going to be looking at a simpler state diagram, but with more complex probabilities. This will be a somewhat more realistic scenario so we can picture what is happening. It will also allow us to separate <em>policy randomness</em> from <em>state-arrival randomness</em>.</p>
+<p><img src="images/bellman-ex-6.png" width="350"></p>
+<p>The start state is that you are standing. At this point someone throws a ball at you (think dodgeball). You have two potential actions, you can either decide to "jump" or "duck". The next possible state is either you git hit, or you don't get hit (which means you are safe). We can say that the reward for getting hit is -1, and the reward for not getting hit is 0.</p>
+<p>Importantly, we can see why these state diagrams are somewhat over simplistic. In particular, when looking at a tree like this, you may think that the action is to go to the next state. However, that does <em>not</em> include all of the components of an MDP. We can see why that would not work in this scenario. We can't just choose "don't get hit", we can only choose to "jump" or "duck". This follows any real-life scenario. For example, we cannot choose to be rich. We can start a company and it may fail or it may succeed and make us rich, but can't <em>decide</em> that. All we can do is take the action of starting the company. The state that we end up in (rich or not rich) is probabilistic.</p>
+<p>So, as we continue with our example, we can use the following probabilities:</p>
+<p><strong>Action based on policy probabilities:</strong><br>
+$$\pi(jump \mid start) = 0.5$$
+$$\pi(duck \mid start) = 0.5$$</p>
+<p><strong>State transition probabilities:</strong><br>
+$$p(hit, reward=-1 \mid jump, start) = 0.8$$
+$$p(hit, reward=0 \mid jump, start) = 0$$
+$$p(safe, reward=-1 \mid jump, start) = 0$$
+$$p(safe, reward=0 \mid jump, start) = 0.2$$
+$$p(hit, reward=-1 \mid duck, start) = 0.4$$
+$$p(hit, reward=0 \mid duck, start) = 0$$
+$$p(safe, reward=-1 \mid duck, start) = 0$$
+$$p(safe, reward=0 \mid duck, start) = 0.6$$</p>
+<p>Notice that we defined the distribution over the reward. We did not have to do this, however it shows what the entire probability space looks like. We can place in any other number for the reward and the probability is zero, as by the specifications for the problem (i.e. a reward of 10 would have 0% probability, because that does not exist in this game).</p>
+<p>We can of course just marginalize these in order to get rid of the reward completely since it is deterministic:</p>
+<p>$$p(hit \mid jump, start) = 0.8$$
+$$p(safe \mid jump, start) = 0.2$$
+$$p(hit \mid duck, start) = 0.4$$
+$$p(safe \mid duck, start) = 0.6$$</p>
+<p>Now we can solve for the value of each state. As always, the value of the terminal states is 0:</p>
+<p>$$V(safe) = 0$$
+$$V(hit) = 0$$</p>
+<p>Calculating $V(start)$ is the more challenging portion of this problem. We can start by writing the following:</p>
+<p>$$V(start) = \sum_{a \in \{duck, jump\}} \pi(a \mid start) \sum_{s' \in \{safe, hit\}} p(s' \mid start, a) r(s, s')$$</p>
+<p>The above is still simpler than the full bellman equation, because we don't need to consider the value for the next state. In a situation like this it is nice to do a bit of a sanity check. When we see a summation inside of a another summation, we can think of at as a nested for loop. So, in the outer loop we have 2 things to sum over, and in the inner loop we have 2 things to sum over. We also know that the number times thing run in total is the size of the outer loop times the size of the inner loop. So, in total we should have 4 things to sum over.</p>
+<p>For brevity, we are going to stop showing the conditioning on the start state, since that is very clear, and we will abreviate jump with $j$ and duck with $d$. We end up with:</p>
+<p>$$V(start) = \sum_{a \in \{d, j\}} \pi(a) \sum_{s' \in \{safe, hit\}} p(s' \mid a) r(s, s')$$</p>
+<p>$$V(start) = \pi(j)p(safe \mid j)*0 + \pi(j)p(hit \mid j)*-1 + \pi(d)p(safe \mid d)*0 + \pi(d) p(hit \mid d) * -1$$</p>
+<p>We won't plug in the numbers, since the entire goal of this example was just to set things up, but feel free if you would like to.</p>
+<h2 id="7.7-Example-7">7.7 Example 7<a class="anchor-link" href="#7.7-Example-7">&#182;</a></h2><p>For our final example, we are going to get rid of notion "just work backwards", and introduce a cycle.</p>
+<p><img src="images/bellman-ex-7.png"></p>
+<p>Above, we can see that $S_3$ is a terminal state, and once you reach it the game is over and you receive a reward of 1. $S_1$ and $S_2$ are non terminal states, and they can both go to eachother, so there is no notion of a starting position. Only $S_2$ can go to $S_3$. but $S_1$ can go back to itself.</p>
+<p>Let's assume that the only probabilities here are the actions, and that the actions are simply to go to whatever state is next. As we have discussed, the actions don't have to be choosing what to state to go to next, but it will help in simplifying the probabilities that we must consider.</p>
+<p>So, the question now arises: how do we solve this problem? Well, since we cannot just work backwards as we did before, our only option is to just apply the bellman equation for each state and see what we end up with.</p>
+<p>First we can solve for $V(S_1)$:</p>
+<p>$$V(S_1) = p(S_1 \mid S_1)*(R_1 + \gamma V(S_1)) + p(S_2 \mid S_1)*(R_2 + \gamma V(S_2)) $$
+$$V(S_1) = 0.3*(-0.1 + 0.9*V(S_1)) + 0.7*(0.4 + 0.9 V(S_2)) $$
+$$V(S_1) = -0.1 + 0.27V(S_1) + 0.63V(S_2)$$</p>
+<p>And next for $V(S_2)$:
+$$V(S_2) = p(S_1 \mid S_2)(R_1 + \gamma V(S_1)) + p(S_3 \mid S_2)(R_3 + \gamma V(S_3))$$
+$$V(S_2) = 0.6(-0.1 + 0.9 V(S_1)) + 0.4(1 + 0.9 V(S_3))$$
+$$V(S_2) = 0.34 + 0.54V(S_1) + 0.36V(S_3)$$</p>
+<p>And $V(S_3)$ is a terminal state, so:
+$$V(S_3) = 0$$</p>
+<p>Now, looking at these 3 equations we may notice something:</p>
+<p>$$V(S_1) = -0.1 + 0.27V(S_1) + 0.63V(S_2)$$
+$$V(S_2) = 0.34 + 0.54V(S_1) + 0.36V(S_3)$$
+$$V(S_3) = 0$$</p>
+<p>This is a <em>system of linear equations</em>, just like you have seen in linear algebra! To make this a bit more clear, we can group together like terms:</p>
+<p>$$0.1 =  -0.73V(S_1) + 0.63V(S_2) + 0*V(S_3)$$
+$$ -0.34 = 0.54V(S_1) - V(S_2) + 0.36V(S_3)$$
+$$0 = 0*V(S_1) + 0*V(S_2) + V(S_3)$$</p>
+<p>Now, we can neatly separate this equation into 3 parts:</p>
+<p>$$\begin{bmatrix}
+    -0.73 &amp; 0.63 &amp; 0 \\
+    0.54 &amp; -1 &amp; 0.36 \\
+    0 &amp; 0 &amp; 1
+\end{bmatrix} 
+\begin{bmatrix}
+    V(S_1)      \\
+    V(S_2)      \\
+    V(S_3)      
+\end{bmatrix} = 
+\begin{bmatrix}
+    0.1      \\
+    -0.34      \\
+    0      
+\end{bmatrix}
+$$</p>
+<p>Where we now have a vector containing $V(S_1), V(S_2), V(S_3)$, a 3x3 matrix to multiply it by, and a vector of numbers that just sits by itself. This clearly takes the form:</p>
+<p>$$Ax = b$$</p>
+<p>And we can use numpy to easily solve this:</p>
+
+<pre><code>x = np.linalg.solve(A, b)</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">0.73</span><span class="p">,</span> <span class="mf">0.63</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.54</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.36</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.34</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[0.29297075 0.49820421 0.        ]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As seen above, we end up with the following solution:</p>
+<p>$$V(S_1) = 0.293$$
+$$V(S_2) = 0.498$$
+$$V(S_3) = 0$$</p>
+<h2 id="7.8-Summary">7.8 Summary<a class="anchor-link" href="#7.8-Summary">&#182;</a></h2><p>We know that solving a linear system of equations is not a scalable solution, so the remainder of these notebooks are going to focus on what some scalable algorithms are that can solve this modeling problem!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="8.-Optimal-Policy-and-Optimal-Value-Function">8. Optimal Policy and Optimal Value Function<a class="anchor-link" href="#8.-Optimal-Policy-and-Optimal-Value-Function">&#182;</a></h1><p>Let's now take a moment to discuss optimal policies and optimal value functions. You will see that they are interdependent and need to be discussed together. This is a very key concept, and we will learn there is a great deal of depth behind it.</p>
+<p>We can talk about the relative "goodness" of policies. Let's say we have two policies, $\pi_1$ and $\pi_2$. We can say that $\pi_1$ is better than $\pi_2$ if the expected return of $\pi_1$ is greater than or equal to the expected return of $\pi_2$:</p>
+<p>$$\pi_1 \geq \pi_2 \hspace{1cm} if V_{\pi_1}(s) \geq V_{\pi_2}(s)\hspace{1cm} \forall s \in S$$</p>
+<h2 id="8.1-The-Best-Policy">8.1 The Best Policy<a class="anchor-link" href="#8.1-The-Best-Policy">&#182;</a></h2><p>Because we can talk about the relative goodness of each policy, and one policy can be better than another policy, then we also have the notion of the <em>best</em> policy. In RL this is known as the optimal policy. We use the symbol $\pi = *$ to represent it. The optimal policy is the policy for which there is no greater value function. We can define it as:</p>
+<p>$$V_{*}(s) = max_\pi \{ V_\pi (s)\} \hspace{1cm} \forall s \in S $$</p>
+<p>Note that optimal policies are not necessarily unique, but optimal value functions are. You can imagine how two different policies can lead to the same rewards, and hence lead to the same value function. But if you have one value function that is greater than another, then the optimal policy will be that which leads to the greater value function.</p>
+<h2 id="8.2-Optimal-Action-Value-Function">8.2 Optimal Action-Value Function<a class="anchor-link" href="#8.2-Optimal-Action-Value-Function">&#182;</a></h2><p>We can similarly define the optimal action-value function, as the max of the action-value function over all policies:</p>
+<p>$$Q_{*}(s,a) = max_\pi \{ Q_\pi (s,a)\} \hspace{1cm} \forall s \in S, a \in A$$</p>
+<p>Because the optimal action-value function is with respect to the optimal policy, we can define it recursively in terms of the optimal state value function:</p>
+<p>$$Q_{*}(s,a) = E \big[ R(t+1) + \gamma V_* (S_{t+1}) \mid S_t = s, A_t = a\big]$$</p>
+<h2 id="8.3-Relationship-between-V-and-Q">8.3 Relationship between V and Q<a class="anchor-link" href="#8.3-Relationship-between-V-and-Q">&#182;</a></h2><p>The state value function and action value function can be related in this way:</p>
+<blockquote><p>The state value function means that we are always choosing the best actions, and therefore means that we are always choosing the best overall actions from $Q$.</p>
+</blockquote>
+<p>Notice that $Q$ leads to some practical advantages in implementation. If we only have $V(s)$ then we must try all the possible actions $a$ in order to take us to the next states, so we can get the values for those states. But, if we hae $Q$, then we can directly choose the best overall action $a$, from all actions $A$,</p>
+<h2 id="8.4-Bellman-Optimality-Equation">8.4 Bellman Optimality Equation<a class="anchor-link" href="#8.4-Bellman-Optimality-Equation">&#182;</a></h2><p>Let's continue manipulating our equation for $V_*(s)$. We call this the <em>bellman optimality equation</em> for the state value function. Notice how it similar, but not quite the same as the Bellman equation:</p>
+<p>$$V_*(s) = max_a E \big[R(t+1) + \gamma V_*(S_{t+1}) \mid S_t = s, A_t = a\big]$$
+$$V_*(s) = max_a \sum_{s', r}p(s', r \mid s, a) \big[r + \gamma V_*(s')\big]$$</p>
+<p>We can do a similar thing to get the Bellman Optimality Equation for the action value function:</p>
+<p>$$Q_*(s,a) = E \big[R(t+1) + \gamma max_{a'} Q_*(S_{t+1}, a') \mid S_t =s, A_t =a\big]$$
+$$Q_*(s,a) = \sum_{s', r}p(s', r \mid s, a) \big[r + \gamma max_{a'}Q_*(s', a')\big]$$</p>
+<h2 id="8.5-Implementing-the-Optimal-Policy">8.5 Implementing the Optimal Policy<a class="anchor-link" href="#8.5-Implementing-the-Optimal-Policy">&#182;</a></h2><p>One final thing to mention is, after we have the optimal value function, how do we implement the optimal policy? The key point is that the value function already takes into account future rewards, so nothing extra needs to be done in order to optimize the total expected future reward. All we need to do is choose the action that yields the best value for the next state, $V(s')$.</p>
+<p>Notice, how for the state value function $V$, we need to do a look ahead search because $V$ itself does not depend on $a$. So implementation wise, we need to do all of the possible actions $A$, look at what state we arrive in, $s'$, and choose the one that gives us the largest $V(s')$.</p>
+<p>If we have $Q(s,a)$, we can do this look up directly and simply choose the argmax. What $Q(s,a)$ does then is effectively caches the results of all one step ahead searches.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="9.0-Summary">9.0 Summary<a class="anchor-link" href="#9.0-Summary">&#182;</a></h1><p>This section was purely theoretical, in order to set up all prerequisites we need for later sections. In particular, we:</p>
+<blockquote><ul>
+<li>Formalized the Markov decision process framework</li>
+<li>Talked about policies</li>
+<li>Returns (total future reward)</li>
+<li>Discounting future rewards with discount rate $\gamma$</li>
+<li>Rigorously defined the value function and discussed two types: <strong>State-value function </strong> and <strong>Action-value function</strong></li>
+</ul>
+</blockquote>
+<p>We also looked at the Bellman equation, which recursively defines the value function in terms of the value function at the next state:</p>
+<h4 id="$$\text{Bellman-Equation}-\rightarrow-V_\pi(s)-=-\sum_a-\pi(a-\mid-s)-*-\sum_{s'}\sum_r-p(s',r-\mid-s,a)-\Big-\{-r-+-\gamma-V_\pi(s')-\Big-\}$$"><span style="color:#0000cc">$$\text{Bellman Equation} \rightarrow V_\pi(s) = \sum_a \pi(a \mid s) * \sum_{s'}\sum_r p(s',r \mid s,a) \Big \{ r + \gamma V_\pi(s') \Big \}$$</span><a class="anchor-link" href="#$$\text{Bellman-Equation}-\rightarrow-V_\pi(s)-=-\sum_a-\pi(a-\mid-s)-*-\sum_{s'}\sum_r-p(s',r-\mid-s,a)-\Big-\{-r-+-\gamma-V_\pi(s')-\Big-\}$$">&#182;</a></h4><p>We then looked at the notion of optimality, and defined the optimal policy, optimal state value function, and optimal action value function. Through this, we were able to recursively define the optimal value functions in terms of the optimal value functions at the next state.</p>
+
+</div>
+</div>
+</div>
+<hr>
+&copy; 2018 Nathaniel Dake
+
+</div>
+</div>
+</body>
+</html>

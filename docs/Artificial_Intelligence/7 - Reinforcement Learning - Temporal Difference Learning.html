@@ -1,0 +1,950 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/readable.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Intuitive ML</title>
+
+<style type = "text/css">
+body {
+  font-family: "sans-serif";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Intuitive ML</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../index.html">Home</a>
+</li>
+        
+<li>
+  <a href="../Artificial_Intelligence.html">Artificial Intelligence</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="https://github.com/NathanielDake/nathanieldake.github.io"> source </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="1.-Temporal-Difference-Learning-Introduction">1. Temporal Difference Learning Introduction<a class="anchor-link" href="#1.-Temporal-Difference-Learning-Introduction">&#182;</a></h1><p>We are now going to look at a third method for solving MDPs, <em><strong>Temporal Difference Learning</strong></em>. TD is one of the most important ideas in RL, and we will see how it combines ideas from the first two techniques, Dynamic Programming and Monte Carlo.</p>
+<p>Recall that one of the disadvantages of DP was that it requires a full model of environment, and never learns from experience. On the other hand, we saw that MC does learn from experience, and we will shortly see that TD learns from experience as well.</p>
+<p>With the Monte Carlo method, we saw that we could only update the value function after completing an episode. On the other hand, DP uses bootstrapping and was able to improve its estimates based on existing estimates. We will see that TD learning also uses bootstrapping, and furthermore is fully online, so we don't need to wait for an episode to finish before we start updating our value estimates.</p>
+<p>In this section we will take our standard approach:</p>
+<blockquote><ol>
+<li>First we will look at the prediction problem, aka finding the value function given a policy.</li>
+<li>Second we will look at the control problem. We will look at 2 different ways of approaching the control problem: <strong>SARSA</strong> and <strong>Q-Learning</strong>.  </li>
+</ol>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="2.-Prediction-Problem---TD(0)">2. Prediction Problem - <code>TD(0)</code><a class="anchor-link" href="#2.-Prediction-Problem---TD(0)">&#182;</a></h1><p>We are now going to look at how to apply TD to the prediction problem, aka finding the value function. The reason that there is a 0 in the name is because there are other TD learning methods such as <code>TD(1)</code> and <code>TD(</code>${\lambda}$<code>)</code>, but they are outside the scope of this course. They are similar, but not necessary to understand <em>Q-learning</em> and <em>Approximation methods</em>, which is what we eventually want to get to.</p>
+<h2 id="2.1-Monte-Carlo-Disadvantage">2.1 Monte Carlo Disadvantage<a class="anchor-link" href="#2.1-Monte-Carlo-Disadvantage">&#182;</a></h2><p>One big disadvantage of Monte Carlo was that we needed to wait until the episode is finished before we can calculate the returns, since the return depends on all future rewards. Also, recall that the MC method is to average the returns, and that earlier in the course we looked at different ways of calculating averages.</p>
+<h2 id="2.2-TD(0)">2.2 <code>TD(0)</code><a class="anchor-link" href="#2.2-TD(0)">&#182;</a></h2><p>In particular, we can look at the method that does not require us to store all of the returns: <em>the moving average</em>.</p>
+<p>$$Y_t = (1 - \alpha)Y_{t-1} + \alpha X_t$$
+$$Y_t = Y_{t-1} - \alpha Y_{t-1} + \alpha X_t$$
+$$Y_t = Y_{t-1} + \alpha ( X_t - Y_{t-1})$$</p>
+<p>Recall that $\alpha$ can be constant or decay with time. So, if we use this formula it would be an alternative way of caculating the average reward for a state.</p>
+<p>$$V(S_t) \leftarrow V(S_t) + \alpha \big[G(t) - V(S_t)\big]$$</p>
+<p>Annotated:</p>
+<p><img src="images/moving-average-TD.png"></p>
+<p>In this case we have chosen to not multiply the previous value by $1 - \alpha$, and we have chosen to have $\alpha$ be constant (instead of slowly get smaller over time).</p>
+<p>Now recall the definition of $V$; it is the expected value of the return, given a state:</p>
+<p>$$V(s) = E \big[G(t) \mid S_t = s\big]$$</p>
+<p>But, remember that we can also define it recursively:</p>
+<p>$$V(s) = E \big[R(t+1) + \lambda V(S_{t+1}) \mid S_t =s\big]$$</p>
+<p>So, it is reasonable to ask if we can just replace the return in the update equation with this recursive definition of $V$! What we get from this, is the <code>TD(0)</code> method:</p>
+<p>$$V(S_t) = V(S_t) + \alpha \big[R(t+1) + \lambda V(S_{t+1}) - V(S_t)\big]$$</p>
+<p><span style="color:#0000cc">$$\text{TD(0)} \rightarrow V(s) = V(s) + \alpha \big[r + \lambda V(s') - V(s)\big]$$</span></p>
+<p>We can also see how this is fully online! We are not calculating $G$, the full return. Instead, we are just using another $V$ estimate, in particular the $V$ for the next state. What this also tells us is that we cannot update $V(s)$ until we know $V(s')$. So, rather than waiting for the entire episode to finish, we just need to wait until we reach the next state to update the value for the current state.</p>
+<h2 id="2.3-Sources-of-Randomness">2.3 Sources of Randomness<a class="anchor-link" href="#2.3-Sources-of-Randomness">&#182;</a></h2><p>It is helpful to examine how these estimates work, and what the sources of randomness are.</p>
+<blockquote><ul>
+<li>With MC, the randomness came from the fact that each episode could play out in a different way. So, the return for a state would be different if all the later state transitions had some randomness. </li>
+<li>With <strong><code>TD(0)</code></strong> we have yet another source of randomness. In particular, we don't even know the return, so instead we use $r + \gamma V(s')$ to estimate the return $G$. </li>
+</ul>
+</blockquote>
+<h2 id="2.4-Summary">2.4 Summary<a class="anchor-link" href="#2.4-Summary">&#182;</a></h2><p>We just looked at why <code>TD(0)</code> is advantageous in comparison to MC/DP.</p>
+<blockquote><ul>
+<li>Unlike DP, we do not require a full model of the environment, we learn from experience, and only update V for states we visit.</li>
+<li>Unlike MC, we don't need to wait for an episode to finish before we can start learning. This is advantageous in situations where we have very long episodes. We can improve our performance during the episode itself, rather than having to wait until the next episode.</li>
+<li>It can even be used for continuous tasks, in which there are no episodes at all. </li>
+</ul>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="3.-TD(0)-in-Code">3. <code>TD(0)</code> in Code<a class="anchor-link" href="#3.-TD(0)-in-Code">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">common</span> <span class="k">import</span> <span class="n">standard_grid</span><span class="p">,</span> <span class="n">negative_grid</span><span class="p">,</span> <span class="n">print_policy</span><span class="p">,</span> <span class="n">print_values</span>
+
+<span class="n">SMALL_ENOUGH</span> <span class="o">=</span> <span class="mf">10e-4</span>
+<span class="n">GAMMA</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">ALPHA</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="c1"># Learning Rate</span>
+<span class="n">ALL_POSSIBLE_ACTIONS</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">)</span>
+
+<span class="c1"># NOTE: This is only policy evaluation, not optimization</span>
+
+<span class="k">def</span> <span class="nf">random_action</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Adding randomness to ensure that all states are visited. We will use epsilon-soft </span>
+<span class="sd">  to ensure that all states are visited. What happens if you don&#39;t do this? i.e. eps = 0&quot;&quot;&quot;</span>
+  <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+  <span class="k">if</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">eps</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">ALL_POSSIBLE_ACTIONS</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">play_game</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">policy</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Much simpler than MC version, because we don&#39;t need to calculate any returns. All</span>
+<span class="sd">  we need to do is return a list of states and rewards.&quot;&quot;&quot;</span>
+  <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="n">grid</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+  <span class="n">states_and_rewards</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span> <span class="c1"># list of tuples of (state, reward)</span>
+  <span class="k">while</span> <span class="ow">not</span> <span class="n">grid</span><span class="o">.</span><span class="n">game_over</span><span class="p">():</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">policy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">random_action</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">current_state</span><span class="p">()</span>
+    <span class="n">states_and_rewards</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
+  <span class="k">return</span> <span class="n">states_and_rewards</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="c1"># Use standard grid so that we can compare to iterative policy evaluation</span>
+  <span class="n">grid</span> <span class="o">=</span> <span class="n">standard_grid</span><span class="p">()</span>
+  
+  <span class="c1"># print rewards</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rewards:&quot;</span><span class="p">)</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">rewards</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+  
+  <span class="c1"># state -&gt; action</span>
+  <span class="n">policy</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span>
+  <span class="p">}</span>
+  
+  <span class="c1"># Initialize V(s) and returns to 0. This occurs outside of for loop. The entire purpose</span>
+  <span class="c1"># of the for loop is to converge onto V(s)! Remember, V(s) is a function, but since </span>
+  <span class="c1"># the number of states are enumerable, relatively small, and discrete, we can find </span>
+  <span class="c1"># the approximate value for each state. We don&#39;t need to solve for a continuous equation!</span>
+  <span class="n">states</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">all_states</span><span class="p">()</span>
+  <span class="n">V</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">states</span><span class="p">}</span>
+  
+  <span class="c1"># Repeat until convergence</span>
+  <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    
+    <span class="c1"># Generate an episode using pi</span>
+    <span class="n">states_and_rewards</span> <span class="o">=</span> <span class="n">play_game</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">policy</span><span class="p">)</span>
+    
+    <span class="c1"># the first (s, r) tuple is the state we start in and 0</span>
+    <span class="c1"># (since we don&#39;t get a reward) for simply starting the game</span>
+    <span class="c1"># the last (s, r) tuple is the terminal state and the final reward</span>
+    <span class="c1"># the value for the terminal state is by definition 0, so we don&#39;t</span>
+    <span class="c1"># care about updating it.</span>
+    <span class="c1"># Once we have our states and rewards, we loop through them and do the TD(0) update</span>
+    <span class="c1"># which is the equation from the theory we discussed. Notice that here we have </span>
+    <span class="c1"># generated a full episode and then are making our V(s) updates. We could have done </span>
+    <span class="c1"># them inline, but this allows for them to be cleaner and easier to follow. </span>
+    
+    <span class="c1"># This is where our update equation is implemented</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">states_and_rewards</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+      <span class="n">s</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">states_and_rewards</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+      <span class="n">s2</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">states_and_rewards</span><span class="p">[</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+      
+      <span class="c1"># We will update V(s) AS we experience the episode</span>
+      <span class="n">update</span> <span class="o">=</span> <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">+</span> <span class="n">ALPHA</span> <span class="o">*</span> <span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="n">GAMMA</span> <span class="o">*</span> <span class="n">V</span><span class="p">[</span><span class="n">s2</span><span class="p">]</span> <span class="o">-</span> <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">])</span>
+      <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">update</span>
+      
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;values:&quot;</span><span class="p">)</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;policy:&quot;</span><span class="p">)</span>
+  <span class="n">print_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>rewards:
+---------------------------
+ 0.00| 0.00| 0.00| 1.00|
+---------------------------
+ 0.00| 0.00| 0.00|-1.00|
+---------------------------
+ 0.00| 0.00| 0.00| 0.00|
+values:
+---------------------------
+ 0.76| 0.85| 0.95| 0.00|
+---------------------------
+ 0.69| 0.00|-0.86| 0.00|
+---------------------------
+ 0.57|-0.48|-0.70|-0.95|
+policy:
+---------------------------
+  R  |  R  |  R  |     |
+---------------------------
+  U  |     |  R  |     |
+---------------------------
+  U  |  R  |  R  |  U  |
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="3.-SARSA">3. SARSA<a class="anchor-link" href="#3.-SARSA">&#182;</a></h1><p>We are now going to look at how to apply the <code>TD(0)</code> algorithm to the control problem. We are going to apply <code>TD(0)</code> to <em>policy iteration</em>. In particular, we are going to use the value iteration method, where we continually update $Q$ based on itself. We are going to do it in place, and any actions we take are always greedy with respect to our current estimate of $Q$. So, we will be skipping the part where we do a full policy evaluation, and just immediately going to the more efficient form.</p>
+<p>Recall from the Monte Carlo section, that the reason we want to use $Q$ is because it allows us to choose an action based on the argmax of $Q$. We are not able to do this with $V$ because it is only indexed by the state. Since $Q$ has the same recursive form, we can apply the same update equation as before:</p>
+<p>$$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha \Big[R(t+1) + \gamma Q(S_{t+1}, A_{t+1}) - Q(S_t, A_t)\Big]$$</p>
+<p>$$Q(s, a) \leftarrow Q(s, a) + \alpha \Big[r + \gamma Q(s', a') - Q(s,a)\Big]$$</p>
+<p>Notice that we have the same limitation as we did with MC; since $Q$ is indexed by both state and action, we need many more iterations to gather enough data for convergence. Because the update depends on the 5-tuple (s,a,r,s',a') this method is called <em><strong>SARSA</strong></em>.</p>
+<h2 id="3.1-What-Policy-to-use?">3.1 What Policy to use?<a class="anchor-link" href="#3.1-What-Policy-to-use?">&#182;</a></h2><p>Since SARSA requires us to know $Q(s,a)$ for all the possible actions $a$ in state $s$, so that we can accurately chose the argmax, we have the same problem as we did with MC. Recall, the problem was that if you follow a deterministic policy, you will only ever do $\frac{1}{|A|}$ of the possible actions, which will leave most of $Q$ undefined. To fix this we either have to use exploring starts, or a policy that allows for exploration, like epsilon-greedy. Since we know that exploring starts is not realistic, we are going to use epsilon greedy.</p>
+<h2 id="3.2-Pseudocode">3.2 Pseudocode<a class="anchor-link" href="#3.2-Pseudocode">&#182;</a></h2><hr>
+
+<pre><code>Q(s,a) = artibtrary, Q(terminal, a) = 0 
+for t=1..N:
+  # Start a game
+  s = start_state, a = epsilon_greedy_from(Q(s))
+  while not game_over:
+    s', r = do_action(a)
+    a' = epsilon_greedy_from(Q(s'))
+    Q(s,a) = Q(s,a) + alpha*[r + gamma*Q(s', a') - Q(s,a)]
+    s = s', a = a'</code></pre>
+<hr>
+<p>We can see that our pseudocode functions as follows:</p>
+<blockquote><ul>
+<li>We initialize $Q$ arbitrarily, and set it to 0 for any terminal state.</li>
+<li>We then enter an infinite loop</li>
+<li>Inside the loop we start a game </li>
+<li>We get the first state and select the first action based on epsilon greedy and the current $Q$. This is our tuple (s, a)</li>
+<li>Inside this loop we start another loop that ends when the game is over </li>
+<li>We do the action $a$ to get to the state $s'$ and get the reward $r$ </li>
+<li>We then choose the next state based on epsilon greedy and the current $Q$. We'll call this $a'$</li>
+<li>Then we do our update for $Q(s,a)$, which depends on $Q(s,a)$ itself, $r$, and $Q(s',a')$</li>
+<li>Next, we update s to be s', and we update a to be a'</li>
+</ul>
+</blockquote>
+<p>An interesting fact about SARSA is that a convergence proof has never been published. However, it has been stated that SARSA will converge if the policy converges to a greedy policy. One way to achieve this is to let $\epsilon = \frac{1}{t}$, where $t$ represents time.</p>
+<h2 id="3.3-Learning-Rate">3.3 Learning Rate<a class="anchor-link" href="#3.3-Learning-Rate">&#182;</a></h2><p>Recall that we can also have a decaying learning rate. There is a problem with using a $\alpha = \frac{1}{t}$ decay though. Only one state action pair will be updated in $Q$. Therefore, the learning rate will decay for values of $Q$ that have never been updated before. You could try to remedy this by only decaying the learning rate once per episode, but you still have the same problem. Only a subset of the full set of states are going to be visited in the episode, and only one of the possible actions per state are going to be taken. So, even if you decay the learning rate once per episode, you will still be decaying the learning rate for parts of $Q$ that have never been updated before.</p>
+<p>To solve this, we take inspiration from deep learning; in particular the AdaGrad and RMSprop algorithms, which are both adaptive learning rates. Recall, what makes these unique is that the effective learning rates decrease more when past gradients have been large. In other words, the more something has changed in the past, the more we will decrease the learning rate in the future.</p>
+<p>Our version will be simpler than these techniques, but the idea is the same. We are going to keep a count of how many times we have seen a state action pair (s, a). We will set $\alpha$ to be the original $\alpha$ divided by this count:</p>
+<p>$$\alpha(s,a) = \frac{\alpha_0}{count(s,a)}$$</p>
+<p>Equivalently:</p>
+<p>$$\alpha(s,a) = \frac{\alpha_0}{k + m*count(s,a)}$$</p>
+<p>Every state action pair now has its own alpha, and so each will have its own individually decaying learning rate.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="4.-SARSA-in-Code">4. SARSA in Code<a class="anchor-link" href="#4.-SARSA-in-Code">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">common</span> <span class="k">import</span> <span class="n">standard_grid</span><span class="p">,</span> <span class="n">negative_grid</span><span class="p">,</span> <span class="n">print_policy</span><span class="p">,</span> <span class="n">print_values</span><span class="p">,</span> <span class="n">max_dict</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">GAMMA</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">ALPHA</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="c1"># Effective Alpha will be derived from this initial alpha</span>
+<span class="n">ALL_POSSIBLE_ACTIONS</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">)</span>
+
+<span class="c1"># Notice this in this script there is no play_game function. That is because with SARSA</span>
+<span class="c1"># playing the games and performing the updates cannot be separate. We have to do the </span>
+<span class="c1"># updates while playing the game. So, TD methods are fully online!</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="c1"># NOTE: if we use the standard grid, there&#39;s a good chance we will end up with</span>
+  <span class="c1"># suboptimal policies</span>
+  <span class="c1"># e.g.</span>
+  <span class="c1"># ---------------------------</span>
+  <span class="c1">#   R  |   R  |   R  |      |</span>
+  <span class="c1"># ---------------------------</span>
+  <span class="c1">#   R* |      |   U  |      |</span>
+  <span class="c1"># ---------------------------</span>
+  <span class="c1">#   U  |   R  |   U  |   L  |</span>
+  <span class="c1"># since going R at (1,0) (shown with a *) incurs no cost, it&#39;s OK to keep doing that.</span>
+  <span class="c1"># we&#39;ll either end up staying in the same spot, or back to the start (2,0), at which</span>
+  <span class="c1"># point we whould then just go back up, or at (0,0), at which point we can continue</span>
+  <span class="c1"># on right.</span>
+  <span class="c1"># instead, let&#39;s penalize each movement so the agent will find a shorter route.</span>
+  <span class="n">grid</span> <span class="o">=</span> <span class="n">negative_grid</span><span class="p">(</span><span class="n">step_cost</span><span class="o">=-</span><span class="mf">0.1</span><span class="p">)</span>
+  
+  <span class="c1"># print rewards</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rewards:&quot;</span><span class="p">)</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">rewards</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+  
+  <span class="c1"># Initialize Q(s,a)</span>
+  <span class="n">Q</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">state</span><span class="p">:</span> <span class="p">{</span>
+      <span class="n">a</span><span class="p">:</span> <span class="mi">0</span>
+      <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ALL_POSSIBLE_ACTIONS</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">states</span>
+  <span class="p">}</span>
+  
+  <span class="c1"># Create 2 update counts dictionaries. update_counts is to see what proportion of time</span>
+  <span class="c1"># we spend in each state. update_counts_sa is for the adaptive learning rate.</span>
+  <span class="n">update_counts</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="n">update_counts_sa</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">states</span><span class="p">:</span>
+    <span class="n">update_counts_sa</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ALL_POSSIBLE_ACTIONS</span><span class="p">:</span>
+      <span class="n">update_counts_sa</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+      
+  <span class="c1"># Repeat until convergence</span>
+  <span class="n">t</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="c1"># Using t for epsilon greedy. Only increases every 100 steps, by small amount. </span>
+  <span class="n">deltas</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">it</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="n">t</span> <span class="o">+=</span> <span class="mf">1e-2</span>
+    <span class="k">if</span> <span class="n">it</span> <span class="o">%</span> <span class="mi">2000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;it:&quot;</span><span class="p">,</span> <span class="n">it</span><span class="p">)</span>
+    
+    <span class="c1"># Instead of &#39;generating&#39; an epsiode, we will PLAY an episode within this loop</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># start state</span>
+    <span class="n">grid</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    
+    <span class="c1"># the first (s, r) tuple is the state we start in and 0 (since we don&#39;t get a </span>
+    <span class="c1"># reward) for simply starting the game. The last (s, r) tuple is the terminal </span>
+    <span class="c1"># state and the final reward the value for the terminal state is by definition 0, </span>
+    <span class="c1"># so we don&#39;t care about updating it.</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">max_dict</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">random_action</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">0.5</span><span class="o">/</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">biggest_change</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="c1"># Enter the game loop</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">grid</span><span class="o">.</span><span class="n">game_over</span><span class="p">():</span>
+      <span class="c1"># Do action to find reward and next state </span>
+      <span class="n">r</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+      <span class="n">s2</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">current_state</span><span class="p">()</span>
+      
+      <span class="c1"># Find next action based on epsilon greedy. We need the next action as well since </span>
+      <span class="c1"># Q(s,a) depends on Q(s&#39;,a&#39;). If s2 not in policy then its a terminal state, where</span>
+      <span class="c1"># all Q are 0</span>
+      <span class="n">a2</span> <span class="o">=</span> <span class="n">max_dict</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="n">s2</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+      <span class="n">a2</span> <span class="o">=</span> <span class="n">random_action</span><span class="p">(</span><span class="n">a2</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">0.5</span><span class="o">/</span><span class="n">t</span><span class="p">)</span> <span class="c1"># eps not constant, instead decaying with time</span>
+      
+      <span class="c1"># Calculate alpha -&gt; Initial alpha / Count</span>
+      <span class="n">alpha</span> <span class="o">=</span> <span class="n">ALPHA</span> <span class="o">/</span> <span class="n">update_counts_sa</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span>
+      <span class="n">update_counts_sa</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">0.005</span> <span class="c1"># Update count, only by small amount</span>
+      <span class="n">old_qsa</span> <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span> <span class="c1"># Keeping track of deltas. Want to know how Q changes as we learn</span>
+      
+      <span class="c1"># Q update! </span>
+      <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span> <span class="o">+</span> <span class="n">alpha</span><span class="o">*</span><span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="n">GAMMA</span><span class="o">*</span><span class="n">Q</span><span class="p">[</span><span class="n">s2</span><span class="p">][</span><span class="n">a2</span><span class="p">]</span> <span class="o">-</span> <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">])</span>
+      <span class="n">biggest_change</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">biggest_change</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">old_qsa</span> <span class="o">-</span> <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]))</span>
+      
+      <span class="c1"># Update update_counts dictionary - want to know how often Q(s) has been updated</span>
+      <span class="n">update_counts</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">update_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> 
+      
+      <span class="c1"># Set s and a to new s and a (s&#39; and a&#39;). Next state becomes current state.</span>
+      <span class="n">s</span> <span class="o">=</span> <span class="n">s2</span>
+      <span class="n">a</span> <span class="o">=</span> <span class="n">a2</span>
+      
+    <span class="n">deltas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">biggest_change</span><span class="p">)</span>
+  
+  <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">deltas</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+   
+  <span class="c1"># Since we want to print the policy, we need to find it by taking the argmax of Q</span>
+  <span class="c1"># determine the policy from Q*</span>
+  <span class="c1"># find V* from Q*</span>
+  <span class="n">policy</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="n">V</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">grid</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">max_q</span> <span class="o">=</span> <span class="n">max_dict</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">])</span>
+    <span class="n">policy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span>
+    <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_q</span>
+    
+  <span class="c1"># what&#39;s the proportion of time we spend updating each part of Q?</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;update counts:&quot;</span><span class="p">)</span>
+  <span class="n">total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">update_counts</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+  <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">update_counts</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">update_counts</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">/</span> <span class="n">total</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">update_counts</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;values:&quot;</span><span class="p">)</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;policy:&quot;</span><span class="p">)</span>
+  <span class="n">print_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>rewards:
+---------------------------
+-0.10|-0.10|-0.10| 1.00|
+---------------------------
+-0.10| 0.00|-0.10|-1.00|
+---------------------------
+-0.10|-0.10|-0.10|-0.10|
+it: 0
+it: 2000
+it: 4000
+it: 6000
+it: 8000
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>update counts:
+---------------------------
+ 0.19| 0.18| 0.18| 0.00|
+---------------------------
+ 0.19| 0.00| 0.04| 0.00|
+---------------------------
+ 0.18| 0.02| 0.02| 0.00|
+values:
+---------------------------
+ 0.49| 0.72| 1.00| 0.00|
+---------------------------
+ 0.29| 0.00| 0.71| 0.00|
+---------------------------
+ 0.11| 0.14| 0.38| 0.15|
+policy:
+---------------------------
+  R  |  R  |  R  |     |
+---------------------------
+  U  |     |  U  |     |
+---------------------------
+  U  |  R  |  U  |  L  |
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="5.-Q-Learning">5. Q-Learning<a class="anchor-link" href="#5.-Q-Learning">&#182;</a></h1><p>We are now going to discuss <em><strong>Q-Learning</strong></em>. This is different from the strategy that we have been taking so far. The main theme so far behind each of the control algorithms that we have studied so far has been generalized policy iteration. We always alternate between:</p>
+<blockquote><ul>
+<li>Policy evaluation</li>
+<li>Policy improvement (choosing an action greedily based on the current value function estimate)</li>
+</ul>
+</blockquote>
+<p>All of these control algorithms are referred to as <em><strong>on-policy</strong></em> methods. That means that we are playing the game using the current best policy. What is unique about Q-learning is that it is an <em><strong>off-policy</strong></em> method. This means that the actions you take can be completely random, and yet you still end up being able to calculate the optimal policy.</p>
+<h2 id="5.1-Q-Learning-Theory">5.1 Q-Learning Theory<a class="anchor-link" href="#5.1-Q-Learning-Theory">&#182;</a></h2><p>So, how does Q-Learning actually work? Well, it actually looks a lot like SARSA. The idea is, instead of choosing $a'$ based on the argmax of $Q$, we instead update $Q$ based on the max over all actions.</p>
+<p>$$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha \Big[R(t+1) + \gamma max_{a'} Q(S_{t+1}, a') - Q(S_t, A_t)\Big]$$</p>
+<p>$$Q(s, a) \leftarrow Q(s, a) + \alpha \Big[r + \gamma max_{a'} Q(s', a') - Q(s,a)\Big]$$</p>
+<p>Now you think yourself: isn't that exactly the same thing? If we choose $a'$ as the argmax of $Q$, then the thing beside $\gamma$ will be $Q(s',a')$, which is maxed over $a'$.</p>
+<p>The difference is, that Q-Learning is <em>off-policy</em>. With Q-Learning, remember that it is an off policy method. So, $Q(s',a')$ might be the max over all $a'$, but this doesn't necessarily mean that $a'$ has to be our next action. That is the difference. We update $Q(s,a)$ using the max of $Q(s',a')$, even if we don't end up doing the action $a'$ in the next step. What this suggests is that it doesn't really matter what policy we follow; we can choose actions randomly and still get the same answer. In reality, if we do take purely random actions, your agent will act suboptimally very often and that will make your episodes last longer.</p>
+<h2 id="5.2-Key-Difference">5.2 Key Difference<a class="anchor-link" href="#5.2-Key-Difference">&#182;</a></h2><p>So, the key difference to remember:</p>
+<blockquote><p>It doesn't matter what policy we use to play the game. It is reasonable to ask then, under what circumstances is Q-Learning equivalent to SARSA? If the policy you use during Q-Learning is a greedy policy, meaning that you always choose the argmax over $Q$, then your $Q(s',a')$ will correspond to the next action you take. In that case, you will be doing SARSA, but also Q-Learning.</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="6.-Q-Learning-in-Code">6. Q-Learning in Code<a class="anchor-link" href="#6.-Q-Learning-in-Code">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">GAMMA</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">ALPHA</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">ALL_POSSIBLE_ACTIONS</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="c1"># NOTE: if we use the standard grid, there&#39;s a good chance we will end up with</span>
+  <span class="c1"># suboptimal policies</span>
+  <span class="c1"># e.g.</span>
+  <span class="c1"># ---------------------------</span>
+  <span class="c1">#   R  |   R  |   R  |      |</span>
+  <span class="c1"># ---------------------------</span>
+  <span class="c1">#   R* |      |   U  |      |</span>
+  <span class="c1"># ---------------------------</span>
+  <span class="c1">#   U  |   R  |   U  |   L  |</span>
+  <span class="c1"># since going R at (1,0) (shown with a *) incurs no cost, it&#39;s OK to keep doing that.</span>
+  <span class="c1"># we&#39;ll either end up staying in the same spot, or back to the start (2,0), at which</span>
+  <span class="c1"># point we whould then just go back up, or at (0,0), at which point we can continue</span>
+  <span class="c1"># on right.</span>
+  <span class="c1"># instead, let&#39;s penalize each movement so the agent will find a shorter route.</span>
+  <span class="c1">#</span>
+  <span class="c1"># grid = standard_grid()</span>
+  <span class="n">grid</span> <span class="o">=</span> <span class="n">negative_grid</span><span class="p">(</span><span class="n">step_cost</span><span class="o">=-</span><span class="mf">0.1</span><span class="p">)</span>
+
+  <span class="c1"># print rewards</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rewards:&quot;</span><span class="p">)</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">rewards</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+
+  <span class="c1"># no policy initialization, we will derive our policy from most recent Q</span>
+
+  <span class="c1"># initialize Q(s,a)</span>
+  <span class="n">Q</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="n">states</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">all_states</span><span class="p">()</span>
+  <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">states</span><span class="p">:</span>
+    <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ALL_POSSIBLE_ACTIONS</span><span class="p">:</span>
+      <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+  <span class="c1"># let&#39;s also keep track of how many times Q[s] has been updated</span>
+  <span class="n">update_counts</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="n">update_counts_sa</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">states</span><span class="p">:</span>
+    <span class="n">update_counts_sa</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ALL_POSSIBLE_ACTIONS</span><span class="p">:</span>
+      <span class="n">update_counts_sa</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+  <span class="c1"># repeat until convergence</span>
+  <span class="n">t</span> <span class="o">=</span> <span class="mf">1.0</span>
+  <span class="n">deltas</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">it</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="n">t</span> <span class="o">+=</span> <span class="mf">1e-2</span>
+    <span class="k">if</span> <span class="n">it</span> <span class="o">%</span> <span class="mi">2000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;it:&quot;</span><span class="p">,</span> <span class="n">it</span><span class="p">)</span>
+
+    <span class="c1"># instead of &#39;generating&#39; an epsiode, we will PLAY</span>
+    <span class="c1"># an episode within this loop</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># start state</span>
+    <span class="n">grid</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+    <span class="c1"># the first (s, r) tuple is the state we start in and 0</span>
+    <span class="c1"># (since we don&#39;t get a reward) for simply starting the game</span>
+    <span class="c1"># the last (s, r) tuple is the terminal state and the final reward</span>
+    <span class="c1"># the value for the terminal state is by definition 0, so we don&#39;t</span>
+    <span class="c1"># care about updating it.</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">max_dict</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">])</span>
+    <span class="n">biggest_change</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">grid</span><span class="o">.</span><span class="n">game_over</span><span class="p">():</span>
+      <span class="n">a</span> <span class="o">=</span> <span class="n">random_action</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">0.5</span><span class="o">/</span><span class="n">t</span><span class="p">)</span> <span class="c1"># epsilon-greedy</span>
+      <span class="c1"># Can also perform uniform random action also works, but it is slower since you </span>
+      <span class="c1"># can bump into walls</span>
+      <span class="c1"># a = np.random.choice(ALL_POSSIBLE_ACTIONS)</span>
+      <span class="n">r</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+      <span class="n">s2</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">current_state</span><span class="p">()</span>
+      
+      <span class="c1"># Adaptive learning rate</span>
+      <span class="n">alpha</span> <span class="o">=</span> <span class="n">ALPHA</span> <span class="o">/</span> <span class="n">update_counts_sa</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span>
+      <span class="n">update_counts_sa</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">0.005</span>
+      
+      <span class="c1"># We will update Q(s,a) AS WE EXPERIENCE the episode</span>
+      <span class="n">old_qsa</span> <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span>
+      <span class="c1"># The difference between SARSA and Q-Learning is with Q-Learning we will use this </span>
+      <span class="c1"># max[a&#39;]{ Q(s&#39;,a&#39;) } in our update. Even if we do not end up taking this action</span>
+      <span class="c1"># in our next step</span>
+      <span class="n">a2</span><span class="p">,</span> <span class="n">max_q_s2a2</span> <span class="o">=</span> <span class="n">max_dict</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="n">s2</span><span class="p">])</span>
+      <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]</span> <span class="o">+</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="n">GAMMA</span><span class="o">*</span><span class="n">max_q_s2a2</span> <span class="o">-</span> <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">])</span>
+      <span class="n">biggest_change</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">biggest_change</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">old_qsa</span> <span class="o">-</span> <span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">a</span><span class="p">]))</span>
+      
+      <span class="c1"># We want to know how often Q(s) has been updated too</span>
+      <span class="n">update_counts</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">update_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> 
+      
+      <span class="c1"># Next state becomes current state. Go back to top of while loop, and we can see</span>
+      <span class="c1"># that we call `a = random_action(a, eps=0.5/t)`. This means that the `a` we </span>
+      <span class="c1"># chose here may not actually be used. `a2` was used to update our value function </span>
+      <span class="c1"># `Q`, but it may not be used in the next iteration. If we were following a purely</span>
+      <span class="c1"># greedy policy then it would be used, and that is identical to SARSA. </span>
+      <span class="n">s</span> <span class="o">=</span> <span class="n">s2</span>
+      <span class="n">a</span> <span class="o">=</span> <span class="n">a2</span>
+      
+    <span class="n">deltas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">biggest_change</span><span class="p">)</span>
+    
+  <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">deltas</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+  <span class="c1"># determine the policy from Q*</span>
+  <span class="c1"># find V* from Q*</span>
+  <span class="n">policy</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="n">V</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">grid</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">max_q</span> <span class="o">=</span> <span class="n">max_dict</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="n">s</span><span class="p">])</span>
+    <span class="n">policy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span>
+    <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_q</span>
+
+  <span class="c1"># what&#39;s the proportion of time we spend updating each part of Q?</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;update counts:&quot;</span><span class="p">)</span>
+  <span class="n">total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">update_counts</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+  <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">update_counts</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">update_counts</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">/</span> <span class="n">total</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">update_counts</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;values:&quot;</span><span class="p">)</span>
+  <span class="n">print_values</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;policy:&quot;</span><span class="p">)</span>
+  <span class="n">print_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>rewards:
+---------------------------
+-0.10|-0.10|-0.10| 1.00|
+---------------------------
+-0.10| 0.00|-0.10|-1.00|
+---------------------------
+-0.10|-0.10|-0.10|-0.10|
+it: 0
+it: 2000
+it: 4000
+it: 6000
+it: 8000
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>update counts:
+---------------------------
+ 0.18| 0.18| 0.18| 0.00|
+---------------------------
+ 0.19| 0.00| 0.04| 0.00|
+---------------------------
+ 0.19| 0.02| 0.02| 0.00|
+values:
+---------------------------
+ 0.62| 0.80| 1.00| 0.00|
+---------------------------
+ 0.46| 0.00| 0.80| 0.00|
+---------------------------
+ 0.31| 0.46| 0.62| 0.46|
+policy:
+---------------------------
+  R  |  R  |  R  |     |
+---------------------------
+  U  |     |  U  |     |
+---------------------------
+  U  |  R  |  U  |  L  |
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="7.-Temporal-Difference-Learning-Summary">7. Temporal Difference Learning Summary<a class="anchor-link" href="#7.-Temporal-Difference-Learning-Summary">&#182;</a></h1><p>Temporal Difference learning combines aspects from both Monte Carlo and Dynamic Programming. From Monte Carlo we incorporate ideas like learning from experience, meaning we actually play the game. We also learn how to generalize this idea of taking the sample mean from the returns (based on what we learned in the multi-armed bandit section). The problem of MC is that it is not fully online.</p>
+<p>We also incorporated ideas from Dynamic Programming such as bootstrapping, and using the recursive form of the value function to estimate the return.</p>
+<p>When we put these two together, we get <code>TD(0)</code>, where instead of taking the sample mean of returns, we take sample mean of estimated returns, based on the current reward, $r$, and the next state value, $V(s')$.</p>
+<p>For the <strong>control</strong> problem, we saw that again we needed to use the action value function instead of the state-value function, for the same reason as Monte Carlo Estimation. We derived the SARSA algorithm which combines ideas from value iteration, and <code>TD(0)</code>. We then discussed the difference between on-policy and off-policy algorithms and we determined in hindsight that all of the control solutions that we have seen have been <em>on-policy</em>, until now. At this point we learned about an <em>off-policy</em> control solution, Q-Learning (which has gained traction recently, in part due to deep Q-Learning).</p>
+<p>One disadvantage of <em>all</em> of these methods, is that they require us to estimate $Q$. As we learned early on, the state space can easily become infeasible to enumerate, and then on top of that for every state you need to enumerate all of the possible actions as well. So, in real world problems it is very possible that $Q$ does not even fit into memory! The method of measuring $Q(s,a)$ and storing it as a dictionary is called the <em>tabular method</em>. In fact, all of the methods we have learned about so far have been tabular methods. As you may imagine, tabular methods are only practical for small problems. In the next section, we will learn a new technique that helps us get around this problem, using <em>function approximation</em>. This will allow us to compress the amount of space that we need to represent $Q$.</p>
+
+</div>
+</div>
+</div>
+<hr>
+&copy; 2018 Nathaniel Dake
+
+</div>
+</div>
+</body>
+</html>
