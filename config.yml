@@ -18,7 +18,7 @@ include_dir: ["homepage", "Deep_Learning",  "Artificial_Intelligence"]
 
 # Do not add links in the navigation bar for the Jupyter notebooks in
 # these subdirectories.
-hide_navbar: ["homepage"]
+hide_navbar: ["home"]
 
 # Any Jupyter notebooks listed here will not be rendered into webpages
 # (e.g., "analysis/temp.ipynb").
@@ -27,7 +27,7 @@ exclude_file: []
 # This is the notebook used to generate the home page for the
 # website. If no home page is set, an Overview.ipynb file is
 # automatically generated and saved in the base project directory.
-homepage: "analysis/homepage.ipynb"
+homepage: "home/homepage.ipynb"
 
 # The name of the homepage link shown in the navigation bar.
 # Set to NULL to hide it
