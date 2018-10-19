@@ -198,15 +198,15 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Practical-Issues-Overview">Practical Issues Overview<a class="anchor-link" href="#Practical-Issues-Overview">&#182;</a></h1><p>Up until this point we have focused mainly on theory and the two main functions of a neural networks:</p>
+<h1 id="5.-Practical-Issues">5. Practical Issues<a class="anchor-link" href="#5.-Practical-Issues">&#182;</a></h1><p>Up until this point we have focused mainly on theory and the two main functions of a neural networks:</p>
 <ol>
 <li>How to <strong>Predict</strong></li>
 <li>How to <strong>Train</strong>
 The question may arise, in practice, what else do we need to focus on? Well, we have mentioned that neural networks are nonlinear classifiers, which means that they can classify things when you can't draw a line between the two classes. Two famous examples of these are the <strong>XOR</strong> problem, and the <strong>Donut Problem</strong>. </li>
 </ol>
-<p><img src="images/donut.png"></p>
+<p><img src="https://drive.google.com/uc?id=1BHNXR2lCaN8PlaRLppx9h9CuJE_alyZD" width="300"></p>
 <p><br></br>
-<img src="images/xor.png"></p>
+<img src="https://drive.google.com/uc?id=1NI88t9abQxo8WBZmeWt22B56kDnUDOki" width="300"></p>
 <p>We have shown that <strong>logistic regression</strong> cannot solve those two problems unless you manually create new features. This can be time consuming and rather tedious, so ideally we would have an algorithm <strong>learn</strong> those features for us. However, the ability to learn these features automatically does not come for free. What you may have started to notice is that neural networks come with a variety of options: how many hidden units to use, how many hidden layers to use, the type of activation function, etc. These are <strong>hyperparameters</strong> and choosing them is not trivial, so we will discuss the process for this as well.</p>
 <p>This section is all about applying what we have already learned about neural networks in order to gain deeper insight into how they work, and what kind of baggage they come with.</p>
 
@@ -1172,20 +1172,20 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 <hr>
 <p><br></br></p>
 <h1 id="2.-Neural-Networks-for-Regression">2. Neural Networks for Regression<a class="anchor-link" href="#2.-Neural-Networks-for-Regression">&#182;</a></h1><p>We are now going to take a brief look at how to utilize Neural Networks in a Regression problem. In general, they are used for classification, for a variety of reasons (most of the famous problems they have solved have been classification, they often perform better in that setting, etc). However, they can sometimes be very effective in a regression scenario, and are even utilized in certain state of the art applications such as deep reinforcement learning.</p>
-<h2 id="2.1-Neural-Network-Binary-Classification-Structure">2.1 Neural Network Binary Classification Structure<a class="anchor-link" href="#2.1-Neural-Network-Binary-Classification-Structure">&#182;</a></h2><p><img src="images/logistic-regression-arch.png"></p>
+<h2 id="2.1-Neural-Network-Binary-Classification-Structure">2.1 Neural Network Binary Classification Structure<a class="anchor-link" href="#2.1-Neural-Network-Binary-Classification-Structure">&#182;</a></h2><p><img src="https://drive.google.com/uc?id=1Xwj0VwKMtZrvgA6D9iCAq8rP5Y_2ooaI" width="700"></p>
 <p>For Binary classification we will have a stack of nonlinear hidden layers, followed by a logistic regression at the end. We can call this logistic regression, because this takes on the exact form of logistic regression; aka a linear transformation, $Wx+b$, and a sigmoid (shown in the circle on the right). For the hidden layers, we are not going to call them logistic regression since they still take in a linear transformation, but the activation function is not necessarily a sigmoid, it could be <strong>tanh</strong>, <strong>relu</strong>, etc. Still, the concept of stacking layers of neurons is important to consider since that is what lead us to these new structures in the first place.</p>
 <p><br></br></p>
 <h2 id="2.2-Neural-Network-Multi-class-Classification-Structure">2.2 Neural Network Multi-class Classification Structure<a class="anchor-link" href="#2.2-Neural-Network-Multi-class-Classification-Structure">&#182;</a></h2><p><br></br>
-<img src="images/multi-class-arch.png"></p>
+<img src="https://drive.google.com/uc?id=1UAy3Pi4jA8XO19vmnZ4XCBJuRA-nmEhP" width="700"></p>
 <p>For multi-class classification we have nearly the same thing, only now the output layer has more units, one corresponding to each class. However, notice that everything up until the last layer is the same as before. We have stacks on <strong>linear transformations</strong>, along with <strong>nonlinear activation functions</strong>, and at the end we have a <strong>multi-class logistic regression</strong>, which is a <strong>linear transformation</strong> and a <strong>softmax</strong>.</p>
 <p><br></br></p>
 <h2 id="2.3-Neural-Network-Regression-Structure">2.3 Neural Network Regression Structure<a class="anchor-link" href="#2.3-Neural-Network-Regression-Structure">&#182;</a></h2><p><br></br>
-<img src="images/regression-arch.png"></p>
+<img src="https://drive.google.com/uc?id=1HsZ9dPrVRaapBv2PFvRMjYaSDjo2zvYJ" width="700"></p>
 <p>Finally we have the regression scenario. Again, notice how everything up until the last layer is the same as before. We have stacks on <strong>linear transformations</strong>, along with <strong>nonlinear activation functions</strong>, and at the end we have <strong>only</strong> a <strong>linear transformation</strong>, and this is of course exactly <strong>linear regression</strong>.</p>
 <p><br></br></p>
 <h2 id="2.4-The-Lesson">2.4 The Lesson<a class="anchor-link" href="#2.4-The-Lesson">&#182;</a></h2><p>We know that from prior studies that if we just consider <em>just</em> linear models, we have <strong>logistic regression</strong> for classification, and <strong>linear regression</strong> for <strong>regression</strong>. In a sense we can consider everything up until the last layer just the feature extraction/transformation, where we are transforming the input into something different. After that, we are just doing what we already know: logistic regression for classification, and linear regression for regression.</p>
 <p><br></br>
-<img src="images/high-level-arch.png"></p>
+<img src="https://drive.google.com/uc?id=1mliJdEMpu3XwfjWsWzNhND9BN55naGyT" width="700"></p>
 <hr>
 <p><br></br></p>
 <h2 id="2.5-The-Problem">2.5 The Problem<a class="anchor-link" href="#2.5-The-Problem">&#182;</a></h2><p>So because we have already derived the equations for our neural net before, we won't be repeating them here. However, lets get a look at the data set that we are going to use, and then we will go through the code to fit to this data set. Note that this data set has 3 dimensions, because we want to be able to visualize our data. Working with 100, or 1000 dimensions is great, but since you can't see them that makes it feel more abstract. We are going to use our neural network to perform regression on a curve that you can see. Our curve is just going to be a saddle, based off of the equation:</p>
@@ -1696,7 +1696,7 @@ If x is less than 0</p>
 <p><br></br></p>
 <h1 id="Practical-Considerations-for-choosing-Activation-Function">Practical Considerations for choosing Activation Function<a class="anchor-link" href="#Practical-Considerations-for-choosing-Activation-Function">&#182;</a></h1><p>We are now going to talk about considerations that we should make when choosing the activation functions in the hidden layers of a neural network. So far we have looked at:</p>
 <p><br></br>
-<img src="images/activation-functions.png"></p>
+<img src="https://drive.google.com/uc?id=16LQUzaXiC_rzZpu3w5pkiiEF-Rk9i4li"></p>
 <p>Note, we are not refering to the output layer; that is always going to be the same depending on what task you are doing. For <strong>binary classification</strong> it will be the <strong>sigmoid</strong> function, for <strong>multi-class classification</strong> it will be the <strong>softmax</strong>, and for <strong>regression</strong> it will be <strong>identity</strong> (aka just return the input). This section is dealing with hidden layers only.</p>
 <h3 id="Sigmoid">Sigmoid<a class="anchor-link" href="#Sigmoid">&#182;</a></h3><p>Lets start by talking about the sigmoid. It is of theoretical interest because it goes between 0 and 1. This is a lot like the biological neuron, because they operate on the all or nothing principal. In reality, neural networks are more about function approximation instead of modeling the brain.</p>
 <p>So one problem that the sigmoid encounters is that most of it is flat, and hence the derivative is 0. Why is that a problem? Well, if you think about it, how does a neural network learn? We know that they learn via gradient, and the gradient is the derivative! So if the derivative is 0, then the neural network is not going to learn. So we encounter this problem where unless the data is in a very small region from -4 to +4, our network is going to learn very slowly.</p>
@@ -1712,7 +1712,7 @@ If x is less than 0</p>
 <p>One solution to the dead neuron problem is to just add more hidden units, and hope that not too many of them go down to zero. Generally this is fine and we can still outperform the tanh and sigmoid.</p>
 <p>Another option is to use what is called the <strong>leaky ReLU</strong>.</p>
 <p><br></br>
-<img src="images/leaky-relu.png"></p>
+<img src="https://drive.google.com/uc?id=1xCx_vvZKa4hGEE-3Bkf-MdtbLjUqslNN"></p>
 <p>This is where we give a small positive slope to the left half of the ReLU, so the left side of the ReLU is no longer 0. This solves the dead neuron problem, but interestingly could actually make your neural net perform worse. This does not mean that leaky ReLU's are worse, it just means that hyperparameters are synergistic! In order to get the best result, you have to choose the best learning rate, architecture, activation function, and so on.</p>
 
 </div>
@@ -1772,7 +1772,7 @@ If x is less than 0</p>
 <p><br></br></p>
 <h1 id="Manually-choosing-the-Learning-Rate-and-Regularization">Manually choosing the Learning Rate and Regularization<a class="anchor-link" href="#Manually-choosing-the-Learning-Rate-and-Regularization">&#182;</a></h1><p>As far as learning rate is concerned, just be sure to test different values on the right scale. In other words increase and decrease on a log scale (try 0.1, 0.01, 0.001, 0.0001, 0.00001, and so on).</p>
 <p>If you are wondering whether your learning rate is too high or too low, here is how to tell.</p>
-<p><img src="images/learning-rate2.png"></p>
+<p><img src="https://drive.google.com/uc?id=1Oey-Q9FG2PsnbTHawsrU7eCYXZxhuEiT"></p>
 <p>If it is too high you will see that your cost goes to infinity/NaN. The strange thing is that your Neural Network will keep multiply NaN's as though they are numbers, so you will need to stop your code manually. On the other hand, if your error/cost is converging to slowly, then your learning rate is probably too low. Try turning it up by a factor of 10 so that it learns faster.</p>
 <p>A good technique to try if things are working right is to turn off all modifications except for regular gradient descent (no regularization or anything else you've learned). Then keep lowering the learning rate to see if things improve.</p>
 <h2 id="Normalizing-Cost-and-Regularization-Penalty">Normalizing Cost and Regularization Penalty<a class="anchor-link" href="#Normalizing-Cost-and-Regularization-Penalty">&#182;</a></h2><p>It is possible to train a neural network using batches of training data. When the data you are training on varies in size, the learning rate can become sensitive to it. That is because the cost function is the sum of all the individual errors, so if you have a lot of data points then the cost will be larger. To normalize this, we just divide the cost by <strong>N</strong>, the number of training samples being used at the time:</p>
@@ -1781,39 +1781,6 @@ If x is less than 0</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[1]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>2</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake
