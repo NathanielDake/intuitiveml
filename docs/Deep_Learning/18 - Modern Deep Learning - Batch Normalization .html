@@ -1,0 +1,1070 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/readable.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Nathaniel Dake Blog</title>
+
+<style type = "text/css">
+body {
+  font-family: "sans-serif";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Nathaniel Dake Blog</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../Deep_Learning.html">Deep Learning</a>
+</li>
+        
+<li>
+  <a href="../Artificial_Intelligence.html">Artificial Intelligence</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="https://github.com/NathanielDake/nathanieldake.github.io"> source </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="1.-Batch-Normalization">1. Batch Normalization<a class="anchor-link" href="#1.-Batch-Normalization">&#182;</a></h1><p>At this point we should know that normalizing our data for machine learning models is typically a good idea. That is when we make all of the input features have mean of 0 and variance of 1.</p>
+<p>We accomplish this by subtracting by the mean and dividing by the standard deviation of the data.</p>
+<p>$$X_{normalized} = \frac{X - \mu}{\sigma}$$</p>
+<p>Recall, the reason we want to do this is because this is the region where our nonlinear activation functions are the most active/dynamic - aka that is where they change the most.</p>
+<p>So, how can we think of batch normalization? Well, instead of making normalization part of the preprocessing stage, we make it part of the neural network itself.</p>
+<p><br>
+<img src="images/old-norm.png"></p>
+<p><img src="images/new-norm.png"></p>
+<p>However, what makes this useful is that we perform normalization at every layer! Recall, that each layer of a neural network is like a little logisitic regression. So rather than just normalize the data once, we will normalize it before we do every little logistic regression.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p><br></p>
+<h1 id="2.-Exponentially-Smoothed-Averages">2. Exponentially Smoothed Averages<a class="anchor-link" href="#2.-Exponentially-Smoothed-Averages">&#182;</a></h1><p>We are going to take a minute to dig into something that may seem straight forward: How to calculate an average. The first thought we all have when being asked to do this is: Why not just add all of the sample data points, and then divide by the number of data points, resulting in the sample mean:</p>
+<p>$$\bar{X}_N = \frac{1}{N}\sum_{n=1}^NX_n$$</p>
+<p>But now let's suppose that you have a large amount of data-so much so that all of your X's cannot fit into memory at the same time. Is it still possible to calculate the sample mean? Yes it is! We can read in one data point at a time, and then delete each data point after we've looked at it. It is shown below that the current sample mean can actually be expressed in terms of the previous sample mean and the current data point.</p>
+<p>$$\bar{X}_N =  \frac{1}{N}\sum_{n=1}^NX_n = \frac{1}{N}\Big((N-1)\bar{X}_{N-1} + X_N \Big) = (1 - \frac{1}{N})\bar{X}_{N-1}+\frac{1}{N}X_N$$</p>
+<p>We can then express this using simpler symbols. We can call $Y$ our output, and we can use $t$ to represent the current time step:</p>
+<p>$$Y_t = (1 - \frac{1}{t})Y_{t-1} + \frac{1}{t}X_t$$</p>
+<p>Great, so we have solved our problem of how to calculate the sample mean when we can't fit all of the data into memory, but we can see that there is this $\frac{1}{t}$ term. This says that as $t$ grows larger, the current sample has less and less of an effect on the total mean. Clearly this makes sense, because as $t$ grows that means the total number of $X$'s we've seen has grown. We also decrease the influence of the previous $Y$ by $1 - \frac{1}{t}$. This means that each new $Y$ is just part of the old $Y$, plus part of the newest $X$. But in the end, it balances out to give us exactly the sample mean of $X$.</p>
+<p>For convenience we can call this $\frac{1}{t}$ term $\alpha_t$. What if we were to say that we did not want $\alpha$ to be $\frac{1}{t}$? What if we said that we wanted each data point to matter equally at the time that we see it, so that we can set alpha to be a constant? Of course, $\alpha$ needs to be less than 1 so that we don't end up negating the previous mean.</p>
+<p>$$0 &lt; \alpha_t = constant &lt; 1 $$
+$$Y_t = (1 - \alpha)Y_{t-1} + \alpha X_t$$</p>
+<p>So what does this give us?</p>
+<h3 id="2.1-The-Exponentially-smoothed-average">2.1 The Exponentially-smoothed average<a class="anchor-link" href="#2.1-The-Exponentially-smoothed-average">&#182;</a></h3><p>This gives us what is called the exponentially smoothed average! We can see why it is called exponential when we express it in terms of only $X$'s.</p>
+<p>$$Y_t = (1 - \alpha)^tY_0 + \alpha \sum_{\tau = 0}^{t - 1}(1- \alpha)^\tau X(t- \tau)$$</p>
+<p>If the equation above is not clear, the expansion below should clear up where everything is coming from and <em>why</em> this is called exponential. Let's say we are looking at $Y_{100}$:</p>
+<p>$$Y_{100} = (1-\alpha)^{100}Y_0 + \alpha * X_{100} + \alpha * (1 - \alpha)^1*X_{99} + \alpha * (1 - \alpha)^2 * X_{98}+ ...$$</p>
+<p>We can see the exponential term start to accumulate along the $(1 - alpha)$! Now, does this still give us the mean, aka the expected value of $X$? Well, if you take the expected value of everything, we can see that we arrive at the expected value of $X$:</p>
+<p>$$(1 - \alpha)E[y(t-1)] + \alpha E[X(t)] = (1-\alpha)E(X) + \alpha E(X) = E(X)$$</p>
+<p>We do arrive at the expected value of $X$, so we can see that the math does checkout! Of course, this is assuming that the distribution of $X$ does not change over time. Note that if you have come from a signal processing background, you may recognize this as a <strong>low-pass filter</strong>. Another way to think about this is that you are saying <em>current values matter more</em>, and <em>past values matter less</em> in an exponentially decreasing way. So, if $X$ is not stationary (meaning it's distribution changes over time), then this is actually a better way to estimate the mean (average) then weighting all data points equally over all time.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p><br></p>
+<h1 id="3.-Batch-Normalization---Theory">3. Batch Normalization - Theory<a class="anchor-link" href="#3.-Batch-Normalization---Theory">&#182;</a></h1><p>Recall, before we input any of our data in ML algorithms, we like to normalize the data first. Normalization means subtracting the mean, and dividing by the standard deviation. This forces our data to have a mean of 0 and a variance of 1. We like to do this because it keeps our inputs in a specific range, and we know that our sigmoid and tanh functions are most saturated when the inputs are small.</p>
+<p>What <strong>batch normalization</strong> does, is that instead of you normalizing the data manually, before putting it into the neural network, normalization will occur at every layer of the neural network. You can think of it as building normalization into the neural net vs. doing the calculation yourself before it is input into the neural net. So, the normalization occurs at the neural network level, and not the data level.</p>
+<p><br></p>
+<h2 id="3.1-How-does-it-really-work?">3.1 How does it really work?<a class="anchor-link" href="#3.1-How-does-it-really-work?">&#182;</a></h2><p>First and foremost, it should be known that the name batch normalization comes from the fact that we will be doing batch gradient descent. In other words, during training we will be looking at a small batch of data and doing one gradient descent step on that, looking at the next batch, and so on.</p>
+<p>So, it is called batch normalization because the mean and standard deviation that we calculate are the sample mean and sample standard deviation of the batch. Keep in mind that this only applies during training, because it is only during training that we will have batches of data.</p>
+
+<pre><code>X_B = next batch of data
+mu_B = mean(X_B)
+sigma_B = std(X_B)
+Y_B = (X_B - mu_B) / sigma_B</code></pre>
+<p>You may still wonder, "when does batch normalization actually happen?" Well, batch normalization happens right before we pass it through the activation function. So, before we had two steps:</p>
+<ol>
+<li>Do the linear transformation</li>
+<li>Then pass it through the activation function. </li>
+</ol>
+<p><img src="images/regular.png"></p>
+<p>With batch gradient descent, we have 3 steps:</p>
+<ol>
+<li>Do the linear transformation</li>
+<li>Perform batch normalization </li>
+<li>Then pass it through the activation function</li>
+</ol>
+<p><img src="images/batch-gradient.png"></p>
+<p><br></p>
+<h3 id="3.1.1-Naming-Convention">3.1.1 Naming Convention<a class="anchor-link" href="#3.1.1-Naming-Convention">&#182;</a></h3><p>One important thing to remember is that we are going to call the input to batch normalization $X$, and the output $Y$. This may be confusing at first since generall the input to the neural network is referred to as $X$ and the output is referred to as $Y$. So, for this lecture only does $X$ refer to the inputs of batch normalization and $Y$ refers to the outputs of batch normalization.</p>
+<p><br></p>
+<h2 id="3.2-Missing-Step">3.2 Missing Step<a class="anchor-link" href="#3.2-Missing-Step">&#182;</a></h2><p>Now, so far this may seem very simple. You have a batch of activations, you calculate their mean and standard deviation, you standardize the activations, and then pass it through the activation function as normal. Note, we often add a small number to denominator in order to prevent dividing by 0 if the variance of the batch is 0.</p>
+
+<pre><code>X_B = next batch of data (Note: X refers to activation here)
+mu_B = mean(X_B)
+sigma_B_squared = var(X_B)
+Y_B = (X_B - mu_B)/ sqrt(sigma_B_squared + epsilon)</code></pre>
+<p>However, at this point we are missing one crucial and slightly counter intuitive step! This step comes right before we pass through the activation function. So, what was shown previously was actually missing a step. So, right after normalize the data, we actually scale it back. Right after standardizing the data, we actually scale it to something else, giving it a different mean and different standard deviation. We call this second scale parameter $\gamma$, and the second location parameter $\beta$.</p>
+<p>$$\hat{X}_B = \frac{X_B - \mu_B}{\sqrt{\sigma_B^2 + \epsilon}}$$
+$$Y = \gamma\hat{X}_B + \beta$$</p>
+<p>This may seem very counterintuitive, because this entire concept was motivated with the idea that standardization is good. So, why are we now unstandardizing our data by multiplying by $\gamma$ and adding $\beta$? The reason is that standardization may not be good, but we do not know. So, <strong>we let the neural network decide by using gradient descent</strong>. In other words, we will optimize $\gamma$ and $\beta$ to do whatever is best.</p>
+<p>Note, these parameters will be updated using back propagation, just like all of the other weights in the neural network. Luckily, now that we know theano and tensorflow, we don't have to worry about taking any derivatives, and we can just focus on how the neural network was built.</p>
+<p><br></p>
+<h2 id="3.3-Letting-the-Neural-Network-learn-what-is-best">3.3 Letting the Neural Network learn what is best<a class="anchor-link" href="#3.3-Letting-the-Neural-Network-learn-what-is-best">&#182;</a></h2><p>So, lets suppose that standardization is good. Then, the neural network will learn that $\gamma$ should be close to 1, and $\beta$ should be close to 0. However, if standardization is bad and something else will lead to better results, then the neural network will learn a better $\gamma$ and a better $\beta$ - aka they will be whatever minimizes the cost! In other words, the neural network is learning through gradient descent what the best scale and shift of the data should be. This is not necessarily 1 and 0, it is whatever minimizes our cost function.</p>
+<h2 id="3.4-Another-Problem">3.4 Another Problem<a class="anchor-link" href="#3.4-Another-Problem">&#182;</a></h2><p>So, we now know how to train a neural network with batch gradient descent, but we still have another problem. Let's say it is now time to do prediction; we can say we have 1 sample input, and we would like to calculate a prediction for it. Well, we can't do what we have been doing! Because if we subtract the mean of one sample from the sample itself, we would just get a vector of 0s. So, clearly this is not what we want to do during test time.</p>
+<p>What would be nice is if we kept track of all the sample means and sample standard deviations we saw during training, we could calculate an overall (global) mean and overall (global) standard deviation, and use those during test time! This is exactly what we do; we keep a running mean and running variance! This will look similar to RMSprop and Adam Smoothing, since it is an exponentially smoothed average! We keep a running mean and running variance, and we do this using exponential smoothing. We will call our global mean $\mu$ and our global variance $\sigma^2$.</p>
+
+<pre><code>for each batch B:
+    mu = decay*mu + (1 - decay)*mu_B
+    sigma_squared = decay*sigma_squared + (1 - decay)*sigma_B_squared</code></pre>
+<p>Now, theoreticall you could just calculate the global mean and global variance to the be the mean and variance of all of your training data:
+$$\mu = mean(X_{train})$$
+$$\sigma^2 = var(X_{train})$$</p>
+<p>The problem with that is that it does not scale if your data is too large. At the same time, that may be a simpler way to think of $\mu$ and $\sigma$.</p>
+<h2 id="3.5-Test/Prediction">3.5 Test/Prediction<a class="anchor-link" href="#3.5-Test/Prediction">&#182;</a></h2><p>During test time, based on our above discussion:</p>
+<p>$$\hat{x}_{test} = \frac{x_{test} - \mu}{\sqrt{\sigma^2 + \epsilon}}$$
+$$y_{test} = \gamma \hat{x}_{test} + \beta$$</p>
+<p>Where $\mu$ and $\sigma$ are whatever we calculated during training.</p>
+<h2 id="3.6-Implementation">3.6 Implementation<a class="anchor-link" href="#3.6-Implementation">&#182;</a></h2><p>Now, in order to implement these, you could do it manually. However, there are functions that are built into both theano and tensorflow that can help us. For tensorflow that is:</p>
+<p><strong>TensorFlow Implementation</strong><br></p>
+
+<pre><code>tf.nn.batch_normalization
+# or
+tf.contrib.layers.batch_norm</code></pre>
+<p>And for Theano:
+<strong>Theano Implementation</strong><br></p>
+
+<pre><code>from theano.tensor.nnet.bn import batch_normalization_train,
+batch_normalization_test</code></pre>
+<p>One thing to keep in mind is that these are all element wise operations. So, this applies equally to scalars and vectors.</p>
+<h2 id="3.7-Theory">3.7 Theory<a class="anchor-link" href="#3.7-Theory">&#182;</a></h2><p>So, after all of this discussion on the mechanics of batch normalization, you may still be wondering, how does batch normalization actually help? Well, the authors of the paper that introduced batch gradient descent mention <strong>internal covariant shift</strong>. That sounds very complicated, however, covariate is really just another term for input features, so we can call that X. By shift, they mean that as we perform batch gradient descent the distribution of X may change as we change the network. Aka, this is saying that the distribution of input features can change during training.</p>
+<p>What happens when the data shifts is that the weights then have to compensate, because what they expected the data to look like before is not what it looks like now. So, if you input data has changed then all of the weights in front of it in the neural network will then have to change. The authors claim that this increases training time, because it requires lowering the learning rate and careful weight initialization.</p>
+<p>But, lets say we do batch normalization, and the data in each layer is normalized. Let's assume the ideal case where all of the data is precisely of mean 0 and variance 1. Well, now the weights won't have to adapt to different looking data, because all of the data looks the same.</p>
+<p>This has two effects that have been shown by the authors of the original paper.</p>
+<ol>
+<li>First, it allows us to increase the learning rate, leading to faster training. </li>
+<li>Secondly, it acts like a regularizer. Because the inputs no longer have to take on extreme values, neither will the weights. It has been demonstrated that sometimes by including batch normalization in the network, you can eliminate the need for dropout regularization, since BN is already doing something like regularization. </li>
+</ol>
+<p>One final note: Usually a neural network has a weight matrix and bias vector as parameters. However, we no longer need the bias because the batch normalization already shifts the data!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p><br></p>
+<h1 id="4.-Batch-Normalization-in-Tensorflow">4. Batch Normalization in Tensorflow<a class="anchor-link" href="#4.-Batch-Normalization-in-Tensorflow">&#182;</a></h1><p>To implement batch normalization in tensorflow, we will be using the built in <code>tf.nn.batch_normalization</code> function. So, let's begin by discussing what tensorflows batch normalization function actually does. Well, we can start by looking at the interface.</p>
+
+<pre><code>output = batch_normalization(
+    x, # input
+    mean, 
+    variance, 
+    offset, # beta
+    scale, # gamma
+    epsilon
+)</code></pre>
+<p>We can see that after a quick glance at the function signature, you may notice that the function is actually pretty useless. Firstly, it takes in the mean and variance, which means you have to calculate these things yourself. But, it also doesn't specify what the mean and variance are. Remember, there are two different modes for batch norm, training and testing. When training we use the sample mean and sample variance from the batch (batch_mean and batch_variance). When we are testing we use the overall mean and overall variance from the full training set (global_mean and global_variance).</p>
+<p>So, in actuality, this function does very little. It does this one calculation and that is pretty much it:</p>
+
+<pre><code>y' = (x - mean) / sqrt(var + epsilon)
+y = y' * gamma + beta</code></pre>
+<p>Other things like calculating the batch mean and batch variance during training must be done manually. We also need to update the running mean and running variance as well.</p>
+<p>So, in pseudocode, if you image we have a forward function which takes in an input batch X and an <code>is_training</code> flag, our code would look like:</p>
+<p><strong>Pseudocode Incomplete</strong></p>
+
+<pre><code>def forward(X, is_training):
+    a = X.dot(W)    # no bias because this is redundant
+    if is_training:
+        # Still need to calculate batch_mean and batch_var
+        out = batch_normalization(a, batch_mean, batch_var, beta, gamma)
+    else:
+        out = batch_normalization(a, running_mean, running_var, beta, gamma)
+    return f(out)</code></pre>
+<p>This is still incomplete however, because we need to calculate the batch mean and batch variance from X. We can do that using the <code>tf.nn.moments</code> function:</p>
+<p><strong>Pseudocode with tf.nn.moments</strong></p>
+
+<pre><code>def forward(X, is_training):
+    a = X.dot(W)    # no bias because this is redundant
+    if is_training:
+        batch_mean, batch_var = tf.nn.moments(a, [0])
+        out = batch_normalization(a, batch_mean, batch_var, beta, gamma)
+    else:
+        out = batch_normalization(a, running_mean, running_var, beta, gamma)
+    return f(out)</code></pre>
+<p>Of course, this is still incomplete because we haven't specified how to update the running mean and running variance. Recall, these need to be updated every time we call the train_op. But, unlike all of the other parameters of the neural network, they are not being optimized using gradient descent. They are just the exponentially smoothed average of the batch mean and batch variance. Also, don't forget that because the running mean and running variance are things that need to be updated, we are going to make them variables in the tensorflow graph.</p>
+<p>This may seem problematic, because with tensorflows optimizers they will automatically do gradient descent on all variables in the graph. So, it may seem like the running mean and variance may be updated in a way that we don't want them to be update. However, the fix for this is that the tensorflow variable constructor takes in an arugment called trainable which you can set to false!</p>
+
+<pre><code>running_mean = tf.Variable(initial_value, trainable=False)</code></pre>
+<p>This will ensure that these variables are not being updated during gradient descent. So, at this point how do we update the running mean and variance? The way to do this is using the tf.assign function. The first argument is the variable you want to update, and the second argument is the update expression (similar to how theano updates work). Now, in order to make sure that these updates get run every time we call train, we have to use the function <code>tf.control_dependencies</code>, and pass in the update ops we just created. Luckily, everything is encapsulated inside this function, so there is no more work to do elsewhere.</p>
+<p><strong>Pseudocode with tf.nn.moments</strong></p>
+
+<pre><code>def forward(X, is_training):
+    a = X.dot(W)    # no bias because this is redundant
+    if is_training:
+        batch_mean, batch_var = tf.nn.moments(a, [0])
+        update_rn_mean = tf.assign(
+            self.rn_mean,
+            self.rn_mean * decay + batch_mean * (1 - decay)
+        )
+        update_rn_var = tf.assign(...similar...)
+        with tf.control_dependencies([update_rn_mean, update_rn_var]):
+            out = batch_normalization(a, batch_mean, batch_var, beta, gamma)
+    else:
+        out = batch_normalization(a, running_mean, running_var, beta, gamma)
+    return f(out)</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="k">import</span> <span class="n">shuffle</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">util</span> <span class="k">import</span> <span class="n">get_normalized_data</span>
+
+
+<span class="k">def</span> <span class="nf">init_weight</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">):</span>
+  <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">/</span> <span class="n">M1</span><span class="p">)</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This is a new class that has been defined. We do not want to build a separate class </span>
+<span class="sd">just for batch norm, because it kind of goes in the middle of what a regular hidden layer </span>
+<span class="sd">does. A regular hidden layer does a linear transformation, and then passes the result through</span>
+<span class="sd">and activation function. Well, batch norm happens in between those two operations, so it is </span>
+<span class="sd">better to just create a new class that does the same thing but with batch norm in between. </span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">class</span> <span class="nc">HiddenLayerBatchNorm</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">M1</span> <span class="o">=</span> <span class="n">M1</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">M2</span> <span class="o">=</span> <span class="n">M2</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">f</span>
+
+    <span class="c1"># We don&#39;t need a bias term since batch norm makes it redundant</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">M2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">W</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">gamma</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span>
+
+    <span class="c1"># for test time</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">running_mean</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="n">trainable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">running_var</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="n">trainable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Takes in X as usual, as well as is_training flag and decay parameter for updating running</span>
+<span class="sd">  mean and running variance. So the first line here just does a linear transformation on the </span>
+<span class="sd">  input X with the weights W. Most of the work here is batch norm related. We first check if </span>
+<span class="sd">  is_training is true, and if it is, we then get the batch mean and batch variance of X. Then </span>
+<span class="sd">  we create the update operations for the running mean and running variance. Then we use the</span>
+<span class="sd">  control dependency function to make sure that these updates are run whenever we do the batch</span>
+<span class="sd">  norm operation. We then get the output of the batch normalization. Because this is training,</span>
+<span class="sd">  we use the batch mean and variance here. Otherwise, if we are testing we use the running mean </span>
+<span class="sd">  and running variance. Finally, we pass the output through the activation function. </span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">is_training</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="mf">0.9</span><span class="p">):</span>
+    <span class="n">activation</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_training</span><span class="p">:</span>
+      <span class="n">batch_mean</span><span class="p">,</span> <span class="n">batch_var</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">moments</span><span class="p">(</span><span class="n">activation</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+      <span class="n">update_running_mean</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">running_mean</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">running_mean</span> <span class="o">*</span> <span class="n">decay</span> <span class="o">+</span> <span class="n">batch_mean</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">decay</span><span class="p">)</span>
+      <span class="p">)</span>
+      <span class="n">update_running_var</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">running_var</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">running_var</span> <span class="o">*</span> <span class="n">decay</span> <span class="o">+</span> <span class="n">batch_var</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">decay</span><span class="p">)</span>
+      <span class="p">)</span>
+      
+      <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">control_dependencies</span><span class="p">([</span><span class="n">update_running_mean</span><span class="p">,</span> <span class="n">update_running_var</span><span class="p">]):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">batch_normalization</span><span class="p">(</span>
+          <span class="n">activation</span><span class="p">,</span>
+          <span class="n">batch_mean</span><span class="p">,</span>
+          <span class="n">batch_var</span><span class="p">,</span>
+          <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">,</span>
+          <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">,</span>
+          <span class="mf">1e-4</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">out</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">batch_normalization</span><span class="p">(</span>
+        <span class="n">activation</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">running_mean</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">running_var</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">,</span>
+        <span class="mf">1e-4</span>
+      <span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">HiddenLayer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">M1</span> <span class="o">=</span> <span class="n">M1</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">M2</span> <span class="o">=</span> <span class="n">M2</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">f</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">/</span> <span class="n">M1</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M2</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">W</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The main difference here is that when we loop through the hidden layer sizes, all of the </span>
+<span class="sd">hidden layers we create are the batch norm kind. However, the final layer is just a regular</span>
+<span class="sd">hidden layer. </span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">class</span> <span class="nc">ANN</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hidden_layer_sizes</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layer_sizes</span> <span class="o">=</span> <span class="n">hidden_layer_sizes</span>
+
+  <span class="k">def</span> <span class="nf">set_session</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">session</span>
+
+  <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">batch_sz</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">print_period</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">show_fig</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+    <span class="c1"># initialize hidden layers</span>
+    <span class="n">N</span><span class="p">,</span> <span class="n">D</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">M1</span> <span class="o">=</span> <span class="n">D</span>
+    <span class="k">for</span> <span class="n">M2</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layer_sizes</span><span class="p">:</span>
+      <span class="n">h</span> <span class="o">=</span> <span class="n">HiddenLayerBatchNorm</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">,</span> <span class="n">activation</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+      <span class="n">M1</span> <span class="o">=</span> <span class="n">M2</span>
+      
+    <span class="c1"># final layer</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">Y</span><span class="p">))</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">HiddenLayer</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">batch_sz</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="n">batch_sz</span> <span class="o">=</span> <span class="n">N</span>
+
+
+    <span class="c1"># note! we will need to build the output differently</span>
+    <span class="c1"># for train and test (prediction)</span>
+
+    <span class="c1"># set up theano functions and variables</span>
+    <span class="n">tfX</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">D</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">)</span>
+    <span class="n">tfY</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Y&#39;</span><span class="p">)</span>
+
+    <span class="c1"># for later use</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">tfX</span> <span class="o">=</span> <span class="n">tfX</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    When we get the logits we pass in is_training equals True. This is because the logits are </span>
+<span class="sd">    going to be used to calculate the cost, and the cost of course is going to be used for training</span>
+<span class="sd">    Next, we create an optimizer to minimize the cost. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># for training</span>
+    <span class="n">logits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">tfX</span><span class="p">,</span> <span class="n">is_training</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span>
+      <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">sparse_softmax_cross_entropy_with_logits</span><span class="p">(</span>
+        <span class="n">logits</span><span class="o">=</span><span class="n">logits</span><span class="p">,</span>
+        <span class="n">labels</span><span class="o">=</span><span class="n">tfY</span>
+      <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="c1"># train_op = tf.train.AdamOptimizer(learning_rate).minimize(cost)</span>
+    <span class="c1"># train_op = tf.train.RMSPropOptimizer(learning_rate, decay=0.99, momentum=0.9).minimize(cost)</span>
+    <span class="n">train_op</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">MomentumOptimizer</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">use_nesterov</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span>
+    <span class="c1"># train_op = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Also need to create test logits for making and testing our predictions. To get test logits </span>
+<span class="sd">    we call forward function with is_training equals false </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># for testing</span>
+    <span class="n">test_logits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">tfX</span><span class="p">,</span> <span class="n">is_training</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">predict_op</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">test_logits</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># accuracy = tf.reduce_mean(1.0*(tfY == tf.argmax(logits, 1)))</span>
+
+    <span class="c1"># init the variables</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">global_variables_initializer</span><span class="p">())</span>
+
+    <span class="n">n_batches</span> <span class="o">=</span> <span class="n">N</span> <span class="o">//</span> <span class="n">batch_sz</span>
+    <span class="n">costs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+      <span class="k">if</span> <span class="n">n_batches</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+      <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_batches</span><span class="p">):</span>
+        <span class="n">Xbatch</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="o">*</span><span class="n">batch_sz</span><span class="p">:(</span><span class="n">j</span><span class="o">*</span><span class="n">batch_sz</span><span class="o">+</span><span class="n">batch_sz</span><span class="p">)]</span>
+        <span class="n">Ybatch</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">j</span><span class="o">*</span><span class="n">batch_sz</span><span class="p">:(</span><span class="n">j</span><span class="o">*</span><span class="n">batch_sz</span><span class="o">+</span><span class="n">batch_sz</span><span class="p">)]</span>
+
+        <span class="n">c</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">lgts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">cost</span><span class="p">,</span> <span class="n">train_op</span><span class="p">,</span> <span class="n">logits</span><span class="p">],</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">tfX</span><span class="p">:</span> <span class="n">Xbatch</span><span class="p">,</span> <span class="n">tfY</span><span class="p">:</span> <span class="n">Ybatch</span><span class="p">})</span>
+        <span class="n">costs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">print_period</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+          <span class="n">acc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Ybatch</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">lgts</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+          <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;epoch:&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&quot;batch:&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="s2">&quot;n_batches:&quot;</span><span class="p">,</span> <span class="n">n_batches</span><span class="p">,</span> <span class="s2">&quot;cost:&quot;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="s2">&quot;acc: </span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">acc</span><span class="p">)</span>
+          <span class="c1"># print(&#39;dbg:&#39;, self.session.run(self.layers[0].running_mean).sum())</span>
+
+      <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Train acc:&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">),</span> <span class="s2">&quot;Test acc:&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span><span class="p">))</span>
+    
+    <span class="k">if</span> <span class="n">show_fig</span><span class="p">:</span>
+      <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">costs</span><span class="p">)</span>
+      <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Now we have our forward function. We can&#39;t loop through all layers the same way,</span>
+<span class="sd">  because batch norm layer takes in an is_training flag, and the non batch norm hidden </span>
+<span class="sd">  layer doesn&#39;t </span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">is_training</span><span class="p">):</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">X</span>
+    <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+      <span class="n">out</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">is_training</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+  <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Y</span> <span class="o">==</span> <span class="n">P</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">predict_op</span><span class="p">,</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">tfX</span><span class="p">:</span> <span class="n">X</span><span class="p">})</span>
+
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="c1"># step 1: get the data and define all the usual variables</span>
+  <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">get_normalized_data</span><span class="p">()</span>
+  <span class="c1"># Xtrain, Xtest, Ytrain, Ytest = train_test_split(X, Y, test_size=0.03)</span>
+  <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+  <span class="n">Xtrain</span><span class="p">,</span> <span class="n">Ytrain</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="o">-</span><span class="mi">1000</span><span class="p">],</span> <span class="n">Y</span><span class="p">[:</span><span class="o">-</span><span class="mi">1000</span><span class="p">]</span>
+  <span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="o">-</span><span class="mi">1000</span><span class="p">:],</span> <span class="n">Y</span><span class="p">[</span><span class="o">-</span><span class="mi">1000</span><span class="p">:]</span>
+
+  <span class="n">ann</span> <span class="o">=</span> <span class="n">ANN</span><span class="p">([</span><span class="mi">500</span><span class="p">,</span> <span class="mi">300</span><span class="p">])</span>
+
+  <span class="n">session</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">InteractiveSession</span><span class="p">()</span>
+  <span class="n">ann</span><span class="o">.</span><span class="n">set_session</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+
+  <span class="n">ann</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtrain</span><span class="p">,</span> <span class="n">Ytrain</span><span class="p">,</span> <span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span><span class="p">,</span> <span class="n">show_fig</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Train accuracy:&quot;</span><span class="p">,</span> <span class="n">ann</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Xtrain</span><span class="p">,</span> <span class="n">Ytrain</span><span class="p">))</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test accuracy:&quot;</span><span class="p">,</span> <span class="n">ann</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span><span class="p">))</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Reading in and transforming data...
+epoch: 0 batch: 99 n_batches: 410 cost: 0.27645794 acc: 0.94
+epoch: 0 batch: 199 n_batches: 410 cost: 0.223601 acc: 0.94
+epoch: 0 batch: 299 n_batches: 410 cost: 0.1777369 acc: 0.95
+epoch: 0 batch: 399 n_batches: 410 cost: 0.24774373 acc: 0.95
+Train acc: 0.9610731707317073 Test acc: 0.948
+epoch: 1 batch: 99 n_batches: 410 cost: 0.14623535 acc: 0.96
+epoch: 1 batch: 199 n_batches: 410 cost: 0.15899554 acc: 0.95
+epoch: 1 batch: 299 n_batches: 410 cost: 0.19696574 acc: 0.94
+epoch: 1 batch: 399 n_batches: 410 cost: 0.106518745 acc: 0.96
+Train acc: 0.9779024390243902 Test acc: 0.967
+epoch: 2 batch: 99 n_batches: 410 cost: 0.091345556 acc: 0.98
+epoch: 2 batch: 199 n_batches: 410 cost: 0.10128121 acc: 0.97
+epoch: 2 batch: 299 n_batches: 410 cost: 0.1506073 acc: 0.95
+epoch: 2 batch: 399 n_batches: 410 cost: 0.13579652 acc: 0.96
+Train acc: 0.9873658536585366 Test acc: 0.972
+epoch: 3 batch: 99 n_batches: 410 cost: 0.10155558 acc: 0.96
+epoch: 3 batch: 199 n_batches: 410 cost: 0.03418061 acc: 1.00
+epoch: 3 batch: 299 n_batches: 410 cost: 0.08130694 acc: 0.96
+epoch: 3 batch: 399 n_batches: 410 cost: 0.096238986 acc: 0.97
+Train acc: 0.9921707317073171 Test acc: 0.97
+epoch: 4 batch: 99 n_batches: 410 cost: 0.029562777 acc: 1.00
+epoch: 4 batch: 199 n_batches: 410 cost: 0.054799743 acc: 0.99
+epoch: 4 batch: 299 n_batches: 410 cost: 0.028194323 acc: 0.99
+epoch: 4 batch: 399 n_batches: 410 cost: 0.030997505 acc: 0.99
+Train acc: 0.9949268292682927 Test acc: 0.968
+epoch: 5 batch: 99 n_batches: 410 cost: 0.09050352 acc: 0.98
+epoch: 5 batch: 199 n_batches: 410 cost: 0.07816616 acc: 0.97
+epoch: 5 batch: 299 n_batches: 410 cost: 0.021930732 acc: 1.00
+epoch: 5 batch: 399 n_batches: 410 cost: 0.011295605 acc: 1.00
+Train acc: 0.9973414634146341 Test acc: 0.973
+epoch: 6 batch: 99 n_batches: 410 cost: 0.030883696 acc: 0.98
+epoch: 6 batch: 199 n_batches: 410 cost: 0.031008463 acc: 0.99
+epoch: 6 batch: 299 n_batches: 410 cost: 0.018368114 acc: 0.99
+epoch: 6 batch: 399 n_batches: 410 cost: 0.0202258 acc: 0.99
+Train acc: 0.9983414634146341 Test acc: 0.972
+epoch: 7 batch: 99 n_batches: 410 cost: 0.008781666 acc: 1.00
+epoch: 7 batch: 199 n_batches: 410 cost: 0.08981531 acc: 0.98
+epoch: 7 batch: 299 n_batches: 410 cost: 0.017523872 acc: 1.00
+epoch: 7 batch: 399 n_batches: 410 cost: 0.013362179 acc: 1.00
+Train acc: 0.9990731707317073 Test acc: 0.973
+epoch: 8 batch: 99 n_batches: 410 cost: 0.013181798 acc: 1.00
+epoch: 8 batch: 199 n_batches: 410 cost: 0.14114706 acc: 0.99
+epoch: 8 batch: 299 n_batches: 410 cost: 0.009039352 acc: 1.00
+epoch: 8 batch: 399 n_batches: 410 cost: 0.004425949 acc: 1.00
+Train acc: 0.9995853658536585 Test acc: 0.976
+epoch: 9 batch: 99 n_batches: 410 cost: 0.011117002 acc: 1.00
+epoch: 9 batch: 199 n_batches: 410 cost: 0.0301333 acc: 0.99
+epoch: 9 batch: 299 n_batches: 410 cost: 0.012444717 acc: 1.00
+epoch: 9 batch: 399 n_batches: 410 cost: 0.009814941 acc: 1.00
+Train acc: 0.9996829268292683 Test acc: 0.975
+epoch: 10 batch: 99 n_batches: 410 cost: 0.006009292 acc: 1.00
+epoch: 10 batch: 199 n_batches: 410 cost: 0.02984183 acc: 0.99
+epoch: 10 batch: 299 n_batches: 410 cost: 0.0019693964 acc: 1.00
+epoch: 10 batch: 399 n_batches: 410 cost: 0.0052232686 acc: 1.00
+Train acc: 0.9998536585365854 Test acc: 0.972
+epoch: 11 batch: 99 n_batches: 410 cost: 0.013343015 acc: 1.00
+epoch: 11 batch: 199 n_batches: 410 cost: 0.009281651 acc: 1.00
+epoch: 11 batch: 299 n_batches: 410 cost: 0.006142187 acc: 1.00
+epoch: 11 batch: 399 n_batches: 410 cost: 0.014222371 acc: 1.00
+Train acc: 0.9998536585365854 Test acc: 0.975
+epoch: 12 batch: 99 n_batches: 410 cost: 0.011144333 acc: 1.00
+epoch: 12 batch: 199 n_batches: 410 cost: 0.0038904538 acc: 1.00
+epoch: 12 batch: 299 n_batches: 410 cost: 0.0030705195 acc: 1.00
+epoch: 12 batch: 399 n_batches: 410 cost: 0.0048450865 acc: 1.00
+Train acc: 0.9998536585365854 Test acc: 0.976
+epoch: 13 batch: 99 n_batches: 410 cost: 0.0028337908 acc: 1.00
+epoch: 13 batch: 199 n_batches: 410 cost: 0.012087338 acc: 1.00
+epoch: 13 batch: 299 n_batches: 410 cost: 0.0018568495 acc: 1.00
+epoch: 13 batch: 399 n_batches: 410 cost: 0.0045986073 acc: 1.00
+Train acc: 0.9999268292682927 Test acc: 0.974
+epoch: 14 batch: 99 n_batches: 410 cost: 0.0022703228 acc: 1.00
+epoch: 14 batch: 199 n_batches: 410 cost: 0.0020140419 acc: 1.00
+epoch: 14 batch: 299 n_batches: 410 cost: 0.008397137 acc: 1.00
+epoch: 14 batch: 399 n_batches: 410 cost: 0.004305532 acc: 1.00
+Train acc: 0.999780487804878 Test acc: 0.977
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXcAAAD8CAYAAACMwORRAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAIABJREFUeJzt3Xl8VOXd9/HPLwv7DhEhLEGKC1pRRBT1trbuyyNPq63ap2prfah2X171AevS1tpq++jtemutWpdal1uoRUFQEBVEgYDsIRL2sCWEJYGQQDLX/cecCZNkNsIkM2f4vl+vvHLmzMmc3wWTb85c5zrXMeccIiKSWbJSXYCIiCSfwl1EJAMp3EVEMpDCXUQkAyncRUQykMJdRCQDKdxFRDKQwl1EJAMp3EVEMlBOqnbcp08fV1BQkKrdi4j40sKFC3c45/LibZeycC8oKKCwsDBVuxcR8SUz25DIduqWERHJQAp3EZEMpHAXEclACncRkQykcBcRyUAKdxGRDKRwFxHJQL4L9+JtVTz8XjE79tamuhQRkbTlu3BfXVbFYx+UsHPfgVSXIiKStuKGu5kNNLNZZrbSzFaY2c8ibHOBme0xs8Xe1z2tUy7MXVMBwPsrt7fWLkREfC+R6QfqgF855xaZWVdgoZm975xb2WS72c65q5JfYmNLS3cDsHDDrtbelYiIb8U9cnfObXXOLfKWq4AiIL+1C4vGsFTtWkTENw6rz93MCoDTgXkRnh5jZkvM7F0zOzkJtcXknGvtXYiI+FbCs0KaWRdgIvBz51xlk6cXAYOdc3vN7ArgLWBYhNcYB4wDGDRoUIsKzvIO3BXtIiLRJXTkbma5BIP9FefcpKbPO+cqnXN7veWpQK6Z9Ymw3TPOuVHOuVF5eXGnI45WjPdaLftxEZGjQSKjZQx4Dihyzj0cZZtjve0ws9He61Yks9CmlO0iItEl0i1zLnAjsMzMFnvr7gQGATjnngauBW43szpgP3C9a6VOcZ1OFRGJL264O+fmECdTnXNPAE8kq6hE6ISqiEh0vrtC1XToLiISl//C3fuuA3cRkeh8F+4XntQXgDMG90xxJSIi6ct34X7+sOAQyi/nd09xJSIi6ct34R6iXhkRkeh8F+6hE6oaLSMiEp3vwj1E0S4iEp3vwl1DIUVE4vNduIeoV0ZEJDrfhfuh+dyV7iIi0fgv3BtOqKa2DhGRdObfcE9tGSIiac1/4a55IUVE4vJduIeoW0ZEJDrfhfuhbhmlu4hINP4Ld++7jtxFRKLzX7jrhKqISFy+C3fdaE9EJD4fhnuQJg4TEYnOd+GuuWVEROLzX7h733XgLiISnf/CXYfuIiJx+S7cQzTOXUQkOt+Fu7plRETi81+4a1ZIEZG4/Bfu3rG7sl1EJDr/hbvOp4qIxOW7cA/RRUwiItH5N9xTXYCISBrzXbibbqEqIhJX3HA3s4FmNsvMVprZCjP7WYRtzMweM7MSM1tqZiNbp9xDFzFpnLuISHQ5CWxTB/zKObfIzLoCC83sfefcyrBtLgeGeV9nAU9535NO51NFROKLe+TunNvqnFvkLVcBRUB+k83GAi+5oM+AHmbWL+nVNqqrNV9dRMTfDqvP3cwKgNOBeU2eygc2hT0upfkfAMxsnJkVmllheXn54VXa8BrB78p2EZHoEg53M+sCTAR+7pyrbMnOnHPPOOdGOedG5eXlteQlDl3EpHQXEYkqoXA3s1yCwf6Kc25ShE02AwPDHg/w1iWdLmISEYkvkdEyBjwHFDnnHo6y2WTgJm/UzNnAHufc1iTW2YxGy4iIRJfIaJlzgRuBZWa22Ft3JzAIwDn3NDAVuAIoAaqB7yW/1CDNCikiEl/ccHfOzSHOCEQXnAvgR8kqKiadUBURict/V6iiOX9FROLxX7jrhKqISFy+C/cQHbeLiETnu3DXCVURkfj8F+6hicOU7iIiUfkv3L3vinYRkej8F+46oSoiEpfvwj1EvTIiItH5LtwbJg5LcR0iIunMd+F+6BomxbuISDS+C3f1uYuIxOe/cE91ASIiPuC7cA9Rr4yISHS+C/fQRUz7DtSluBIRkfTlv3D3vj8yY3VK6xARSWe+C3f1xoiIxOe7cK+vV7yLiMTju3Dv0M53JYuItLlE7qGaVtrnZNMuO4tbzhuS6lJERNKWPw+DDZx630VEovJluBvozKqISAz+DHdTtouIxOLPcMc0cZiISAz+DHfT9AMiIrH4M9xRt4yISCz+DHczHbmLiMTgz3BHQyFFRGLxZbijPncRkZh8Ge5Zuh2TiEhMccPdzJ43szIzWx7l+QvMbI+ZLfa+7kl+mU33CQEduouIRJXI3DIvAE8AL8XYZrZz7qqkVJQAQ90yIiKxxD1yd859DOxsg1oSZmY6oSoiEkOy+tzHmNkSM3vXzE5O0mtGpSN3EZHYkjHl7yJgsHNur5ldAbwFDIu0oZmNA8YBDBo0qMU71NwyIiKxHfGRu3Ou0jm311ueCuSaWZ8o2z7jnBvlnBuVl5d3BHvVRUwiIrEccbib2bFmwbGJZjbae82KI33d2PsEHbuLiEQXt1vGzF4FLgD6mFkpcC+QC+Ccexq4FrjdzOqA/cD1rpWnbFSfu4hIbHHD3Tl3Q5znnyA4VLLNaFZIEZHYfHmFqqGhkCIisfgz3HXkLiISkz/DHZ1OFRGJxZ/hrvncRURi8mW4g+ZzFxGJxZfhbuqXERGJybfhrmwXEYnOn+GO0crXSYmI+Jovw722rp7aukCqyxARSVu+DPftlbW8u3xbqssQEUlbvgx3ERGJTeEuIpKBFO4iIhlI4S4ikoGScZu9NnfawB5065ib6jJERNKWb4/cNc5dRCQ6X4Z78DZ7IiISjT/DPdUFiIikOV+GO+hmHSIisfgy3E39MiIiMfky3EHzuYuIxOLLcNdxu4hIbL4c5164YVeqSxARSWu+PHIXEZHYfB3u9QH1u4uIROLrcH/oveJUlyAikpZ8He4fFpenugQRkbTk63AXEZHIFO4iIhlI4S4ikoHihruZPW9mZWa2PMrzZmaPmVmJmS01s5HJL1NERA5HIkfuLwCXxXj+cmCY9zUOeOrIyxIRkSMRN9ydcx8DO2NsMhZ4yQV9BvQws37JKlBERA5fMvrc84FNYY9LvXUiIpIibXpC1czGmVmhmRWWl7d8jPrIQT2SWJWISOZJRrhvBgaGPR7grWvGOfeMc26Uc25UXl5ei3eYpfncRURiSka4TwZu8kbNnA3scc5tTcLrRqVsFxGJLe6Uv2b2KnAB0MfMSoF7gVwA59zTwFTgCqAEqAa+11rFNtSkGd1FRGKKG+7OuRviPO+AHyWtogToyF1EJDZfXqGanaV0FxGJxZfhriN3EZHYfBnuGi0jIhKbL8Pd6QZMIiIx+TLc55TsAKB0V3WKKxERSU++DPeQypq6VJcgIpKWfB3uIiISmcJdRCQDKdxFRDKQwl1EJAMp3EVEMpDCXUQkAyncRUQykMJdRCQDKdxFRDKQwl1EJAP5Mtz7de+Q6hJERNKaL8NdU/6KiMTmy3BXtouIxObLcNeRu4hIbD4N90PL+2rrWL55T+qKERFJQz4N90Ppfts/FnLV43OoOVifwopERNKLL8OdsCP3hRt2AVAX0L33RERCfBnundvlNFs3f11FCioREUlPvgz3Oy47oWE5dLPsW14oTFE1IiLpx5fhfuqAHqkuQUQkrfky3OvqAw3LDvW1i4g05ctw794xN9UliIikNV+Ge072obJrDgZibCkicnTyZbgfroq9takuQUSkTSUU7mZ2mZkVm1mJmY2P8Px3zazczBZ7X7cmv9SWmVVcxhl/mMHHX5SnuhQRkTYTN9zNLBt4ErgcGA7cYGbDI2z6unPuNO/r2STX2WKLvIucFm/aneJKRETaTiJH7qOBEufcWufcAeA1YGzrlpU8ToNpROQolEi45wObwh6XeuuausbMlprZm2Y2MNILmdk4Mys0s8Ly8rbtJtE8kiJyNEnWCdW3gQLn3KnA+8CLkTZyzj3jnBvlnBuVl5eXpF2LiEhTiYT7ZiD8SHyAt66Bc67CORcakvIscEZyyjs8oUnEIlHvjIgcTRIJ9wXAMDMbYmbtgOuByeEbmFm/sIdXA0XJKzFx1zw1l4BmhxQRiR/uzrk64MfAdIKh/YZzboWZ/d7MrvY2+6mZrTCzJcBPge+2VsHxLI1y4w71uYvI0aT53LkROOemAlObrLsnbHkCMCG5pbVMeIj/35cKKd21P2W1iIikSkLh7idmMG9tBdc981mqSxERSZmMm35g8679PP5BScTnTrp7Gt/666dtXJGISNvz7ZF7x9xs9ke4b+rtryyKuH29c+w/WM/8dTtbuzSRjDb2yU/IyTIm3n5OqkuRGHx75H7TmMGHtf0jM1a3UiUiR5clm3bHHHYs6cG34X7JyX1TXYKISNrybbibJW9wY0nZ3qS9lohIOvBtuH/pmC4t/tnSXdWUlO3l5c82MLNoOxc9/BGTl2xJYnUiIqnl2xOq3Tq0/FZ75z04q2H515eeAMDKLZVcPaL/EdclIpIOfHvknixLNM+7iGSgoz7c31u5HQB3BFOLfevpTykYP4UPi8uSVZaIyBE56sM9xDkYff8M3ijcFHWbfbV1FIyfQsH4KdR4Y+zfXbaV+euDY+dfnb+xTWqV1Nh/oJ4duh+v+ITC3VNX7yirquXOScuaPTdpUSkF46c0uvJ1485qAH779oqGdbrrU2b7xlNzGfWHGakuQyQhvg73Hp1aflK1qec/WQdEnvf9sZnBC6DCu10u+c+PqT5Qx/ZKHckdLYq2Vqa6BJGE+TrcF951cdJf04Udfh+oCzR0vwCs2lbVaNuPv2h8q8APVpUl/LF97BNzuP6ZT3lyVuN5cJxz3PriAmap/z6ivbV1VB+oS3UZImnP1+GenZX8WdoDDurqAwB87aEPOfHuaVG3XVraeO74uoBj1B9mcO1Tc+PuZ0npHj5bu5O/TC9utL4+4JhRVMb3X1jQguqP3NySHdz1VvOuqXRxyr3TGfG791Jdhkja83W4t5Y73lzK6ws2xp0LPjc78j9foTfvxurtVUyYtJT6JneHqmhydL988x7qA47lm/ewZ/9BIPoVuJt2VjN9xbaE2hESCDjGT1was1shVOO3n53HPz5L7xPDB+tb7+TGzn0HGn16E/ErhXsEkz7fzP+beOjodfPuyCG/bU9NzNf5wT8W8ur8TazbsZenPlzDhop9AJQ3CferHp/DN5+ey1WPz+Hbf5sHRL9z1FWPz+EHLy9MsCVBm3ZV89qCTVF/btaqMobeOZUVWyLfxepoUbytipH3vc9rC6KPmMoEzjmuenw27yzVVdmZzPfhPrxft1bfR7QjxddjDJsEGs7O7qo+yIPTVvGd54LBfdkjs5ttumhj8GKq4u1VzZ6799/L+ffi4D3JQ0f2yTSjaHujGo5WoTmGmp5LyTQBB8s3V/KTVz9PdSnSinwf7u/85DxW3XdZqstoZt2OfQS8j/ehT/n7D9RTMH7KYb/Wi59u4GevLW5RHQfrA7yzdCtwaJz+2wnMo9NaNxrfumc/M7wLx9JNEuei8wX1PmU234d7VpbRITebi046NAXwXVeelMKKgr76/z9kfUVwLHwoNOoOIzCzIpwsvvqJOYddx4RJyxpO2lbsOwDAE1HuVBXub7PXHva+EvH1J+dy60uFQHA0Ulll7K6tVMj00NM5hbaXive678M9kv81oj+L7k7+MMmWuuXvwZEvu6sT71I5UBegrKqGX7x+6Ii96eicRLy5sLTZOofj1hcLGfvkJ97j5v707ipKd1U3/1nnmp0gPhzbwt7gv3h9MaP/ODNtwib09/RIpqLwA7+3buWWSjbtbP7eTGe/fCP4Xm+tT8SRZFy4//rSE+jbrUOqy2ikqrZl47JH3z+Tf32+OaFtz7x/Bi9/up491QcT6pefUbQ97qRpgUDzdY/MWM3QO6c2Gv/fEjUH65myLNhdlCbZTug0djLrCQQcf5m+irKqxI/aauvqOf337zFt+dbkFRImff69W+aKx2bzH3+eFX/DNDJteXCEW30b/uP7dsrfpq47cyAzirbz9dPzAeiQm3F/txr557yNvPzZBoYd04Vzv9Sb8qpa7v73Cu7+d3A6BLPov8RfbG98c5JQB9CjTW5FGOkI9pV5GwCoqqmjQ252QrXW1tWTZdZo6OgfpxY1LAecIyvq+KC2l8xfv3nrdvLkrDWs2FLJC98bndDPlFfVsqv6IH+YUsRlp/RLYjVBmf7JJB2FumbrA44Ef22OWMYk4MXD+7L+gSvp36MjAJ3a5XDf2JNTXFXrufNfyyjaWsnkJVsaDdsMSfQA4X97XTNAs6trJy4sZdKiUmavLm8YrRNy5v0zmFuyI6F9nHDXNK54tPEIofBhpOGlTl6yhf0HjuxTQUsdzgnVf3y2oeFoLJKyyhr+/sm6hk84B+oOfQz62kMfctthDmcNKd1VzZJNuymrrGnxyKkjOXh8v41Phje9StyvQtetBHTknhw3jilg4qLNLA7rfjipXzfNERJm8abdnNw/8nDSx5qceB17Wn6jYHhv5XbO+VKfhPazusmtDMPf4qE3/MINO/npq59zw+iB/Okbpyb0uq0hkd+/u95aDsD6B66M8POO0X+cCcDIQT2aPb+2fB9ry/e1aP/hN5rp2j6HZb+7NH6xSbRsc9teC3HRwx+xcWc16x+4Eucc+1L0h/9IZYUdubfZPttsTyky6fZzGj1+6ZZDH42/dEwXendu19YlpZ1X5iV2Reqv3ljSMOIGgv32oSmQI53geui9YhZ40yE3FbqgC2DO6h0UjJ/Cyi3BP7pbdgeP6ssqa6iqafm4/oLxU7h/ysqEtw8duM8o2n5EJ3nDf4F3HcZJ9KbildDSczktbVplzcGGSfTaysaw99WjM1dzyr3T22S/63fso2D8FOauSezTaTxZ3pF7W4Z7Rh+5Q3BI4aPXn0avzu0YMbBHo9vzHdenM8/88istGnt+NJq4qPHIm/DpGUInuAb16sQ1IwcwYmB3Hv+gpNE0yeGBGd7v//0Xg0MjQ+cLQkb/cSb9u3dg7oQLqa2r59wHPmhWU0nZXuatq+DtJVt44XujG84DhLos/jZ7Hb+5cnhC7Quf8mHtjn0MzevCu8u20q1jLueGfUKJ1x0SPuTVNbnWIR20tM+9MMof6rbyVoKDC5Jh3rqKhn2eMzSxT6exZCvcW8fY0/IbPZ70w3N4fs467r4qsV96SdzGndX854wvIj43ZMLUhF7joy/KWVseDP8te2q48bl5rNuxjx17D31q+K8PSyhcv4sPVh2aPfPEu6cx+46vMqdkBxPC5uW/753g0fvVI/ozYmDzbpKQ8C73z9ZWcOOz89jinRsI73657JGPY9Yf/gscWqytq6c+4A5rsrsjvahqwfqddMjJ5ssDujda3xZ/aKpqDnLGfTN49uZRnH98XsRttlfWsG7HPs4+rndCr3k414mknVC3jPrcW9fIQT0Z+e2ezdbfdeVJ/GFKcBTHlV/ux+0XDOWqxw/vwqHTB/Xg86P8Mv5k+NpDHzUsz17d/KPxn6cVN1sHRBwi99ycdY2+5/foyF9vPINT8rtz43PzmLumgsk/PrdRePzmX8uj1rY17GTwa/M3kmXGSf268XrhRu4be0qjX+BQt8Kijbu59cUFfLKmouG5sqoaJi7czIn9utK9Yy4jBzV/T4YL78pqXtN+enZqx38XbqJbx1zGnpbPN5/+FGh+XqAt4uWTkh0cqA9w0/PzI56XgOA8SeVVtRGfv+3lhVTsa3yCvzXHiL+xYBNnHdeLwb07N1q/t7aOmUXbuTDsIsmWCHXLRBpe3FoSCnczuwx4FMgGnnXOPdDk+fbAS8AZQAVwnXNufXJLbT33f/0URgzowfB+3Ti2ewdWba3iV5ccj5nxxg/G0D4ni2dmr+Xk/t0aQuX6Mwc2m2AqdNJn6J1T8fNBRqbbvHt/sz/aVz4W+494tK678d4nhHbZWRyoD3DbV4ZGPTKeVdx4zprR989sts1D3xzBii2HTvjX1tWzp/ogP/jHQi4/5dhm2//u7RX8/ZP1jWoAaJ9z6HRawfgpzB3/Nfr36Mg1T83lqlMPDa90zlFbF6Au4OjSPoctu/dz0cMfUe2duFx8z8UEXLCOW14obLTvg/WBhuGt9QHHg9NW8d1zChpGrIUUrt/JozNX8/fvnklO2HDY8qrm9z7YtLOabh1ymRZh5tMtcSbqg+AAgfdWbOMXFx/PruoDHNM1/jUvzjnumLiUnp1y+fyeSxo9N3XZNqYu28ZHv76Awb07M6u4jLwu7TklvzvOOQKu8dTjB+oCbN69nyF9OuOcY/66nYwe0qvhhGrprmpq6+qb/RFpDRbvxJGZZQNfABcDpcAC4Abn3MqwbX4InOqcu83Mrge+7py7Ltbrjho1yhUWFsbaJO0EAo5XF2zk2jMG0D4nmy2797N593627amha4ccLjjhGCD4Rh96Z+MuiA9+9RVuen4+pbv288uLj2fH3lr21tRx/LFd6dWpHXdMXArAzWMGk5Od1XCUKdJWFvzmIi56+KOEh1i+dMto8nt2pGNuNueEnQ+5ecxgHPDSpxsSep1vjMznt1efzKm/jT5P/5J7L2k2j//r484mNyeLT9dUcPWI/hE/ta267zLWlu+jPuD4sLiM5z9ZxzlD+zBv3U465GZx63lDOP7Yrg2zsT54zZe57sxBPDt7bcOneIA/X3sqw/t1azgo+OetZ/HUR2uYvXoH6x+4kvqA44F3iyjevpePvyjnz9ec2vA7/Z2zBzWbRnvdn66IOq13PGa20Dk3Ku52CYT7GOC3zrlLvccTAJxzfwrbZrq3zadmlgNsA/JcjBf3Y7gfjmWle3jo/WI+LC4nJ8so+eMVh/0a5VW13Dt5OVOXBY9i/nLtqfz6zaUNz/fu3K7R6JVIfn3pCc1uCCIiqfWNkfk8/K3TWvSziYZ7It0y+UB4/0MpcFa0bZxzdWa2B+gNJGcckQ99eUB3nrlxFK/O38h3zh7cotfI69qeJ789kt3VB+neMZesLOObowayYP1O8nt05Jiu7Vm1rYpT8rvz3Jx19O/egTOH9KJ7x1wCzrGxopphfbty1pBe9O7SnsG9OlFTV8/EhaUU9OnMp2sq+K8P1zDu/OO4eHhfHnx3FWcd14vFm3Yz9rR8du07QH7PjqzevpfHPljNtJ+dT21dPdf99TPe/sm5TF+xnb9ML250lPKV4/P4yJsyd3DvTgw7pgszinTLQJFwkxZtbnG4JyqRI/drgcucc7d6j28EznLO/Thsm+XeNqXe4zXeNjuavNY4YBzAoEGDztiwIbGPbeJ/lTUH6dYhF+cclTV1dGqXTZZZ1NEjgYCjeHsVQ/O6kJttVNYE7516bLcOmBmbdlYzoGdHzIz6gGNm0Xb+Y1ge63bso0/Xdg19raH9Any6poKag/Xk9+zI4N6d2FtTR21dgLKqWrbt2c+XjunK4N6dWLW1ij37DzKsbxfKq2opKdvLcXmd2banhgtP6sukRcE/jiVle5m2fBs3jB7I3DUV3DRmMJ3a5TB9xTZ6dW5HQe/OrK/YR83BekYM7MGOqgO8MHcdRVuruO2Cofx28gpuPW8Ifbq056snHsMr8zZQ612R2bV9DjNXlVG6az/9u3cgO9v4j2F5DO7ViV6d27G6bC+fra3gi+1VXHhiX5aU7uaU/t35YnsVFw/vS2VNHa/OP9QV0KV9DnsjjIu/acxgJi3a3Oi5vK7tG/rDrx7Rn6KtleRkZ1G0tZJBvTo1GnsuLfP+L85nWN+uLfpZdcuIiGSgRMM9kStUFwDDzGyImbUDrgcmN9lmMnCzt3wt8EGsYBcRkdYVt8/d60P/MTCd4FDI551zK8zs90Chc24y8BzwspmVADsJ/gEQEZEUSWicu3NuKjC1ybp7wpZrgG8mtzQREWmpjJ84TETkaKRwFxHJQAp3EZEMpHAXEclACncRkQwU9yKmVtuxWTnQ0ktU+5AZUxtkQjsyoQ2QGe3IhDZAZrSjNdsw2DkXeZL8MCkL9yNhZoWJXKGV7jKhHZnQBsiMdmRCGyAz2pEObVC3jIhIBlK4i4hkIL+G+zOpLiBJMqEdmdAGyIx2ZEIbIDPakfI2+LLPXUREYvPrkbuIiMTgu3A3s8vMrNjMSsxsfKrrCWdmz5tZmXfzktC6Xmb2vpmt9r739NabmT3mtWOpmY0M+5mbve1Xm9nNkfbVyu0YaGazzGylma0ws5/5rS1m1sHM5pvZEq8Nv/PWDzGzeV6tr3vTWGNm7b3HJd7zBWGvNcFbX2xml7ZVG8L2n21mn5vZOz5uw3ozW2Zmi82s0Fvnm/dT2P57mNmbZrbKzIrMbEzatsM555svglMOrwGOA9oBS4Dhqa4rrL7zgZHA8rB1fwbGe8vjgQe95SuAdwEDzgbmeet7AWu97z295Z5t3I5+wEhvuSvBG6QP91NbvFq6eMu5wDyvtjeA6731TwO3e8s/BJ72lq8HXveWh3vvs/bAEO/9l93G/x+/BP4JvOM99mMb1gN9mqzzzfsprOYXgVu95XZAj3RtR5v9oyTpH3YMMD3s8QRgQqrralJjAY3DvRjo5y33A4q95b8CNzTdDrgB+GvY+kbbpahN/wYu9mtbgE7AIoL3/t0B5DR9PxG8X8EYbznH286avsfCt2uj2gcAM4GvAe94NfmqDd4+19M83H31fgK6A+vwzlWmezv81i0T6Wbd+SmqJVF9nXNbveVtQF9vOVpb0qqN3kf70wke+fqqLV53xmKgDHif4BHrbudc6Iah4fU0usk7ELrJe6r/Px4B7gAC3uPe+K8NAA54z8wWWvBeyuCz9xPBTz3lwN+9brJnzawzadoOv4W7r7ngn2nfDE8ysy7ARODnzrnK8Of80BbnXL1z7jSCR7+jgRNTXNJhMbOrgDLn3MJU15IE5znnRgKXAz8ys/PDn/TD+4ngp6GRwFPOudOBfQS7YRqkUzv8Fu6bgYFhjwd469LZdjPrB+B9L/PWR2tLWrTRzHIJBvsrzrlJ3mpftsU5txuYRbALo4cFb+LetJ6GWr3nuwMVpLZCRKSdAAABjklEQVQN5wJXm9l64DWCXTOP4q82AOCc2+x9LwP+RfCPrd/eT6VAqXNunvf4TYJhn5bt8Fu4J3Kz7nQTfvPwmwn2X4fW3+SdUT8b2ON9tJsOXGJmPb2z7pd469qMmRnB++IWOeceDnvKN20xszwz6+EtdyR4zqCIYMhfG6UNkW7yPhm43huJMgQYBsxvizY45yY45wY45woIvtc/cM79Hz+1AcDMOptZ19AywffBcnz0fgJwzm0DNpnZCd6qC4GVaduOtjoZkcSTGlcQHL2xBvhNqutpUturwFbgIMG/8t8n2Oc5E1gNzAB6edsa8KTXjmXAqLDXuQUo8b6+l4J2nEfwo+VSYLH3dYWf2gKcCnzutWE5cI+3/jiCwVYC/DfQ3lvfwXtc4j1/XNhr/cZrWzFweYreWxdwaLSMr9rg1bvE+1oR+r310/spbP+nAYXe++otgqNd0rIdukJVRCQD+a1bRkREEqBwFxHJQAp3EZEMpHAXEclACncRkQykcBcRyUAKdxGRDKRwFxHJQP8Dvl6l+fQMz3wAAAAASUVORK5CYII=
+"
+>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Train accuracy: 0.999780487804878
+Test accuracy: 0.977
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p><br></p>
+<h1 id="5.-Batch-Normalization-in-Theano">5. Batch Normalization in Theano<a class="anchor-link" href="#5.-Batch-Normalization-in-Theano">&#182;</a></h1><p>Here we are going to make use of Theano's Batch Normalization Functions. They are located in the <code>bn</code> module.</p>
+
+<pre><code>from theano.tensor.nnet.bn import batch_normalization_train,
+batch_normalization_test</code></pre>
+<p>Unlike, the tensorflow version, which is slightly dumb because all it does is scaling and shifting, which is just multiplication and addition, theanos version is a bit smarter, and it also returns the batch mean and variance, as well as the updates for the running mean and running variance. So, whereas in tensorflow you had to code that yourself, theano is going to do that for you. In addition, theano has two separate functions, one for training and one for testing.</p>
+<p>So, in pseudocode it is very simple. You can imagine that we have a forward function for a neural network layer, and it is going to take in an is_training flag.</p>
+
+<pre><code>def forward(X, is_training):
+    a = X.dot(self.W)
+    if is_training:
+        out, batch_mean, batch_invstd, new_rn_mean, new_rn_var = batch_norm..n_train(
+            a, self.gamma, running_mean=self.rn_mean, running_var=self.rn_var_)
+    else:
+        out = batch_norm..n_test(a, self.gamma, self.beta, self.rn_mean, self.rn_var)
+    return self.f(out)</code></pre>
+<p>There is one thing that may still be confusing, however. Notice how batch_normalization_train returns 5 items, the 1st one being just the output of the normalization. It also returns the batch mean and batch variance, but in terms of the inverse standard deviation. And it also returns theano tensors, which represent the updated running mean and running variance. It is slightly odd that it returns the first scaled parameter in terms of inverse standard deviation, and the second in terms of variance. But, that is just the way theano developers decided to do it.</p>
+<h2 id="5.1-Updating-the-running-mean-and-variance">5.1 Updating the running mean and variance<a class="anchor-link" href="#5.1-Updating-the-running-mean-and-variance">&#182;</a></h2><p>What we must remember is that in theano everything is in terms of a graph node. This can be thought of as a snapshot in time. We can think of the graph as sort of a snapshot in time. So, in this current iteration, we are getting some new graph node that represents the update for the running mean, and a new graph node that represents the update for the running variance. The important thing to remember is that we have to remember to pass these updates into the theano train function, so that these updates are actually made during training at the same time we do gradient descent on the rest of the parameters. This also means that we have to declare the running mean and variance as theano shared, just like all of the other parameters.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">theano</span>
+<span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="k">as</span> <span class="nn">T</span>
+<span class="kn">from</span> <span class="nn">theano.tensor.nnet.bn</span> <span class="k">import</span> <span class="n">batch_normalization_train</span><span class="p">,</span> <span class="n">batch_normalization_test</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="k">import</span> <span class="n">shuffle</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">util</span> <span class="k">import</span> <span class="n">get_normalized_data</span>
+
+
+<span class="k">def</span> <span class="nf">init_weight</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">):</span>
+  <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">/</span> <span class="n">M1</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">HiddenLayerBatchNorm</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">M1</span> <span class="o">=</span> <span class="n">M1</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">M2</span> <span class="o">=</span> <span class="n">M2</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">f</span>
+
+    <span class="n">W</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">)</span>
+    <span class="n">gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">M2</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M2</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">W</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">gamma</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">]</span>
+
+    <span class="c1"># for test time</span>
+    <span class="c1"># self.running_mean = T.zeros(M2)</span>
+    <span class="c1"># self.running_var = T.zeros(M2)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">running_mean</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M2</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">running_var</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M2</span><span class="p">))</span>
+
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">is_training</span><span class="p">):</span>
+    <span class="n">activation</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_training</span><span class="p">:</span>
+      <span class="c1"># returns:</span>
+      <span class="c1">#   batch-normalized output</span>
+      <span class="c1">#   batch mean</span>
+      <span class="c1">#   batch variance</span>
+      <span class="c1">#   running mean (for later use as population mean estimate)</span>
+      <span class="c1">#   running var (for later use as population var estimate)</span>
+      <span class="n">out</span><span class="p">,</span> <span class="n">batch_mean</span><span class="p">,</span> <span class="n">batch_invstd</span><span class="p">,</span> <span class="n">new_running_mean</span><span class="p">,</span> <span class="n">new_running_var</span> <span class="o">=</span> <span class="n">batch_normalization_train</span><span class="p">(</span>
+        <span class="n">activation</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">,</span>
+        <span class="n">running_mean</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">running_mean</span><span class="p">,</span>
+        <span class="n">running_var</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">running_var</span><span class="p">,</span>
+      <span class="p">)</span>
+
+      <span class="bp">self</span><span class="o">.</span><span class="n">running_update</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">running_mean</span><span class="p">,</span> <span class="n">new_running_mean</span><span class="p">),</span>
+        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">running_var</span><span class="p">,</span> <span class="n">new_running_var</span><span class="p">),</span>
+      <span class="p">]</span>
+
+      <span class="c1"># if you don&#39;t trust the built-in bn function</span>
+      <span class="c1"># batch_var = 1 / (batch_invstd * batch_invstd)</span>
+      <span class="c1"># self.running_update = [</span>
+      <span class="c1">#   (self.running_mean, 0.9*self.running_mean + 0.1*batch_mean),</span>
+      <span class="c1">#   (self.running_var, 0.9*self.running_var + 0.1*batch_var),</span>
+      <span class="c1"># ]</span>
+
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">out</span> <span class="o">=</span> <span class="n">batch_normalization_test</span><span class="p">(</span>
+        <span class="n">activation</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">running_mean</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">running_var</span>
+      <span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">HiddenLayer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">M1</span> <span class="o">=</span> <span class="n">M1</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">M2</span> <span class="o">=</span> <span class="n">M2</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">f</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M2</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">W</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">]</span>
+
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">ANN</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hidden_layer_sizes</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layer_sizes</span> <span class="o">=</span> <span class="n">hidden_layer_sizes</span>
+
+  <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">T</span><span class="o">.</span><span class="n">nnet</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">batch_sz</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">print_period</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">show_fig</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+    <span class="c1"># initialize hidden layers</span>
+    <span class="n">N</span><span class="p">,</span> <span class="n">D</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">M1</span> <span class="o">=</span> <span class="n">D</span>
+    <span class="k">for</span> <span class="n">M2</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layer_sizes</span><span class="p">:</span>
+      <span class="n">h</span> <span class="o">=</span> <span class="n">HiddenLayerBatchNorm</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">,</span> <span class="n">activation</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+      <span class="n">M1</span> <span class="o">=</span> <span class="n">M2</span>
+      
+    <span class="c1"># final layer</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">Y</span><span class="p">))</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">HiddenLayer</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">nnet</span><span class="o">.</span><span class="n">softmax</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">batch_sz</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="n">batch_sz</span> <span class="o">=</span> <span class="n">N</span>
+
+    <span class="c1"># collect params for later use</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">+=</span> <span class="n">h</span><span class="o">.</span><span class="n">params</span>
+
+    <span class="c1"># for momentum</span>
+    <span class="n">dparams</span> <span class="o">=</span> <span class="p">[</span><span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get_value</span><span class="p">()))</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">]</span>
+
+    <span class="c1"># note! we will need to build the output differently</span>
+    <span class="c1"># for train and test (prediction)</span>
+
+    <span class="c1"># set up theano functions and variables</span>
+    <span class="n">thX</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">)</span>
+    <span class="n">thY</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">ivector</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">)</span>
+
+    <span class="c1"># for training</span>
+    <span class="n">p_y_given_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">thX</span><span class="p">,</span> <span class="n">is_training</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">cost</span> <span class="o">=</span> <span class="o">-</span><span class="n">T</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">p_y_given_x</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">thY</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">thY</span><span class="p">]))</span>
+    <span class="n">prediction</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">p_y_given_x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">grads</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">cost</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="c1"># momentum only</span>
+    <span class="n">updates</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">p</span> <span class="o">+</span> <span class="n">mu</span><span class="o">*</span><span class="n">dp</span> <span class="o">-</span> <span class="n">learning_rate</span><span class="o">*</span><span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">dp</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">dparams</span><span class="p">,</span> <span class="n">grads</span><span class="p">)</span>
+    <span class="p">]</span> <span class="o">+</span> <span class="p">[</span>
+      <span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">mu</span><span class="o">*</span><span class="n">dp</span> <span class="o">-</span> <span class="n">learning_rate</span><span class="o">*</span><span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="n">dp</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dparams</span><span class="p">,</span> <span class="n">grads</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+      <span class="n">updates</span> <span class="o">+=</span> <span class="n">layer</span><span class="o">.</span><span class="n">running_update</span>
+
+    <span class="n">train_op</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+      <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">thX</span><span class="p">,</span> <span class="n">thY</span><span class="p">],</span>
+      <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">cost</span><span class="p">,</span> <span class="n">prediction</span><span class="p">],</span>
+      <span class="n">updates</span><span class="o">=</span><span class="n">updates</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># for testing</span>
+    <span class="n">test_p_y_given_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">thX</span><span class="p">,</span> <span class="n">is_training</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">test_prediction</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">test_p_y_given_x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">predict</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+      <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">thX</span><span class="p">],</span>
+      <span class="n">outputs</span><span class="o">=</span><span class="n">test_prediction</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">n_batches</span> <span class="o">=</span> <span class="n">N</span> <span class="o">//</span> <span class="n">batch_sz</span>
+    <span class="n">costs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+      <span class="k">if</span> <span class="n">n_batches</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+      <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_batches</span><span class="p">):</span>
+        <span class="n">Xbatch</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="o">*</span><span class="n">batch_sz</span><span class="p">:(</span><span class="n">j</span><span class="o">*</span><span class="n">batch_sz</span><span class="o">+</span><span class="n">batch_sz</span><span class="p">)]</span>
+        <span class="n">Ybatch</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">j</span><span class="o">*</span><span class="n">batch_sz</span><span class="p">:(</span><span class="n">j</span><span class="o">*</span><span class="n">batch_sz</span><span class="o">+</span><span class="n">batch_sz</span><span class="p">)]</span>
+
+        <span class="n">c</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">train_op</span><span class="p">(</span><span class="n">Xbatch</span><span class="p">,</span> <span class="n">Ybatch</span><span class="p">)</span>
+        <span class="n">costs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">print_period</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+          <span class="n">accuracy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">p</span> <span class="o">==</span> <span class="n">Ybatch</span><span class="p">)</span>
+          <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;epoch:&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&quot;batch:&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="s2">&quot;n_batches:&quot;</span><span class="p">,</span> <span class="n">n_batches</span><span class="p">,</span> <span class="s2">&quot;cost:&quot;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="s2">&quot;accuracy:&quot;</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
+
+      <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Train acc:&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">),</span> <span class="s2">&quot;Test acc:&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span><span class="p">))</span>
+    
+    <span class="k">if</span> <span class="n">show_fig</span><span class="p">:</span>
+      <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">costs</span><span class="p">)</span>
+      <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">is_training</span><span class="p">):</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">X</span>
+    <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+      <span class="n">out</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">is_training</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+  <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Y</span> <span class="o">==</span> <span class="n">P</span><span class="p">)</span>
+
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="c1"># step 1: get the data and define all the usual variables</span>
+  <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">get_normalized_data</span><span class="p">()</span>
+  <span class="c1"># Xtrain, Xtest, Ytrain, Ytest = train_test_split(X, Y, test_size=0.3)</span>
+  <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+  <span class="n">Xtrain</span><span class="p">,</span> <span class="n">Ytrain</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="o">-</span><span class="mi">1000</span><span class="p">],</span> <span class="n">Y</span><span class="p">[:</span><span class="o">-</span><span class="mi">1000</span><span class="p">]</span>
+  <span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="o">-</span><span class="mi">1000</span><span class="p">:],</span> <span class="n">Y</span><span class="p">[</span><span class="o">-</span><span class="mi">1000</span><span class="p">:]</span>
+
+  <span class="n">ann</span> <span class="o">=</span> <span class="n">ANN</span><span class="p">([</span><span class="mi">500</span><span class="p">,</span> <span class="mi">300</span><span class="p">])</span>
+  <span class="n">ann</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtrain</span><span class="p">,</span> <span class="n">Ytrain</span><span class="p">,</span> <span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span><span class="p">,</span> <span class="n">show_fig</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Train accuracy:&quot;</span><span class="p">,</span> <span class="n">ann</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Xtrain</span><span class="p">,</span> <span class="n">Ytrain</span><span class="p">))</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test accuracy:&quot;</span><span class="p">,</span> <span class="n">ann</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span><span class="p">))</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Reading in and transforming data...
+epoch: 0 batch: 99 n_batches: 410 cost: 0.18750284729579245 accuracy: 0.95
+epoch: 0 batch: 199 n_batches: 410 cost: 0.23017411488664472 accuracy: 0.92
+epoch: 0 batch: 299 n_batches: 410 cost: 0.13403766997594416 accuracy: 0.96
+epoch: 0 batch: 399 n_batches: 410 cost: 0.19139914106256722 accuracy: 0.95
+Train acc: 0.9608048780487805 Test acc: 0.935
+epoch: 1 batch: 99 n_batches: 410 cost: 0.10756771071946547 accuracy: 0.97
+epoch: 1 batch: 199 n_batches: 410 cost: 0.12503677000065 accuracy: 0.95
+epoch: 1 batch: 299 n_batches: 410 cost: 0.2366165461319624 accuracy: 0.96
+epoch: 1 batch: 399 n_batches: 410 cost: 0.13791277092562548 accuracy: 0.95
+Train acc: 0.9785609756097561 Test acc: 0.952
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="6.-Noise-Perspective">6. Noise Perspective<a class="anchor-link" href="#6.-Noise-Perspective">&#182;</a></h1><p>We are now going to discuss another way in which batch normalization performs regularization. In particular we are going to talk about how batch norm is a type of noise injection, which we have looked at in this course already.</p>
+<p>Here is how it works: When we are doing batch norm, we use $\mu_B$ and $\sigma_B$ as though they are the true values, $\mu_{true}$ and $\sigma_{true}$. Of course, we can never really know these true values.</p>
+<p>However, you can see that if we knew the true $\mu$ and $\sigma$, and we used these during training and testing, then training and testing would be exactly the same; we would always be subtracting the same $\mu$ and the same $\sigma$.</p>
+<p>$$\hat{X} = \frac{X - \mu_{true}}{\sigma_{true}}$$
+$$Y = \hat{X}\gamma + \beta$$</p>
+<p>This stems from the fact that the batch norm transformation is exactly the same during training and testing. The only difference is how we calculate the $\mu$s and $\sigma$s.</p>
+<h2 id="6.1-Noise">6.1 Noise<a class="anchor-link" href="#6.1-Noise">&#182;</a></h2><p>One way to think of any estimate, as you know from general machine learning principles, is that an estimate is equal to its true value plus noise:</p>
+<p>$$Estimate = True \; Value + Noise$$</p>
+<p>So, we can say that:
+$$\mu_B = \mu_{true} + \epsilon$$
+$$\sigma_B = \sigma_{true} + \epsilon$$</p>
+<p>Hence, batch norm is a way of doing noise injection at the level of the batch $\mu$ and batch $\sigma$. This makes sense in the context that noise injection can really work anywhere in the neural network-whether we add noise to the inputs, or to the weights, or simply drop nodes in the network, all of these are adding noise.</p>
+
+</div>
+</div>
+</div>
+<hr>
+&copy; 2018 Nathaniel Dake
+
+</div>
+</div>
+</body>
+</html>

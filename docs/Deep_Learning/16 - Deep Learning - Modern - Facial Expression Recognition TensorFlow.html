@@ -1,0 +1,637 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/readable.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Nathaniel Dake Blog</title>
+
+<style type = "text/css">
+body {
+  font-family: "sans-serif";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Nathaniel Dake Blog</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../Deep_Learning.html">Deep Learning</a>
+</li>
+        
+<li>
+  <a href="../Artificial_Intelligence.html">Artificial Intelligence</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="https://github.com/NathanielDake/nathanieldake.github.io"> source </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="16.-Facial-Expression-Recognition---TensorFlow">16. Facial Expression Recognition - TensorFlow<a class="anchor-link" href="#16.-Facial-Expression-Recognition---TensorFlow">&#182;</a></h1><p>We are now going to go through the facial expression recognition project that we have worked on in the past, but we will use <strong>TensorFlow</strong> as our framework of choice this time! We will be creating a neural network that has 2000 units in the first hidden layer, and 1000 units in the second hidden layer. We can start with our imports.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">range</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="k">import</span> <span class="n">shuffle</span>
+<span class="o">%</span> <span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="sd">&quot;&quot;&quot;----------------------- Function to get data -----------------------------&quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">getData</span><span class="p">(</span><span class="n">balance_ones</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="c1"># images are 48x48 = 2304 size vectors</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">first</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../../../data/fer/fer2013.csv&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">first</span><span class="p">:</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+            <span class="n">Y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="n">X</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()])</span>
+
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">/</span> <span class="mf">255.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">balance_ones</span><span class="p">:</span>
+        <span class="c1"># balance the 1 class</span>
+        <span class="n">X0</span><span class="p">,</span> <span class="n">Y0</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">Y</span><span class="o">!=</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">Y</span><span class="p">[</span><span class="n">Y</span><span class="o">!=</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">X1</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">Y</span><span class="o">==</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">X1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">X0</span><span class="p">,</span> <span class="n">X1</span><span class="p">])</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">Y0</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">X1</span><span class="p">)))</span>
+
+    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span>
+  
+<span class="sd">&quot;&quot;&quot; --------- Creates indicator (N x K), from an input N x 1 y matrix --------&quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">y2indicator</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+    <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="n">K</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="n">ind</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">ind</span>
+  
+<span class="sd">&quot;&quot;&quot; ----------- Gives the error rate between targets and predictions ---------------- &quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">error_rate</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">predictions</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">targets</span> <span class="o">!=</span> <span class="n">predictions</span><span class="p">)</span>
+  
+<span class="sd">&quot;&quot;&quot; Rectifier Linear Unit - an activation function that can be used in a neural network &quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">relu</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+  
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Function to initialize a weight matrix and a bias. M1 is the input size, and M2 is the output size</span>
+<span class="sd">W is a matrix of size M1 x M2, which is randomized initialy to a gaussian normal</span>
+<span class="sd">We make the standard deviation of this the sqrt of size in + size out</span>
+<span class="sd">The bias is initialized as zeros. Each is then turned into float 32s so that they can be used in </span>
+<span class="sd">Theano and TensorFlow</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">init_weight_and_bias</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">):</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">M1</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">W</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="n">b</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+
+
+<span class="k">class</span> <span class="nc">HiddenLayer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">,</span> <span class="n">an_id</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">an_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">M1</span> <span class="o">=</span> <span class="n">M1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">M2</span> <span class="o">=</span> <span class="n">M2</span>
+        <span class="n">W</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">init_weight_and_bias</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">W</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">ANN</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hidden_layer_sizes</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layer_sizes</span> <span class="o">=</span> <span class="n">hidden_layer_sizes</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">0.99</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="mf">0.999</span><span class="p">,</span> <span class="n">reg</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">batch_sz</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">show_fig</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">K</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">Y</span><span class="p">))</span> <span class="c1"># won&#39;t work later b/c we turn it into indicator</span>
+
+        <span class="c1"># make a validation set</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">y2indicator</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="c1"># Y = Y.astype(np.int32)</span>
+        <span class="n">Xvalid</span><span class="p">,</span> <span class="n">Yvalid</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="o">-</span><span class="mi">1000</span><span class="p">:],</span> <span class="n">Y</span><span class="p">[</span><span class="o">-</span><span class="mi">1000</span><span class="p">:]</span>
+        <span class="n">Yvalid_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">Yvalid</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># for calculating error rate</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="o">-</span><span class="mi">1000</span><span class="p">],</span> <span class="n">Y</span><span class="p">[:</span><span class="o">-</span><span class="mi">1000</span><span class="p">]</span>
+
+        <span class="c1"># initialize hidden layers</span>
+        <span class="n">N</span><span class="p">,</span> <span class="n">D</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">M1</span> <span class="o">=</span> <span class="n">D</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">M2</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layer_sizes</span><span class="p">:</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">HiddenLayer</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+            <span class="n">M1</span> <span class="o">=</span> <span class="n">M2</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">W</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">init_weight_and_bias</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">W</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+
+        <span class="c1"># collect params for later use</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layers</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">+=</span> <span class="n">h</span><span class="o">.</span><span class="n">params</span>
+
+        <span class="c1"># set up theano functions and variables</span>
+        <span class="n">tfX</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">D</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">)</span>
+        <span class="n">tfT</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;T&#39;</span><span class="p">)</span>
+        <span class="n">act</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">tfX</span><span class="p">)</span>
+
+        <span class="n">rcost</span> <span class="o">=</span> <span class="n">reg</span><span class="o">*</span><span class="nb">sum</span><span class="p">([</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">l2_loss</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">])</span>
+        <span class="n">cost</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax_cross_entropy_with_logits</span><span class="p">(</span>
+                <span class="n">logits</span><span class="o">=</span><span class="n">act</span><span class="p">,</span>
+                <span class="n">labels</span><span class="o">=</span><span class="n">tfT</span>
+            <span class="p">)</span>
+        <span class="p">)</span> <span class="o">+</span> <span class="n">rcost</span>
+        <span class="n">prediction</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">tfX</span><span class="p">)</span>
+        <span class="n">train_op</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">RMSPropOptimizer</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="n">decay</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="n">mu</span><span class="p">)</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span>
+
+        <span class="n">n_batches</span> <span class="o">=</span> <span class="n">N</span> <span class="o">//</span> <span class="n">batch_sz</span>
+        <span class="n">costs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">init</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">global_variables_initializer</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+                <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_batches</span><span class="p">):</span>
+                    <span class="n">Xbatch</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="o">*</span><span class="n">batch_sz</span><span class="p">:(</span><span class="n">j</span><span class="o">*</span><span class="n">batch_sz</span><span class="o">+</span><span class="n">batch_sz</span><span class="p">)]</span>
+                    <span class="n">Ybatch</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">j</span><span class="o">*</span><span class="n">batch_sz</span><span class="p">:(</span><span class="n">j</span><span class="o">*</span><span class="n">batch_sz</span><span class="o">+</span><span class="n">batch_sz</span><span class="p">)]</span>
+
+                    <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">train_op</span><span class="p">,</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">tfX</span><span class="p">:</span> <span class="n">Xbatch</span><span class="p">,</span> <span class="n">tfT</span><span class="p">:</span> <span class="n">Ybatch</span><span class="p">})</span>
+
+                    <span class="k">if</span> <span class="n">j</span> <span class="o">%</span> <span class="mi">20</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">c</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cost</span><span class="p">,</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">tfX</span><span class="p">:</span> <span class="n">Xvalid</span><span class="p">,</span> <span class="n">tfT</span><span class="p">:</span> <span class="n">Yvalid</span><span class="p">})</span>
+                        <span class="n">costs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+                        <span class="n">p</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">tfX</span><span class="p">:</span> <span class="n">Xvalid</span><span class="p">,</span> <span class="n">tfT</span><span class="p">:</span> <span class="n">Yvalid</span><span class="p">})</span>
+                        <span class="n">e</span> <span class="o">=</span> <span class="n">error_rate</span><span class="p">(</span><span class="n">Yvalid_flat</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;i:&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&quot;j:&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="s2">&quot;nb:&quot;</span><span class="p">,</span> <span class="n">n_batches</span><span class="p">,</span> <span class="s2">&quot;cost:&quot;</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="s2">&quot;error rate:&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">show_fig</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">costs</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="n">Z</span> <span class="o">=</span> <span class="n">X</span>
+        <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layers</span><span class="p">:</span>
+            <span class="n">Z</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span>
+
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="n">act</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">act</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">getData</span><span class="p">()</span>
+    <span class="c1"># X, Y = getBinaryData()</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">ANN</span><span class="p">([</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">500</span><span class="p">])</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">show_fig</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>WARNING:tensorflow:From &lt;ipython-input-1-90d4eb09fced&gt;:125: softmax_cross_entropy_with_logits (from tensorflow.python.ops.nn_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+
+Future major versions of TensorFlow will allow gradients to flow
+into the labels input on backprop by default.
+
+See tf.nn.softmax_cross_entropy_with_logits_v2.
+
+i: 0 j: 0 nb: 392 cost: 3.7444239 error rate: 0.896
+i: 0 j: 20 nb: 392 cost: 3.6486535 error rate: 0.76
+i: 0 j: 40 nb: 392 cost: 3.6617503 error rate: 0.814
+i: 0 j: 60 nb: 392 cost: 3.6052442 error rate: 0.775
+i: 0 j: 80 nb: 392 cost: 3.550693 error rate: 0.768
+i: 0 j: 100 nb: 392 cost: 3.5379243 error rate: 0.824
+i: 0 j: 120 nb: 392 cost: 3.4323988 error rate: 0.719
+i: 0 j: 140 nb: 392 cost: 3.4212375 error rate: 0.736
+i: 0 j: 160 nb: 392 cost: 3.4390187 error rate: 0.798
+i: 0 j: 180 nb: 392 cost: 3.2884684 error rate: 0.727
+i: 0 j: 200 nb: 392 cost: 3.2441034 error rate: 0.726
+i: 0 j: 220 nb: 392 cost: 3.2461233 error rate: 0.735
+i: 0 j: 240 nb: 392 cost: 3.1861126 error rate: 0.735
+i: 0 j: 260 nb: 392 cost: 3.0890884 error rate: 0.737
+i: 0 j: 280 nb: 392 cost: 3.038301 error rate: 0.703
+i: 0 j: 300 nb: 392 cost: 3.0107286 error rate: 0.715
+i: 0 j: 320 nb: 392 cost: 2.9454527 error rate: 0.71
+i: 0 j: 340 nb: 392 cost: 2.9790137 error rate: 0.768
+i: 0 j: 360 nb: 392 cost: 2.8908274 error rate: 0.733
+i: 0 j: 380 nb: 392 cost: 2.8120208 error rate: 0.712
+i: 1 j: 0 nb: 392 cost: 2.8223603 error rate: 0.767
+i: 1 j: 20 nb: 392 cost: 2.7929351 error rate: 0.737
+i: 1 j: 40 nb: 392 cost: 2.733191 error rate: 0.732
+i: 1 j: 60 nb: 392 cost: 2.7044168 error rate: 0.731
+i: 1 j: 80 nb: 392 cost: 2.691378 error rate: 0.736
+i: 1 j: 100 nb: 392 cost: 2.6382952 error rate: 0.745
+i: 1 j: 120 nb: 392 cost: 2.5975192 error rate: 0.72
+i: 1 j: 140 nb: 392 cost: 2.6334476 error rate: 0.747
+i: 1 j: 160 nb: 392 cost: 2.565466 error rate: 0.758
+i: 1 j: 180 nb: 392 cost: 2.569295 error rate: 0.772
+i: 1 j: 200 nb: 392 cost: 2.496163 error rate: 0.763
+i: 1 j: 220 nb: 392 cost: 2.4612014 error rate: 0.717
+i: 1 j: 240 nb: 392 cost: 2.4175649 error rate: 0.707
+i: 1 j: 260 nb: 392 cost: 2.3886244 error rate: 0.706
+i: 1 j: 280 nb: 392 cost: 2.3597152 error rate: 0.722
+i: 1 j: 300 nb: 392 cost: 2.3148081 error rate: 0.706
+i: 1 j: 320 nb: 392 cost: 2.2981434 error rate: 0.718
+i: 1 j: 340 nb: 392 cost: 2.304362 error rate: 0.74
+i: 1 j: 360 nb: 392 cost: 2.315434 error rate: 0.751
+i: 1 j: 380 nb: 392 cost: 2.2772954 error rate: 0.737
+i: 2 j: 0 nb: 392 cost: 2.256354 error rate: 0.736
+i: 2 j: 20 nb: 392 cost: 2.2296686 error rate: 0.727
+i: 2 j: 40 nb: 392 cost: 2.2834866 error rate: 0.765
+i: 2 j: 60 nb: 392 cost: 2.272914 error rate: 0.75
+i: 2 j: 80 nb: 392 cost: 2.1735055 error rate: 0.715
+i: 2 j: 100 nb: 392 cost: 2.259664 error rate: 0.806
+i: 2 j: 120 nb: 392 cost: 2.1914234 error rate: 0.756
+i: 2 j: 140 nb: 392 cost: 2.150073 error rate: 0.717
+i: 2 j: 160 nb: 392 cost: 2.1095958 error rate: 0.722
+i: 2 j: 180 nb: 392 cost: 2.1167293 error rate: 0.73
+i: 2 j: 200 nb: 392 cost: 2.1377192 error rate: 0.745
+i: 2 j: 220 nb: 392 cost: 2.0978484 error rate: 0.748
+i: 2 j: 240 nb: 392 cost: 2.0721645 error rate: 0.726
+i: 2 j: 260 nb: 392 cost: 2.12414 error rate: 0.755
+i: 2 j: 280 nb: 392 cost: 2.0796068 error rate: 0.776
+i: 2 j: 300 nb: 392 cost: 2.0351427 error rate: 0.721
+i: 2 j: 320 nb: 392 cost: 2.0546637 error rate: 0.753
+i: 2 j: 340 nb: 392 cost: 2.0564437 error rate: 0.749
+i: 2 j: 360 nb: 392 cost: 2.0326996 error rate: 0.71
+i: 2 j: 380 nb: 392 cost: 2.0992327 error rate: 0.761
+i: 3 j: 0 nb: 392 cost: 2.0470243 error rate: 0.749
+i: 3 j: 20 nb: 392 cost: 2.0239136 error rate: 0.735
+i: 3 j: 40 nb: 392 cost: 2.002708 error rate: 0.726
+i: 3 j: 60 nb: 392 cost: 1.9782068 error rate: 0.713
+i: 3 j: 80 nb: 392 cost: 1.9654258 error rate: 0.71
+i: 3 j: 100 nb: 392 cost: 1.940547 error rate: 0.712
+i: 3 j: 120 nb: 392 cost: 1.969008 error rate: 0.742
+i: 3 j: 140 nb: 392 cost: 1.9489187 error rate: 0.709
+i: 3 j: 160 nb: 392 cost: 1.9703429 error rate: 0.721
+i: 3 j: 180 nb: 392 cost: 2.0305126 error rate: 0.758
+i: 3 j: 200 nb: 392 cost: 1.9861485 error rate: 0.736
+i: 3 j: 220 nb: 392 cost: 1.9523468 error rate: 0.741
+i: 3 j: 240 nb: 392 cost: 1.9645606 error rate: 0.76
+i: 3 j: 260 nb: 392 cost: 1.9103469 error rate: 0.715
+i: 3 j: 280 nb: 392 cost: 2.0297978 error rate: 0.755
+i: 3 j: 300 nb: 392 cost: 1.9951283 error rate: 0.76
+i: 3 j: 320 nb: 392 cost: 1.9735472 error rate: 0.759
+i: 3 j: 340 nb: 392 cost: 1.9544493 error rate: 0.73
+i: 3 j: 360 nb: 392 cost: 1.9519062 error rate: 0.735
+i: 3 j: 380 nb: 392 cost: 1.9449747 error rate: 0.732
+i: 4 j: 0 nb: 392 cost: 1.9427075 error rate: 0.725
+i: 4 j: 20 nb: 392 cost: 1.9717175 error rate: 0.763
+i: 4 j: 40 nb: 392 cost: 1.9420954 error rate: 0.738
+i: 4 j: 60 nb: 392 cost: 1.9680127 error rate: 0.734
+i: 4 j: 80 nb: 392 cost: 1.9839851 error rate: 0.779
+i: 4 j: 100 nb: 392 cost: 1.958307 error rate: 0.727
+i: 4 j: 120 nb: 392 cost: 1.9560182 error rate: 0.77
+i: 4 j: 140 nb: 392 cost: 1.9605316 error rate: 0.734
+i: 4 j: 160 nb: 392 cost: 1.94503 error rate: 0.763
+i: 4 j: 180 nb: 392 cost: 1.9394308 error rate: 0.74
+i: 4 j: 200 nb: 392 cost: 1.9190239 error rate: 0.725
+i: 4 j: 220 nb: 392 cost: 1.933627 error rate: 0.743
+i: 4 j: 240 nb: 392 cost: 1.9453828 error rate: 0.749
+i: 4 j: 260 nb: 392 cost: 1.9282091 error rate: 0.734
+i: 4 j: 280 nb: 392 cost: 1.9232643 error rate: 0.743
+i: 4 j: 300 nb: 392 cost: 1.9124113 error rate: 0.743
+i: 4 j: 320 nb: 392 cost: 1.9025718 error rate: 0.721
+i: 4 j: 340 nb: 392 cost: 1.9422108 error rate: 0.758
+i: 4 j: 360 nb: 392 cost: 1.9190676 error rate: 0.751
+i: 4 j: 380 nb: 392 cost: 1.9182011 error rate: 0.746
+i: 5 j: 0 nb: 392 cost: 1.974688 error rate: 0.827
+i: 5 j: 20 nb: 392 cost: 1.9138955 error rate: 0.756
+i: 5 j: 40 nb: 392 cost: 1.9603482 error rate: 0.77
+i: 5 j: 60 nb: 392 cost: 1.9148173 error rate: 0.759
+i: 5 j: 80 nb: 392 cost: 1.9497594 error rate: 0.797
+i: 5 j: 100 nb: 392 cost: 1.962197 error rate: 0.848
+i: 5 j: 120 nb: 392 cost: 1.9305347 error rate: 0.76
+i: 5 j: 140 nb: 392 cost: 1.9297981 error rate: 0.754
+i: 5 j: 160 nb: 392 cost: 1.9028724 error rate: 0.754
+i: 5 j: 180 nb: 392 cost: 1.9358066 error rate: 0.77
+i: 5 j: 200 nb: 392 cost: 1.9100628 error rate: 0.731
+i: 5 j: 220 nb: 392 cost: 1.9096744 error rate: 0.75
+i: 5 j: 240 nb: 392 cost: 1.9552962 error rate: 0.745
+i: 5 j: 260 nb: 392 cost: 1.9470583 error rate: 0.835
+i: 5 j: 280 nb: 392 cost: 1.9638418 error rate: 0.764
+i: 5 j: 300 nb: 392 cost: 1.9295757 error rate: 0.76
+i: 5 j: 320 nb: 392 cost: 1.923968 error rate: 0.719
+i: 5 j: 340 nb: 392 cost: 1.9413893 error rate: 0.784
+i: 5 j: 360 nb: 392 cost: 1.913671 error rate: 0.734
+i: 5 j: 380 nb: 392 cost: 1.8847265 error rate: 0.737
+i: 6 j: 0 nb: 392 cost: 1.8937656 error rate: 0.731
+i: 6 j: 20 nb: 392 cost: 1.9878792 error rate: 0.873
+i: 6 j: 40 nb: 392 cost: 1.9282498 error rate: 0.777
+i: 6 j: 60 nb: 392 cost: 1.9336413 error rate: 0.746
+i: 6 j: 80 nb: 392 cost: 1.8973079 error rate: 0.74
+i: 6 j: 100 nb: 392 cost: 1.93706 error rate: 0.76
+i: 6 j: 120 nb: 392 cost: 1.9548533 error rate: 0.772
+i: 6 j: 140 nb: 392 cost: 1.9298171 error rate: 0.765
+i: 6 j: 160 nb: 392 cost: 1.9418708 error rate: 0.754
+i: 6 j: 180 nb: 392 cost: 1.959305 error rate: 0.818
+i: 6 j: 200 nb: 392 cost: 1.9559997 error rate: 0.76
+i: 6 j: 220 nb: 392 cost: 1.9467152 error rate: 0.76
+i: 6 j: 240 nb: 392 cost: 1.9565287 error rate: 0.76
+i: 6 j: 260 nb: 392 cost: 1.9610537 error rate: 0.76
+i: 6 j: 280 nb: 392 cost: 1.9895395 error rate: 0.76
+i: 6 j: 300 nb: 392 cost: 1.9968647 error rate: 0.76
+i: 6 j: 320 nb: 392 cost: 1.9892621 error rate: 0.76
+i: 6 j: 340 nb: 392 cost: 2.0030663 error rate: 0.76
+i: 6 j: 360 nb: 392 cost: 2.0031073 error rate: 0.76
+i: 6 j: 380 nb: 392 cost: 2.0109031 error rate: 0.76
+i: 7 j: 0 nb: 392 cost: 2.013997 error rate: 0.76
+i: 7 j: 20 nb: 392 cost: 2.0159564 error rate: 0.76
+i: 7 j: 40 nb: 392 cost: 2.0111747 error rate: 0.76
+i: 7 j: 60 nb: 392 cost: 1.999576 error rate: 0.76
+i: 7 j: 80 nb: 392 cost: 1.9981011 error rate: 0.76
+i: 7 j: 100 nb: 392 cost: 2.0011802 error rate: 0.76
+i: 7 j: 120 nb: 392 cost: 1.9885037 error rate: 0.76
+i: 7 j: 140 nb: 392 cost: 1.9739932 error rate: 0.76
+i: 7 j: 160 nb: 392 cost: 1.9740657 error rate: 0.76
+i: 7 j: 180 nb: 392 cost: 1.9623386 error rate: 0.76
+i: 7 j: 200 nb: 392 cost: 1.960859 error rate: 0.76
+i: 7 j: 220 nb: 392 cost: 1.9748791 error rate: 0.76
+i: 7 j: 240 nb: 392 cost: 1.94985 error rate: 0.76
+i: 7 j: 260 nb: 392 cost: 1.9441016 error rate: 0.76
+i: 7 j: 280 nb: 392 cost: 1.9316618 error rate: 0.76
+i: 7 j: 300 nb: 392 cost: 1.9465559 error rate: 0.76
+i: 7 j: 320 nb: 392 cost: 1.9382385 error rate: 0.76
+i: 7 j: 340 nb: 392 cost: 1.9241673 error rate: 0.76
+i: 7 j: 360 nb: 392 cost: 1.9278234 error rate: 0.76
+i: 7 j: 380 nb: 392 cost: 1.91915 error rate: 0.76
+i: 8 j: 0 nb: 392 cost: 1.9312919 error rate: 0.76
+i: 8 j: 20 nb: 392 cost: 1.9155451 error rate: 0.76
+i: 8 j: 40 nb: 392 cost: 1.927993 error rate: 0.76
+i: 8 j: 60 nb: 392 cost: 1.9245306 error rate: 0.76
+i: 8 j: 80 nb: 392 cost: 1.9306378 error rate: 0.76
+i: 8 j: 100 nb: 392 cost: 1.9206724 error rate: 0.76
+i: 8 j: 120 nb: 392 cost: 1.908779 error rate: 0.76
+i: 8 j: 140 nb: 392 cost: 1.9209442 error rate: 0.76
+i: 8 j: 160 nb: 392 cost: 1.924958 error rate: 0.76
+i: 8 j: 180 nb: 392 cost: 1.922931 error rate: 0.76
+i: 8 j: 200 nb: 392 cost: 1.926142 error rate: 0.76
+i: 8 j: 220 nb: 392 cost: 1.9227632 error rate: 0.76
+i: 8 j: 240 nb: 392 cost: 1.9277698 error rate: 0.76
+i: 8 j: 260 nb: 392 cost: 1.9076868 error rate: 0.76
+i: 8 j: 280 nb: 392 cost: 1.9392792 error rate: 0.76
+i: 8 j: 300 nb: 392 cost: 1.9197173 error rate: 0.76
+i: 8 j: 320 nb: 392 cost: 1.923045 error rate: 0.76
+i: 8 j: 340 nb: 392 cost: 1.917263 error rate: 0.76
+i: 8 j: 360 nb: 392 cost: 1.9278615 error rate: 0.76
+i: 8 j: 380 nb: 392 cost: 1.9142311 error rate: 0.76
+i: 9 j: 0 nb: 392 cost: 1.9176005 error rate: 0.76
+i: 9 j: 20 nb: 392 cost: 1.9414244 error rate: 0.86
+i: 9 j: 40 nb: 392 cost: 1.9066807 error rate: 0.76
+i: 9 j: 60 nb: 392 cost: 1.9116777 error rate: 0.76
+i: 9 j: 80 nb: 392 cost: 1.9278219 error rate: 0.76
+i: 9 j: 100 nb: 392 cost: 1.911615 error rate: 0.76
+i: 9 j: 120 nb: 392 cost: 1.9084913 error rate: 0.76
+i: 9 j: 140 nb: 392 cost: 1.9188453 error rate: 0.76
+i: 9 j: 160 nb: 392 cost: 1.9286692 error rate: 0.76
+i: 9 j: 180 nb: 392 cost: 1.9161183 error rate: 0.76
+i: 9 j: 200 nb: 392 cost: 1.9137748 error rate: 0.76
+i: 9 j: 220 nb: 392 cost: 1.9265295 error rate: 0.76
+i: 9 j: 240 nb: 392 cost: 1.9200742 error rate: 0.76
+i: 9 j: 260 nb: 392 cost: 1.9196985 error rate: 0.76
+i: 9 j: 280 nb: 392 cost: 1.911799 error rate: 0.76
+i: 9 j: 300 nb: 392 cost: 1.9257749 error rate: 0.76
+i: 9 j: 320 nb: 392 cost: 1.9153047 error rate: 0.76
+i: 9 j: 340 nb: 392 cost: 1.9170078 error rate: 0.76
+i: 9 j: 360 nb: 392 cost: 1.9123572 error rate: 0.76
+i: 9 j: 380 nb: 392 cost: 1.9091643 error rate: 0.76
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>&lt;matplotlib.figure.Figure at 0x121022cf8&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<hr>
+&copy; 2018 Nathaniel Dake
+
+</div>
+</div>
+</body>
+</html>

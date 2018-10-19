@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/readable.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Nathaniel Dake Blog</title>
+
+<style type = "text/css">
+body {
+  font-family: "sans-serif";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Nathaniel Dake Blog</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../Deep_Learning.html">Deep Learning</a>
+</li>
+        
+<li>
+  <a href="../Artificial_Intelligence.html">Artificial Intelligence</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="https://github.com/NathanielDake/nathanieldake.github.io"> source </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="1.-Weight-Initialization-Intro">1. Weight Initialization Intro<a class="anchor-link" href="#1.-Weight-Initialization-Intro">&#182;</a></h1><p>In this section we will discuss a very popular topic in modern deep learning, <strong>weight initialization</strong>. You may have wondered in the past why we divide the square root of our weight by the dimensionality?</p>
+
+<pre><code>np.random.randn(D) / np.sqrt(D)</code></pre>
+<p>We will also look at some other topics on optimization, such as <strong>vanishing and exploding gradients</strong> and <strong>local vs global minima</strong>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p><br></p>
+<h1 id="2.-Vanishing-and-Exploding-Gradients">2. Vanishing and Exploding Gradients<a class="anchor-link" href="#2.-Vanishing-and-Exploding-Gradients">&#182;</a></h1><p>When is comes to neural networks there is a premise that <strong>deeper networks are better</strong>. With a one hidden layer neural network, often called a <strong>shallow network</strong>, you need a lot of hidden units to make it more expressive! Researchers have found that if you just add more hidden layers you can have less hidden units per layer, but achieve better performance.</p>
+<p>However, there is a problem with deep networks. Well, for a long time researchers really did believe that the <strong>s-shape</strong> activation function (sigmoid) really was the best possible activation function. This could be due to the fact that they have some very nice derivatives. For example, the sigmoid derivative is it's output times 1 minus it's output:</p>
+<p>$$output*(1-output)$$</p>
+<p>It is also smooth and monotonically increasing. <strong>Smoothness</strong> is nice because that means the function is differentiable everywhere, and differentiability is important because the learning method is gradient descent, and we can't do gradient descent if we can take derivatives.</p>
+<p>Finally, you may recall the sigmoid is the output of binary logistic regression (modeled after a neuron). So it is nice when you are building neural network to have it actually be made out of neurons. The entire architecture is uniform.</p>
+<p><br></p>
+<h2 id="2.1-Problems-with-Deep-Networks">2.1 Problems with Deep Networks<a class="anchor-link" href="#2.1-Problems-with-Deep-Networks">&#182;</a></h2><p>The problem is this: We know that a neural network has the basic form of:</p>
+<p>$$y = f(g(h(...(x)...)))$$</p>
+<p>Where $f$, $g$, and $h$ each represent a separate network layer. In other words, it is a <strong>composite</strong> function. And we know that due to the chain rule of calculus, the derivative with respect to the weight at the first layer is calculated by multiplying the derivative at each layer that comes after that.</p>
+<p>$$\frac{dy}{dw_1} = \frac{df}{dg}*\frac{dg}{dh}*...$$</p>
+<p>So what is wrong with this? Well think about what happens when you multiply a small number by itself again and again? It will quickly approach 0. For instance, try 0.25:</p>
+<p>$$0.25 * 0.25 *0.25 *0.25*0.25*0.25*0.25* 0.25 = 1.52e-05$$</p>
+<p>The reason that we just looked at the number 0.25 is very specific. If we look at the derivative of the sigmoid we notice 2 things:</p>
+<ol>
+<li>The derivative approaches 0 very quickly. So by using a sigmoid a deep network is going to have a lot of derivatives very close to 0, causing it to learn very slowly. </li>
+<li>The maximum value of the sigmoid derivative is 0.25, so even if we manage to get the peak value of the derivative at every layer, we are still diminishing the value of the derivative by 0.25 at every layer. </li>
+</ol>
+<p>This means that very deep neural networks just can't be trained using standard backpropagation.</p>
+<p><img src="images/sigmoid-derivative.png"></p>
+<p><br></p>
+<h2 id="2.2-Deep-Networks-Solutions">2.2 Deep Networks Solutions<a class="anchor-link" href="#2.2-Deep-Networks-Solutions">&#182;</a></h2><p>A key development to fix this was found by Geoff Hinton's <strong>"greedy layer-wise unsupervised pre-training"</strong>. That is slightly advanced so we will be covering it in a future notebook.</p>
+<p>Another option is to not use the sigmoid or the tanh and just use the <strong>ReLU</strong> instead. By using the ReLU we can train a deep network using standard backpropagation without any pretraining. Sometimes people call this end to end training.</p>
+<p><br></p>
+<h2 id="2.3-Exploding-Gradient">2.3 Exploding Gradient<a class="anchor-link" href="#2.3-Exploding-Gradient">&#182;</a></h2><p>Now that we are familiar with the vanishing gradient problem, what about the exploding gradient? What happens if we take a number greater than 1 and multiply it by itself again and again? Well that number is very quickly going to approach infinity. This clearly is also a problem, and one that shows up in recurrent neural nets.</p>
+<p><br></p>
+<h2 id="2.4-Weight-Initialization---Just-Right">2.4 Weight Initialization - Just Right<a class="anchor-link" href="#2.4-Weight-Initialization---Just-Right">&#182;</a></h2><p>What does this have to do with weight initialization? Well have a situation where we want $w$ to not be too big (they will explode), and not be too small (they will vanish). So, we need the weights to be just right, and for that to happen we will need to initialize them to these just right values.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p><br></p>
+<h1 id="3.-Weight-Initialization">3. Weight Initialization<a class="anchor-link" href="#3.-Weight-Initialization">&#182;</a></h1><h2 id="3.1-Initialize-Weights-to-0">3.1 Initialize Weights to 0<a class="anchor-link" href="#3.1-Initialize-Weights-to-0">&#182;</a></h2><p>One common way to initialize linear models (e.g. linear regression) is to initialize the weights to 0. Why won't this work with neural networks?</p>
+<p>Consider a 1 hidden layer ANN with either the sigmoid or tanh activation. Well we can quickly see that if we us the <strong>tanh</strong> then $Z$ is going to be all zeros. This means the derivative with respect to $V$ is also going to be all zeros, so $V$ will never change. The same thing will also happen with $W$.</p>
+<p>$$\frac{\partial J}{\partial V} = Z^T (Y - T)$$</p>
+<p>$$\frac{\partial J}{\partial W} = X^T [(Y-T)V^T * (1-Z)^2]$$</p>
+<p>In the case of the sigmoid, the weights will all be 0.5, so the weights will change but they are going to change in an undesirable way. In particular, there is going to be symmetry along one axis. 
+$$\frac{\partial J}{\partial W} = X^T {(Y-T)V^T * Z * (1-Z)}$$</p>
+<p>So, in other words, we are either going to get all 0s, or more generally we will get symmetry. This is because if all units calculate the same feature, it's like having only 1 unit in that layer. In other words, adding more units to your network won't make it more expressive, since it is as if it only has one hidden unit. So, initializing randomly allows us to break this symmetry and make use of all units in the network.</p>
+<h2 id="3.2-Initialize-Randomly">3.2 Initialize Randomly<a class="anchor-link" href="#3.2-Initialize-Randomly">&#182;</a></h2><p>So, now that we are convinced that we need to initialize the weights randomly, the next question is what distribution should they come from, and what are the parameters of this distribution?</p>
+<p>Let's start with linear regression since that is the simplest case. Our model is of the form:</p>
+<p>$$y = w_1x_1 + w_2x_2 +...$$</p>
+<p>We already know that the variance of the all the $x$'s is 1, because have have normalized the training data to have 0 mean and unit variance:</p>
+<p>$$var(x_i) = 1$$</p>
+<p>We would also like the output of this model to have a variance of 1, since in a neural network this is going to feed into the subsequent layer.</p>
+<p>$$we \; want: var(y) = 1 $$</p>
+<p>And so, because each $x$ and each $w$ is <strong>independent and identically distributed</strong> (the proof that shows this is in the math appendix-the mean is 0 which is why the terms including mean disappear) we say that the variance of $y$ is:</p>
+<p>$$var(y) = var(w_1)var(x_1) + var(w_2)var(x_2) + ... $$</p>
+<p>Now, we know that the variance of $x_i$ is 1, so we can plug that in:</p>
+<p>$$var(y) = var(w_1) + var(w_2) + ... $$</p>
+<p>Because we are intializing the weights of all $w$ the same way as well, we just call these the variance of $w$ without a subscript, and so for each $x$ vector which is of dimensionality $D$, we get the the variance of $y$ is $D$ times the variance of $w$:</p>
+<p>$$var(y) = D * var(w)$$</p>
+<p>So, if we want the variance of $y$ to be 1, then we have to make the variance of $w$ equal to $\frac{1}{D}$:</p>
+<p>$$set: var(w) = \frac{1}{D}$$</p>
+<p>In code this can be achieved by sampling from the standard normal, and dividing by the square root of $D$:</p>
+
+<pre><code>np.random.randn(D) / np.sqrt(D)</code></pre>
+<p><br></p>
+<h2 id="3.3-Approximation">3.3 Approximation<a class="anchor-link" href="#3.3-Approximation">&#182;</a></h2><p>One other question you may have is "doesn't the nonlinear activation function change the variance?" Yes it does! However, since this is just an approximation, it is fine. Generally speaking, the most important thing is to not initialize your weights to be constant. As long as your weights are random and small enough, you generally won't have a problem. Weights that are initialized too large will be a problem, since they will have a very steep gradient, and lead to NaNs.</p>
+<p><br></p>
+<h2 id="3.4-How-important-is-it?">3.4 How important is it?<a class="anchor-link" href="#3.4-How-important-is-it?">&#182;</a></h2><p>Now, in the grand scheme of things weight initialization should be further down on your list of priorities; things like learning rate, training algorithm, and architecture are probably more important. We just want to be sure that weights are random and small.</p>
+<p><br></p>
+<h2 id="3.5-Conventions">3.5 Conventions<a class="anchor-link" href="#3.5-Conventions">&#182;</a></h2><p>Let's quickly go over some conventions that we can stick to for this lecture so that nothing is ambiguous.</p>
+<blockquote><ul>
+<li>For a neural network layer, we will call the input size M1 and the output size M2. Sometimes M1 will be referred to as <strong>fan-in</strong>, and M2 referred to as <strong>fan-out</strong>. </li>
+</ul>
+</blockquote>
+<p><img src="images/conventions.png"></p>
+<p><br></p>
+<h3 id="3.5.1-Method-#1">3.5.1 Method #1<a class="anchor-link" href="#3.5.1-Method-#1">&#182;</a></h3><p>The first method you may see doesn't depend on the size of the weights at all, instead we just set the standard deviation to 0.01.</p>
+
+<pre><code>W = np.random.randn(M1, M2) * 0.01</code></pre>
+<p>Despite there being a ton of literature out there on weight initialization, this method is still pretty common.</p>
+<p><br></p>
+<h3 id="3.5.2-Method-#2">3.5.2 Method #2<a class="anchor-link" href="#3.5.2-Method-#2">&#182;</a></h3><p>The second method you may see is setting the variance to 2 divided (M1 + M2):</p>
+
+<pre><code>var = 2 / M1 + M2
+W = np.random.randn(M1, M2) * np.sqrt(var)</code></pre>
+<p>Note, we can see that 1/var is just the average of fan-in and fan-out. Typically this would be used for the tanh activation function.</p>
+<p><br></p>
+<h3 id="3.5.3-Method-#3">3.5.3 Method #3<a class="anchor-link" href="#3.5.3-Method-#3">&#182;</a></h3><p>Another simpler method we can also use when it comes to tanh, is just setting the variance to 1/M1:</p>
+
+<pre><code>var = 1 / M1
+W = np.random.randn(M1, M2) * np.sqrt(var)</code></pre>
+<p><br></p>
+<h3 id="3.5.4-Method-#4">3.5.4 Method #4<a class="anchor-link" href="#3.5.4-Method-#4">&#182;</a></h3><p>For the ReLU it is common to use a variance of 2/M1:</p>
+
+<pre><code>var = 2 / M1
+W = np.random.randn(M1, M2) * np.sqrt(var)</code></pre>
+<p>This is known as the He Normal, just named after the author.</p>
+<p><br></p>
+<h2 id="3.6-Summary">3.6 Summary<a class="anchor-link" href="#3.6-Summary">&#182;</a></h2><p>So these are the major weight initialization methods:</p>
+<blockquote><ul>
+<li>For tanh use: 1 / M1 or 2 / (M1 + M2)</li>
+<li>For ReLU use: 2 / M1</li>
+</ul>
+</blockquote>
+<p>Note that the assumption here is that you are drawing from a normal distribution.</p>
+<p><br></p>
+<h2 id="3.7-Final-Note:-Bias-Terms">3.7 Final Note: Bias Terms<a class="anchor-link" href="#3.7-Final-Note:-Bias-Terms">&#182;</a></h2><p>One final note about bias terms; you will notice that we didn't mention them. These can either be initialized to 0, or the same as the other weights, it doesn't really matter, things will still work. We mainly care about breaking symmetry, and by initializing the weight matrix randomly, we will still accomplish that.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p><br></p>
+<h1 id="4.-Local-Minima-vs.-Global-Minima">4. Local Minima vs. Global Minima<a class="anchor-link" href="#4.-Local-Minima-vs.-Global-Minima">&#182;</a></h1><p>In this past, people would frequently mention that when it came to neural network training you had to watch out for local minima. However, in modern deep learning researchers have updated their perspective on this topic.</p>
+<p><br></p>
+<h2 id="4.1-We-can't-see-the-error-surface">4.1 We can't see the error surface<a class="anchor-link" href="#4.1-We-can't-see-the-error-surface">&#182;</a></h2><p>First and foremost we cannpt see what the error surface of a neural network actually looks like. This is because we cannot see a 1 million dimensional function. This can be thought of similarly to the shift from newtonian physics to quantum mechanics. Newtonian physics were nice because they involved macro objects that we could see and perform experiments on. But now we have quantum mechanics, in which case we really can't see anything. We need to come up with clever designs which allow us to calculate things that act as a proxy for the things that we are really trying to understand. So, we have to invent ways to probe around and really understand what is going on.</p>
+<p>With this idea in mind, let's go over some ways that we can reason about a 1 million dimensional neural networks properties and do experiments to check its behavior.</p>
+<p><br></p>
+<h2 id="4.2-Updated-View-of-Local-minima">4.2 Updated View of Local minima<a class="anchor-link" href="#4.2-Updated-View-of-Local-minima">&#182;</a></h2><p>Researchers have reasoned that at any point where the gradient is 0, we are much more likely to be at a saddle point. Recall that a saddle point in 2 dimensions has a minimum along one axis, and a maximum along the other axis.</p>
+<p><img src="images/saddle-point.png"></p>
+<p>And so in reality, if you are doing gradient descent, you are very unlikely to be going to down in the precise direction to the minimum. More likely, you will be moving along both axis at the same time, and hence you just slide off the saddle. Hence, saddles are not really a problem.</p>
+<p><br></p>
+<h2 id="4.3-Millions-of-Dimensions">4.3 Millions of Dimensions<a class="anchor-link" href="#4.3-Millions-of-Dimensions">&#182;</a></h2><p>So, when we are in millions of dimensions why is it unlikely that we are at a real minimum? Well this is a probability problem. For each axis, we have two choices given the derivative is 0: we can either be at a <strong>min</strong> or at a <strong>max</strong>. So, for 1 million dimensions the probability of being at a minimum for ALL of them is: 0.5^1 million, which is basically 0.</p>
+
+</div>
+</div>
+</div>
+<hr>
+&copy; 2018 Nathaniel Dake
+
+</div>
+</div>
+</body>
+</html>

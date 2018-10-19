@@ -17,6 +17,17 @@ docs/Deep_Learning/04 - Deep Learning  - Ecommerce Example.html
 docs/Deep_Learning/05 - Deep Learning - Practical Issues.html
 docs/Deep_Learning/06 - Deep Learning - Facial Expression Recognition.html
 docs/Deep_Learning/07 - Deep Learning - TensorFlow.html
+docs/Deep_Learning/08 - Deep Learning - Modern - Introduction .html
+docs/Deep_Learning/09 - Deep Learning - Modern - Gradient Descent.html
+docs/Deep_Learning/10 - Deep Learning - Modern - Momentum and Adaptive Learning Rates.html
+docs/Deep_Learning/11 - Deep Learning - Modern - Choosing Hyperparameters.html
+docs/Deep_Learning/12 - Deep Learning - Modern - Weight Initialization .html
+docs/Deep_Learning/13 - Deep Learning - Modern - Theano.html
+docs/Deep_Learning/14 - Deep Learning - Modern - TensorFlow.html
+docs/Deep_Learning/15 - Deep Learning - Modern - Facial Expression Recognition Theano.html
+docs/Deep_Learning/16 - Deep Learning - Modern - Facial Expression Recognition TensorFlow.html
+docs/Deep_Learning/17 - Deep Learning - Modern - Modern Regularization Techniques.html
+docs/Deep_Learning/18 - Deep Learning - Modern - Batch Normalization .html
 docs/homepage.tpl
 docs/homepage/Untitled.html
 docs/index.html

@@ -1872,9 +1872,9 @@ div.output_unrecognized a:hover {
 .rendered_html pre {
   margin: 1em 2em;
 }
+/*HERE */
 .rendered_html pre,
 .rendered_html code {
-  border: 0;
   background-color: #fff;
   color: #000;
   font-size: 100%;
@@ -4456,6 +4456,7 @@ div.cell.text_cell.unrendered .input_prompt {
  width: 0ex !important;
  border-right: 2px solid transparent;
 }
+/*HERE*/
 div.rendered_html code {
  font-family: monospace;
  font-size: 15px;
@@ -4464,7 +4465,7 @@ div.rendered_html code {
  color: #303030;
  background: #eeeeff;
  background-color: #eeeeff;
- border: 1px solid #d5d5e9;
+ /* border: 1px solid #d5d5e9; */
  padding-left: 3px;
  padding-right: 3px;
  padding-bottom: 2px;
@@ -4525,6 +4526,7 @@ div.text_cell_render pre {
  border-radius: 3px;
  /* padding: 5px; */
 }
+
 div.text_cell_render h1,
 div.rendered_html h1,
 div.text_cell_render h2,
