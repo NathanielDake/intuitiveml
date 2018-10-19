@@ -1,0 +1,364 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/readable.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Nathaniel Dake Blog</title>
+
+<style type = "text/css">
+body {
+  font-family: "sans-serif";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Nathaniel Dake Blog</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../Deep_Learning.html">Deep Learning</a>
+</li>
+        
+<li>
+  <a href="../Artificial_Intelligence.html">Artificial Intelligence</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="https://github.com/NathanielDake/nathanieldake.github.io"> source </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="20.-The-Simple-Recurrent-Unit">20. The Simple Recurrent Unit<a class="anchor-link" href="#20.-The-Simple-Recurrent-Unit">&#182;</a></h1><p>We are now going to talk about the <em><strong>simple recurrent unit</strong></em>, also known as the <em>Elman Unit</em>. But before we do that, I want to quickly touch on <em>sequences</em>. This is going to look slightly different from the data that we are used to.</p>
+<p>Recall that our input data $X$ is usually represented with an $NxD$ matrix ($N$ samples and $D$ features); there are no sequences here. Well, let's suppose that we did have a sequence of length $T$. How many dimensions would that require?</p>
+<p>Well, if the observation was a $D$ dimensional vector, and we have $T$ of them, then one sequence of observation will be a $TxD$ matrix. If we have $N$ training samples, then we will end up with an $NxTxD$ matrix, which is a 3 dimensional object.</p>
+<p>Sometimes our sequences are not of equal length, such as the cases with sentences, music, sound, or even someones credit history. How can we handle this? We have encountered this problem in the Hidden Markov Notebooks. The solution is to store each observation in a python list. So, instead of a 3 dimensional matrix, we will have a length $N$ list where each element is a 2-d observation sequence as a numpy array. Because a python list can contain any object as an element, this is okay.</p>
+<h2 id="1.1-Simple-Recurrent-Unit">1.1 Simple Recurrent Unit<a class="anchor-link" href="#1.1-Simple-Recurrent-Unit">&#182;</a></h2><p>Okay, now we can dig into our simple recurrent unit. Take a simple feedforward neural network with one hidden layer:</p>
+<p><img src="https://drive.google.com/uc?id=1ZTVGTPWR_s98SAt4b7IS97wMrn0DTiUV" width="300"></p>
+<p>The input layer and output layer will stay exactly the same, they are actually not part of the recurrent unit itself. However, they are included here for context. What we want to do is create a feedback connection from the hidden layer to itself:</p>
+<p><img src="https://drive.google.com/uc?id=1tGeRQ2PZsHbFq8XFsj32NC3gQ-46ilWZ" width="300"></p>
+<p>We can include the weights as well, first a regular feedforward net:</p>
+<p><img src="https://drive.google.com/uc?id=1fpOVWmY2Wos-JqWM7dmOx8SXRlMJhWQj" width="300"></p>
+<p>And a recurrent net:</p>
+<p><img src="https://drive.google.com/uc?id=19HBt3NRTF9js20EJeYvekBI6QITmNGoO" width="300"></p>
+<p>Notice that the feedback loop implies that there is a delay of one time unit. So, one of the input units into $h(t)$ is $h(t-1)$.</p>
+<p>A question that you may have is: How big is $W_h$? Just like the other layers, we connect "everything-to-everything". So, if there are $M$ hidden units, the first hidden unit connects back to all $M$ units, the second hidden unit connects back to all $M$ units, and so on. In total there will be $M^2$ hidden to hidden weights. Hence, $W_h$ is an $MxM$ matrix.</p>
+<h3 id="1.1.1-Simple-Recurrent-Mathematical-Output">1.1.1 Simple Recurrent Mathematical Output<a class="anchor-link" href="#1.1.1-Simple-Recurrent-Mathematical-Output">&#182;</a></h3><p>Here is how we would represent the output of a recurrent net in math:</p>
+<p>$$h(t) = f \big(W_h^T h(t-1) + W_x^T x(t) + b_h\big)$$</p>
+<p>$$y(t) = softmax\big(W_o^T h(t) + b_o\big)$$</p>
+<p>Note that the feedback connection represents a time delay of 1, so the hidden layer takes in both $x$ and its last hidden value. Also, note that $f$ can be any of the usual nonlinearities, such as the sigmoid, tanh, or ReLu.</p>
+<h2 id="1.2-Not-The-Markov-Assumption">1.2 Not The Markov Assumption<a class="anchor-link" href="#1.2-Not-The-Markov-Assumption">&#182;</a></h2><p>One thing that is worth noting is that this is not the Markov Assumption. Why is that? Well, even though $h(t)$ is defined in terms of its previous value, it's previous value can be defined in terms of the value before that, and so on:</p>
+<p>$$h(t) = f \big(W_h^T h(t-1) + W_x^T x(t) + b_h\big)$$</p>
+<p>$$h(t) = f \Big(W_h^T f \big( W_h^T h(t-2) + W_x^T x(t-1) + b_h \big) + W_x^T x(t) + b_h\Big)$$</p>
+<p>This also means that $h(t)$ has to have an initial state, $h(0)$. Sometimes researchers will set this to 0, and other times it will be a hyperparameter that we can use back propagation on. Since theano automatically differentiates things for us, we will treat it as an updatable parameter.</p>
+<h2 id="1.3-More-Layers">1.3 More Layers<a class="anchor-link" href="#1.3-More-Layers">&#182;</a></h2><p>One question you may have is can we add more than one recurrent unit to the network:</p>
+<p><img src="https://drive.google.com/uc?id=1gUgdG48Pz3H1oEQIXz_huhugWMt858-W" width="400"></p>
+<p>The answer is yes! The number of recurrent layers is a hyperparameter, just like how the number of hidden layers is a parameter for a regular feed forward net. The question of how many depends on your type of specific problem.</p>
+<p>And that is all there is to it! Just by adding that one hidden layer, we have created a recurrent neural network! We will see in the coding networks how this can already do some amazing things, such as exponentially decrease the number of hidden units we would have needed in a feed forward neural network.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="2.-Prediction-and-Relationship-to-Markov-Models">2. Prediction and Relationship to Markov Models<a class="anchor-link" href="#2.-Prediction-and-Relationship-to-Markov-Models">&#182;</a></h1><p>We are now going to look more closely at what a recurrent neural network can predict, and talk about how under certain circumstances, we can relate it back to what we know about Markov Models.</p>
+<p>Adding a time component gives us a few more options in terms of the objective, or in other words <em>what we are trying to predict</em>.</p>
+<h2 id="2.1-Softmax">2.1 Softmax<a class="anchor-link" href="#2.1-Softmax">&#182;</a></h2><p>Let's being by talking about something we know already: Softmax and Multiclass classification. So, suppose we take an entire sequence, and take the argmax of the softmax, and use that as the class:</p>
+<p>$$Prediction = argmax_k \big( p(y=k \mid x)\big) = argmax_k \big( softmax(W_o^T h(t)) + b_o\big)$$</p>
+<p>What assumption have we made? Well, first and foremost we forgot about the time component, but we will get to that shortly. The thing that we are assuming is that the entire sequence corresponds to one class. This makes perfect sense for a lot of problems. For example, if we wanted to classify between male and female voices, you would have sound samples from males and females. If you were looking at one sound file of a male saying "Hello world", the class for that sample is male; one sequence, one label.</p>
+<p>$$Prediction(t) = argmax_k \big( p(y(t)=k \mid x)\big) = argmax_k \big( softmax(W_o^T h(t)) + b_o\big)$$</p>
+<p>But, we can't forget that for every $h(t)$ there is a $y(t)$. $y(t)$ is just the final layer calculated from $h(t)$. So, technically we could have a label for every time step.</p>
+<p>What are some situations where this may be useful? Well, let's think about brain computer interfaces. These are systems that are constantly reading electrical signals from your brain. Suppose the purpose of this brain computer interface is for controlling a wheelchair. Considering the wheelchair is how you will get around, you will need fine grain controll on the device. So, it moves forward, stops, turns left, etc, when you want it to. These would be our labels:</p>
+<p>$$Labels = \{ forward, stop, left, right, back\}$$</p>
+<p>We want the action to be taken right as we think of it. In this case we would need a $y(t)$ for every $x(t)$. So this is precisely a situation where we would want to have not just one label for one sequence, but one label for every moment in time.</p>
+<p>Let's now consider a third situation. Suppose we are looking at a sequence of words, or in other words, sentences. As is typical, we want to predict the next word given all of the previous words (our target is the previous word). What is interesting about this is that it is essentially unsupervised learning, since there is essentially no target label-the target is just the input. In other words, we are trying to model the probability:</p>
+<p>$$p\big( x(t) \mid x(t-1), x(t-2),...,x(1)\big)$$</p>
+<p>Remember that the current hidden state depends on all of the previous hidden states, so this is <em>not</em> the markov assumption. Consider what happens when we try to make the whole input sequence the target sequence; we are trying to model the probability:</p>
+<p>$$p\big(x(1)\big)p\big(x(2) \mid x(1)\big)p\big(x(3) \mid x(2), x(1)\big)...$$</p>
+<p>Now, what happens if we join the first two terms together? Using bayes rule we get the joint probability of $p\big( x(2), x(1)\big)$:</p>
+<p>$$p\big( x(2), x(1)\big))p\big(x(3) \mid x(2), x(1)\big)...$$</p>
+<p>Now, if we join the first two terms of that together, we get:</p>
+<p>$$p\big( x(3), x(2), x(1)\big)$$</p>
+<p>This is known as the chain rule of probability. Eventually what we end up with is just the joint probability of the entire sequence.</p>
+<h2 id="2.2-Joint-Probability">2.2 Joint Probability<a class="anchor-link" href="#2.2-Joint-Probability">&#182;</a></h2><p>That is very interesting, because it is exactly what we are trying to optimize with Hidden Markov Models! So, we can see that with Recurrent Neural Networks we can optimize the same thing as HMM's, but without making the markov assumption. This could lead us to the intuition that these RNN's may be more powerful.</p>
+<p>Another advantage is that, if you recall, HMM's suffer from the fact that longer sequences have probabilities that go down to zero, because you are continually multiplying values together that are less than 1. Luckily, we don't have that problem with RNN's, and the fact that we have the joint probability is implicit in the model itself, so there is no need to calculate it.</p>
+<h2 id="2.3-Summary">2.3 Summary<a class="anchor-link" href="#2.3-Summary">&#182;</a></h2><p>To conclude, we have identified 3 different ways of using RNN's for prediction.</p>
+<blockquote><ol>
+<li>Predict one label over entire sequence (e.g. differentiate between male and female voices.</li>
+<li>Predict a label for every step of input sequence (e.g. control device using BCI)</li>
+<li>Predict the next value in a sequence (e.g. next word in sequence)</li>
+</ol>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="3.-Unfolding-a-Recurrent-Neural-Network">3. Unfolding a Recurrent Neural Network<a class="anchor-link" href="#3.-Unfolding-a-Recurrent-Neural-Network">&#182;</a></h1><p>Because time is a somewhat invisible notion in the recurrent neural network architecture, this section is about visualizing the RNN in terms of a feedforward neural network. One key idea that returns here is the idea of shared weights.</p>
+<p>Imagine we have a sequence of length 5, if we were to unfold the RNN in time, such that it has no recurrent connections at all, we would get this feed forward neural network with 5 hidden layers.</p>
+<p><img src="https://drive.google.com/uc?id=1aPEj0Q7T42nbs0Fqy4wtoJKdx5ec31sh" width="700"></p>
+<p>It is as if $h(0)$ is the input, and each $x(t)$ is just some additional control signal at each step. We can see that the hidden to hidden weight, $w_h$, is just repeated at every layer. So, it is like a deep network with the same shared weight between each layer. Similarly, $w_x$ is shared between each of the five $x$'s going into the hidden layers.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="4.-Backpropagation-Through-Time">4. Backpropagation Through Time<a class="anchor-link" href="#4.-Backpropagation-Through-Time">&#182;</a></h1><p>We are now going to return through backpropagation as a mental exercise. Note, in code we are going to use Theano and Tensorflow to calculate the gradients for us. This would be useful if you were to write a Recurrent Neural Network from scratch.</p>
+<p>If you recall the notebooks on vanilla deep learning, you may remember that <strong>backpropagation</strong> is just a fancy name for gradient descent. It has some interesting properties, but the entire idea lies behind <em><strong>calculating the gradient</strong></em> and <em><strong>moving in that direction</strong></em>.</p>
+<p>Similary, <em><strong>Backpropagation through time</strong></em>, often shortened to <strong>BPTT</strong>, is just a fancy name for backpropagation, which itself is just gradient descent. So what does that mean for us? That means that in the code, updating all of the weights is going to exactly the same, which makes things very easy for us:</p>
+
+<pre><code>W = W - \alpha*T.grad(cost, W)</code></pre>
+<h2 id="4.1-Recurisive-Nature">4.1 Recurisive Nature<a class="anchor-link" href="#4.1-Recurisive-Nature">&#182;</a></h2><p>However, we are still interested in taking the gradient. First, let's consider what our neural network outputs above would be calculated as (use the diagram for reference):</p>
+<p><strong>Solve $y(1)$</strong>
+$$y(1) = softmax\big(W_o^Th(1)\big)$$</p>
+<p><strong>Solve $y(2)$</strong>
+$$y(2) = softmax\big(W_o^Th(2)\big)$$</p>
+<p>$$h(2) = f\big(W_x^T x(2) + W_h^T h(1)\big)$$</p>
+<p>$$y(2) = softmax\big(W_o^T f\big(W_x^T x(2) + W_h^T h(1)\big) \big)$$</p>
+<p><strong>Solve $y(3)$</strong>
+$$y(3) = softmax\big(W_o^Th(3)\big)$$</p>
+<p>$$h(3) = f\big(W_x^T x(3) + W_h^T h(2)\big)$$</p>
+<p>$$h(3) = f\Big(W_x^T x(3) + W_h^T f\big(W_x^T x(2) + W_h^T h(1)\big)\Big)$$</p>
+<p>$$y(3) = softmax\Big\{W_o^T f\Big(W_x^T x(3) + W_h^T f\big(W_x^T x(2) + W_h^T h(1)\big)\Big)\Big\}$$</p>
+<p><strong>General Pattern</strong><br>
+We could continue this for $y(4)$ and $y(5)$, but instead let us write out the general pattern:</p>
+<p>$$y(t) = softmax \big(W_o^T h(t) \big)$$</p>
+<p>$$y(t) = softmax \Big(W_o^T f\big(W_h^T h(t-1) + W_x^T x(t) \big) \Big)$$</p>
+<p>$$y(t) = softmax\Big\{W_o^T f\Big(W_x^T x(t) + W_h^T f\big(W_x^T x(t-1) + W_h^T h(t-2)\big)\Big)\Big\}$$</p>
+<h2 id="4.2-How-Does-Error-Change-With-Respect-to-our-Weights?">4.2 How Does Error Change With Respect to our Weights?<a class="anchor-link" href="#4.2-How-Does-Error-Change-With-Respect-to-our-Weights?">&#182;</a></h2><p>The pattern of our output can clearly be seen above.</p>
+<h4 id="4.2.1-Derivative-of-Error-With-Respect-to-$W_o$">4.2.1 Derivative of Error With Respect to $W_o$<a class="anchor-link" href="#4.2.1-Derivative-of-Error-With-Respect-to-$W_o$">&#182;</a></h4><p>Note, our output weight, $W_o$, occurs <em>after</em> the recurrence, so we do not need to consider time in that case. Hence, when trying to determine how our error, $J$, changes with respect to the output weight, we can calculate the derivative as normal (for more detail please see my post on Neural Network Training):</p>
+<p>$$\frac{dJ}{dW_o} = \frac{\partial J}{\partial y}\frac{\partial y}{\partial a}\frac{\partial a}{\partial W_o}$$</p>
+<h4 id="4.2.1-Derivative-of-Error-With-Respect-to-$W_h$">4.2.1 Derivative of Error With Respect to $W_h$<a class="anchor-link" href="#4.2.1-Derivative-of-Error-With-Respect-to-$W_h$">&#182;</a></h4><p>However, we have to be more careful when determining how the error changes with respect to $W_h$. If we look at the derivative of $J$ with respect to $W_h$:</p>
+<p>$$\frac{dJ}{dW_h} = \frac{\partial J}{\partial a}\frac{\partial a}{\partial h}\frac{\partial h}{\partial W_h}$$</p>
+<p>In order to best demonstrate this and make the idea more concrete, let's look specifically node 3 and how the error, $J_3$, changes as we change $W_h$:</p>
+<p>$$\frac{dJ_3}{dW_h} = \frac{\partial J_3}{\partial a_3}\frac{\partial a_3}{\partial h_3}\frac{\partial h_3}{\partial W_h}$$</p>
+<p>The first term of that derivative is no problem, it is simply:</p>
+<p>$$\frac{\partial J_3}{\partial a_3} = \frac{\partial J_3}{\partial y_3}\frac{\partial y_3}{\partial a_3}$$</p>
+<p>And the second is also taken care of easily:</p>
+<p>$$a_3 = W_o^Th_3$$</p>
+<p>$$\frac{\partial a_3}{\partial h_3} = W_o^T$$</p>
+<p>The third term in that derivative, $\frac{\partial h_3}{\partial W_h}$, is where we run into problems. Recall, that $h_3$ was determined to be:</p>
+<p>$$h(3) = f\big(W_x^T x(3) + W_h^T h(2)\big)$$</p>
+<p>We can cleary see that $h_3$ is a function of $W_h$. It also contains $h_2$, _which is a function of $W_h$ as well_. This means that we will need to use the product rule in order to calculate:</p>
+<p>$$\frac{\partial\big[W_h^T h(2)\big]}{\partial W_h}$$</p>
+<p>And wait! If we recall, $h_2$ was determined to be a function of $W_h$, as well $h_1$:</p>
+<p>$$h(2) = f\big(W_x^T x(2) + W_h^T h(1)\big)$$</p>
+<p>All said and done, we had determined that $h_3$ was:</p>
+<p>$$h(3) = f\Big(W_x^T x(3) + W_h^T f\big(W_x^T x(2) + W_h^T h(1)\big)\Big)$$</p>
+<p>If we slightly abstract away from the above notation, we can simple write that $h_3$ is a function of $h_1$ $h_2$</p>
+<hr>
+<p>The first thing we need to realize is that there is a product where both terms depend on $W_h$:</p>
+<p>$$W_h^T h(t-1)$$</p>
+<p>$$W_h^T f\big(W_x^T x(t-1) + W_h^T h(t-2)\big)$$</p>
+<p>In this case we must use the product rule from calculus:</p>
+<p>$$\frac{\partial\big[W_h^T h(t-1)\big]}{\partial W_h}$$</p>
+<p>Now, recall from earlier posts regarding deep learning, that a weight gets updated via an <em>error signal</em> from whatever nodes it influences when it goes in the forward direction. Below, we can see the influence of $w_h$ in red:</p>
+<p><img src="https://drive.google.com/uc?id=15Tokk-VRfYQ9JzCPZFYI43x7GlyQs7rb" width="700"></p>
+<p>The upward arrows going to the output $y$ only matter if you are considering that as a part of your output. This will be different depending on whether you have a target for every time step, or a target just at the end of a sequence. The arrows going from left to right must always be backpropagated, because these are the hidden to hidden weights.</p>
+<h2 id="4.2-Vanishing-Gradient-/-Exploding-Gradient">4.2 Vanishing Gradient / Exploding Gradient<a class="anchor-link" href="#4.2-Vanishing-Gradient-/-Exploding-Gradient">&#182;</a></h2><p>One thing to realize here is that the same things are going to be multiplied again and again due to the chain rule of calculus. This will happen for both the hidden to hidden weights, as well as the input to hidden weights. The result is that you will either have something that goes down to 0, or gets large very quickly. This is referred to as the <em>vanish gradient</em> and <em>exploding gradient</em> problem respectively.</p>
+<p>One solution to this is <strong>gradient clipping</strong>. It is a pretty simple algorithm, as can be seen from the pseudocode below:</p>
+
+<pre><code>g = derivative_error_wrt_weights
+if ||g|| &gt;= threshold:
+    g = g * (threshold / ||g||)</code></pre>
+<h2 id="4.3-Truncated-BPTT">4.3 Truncated BPTT<a class="anchor-link" href="#4.3-Truncated-BPTT">&#182;</a></h2><p>Another modification of back propagation through time is <strong>truncated backpropagation through time</strong>. Because the derivatives of $W_h$ and $W_x$ depend on every single time step of the sequence so far, the calculation will take a very long time for very long sequences. One approximation is just to stop after a certain number of time steps. One disadvantage of this is that it won't incorporate the error at longer periods of time. However, if you don't care about dependencies at greater than 3 time steps, then you can just truncate at 3 time steps.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="5.-The-Parity-Problem">5. The Parity Problem<a class="anchor-link" href="#5.-The-Parity-Problem">&#182;</a></h1>
+</div>
+</div>
+</div>
+<hr>
+&copy; 2018 Nathaniel Dake
+
+</div>
+</div>
+</body>
+</html>
