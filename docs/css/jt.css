@@ -4464,6 +4464,11 @@ div.rendered_html code {
  color: #303030;
  background: #eeeeff;
  background-color: #eeeeff;
+ border: 1px solid #d5d5e9;
+ padding-left: 3px;
+ padding-right: 3px;
+ padding-bottom: 2px;
+
  /* border: 2px solid #d5d5e9; */
 }
 pre,

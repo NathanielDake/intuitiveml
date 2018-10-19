@@ -1,7 +1,4 @@
-{%- extends 'basic.tpl' -%}
 
-{%- block header -%}
-{{ super() }}
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -228,9 +225,104 @@ $(document).ready(function () {
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Deep-learning">Deep learning<a class="anchor-link" href="#Deep-learning">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="Deep_Learning/01 - Deep Learning - Predictions in Neural Networks.html"><strong>1. Introduction</strong></a><br>
+&nbsp; &nbsp;In the past we have looked at both logistic regression and binary classification. There, we would collect some data, and then try to predict 1 of 2 possible labels. For example, if we were dealing with an e-commerce stie, we could collect <em><strong>time spent on site</strong></em> and <em><strong>number of pages viewed</strong></em>, and then try to predict whether someone is going to buy something on the site.</p>
 
-{%- endblock header -%}
-{% block footer %}
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="Deep_Learning/02 - Deep Learning - Neural Network Training.html"><strong>Training Introduction</strong></a><br>
+&nbsp; &nbsp;We previously went over the architecture of a neural network, mainly talking about how to pass data from input to output, and end up with a probabilistic prediction. However, the problem was that all of our weights were random and thus, our predictions were not accurate!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="Deep_Learning/03 - Deep Learning  - Backpropagation Calculations.html"><strong>Backpropagation Walk Through</strong></a><br>
+&nbsp; &nbsp;At this point I am going to take an aside to go through a thorough backpropagation walk through. For this walk through, we are going to start by looking at a single logistic neuron, then an overview of backpropagation, and then look at a specific example with numbers!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="Deep_Learning/04 - Deep Learning  - Ecommerce Example.html"><strong>E-commerce Project - Logistic Regression</strong></a><br>
+&nbsp; &nbsp;We are now going to look at training <strong>logistic regression</strong> with softmax. In my other walk throughs on logistic regression, we weren't looking at multiclass classification (just binary) so we had just been using the <strong>sigmoid</strong> function, and not softmax. This will give us the chance to see how logistic regression performs compared to a neural network. Remember, for logistic regression our architecture looks like:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="Deep_Learning/05 - Deep Learning - Practical Issues.html"><strong>Practical Issues Overview</strong></a><br>
+&nbsp; &nbsp;Up until this point we have focused mainly on theory and the two main functions of a neural networks:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="Deep_Learning/06 - Deep Learning - Ecommerce Example.html"><strong>E-commerce Project - Logistic Regression</strong></a><br>
+&nbsp; &nbsp;We are now going to look at training <strong>logistic regression</strong> with softmax. In my other walk throughs on logistic regression, we weren't looking at multiclass classification (just binary) so we had just been using the <strong>sigmoid</strong> function, and not softmax. This will give us the chance to see how logistic regression performs compared to a neural network. Remember, for logistic regression our architecture looks like:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="Deep_Learning/07 - Deep Learning - Practical Issues.html"><strong>Practical Issues Overview</strong></a><br>
+&nbsp; &nbsp;Up until this point we have focused mainly on theory and the two main functions of a neural networks:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="Deep_Learning/09 - Deep Learning Facial Expression Recognition.html"><strong>09 - Deep Learning Facial Expression Recognition</strong></a><br>
+&nbsp; &nbsp;1. Facial Recognition Project in Python</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="Deep_Learning/10 - Deep Learning - TensorFlow.html"><strong>TensorFlow Example</strong></a><br>
+&nbsp; &nbsp;We are now going to go through a quick <strong>TensorFlow</strong> example. You may be wondering: "What is TensorFlow?" So here is a quick synopsis from the <code>https://www.tensorflow.org/</code> website:</p>
+
+</div>
+</div>
+</div>
 <hr>
 &copy; 2018 Nathaniel Dake
 <!-- To enable disqus, uncomment the section below and provide your disqus_shortname -->
@@ -255,4 +347,3 @@ $(document).ready(function () {
 </script>
 </body>
 </html>
-{% endblock %}

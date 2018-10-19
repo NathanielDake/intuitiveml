@@ -96,7 +96,7 @@ def getData(balance_ones=True):
     Y = []
     X = []
     first = True
-    for line in open('../../../data/fer/fer2013.csv'):
+    for line in open('../../data/fer/fer2013.csv'):
         if first:
             first = False
         else:
@@ -134,7 +134,7 @@ def getBinaryData():
     Y = []
     X = []
     first = True
-    for line in open('../../../data/fer/fer2013.csv'):
+    for line in open('../../data/fer/fer2013.csv'):
         if first:
             first = False
         else:

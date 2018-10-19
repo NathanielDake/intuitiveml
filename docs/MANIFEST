@@ -8,6 +8,17 @@ docs/Artificial_Intelligence/5 - Reinforcement Learning - Dynamic Programming.ht
 docs/Artificial_Intelligence/6 - Reinforcement Learning - Monte Carlo.html
 docs/Artificial_Intelligence/7 - Reinforcement Learning - Temporal Difference Learning.html
 docs/Artificial_Intelligence/8 - Reinforcement Learning - Approximation Methods.html
+docs/Deep_Learning.html
+docs/Deep_Learning.tpl
+docs/Deep_Learning/01 - Deep Learning - Predictions in Neural Networks.html
+docs/Deep_Learning/02 - Deep Learning - Neural Network Training.html
+docs/Deep_Learning/03 - Deep Learning  - Backpropagation Calculations.html
+docs/Deep_Learning/04 - Deep Learning  - Ecommerce Example.html
+docs/Deep_Learning/05 - Deep Learning - Practical Issues.html
+docs/Deep_Learning/06 - Deep Learning - Ecommerce Example.html
+docs/Deep_Learning/07 - Deep Learning - Practical Issues.html
+docs/Deep_Learning/09 - Deep Learning Facial Expression Recognition.html
+docs/Deep_Learning/10 - Deep Learning - TensorFlow.html
 docs/homepage.tpl
 docs/homepage/Untitled.html
 docs/index.html
