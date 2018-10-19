@@ -206,7 +206,7 @@ body {
 </blockquote>
 <p>This section is about putting these concepts into a formal framework called <strong>Markov Decision Processes</strong>.</p>
 <h2 id="1.1-Gridworld">1.1 Gridworld<a class="anchor-link" href="#1.1-Gridworld">&#182;</a></h2><p>In this section we are going to describe the game that we are going to use for the rest of this course. It is in some ways simpler than tic-tac-toe, but it has some properties that allow us to explore some of the more interesting properties of RL.</p>
-<p><img src="images/gridworld.png"></p>
+<p><img src="https://drive.google.com/uc?id=1YGs8JiWmO5m3LCvlEyO3oVRl1l_a2l-F"></p>
 <p>In this game our agent is a robot, and the environment is a grid. The agent is allowed to move in 4 directions: up, down, left, and right. Grid world is generally built in the following way:</p>
 <blockquote><ul>
 <li>at position (1, 1) there is a wall, so if the robot tries to go there it will bump into the wall. </li>
@@ -308,7 +308,7 @@ body {
 <p>A $\gamma = 1$ means that we don't care how far in the future a reward is, all rewards should be weighted equally. A $\gamma = 0$ means that we don't care about the future rewards at all, and is a truly greedy algorithm since the agent would only try to maximize its immediate reward. Usually we choose something close to 1, such as 0.9. If we have a very short episodic task, it may not be worth discounting at all. An intuitive reason for discounting future rewards is that the further you look into the future, the harder it is to predict. Hence, there is not a lot of sense getting something 10 years from now, unless you are sure you can make it happen, and that your circumstances won't change.</p>
 <h2 id="4.3-Merging-Continuous-and-Episodic-Tasks">4.3 Merging Continuous and Episodic Tasks<a class="anchor-link" href="#4.3-Merging-Continuous-and-Episodic-Tasks">&#182;</a></h2><p>You may notice that the sum for the return goes from 0 to $\infty$; this implies that we are looking at a continuous task, when in reality the tasks we have looked at so far (tic-tac-toe) are episodic. This is a mathematical subtlety, but we actually want to write all of our equations in continuous form; simply put, it makes the math a little easier to work with.</p>
 <p>There is a way to merge episodic and continuous tasks so that they are equivalent. The way you do it is this: The episodic task has a terminal state. Pretend that there is a state transition from the terminal state to itself, that always happens with probability of 1, and always yields a reward of 0. In this way, the episodic task remains the same, but since it goes on forward, it is technically a continuous task.</p>
-<p><img src="images\continuous-episodic.png"></p>
+<p><img src="https://drive.google.com/uc?id=1Y5lz-zsNXiygOKng_qrmBfvrSEyEBgKW"></p>
 
 </div>
 </div>
@@ -326,7 +326,7 @@ body {
 <h3 id="5.02-Expected-Value---Mathematical-Definition">5.02 Expected Value - Mathematical Definition<a class="anchor-link" href="#5.02-Expected-Value---Mathematical-Definition">&#182;</a></h3><p>We can define expected value to be:</p>
 <p>$$E(X) = \sum_x p(x)x$$</p>
 <h3 id="5.03-Why-are-averages-so-important">5.03 Why are averages so important<a class="anchor-link" href="#5.03-Why-are-averages-so-important">&#182;</a></h3><p>Suppose we are playing the game of tic tac toe. Realistically, we can't perfectly predict what our opponent is going to do next. They can do any number of things, and sometimes we may end up winnings, other times losing. Each time, this will leave us with a different total reward. Again, we can use a tree to represent this idea:</p>
-<p><img src="images/tic-tac-toe-tree.png" width="350"></p>
+<p><img src="https://drive.google.com/uc?id=1WfY1kfz6UrHn9TwYrl7VUqt1z5e-elor" width="350"></p>
 <p>You may also recall that trees are recursive. So, if we take the tree above, and look at one of the children nodes by the root, that is also called at tree! In other words, the child of any node in the tree, is the root of another tree! This idea of recursiveness will become very important later on.</p>
 <p>Now, every time we play this game we are going to take a different path down the tree. Each path has a different probability, but we can still have this concept of:</p>
 <blockquote><p><em>What is the weighted sum of total rewards I get with this tree, with these states and these probabilities.</em></p>
@@ -343,7 +343,7 @@ body {
 <p>In english this just means "The value at state $s$ is equal to the expected value of the overall return, $G$, given that we are in state $s$." As a note, anything to the left of the $\mid$ (given) symbol is random, while that to the right is not random. This is called a <strong>conditional expectation</strong>.</p>
 <h2 id="5.2-Fundamental-Concept">5.2 Fundamental Concept<a class="anchor-link" href="#5.2-Fundamental-Concept">&#182;</a></h2><p>The next concept we discuss is one of the most fundamental concepts in RL. The idea is as follows:</p>
 <p>We know that every game is going to consist of a series of states and rewards:</p>
-<p><img src="images/rewards-states.png"></p>
+<p><img src="https://drive.google.com/uc?id=1mJ5GIT4bS0RGah4U2WSiqmXOMkCwo0Pz"></p>
 <p>Let's pretend for a moment that everything is deterministic, hence the reward we would get is the only reward we could possibly get at any state. This lets us drop the expected value symbol for now. You may recall, the expected value of a value that is not random, is just the value itself. I.e., the expected value of 3 is 3: $E(3) = 3$.</p>
 <p>So, because the value of a state is just the sum of all future rewards (if they are deterministic), we can say that:</p>
 <p>$$V(s_1) = r_2 + r_3 + r_4 + ... + r_N$$
@@ -435,7 +435,7 @@ What is my expected future return, given that I am now in state $s$ and I take a
 <blockquote><p>In english is it saying: "<em>What is the expected value of the reward $R(t+1)$, given that we are in state $s$?</em>"</p>
 </blockquote>
 <p>Well, to gain intuition before jumping into the derivation, let's think about what is actually going into determining a reward? If we look back at section 2.2 concerning MDP's, we can see that a reward is yielded after an action $a$ is taken while being in a state $s$. This is illustrated below:</p>
-<p><img src="images/mdp.png" width="500"></p>
+<p><img src="https://drive.google.com/uc?id=12pmlirRkRDvHCy25nschvkGT-971Y16r" width="500"></p>
 <p>Great, so we can clearly see that in order to find the expected value of $R(t+1)$, we will need two things:</p>
 <blockquote><ul>
 <li><strong>Distribution of policy $\pi$</strong><br>
@@ -450,7 +450,7 @@ $$E_{p(r \mid s, a)} = \sum_r r * p(r \mid s, a) $$</li>
 <p>With those two things in mind, we can derive the following:</p>
 <p>$$E_\pi \big[R(t + 1) \mid S_t = s \big] = \sum_a \pi(a \mid s) * \sum_r r * p(r \mid s,a)$$</p>
 <p>And elaborate in the following image:</p>
-<p><img src="images/eq-1.png" width="550"></p>
+<p><img src="https://drive.google.com/uc?id=1s7DGW0op8htmejwImGwjvuWfQY7ywNZC" width="550"></p>
 <p><strong>A Note on the traditional expected value and marginalization:</strong><br>
 Now pertaining to the probability in the tradtional expected value, i.e.:</p>
 <p>$$\sum_r r * p(r \mid s,a)$$</p>
@@ -579,7 +579,7 @@ $$V_\pi(s) = E_\pi \Big[R(t + 1) + \gamma \sum_{\tau = 0}^\infty \gamma ^ \tau R
 <blockquote><p><strong>Goal Of Value Function</strong>: The value function allows us to answer the following question: "If we are in state s , what is the sum of rewards we will get in the future, on average?"</p>
 </blockquote>
 <h2 id="7.1-Example-1">7.1 Example 1<a class="anchor-link" href="#7.1-Example-1">&#182;</a></h2><p>We will start with the most basic example: We have 2 states, <em>start</em> and <em>end</em>. The probability of going from start to end is 1.</p>
-<p><img src="images/bellman-ex-1.png" width="350"></p>
+<p><img src="https://drive.google.com/uc?id=1EZ0lrCgjxnsNTYnq_uq4msUbC8LwrSmY" width="350"></p>
 <p>Clearly, every time we play this game it is completely deterministic. We can say that the end state gives us a reward of 1, and the discount factor is $\gamma = 0.9$. The question is, what do we need to find?</p>
 <p>Remember, we want to be solving for the value function! Because there are only two states, in particular we need to find $V(start)$ and $V(end)$.</p>
 <p>To do this, we must first recall that the <em>value</em> is the <em>sum of all future rewards</em>. At the terminal state there are no longer any <em>future rewards</em>, meaning the value of a terminal state is 0. Hence:</p>
@@ -594,7 +594,7 @@ $$V(start) =1 $$</p>
 <p>$$V(start) = R + \gamma V(end)$$</p>
 <p>But the second term just resolves to 0.</p>
 <h2 id="7.2-Example-2">7.2 Example 2<a class="anchor-link" href="#7.2-Example-2">&#182;</a></h2><p>We can now add a 3rd state:</p>
-<p><img src="images/bellman-ex-2.png" width="550"></p>
+<p><img src="https://drive.google.com/uc?id=1DXt3f0HOkBWwMEStLOqrAC4Yp6weAKE_" width="550"></p>
 <p>Note that everything is still deterministic, and every game just has 3 steps: start, middle, and end. The reward again is 1 for arriving in the end start, and 0 at the middle state. $\gamma$ will remain at 0.9.</p>
 <p>As we know, our goal is to find $V(start)$, $V(middle)$, and $V(end)$.</p>
 <p>Because end is a terminal state, we again know its value is:</p>
@@ -604,14 +604,14 @@ $$V(start) =1 $$</p>
 <p>Finally, we can use the bellman equation to determine the value of the start state:</p>
 <p>$$V(start) = R(start, mid) + \gamma V(mid) = 0 + 0.9 *1 = 0.9$$</p>
 <h2 id="7.3-Example-3">7.3 Example 3<a class="anchor-link" href="#7.3-Example-3">&#182;</a></h2><p>We are now going to slightly tweak example 3, by changing the reward at the middle state to be $R = -0.1$.</p>
-<p><img src="images/bellman-ex-3.png" width="550"></p>
+<p><img src="https://drive.google.com/uc?id=1PSgTWLdYTNVsO-AY8-h0J-R1_0k1foe2" width="550"></p>
 <p>Again, we know the value of the start and middle states:</p>
 <p>$$V(end) = 0$$
 $$V(middle) = 1$$</p>
 <p>Keep in mind, the reason that the value of the middle state did not change is because it is only effected by <em>future rewards</em>. And in the case of the start state:</p>
 <p>$$V(start) = R(start, mid) + \gamma V(mid) = 1*-0.1 + 0.9 *1 = 0.8$$</p>
 <h2 id="7.4-Example-4">7.4 Example 4<a class="anchor-link" href="#7.4-Example-4">&#182;</a></h2><p>In this example, we are going to introduce some randomness:</p>
-<p><img src="images/bellman-ex-4.png" width="400"></p>
+<p><img src="https://drive.google.com/uc?id=1X8WvsLFOCBPxrvlzom1lkpwui4QQ3fuH" width="400"></p>
 <p>Our states are $S_1, S_2, S_3, S_4$. $S_4$ is a terminal state, and you always get a reward of 1 when you go here. $S_2$ and $S_3$ always go to $S_4$ 100% of the time, so this part is deterministic. $S_1$ goes to $S_2$ 50% of the time, and to $S_3$ 50% of the time, hence this portion is random. The reward for $S_4$ is 1, for $S_2$ is -0.2, and for $S_3$ is -0.3.</p>
 <p>Before we begin trying to find a solution, it would be beneficial to clear up a potential nuance that was just introduced; what do the probabilities we are working with refer to? When we say "there is a 50% chance of going to $S_2$ and a 50% chance of going to $S_3$", what does that really man? Becuse this is reinforcement learning, and there are multiple components in an MDP, this is not just a simple coin flip. We don't flip a coin and go which way it tells us to go. We are an <em>intelligent agent</em>, and as such have an internal policy, $\pi(a \mid s)$, that tells us which action to take. So, importantly we should make clear:</p>
 <blockquote><p>$\pi(a \mid s)$ does not tell us <em>where to go</em>, but rather <em>what action to take</em>.</p>
@@ -632,7 +632,7 @@ $$V(S_3) = 1$$</p>
 <p>$$V(S_1) = p(S_2 \mid S_1) \big[R_2 + \gamma V(S_2) \big] + p(S_3 \mid S_1) \big[R_3 + \gamma V(S_3) \big]$$
 $$V(S_1) = 0.5 * \big[-0.2 + 0.9 *1 \big] + 0.5 * \big[-0.3 + 0.9 *1 \big] = 0.65$$</p>
 <h2 id="7.5-Example-5">7.5 Example 5<a class="anchor-link" href="#7.5-Example-5">&#182;</a></h2><p>We will now extend the previous example a bit further. In example 4, the expected value was easy to calculate because we knew we would end up in the same terminal state $S_4$. In this example that won't be the case. Note that $S_1$ can go to either $S_2$ or $S_3$, and from $S_2$ and $S_3$ we can end up in either $S_4$ or $S_5$.</p>
-<p><img src="images/bellman-ex-5.png" width="300"></p>
+<p><img src="https://drive.google.com/uc?id=1hqQxRU-kGf_o9tGw-LaYppXzXoV5KOwe" width="300"></p>
 <p>So, now we have 2 terminal states, with multple paths to either one. The only relevant rewards for this example are +1 if we end up in $S_5$, and -1 if we end up in $S_4$.</p>
 <p>We know that $S_4$ and $S_5$ are terminal states, hence:</p>
 <p>$$V(S_4) = 0$$
@@ -645,7 +645,7 @@ $$V(S_3) = 0.9*1 + 0.1*-1 = 0.8$$</p>
 $$V(S_1) = 0.5\big[0 + 0.9 * -0.6 \big] + 0.5 \big[0 + 0.9 * 0.8 \big]$$
 $$V(S_1) = 0.09$$</p>
 <h2 id="7.6-Example-6">7.6 Example 6<a class="anchor-link" href="#7.6-Example-6">&#182;</a></h2><p>Now, in this example we are going to be looking at a simpler state diagram, but with more complex probabilities. This will be a somewhat more realistic scenario so we can picture what is happening. It will also allow us to separate <em>policy randomness</em> from <em>state-arrival randomness</em>.</p>
-<p><img src="images/bellman-ex-6.png" width="350"></p>
+<p><img src="https://drive.google.com/uc?id=1SkNLx2f9yGvWgMZT-bFP_-gVj_VnvxfW" width="350"></p>
 <p>The start state is that you are standing. At this point someone throws a ball at you (think dodgeball). You have two potential actions, you can either decide to "jump" or "duck". The next possible state is either you git hit, or you don't get hit (which means you are safe). We can say that the reward for getting hit is -1, and the reward for not getting hit is 0.</p>
 <p>Importantly, we can see why these state diagrams are somewhat over simplistic. In particular, when looking at a tree like this, you may think that the action is to go to the next state. However, that does <em>not</em> include all of the components of an MDP. We can see why that would not work in this scenario. We can't just choose "don't get hit", we can only choose to "jump" or "duck". This follows any real-life scenario. For example, we cannot choose to be rich. We can start a company and it may fail or it may succeed and make us rich, but can't <em>decide</em> that. All we can do is take the action of starting the company. The state that we end up in (rich or not rich) is probabilistic.</p>
 <p>So, as we continue with our example, we can use the following probabilities:</p>
@@ -678,7 +678,7 @@ $$V(hit) = 0$$</p>
 <p>$$V(start) = \pi(j)p(safe \mid j)*0 + \pi(j)p(hit \mid j)*-1 + \pi(d)p(safe \mid d)*0 + \pi(d) p(hit \mid d) * -1$$</p>
 <p>We won't plug in the numbers, since the entire goal of this example was just to set things up, but feel free if you would like to.</p>
 <h2 id="7.7-Example-7">7.7 Example 7<a class="anchor-link" href="#7.7-Example-7">&#182;</a></h2><p>For our final example, we are going to get rid of notion "just work backwards", and introduce a cycle.</p>
-<p><img src="images/bellman-ex-7.png"></p>
+<p><img src="https://drive.google.com/uc?id=1ec9el6y0C9rUai-fC6iOjx8JAC3ilQY_"></p>
 <p>Above, we can see that $S_3$ is a terminal state, and once you reach it the game is over and you receive a reward of 1. $S_1$ and $S_2$ are non terminal states, and they can both go to eachother, so there is no notion of a starting position. Only $S_2$ can go to $S_3$. but $S_1$ can go back to itself.</p>
 <p>Let's assume that the only probabilities here are the actions, and that the actions are simply to go to whatever state is next. As we have discussed, the actions don't have to be choosing what to state to go to next, but it will help in simplifying the probabilities that we must consider.</p>
 <p>So, the question now arises: how do we solve this problem? Well, since we cannot just work backwards as we did before, our only option is to just apply the bellman equation for each state and see what we end up with.</p>

@@ -221,7 +221,7 @@ $$Y_t = Y_{t-1} + \alpha ( X_t - Y_{t-1})$$</p>
 <p>Recall that $\alpha$ can be constant or decay with time. So, if we use this formula it would be an alternative way of caculating the average reward for a state.</p>
 <p>$$V(S_t) \leftarrow V(S_t) + \alpha \big[G(t) - V(S_t)\big]$$</p>
 <p>Annotated:</p>
-<p><img src="images/moving-average-TD.png"></p>
+<p><img src="https://drive.google.com/uc?id=1j1uV3Fl04qjSPfURVMn5QB32K4nrykP3"></p>
 <p>In this case we have chosen to not multiply the previous value by $1 - \alpha$, and we have chosen to have $\alpha$ be constant (instead of slowly get smaller over time).</p>
 <p>Now recall the definition of $V$; it is the expected value of the return, given a state:</p>
 <p>$$V(s) = E \big[G(t) \mid S_t = s\big]$$</p>
@@ -408,8 +408,7 @@ policy:
 <p>$$Q(s, a) \leftarrow Q(s, a) + \alpha \Big[r + \gamma Q(s', a') - Q(s,a)\Big]$$</p>
 <p>Notice that we have the same limitation as we did with MC; since $Q$ is indexed by both state and action, we need many more iterations to gather enough data for convergence. Because the update depends on the 5-tuple (s,a,r,s',a') this method is called <em><strong>SARSA</strong></em>.</p>
 <h2 id="3.1-What-Policy-to-use?">3.1 What Policy to use?<a class="anchor-link" href="#3.1-What-Policy-to-use?">&#182;</a></h2><p>Since SARSA requires us to know $Q(s,a)$ for all the possible actions $a$ in state $s$, so that we can accurately chose the argmax, we have the same problem as we did with MC. Recall, the problem was that if you follow a deterministic policy, you will only ever do $\frac{1}{|A|}$ of the possible actions, which will leave most of $Q$ undefined. To fix this we either have to use exploring starts, or a policy that allows for exploration, like epsilon-greedy. Since we know that exploring starts is not realistic, we are going to use epsilon greedy.</p>
-<h2 id="3.2-Pseudocode">3.2 Pseudocode<a class="anchor-link" href="#3.2-Pseudocode">&#182;</a></h2><hr>
-
+<h2 id="3.2-Pseudocode">3.2 Pseudocode<a class="anchor-link" href="#3.2-Pseudocode">&#182;</a></h2>
 <pre><code>Q(s,a) = artibtrary, Q(terminal, a) = 0 
 for t=1..N:
   # Start a game
@@ -419,7 +418,6 @@ for t=1..N:
     a' = epsilon_greedy_from(Q(s'))
     Q(s,a) = Q(s,a) + alpha*[r + gamma*Q(s', a') - Q(s,a)]
     s = s', a = a'</code></pre>
-<hr>
 <p>We can see that our pseudocode functions as follows:</p>
 <blockquote><ul>
 <li>We initialize $Q$ arbitrarily, and set it to 0 for any terminal state.</li>

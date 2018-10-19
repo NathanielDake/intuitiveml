@@ -402,10 +402,8 @@ $</p>
 <p>Hence, we can update our value equation to be:</p>
 <p>$$V_\pi(s) = \sum_a \frac{1}{\mid A(s) \mid} *  \Big \{ r + \gamma V_\pi(s') \Big \}$$</p>
 <p>In pseudocode, that will look like:</p>
-<hr>
 
 <pre><code>new_v += p_a * (r + gamma * V[grid.current_state()])</code></pre>
-<hr>
 <p><strong>Key Takeaway</strong>:<br></p>
 <blockquote><p>Another key thing to keep in mind, is how our value function is actually represented. Generally, when we think of a <em>function</em> we envision an equation of some sort, that maps one domain to another, such as: <br>
 <br>
@@ -1167,7 +1165,7 @@ policy:
 <blockquote><p>We iteratively perform 2 steps: policy evaluation and policy improvement, and we alternate between the two until we reach convergence. The only way that we can reach convergence is when Bellman's equation has come true. In other words, the value has converged for the given policy, and the value has stabilized with respect to greedy selection on the value function.</p>
 </blockquote>
 <p>A way to visualize this can be seen below:</p>
-<p><img src="images/dp-summary.png"></p>
+<p><img src="https://drive.google.com/uc?id=1TyYQtTzC8CYTUDkX4W3KzSdFTFd5ucy8"></p>
 <p>Initially the policy and value function can be highly suboptimal. But, by requiring the policy to be greedy with respect to the value function, and the value function to be consistent with the policy, we can converge to the optimal policy and optimal value function.</p>
 <h2 id="10.3-Efficiency-of-Dynamic-Programming">10.3 Efficiency of Dynamic Programming<a class="anchor-link" href="#10.3-Efficiency-of-Dynamic-Programming">&#182;</a></h2><p>Let's consider how much better dynamic programming is than brute force search. Well, let's call the number of states $N$ and the number of possible actions $M$. If we assume that the agent can go from the start state to the goal state in $O(N)$ time, then we want a sequence of actions of length $O(N)$. The number of possible actions is then:</p>
 <p>$$M*M*M*M...*M \rightarrow O(M^N)$$</p>

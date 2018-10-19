@@ -227,7 +227,7 @@ class UnsupervisedModel:
 </ol>
 </blockquote>
 <h2 id="1.2-SAR-Triples">1.2 SAR Triples<a class="anchor-link" href="#1.2-SAR-Triples">&#182;</a></h2><p>The last thing things we just mentioned are often thought about as a triple: <em>State, Action, Reward</em>. You are in a <strong>state</strong>, you take an <strong>action</strong>, and you get a <strong>reward</strong>. These are referred to as <strong>SAR</strong> triples.</p>
-<p><img src="images/sar-flow.png" width="500"></p>
+<p><img src="https://drive.google.com/uc?id=1XXGA6HFfuDJlP_qzZsa691xNANY567Q-" width="500"></p>
 <h2 id="1.3-Timing">1.3 Timing<a class="anchor-link" href="#1.3-Timing">&#182;</a></h2><p>Timing is also very important in RL as well. This is because every time you play a game you get a sequence of states, actions, and rewards. Within this framework you start in a state $S(t)$, you take an action $A(t)$, and you then receive a reward $R(t+1)$. So, the reward you get always results from the state and action $(s, a)$ that you took in the previous step. This action also results in your being in a new state, $S(t+1)$. So, another important triple is $[S(t), A(t), S(t+1)]$, which can also be denoted as $(s, a, s')$</p>
 <h2 id="1.4-Summary">1.4 Summary<a class="anchor-link" href="#1.4-Summary">&#182;</a></h2><p>That is RL in a nutshell. We program an agent to be intelligent, and the agent interacts with its environment by being in a state, taking an action based on that state, which then brings it to another state. The environment gives the agent a reward when it arrives in the next state, either positive or negative (but must be a number), and the goal of the agent is to maximize its total rewards.</p>
 

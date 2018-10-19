@@ -223,7 +223,6 @@ The first method is called <em>first visit monte carlo</em>. That means that you
 The second method is called <em>every visit monte carlo</em>. That means that you would calculate the return for every time you visited the state $s$, and all of them would contribute to the sample mean; i.e. use both $t=1$ and $t=3$ as samples.</p>
 <p>Surprisingly, it has been proven that both lead to the same answer.</p>
 <h2 id="2.3-First-Visit-MC-Pseudocode">2.3 First-Visit MC Pseudocode<a class="anchor-link" href="#2.3-First-Visit-MC-Pseudocode">&#182;</a></h2><p>Let's now look at some pseudocode for first visit monte carlo prediction.</p>
-<hr>
 
 <pre><code>def first_visit_monte_carlo_prediction(pi, N):
   V = random initialization
@@ -235,7 +234,6 @@ The second method is called <em>every visit monte carlo</em>. That means that yo
         all_returns[s].append(g)
         V(s) = sample_mean(all_returns[s])
   return V</code></pre>
-<hr>
 <p>In the above pseudocode we can see the following:</p>
 <blockquote><ul>
 <li>The input is a policy, and the number of samples we want to generate</li>
@@ -252,7 +250,6 @@ The second method is called <em>every visit monte carlo</em>. That means that yo
 <p>$$\text{Variance of Estimate} = \frac{\text{variance of RV}}{N}$$</p>
 <p>Therefore, we are going to more confident in data that has more samples, but it grows slowly with respect to the number of samples.</p>
 <h2 id="2.5-Calculating-Returns-from-Rewards">2.5 Calculating Returns from Rewards<a class="anchor-link" href="#2.5-Calculating-Returns-from-Rewards">&#182;</a></h2><p>For full clarity, we will also quickly go over how to calculate the returns from the rewards in pseudocode.</p>
-<hr>
 
 <pre><code># Calculating State and Reward Sequences 
 s = grid.current_state()
@@ -270,7 +267,6 @@ for s, r in reverse(states_and_rewards):
   states_and_returns.append((s, G))
   G = r + gamma*G
 states_and_returns.reverse()</code></pre>
-<hr>
 <p>The above pseudocode shows two main steps:</p>
 <ol>
 <li>Calculating State and Reward Sequences. This is just playing the game, and keeping a log of all the states and rewards that we get, in the order we get them. Notice, this is a list of tuples. Also, first award is assumed to be 0. We do not get any reward simply for arriving at the start state. </li>
@@ -658,7 +654,6 @@ policy:
 <h2 id="5.4-Problem-with-MC">5.4 Problem with MC<a class="anchor-link" href="#5.4-Problem-with-MC">&#182;</a></h2><p>One issue with this as we have already discussed, is that because we need to find $Q$ over all states and all actions, this can take a very long time using sampling. We again have a problem where there is an iterative algorithm inside an iterative algorithm.</p>
 <p>The solution to this is to take the same approach that we do with value iteration. Instead of doing a fresh MC policy evaluation on each round, where it would take a long time to collect samples, we instead update the same $Q$ and do policy improvement after every single episode. This means that on every iteration of the outer loop we generate only one episode, use that episode to improve our estimate of $Q$, and then immediately do the policy improvement step.</p>
 <h2 id="5.5-Pseudocode">5.5 Pseudocode<a class="anchor-link" href="#5.5-Pseudocode">&#182;</a></h2><p>We can now look at this in pseudocode to solidify this idea:</p>
-<hr>
 
 <pre><code>Q = random, pi = random
 
@@ -679,7 +674,6 @@ while True:
   # Policy improvement step
   for s in states:
     pi(s) = argmax[a] { Q(s,a) }</code></pre>
-<hr>
 <h1 id="5.6-One-more-problem">5.6 One more problem<a class="anchor-link" href="#5.6-One-more-problem">&#182;</a></h1><p>There is one more subtle problem with this algorithm; Recall that if we take an action that results in us bumping into a wall, we end up in the same state as before. So, if we follow this policy we will never end up in a terminal state and therefore never finish the episode. To avoid this problem, we can introduce a hack: if we end up in the same state after doing an action, this will give us a reward of -100 and end the episode.</p>
 <h2 id="5.7-MC">5.7 MC<a class="anchor-link" href="#5.7-MC">&#182;</a></h2><p>It is interesting that this method converges, even though the returns that we average for $Q$ are for different policies. Intuitively, $Q$ has to converge, since if it is suboptimal, then the policy will change, and that will in turn cause $Q$ to change. We can only achieve stability when both the value and policy to converge to the optimal value and optimal policy. Interestingly, this have never been formally proven.</p>
 

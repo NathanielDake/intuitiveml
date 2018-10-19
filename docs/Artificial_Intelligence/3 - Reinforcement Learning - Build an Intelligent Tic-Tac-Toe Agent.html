@@ -195,7 +195,7 @@ body {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="3.-Components-of-an-RL-System">3. Components of an RL System<a class="anchor-link" href="#3.-Components-of-an-RL-System">&#182;</a></h1><p>Let's quickly recall what we had discussed earlier concerning the components of an RL system. We talked about the following:</p>
-<p><img src="images/sar-flow.png" width="500"></p>
+<p><img src="https://drive.google.com/uc?id=1XXGA6HFfuDJlP_qzZsa691xNANY567Q-" width="500"></p>
 <blockquote><ul>
 <li><strong>Agent</strong>: The thing that is playing the game, that we want to program the RL algorithm into.
 <br>
@@ -248,11 +248,11 @@ body {
 <p>The credit assignment problem shows up in online advertising as well, but the concept is referred to as <strong>attribution</strong>. The idea is that if a user is shown the same ad 10 different times before they buy, which ad gets the credit?</p>
 <p>Now, closely related to the credit assignment problem is the idea of <strong>delayed rewards</strong>. Note that these are all kind of just different ways of saying the same thing, and the solution is also the same. Delayed rewards is just looking at the problem from the other direction. With credit assignment, we are looking into the past and asking "what action lead to the reward we are getting now?". With delayed rewards, we are asking "How is the action I am taking now related to rewards I may potentially receive in the future?"</p>
 <p>The idea of delayed rewards tells us that an AI must have the ability of foresight, or planning.</p>
-<h2 id="3.1-Example-Scenario">3.1 Example Scenario<a class="anchor-link" href="#3.1-Example-Scenario">&#182;</a></h2><p><img src="images/scenario-1.png"></p>
+<h2 id="3.1-Example-Scenario">3.1 Example Scenario<a class="anchor-link" href="#3.1-Example-Scenario">&#182;</a></h2><p><img src="https://drive.google.com/uc?id=1Tz6Wpq2yN7CvHPL5MUfFRlft66MjTITH" width="300"></p>
 <p>Imagine the following: you are in state A, which is the second last state in a game. There are only two possible next states, both of which are terminal states. B gives you a reward of 1, and C gives you a reward of 0. You have a 50% probability of going to either state; perhaps your agent doesn't know which one is best. We can think of the value of state B as 1, and the value of state C as 0. So, what is the value of state A? We can think of it as 0.5, since it is the expected value of your final reward, given that you have a 50% chance of ending up in either state:</p>
 <p>$$Value(A) = 0.5*1 + 0.5*0 = 0.5$$</p>
 <p>Now, lets say that you are in state A, and state A can only lead to state B, and there is no other possible next state:</p>
-<p><img src="images/scenario-2.png"></p>
+<p><img src="https://drive.google.com/uc?id=1EgUR7WWe4KhhES6RL-hIfyWSof4nxHUt" width="300"></p>
 <p>If B gives you a reward of 1, then perhaps A's value should also be 1, since the only possible final scenario is to have a final reward of 1, once you reach A:</p>
 <p>$$Value(A) = 1 * 1 = 1$$</p>
 <p>Thus, the value tells us about the "future goodness" of a state. We can make this a little more formal; we actually call this value, the value function.</p>
@@ -316,7 +316,7 @@ perform action maxA</code></pre>
 <hr>
 <h1 id="4.-Tic-Tac-Toe-Implementation">4. Tic-Tac-Toe Implementation<a class="anchor-link" href="#4.-Tic-Tac-Toe-Implementation">&#182;</a></h1><p>Typically in ML we're implementing <em>procedural</em> algorithms. However, in RL we have multiple objects interacting, and we take an OOP approach.</p>
 <p>At a high level, we will have two main objects: the <strong>agent</strong> and the <strong>environment</strong>. During any game, there will be two instances of the <strong>agent</strong>, and they will both interact with the same instance of environment.</p>
-<p><img src="images/tic-tac-toe.png" width="500"></p>
+<p><img src="https://drive.google.com/uc?id=1_L-RrlcX4djE4hRmh6SaYGp7N01fVHCF" width="500"></p>
 <p>In order to make these things interact, we can create a function called <code>play_game()</code>, which accepts the agent for player 1, the agent for player 2, and the environment object. Inside of this function, it will essentially be a single loop. We will alternate between the two players, and at each iteration of the loop we need to do a few things.</p>
 <ol>
 <li>We need to make the current player perform an action which updates the environment. </li>
@@ -409,7 +409,7 @@ return h</code></pre>
 </blockquote>
 <p>In order to do this, we need to enumerate every possible state, and assign them values. Here is a question to think about; is it better to create a game tree, where you enumerate every possible sequence of moves, or is it better to permute all possible settings of all possible positions on the board, even though some of those represent impossible game states?</p>
 <p>The problem with the game tree is that we end up with many redundant states. For instance, consider the case where x goes in the top middle, and then o goes in the center. We can reach this same state if o goes in the center, and then x goes in the top middle.</p>
-<p><img src="images/tic-tac-toe-board.png" width="500"></p>
+<p><img src="https://drive.google.com/uc?id=1e3tbEAN6uGvtG7LBuGEa2Kc-rTeXRHT-" width="500"></p>
 <p>If we take a second to think about how many choices this will lead to we can see that at the root we have 9 different choices, and then at the layer below we have 8 different choices, and then 7 and so on. Hence the total number of states that we will see is $9!$ which is equivalent to 326,880, and is much greater than $3^9$. So, the algorthms that we want to use to generate the states is definitely generating all permutations.</p>
 <p>How do we go about generating these permutations? Well, this is naturally a recursive problem, since a binary number of length $N$ can start with either 0 or 1, and then we can use all of the permutations for a binary number of length $N-1$, and append it to that. In pseudocode that may look like:</p>
 
@@ -899,7 +899,7 @@ return h</code></pre>
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Notes-on-Learning/Value-Function">Notes on Learning/Value Function<a class="anchor-link" href="#Notes-on-Learning/Value-Function">&#182;</a></h1><p>At this point you should have a good high level overview of the reinforcement learning process used in order to train our agent to perform optimally at tic tac toe. However, there may still be some haze surrounding the exact process-this is okay, considering there was a lot going on above that didn't even have to do with our agent. The actual AI portion was kept to only a few lines of code, with the rest being the equivalent of a first year CS coding assignment (using object oriented programming in order to build an environment, human, agent, etc).</p>
 <p>Let's walk through the diagram below to ensure that we have a complete understanding of how our agent is learning over time.</p>
-<p><img src="images/ai-update.png"></p>
+<p><img src="https://drive.google.com/uc?id=1yVai-uimFp1hxOhljOpslgJvW4e-JngM"></p>
 
 </div>
 </div>
