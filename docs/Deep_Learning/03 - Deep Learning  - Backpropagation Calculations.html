@@ -176,11 +176,11 @@ body {
       <ul class="nav navbar-nav">
         
 <li>
-  <a href="../Artificial_Intelligence.html">Artificial Intelligence</a>
+  <a href="../Deep_Learning.html">Deep Learning</a>
 </li>
         
 <li>
-  <a href="../Deep_Learning.html">Deep Learning</a>
+  <a href="../Artificial_Intelligence.html">Artificial Intelligence</a>
 </li>
         
       </ul>
@@ -198,16 +198,16 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Backpropagation-Walk-Through">Backpropagation Walk Through<a class="anchor-link" href="#Backpropagation-Walk-Through">&#182;</a></h1><p>At this point I am going to take an aside to go through a thorough backpropagation walk through. For this walk through, we are going to start by looking at a single logistic neuron, then an overview of backpropagation, and then look at a specific example with numbers! 
+<h1 id="3.-Backpropagation-Calculations">3. Backpropagation Calculations<a class="anchor-link" href="#3.-Backpropagation-Calculations">&#182;</a></h1><p>At this point I am going to take an aside to go through a thorough backpropagation walk through. For this walk through, we are going to start by looking at a single logistic neuron, then an overview of backpropagation, and then look at a specific example with numbers! 
 <br><br></p>
 <h2 id="1.1-Logistic-Neurons">1.1 Logistic Neurons<a class="anchor-link" href="#1.1-Logistic-Neurons">&#182;</a></h2><p>So to start we are going to look at a logistic neuron. This is a non-linear neuron that gives a real valued output that is a smooth and bounded function of their total input.</p>
-<p><img src="attachment:logistic%20neuron.png" alt="logistic%20neuron.png"></p>
+<p><img src="https://drive.google.com/uc?id=1Pc0zQLlr3nRfTlrECn6a8ypXbbLVysl3" width="550"></p>
 <p>A logistic neuron computes its <strong>logit</strong>, which is <strong>z</strong>, it's total input! This is a linear combination of the bias, plus the sum over all of the input lines, of the value on an input line, $x_i$, times the weight on the input line, $w_i$. 
 $$logit = z = b + \sum_ix_iw_i$$</p>
 <p>It then takes that total input, the logit z, and gives an output <strong>y</strong>, that is a smooth nonlinear function of the logit. In this case, y is going to be the sigmoid function (logistic function), with the logit z as the input.
 $$output = y = \frac{1}{1+e^{-z}}$$</p>
 <p>We can see how the output <strong>y</strong> varies with it's input, the <strong>logit</strong>, <strong>z</strong>, below:</p>
-<p><img src="attachment:logistic%20curve.png" alt="logistic%20curve.png"></p>
+<p><img src="https://drive.google.com/uc?id=1LcBKUo5b7HwCz4zmHJU0Vcqd08TNbQzU" width="400"></p>
 <p>It is clear that <strong>y</strong> is approximately 1 when <strong>z</strong> is big and positive, approximately 0 when <strong>z</strong> is big and negative, and in between it changes smoothly and nonlinearly. The fact that it changes continuously gives it nice derivatives which make learning easy. 
 <br><br></p>
 <h2 id="1.2-Derivatives-of-Logistic-Neuron">1.2 Derivatives of Logistic Neuron<a class="anchor-link" href="#1.2-Derivatives-of-Logistic-Neuron">&#182;</a></h2><p>For this section note that our overall goal is to determine how the error between our output prediction, y, and target, t, changes as we change our weights. Why are we trying to find that? Well we want to change our weights so as to reduce the error between our predictions and targets. By finding how the change in weights effects the change in error, we can change our weights intelligently in order to make accurate predictions. So, mathematically wer are going to try and find:</p>
@@ -268,7 +268,7 @@ $$output = y = \frac{1}{1+e^{-z}}$$</p>
 <hr>
 <p><br></br></p>
 <h1 id="2-Backpropagation-Algorithm">2 Backpropagation Algorithm<a class="anchor-link" href="#2-Backpropagation-Algorithm">&#182;</a></h1><p>At this point it is useful to understand what the main purpose of backpropagation is, and why it is necessary. First and foremost, networks without hidden units are very limited in the input-output mappings they can model. If you add a layer of hand coded features, you can make the network much more powerful, but it is difficult and time consuming to design those features. As a note, here is what hidden units look like:</p>
-<p><img src="attachment:hidden%20layer%20.png" alt="hidden%20layer%20.png"></p>
+<p><img src="https://drive.google.com/uc?id=1ZBuGRZqcQ8LTR7shrYipn--A0o4bkFmG" width="400"></p>
 <p>What we would ideally want, is a way of finding good features, without requiring insights into the task, or repeated trial and error where we guess some features and see how well they work. What we need is essentially to automate the loop of designing features for a particular task and seeing how well they work. 
 <br><br></p>
 <h2 id="2.1-The-Idea-behind-Backpropagation">2.1 The Idea behind Backpropagation<a class="anchor-link" href="#2.1-The-Idea-behind-Backpropagation">&#182;</a></h2><p>The main idea behind back propagation is that we don't know what the hidden units ought to be doing-they are called hidden units because no body is telling us what there states ought to be-but we can compute how fast the error changes as we change the activity on a particular training case.</p>
@@ -278,7 +278,7 @@ $$output = y = \frac{1}{1+e^{-z}}$$</p>
 <h2 id="2.2-Sketch-of-Backpropagation-on-single-training-case">2.2 Sketch of Backpropagation on single training case<a class="anchor-link" href="#2.2-Sketch-of-Backpropagation-on-single-training-case">&#182;</a></h2><p>First we are going to need to define the error at the output, and in this case we are going to define it as being the squared difference between the target values of the output unit $j$, and the actual values that the net produces for the output unit $j$.</p>
 <p>$$Error = E = \frac{1}{2}\sum_{j \in output}(t_j - y_j)^2$$</p>
 <p>We can see in the diagram below that there are 3 output units.</p>
-<p><img src="attachment:backprop%20sketch.png" alt="backprop%20sketch.png"></p>
+<p><img src="https://drive.google.com/uc?id=1z1uiGeHwsX3AGoIxB7SBewa0GtYraPiw" width="500"></p>
 <p>We then differentiate that error with respect to the output, y. We end up with a familiar expression, which is how the error changes as you change the activity of an output unit, j.</p>
 <p>$$\frac{\partial E}{\partial y_j} = -\sum_n(t_j-y_j)$$</p>
 <p>Note: we are going to use a notation where the index on a unit tells us which layer we are in. So the output unit has a typical index of <strong>j</strong>, and the layer in front of that - the hidden layer below it - will have a typical index of <strong>i</strong>.</p>
@@ -288,7 +288,7 @@ $$output = y = \frac{1}{1+e^{-z}}$$</p>
 <p>Our algorithm must take error derivatives that we have already computed for the top layer, <strong>j</strong>, and combine them using the same weights that we had used in the forward pass, in order to get error derivatives in the layer below, <strong>i</strong>.</p>
 <p><br><br></p>
 <h2 id="2.4-Backpropagate-$\frac{dE}{dy}$">2.4 Backpropagate $\frac{dE}{dy}$<a class="anchor-link" href="#2.4-Backpropagate-$\frac{dE}{dy}$">&#182;</a></h2><p>Here we are really going to dive into the back propagation algorithm, and it is essential to really understand what is happening here. The goal is to fully understand how to backpropagate the error derivative, with respect to the output of a unit.</p>
-<p><img src="attachment:back%20prop%20algo%20sketch.png" alt="back%20prop%20algo%20sketch.png"></p>
+<p><img src="https://drive.google.com/uc?id=1EzgEw9a2Ae5DTfO_YgxEivQW1IaYiIz3" width="500"></p>
 <p>We are going to consider:</p>
 <blockquote><ul>
 <li>an output unit $j$</li>
@@ -343,7 +343,7 @@ $$z = b + \sum_ix_iw_i$$</li>
 <li>a bias for both the hidden and output neurons </li>
 </ul>
 </blockquote>
-<p><img src="attachment:back%20prop%20full%20example.png" alt="back%20prop%20full%20example.png"></p>
+<p><img src="https://drive.google.com/uc?id=10dcrZQRndECFPj4PCKndJm_bWJ-2WsqI" width="500"></p>
 <p>The initial weights, biases, and training inputs and outputs are labeled on the diagram. The entire goal of backpropagation is to optimize the weights so taht the neural network can learn how to correctly map inputs to outputs.</p>
 <p>For the rest of this example we are going to work with a single training example (generally we have hundreds or thousands of training examples. Given inputs of <strong>0.05</strong> and <strong>0.10</strong>, we want the neural network to output <strong>0.01</strong> and <strong>0.99</strong>.</p>
 <p><br></br></p>
@@ -387,7 +387,7 @@ $$E_{total} = \sum_jE_j = E_{o1}+E_{o2} = 0.274811083+0.023560026 = 0.298371109$
 <h2 id="3.3-Backpropagate-the-Error">3.3 Backpropagate the Error<a class="anchor-link" href="#3.3-Backpropagate-the-Error">&#182;</a></h2><p>The entire goal of backpropagation is to update each of the weights in the network so that they cause the actual output to be closer to the target output, thereby minimizing the error for each output neuron and the network as a whole!</p>
 <p><br></br></p>
 <h3 id="3.3.1-The-Output-Layer">3.3.1 The Output Layer<a class="anchor-link" href="#3.3.1-The-Output-Layer">&#182;</a></h3><p>We are going to start backpropagating the error at the output layer, first focusing on weight $w_5$. We want to figure out how much a change in $w_5$ affects the total error. In other words, we want to find the derivative of total error with respect to $w_5$.</p>
-<p><img src="attachment:output%20to%20hidden%20sketch.png" alt="output%20to%20hidden%20sketch.png"></p>
+<p><img src="https://drive.google.com/uc?id=1xQ30fxsOSgelRNfhv1kvNPFm_jVBKv4J" width="500"></p>
 <p><br></br></p>
 <h3 id="3.3.1.1-Derivative-of-Total-Error-with-respect-to-$w_5$">3.3.1.1 Derivative of Total Error with respect to $w_5$<a class="anchor-link" href="#3.3.1.1-Derivative-of-Total-Error-with-respect-to-$w_5$">&#182;</a></h3><p>$$\frac{\partial E_{total}}{\partial w_5}$$</p>
 <p>We can apply the <strong>chain rule</strong> in order to find this! 
@@ -437,7 +437,7 @@ $$w_7 = 0.561370121$$</p>
 <p>It is important to note that we do not perform the actual updates until the also have the updated values for $w_1$, $w_2$, $w_3$, and $w_4$. In other words, we use the original weights, not the updated ones, when we continue our backpropagation algorithm below.</p>
 <p><br></br></p>
 <h3 id="3.3.2-The-Hidden-Layer">3.3.2 The Hidden Layer<a class="anchor-link" href="#3.3.2-The-Hidden-Layer">&#182;</a></h3><p>At this point, we are going to continue our backpropagation of the error in order to find the weights that connect the inputs to the hidden layer, $w_1$, $w_2$, $w_3$, and $w_4$. We can start by looking at $w_1$:</p>
-<p><img src="attachment:hidden%20to%20input%20sketch.png" alt="hidden%20to%20input%20sketch.png"></p>
+<p><img src="https://drive.google.com/uc?id=1Ka-0dKaIyrfrK5d1QX3jMh3sp2zxxZ-g" width="600"></p>
 <p><br></br></p>
 <h3 id="3.3.2.1-Derivative-of-Total-Error-with-respect-to-$w_1$">3.3.2.1 Derivative of Total Error with respect to $w_1$<a class="anchor-link" href="#3.3.2.1-Derivative-of-Total-Error-with-respect-to-$w_1$">&#182;</a></h3><p>Lets start by looking at $w_1$ specificaly, where we are trying to figure out how the total error changes and we change the value of $w_1$. That looks like:</p>
 <p>$$\frac{\partial E_{total}}{\partial w_1} = \frac{\partial E_{total}}{\partial y_{h1}}\frac{\partial y_{h1}}{\partial z_{h1}}\frac{\partial z_{h1}}{\partial w_1}$$</p>

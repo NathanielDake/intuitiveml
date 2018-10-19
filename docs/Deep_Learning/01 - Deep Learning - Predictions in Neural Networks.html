@@ -176,11 +176,11 @@ body {
       <ul class="nav navbar-nav">
         
 <li>
-  <a href="../Artificial_Intelligence.html">Artificial Intelligence</a>
+  <a href="../Deep_Learning.html">Deep Learning</a>
 </li>
         
 <li>
-  <a href="../Deep_Learning.html">Deep Learning</a>
+  <a href="../Artificial_Intelligence.html">Artificial Intelligence</a>
 </li>
         
       </ul>
@@ -198,7 +198,7 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="1.-Introduction">1. Introduction<a class="anchor-link" href="#1.-Introduction">&#182;</a></h1><p>In the past we have looked at both logistic regression and binary classification. There, we would collect some data, and then try to predict 1 of 2 possible labels. For example, if we were dealing with an e-commerce stie, we could collect <em><strong>time spent on site</strong></em> and <em><strong>number of pages viewed</strong></em>, and then try to predict whether someone is going to buy something on the site.</p>
+<h1 id="1.-Predictions-in-Neural-Networks">1. Predictions in Neural Networks<a class="anchor-link" href="#1.-Predictions-in-Neural-Networks">&#182;</a></h1><p>In the past we have looked at both logistic regression and binary classification. There, we would collect some data, and then try to predict 1 of 2 possible labels. For example, if we were dealing with an e-commerce stie, we could collect <em><strong>time spent on site</strong></em> and <em><strong>number of pages viewed</strong></em>, and then try to predict whether someone is going to buy something on the site.</p>
 <p>In this case, we only have 2 dimensions. We will plot the information, and then try to use a straight line to classify the classes (buy or not buy):</p>
 <p>$$\sigma \big( w_1*(\text{time spent on site}) + w_2 (\text{number pages viewed})\big)$$</p>
 <p>If we are able to find a line that goes between the classes, they are <em>linearly seperable</em>. When we are dealing with data that is linearly seperable, logistic regression is fine, since it is a linear classifier. So, in 2 dimensions linearly seperable data can be separated via a line, in 3 dimensions a plane, and and 4+ dimensions a hyperplane. The point is, no matter how many dimensions we are dealing with, our decision boundary is going to be straight, not curved.</p>

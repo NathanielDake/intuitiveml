@@ -210,11 +210,11 @@ $(document).ready(function () {
       <ul class="nav navbar-nav">
         
 <li>
-  <a href="./Artificial_Intelligence.html">Artificial Intelligence</a>
+  <a href="./Deep_Learning.html">Deep Learning</a>
 </li>
         
 <li>
-  <a href="./Deep_Learning.html">Deep Learning</a>
+  <a href="./Artificial_Intelligence.html">Artificial Intelligence</a>
 </li>
         
       </ul>
