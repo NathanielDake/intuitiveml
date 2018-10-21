@@ -1,13 +1,15 @@
-docs/Artificial_Intelligence.html
-docs/Artificial_Intelligence.tpl
-docs/Artificial_Intelligence/1 - Reinforcement Learning - Introduction .html
-docs/Artificial_Intelligence/2 - Reinforcement Learning - Multi-Armed Bandit.html
-docs/Artificial_Intelligence/3 - Reinforcement Learning - Build an Intelligent Tic-Tac-Toe Agent.html
-docs/Artificial_Intelligence/4 - Reinforcement Learning - Markov Decision Processes.html
-docs/Artificial_Intelligence/5 - Reinforcement Learning - Dynamic Programming.html
-docs/Artificial_Intelligence/6 - Reinforcement Learning - Monte Carlo.html
-docs/Artificial_Intelligence/7 - Reinforcement Learning - Temporal Difference Learning.html
-docs/Artificial_Intelligence/8 - Reinforcement Learning - Approximation Methods.html
+docs/AI.html
+docs/AI.tpl
+docs/AI/1 - Reinforcement Learning - Introduction .html
+docs/AI/2 - Reinforcement Learning - Multi-Armed Bandit.html
+docs/AI/3 - Reinforcement Learning - Build an Intelligent Tic-Tac-Toe Agent.html
+docs/AI/4 - Reinforcement Learning - Markov Decision Processes.html
+docs/AI/5 - Reinforcement Learning - Dynamic Programming.html
+docs/AI/6 - Reinforcement Learning - Monte Carlo.html
+docs/AI/7 - Reinforcement Learning - Temporal Difference Learning.html
+docs/AI/8 - Reinforcement Learning - Approximation Methods.html
+docs/Book_Reviews.html
+docs/Book_Reviews.tpl
 docs/Deep_Learning.html
 docs/Deep_Learning.tpl
 docs/Deep_Learning/01 - Deep Learning - Predictions in Neural Networks.html
@@ -30,12 +32,23 @@ docs/Deep_Learning/17 - Deep Learning - Modern - Modern Regularization Technique
 docs/Deep_Learning/18 - Deep Learning - Modern - Batch Normalization .html
 docs/Deep_Learning/19 - Deep Learning - Recurrent Neural Networks - Introduction .html
 docs/Deep_Learning/20 - Deep Learning - Recurrent Neural Networks - The Simple Recurrent Unit.html
-docs/Unsupervised_Learning.html
-docs/Unsupervised_Learning.tpl
-docs/Unsupervised_Learning/1-Unsupervised-Learning-Cluster-Analysis-Introduction.html
-docs/Unsupervised_Learning/2-Unsupervised-Learning-Cluster-Analysis-K-Means-Clustering.html
-docs/Unsupervised_Learning/3-Unsupervised-Learning-Cluster-Analysis-Hierarchical-Clustering.html
-docs/Unsupervised_Learning/4-Unsupervised-Learning-Cluster-Analysis-Gaussian-Mixture-Models.html
+docs/Machine_Learning.html
+docs/Machine_Learning.tpl
+docs/Machine_Learning/Unsupervised-Learning-01-Cluster-Analysis-Introduction.html
+docs/Machine_Learning/Unsupervised-Learning-02-Cluster-Analysis-K-Means-Clustering.html
+docs/Machine_Learning/Unsupervised-Learning-03-Cluster-Analysis-Hierarchical-Clustering.html
+docs/Machine_Learning/Unsupervised-Learning-04-Cluster-Analysis-Gaussian-Mixture-Models.html
+docs/Machine_Learning/Unsupervised-Learning-05-Hidden-Markov-Models-Introduction.html
+docs/Machine_Learning/Unsupervised-Learning-06-Hidden-Markov-Models-Markov-Models.html
+docs/Machine_Learning/Unsupervised-Learning-07-Hidden-Markov-Models-Example-Problems-and-Applications.html
+docs/Machine_Learning/Unsupervised-Learning-08-Hidden-Markov-Models-Hidden-Markov-Models-Discrete-Observations.html
+docs/Machine_Learning/Unsupervised-Learning-09-Hidden-Markov-Models-HMM-Calculations.html
+docs/Mathematics.html
+docs/Mathematics.tpl
+docs/NLP.html
+docs/NLP.tpl
+docs/Projects.html
+docs/Projects.tpl
 docs/index.html
 docs/index.tpl
 docs/js/docs.js

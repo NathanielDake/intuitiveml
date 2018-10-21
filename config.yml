@@ -14,7 +14,7 @@ add_commit_info: False
 
 # These subdirectories contain Jupyter notebooks that will be rendered
 # into webpages.
-include_dir: ["homepage", "Deep_Learning",  "Artificial_Intelligence", "Unsupervised_Learning"]
+include_dir: ["homepage", "Deep_Learning", "AI", "Machine_Learning", "NLP", "Mathematics", "Projects", "Book_Reviews"]
 
 # Do not add links in the navigation bar for the Jupyter notebooks in
 # these subdirectories.

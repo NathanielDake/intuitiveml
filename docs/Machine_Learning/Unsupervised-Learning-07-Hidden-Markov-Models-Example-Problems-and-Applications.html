@@ -1,0 +1,683 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/readable.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Nathaniel Dake Blog</title>
+
+<style type = "text/css">
+body {
+  font-family: "sans-serif";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Nathaniel Dake Blog</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../Deep_Learning.html">Deep Learning</a>
+</li>
+        
+<li>
+  <a href="../AI.html">AI</a>
+</li>
+        
+<li>
+  <a href="../Machine_Learning.html">Machine Learning</a>
+</li>
+        
+<li>
+  <a href="../NLP.html">NLP</a>
+</li>
+        
+<li>
+  <a href="../Mathematics.html">Mathematics</a>
+</li>
+        
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
+<li>
+  <a href="../Book_Reviews.html">Book Reviews</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="https://github.com/NathanielDake/nathanieldake.github.io"> source </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="7.-Hidden-Markov-Models-Example-Problems">7. Hidden Markov Models Example Problems<a class="anchor-link" href="#7.-Hidden-Markov-Models-Example-Problems">&#182;</a></h1><p>We will now look at a model that examines our state of healthiness vs. being sick. Keep in mind that this is very much like something you could do in real life. If you wanted to model a certain situation or environment, we could take some data that we have gathered, build a maximum likelihood model on it, and do things like study the properties that emerge from the model, or make predictions from the model, or generate the next most likely state.</p>
+<p>Let's say we have 2 states: <strong>sick</strong> and <strong>healthy</strong>. We know that we spend most of our time in a healthy state, so the probability of transitioning from healthy to sick is very low:</p>
+<p>$$p(sick \; | \; healthy) = 0.005$$</p>
+<p>Hence, the probability of going from healthy to healthy is:</p>
+<p>$$p(healthy \; | \; healthy) = 0.995$$</p>
+<p>Now, on the other hand the probability of going from sick to sick is also very high. This is because if you just got sick yesterday then you are very likely to be sick tomorrow.</p>
+<p>$$p(sick \; | \; sick) = 0.8$$</p>
+<p>However, the probability of transitioning from sick to healthy should be higher than the reverse, because you probaably won't stay sick for as long as you would stay healthy:</p>
+<p>$$p(healthy \; | \; sick) = 0.02$$</p>
+<p>We have now fully defined our state transition matrix, and we can now do some calculations.</p>
+<h2 id="1.1-Example-Calculations">1.1 Example Calculations<a class="anchor-link" href="#1.1-Example-Calculations">&#182;</a></h2><h3 id="1.1.1">1.1.1<a class="anchor-link" href="#1.1.1">&#182;</a></h3><p>What is the probability of being healthy for 10 days in a row, given that we already start out as healthy? Well that is:</p>
+<p>$$p(healthy \; 10 \; days \; in \; a \; row \; | \; healthy \; at \; t=0) = 0.995^9 = 95.6 \%$$</p>
+<p>How about the probability of being healthy for 100 days in a row?</p>
+<p>$$p(healthy \; 100 \; days \; in \; a \; row \; | \; healthy \; at \; t=0) = 0.995^99 = 60.9 \%$$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p><br></p>
+<h1 id="2.-Expected-Number-of-Continuously-Sick-Days">2. Expected Number of Continuously Sick Days<a class="anchor-link" href="#2.-Expected-Number-of-Continuously-Sick-Days">&#182;</a></h1><p>We can now look at the expected number of days that you would remain in the same state (e.g. how many days would you expect to stay sick given the model?). This is a bit more difficult than the last problem, but completely doable, only involving the mathematics of <a href="https://en.wikipedia.org/wiki/Geometric_series">infinite sums</a>.</p>
+<p>First, we can look at the probability of being in state $i$, and going to state $i$ in the next state. That is just $A(i,i)$:</p>
+<p>$$p \big(s(t)=i \; | \; s(t-1)=i \big) = A(i, i)$$</p>
+<p>Now, what is the probability distribution that we actually want to calculate? How about we calculate the probability that we stay in state $i$ for $n$ transitions, at which point we move to another state:</p>
+<p>$$p \big(s(t)!=i \; | \; s(t-1)=i \big) = 1 - A(i, i)$$</p>
+<p>So, the joint probability that we are trying to model is:</p>
+<p>$$p\big(s(1)=i, s(2)=i,...,s(n)=i, s(n+1) != i\big) = A(i,i)^{n-1}\big(1-A(i,i)\big)$$</p>
+<p>In english this means that we are multiplying the transition probability of staying in the same state, $A(i,i)$, times the number of times we stayed in the same state, $n$, (note it is $n-1$ because we are given that we start in that state, hence there is no transition associated with it) times $1 - A(i,i)$, the probability of transitioning from that state. This leaves us with an expected value for $n$ of:</p>
+<p>$$E(n) = \sum np(n) = \sum_{n=1..\infty} nA(i,i)^{n-1}(1-A(i,i))$$</p>
+<p>Note, in the above equation $p(n)$ is the probability that we will see state $i$ $n-1$ times after starting from $i$ and then see a state that is not $i$. Also, we know that the expected value of $n$ should be the sum of all possible values of $n$ times $p(n)$.</p>
+<h2 id="2.1-Expected-$n$">2.1 Expected $n$<a class="anchor-link" href="#2.1-Expected-$n$">&#182;</a></h2><p>So, we can now expand this function and calculate the two sums separately.</p>
+<p>$$E(n) = \sum_{n=1..\infty}nA(i,i)^{n-1}(1 - A(i,i)) = \sum nA(i, i)^{n-1} - \sum nA(i,i)^n$$</p>
+<p><strong>First Sum</strong><br>
+With our first sum, we can say that:</p>
+<p>$$S = \sum nA(i, i)^{n-1}$$</p>
+<p>$$S = 1 + 2A + 3A^2 + 4A^3+ ...$$</p>
+<p>And we can then multiply that sum, $S$, by $A$, to get:</p>
+<p>$$AS = A + 2A^2 + 3A^3 + 4A^4+...$$</p>
+<p>And then we can subtract $AS$ from $S$:</p>
+<p>$$S - AS = S'= 1 + A + A^2 + A^3+...$$</p>
+<p>This $S'$ is another infinite sum, but it is one that is much easier to solve!</p>
+<p>$$S'= 1 + A + A^2 + A^3+...$$</p>
+<p>And then $AS'$ is:</p>
+<p>$$AS' = A + A^2 + A^3+ + A^4 + ...$$</p>
+<p>Which, when we then do $S' - AS'$, we end up with:</p>
+<p>$$S' - AS' = 1$$
+$$S' = \frac{1}{1 - A}$$</p>
+<p>And if we then substitute that value in for $S'$ above:</p>
+<p>$$S - AS = S'= 1 + A + A^2 + A^3+... = \frac{1}{1 - A}$$
+$$S - AS = \frac{1}{1 - A}$$
+$$S = \frac{1}{(1 - A)^2}$$</p>
+<p><strong>Second Sum</strong><br>
+We can now look at our second sum:</p>
+<p>$$S = \sum nA(i,i)^n$$</p>
+<p>$$S = 1A + 2A^2 + 3A^3 +...$$
+$$SA = 1A^2 + 2A^3 +...$$
+$$S - AS = S' = A + A^2 + A^3 + ...$$
+$$AS' = A^2 + A^3 + A^4 +...$$
+$$S' - AS' = A$$
+$$S' = \frac{A}{1 - A}$$
+And we can plug back in $S'$ to get:</p>
+<p>$$S - AS = \frac{A}{1 - A}$$
+$$S = \frac{A}{(1 - A)^2}$$</p>
+<p><strong>Combine</strong> <br>
+We can now combine these two sums as follows:</p>
+<p>$$E(n) = \frac{1}{(1 - a)^2} - \frac{a}{(1-a)^2}$$</p>
+<p>$$E(n) = \frac{1}{1-a}$$</p>
+<p><strong>Calculate Number of Sick Days</strong><br>
+So, how do we calculate the correct number of sick days? That is just:</p>
+<p>$$\frac{1}{1 - 0.8} = 5$$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p><br></p>
+<h1 id="3.-SEO-and-Bounce-Rate-Optimization">3. SEO and Bounce Rate Optimization<a class="anchor-link" href="#3.-SEO-and-Bounce-Rate-Optimization">&#182;</a></h1><p>We are now going to look at SEO and Bounch Rate Optimization. This is a problem that every developer and website owner can relate to. You have a website and obviously you would like to increase traffic, increase conversions, and avoid a high bounce rate (which could lead to google assigning your page a low ranking). What would a good way of modeling this data be? Without even looking at any code we can look at some examples of things that we want to know, and how they relate to markov models.</p>
+<h2 id="3.1-Arrival">3.1 Arrival<a class="anchor-link" href="#3.1-Arrival">&#182;</a></h2><p>First and foremost, how do people arrive on your page? Is it your home page? Your landing page? Well, this is just the very first page of what is hopefully a sequence of pages. So, the markov analogy here is that this is just the initial state distribution or $\pi$. So, once we have our markov model, the $\pi$ vector will tell us which of our pages a user is most likely to start on.</p>
+<h2 id="3.2-Sequences-of-Pages">3.2 Sequences of Pages<a class="anchor-link" href="#3.2-Sequences-of-Pages">&#182;</a></h2><p>What about sequences of pages? Well, if you think people are getting to your landing page, hitting the buy button, checking out, and then closing the browser window, you can test the validity of that assumption by calculating the probability of that sequence. Of course, the probability of any sequence is probability going to be much less than 1. This is because for a longer sequence, we have more multiplication, and hence smaller final numbers. We do have two alternatives however:</p>
+<blockquote><ul>
+<li>1) You can compare the probability of two different sequences. So, are people going through the entire checkout process? Or is it more probable that they are just bouncing? </li>
+<li>2) Another option is to just find the transition probabilities themselves. These are conditional probabilities instead of joint probabilities. You want to know, once they have made it to the landing page, what is the probability of hitting buy. Then, once they have hit buy, what is the probability of them completing the checkout. </li>
+</ul>
+</blockquote>
+<h2 id="3.3-Bounce-Rate">3.3 Bounce Rate<a class="anchor-link" href="#3.3-Bounce-Rate">&#182;</a></h2><p>This is hard to measure, unless you are google and hence have analytics on nearly every page on the web. This is because once a user has left your site, you can no longer run code on their computer or track what they are doing. However, let's pretend that we can determine this information. Once we have done this, we can measure which page has the highest bounce rate. At this point we can manually analyze that page and ask our marketing people "what is different about this page that people don't find it useful/want to leave?" We can then address that problem, and the hopefully later analysis shows that the fixed page no longer has a high bounce right. In the markov model, we can just represents this as the null state.</p>
+<h2 id="3.4-Data">3.4 Data<a class="anchor-link" href="#3.4-Data">&#182;</a></h2><p>So, the data we are going to be working with has two columns: <code>last_page_id</code> and <code>next_page_id</code>. This can be interpreted as the current page and the next page. The site has 10 pages with the id's 0-9. We can represent start pages by making the current page -1, and the next page the actual page. We can represent the end of the page with two different codes, <code>B</code>(bounce) or <code>C</code> (close). In the case of bounce, the user saw the page and then immediately bounced. In the case of close, the user saw the page stayed and potentially saw some useful information, and then closed the window. So, you can imagine that our engineer may use time as a factor in determining if it is a bounce or a close.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&quot;&quot;&quot;Goal here is to store start page and end page, and the count how many times that happens. After that </span>
+<span class="sd">we are going to turn it into a probability distribution. We can divide all transitions that start with specific</span>
+<span class="sd">start state, by row_sum&quot;&quot;&quot;</span>
+<span class="n">transitions</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># getting all specific transitions from start pg to end pg, tallying up # of times each occurs</span>
+<span class="n">row_sums</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># start date as key -&gt; getting number of times each starting pg occurs</span>
+
+<span class="c1"># Collect our counts</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../../../data/site/site_data.csv&#39;</span><span class="p">):</span>
+  <span class="n">s</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span> <span class="c1"># get start and end page </span>
+  <span class="n">transitions</span><span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">)]</span> <span class="o">=</span> <span class="n">transitions</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">),</span> <span class="mf">0.</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="n">row_sums</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">row_sums</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mf">0.</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> 
+  
+<span class="c1"># Normalize the counts so they become real probability distributions </span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">transitions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+  <span class="n">s</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">k</span>
+  <span class="n">transitions</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span> <span class="o">/</span> <span class="n">row_sums</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+  
+<span class="c1"># Calculate initial state distribution</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Initial state distribution&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">transitions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+  <span class="n">s</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">k</span>
+  <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="s1">&#39;-1&#39;</span><span class="p">:</span> <span class="c1"># this means it is the start of the sequence. </span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+      
+<span class="c1"># Which page has the highest bounce rate?</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">transitions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+  <span class="n">s</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">k</span>
+  <span class="k">if</span> <span class="n">e</span> <span class="o">==</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Bounce rate for </span><span class="si">{s}</span><span class="s1">: </span><span class="si">{v}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Initial state distribution
+8 0.10152591025834719
+2 0.09507982071813466
+5 0.09779926474291183
+9 0.10384247368686106
+0 0.10298635241980159
+6 0.09800070504104345
+7 0.09971294757516241
+1 0.10348995316513068
+4 0.10243239159993957
+3 0.09513018079266758
+Bounce rate for 1: 0.125939617991374
+Bounce rate for 2: 0.12649551345962112
+Bounce rate for 8: 0.12529550827423167
+Bounce rate for 6: 0.1208153180975911
+Bounce rate for 7: 0.12371650388179314
+Bounce rate for 3: 0.12743384922616077
+Bounce rate for 4: 0.1255756067205974
+Bounce rate for 5: 0.12369559684398065
+Bounce rate for 0: 0.1279673590504451
+Bounce rate for 9: 0.13176232104396302
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can see that page with <code>id</code> 9 has the highest value in the initial state distribution, so we are most likely to start on that page. We can then see that the page with highest bounce rate is also at page <code>id</code> 9.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p><br></p>
+<h1 id="4.-Build-a-2nd-order-language-model-and-generate-phrases">4. Build a 2nd-order language model and generate phrases<a class="anchor-link" href="#4.-Build-a-2nd-order-language-model-and-generate-phrases">&#182;</a></h1><p>So, we are now going to work with non first order markov chains for a little bit. In this example we are going to try and create a language model. So we are going to first train a model on some data to determine the distribution of a word given the previous two words. We can then use this model to generate new phrases. Note that another step of this model would be to calculate the probability of a phrase.</p>
+<p>So the data that we are going to look at is just a collection of Robert Frost Poems. It is just a text file with all of the poems concatenated together. So, the first thing we are going to want to do is tokenize each sentence, and remove punctuation. It will look similar to this:</p>
+
+<pre><code>def remove_punctuation(s):
+    return s.translate(None, string.punctuation)
+
+tokens = [t for t in remove_puncuation(line.rstrip().lower()).split()]</code></pre>
+<p>Once we have tokenized each line, we want to perform various counts in addition to the second order model counts. We need to measure the initial distribution of words, or stated another way the distribution of the first word of a sentence. We also want to know the distribution of the second word of a sentence. Both of these do not have two previous words, so they are not second order. We could technically include them in the second order measurement by using <code>None</code> in place of the previous words, but we won't do that here. We also want to keep track of how to end the sentence (end of sentence distribution, will look similar to (w(t-2), w(t-1) -&gt; END)), so we will include a special token for that too.</p>
+<p>When we do this counting, what we first want to do is create an array of all possibilities. So, for example if we had two sentences:</p>
+
+<pre><code>I love dogs
+I love cats</code></pre>
+<p>Then we could have a dictionary where the key was <code>(I, love)</code> and the value was an array <code>[dogs, cats]</code>. If "I love" was also a stand alone sentence, then the value would be <code>[dogs, cats, END]</code>. The function below can help us with this, since we first need to check if there is any value for the key, create an array if not, otherwise just append to the array.</p>
+
+<pre><code>def add2dict(d, k, v):
+    if k not in d:
+        d[k] = []
+    else:
+        d[k].append(v)</code></pre>
+<p>One we have collected all of these arrays of possible next words, we need to turn them into <strong>probability distributions</strong>. For example, the array <code>[cat, cat, dog]</code> would become the dictionary <code>{"cat": 2/3, "dog": 1/3}</code>. Here is a function that can do this:</p>
+
+<pre><code>def list2pdict(ts):
+    d = {}
+    n = len(ts)
+    for t in ts:
+        d[t] = d.get(t, 0.) + 1 
+    for t, c in d.items():
+        d[t] = c / n
+    return d</code></pre>
+<p>Next, we will need a function that can sample from this dictionary. To do this we will need to generate a random number between 0 and 1, and then use the distribution of the words to sample a word given a random number. Here is a function that can do that:</p>
+
+<pre><code>def sample_word(d):
+    p0 = np.random.random()
+    cumulative = 0
+    for t, p in d.items():
+        cumulative += p
+        if p0 &lt; cumulative:
+            return t
+    assert(False) # should never get here</code></pre>
+<p>Because all of our distributions are structured as dictionaries, we can use the same function for all of them.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">string</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&quot;&quot;&quot;3 dicts. 1st store pdist for the start of a phrase, then a second word dict which stores the distributions</span>
+<span class="sd">for the 2nd word of a sentence, and then we are going to have a dict for all second order transitions&quot;&quot;&quot;</span>
+<span class="n">initial</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">second_word</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">transitions</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">def</span> <span class="nf">remove_punctuation</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+  <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">add2dict</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span> 
+  <span class="sd">&quot;&quot;&quot;Parameters: Dictionary, Key, Value&quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+    <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+  
+<span class="c1"># Loop through file of poems</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../../../data/poems/robert_frost.txt&#39;</span><span class="p">):</span>
+  <span class="n">tokens</span> <span class="o">=</span> <span class="n">remove_punctuation</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="c1"># Get all tokens for specific line we are looping over</span>
+  
+  <span class="n">T</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="c1"># Length of sequence</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="p">):</span> <span class="c1"># Loop through every token in sequence</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> 
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># We are looking at first word</span>
+      <span class="n">initial</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">initial</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="mf">0.</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> 
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">t_1</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+      <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">T</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span> <span class="c1"># Looking at last word</span>
+        <span class="n">add2dict</span><span class="p">(</span><span class="n">transitions</span><span class="p">,</span> <span class="p">(</span><span class="n">t_1</span><span class="p">,</span> <span class="n">t</span><span class="p">),</span> <span class="s1">&#39;END&#39;</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="c1"># second word of sentence, hence only 1 previous word</span>
+        <span class="n">add2dict</span><span class="p">(</span><span class="n">second_word</span><span class="p">,</span> <span class="n">t_1</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span> 
+        <span class="n">t_2</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span> <span class="c1"># Get second previous word</span>
+        <span class="n">add2dict</span><span class="p">(</span><span class="n">transitions</span><span class="p">,</span> <span class="p">(</span><span class="n">t_2</span><span class="p">,</span> <span class="n">t_1</span><span class="p">),</span> <span class="n">t</span><span class="p">)</span> <span class="c1"># add previous and 2nd previous word as key, and current word as val</span>
+        
+<span class="c1"># Normalize the distributions</span>
+<span class="n">initial_total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">initial</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+<span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">initial</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+  <span class="n">initial</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span> <span class="o">/</span> <span class="n">initial_total</span>
+
+<span class="c1"># Take our list and turn it into a dictionary of probabilities</span>
+<span class="k">def</span> <span class="nf">list2pdict</span><span class="p">(</span><span class="n">ts</span><span class="p">):</span>
+  <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span> <span class="c1"># get total number of values</span>
+  <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ts</span><span class="p">:</span> <span class="c1"># look at each token</span>
+    <span class="n">d</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="mf">0.</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="c1"># go through dictionary, divide frequency by sum</span>
+    <span class="n">d</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span> <span class="o">/</span> <span class="n">n</span>
+  <span class="k">return</span> <span class="n">d</span>
+
+<span class="k">for</span> <span class="n">t_1</span><span class="p">,</span> <span class="n">ts</span> <span class="ow">in</span> <span class="n">second_word</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+  <span class="n">second_word</span><span class="p">[</span><span class="n">t_1</span><span class="p">]</span> <span class="o">=</span> <span class="n">list2pdict</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">ts</span> <span class="ow">in</span> <span class="n">transitions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+  <span class="n">transitions</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">list2pdict</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
+  
+<span class="k">def</span> <span class="nf">sample_word</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+  <span class="n">p0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="c1"># Generate random number from 0 to 1 </span>
+  <span class="n">cumulative</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># cumulative count for all probabilities seen so far</span>
+  <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">cumulative</span> <span class="o">+=</span> <span class="n">p</span>
+    <span class="k">if</span> <span class="n">p0</span> <span class="o">&lt;</span> <span class="n">cumulative</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">t</span>
+  <span class="k">assert</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># should never hit this</span>
+  
+<span class="sd">&quot;&quot;&quot;Function to generate a poem&quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">generate</span><span class="p">():</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+    <span class="n">sentence</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="c1"># initial word</span>
+    <span class="n">w0</span> <span class="o">=</span> <span class="n">sample_word</span><span class="p">(</span><span class="n">initial</span><span class="p">)</span>
+    <span class="n">sentence</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">w0</span><span class="p">)</span>
+    
+    <span class="c1"># sample second word</span>
+    <span class="n">w1</span> <span class="o">=</span> <span class="n">sample_word</span><span class="p">(</span><span class="n">second_word</span><span class="p">[</span><span class="n">w0</span><span class="p">])</span>
+    <span class="n">sentence</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">w1</span><span class="p">)</span>
+    
+    <span class="c1"># second-order transitions until END -&gt; enter infinite loop</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+      <span class="n">w2</span> <span class="o">=</span> <span class="n">sample_word</span><span class="p">(</span><span class="n">transitions</span><span class="p">[(</span><span class="n">w0</span><span class="p">,</span> <span class="n">w1</span><span class="p">)])</span> <span class="c1"># sample next word given previous two words</span>
+      <span class="k">if</span> <span class="n">w2</span> <span class="o">==</span> <span class="s1">&#39;END&#39;</span><span class="p">:</span> 
+        <span class="k">break</span>
+      <span class="n">sentence</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">w2</span><span class="p">)</span>
+      <span class="n">w0</span> <span class="o">=</span> <span class="n">w1</span>
+      <span class="n">w1</span> <span class="o">=</span> <span class="n">w2</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sentence</span><span class="p">))</span>
+    
+<span class="n">generate</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>another from the childrens house of makebelieve
+they dont go with the dead race of the lettered
+i never heard of clara robinson
+where he can eat off a barrel from the sense of our having been together
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p><br></p>
+<h1 id="5.-Google's-PageRank-Algorithm">5. Google's PageRank Algorithm<a class="anchor-link" href="#5.-Google's-PageRank-Algorithm">&#182;</a></h1><p>Markov models were even used in Google's PageRank algorithm. The basic problem we face is:</p>
+<blockquote><ul>
+<li>We have $M$ webpages that link to eachother, and we would like to assign importance scores $x(1),...,x(M)$</li>
+<li>All of these scores are greater than or equal to 0</li>
+<li>So, we want to assign a page rank to all of these pages </li>
+</ul>
+</blockquote>
+<p>How can we go about doing this? Well, we can think of a webpage as a sequence, and the page you are on as the state. Where does the ranking come from? Well, the ranking actually comes from the limiting distribution. That is, in the long run, the proportion of visits that will be spent on this page. Now, if you think "great that is all I need to know", slow down. How can we actually do this in practice? How do we train the markov model, and what are the values we assign to the state transition matrix? And how can we ensure that the limiting distribution exists and is unique? The key insight was that <strong>we can use the linked structure of the web to determine the ranking</strong>.</p>
+<p>The main idea is that a <em>link to a page</em> is like a <em>vote for its importance</em>. So, as a first attempt we could just use a frequency count to measure the votes. Of course, that wouldn't be a valid probability distribution, so we could just divide each row by its sum to make it sum to 1. So we set:</p>
+<p>$$A(i, j) = \frac{1}{n(i)} \; if \; i \; links \; to \; j$$
+$$A(i, j) = 0 \; otherwise$$</p>
+<p>Here $n(i)$ stands for the total number of links on a page, and you can confirm that the sum of a row is $\frac{n(i)}{n(i)} = 1$, so this is a valid markov matrix. Now, we still aren't sure if the limiting distribution is unique.</p>
+<h2 id="5.1-This-is-already-a-good-start">5.1 This is already a good start<a class="anchor-link" href="#5.1-This-is-already-a-good-start">&#182;</a></h2><p>Let's keep in mind that the above solution already solves a few problems. For instance, let's say you are a spammer and you want to sell 1000 links on your webpage. Well, because the transition matrix must remain a valid probability matrix, the rows must sum to 1, which means that each of your links now only has a strength of $\frac{1}{1000}$. For example the frequency matrix would look like:</p>
+<table>
+<thead><tr>
+<th></th>
+<th>abc.com</th>
+<th>amazon.com</th>
+<th>facebook.com</th>
+<th>github.com</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>thespammer.com</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>And then if we transformed that into a probability matrix it would just be each value divided by the total number of links, 4:</p>
+<table>
+<thead><tr>
+<th></th>
+<th>abc.com</th>
+<th>amazon.com</th>
+<th>facebook.com</th>
+<th>github.com</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>thespammer.com</td>
+<td>0.25</td>
+<td>0.25</td>
+<td>0.25</td>
+<td>0.25</td>
+</tr>
+</tbody>
+</table>
+<p>You may then think, I will just create 1000 pages and each of them will only have 1 link. Unfortunately, since nobody knows about those 1000 pages you just created nobody is going to link to them, which means they are impossible to get to. So, in the limiting distribution, those states will have 0 probability because you can't even get to them, so there outgoing links are worthless. Remember, the markov chains limiting distribution will model the long running proportion of visits to a state. So, if you never visit that state, its probability will be 0.</p>
+<p>We still have not ensure that the limiting distribution exists and is unique.</p>
+<h2 id="5.2-Perron-Frobenius-Theorem">5.2 Perron-Frobenius Theorem<a class="anchor-link" href="#5.2-Perron-Frobenius-Theorem">&#182;</a></h2><p>How can we ensure that our model has a unique stationary distribution. In 1910, this was actually determined. It is known as the <strong>Perron-Frobenius Theorem</strong>, and it states that:</p>
+<blockquote><p><em>If our transition matrix is a markov matrix -meaning that all of the rows sum to 1, and all of the values are strictly positive, i.e. no values that are 0- then the stationary distribution exists and is unique</em>.</p>
+</blockquote>
+<p>In fact, we can start in any initial state and as time approaches infinity we will always end up with the same stationary distribution, therefore this is also the limiting distribution.</p>
+<p>So, how can we satisfy the PF criterion? Let's return to this idea of <strong>smoothing</strong>, which we first talked about when discussing how to train a markov model. The basic idea was that we can make things that were 0, non-zero, so there is still a small possibility that we can get to that state. This might be good news for the spammer. So, we can create a uniform probability distribution $U = \frac{1}{M}$, which is an $M x M$ matrix ($M$ is the number of states). PageRanks solution was to take the matrix we had before and multiply it by 0.85, and to take the uniform distribution and multiply it by 0.15, and add them together to get the final pagerank matrix.</p>
+<p>$$G = 0.85A + 0.15U$$</p>
+<p>Now all of the elements are strictly positive, and we can convince ourselves that G is still a valid markov matrix.</p>
+
+</div>
+</div>
+</div>
+<hr>
+&copy; 2018 Nathaniel Dake
+
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,267 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/readable.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Nathaniel Dake Blog</title>
+
+<style type = "text/css">
+body {
+  font-family: "sans-serif";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Nathaniel Dake Blog</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../Deep_Learning.html">Deep Learning</a>
+</li>
+        
+<li>
+  <a href="../AI.html">AI</a>
+</li>
+        
+<li>
+  <a href="../Machine_Learning.html">Machine Learning</a>
+</li>
+        
+<li>
+  <a href="../NLP.html">NLP</a>
+</li>
+        
+<li>
+  <a href="../Mathematics.html">Mathematics</a>
+</li>
+        
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
+<li>
+  <a href="../Book_Reviews.html">Book Reviews</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="https://github.com/NathanielDake/nathanieldake.github.io"> source </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="1.-What-is-Reinforcement-Learning">1. What is Reinforcement Learning<a class="anchor-link" href="#1.-What-is-Reinforcement-Learning">&#182;</a></h1><p>We can first note that the difference between supervised and unsupervised machine learning is rather small; this should be contrasted to the very large difference when compared to reinforcement learning. In the supervised/unsupervised cases, we imagine having the same interface to interact with (modeled after scikit learn):</p>
+
+<pre><code>class SupervisedModel:
+    def fit(X, Y): ...
+    def predict(X): ...
+
+
+class UnsupervisedModel:
+    def fit(X): ...
+    def transform(X): // PCA, Autoencoders, RBMs
+                      // K-Means, GMM, don't really transform data...</code></pre>
+<p>The common theme to both of these is that the interface is just training data, which is subsequently just a matrix of numbers. In the case of supervised learning we are then able to make predictions on unseen/future data.</p>
+<p><strong>Reinforcement Learning</strong> on the other hand is different. It is able to guide an agent on how to act in the real world. Interface is much more broad than just data (training vectors), it's the entire environment. That environment can be the real world, or it can be a simulated world like a video game. As an example, you could create a reinforcement agent to vacuum your house-then it would be interfacing with the real world. You could create a robot (another RL agent) that learns to walk-again it would be interacting with the real world.</p>
+<p>There is another big leap when moving from supervised/unsupervised to Reinforcement learning. In addition to the broad way that we interact with the interface, RL algorithms <em>train in a completely different way</em> as well. There are many referrences to psychology, and indeed RL can be used to model animal behavior. RL algorithms have <strong>objectives</strong> in terms of a <strong>goal</strong>. This is different from supervised learning where the object was to get good accuracy, or to minimize a cost function. RL algorithms get feedback as the agent interacts with its environment. So, feedback symbols, aka <strong>rewards</strong>, are <em>given to the agent automatically by the environment</em>. This differs greatly for supervised learning where it can be extremely costly to hand label data. So, in this way RL is very different from SL:</p>
+<blockquote><p>SL requires a <em>hand labeled data set</em>. RL learns automatically from <em>signals in the environment</em>.</p>
+</blockquote>
+<h2 id="1.1-Goals">1.1 Goals<a class="anchor-link" href="#1.1-Goals">&#182;</a></h2><p>Phrasing our object terms of goals allows us to solve a much wider variety of problems. The goal of AlphaGo is to win Go. The goal of a video game AI is either to get as far as possible in the game (win the game) or get the highest score. What is interesting is when you consider animals, specifically humans. Evolutionary psychologists (Richard Dawkins) have said that our genes are selfish, and that all they really want to do is make more of themselves. This is very interesting, because just as with AlphaGo we have found many round about and unlikely ways to achieve this. Experts commented that AlphaGo used some surprising and unusual techniques. For example, some people have a desire to be rich and make a lot of money; but, what makes you feel that way? Perhaps, those with the specific set of genes that are related to the desire to be rich ended up being more prominent in our gene pool due to natural selection. Perhaps the desire to be rich, led to being rich, which lead to better healthcare for those types of people, which led to genes maximizing their central goal: to make more of themselves.</p>
+<p>In our case, we are not particularly interested in the specifics of whether a person is "desiring money" or "being healthy and strong". For us, it is more interesting that there is just <strong>one main object to maximize</strong>, but various novel ways to achieve it. These things are always fluctuating in time. At one point in history, seeking as much sugar as possible would give you energy and help you survive. Today we keep that trait since evolution is slow, but in todays world that trait would actually kill us. Our genes method of maximizing their reward is through mutation and natural selection, which is slow, but an AI's method is reinforcement learning, which is fast.</p>
+<h2 id="1.-Technical-Detail">1. Technical Detail<a class="anchor-link" href="#1.-Technical-Detail">&#182;</a></h2><p>Of course, you can never sense the entire world at once (even humans don't do this). We have sensors which feed signals from the environment to our brain. These signals don't tell us everything about the room we are in, much less the world. So, we necessarily have limited information about our environment, as do robots with limited numbers and types of sensors. The measurements we get from these sensors (e.g. sight, sound, touch) make up a "state". For now we will only look at environments where there are a small, finite number of states. But of course it is possible to consider environments with an infinite number of states too.</p>
+<p>Now, let's quickly create some strong definitions for 5 of the important terms we will be seeing throughout these notebooks.</p>
+<blockquote><ol>
+<li><strong>Agent</strong>: The thing that senses the environment, the thing we're trying to code intelligence/learning into.<br>
+<br></li>
+<li><strong>Environment</strong>: Real world or simulated world that the agent lives in.<br>
+<br></li>
+<li><strong>State</strong>: Different configurations of the environment that the agent can sense.<br>
+<br></li>
+<li><strong>Reward</strong>: This is what differentiates RL from other types of ML algorithms. An agent will try and maximize not only its immediate reward, but also its future rewards as well. Often, RL algorithms will find novel ways of accomplishing this.<br>
+<br></li>
+<li><strong>Actions</strong>: Actions are what an agent <em>does</em> in its environment. For example, if you are a 2-D video game character, your actions may be <code>{ up, down, left, right, jump }</code>. We will only look at a finite set of actions.</li>
+</ol>
+</blockquote>
+<h2 id="1.2-SAR-Triples">1.2 SAR Triples<a class="anchor-link" href="#1.2-SAR-Triples">&#182;</a></h2><p>The last thing things we just mentioned are often thought about as a triple: <em>State, Action, Reward</em>. You are in a <strong>state</strong>, you take an <strong>action</strong>, and you get a <strong>reward</strong>. These are referred to as <strong>SAR</strong> triples.</p>
+<p><img src="https://drive.google.com/uc?id=1XXGA6HFfuDJlP_qzZsa691xNANY567Q-" width="500"></p>
+<h2 id="1.3-Timing">1.3 Timing<a class="anchor-link" href="#1.3-Timing">&#182;</a></h2><p>Timing is also very important in RL as well. This is because every time you play a game you get a sequence of states, actions, and rewards. Within this framework you start in a state $S(t)$, you take an action $A(t)$, and you then receive a reward $R(t+1)$. So, the reward you get always results from the state and action $(s, a)$ that you took in the previous step. This action also results in your being in a new state, $S(t+1)$. So, another important triple is $[S(t), A(t), S(t+1)]$, which can also be denoted as $(s, a, s')$</p>
+<h2 id="1.4-Summary">1.4 Summary<a class="anchor-link" href="#1.4-Summary">&#182;</a></h2><p>That is RL in a nutshell. We program an agent to be intelligent, and the agent interacts with its environment by being in a state, taking an action based on that state, which then brings it to another state. The environment gives the agent a reward when it arrives in the next state, either positive or negative (but must be a number), and the goal of the agent is to maximize its total rewards.</p>
+
+</div>
+</div>
+</div>
+<hr>
+&copy; 2018 Nathaniel Dake
+
+</div>
+</div>
+</body>
+</html>

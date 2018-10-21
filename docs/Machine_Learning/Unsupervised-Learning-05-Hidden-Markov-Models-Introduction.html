@@ -218,19 +218,29 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="19.-Recurrent-Neural-Networks:-Introduction">19. Recurrent Neural Networks: Introduction<a class="anchor-link" href="#19.-Recurrent-Neural-Networks:-Introduction">&#182;</a></h1><p>As with the notebooks related to Hidden Markov Models, <em><strong>Recurrent Neural Networks</strong></em> are all about learning sequences. But, where Markov Models are limited by the Markov Assumption, Recurrent Neural Networks are <em>not</em>. As a result, they are more expressive and powerful than anything we have seen and haven't made progress on in decades.</p>
-<h2 id="1.1-Outline">1.1 Outline<a class="anchor-link" href="#1.1-Outline">&#182;</a></h2><p>So, what will these notebooks contain, and how will they build on the previous notebooks surrounding Neural Networks and Hidden Markov Models?</p>
-<blockquote><ul>
-<li>In the first section, we are going to add <em>time</em> to our neural networks. This will introduce us to the <em>Simple Recurrent Unit</em>, also known as the <em>Elman Unit</em>.</li>
-<li>We will then revisit the XOR problem, but will extend it so that it becomes the <em>parity</em> problem. We will demonstrate that regular feed forward neural networks will have trouble solving this problem, but recurrent networks will work because the key is to treat the input as a sequence. </li>
-<li>Next, we will revisit one of the most popular applications of RNN's, <em>Language Modeling</em>. In the Markov Models notebooks we have generated poetry, and discriminate from two different poets just from the sequence of parts of speech tags that they used. We will extend our language model so that it <em>no longer</em> makes the markov assumption. </li>
-<li>Another popular application for RNN's is word vectors or word embeddings. The most common technique for this is called <em>word-2-vec</em>, but we will go over how RNN's can also be used for creating word vectors. </li>
-<li>We will then look at the very popular <em>LSTM</em>, <em><strong>Long-Short term memory unit</strong></em>, and the more modern and efficient <em>GRU</em>, <em><strong>Gated Recurrent Unit</strong></em>, which has been proven to yield comparable performance. </li>
-<li>Finally we will apply these to more practical problems, such as learning a language model from wikipedia, and visualizing the word embeddings as a result.</li>
-</ul>
+<h1 id="5.-Hidden-Markov-Models-Introduction">5. Hidden Markov Models Introduction<a class="anchor-link" href="#5.-Hidden-Markov-Models-Introduction">&#182;</a></h1><p>This notebook is going to cover <strong>hidden markov models</strong>, which are used for modeling sequences of data. Sequences appear everywhere, from stock prices, to language, credit scoring, webpage visits.</p>
+<p>Often, we may be dealing with sequences in machine learning and we don't even realize it; or we may even ignore the fact that it came from a sequence. For instance, the following sentence:</p>
+<blockquote><p>"Like and cats dogs I"</p>
 </blockquote>
-<h2 id="1.2-Tips">1.2 Tips<a class="anchor-link" href="#1.2-Tips">&#182;</a></h2><p>I will offer a tip that helped me in understanding RNN's: Understand the mechanics first, and worry about the "meaning" later. When we talk about LSTM's, we are going to talk about the ability to remember and forget things. Keep in mind, these are just convenient names that are utilized by way of analogy. We are not actually building something that is remembering or forgetting. They are just mathematical formulas. So, worry about the math and let the meaning come naturally to you.</p>
-<p>What you most definitely do <em>not</em> want to do is the opposite; try to understand the meaning without understanding the mechanics. When you do that, the result is usually a sensationalist media article, or a pop science book. This set of notebooks is the opposite of that; we want to understand on a technical level what is happening. Explaining things in layman terms, of thinking of real life analogies is icing on the cake, only if you understand the technicalities.</p>
+<p>Clearly, this model does not make any sense. This is what happens when you use a model such as bag of words. The fact that it becomes much harder to tell what a sentence means when you take away the time aspect, tells you that there is a lot of information carried there. The original sentence was:</p>
+<blockquote><p>"I like cats and dogs"</p>
+</blockquote>
+<p>This may be relatively easy to decode on your own, but you can imagine that this gets much harder as the sentence gets longer.</p>
+<h2 id="1.1-Outline">1.1 Outline<a class="anchor-link" href="#1.1-Outline">&#182;</a></h2><ol>
+<li><p>We will start by looking at the most <strong>basic markov model</strong>, with no hidden portion. These are very useful for modeling sequences as we will see. We will talk about the mathematical properties of the markov model, and go through a ton of examples so we can see how they are used. Google's PageRank algorithm is based on markov models. So, despite being based on old technology, markov models are still very useful and relevant today.</p>
+</li>
+<li><p>We will also talk about how to model language, and how to analyze web visitor data, so you can fix problems like high bounce rate.</p>
+</li>
+<li><p>Next, we will look at the <strong>hidden markov model</strong>. This will be very complex mathematically, but the first section should prepare you. We will look at the three basic problems in hidden markov modeling:</p>
+<ul>
+<li>Predicting the probability of a sequence</li>
+<li>Predicting the most likely sequence of hidden states given an observed sequence</li>
+<li>How to train a hidden markov model </li>
+<li>We will even go further and look at how this relates to deep learning by using gradient descent to train our HMM. Typically, the expectation maximization algorithm is used. We will do this too, but we will see how gradient descent makes this much easier. </li>
+</ul>
+</li>
+<li>We will finally look at Hidden Markov Models for real-valued data.</li>
+</ol>
 
 </div>
 </div>
@@ -240,30 +250,24 @@ body {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
-<h1 id="2.-Review-of-Import-Deep-Learning-Concepts">2. Review of Import Deep Learning Concepts<a class="anchor-link" href="#2.-Review-of-Import-Deep-Learning-Concepts">&#182;</a></h1><h2 id="2.1-Softmax-Function">2.1 Softmax Function<a class="anchor-link" href="#2.1-Softmax-Function">&#182;</a></h2><p>Let's begin by talking about the Softmax function. The softmax function is what we use to classify <em>two or more</em> classes. It is a bit more complicated to work with than the sigmoid-in particular it's derivative is harder to derive-but, we will let theano and tensorflow take care of that stuff for us. Remeber, all we do here is take an array of numbers, exponentiate them, divide by the sum, and that allows us to interpret the output of the softmax as a probability:</p>
-<p>$$y_k=\frac{e^{a_k}}{\sum_je^{a_j}}$$</p>
-<p>$$p\big(y=k \mid x \big) =\frac{e^{W_k^T x}}{\sum_je^{W_j^Tx}}$$</p>
-<p>Where k represents the class $k$ in the output layer. In other words our $y$ output is going to be a  <strong>(kx1)</strong> vector for a single training example, and an <strong>(Nxk)</strong> matrix when computed for the entire training set.</p>
-<p>In code, it will look like:</p>
-
-<pre><code>def softmax(a):
-    expA = np.exp(a)
-    return expA / expA.sum(axis=1, keepdims=True)</code></pre>
-<h2 id="2.2-Backpropagation">2.2 Backpropagation<a class="anchor-link" href="#2.2-Backpropagation">&#182;</a></h2><p>All machine learning models have two main functions, prediction and training. Going in the forward direction is how we do prediction, and at the output we get a probability that tells us what the most likely answer is. For training, we use <em><strong>gradient descent</strong></em>. That just means that we take the a cost function (squared error for regression, cross entropy for classification), calculate its derivative with respect to each parameter, and move the parameters slowly in that direction:</p>
-<p>$$W \leftarrow W - \eta \nabla J$$</p>
-<p>Eventually, we will hit a local minimum and the slope will be 0, so the weights won't change anymore.</p>
-<h2 id="2.3-Unsupervised-Learning">2.3 Unsupervised Learning<a class="anchor-link" href="#2.3-Unsupervised-Learning">&#182;</a></h2><p>We have seen that deep networks can be used to find patterns in data that doesn't have labels (i.e. language). We can <em>learn a probability</em> distribution from the data!</p>
-<h2 id="2.4-Markov-Models">2.4 Markov Models<a class="anchor-link" href="#2.4-Markov-Models">&#182;</a></h2><p>Suppose you have a bunch of states; these can represent words in a sentence, the weather, what page of a website you are on, etc. We can define them as:</p>
-<p>$$states = \{ 1,2,...,M\}$$</p>
-<p>A Markov Model is a model that makes the markov assumption:</p>
-<blockquote><p><strong>The next state only depends on the previous state</strong>: <br>
-<br>
-$$p\big(s(t) \mid s(t-1), s(t-2),...,s(1)\big) = p \big(s(t) \mid s(t-1)\big)$$</p>
+<p><br></p>
+<h1 id="Unsupervised-or-Supervised?">Unsupervised or Supervised?<a class="anchor-link" href="#Unsupervised-or-Supervised?">&#182;</a></h1><p>We can now discuss where HMM's fit in the spectrum of machine learning techniques. Hidden markov models are for modeling sequences. If you think of a sequence by itself, that could look like:</p>
+<blockquote>
+<pre><code>x(1), x(2),...,x(t),...,x(T)</code></pre>
 </blockquote>
-<p>For example, if you want to know whether or not it is going to rain tomorrow, you assume that that only depends on today's weather. As another example, consider the following sentence:</p>
-<blockquote><p>"I love dogs and cats."</p>
-</blockquote>
-<p>Let's say we are trying to predict the last word, which we know is cats. But lets say all we are given is the word "and", it will be impossible to predict "cats" based off of only that information. In this course, we will see that our models <em>no longer make the markov assumption</em>!</p>
+<p>We can see that there is no label there, so HMM's just model the distribution of a sequence; this means that it is unsupervised.</p>
+<h2 id="Classification">Classification<a class="anchor-link" href="#Classification">&#182;</a></h2><p>However, we often see HMMs being used for classifiers as well. For instance, we could train an HMM to model a male voice and a female voice. Then we could predict, given a new voice sample, whether the voice is male or female.</p>
+<p>How can we do this, given that we only have a model for the probability of the data, $p(X)$? The key idea here is bayes rule. What we actually modeled was $p(X \; | \; male)$ and $p(X \; | \; female)$. We know that bayes rule helps us reverse the conditional, leaving us with:</p>
+<p>$$p(male \; | \; x) \; and \; p(female \; | \; x)$$</p>
+<p>Now we can find the most probable class, and our prediction becomes whatever the most probable class is. From bayes rule we know that:</p>
+<p>$$p(male \; | \; x) = \frac{p(X \; | \; male) p(male)}{p(X)}$$</p>
+<p>$$p(female \; | \; x) = \frac{p(X \; | \; female) p(female)}{p(X)}$$</p>
+<p>And in general:
+$$posterior = \frac{likelihood * prior}{normalization \; constant}$$</p>
+<p>We do not care about the actual probability, $p(X \; | \; C)$, just which one is great. It should be noted that while we can model it with an HMM, but also with Naive Bayes:</p>
+<p>$$P(X \; | \; C) = P(x(1,1) \; | \; C)*P(x(1,2) \; | \; C)*...*P(x(T,D) \; | \; C)$$</p>
+<p>With Naive Bayes, we make the independence assumption, meaning that each sample is independent. So, we take the probability of each given feature, and multiply them together to get the final $P(X \; | \; C)$. What we can even do is extend this idea behind hidden markov models and model the data using more general concepts like Bayesian Belief Networks.</p>
+<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h2><p>At its core, HMMs are unsupervised. However, it can easily be used for classification just by creating a separate model for each class, and then making the prediction based on which model gives you the maximum posterior probability.</p>
 
 </div>
 </div>

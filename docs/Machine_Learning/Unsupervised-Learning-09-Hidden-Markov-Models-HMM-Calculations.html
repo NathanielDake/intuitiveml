@@ -1,0 +1,842 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/readable.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Nathaniel Dake Blog</title>
+
+<style type = "text/css">
+body {
+  font-family: "sans-serif";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Nathaniel Dake Blog</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../Deep_Learning.html">Deep Learning</a>
+</li>
+        
+<li>
+  <a href="../AI.html">AI</a>
+</li>
+        
+<li>
+  <a href="../Machine_Learning.html">Machine Learning</a>
+</li>
+        
+<li>
+  <a href="../NLP.html">NLP</a>
+</li>
+        
+<li>
+  <a href="../Mathematics.html">Mathematics</a>
+</li>
+        
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
+<li>
+  <a href="../Book_Reviews.html">Book Reviews</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="https://github.com/NathanielDake/nathanieldake.github.io"> source </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="9.-Hidden-Markov-Model-Calculations">9. Hidden Markov Model Calculations<a class="anchor-link" href="#9.-Hidden-Markov-Model-Calculations">&#182;</a></h1><p>This appendix serves as an accompaniment to hidden markov models, discrete observations. We will go over calculations concerning:</p>
+<blockquote><ol>
+<li><strong>Probability of a Sequence</strong></li>
+<li><strong>Forward-Backward Algorithm</strong></li>
+<li><strong>Viterbi Algorithm</strong></li>
+<li><strong>Baum-Welch Algorithm</strong></li>
+</ol>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="0.-General-Definitions">0. General Definitions<a class="anchor-link" href="#0.-General-Definitions">&#182;</a></h1><p>We will start by restating common variables that will be used throughout our calculations.</p>
+<h4 id="0.1-Hidden-States-and-Observations">0.1 Hidden States and Observations<a class="anchor-link" href="#0.1-Hidden-States-and-Observations">&#182;</a></h4><p>We will let the number of hidden states be $M$:</p>
+<p>$$\text{Number of hidden states} = M$$</p>
+<p>And the length of our sequence of observations be $T$:</p>
+<p>$$\text{Length of sequence of observations} = T$$</p>
+<h4 id="0.2-Joint-Distribution">0.2 Joint Distribution<a class="anchor-link" href="#0.2-Joint-Distribution">&#182;</a></h4><p>We know that the joint distribution containing both our observed symbols and hidden states is:</p>
+<p>$$p(x,z)$$</p>
+<p>Where both $x$ and $z$ are vectors:</p>
+<p>$$x = \big[x(1), x(2), ..., x(T)\big]$$</p>
+<p>$$z = \big[z(1), z(2), ..., z(T)\big]$$</p>
+<h4 id="0.3-Marginalized-Distribution">0.3 Marginalized Distribution<a class="anchor-link" href="#0.3-Marginalized-Distribution">&#182;</a></h4><p>And we want to find the distribution for the sequence of observed symbols:</p>
+<p>$$p\big(x(1), x(2),...,x(T)\big)$$</p>
+<p>This is done by <em>marginalizing</em> out $z$.</p>
+<h4 id="0.4-Initial-State-Distribution-$\pi$">0.4 Initial State Distribution $\pi$<a class="anchor-link" href="#0.4-Initial-State-Distribution-$\pi$">&#182;</a></h4><p>We have our <em>initial state distribution</em>, $\pi$, the probability of being in a hidden state when the sequence begins:</p>
+<p>$$\pi$$</p>
+<h4 id="0.5-State-Transition-Matrix-$A$">0.5 State Transition Matrix $A$<a class="anchor-link" href="#0.5-State-Transition-Matrix-$A$">&#182;</a></h4><p>Then there is our <em>state transition matrix</em>, $A$, which represents the probability of going from state $i$ to state $j$:</p>
+<p>$$A(i, j) = \text{probability of going from state i to state j}$$</p>
+<h4 id="0.6-Observation-Matrix-$B$">0.6 Observation Matrix $B$<a class="anchor-link" href="#0.6-Observation-Matrix-$B$">&#182;</a></h4><p>Finally, we have our <em>observation matrix</em>, $B$, which represents the probability of observing symbol $k$ while in state $j$:</p>
+<p>$$B(j,k) = \text{probability of observing symbol k while you are in state j}$$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="1.-Probability-of-a-Sequence">1. Probability of a Sequence<a class="anchor-link" href="#1.-Probability-of-a-Sequence">&#182;</a></h1><p>We have gone over the equations utilized in determining the probability of a sequence, but we will now solidify that with an actual example. Here is the problem statement:</p>
+<blockquote><p>There is a magician who has two biased coins, <em>coin 1</em> and <em>coin 2</em> that he is flipping. We are trying to determine the probability of observing the following sequence of coin flips:<br>
+<br>
+$$p\big(HHT \big)$$<br>
+$$p\big( x(1)=H, x(2)=H, x(3)=T \big)$$<br>
+To start, we know that since the magician has two coins, the number of hidden states, $M$, is 2. We also know that we can either observe a flipped coin being heads or tails, so the number of possible observed symbols is also 2. We are told that the magician really likes coin 1, so the initial state distribution is:<br>
+<img src="https://drive.google.com/uc?id=1bgp8z4TzRf9LTBHvNQE9Hxg-y-bN6rIH" width="150">
+<br>
+He is also very figity, and tends to switch between coins very often, so his state transition matrix is:<br>
+<br>
+<img src="https://drive.google.com/uc?id=1uhaAJxF3n3B89UZLp5gxQoihF8WWm57z" width="200">
+<br>
+Finally, the coin 1 is biased towards heads and has a 0.7 probability of being heads, and a 0.3 probability of being tails. Coin 2 is biased towards tails, and has a 0.6 probability of being tails, and a 0.4 probability of being heads. Hence, the observation matrix looks like:<br>
+<img src="https://drive.google.com/uc?id=1aCMvAQ-MFjnOSwBZc7sWz-0f6upXDsLG" width="200">
+<br></p>
+</blockquote>
+<p>We now have all of the information needed to find the probability of the sequence $H,H,T$. Intuitively, we can think about it as follows: We must first take into account the probability that we start in specific state, and from that state we observed heads. We then must account for the probability that from that state we transition to another hidden state and observe heads. And finally, we must take into the account that from the second hidden state we transition to <em>another</em> hidden state and observe tails. Let's look at each part separately.</p>
+<h4 id="1.1-The-probability-of-the-Initial-State">1.1 The probability of the Initial State<a class="anchor-link" href="#1.1-The-probability-of-the-Initial-State">&#182;</a></h4><p>We can write the probability of the initial state and observing heads as:</p>
+<p>$$\pi\big(z(1)\big)p\big(x(1)=1|z(1)\big)$$</p>
+<h4 id="1.2-The-probability-of-transitioning-from-state-1-to-state-2">1.2 The probability of transitioning from state 1 to state 2<a class="anchor-link" href="#1.2-The-probability-of-transitioning-from-state-1-to-state-2">&#182;</a></h4><p>$$p\big(z(2)|z(1)\big) = A\big(z(1),z(2)\big)$$</p>
+<h4 id="1.3-The-probability-of-observing-heads-from-state-2">1.3 The probability of observing heads from state 2<a class="anchor-link" href="#1.3-The-probability-of-observing-heads-from-state-2">&#182;</a></h4><p>$$p\big(x(2)=1|z(2)\big) = B\big(z(2),x(2)=1\big)$$</p>
+<p>Now, if we repeated this process for transitioning from state 2 to 3, we would end up with the following equation:</p>
+<p>$$p\big(x,z \big) = \pi\big(z(1)\big)p\big(x(1)=1|z(1)\big) * p\big(z(2)|z(1)\big) * p\big(x(2)=1|z(2)\big) * p\big(z(3)|z(2)\big) * p\big(x(3)=0|z(3)\big)$$</p>
+<p>Which we can then update by utilizing our matrices $A$ and $B$:</p>
+<p>$$p\big(x,z \big) = \pi\big(z(1)\big)B\big(z(2),x(2)=1\big) * A\big(z(1),z(2)\big) * B\big(z(2),x(2)=1\big) * A\big(z(2),z(3)\big) * B\big(z(3),x(3)=0\big)$$</p>
+<p>Now, at this point we can see that there are multiple values that $z$ can take on, and that in order to find $p(x)$ we must marginalize out $z$, like so:</p>
+<p>$$\sum_{z_1 = 1..M,..,z_3=1..M}\pi\big(z(1)\big)B\big(z(2),x(2)=1\big) * A\big(z(1),z(2)\big) * B\big(z(2),x(2)=1\big) * A\big(z(2),z(3)\big) * B\big(z(3),x(3)=0\big)$$</p>
+<p>We can see that since $M$ is 2, and we have $T =3$ observations, there are going to be $2^3$ different operations (separate summations) that need to be performed in order to marginalize out $z$. That would be very messy to write out, be we will calculate it in code below:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Initial probability distribution and transition matrices</span>
+<span class="n">pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">],[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]])</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],[</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">]])</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># 0 for heads, 1 for tails, based on numpy indexing</span>
+<span class="n">operations_per_iteration</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="c1"># Function to calculate the probability of the observed sequence for a given z1, z2, z3</span>
+<span class="k">def</span> <span class="nf">sequence_probability_with_z</span><span class="p">(</span><span class="n">z1</span><span class="p">,</span> <span class="n">z2</span><span class="p">,</span> <span class="n">z3</span><span class="p">):</span>
+  <span class="k">return</span> <span class="n">pi</span><span class="p">[</span><span class="n">z1</span><span class="p">]</span><span class="o">*</span><span class="n">B</span><span class="p">[</span><span class="n">z2</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">*</span> <span class="n">A</span><span class="p">[</span><span class="n">z1</span><span class="p">,</span> <span class="n">z2</span><span class="p">]</span><span class="o">*</span><span class="n">B</span><span class="p">[</span><span class="n">z2</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">*</span> <span class="n">A</span><span class="p">[</span><span class="n">z2</span><span class="p">,</span> <span class="n">z3</span><span class="p">]</span><span class="o">*</span><span class="n">B</span><span class="p">[</span><span class="n">z3</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
+
+<span class="c1"># Initial marginalized sequence probability and number of iterations performed</span>
+<span class="n">marginalized_sequence_prob</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">iterations</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># Calculate marginalized sequence probability: p(x1, x2, x3) -&gt; p(H, H, T)</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">z1</span> <span class="ow">in</span> <span class="n">Z</span><span class="p">:</span>
+  <span class="k">for</span> <span class="n">z2</span> <span class="ow">in</span> <span class="n">Z</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">z3</span> <span class="ow">in</span> <span class="n">Z</span><span class="p">:</span>
+      <span class="n">iterations</span> <span class="o">+=</span> <span class="mi">1</span> 
+      <span class="n">marginalized_sequence_prob</span> <span class="o">+=</span> <span class="n">sequence_probability_with_z</span><span class="p">(</span><span class="n">z1</span><span class="p">,</span> <span class="n">z2</span><span class="p">,</span> <span class="n">z3</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sequence Probability: &#39;</span><span class="p">,</span> <span class="n">marginalized_sequence_prob</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total Operations: &#39;</span><span class="p">,</span> <span class="n">iterations</span> <span class="o">*</span> <span class="n">operations_per_iteration</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Sequence Probability:  0.11169000000000001
+Total Operations:  40
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>And we finally arrive at our sequence probability:</p>
+<p>$$p(H,H,T) = 0.11$$</p>
+<h4 id="1.4-Complexity">1.4 Complexity<a class="anchor-link" href="#1.4-Complexity">&#182;</a></h4><p>Note that in order to achieve this we needed to take the summation of 8 different calculations, consisting of $2T-1$ operations. From this, we know that the time complexity of this algorithm is $O(TM^T)$. Visually, this can be seen clearly below:</p>
+<p><img src="https://drive.google.com/uc?id=1eM-n-qtk2-GlWusX83cbc5OolW1Y3Mqu" width="750"></p>
+<p>We can see via simply counting operations in the above visualization, that there are 5 internal operations that must be performed. In our case, $T=3$, and hence:</p>
+<p>$$2T-1 = 5$$</p>
+<p>The summation goes through all of our states at each time step, and since $M=2$, we have:</p>
+<p>$$M^T = 2 ^ 3 = 2*2*2 = 8$$</p>
+<p>Hence, our total number of operations for our example is:</p>
+<p>$$2T-1*M^T = 5 * 8 = 40$$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="2.-Forward-Backward-Algorithm">2. Forward-Backward Algorithm<a class="anchor-link" href="#2.-Forward-Backward-Algorithm">&#182;</a></h1><p>At this point we are ready to move on to an algorithm that will help reduce the exponential complexity that we are dealing with above. This algorithm, <em><strong>the Forward-Backward</strong></em> algorithm, works by defining a variable called $\alpha$ that represents the joint probability of seeing the sequence you have observed up until now and being in a specific state at that time:</p>
+<p>$$\alpha(t,i) = p \big(x(1),...,x(t),z(t)=i\big)$$</p>
+<p>We can see that $\alpha$ is indexed by both time and $i$, the state.</p>
+<h4 id="2.1.1-Step-1-$\rightarrow$-Initial-Value-of-$\alpha$">2.1.1 Step 1 $\rightarrow$ Initial Value of $\alpha$<a class="anchor-link" href="#2.1.1-Step-1-$\rightarrow$-Initial-Value-of-$\alpha$">&#182;</a></h4><p>The first step of the forward backward algorithm is to calculate the initial value of $\alpha$ at $t=1$:</p>
+<p>$$\alpha(1, i) = p \big(x(1), z(1)=i\big)$$</p>
+<p>$$\alpha(1, i) =  p\big(z(1) = i \big) p\big(x(1) \mid z(1)= i\big)$$</p>
+<p>Where, we know that:</p>
+<p>$$\pi_i = p\big(z(1) = i \big)$$</p>
+<p>And also that:</p>
+<p>$$p\big(x(1) \mid z(1)= i\big) = B\big(i, x(1)\big)$$</p>
+<p>So, we can rewrite our equation for $\alpha(1,i)$ as:</p>
+<p>$$\alpha(1,i) = \pi_iB\big(i, x(1)\big)$$</p>
+<p>Now, in terms of our example, we know that we have $M=2$ states. Hence, we need to find $\alpha$ for each starting state (coin 1 and coin 2):</p>
+<p>$$\alpha(1,1) = \alpha(1, \text{coin 1}) = \pi_1B\big(z(1)=1, x(1)\big)$$</p>
+<p>$$\alpha(1,2) = \alpha(1, \text{coin 2})= \pi_2B\big(z(1)=2, x(1)\big)$$</p>
+<h4 id="2.1.2-Key-Points">2.1.2 Key Points<a class="anchor-link" href="#2.1.2-Key-Points">&#182;</a></h4><p>The first thing that I want you to take note of, is that that variable, $\alpha$, will only be updated for <em>specific values</em>. Currently it only has <em>two values</em>; that for $t=1$ and coin 1, and $t=1$ with coin 2. From an implementation standpoint, $\alpha$ will be a 2 dimensional matrix:</p>
+
+<pre><code>alpha = np.zeros((T, self.M))</code></pre>
+<p>The second key point is that the entire goal of this process is to find $p\big(x(1)\big)$. That may not be clear, or you may wonder why we have introduced this new variable $\alpha$. To answer that, let's first write the equation for $p\big(x(1)\big)$:</p>
+<p>$$p\big(x(1)\big) = p\big(z(1)=1\big) p\big(x(1) \mid z(1) =1 \big) +...+p\big(z(1)=M\big) p\big(x(1) \mid z(1) =M \big)$$</p>
+<p>$$p\big(x(1)\big) = \pi_1 B \big(1, x(1) \big) + \pi_2 B \big(2, x(1) \big)+ ... +\pi_M B \big(M, x(1) \big)$$</p>
+<p>But wait! We can see that this is our definition for $\alpha(1,i)$! If we sum $\alpha$ over the state $i$ when $t=1$, we end up with $p\big(x(1)\big)$. This leads us to the critical intuition:</p>
+<blockquote><p>$\alpha$ is a way to successively keep track of the probability of a sequence.</p>
+</blockquote>
+<p>By creating $\alpha$, we can keep track of the probability of a sequence up to a current point in time, while also taking advantage of certain properties of probability that allow us to reduce the total number of operations we need to perform (aka, we can reduce the time complexity).</p>
+<h4 id="2.1.3-Step-2-$\rightarrow$-The-Induction-Step">2.1.3 Step 2 $\rightarrow$ The Induction Step<a class="anchor-link" href="#2.1.3-Step-2-$\rightarrow$-The-Induction-Step">&#182;</a></h4><p>At that point, we come to the <em>induction step</em>. We are trying to find $p\big(x(1), x(2)\big)$ now. We know that the induction step is an updating of $\alpha$ defined as:</p>
+<p>$$\alpha(t+1, j) = \sum_{i=1}^M \alpha(t,i) A(i,j)B(j, x(t+1))$$</p>
+<p>Note, if we wanted to find $\alpha(t+1, j)$ for <em>all values</em> that $j$ can take on, we would simply take the summation with $j$ as the index. With that said, inuitively we can think of the induction step as follows (in relation to our magician example): At $t=1$ the magician in holding one of the coins-we are not sure which-and we observe him flip a heads. We then go to $t=2$, he shuffles the coins behind his back, and then flips one of the coins where we again observe a heads. What we want to know is, what is the probability of that happening?</p>
+<p>In order to determine that we must consider that the magician could transition from coin 1 or 2 at $t=1$, to coin 1 or 2 at $t=2$, where we then must determine the probability of observing $x(2)=heads$. This can be written as:</p>
+<p>$$\pi_1A(1,1)B(1, x(2)=heads)+ \pi_2A(2,1)B(1, x(2)=heads)+\pi_1A(1,2)B(2, x(2)=heads)+ \pi_2A(2,2)B(2, x(2)=heads)$$</p>
+<p>We can include $B$ for $t=1$ as well:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$$\pi_1B(1, x(1)=heads)A(1,1)B(1, x(2)=heads)+ \pi_2B(2, x(1)=heads)A(2,1)B(1, x(2)=heads)+\pi_1B(1, x(1)=heads)A(1,2)B(2, x(2)=heads)+ \pi_2B(2, x(1)=heads)A(2,2)B(2, x(2)=heads)$$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Ahah! This is just $\alpha$ at time $t=2$! Note, this is technically the <em>sum</em> of $\alpha$ at $t=2$, over $j$ states. We can represent $\alpha$ at $t=2$ for each individual state below:</p>
+<p>$$\alpha(t=2, j) = \sum_{i=1}^M \alpha(t,i) A(i,j)B(j, x(t+1))$$</p>
+<p>$$\alpha(t=2, j=1) = \sum_{i=1}^M \alpha(t,i) A(i,j=1)B(j=1, x(t+1))$$</p>
+<p>$$\alpha(t=2, j=1) = \pi_1B(1, x(1)=heads)A(1,1)B(1, x(2)=heads)+ \pi_2B(2, x(1)=heads)A(2,1)B(1, x(2)=heads)$$</p>
+<p>$$\alpha(t=2, j=2) = \sum_{i=1}^M \alpha(t,i) A(i,j=2)B(j=2, x(t+1))$$</p>
+<p>$$\alpha(t=2, j=2) = \pi_1B(1, x(1)=heads)A(1,2)B(2, x(2)=heads)+ \pi_2B(2, x(1)=heads)A(2,2)B(2, x(2)=heads)$$</p>
+<p>Again, in order to find the total probability of the sequence $p\big(x(1), x(2)\big)$, we would want to marginalize out the hidden state, in this case indexed by $j$:</p>
+<p>$$p\big(x(1), x(2)\big) = \sum_{j=1..M} \alpha(t=2, j)$$</p>
+<p>However, we do not need to perform that step just yet, since we still have one more observed symbol to consider.</p>
+<h4 id="2.1.4-Step-2-$\rightarrow$-The-Termination-Step">2.1.4 Step 2 $\rightarrow$ The Termination Step<a class="anchor-link" href="#2.1.4-Step-2-$\rightarrow$-The-Termination-Step">&#182;</a></h4><p>We finally reach the point where we are trying to calculate $p\big(x(1), x(2), x(3)\big)$. Now, in order to do this we must perform the exact same set of steps that we just performed above, where we calculates $\alpha(t=3, j)$, for each hidden state $j$. The only difference is that now we must take the summation over $\alpha(t=3, j)$, for all $j$. This gives us our final sequence probability:</p>
+<p>$$p\big(x(1), x(2), x(3)\big) = \sum_{j=1..M} \alpha(t=3, j)$$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Initial M states, T time steps, and alpha forward variable</span>
+<span class="n">M</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mi">3</span> 
+<span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="p">))</span>
+
+<span class="c1"># Initial value step</span>
+<span class="n">operations_initial</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+  <span class="n">alpha</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">pi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+  <span class="n">operations_initial</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="c1"># Induction Step</span>
+<span class="n">iterations</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">operations_per_iteration</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
+  <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+      <span class="n">alpha</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">alpha</span><span class="p">[</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">B</span><span class="p">[</span><span class="n">j</span><span class="p">,</span><span class="n">x</span><span class="p">[</span><span class="n">t</span><span class="p">]]</span>
+      <span class="n">iterations</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="n">sequence_probability</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sequence Probability: &#39;</span><span class="p">,</span> <span class="n">sequence_probability</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total Operations: &#39;</span><span class="p">,</span> <span class="n">iterations</span> <span class="o">*</span> <span class="n">operations_per_iteration</span> <span class="o">+</span> <span class="n">operations_initial</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Sequence Probability:  0.11865600000000001
+Total Operations:  19
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can then vectorize the above process as follows:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Initialize alpha forward variable</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="p">))</span>
+
+<span class="c1"># Initial Value Step</span>
+<span class="n">alpha</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">B</span><span class="p">[:,</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+
+<span class="c1"># Induction Step</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
+  <span class="n">alpha</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">[</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">*</span> <span class="n">B</span><span class="p">[:,</span> <span class="n">x</span><span class="p">[</span><span class="n">t</span><span class="p">]]</span>
+  
+
+<span class="n">sequence_probability</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sequence Probability: &#39;</span><span class="p">,</span> <span class="n">sequence_probability</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Sequence Probability:  0.118656
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="2.1.5-Complexity">2.1.5 Complexity<a class="anchor-link" href="#2.1.5-Complexity">&#182;</a></h4><p>Let's quickly determine our overall number of operations for the forward algorithm in our example. In order to find $\alpha(t=1, 1)$ we need to perform 1 multiplication, and the same goes for $\alpha(t=1, 2)$. So our initial value step requires two operations.</p>
+<p>Then, we have our induction step. Here we are trying to find $\alpha(t=2, 1)$ and $\alpha(t=2, 2)$. Each requires 4 operations, so a total of 8.</p>
+<p>We then hit our termination step, which will again require 8 operations, plus an additional operation to take the summation of $\alpha$ at $t=3$ over $j$. So that is 9 operations.</p>
+<p>We end up with a total of:</p>
+<p>$$2 + 8 + 9 = 19 \text{ operations}$$</p>
+<p>This matches what we found above in via code. From a big O standpoint, the initial 2 operations are a constant, as is the final 1 summation. That means that we are dealing with the induction steps complexity of $M^2$ at each time step (except the first); so $T-1$ time steps. Again, the $-1$ is a constant and we will be removed, leaving us with a complexity of $O(M^2T)$. Note, following this we would have expected to get $2^2*3 = 12 \text{ operations}$, yet we came up with 19, why? This is because we were factoring in the number of operations inside of each summation, which is a constant $2$ operations. In other words, no matter how $T$ or $M$ change, it will always be $2$ operations:</p>
+<p>$$\alpha(t,i) A(i,j)B(j, x(t+1))$$</p>
+<p>Where the first is $\alpha*A$ and the second is $(\alpha*A) * B$. Because these $2$ operations are a constant, they are dropped from the computational complexity.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="3.3-Viterbi-Algorithm">3.3 Viterbi Algorithm<a class="anchor-link" href="#3.3-Viterbi-Algorithm">&#182;</a></h1><p>So far, the question that we have been asking is: <em>Given a sequence of observed symbols, what is the sequence's probability?</em> Another question that we are likely to want to ask is:</p>
+<blockquote><p>What is the sequence of hidden states, given the observation?</p>
+</blockquote>
+<p>This is where the <em><strong>Viterbi Algorithm</strong></em> comes in; it calculates the most probable hidden states sequence, given the observed sequence, under the current model. Now, we will be sure to highlight that the viterbi algorithm works in a very similar manner to the forward algorithm. Whereas in the Forward Algorithm for each induction step we would take the sum of the current row of $\alpha$ (in effect marginalizing over all states of $z$), we are now going to take the <em>max</em> of the row.</p>
+<p>To do this, we will create two new variables:</p>
+<p>$$\delta(t,i) = max \Big \{p\big(z(1), z(t)=i, x(1),...,x(t) \big) \Big \}$$</p>
+<p>$$\psi(t,i)$$</p>
+<ul>
+<li>$\delta(t,i)$, is indexed by time and state. This will represent the maximum probability of ending up in state $i$ at time $t$, which is a joint probability distribution over the state sequence and observed sequence.</li>
+<li>$\psi(t,i)$, which is also indexed by time and state. This will keep track of the actual state sequences that end up at time $t$ and in state $i$.</li>
+</ul>
+<h4 id="3.3.1-Step-1-$\rightarrow$-Initialization">3.3.1 Step 1 $\rightarrow$ Initialization<a class="anchor-link" href="#3.3.1-Step-1-$\rightarrow$-Initialization">&#182;</a></h4><p>As with the forward algorithm, the first step that we will take is to find the initial values of our new variables.</p>
+<p>$$\delta(t,i) = \pi_i B\big(i, x(1)\big)$$
+$$\psi(1,i) = 0$$</p>
+<p>Note that the initialization of $\delta$ is identical to that of $\alpha$. In our magician example, we would again have $M=2$ states, so we need to find $\delta(1, i = 1)$ and $\delta(1, i = 1)$.</p>
+<p>$$\delta(1,i=1) = \pi_1 B\big(1, x(1)\big)$$</p>
+<p>$$\delta(1,i=2) = \pi_2 B\big(2, x(1)\big)$$</p>
+<p>$$\psi(1,i = 1) = 0$$</p>
+<p>$$\psi(1,i = 2) = 0$$</p>
+<p>Visually this can be seen below:</p>
+<p><img src="https://drive.google.com/uc?id=1iJHBiuyTAuey1F-qU0X03mdLACfArDnc" width="350"></p>
+<p>We can see that there are two paths that can be followed (in yellow and purple). The first represents the probability of starting with coin 1 and then observing heads ($\delta(1,i=1)$), while the second represents the probability of starting with coin 2 and observing heads ($\delta(1,i=2)$). Note that we do not need to take the maximum since there is only one potential option for each state $i$.</p>
+<h4 id="3.3.2-Step-2-$\rightarrow$-Recursively-Update">3.3.2 Step 2 $\rightarrow$ Recursively Update<a class="anchor-link" href="#3.3.2-Step-2-$\rightarrow$-Recursively-Update">&#182;</a></h4><p>We now have the <em>recursion</em> step where we update our variables for all times and states:</p>
+<p>$$\delta(t, j) = max_{1 \leq i \leq M} \big \{ \delta(t-1, i) A(i,j)\big \} B\big(j, x(t) \big)$$</p>
+<p>$$\psi(t,j) = argmax_{1 \leq i \leq M} \big \{ \delta(t-1, i) A(i,j)\big \}$$</p>
+<p>In our case, we would first consider time step $t=2$. Visually, we can see the scenario below:</p>
+<p><img src="https://drive.google.com/uc?id=1ss3Wtgy8Zenm6ckmyuGUAw5rvnTG4cZB" width="350"></p>
+<p>We can see that for $z(2) = 1$, in other words for the second time step when the state is coin 1, there are <em>two ways we can get there</em>. We can come from the coin 1 ($\delta(1,1)$), or from coin 2 ($\delta(1,2)$). These paths are represented by the yellow arrows. The goal of this step is to determine which incoming path (yellow arrow) has a higher probability. In order to determine that we need to:</p>
+<ol>
+<li><p>Take into account the probability of being at the origin of each yellow arrow. Mathematically, that means taking into account $\delta(1,1)$ and $\delta(1,2)$.</p>
+</li>
+<li><p>Take into account the probability of transitioning from the state $i$, to the state $j$. Mathematically, we will use the transition matrix, $A(i,j)$, for this.</p>
+</li>
+</ol>
+<p>So, we can state our goal as follows:</p>
+<blockquote><p>For each state in the current time step, find the incoming state, $i$, that maximizes $\delta(t-1, i) A(i,j)$.</p>
+</blockquote>
+<p>We can go through this for $t=2$ and state $j = 1$. In order to find $\delta(2,1)$, we can perform the following calculation:</p>
+<p>$$\delta(2,1) = max \Big \{ \big(\delta(1, 1) A(1,1)\big), \big(\delta(1, 2) A(2,1)\big) \Big \} B \big(1, x(2) = heads\big)$$</p>
+<p>And in order to find $\psi(t, j)$:</p>
+<p>$$\psi(2, 1) = argmax_i \Big \{ \big(\delta(1, i=1) A(i=1,1)\big), \big(\delta(1, i=2) A(i=2,1)\big) \Big \}$$</p>
+<p>A way to intuitively think of $\psi$ is as follows. Let's say for a second that we have $\psi(t=2, j =1)$ and $\psi(t=2, j =2)$.</p>
+<ul>
+<li>$\psi(t=2, j =1)$ is representing the coin that was most likely transitioned <em>from</em> in order to get to coin 1.</li>
+<li>$\psi(t=2, j =2)$ is representing the coin that was most likely transitioned <em>from</em> in order to get to coin 2.</li>
+</ul>
+<h4 id="3.3.3-Step-3-$\rightarrow$-Termination-Step">3.3.3 Step 3 $\rightarrow$ Termination Step<a class="anchor-link" href="#3.3.3-Step-3-$\rightarrow$-Termination-Step">&#182;</a></h4><p>For the best state sequence, in the final best state, we can perform the following calculation:</p>
+<p>$$z(T)^* = argmax_{1 \leq i \leq M} \delta(T, i)$$</p>
+<p>To determine the rest of the best state sequence, we just need to back track using $\psi$. This is done for time equals $T-1$ all the way down to 1:</p>
+<p>$$z(t)^* = \psi (t+1, z(t+1)^*)$$</p>
+<p>The idea behind this is that we know that taking the argmax over our $\delta$ with respect to $i$ will give us the final state. Once we know that, recall that our variable $\psi$ is designed to keep track of what coin we most likely came from in order to get the current one. In other words, once we know our last state (by taking the argmax of $\delta$), we can use $\psi$ in order to find what coin we most likely transitioned from to get there. That will be our coin for the previous time step, at which point we can use $\psi$ again! This is what is meant by <em>back tracking</em>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Initialize variables to zeros matrices</span>
+<span class="n">delta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="p">))</span> 
+<span class="n">psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="p">))</span>
+
+<span class="c1"># Initial value step</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+  <span class="n">delta</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">pi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+  <span class="n">psi</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> 
+  
+<span class="c1"># Recursion Step</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
+  <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+    <span class="n">current</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+      <span class="n">current</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="n">delta</span><span class="p">[</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+    <span class="n">currentMax</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">currentArgMax</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
+    <span class="n">delta</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">currentMax</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="n">t</span><span class="p">]]</span>
+    <span class="n">psi</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">currentArgMax</span>
+    
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;delta: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">delta</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;psi: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">psi</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Back Track</span>
+<span class="n">states</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+<span class="n">states</span><span class="p">[</span><span class="n">T</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">delta</span><span class="p">[</span><span class="n">T</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+  <span class="n">states</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">psi</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">states</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Hidden State Sequence (by index): </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">states</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Map states to coin 1 and 2</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Hidden State Sequence (by coin label): &#39;</span><span class="p">,</span> 
+      <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">state</span><span class="p">:</span> <span class="s1">&#39;coin 1&#39;</span> <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;coin 2&#39;</span><span class="p">,</span> <span class="n">states</span><span class="p">))</span>
+     <span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>delta: 
+ [[0.56     0.08    ]
+ [0.0504   0.2016  ]
+ [0.054432 0.027216]]
+psi: 
+ [[0. 0.]
+ [1. 0.]
+ [1. 0.]] 
+
+Hidden State Sequence (by index): 
+ [0 1 0] 
+
+Hidden State Sequence (by coin label):  [&#39;coin 1&#39;, &#39;coin 2&#39;, &#39;coin 1&#39;]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="4.-Baum-Welch-Algorithm">4. Baum-Welch Algorithm<a class="anchor-link" href="#4.-Baum-Welch-Algorithm">&#182;</a></h1><p>The Baum-Welch Algorithm begins by performing the forward-backward algorithm.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">],[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]])</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],[</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">]])</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># 0 for heads, 1 for tails, based on numpy indexing</span>
+
+<span class="c1"># Initial M states, T time steps, and alpha forward variable</span>
+<span class="n">M</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mi">3</span> 
+<span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="p">))</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can now calculate the forward variable $\alpha$:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Initial value step</span>
+<span class="n">operations_initial</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+  <span class="n">alpha</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">pi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+  <span class="n">operations_initial</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="c1"># Induction Step</span>
+<span class="n">iterations</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">operations_per_iteration</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
+  <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+      <span class="n">alpha</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">alpha</span><span class="p">[</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">B</span><span class="p">[</span><span class="n">j</span><span class="p">,</span><span class="n">x</span><span class="p">[</span><span class="n">t</span><span class="p">]]</span>
+      <span class="n">iterations</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>And then we can calculate the backward variable $\beta$:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Initial value step</span>
+<span class="n">operations_initial</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+  <span class="n">beta</span><span class="p">[</span><span class="n">T</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+  
+<span class="c1"># Induction Step</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+      <span class="n">beta</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span> <span class="o">*</span> <span class="n">beta</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Value of Alpha after forward algorithm: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Value of Beta after forward algorithm: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Value of Alpha after forward algorithm: 
+ [[0.56     0.08    ]
+ [0.0896   0.2048  ]
+ [0.057984 0.060672]] 
+
+Value of Beta after forward algorithm: 
+ [[0.1587 0.3723]
+ [0.57   0.33  ]
+ [1.     1.    ]]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<hr>
+&copy; 2018 Nathaniel Dake
+
+</div>
+</div>
+</body>
+</html>

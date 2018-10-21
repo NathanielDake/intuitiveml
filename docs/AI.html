@@ -1,7 +1,4 @@
-{%- extends 'basic.tpl' -%}
 
-{%- block header -%}
-{{ super() }}
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -248,9 +245,94 @@ $(document).ready(function () {
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Ai">Ai<a class="anchor-link" href="#Ai">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="AI/1 - Reinforcement Learning - Introduction .html"><strong>1. What is Reinforcement Learning</strong></a><br>
+&nbsp; &nbsp;We can first note that the difference between supervised and unsupervised machine learning is rather small; this should be contrasted to the very large difference when compared to reinforcement learning. In the supervised/unsupervised cases, we imagine having the same interface to interact with (modeled after scikit learn):</p>
 
-{%- endblock header -%}
-{% block footer %}
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="AI/2 - Reinforcement Learning - Multi-Armed Bandit.html"><strong>2. Multi-Armed Bandit</strong></a><br>
+&nbsp; &nbsp;Imagine you are at a casino playing slots (hence the term "arm"). The slot machines are bandits because they are taking your money. Not all the slot machines are equal, and the win rate is generally unknown. For example, they may be:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="AI/3 - Reinforcement Learning - Build an Intelligent Tic-Tac-Toe Agent.html"><strong>3. Components of an RL System</strong></a><br>
+&nbsp; &nbsp;Let's quickly recall what we had discussed earlier concerning the components of an RL system. We talked about the following:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="AI/4 - Reinforcement Learning - Markov Decision Processes.html"><strong>4. Markov Decision Processes</strong></a><br>
+&nbsp; &nbsp;We are now going to formalize some of the concepts that we have learned about in reinforcement learning. We have learning about the terms:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="AI/5 - Reinforcement Learning - Dynamic Programming.html"><strong>5. Intro to Dynamic Programming and Iterative Policy Evaluation</strong></a><br>
+&nbsp; &nbsp;We are now going to start looking at solutions to MDP's. As we saw in the last section, the center piece of the discussion is the <strong>Bellman Equation</strong>:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="AI/6 - Reinforcement Learning - Monte Carlo.html"><strong>6. Monte Carlo Intro</strong></a><br>
+&nbsp; &nbsp;In this section we are going to be discussing another technique for solving MDP's, known as <strong>Monte Carlo</strong>. In the last section, you may have noticed something a bit odd; we have talked about how RL is all about learning from experience and playing games. Yet, in none of our dynamic programming algorithms did we actually play the game. We had a full model of the environment, which included all of the state transition probabilities. You may wonder: is it reasonable to assume that we would have that type of information in a real life environment? For board games, perhaps. But, what about self driving cars?</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="AI/7 - Reinforcement Learning - Temporal Difference Learning.html"><strong>7. Temporal Difference Learning Introduction</strong></a><br>
+&nbsp; &nbsp;We are now going to look at a third method for solving MDPs, <em><strong>Temporal Difference Learning</strong></em>. TD is one of the most important ideas in RL, and we will see how it combines ideas from the first two techniques, Dynamic Programming and Monte Carlo.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="AI/8 - Reinforcement Learning - Approximation Methods.html"><strong>8. Approximation Methods</strong></a><br>
+&nbsp; &nbsp;We are now going to look at approximation methods. Recall that in the last section, we discussed a major disadvantage to all of the methods we have studied so far. That is, they all require us to estimate the value function for each state, and in the case of the action-value function, we have to estimate it for each state and action pair. We learned early on that the state space can grow very large, very quickly. This makes <em>all</em> of the methods we have studied impractical.</p>
+
+</div>
+</div>
+</div>
 <hr>
 &copy; 2018 Nathaniel Dake
 <!-- To enable disqus, uncomment the section below and provide your disqus_shortname -->
@@ -275,4 +357,3 @@ $(document).ready(function () {
 </script>
 </body>
 </html>
-{% endblock %}
