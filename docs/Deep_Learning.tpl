@@ -186,6 +186,10 @@ body {
   <a href="../Artificial_Intelligence.html">Artificial Intelligence</a>
 </li>
         
+<li>
+  <a href="../Unsupervised_Learning.html">Unsupervised Learning</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
