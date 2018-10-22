@@ -331,6 +331,7 @@ We could continue this for $y(4)$ and $y(5)$, but instead let us write out the g
 <h4 id="4.2.1-Derivative-of-Error-With-Respect-to-$W_h$">4.2.1 Derivative of Error With Respect to $W_h$<a class="anchor-link" href="#4.2.1-Derivative-of-Error-With-Respect-to-$W_h$">&#182;</a></h4><p>However, we have to be more careful when determining how the error changes with respect to $W_h$. If we look at the derivative of $J$ with respect to $W_h$:</p>
 <p>$$\frac{dJ}{dW_h} = \frac{\partial J}{\partial a}\frac{\partial a}{\partial h}\frac{\partial h}{\partial W_h}$$</p>
 <p>In order to best demonstrate this and make the idea more concrete, let's look specifically node 3 and how the error, $J_3$, changes as we change $W_h$:</p>
+<p><img src="https://drive.google.com/uc?id=1y-pmfwOHpW2iHiF_v1VbmCU-cpstMTLT" width="650"></p>
 <p>$$\frac{dJ_3}{dW_h} = \frac{\partial J_3}{\partial a_3}\frac{\partial a_3}{\partial h_3}\frac{\partial h_3}{\partial W_h}$$</p>
 <p>The first term of that derivative is no problem, it is simply:</p>
 <p>$$\frac{\partial J_3}{\partial a_3} = \frac{\partial J_3}{\partial y_3}\frac{\partial y_3}{\partial a_3}$$</p>
@@ -339,20 +340,47 @@ We could continue this for $y(4)$ and $y(5)$, but instead let us write out the g
 <p>$$\frac{\partial a_3}{\partial h_3} = W_o^T$$</p>
 <p>The third term in that derivative, $\frac{\partial h_3}{\partial W_h}$, is where we run into problems. Recall, that $h_3$ was determined to be:</p>
 <p>$$h(3) = f\big(W_x^T x(3) + W_h^T h(2)\big)$$</p>
-<p>We can cleary see that $h_3$ is a function of $W_h$. It also contains $h_2$, _which is a function of $W_h$ as well_. This means that we will need to use the product rule in order to calculate:</p>
-<p>$$\frac{\partial\big[W_h^T h(2)\big]}{\partial W_h}$$</p>
-<p>And wait! If we recall, $h_2$ was determined to be a function of $W_h$, as well $h_1$:</p>
-<p>$$h(2) = f\big(W_x^T x(2) + W_h^T h(1)\big)$$</p>
-<p>All said and done, we had determined that $h_3$ was:</p>
-<p>$$h(3) = f\Big(W_x^T x(3) + W_h^T f\big(W_x^T x(2) + W_h^T h(1)\big)\Big)$$</p>
-<p>If we slightly abstract away from the above notation, we can simple write that $h_3$ is a function of $h_1$ $h_2$</p>
-<hr>
-<p>The first thing we need to realize is that there is a product where both terms depend on $W_h$:</p>
-<p>$$W_h^T h(t-1)$$</p>
-<p>$$W_h^T f\big(W_x^T x(t-1) + W_h^T h(t-2)\big)$$</p>
-<p>In this case we must use the product rule from calculus:</p>
-<p>$$\frac{\partial\big[W_h^T h(t-1)\big]}{\partial W_h}$$</p>
-<p>Now, recall from earlier posts regarding deep learning, that a weight gets updated via an <em>error signal</em> from whatever nodes it influences when it goes in the forward direction. Below, we can see the influence of $w_h$ in red:</p>
+<p>And hence we can rewrite our derivative as:</p>
+<p>$$\frac{\partial h_3}{\partial W_h} = \frac{\partial f\big(W_x^T x(3) + W_h^T h(2)\big)}{\partial W_h}$$</p>
+<p>To make our example more concrete, we will let our activation function, $f$, be the $tanh$ function:</p>
+<p>$$\frac{\partial h_3}{\partial W_h} = \frac{\partial \Big \{ tanh\big(W_x^T x(3) + W_h^T h(2)\big) \Big \}}{\partial W_h}$$</p>
+<p>Now, we can perform the chain rule and up with the following:</p>
+<p>$$\frac{\partial h_3}{\partial W_h} = \overbrace{sech^2\big(W_x^T x(3) + W_h^T h(2)\big)}^\text{Outer } * \overbrace{\frac{ \partial \big(W_x^T x(3) + W_h^T h(2) \big)}{\partial W_h}}^\text{Inner}$$</p>
+<p>The inner derivative is where we start to run into issues. We can drop $W_x^T x(3)$, considering it does not depend on $W_h$. However, we are still left with a product of <em>two</em> terms which are a function of $W_h$, $W_h^T*h(2)$. This means that we need to use the <em>product rule</em> in order to solve the derivative. If we let $a$ and $b$ equal (dropping the transpose on our matrices to increase readability):</p>
+<p>$$a = h(2)$$</p>
+<p>$$b = W_h$$</p>
+<p>Then, be the product rule, the derivative of $(a*b)'$ is:</p>
+<p>$$(a*b)' = a'*b + b'*a$$</p>
+<p>Recall, $h(2)$ was defined as:</p>
+<p>$$h(2) = tanh\big(W_x x(2) + W_h h(1)\big)$$</p>
+<p>So, $a$ can be written as:</p>
+<p>$$a = tanh\big(W_x x(2) + W_h h(1)\big)$$</p>
+<p>$$(a*b)' = \overbrace{ \frac{\partial \Big \{ tanh \big(W_x x(2) + W_h h(1)\big) \Big \} }{\partial W_h}}^\text{a'} * \overbrace{W_h}^\text{b} + \overbrace{1}^\text{b'} *\overbrace { tanh\big(W_x x(2) + W_h h(1)\big)}^\text{a}$$</p>
+<p>But wait! We once again run into an issue where in order to find $a'$ we need to use the chain rule:</p>
+<p>$$a' = \frac{\partial \Big \{ tanh \big(W_x x(2) + W_h h(1)\big) \Big \} }{\partial W_h}$$</p>
+<p>So, we can go ahead and work that out:</p>
+<p>$$a' = \frac{\partial h_2}{\partial W_h} = \overbrace{sech^2\big(W_x x(2) + W_h h(1)\big)}^\text{Outer } * \overbrace{\frac{\partial\big( W_x x(2) + W_h h(1) \big)}{\partial W_h}}^\text{Inner}$$</p>
+<p>And again, we run into problems with the inner derivative! We can drop the first term since it does not depend on $W_h$, but that still leaves us with:</p>
+<p>$$\frac{\partial\big( W_h h(1) \big)}{\partial W_h}$$</p>
+<p>Clearly, we need to use the product rule since we have two terms being multiplied which both depend on the variable we are taking the derivative with respect to ($W_h$). Let us again use $a$ and $b$ to represent our terms:</p>
+<p>$$a = h(1)$$</p>
+<p>$$a = tanh\big(W_x x(1) + W_h h(0)\big)$$</p>
+<p>$$b = W_h$$</p>
+<p>And utilize the product rule:</p>
+<p>$$(a*b)' = \overbrace{ \frac{\partial \Big \{ tanh \big(W_x x(1) + W_h h(0)\big) \Big \} }{\partial W_h}}^\text{a'} * \overbrace{W_h}^\text{b} + \overbrace{1}^\text{b'} *\overbrace { tanh\big(W_x x(1) + W_h h(0)\big)}^\text{a}$$</p>
+<p>The trend should be very clear at this point:</p>
+<blockquote><p>We are continually going to be alternating back and forth, recursively, between the chain rule and product rule until we hit our base case/starting point.</p>
+</blockquote>
+<p>We can see that $a'$ will require the chain rule:</p>
+<p>$$a' = \frac{\partial h_1}{\partial W_h} = \overbrace{sech^2\big(W_x x(1) + W_h h(0)\big)}^\text{Outer } * \overbrace{\frac{\partial\big( W_x x(1) + W_h h(0) \big)}{\partial W_h}}^\text{Inner}$$</p>
+<p>However, we have finally reached a base case and will <em>not</em> require another product rule! The inner derivative, which is:</p>
+<p>$$\frac{\partial\big( W_x x(1) + W_h h(0) \big)}{\partial W_h}$$</p>
+<p>Can have the first term dropped, and we can substitute in $h(0)$:</p>
+<p>$$\frac{\partial\Big( W_h * tanh\big(W_x x(0)\big)\Big)}{\partial W_h}$$</p>
+<p>We see that only the first term in this product depends on $W_h$, and hence our derivative is just:</p>
+<p>$$\frac{\partial\Big( W_h * tanh\big(W_x x(0)\big)\Big)}{\partial W_h} = 1 * tanh\big(W_x x(0)\big) $$</p>
+<p>The main takeaway from this process should be the intuition that because of the recurrent net is defined, there will be a recursive process of the chain rule leading the product rule which leads back to the chain rule, and so on, down to our base case. This same process will occur when dealing with $\frac{\partial J}{\partial W_x}$, however, we need not go through all of the steps for sake of redundancy. Keep this intuition in mind as we discuss the <em>parity problem</em> and the <em>vanishing gradient</em> in the next sections.</p>
+<p>One final thing to keep in mind, recall from earlier posts regarding deep learning that a weight gets updated via an <em>error signal</em> from whatever nodes it influences when it goes in the forward direction. Below, we can see the influence of $w_h$ in red:</p>
 <p><img src="https://drive.google.com/uc?id=15Tokk-VRfYQ9JzCPZFYI43x7GlyQs7rb" width="700"></p>
 <p>The upward arrows going to the output $y$ only matter if you are considering that as a part of your output. This will be different depending on whether you have a target for every time step, or a target just at the end of a sequence. The arrows going from left to right must always be backpropagated, because these are the hidden to hidden weights.</p>
 <h2 id="4.2-Vanishing-Gradient-/-Exploding-Gradient">4.2 Vanishing Gradient / Exploding Gradient<a class="anchor-link" href="#4.2-Vanishing-Gradient-/-Exploding-Gradient">&#182;</a></h2><p>One thing to realize here is that the same things are going to be multiplied again and again due to the chain rule of calculus. This will happen for both the hidden to hidden weights, as well as the input to hidden weights. The result is that you will either have something that goes down to 0, or gets large very quickly. This is referred to as the <em>vanish gradient</em> and <em>exploding gradient</em> problem respectively.</p>
@@ -371,7 +399,123 @@ if ||g|| &gt;= threshold:
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
-<h1 id="5.-The-Parity-Problem">5. The Parity Problem<a class="anchor-link" href="#5.-The-Parity-Problem">&#182;</a></h1>
+<h1 id="5.-The-Parity-Problem">5. The Parity Problem<a class="anchor-link" href="#5.-The-Parity-Problem">&#182;</a></h1><p>We are now going to go back to the <em>XOR</em> problem, but with an additional twist. Recall, the XOR problem is simply to implement the XOR logic gate using a neural network. The result is a zero if the two inputs are the same, and the result is a 1 if the two inputs are different:</p>
+<table>
+<thead><tr>
+<th>input 1</th>
+<th>input 2</th>
+<th>output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>One obvious way to extend this problem is to add more inputs (bits):</p>
+<ul>
+<li>The label is 1 if the number of bits that are 1 is odd</li>
+<li>The label is 0 if the number of bits that are 1 is even </li>
+</ul>
+<h3 id="5.1-Background">5.1 Background<a class="anchor-link" href="#5.1-Background">&#182;</a></h3><p>Just for a bit of background, I should mention that the parity problem occurs in a few different places in computer science. One application is data transmission in communication systems. If you imagine that a source is trying to send a bit stream to a receiver, but one of the bits gets reversed via noise, how can we detect this? One simple way to do this is to add a parity bit to the end of each message. We set a requirement that each message must have an even number of ones, and if the actual message has an odd number of ones, we will make the parity bit a one to make the total even. If the actual message already has an even number of ones, we will make the parity bit a zero so that the total is still even. For example:</p>
+<p>$$\text{M = 0 1 0 1} \rightarrow \text{P = 0} \rightarrow \text{Transmit: 0 1 0 1 0}$$</p>
+<p>This way, when the receiver gets the message, it can check how many ones their are, and if it is odd then we know something has gone wrong in the transmission of the message.</p>
+<h3 id="5.2-Why-Not-Use-A-Regular-Feedforward-Net">5.2 Why Not Use A Regular Feedforward Net<a class="anchor-link" href="#5.2-Why-Not-Use-A-Regular-Feedforward-Net">&#182;</a></h3><p>If you were to try and solve the parity problem with a regular feedforward net, you will see that the number of hidden units will grow very fast compared to the number of bits. For example, if for one bit, we would need two hidden units. As we jumped to 12 bits, we would need:</p>
+<p>$$2^{11} = 2048$$</p>
+<p>We can mitigate this problem by creating deeper networks with less units per layer.</p>
+<h3 id="5.3-Solving-the-Parity-Problem-with-RNNs">5.3 Solving the Parity Problem with RNNs<a class="anchor-link" href="#5.3-Solving-the-Parity-Problem-with-RNNs">&#182;</a></h3><p>The basic idea here is that we would like the Neural Network to keep track of its state. So, if the output is 0 and we see another 1 in the input, we would like to switch to a 1. If the output is 1 and we see another 1 in the input, we would like to switch to a 0. If we see a 0 in the input, we would just like to maintain whatever the current output is.</p>
+<p>Can our RNN actually do this? Well, before answering that, let's think about what type of labeling we are dealing with; there are 3 different types:</p>
+<ol>
+<li>One label for every sequence.</li>
+<li><strong>T labels for sequence of length T</strong>.</li>
+<li>No labels, we just want to predict the next observation.</li>
+</ol>
+<p>This is clearly type 2, where we care about the output at every point in time. To do this, we will need to discard the original label (which is just one number), and create a sequence of labels, which will be a sequence of the same size as the input, which just keeps a tally of whether it has seen an even or odd number of inputs so far.</p>
+<p><strong>Example</strong><br>
+Let's go through an example; suppose we are working with a dimensionality of 4. Then our possible inputs are:</p>
+<table>
+<thead><tr>
+<th>input 1</th>
+<th>Target</th>
+<th>Sequence Target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0000</td>
+<td>0</td>
+<td>0000</td>
+</tr>
+<tr>
+<td>0001</td>
+<td>1</td>
+<td>0001</td>
+</tr>
+<tr>
+<td>0010</td>
+<td>1</td>
+<td>0011</td>
+</tr>
+<tr>
+<td>0011</td>
+<td>0</td>
+<td>0010</td>
+</tr>
+<tr>
+<td>0100</td>
+<td>1</td>
+<td>0111</td>
+</tr>
+<tr>
+<td>0101</td>
+<td>0</td>
+<td>0110</td>
+</tr>
+<tr>
+<td>0110</td>
+<td>0</td>
+<td>0100</td>
+</tr>
+<tr>
+<td>0111</td>
+<td>1</td>
+<td>0101</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+</tbody>
+</table>
+<p>Remember, the entire purpose of our <code>sequence targets</code> is to keep track of whether we have seen an even or odd number of ones so far. So, the last number in our <code>sequence targets</code> will always be equivalent to the number in the <code>Targets</code> column.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="5.4-The-Parity-Problem-in-Code-using-a-FeedForward-Net">5.4 The Parity Problem in Code using a FeedForward Net<a class="anchor-link" href="#5.4-The-Parity-Problem-in-Code-using-a-FeedForward-Net">&#182;</a></h3>
 </div>
 </div>
 </div>
