@@ -1079,11 +1079,20 @@ def make_index_nb(path, exclude, long_description = False, reverse_alphabet = Fa
   },'''
     date_section = None
     add_date_section = False
+    header = '' 
+    header_changed = False
     for fn in sorted(glob.glob(os.path.join(path, "*.ipynb")), reverse = reverse_alphabet):
+        header_changed = False
         if os.path.basename(fn) in ['_index.ipynb', 'index.ipynb'] or fn in exclude:
             continue
         name = os.path.splitext(os.path.basename(fn))[0].replace('_', ' ')
         tmp = "{}/{}".format(name[:4], name[4:6])
+        header_split = fn.split('-')
+        header_category = header_split[1].replace('_', ' ')
+        header_num = header_split[0].split('/')[1].replace('0','') + '. '
+        if header_num + header_category != header:
+            header = header_num + header_category
+            header_changed = True
         if is_date(tmp) and date_section != tmp:
             date_section = tmp
             add_date_section = True
@@ -1109,6 +1118,15 @@ def make_index_nb(path, exclude, long_description = False, reverse_alphabet = Fa
     "### %s\\n"
    ]
   },''' % date_section
+        if header_changed:
+            out += '''
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### %s"
+   ]
+  },''' % header
         if title != description:
             out += '''
   {

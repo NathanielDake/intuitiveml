@@ -99,10 +99,6 @@ else:
 for item in rmd_files:
     fail_if(os.path.isfile(os.path.splitext(item)[0] + '.ipynb'), msg = f"Rmarkdown file name ``{item}`` conflicts with existing notebook ``{os.path.splitext(item)[0] + '.ipynb'}``. If the notebook was automatically generated you can use ``rm -f {os.path.splitext(item)[0] + '.ipynb'}`` to remove it.")
 
-[download-jnbinder: provides = 'jnbinder-master/README.md']
-download: decompress = True, dest_file = 'jnbinder-master.zip'
-  https://github.com/vatlab/jnbinder/archive/master.zip
-
 [setup-jnbinder]
 depends: 'jnbinder-master/README.md'
 bash:

@@ -1,48 +1,48 @@
 docs/AI.html
 docs/AI.tpl
-docs/AI/1 - Reinforcement Learning - Introduction .html
-docs/AI/2 - Reinforcement Learning - Multi-Armed Bandit.html
-docs/AI/3 - Reinforcement Learning - Build an Intelligent Tic-Tac-Toe Agent.html
-docs/AI/4 - Reinforcement Learning - Markov Decision Processes.html
-docs/AI/5 - Reinforcement Learning - Dynamic Programming.html
-docs/AI/6 - Reinforcement Learning - Monte Carlo.html
-docs/AI/7 - Reinforcement Learning - Temporal Difference Learning.html
-docs/AI/8 - Reinforcement Learning - Approximation Methods.html
+docs/AI/01-Reinforcement_Learning-01-Introduction.html
+docs/AI/01-Reinforcement_Learning-02-Multi-Armed Bandit.html
+docs/AI/01-Reinforcement_Learning-03-Build-an-Intelligent-Tic-Tac-Toe-Agent.html
+docs/AI/01-Reinforcement_Learning-04-Markov-Decision-Processes.html
+docs/AI/01-Reinforcement_Learning-05-Dynamic-Programming.html
+docs/AI/01-Reinforcement_Learning-06-Monte-Carlo.html
+docs/AI/01-Reinforcement_Learning-07-Temporal-Difference-Learning.html
+docs/AI/01-Reinforcement_Learning-08-Approximation-Methods.html
 docs/Book_Reviews.html
 docs/Book_Reviews.tpl
 docs/Deep_Learning.html
 docs/Deep_Learning.tpl
-docs/Deep_Learning/01 - Deep Learning - Predictions in Neural Networks.html
-docs/Deep_Learning/02 - Deep Learning - Neural Network Training.html
-docs/Deep_Learning/03 - Deep Learning  - Backpropagation Calculations.html
-docs/Deep_Learning/04 - Deep Learning  - Ecommerce Example.html
-docs/Deep_Learning/05 - Deep Learning - Practical Issues.html
-docs/Deep_Learning/06 - Deep Learning - Facial Expression Recognition.html
-docs/Deep_Learning/07 - Deep Learning - TensorFlow.html
-docs/Deep_Learning/08 - Deep Learning - Modern - Introduction .html
-docs/Deep_Learning/09 - Deep Learning - Modern - Gradient Descent.html
-docs/Deep_Learning/10 - Deep Learning - Modern - Momentum and Adaptive Learning Rates.html
-docs/Deep_Learning/11 - Deep Learning - Modern - Choosing Hyperparameters.html
-docs/Deep_Learning/12 - Deep Learning - Modern - Weight Initialization .html
-docs/Deep_Learning/13 - Deep Learning - Modern - Theano.html
-docs/Deep_Learning/14 - Deep Learning - Modern - TensorFlow.html
-docs/Deep_Learning/15 - Deep Learning - Modern - Facial Expression Recognition Theano.html
-docs/Deep_Learning/16 - Deep Learning - Modern - Facial Expression Recognition TensorFlow.html
-docs/Deep_Learning/17 - Deep Learning - Modern - Modern Regularization Techniques.html
-docs/Deep_Learning/18 - Deep Learning - Modern - Batch Normalization .html
-docs/Deep_Learning/19 - Deep Learning - Recurrent Neural Networks - Introduction .html
-docs/Deep_Learning/20 - Deep Learning - Recurrent Neural Networks - The Simple Recurrent Unit.html
+docs/Deep_Learning/01-Neural_Networks-01-Predictions-in-Neural-Networks.html
+docs/Deep_Learning/01-Neural_Networks-02-Neural-Network-Training.html
+docs/Deep_Learning/01-Neural_Networks-03-Backpropagation-Calculations.html
+docs/Deep_Learning/01-Neural_Networks-04-Ecommerce-Example.html
+docs/Deep_Learning/01-Neural_Networks-05-Practical-Issues.html
+docs/Deep_Learning/01-Neural_Networks-06-Facial-Expression-Recognition.html
+docs/Deep_Learning/01-Neural_Networks-07-TensorFlow.html
+docs/Deep_Learning/02-Modern_Deep_Learning-01-Introduction .html
+docs/Deep_Learning/02-Modern_Deep_Learning-02-Gradient-Descent.html
+docs/Deep_Learning/02-Modern_Deep_Learning-03-Momentum-and-Adaptive-Learning-Rates.html
+docs/Deep_Learning/02-Modern_Deep_Learning-04-Choosing-Hyperparameters.html
+docs/Deep_Learning/02-Modern_Deep_Learning-05-Weight-Initialization-.html
+docs/Deep_Learning/02-Modern_Deep_Learning-06-Theano.html
+docs/Deep_Learning/02-Modern_Deep_Learning-07-TensorFlow.html
+docs/Deep_Learning/02-Modern_Deep_Learning-08-Facial-Expression-Recognition-Theano.html
+docs/Deep_Learning/02-Modern_Deep_Learning-09-Facial-Expression-Recognition-TensorFlow.html
+docs/Deep_Learning/02-Modern_Deep_Learning-10-Modern-Regularization-Techniques.html
+docs/Deep_Learning/02-Modern_Deep_Learning-11-BatchNormalization.html
+docs/Deep_Learning/03-Recurrent_Neural_Networks-01-Introduction .html
+docs/Deep_Learning/03-Recurrent_Neural_Networks-01-The-Simple-Recurrent-Unit.html
 docs/Machine_Learning.html
 docs/Machine_Learning.tpl
-docs/Machine_Learning/Unsupervised-Learning-01-Cluster-Analysis-Introduction.html
-docs/Machine_Learning/Unsupervised-Learning-02-Cluster-Analysis-K-Means-Clustering.html
-docs/Machine_Learning/Unsupervised-Learning-03-Cluster-Analysis-Hierarchical-Clustering.html
-docs/Machine_Learning/Unsupervised-Learning-04-Cluster-Analysis-Gaussian-Mixture-Models.html
-docs/Machine_Learning/Unsupervised-Learning-05-Hidden-Markov-Models-Introduction.html
-docs/Machine_Learning/Unsupervised-Learning-06-Hidden-Markov-Models-Markov-Models.html
-docs/Machine_Learning/Unsupervised-Learning-07-Hidden-Markov-Models-Example-Problems-and-Applications.html
-docs/Machine_Learning/Unsupervised-Learning-08-Hidden-Markov-Models-Hidden-Markov-Models-Discrete-Observations.html
-docs/Machine_Learning/Unsupervised-Learning-09-Hidden-Markov-Models-HMM-Calculations.html
+docs/Machine_Learning/04-Unsupervised_Learning_Cluster_Analysis-01-Cluster-Analysis-Introduction.html
+docs/Machine_Learning/04-Unsupervised_Learning_Cluster_Analysis-02-Cluster-Analysis-K-Means-Clustering.html
+docs/Machine_Learning/04-Unsupervised_Learning_Cluster_Analysis-03-Cluster-Analysis-Hierarchical-Clustering.html
+docs/Machine_Learning/04-Unsupervised_Learning_Cluster_Analysis-04-Cluster-Analysis-Gaussian-Mixture-Models.html
+docs/Machine_Learning/05-Hidden_Markov_Models-05-Hidden-Markov-Models-Introduction.html
+docs/Machine_Learning/05-Hidden_Markov_Models-06-Hidden-Markov-Models-Markov-Models.html
+docs/Machine_Learning/05-Hidden_Markov_Models-07-Hidden-Markov-Models-Example-Problems-and-Applications.html
+docs/Machine_Learning/05-Hidden_Markov_Models-08-Hidden-Markov-Models-Hidden-Markov-Models-Discrete-Observations.html
+docs/Machine_Learning/05-Hidden_Markov_Models-09-Hidden-Markov-Models-HMM-Calculations.html
 docs/Mathematics.html
 docs/Mathematics.tpl
 docs/NLP.html

@@ -1,0 +1,964 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/readable.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Nathaniel Dake Blog</title>
+
+<style type = "text/css">
+body {
+  font-family: "sans-serif";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Nathaniel Dake Blog</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../Deep_Learning.html">Deep Learning</a>
+</li>
+        
+<li>
+  <a href="../AI.html">AI</a>
+</li>
+        
+<li>
+  <a href="../Machine_Learning.html">Machine Learning</a>
+</li>
+        
+<li>
+  <a href="../NLP.html">NLP</a>
+</li>
+        
+<li>
+  <a href="../Mathematics.html">Mathematics</a>
+</li>
+        
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
+<li>
+  <a href="../Book_Reviews.html">Book Reviews</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="https://github.com/NathanielDake/nathanieldake.github.io"> source </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="14.-Tensor-Flow-Basics">14. Tensor Flow Basics<a class="anchor-link" href="#14.-Tensor-Flow-Basics">&#182;</a></h1><p>We are now going to cover TensorFlow Basics. It is going to introduce basic variables and functions and expressions, and show you how you can optimize a simple function.</p>
+<p>We can start with our imports.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Okay, so in Tensorflow, <strong>placeholder</strong> is like a <strong>theano variable</strong>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Placeholder - you must specify the type, shape and name are optional</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can now create a vector, but give it no shape or name.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Vector - as stated above, shape and name are optional</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can then do matrix multiplication, similar to what we did in theano. <code>matmul</code> feels a bit more appropriate than <code>dot</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Similar to theano, we need to feed the variables values, since <strong>A</strong> and <strong>v</strong> do not yet have values. In TensorFlow you do the actual work in what is called a <strong>Session</strong>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>                          <span class="c1"># Opening a session</span>
+  <span class="c1"># Run matrix multiplicaton. feed_dict tells what A and v are. np can be used to send values</span>
+  <span class="c1"># Note: v needs to be shape=(5,1), not just shape (5,). This is more like &quot;real&quot; mat mult</span>
+  <span class="n">output</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">A</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)})</span>
+  
+  <span class="c1"># Print the output returned by this session</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">output</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[[-0.4347386 ]
+ [ 0.5099224 ]
+ [ 0.4925214 ]
+ [ 0.43968624]
+ [ 1.0491427 ]] &lt;class &#39;numpy.ndarray&#39;&gt;
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can see above that the output returned is just a numpy array! Now something important to note is that <strong>TensorFlow variables</strong> are like <strong>Theano shared variables</strong>. But, <strong>Theano variables</strong> are like <strong>TensorFlow placeholders</strong>.</p>
+<p>A <strong>tf variable</strong> can be initialized with a numpy array or a tf array, or really anything that can be turned into a tf vector.</p>
+<p>Now, we are going to have a variable we can update using gradient descent.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="c1"># Create TensorFlow Variable, passing in random_normal as its initial value </span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">random_normal</span><span class="p">(</span><span class="n">shape</span><span class="p">))</span>
+<span class="n">x_1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>     <span class="c1"># We can also pass in numpy array</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>                          <span class="c1"># Or we can pass in a scalar </span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>With tensorflow variables, we will need to initialize them.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">init</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">global_variables_initializer</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we can open a session, and run our init.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>          <span class="c1"># Open session</span>
+  <span class="n">out</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>              <span class="c1"># Run init operation</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;out: &#39;</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
+  
+  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;x: &#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">eval</span><span class="p">())</span>                      <span class="c1"># After we run init can print out values of eval </span>
+  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;t: &#39;</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">eval</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>out:  None
+x:  [[0.1909285  0.36801875]
+ [1.0030868  1.1062077 ]]
+t:  0
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Okay, now let's try to find the minimum of a simple cost function like we did in theano.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">u</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="mf">20.0</span><span class="p">)</span>        <span class="c1"># Create a variable, initialize it to 20</span>
+<span class="n">cost</span> <span class="o">=</span> <span class="n">u</span><span class="o">*</span><span class="n">u</span> <span class="o">+</span> <span class="n">u</span> <span class="o">+</span> <span class="mf">1.0</span>         <span class="c1"># Create same cost function that we did in theano example</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>One big difference between theano and tensorflow is that you do not write the updates yourself in tensorflow. Instead you choose and optimizer (tensorflow has a bunch) that implements the algorithm you want. For example, <code>GradientDescentOptimizer</code> is just regular gradient descent, and if we want a learning rate of 0.3, we can pass it in. Check documentation for more information on params. We then tell it what expression we want to minimize.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_op</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">GradientDescentOptimizer</span><span class="p">(</span><span class="mf">0.3</span><span class="p">)</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, again we will initialize our variables and then open our session. Oddly enough, while the weight update is automated, the loop itself is not. So we can just call <code>train_op</code> until convergence. This is useful regardless, since it allows us to track the cost function.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">init</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">global_variables_initializer</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span> 
+  <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">):</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">train_op</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;i = </span><span class="si">%d</span><span class="s2">, cost = </span><span class="si">%.3f</span><span class="s2">, u = </span><span class="si">%.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cost</span><span class="o">.</span><span class="n">eval</span><span class="p">(),</span> <span class="n">u</span><span class="o">.</span><span class="n">eval</span><span class="p">()))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>i = 0, cost = 67.990, u = 7.700
+i = 1, cost = 11.508, u = 2.780
+i = 2, cost = 2.471, u = 0.812
+i = 3, cost = 1.025, u = 0.025
+i = 4, cost = 0.794, u = -0.290
+i = 5, cost = 0.757, u = -0.416
+i = 6, cost = 0.751, u = -0.466
+i = 7, cost = 0.750, u = -0.487
+i = 8, cost = 0.750, u = -0.495
+i = 9, cost = 0.750, u = -0.498
+i = 10, cost = 0.750, u = -0.499
+i = 11, cost = 0.750, u = -0.500
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p><br></p>
+<h1 id="2.-TensorFlow:-Neural-Network">2. TensorFlow: Neural Network<a class="anchor-link" href="#2.-TensorFlow:-Neural-Network">&#182;</a></h1><p>We are now going to create a neural network in tensorflow. We can start with our usual imports.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>        <span class="c1"># Pulling in so that we can plot the log-likelihood</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">util</span> <span class="k">import</span> <span class="n">get_normalized_data</span><span class="p">,</span> <span class="n">y2indicator</span> <span class="c1"># Util to get data and create ind matrix</span>
+
+<span class="c1"># Seaborn Plot Styling</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s2">&quot;husl&quot;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;poster&quot;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can also use the same error rate calculation from the theano walkthrough.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">error_rate</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+  <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">p</span> <span class="o">!=</span> <span class="n">t</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>And now we can create our main function!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="sd">&quot;&quot;&quot;------------- Step 1: Get our data and define the usual variables ------------&quot;&quot;&quot;</span>
+  <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">get_normalized_data</span><span class="p">()</span>
+  
+  <span class="n">max_iter</span> <span class="o">=</span> <span class="mi">20</span>
+  <span class="n">print_period</span> <span class="o">=</span> <span class="mi">10</span>
+  
+  <span class="n">lr</span> <span class="o">=</span> <span class="mf">0.00004</span>
+  <span class="n">reg</span> <span class="o">=</span> <span class="mf">0.01</span>
+  
+  <span class="n">Xtrain</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="o">-</span><span class="mi">1000</span><span class="p">,]</span>
+  <span class="n">Ytrain</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[:</span><span class="o">-</span><span class="mi">1000</span><span class="p">]</span>
+  <span class="n">Xtest</span>  <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="o">-</span><span class="mi">1000</span><span class="p">:,]</span>
+  <span class="n">Ytest</span>  <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="o">-</span><span class="mi">1000</span><span class="p">:]</span>
+  <span class="n">Ytrain_ind</span> <span class="o">=</span> <span class="n">y2indicator</span><span class="p">(</span><span class="n">Ytrain</span><span class="p">)</span>
+  <span class="n">Ytest_ind</span> <span class="o">=</span> <span class="n">y2indicator</span><span class="p">(</span><span class="n">Ytest</span><span class="p">)</span>
+
+  <span class="n">N</span><span class="p">,</span> <span class="n">D</span> <span class="o">=</span> <span class="n">Xtrain</span><span class="o">.</span><span class="n">shape</span>
+  <span class="n">batch_sz</span> <span class="o">=</span> <span class="mi">500</span>
+  <span class="n">n_batches</span> <span class="o">=</span> <span class="n">N</span> <span class="o">//</span> <span class="n">batch_sz</span>
+
+  <span class="n">M1</span> <span class="o">=</span> <span class="mi">300</span>   <span class="c1"># 300 hidden units in first layer </span>
+  <span class="n">M2</span> <span class="o">=</span> <span class="mi">100</span>   <span class="c1"># 100 hidden units in second layer</span>
+  <span class="n">K</span> <span class="o">=</span> <span class="mi">10</span>    <span class="c1"># 10 classes </span>
+  <span class="n">W1_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">M1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">28</span>
+  <span class="n">b1_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M1</span><span class="p">)</span>
+  <span class="n">W2_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">M1</span><span class="p">)</span>
+  <span class="n">b2_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M2</span><span class="p">)</span>
+  <span class="n">W3_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">M2</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">M2</span><span class="p">)</span>   <span class="c1"># For TensorFlow we are going to </span>
+  <span class="n">b3_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">K</span><span class="p">)</span>                            <span class="c1"># add another hidden layer to our nn</span>
+  
+  <span class="sd">&quot;&quot;&quot;------------- Step 2: Define TensorFlow variables and expressions ---------------&quot;&quot;&quot;</span>
+  <span class="c1"># Define Variables and expressions</span>
+  <span class="n">X</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">D</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">)</span>
+  <span class="n">T</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;T&#39;</span><span class="p">)</span>
+  <span class="n">W1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">W1_init</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+  <span class="n">b1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">b1_init</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+  <span class="n">W2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">W2_init</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+  <span class="n">b2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">b2_init</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+  <span class="n">W3</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">W3_init</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+  <span class="n">b3</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">b3_init</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+  
+  <span class="c1"># Define the model using tensorflow functions</span>
+  <span class="n">Z1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">W1</span><span class="p">)</span> <span class="o">+</span> <span class="n">b1</span> <span class="p">)</span>           <span class="c1"># 1st hidden layer output</span>
+  <span class="n">Z2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">Z1</span><span class="p">,</span> <span class="n">W2</span><span class="p">)</span> <span class="o">+</span> <span class="n">b2</span> <span class="p">)</span>          <span class="c1"># 2nd hidden layer output</span>
+  <span class="n">Yish</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">Z2</span><span class="p">,</span> <span class="n">W3</span><span class="p">)</span> <span class="o">+</span> <span class="n">b3</span> 
+  
+  <span class="c1"># Note: called Yish above because it is not really Y. It is just the matrix mutliplication</span>
+  <span class="c1"># of Z2 and W3 plus b3, without doing the softmax. This is because the softmax is included</span>
+  <span class="c1"># in the cost calculation for some reason. </span>
+  
+  <span class="c1"># softmax_cross_entropy_with_logits take in the &quot;logits&quot;</span>
+  <span class="c1"># If you wanted to know the actual output of the neural net,</span>
+  <span class="c1"># you could pass &quot;Yish&quot; into tf.nn.softmax(logits)</span>
+  <span class="n">cost</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">logits</span><span class="o">=</span><span class="n">Yish</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">T</span><span class="p">))</span>
+  
+  <span class="c1"># Now we need our train and prediction functions. </span>
+  <span class="c1"># We choose the optimizer but don&#39;t implement the algorithm ourselves</span>
+  <span class="c1"># Let&#39;s go with RMSprop, since we just learned about it. It includes momentum!</span>
+  <span class="n">train_op</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">RMSPropOptimizer</span><span class="p">(</span><span class="n">lr</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="mf">0.99</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span>
+  
+  <span class="c1"># Used to calculate the error rate</span>
+  <span class="n">predict_op</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">Yish</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+  
+  <span class="n">costs</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">init</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">global_variables_initializer</span><span class="p">()</span>      <span class="c1"># Initialize variables </span>
+  <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>                 <span class="c1"># Start session</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>                           <span class="c1"># Run init function</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_iter</span><span class="p">):</span>                   <span class="c1"># Usual for loop</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_batches</span><span class="p">):</span>
+            <span class="n">Xbatch</span> <span class="o">=</span> <span class="n">Xtrain</span><span class="p">[</span><span class="n">j</span><span class="o">*</span><span class="n">batch_sz</span><span class="p">:(</span><span class="n">j</span><span class="o">*</span><span class="n">batch_sz</span> <span class="o">+</span> <span class="n">batch_sz</span><span class="p">),]</span>
+            <span class="n">Ybatch</span> <span class="o">=</span> <span class="n">Ytrain_ind</span><span class="p">[</span><span class="n">j</span><span class="o">*</span><span class="n">batch_sz</span><span class="p">:(</span><span class="n">j</span><span class="o">*</span><span class="n">batch_sz</span> <span class="o">+</span> <span class="n">batch_sz</span><span class="p">),]</span>
+            
+            <span class="c1"># Theano we just call function, Tensorflow we call session to run function</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">train_op</span><span class="p">,</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">X</span><span class="p">:</span> <span class="n">Xbatch</span><span class="p">,</span> <span class="n">T</span><span class="p">:</span> <span class="n">Ybatch</span><span class="p">})</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="o">%</span> <span class="n">print_period</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+              <span class="n">test_cost</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cost</span><span class="p">,</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">X</span><span class="p">:</span> <span class="n">Xtest</span><span class="p">,</span> <span class="n">T</span><span class="p">:</span> <span class="n">Ytest_ind</span><span class="p">})</span>
+              <span class="n">prediction</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">predict_op</span><span class="p">,</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">X</span><span class="p">:</span> <span class="n">Xtest</span><span class="p">})</span>
+              <span class="n">err</span> <span class="o">=</span> <span class="n">error_rate</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">Ytest</span><span class="p">)</span>
+              <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cost / err at iteration i=</span><span class="si">%d</span><span class="s2">, j=</span><span class="si">%d</span><span class="s2">: </span><span class="si">%.3f</span><span class="s2"> / </span><span class="si">%.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">test_cost</span><span class="p">,</span> <span class="n">err</span><span class="p">))</span>
+              <span class="n">costs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_cost</span><span class="p">)</span>
+              
+  <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>        
+  <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">costs</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+            
+            
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Reading in and transforming data...
+Cost / err at iteration i=0, j=0: 2377.992 / 0.915
+Cost / err at iteration i=0, j=10: 1580.701 / 0.358
+Cost / err at iteration i=0, j=20: 899.760 / 0.233
+Cost / err at iteration i=0, j=30: 607.762 / 0.161
+Cost / err at iteration i=0, j=40: 492.200 / 0.146
+Cost / err at iteration i=0, j=50: 429.369 / 0.122
+Cost / err at iteration i=0, j=60: 382.317 / 0.110
+Cost / err at iteration i=0, j=70: 363.119 / 0.104
+Cost / err at iteration i=0, j=80: 339.043 / 0.096
+Cost / err at iteration i=1, j=0: 332.146 / 0.097
+Cost / err at iteration i=1, j=10: 308.637 / 0.091
+Cost / err at iteration i=1, j=20: 294.324 / 0.085
+Cost / err at iteration i=1, j=30: 277.907 / 0.077
+Cost / err at iteration i=1, j=40: 265.106 / 0.075
+Cost / err at iteration i=1, j=50: 262.576 / 0.071
+Cost / err at iteration i=1, j=60: 250.367 / 0.076
+Cost / err at iteration i=1, j=70: 246.810 / 0.067
+Cost / err at iteration i=1, j=80: 239.462 / 0.068
+Cost / err at iteration i=2, j=0: 237.938 / 0.068
+Cost / err at iteration i=2, j=10: 231.635 / 0.062
+Cost / err at iteration i=2, j=20: 224.735 / 0.063
+Cost / err at iteration i=2, j=30: 217.435 / 0.059
+Cost / err at iteration i=2, j=40: 208.233 / 0.058
+Cost / err at iteration i=2, j=50: 207.137 / 0.053
+Cost / err at iteration i=2, j=60: 197.169 / 0.057
+Cost / err at iteration i=2, j=70: 197.700 / 0.053
+Cost / err at iteration i=2, j=80: 198.244 / 0.052
+Cost / err at iteration i=3, j=0: 198.480 / 0.053
+Cost / err at iteration i=3, j=10: 201.338 / 0.052
+Cost / err at iteration i=3, j=20: 194.644 / 0.056
+Cost / err at iteration i=3, j=30: 186.661 / 0.050
+Cost / err at iteration i=3, j=40: 178.027 / 0.049
+Cost / err at iteration i=3, j=50: 179.487 / 0.050
+Cost / err at iteration i=3, j=60: 169.187 / 0.045
+Cost / err at iteration i=3, j=70: 173.373 / 0.049
+Cost / err at iteration i=3, j=80: 170.823 / 0.044
+Cost / err at iteration i=4, j=0: 171.323 / 0.044
+Cost / err at iteration i=4, j=10: 176.780 / 0.048
+Cost / err at iteration i=4, j=20: 168.316 / 0.044
+Cost / err at iteration i=4, j=30: 170.296 / 0.046
+Cost / err at iteration i=4, j=40: 164.295 / 0.045
+Cost / err at iteration i=4, j=50: 165.945 / 0.042
+Cost / err at iteration i=4, j=60: 154.873 / 0.041
+Cost / err at iteration i=4, j=70: 161.653 / 0.044
+Cost / err at iteration i=4, j=80: 156.672 / 0.043
+Cost / err at iteration i=5, j=0: 157.078 / 0.043
+Cost / err at iteration i=5, j=10: 162.809 / 0.043
+Cost / err at iteration i=5, j=20: 153.625 / 0.039
+Cost / err at iteration i=5, j=30: 159.543 / 0.037
+Cost / err at iteration i=5, j=40: 154.257 / 0.041
+Cost / err at iteration i=5, j=50: 155.760 / 0.042
+Cost / err at iteration i=5, j=60: 144.425 / 0.036
+Cost / err at iteration i=5, j=70: 151.085 / 0.038
+Cost / err at iteration i=5, j=80: 149.526 / 0.034
+Cost / err at iteration i=6, j=0: 150.336 / 0.036
+Cost / err at iteration i=6, j=10: 154.673 / 0.038
+Cost / err at iteration i=6, j=20: 147.732 / 0.037
+Cost / err at iteration i=6, j=30: 156.231 / 0.034
+Cost / err at iteration i=6, j=40: 151.054 / 0.041
+Cost / err at iteration i=6, j=50: 151.366 / 0.037
+Cost / err at iteration i=6, j=60: 139.566 / 0.035
+Cost / err at iteration i=6, j=70: 145.670 / 0.033
+Cost / err at iteration i=6, j=80: 146.704 / 0.032
+Cost / err at iteration i=7, j=0: 147.762 / 0.032
+Cost / err at iteration i=7, j=10: 149.364 / 0.035
+Cost / err at iteration i=7, j=20: 142.968 / 0.033
+Cost / err at iteration i=7, j=30: 154.572 / 0.035
+Cost / err at iteration i=7, j=40: 149.902 / 0.038
+Cost / err at iteration i=7, j=50: 150.078 / 0.038
+Cost / err at iteration i=7, j=60: 138.088 / 0.032
+Cost / err at iteration i=7, j=70: 140.942 / 0.034
+Cost / err at iteration i=7, j=80: 146.252 / 0.033
+Cost / err at iteration i=8, j=0: 148.250 / 0.034
+Cost / err at iteration i=8, j=10: 148.050 / 0.032
+Cost / err at iteration i=8, j=20: 141.994 / 0.030
+Cost / err at iteration i=8, j=30: 156.973 / 0.035
+Cost / err at iteration i=8, j=40: 151.744 / 0.038
+Cost / err at iteration i=8, j=50: 151.797 / 0.037
+Cost / err at iteration i=8, j=60: 141.103 / 0.033
+Cost / err at iteration i=8, j=70: 141.099 / 0.031
+Cost / err at iteration i=8, j=80: 147.255 / 0.033
+Cost / err at iteration i=9, j=0: 149.857 / 0.033
+Cost / err at iteration i=9, j=10: 148.180 / 0.031
+Cost / err at iteration i=9, j=20: 142.375 / 0.031
+Cost / err at iteration i=9, j=30: 159.417 / 0.034
+Cost / err at iteration i=9, j=40: 154.496 / 0.039
+Cost / err at iteration i=9, j=50: 154.557 / 0.036
+Cost / err at iteration i=9, j=60: 144.599 / 0.034
+Cost / err at iteration i=9, j=70: 142.154 / 0.032
+Cost / err at iteration i=9, j=80: 149.696 / 0.032
+Cost / err at iteration i=10, j=0: 153.326 / 0.034
+Cost / err at iteration i=10, j=10: 150.079 / 0.027
+Cost / err at iteration i=10, j=20: 143.347 / 0.030
+Cost / err at iteration i=10, j=30: 160.333 / 0.033
+Cost / err at iteration i=10, j=40: 158.118 / 0.036
+Cost / err at iteration i=10, j=50: 158.516 / 0.035
+Cost / err at iteration i=10, j=60: 150.110 / 0.035
+Cost / err at iteration i=10, j=70: 144.167 / 0.033
+Cost / err at iteration i=10, j=80: 152.761 / 0.033
+Cost / err at iteration i=11, j=0: 157.007 / 0.034
+Cost / err at iteration i=11, j=10: 152.156 / 0.026
+Cost / err at iteration i=11, j=20: 146.377 / 0.030
+Cost / err at iteration i=11, j=30: 163.497 / 0.030
+Cost / err at iteration i=11, j=40: 164.000 / 0.034
+Cost / err at iteration i=11, j=50: 159.997 / 0.034
+Cost / err at iteration i=11, j=60: 152.331 / 0.037
+Cost / err at iteration i=11, j=70: 146.288 / 0.033
+Cost / err at iteration i=11, j=80: 151.482 / 0.033
+Cost / err at iteration i=12, j=0: 156.947 / 0.034
+Cost / err at iteration i=12, j=10: 156.475 / 0.027
+Cost / err at iteration i=12, j=20: 149.089 / 0.031
+Cost / err at iteration i=12, j=30: 165.447 / 0.031
+Cost / err at iteration i=12, j=40: 168.512 / 0.034
+Cost / err at iteration i=12, j=50: 163.669 / 0.033
+Cost / err at iteration i=12, j=60: 155.995 / 0.037
+Cost / err at iteration i=12, j=70: 149.282 / 0.034
+Cost / err at iteration i=12, j=80: 152.937 / 0.031
+Cost / err at iteration i=13, j=0: 158.655 / 0.034
+Cost / err at iteration i=13, j=10: 161.237 / 0.029
+Cost / err at iteration i=13, j=20: 152.915 / 0.032
+Cost / err at iteration i=13, j=30: 169.678 / 0.034
+Cost / err at iteration i=13, j=40: 175.407 / 0.037
+Cost / err at iteration i=13, j=50: 169.002 / 0.035
+Cost / err at iteration i=13, j=60: 161.081 / 0.035
+Cost / err at iteration i=13, j=70: 155.246 / 0.031
+Cost / err at iteration i=13, j=80: 156.768 / 0.031
+Cost / err at iteration i=14, j=0: 161.611 / 0.033
+Cost / err at iteration i=14, j=10: 165.174 / 0.030
+Cost / err at iteration i=14, j=20: 154.571 / 0.030
+Cost / err at iteration i=14, j=30: 170.587 / 0.031
+Cost / err at iteration i=14, j=40: 181.405 / 0.038
+Cost / err at iteration i=14, j=50: 175.270 / 0.036
+Cost / err at iteration i=14, j=60: 167.391 / 0.035
+Cost / err at iteration i=14, j=70: 162.670 / 0.032
+Cost / err at iteration i=14, j=80: 162.555 / 0.032
+Cost / err at iteration i=15, j=0: 166.955 / 0.032
+Cost / err at iteration i=15, j=10: 171.512 / 0.030
+Cost / err at iteration i=15, j=20: 159.807 / 0.028
+Cost / err at iteration i=15, j=30: 174.853 / 0.029
+Cost / err at iteration i=15, j=40: 190.530 / 0.039
+Cost / err at iteration i=15, j=50: 183.269 / 0.036
+Cost / err at iteration i=15, j=60: 174.226 / 0.035
+Cost / err at iteration i=15, j=70: 169.026 / 0.030
+Cost / err at iteration i=15, j=80: 168.624 / 0.032
+Cost / err at iteration i=16, j=0: 172.216 / 0.031
+Cost / err at iteration i=16, j=10: 177.128 / 0.031
+Cost / err at iteration i=16, j=20: 164.209 / 0.027
+Cost / err at iteration i=16, j=30: 179.276 / 0.028
+Cost / err at iteration i=16, j=40: 196.415 / 0.035
+Cost / err at iteration i=16, j=50: 189.817 / 0.037
+Cost / err at iteration i=16, j=60: 181.795 / 0.033
+Cost / err at iteration i=16, j=70: 178.305 / 0.030
+Cost / err at iteration i=16, j=80: 177.308 / 0.031
+Cost / err at iteration i=17, j=0: 179.851 / 0.031
+Cost / err at iteration i=17, j=10: 186.060 / 0.032
+Cost / err at iteration i=17, j=20: 170.839 / 0.028
+Cost / err at iteration i=17, j=30: 185.961 / 0.029
+Cost / err at iteration i=17, j=40: 201.099 / 0.034
+Cost / err at iteration i=17, j=50: 197.416 / 0.035
+Cost / err at iteration i=17, j=60: 186.098 / 0.030
+Cost / err at iteration i=17, j=70: 183.531 / 0.031
+Cost / err at iteration i=17, j=80: 187.359 / 0.030
+Cost / err at iteration i=18, j=0: 186.930 / 0.029
+Cost / err at iteration i=18, j=10: 198.604 / 0.033
+Cost / err at iteration i=18, j=20: 178.906 / 0.025
+Cost / err at iteration i=18, j=30: 195.487 / 0.025
+Cost / err at iteration i=18, j=40: 209.658 / 0.033
+Cost / err at iteration i=18, j=50: 206.294 / 0.036
+Cost / err at iteration i=18, j=60: 196.687 / 0.032
+Cost / err at iteration i=18, j=70: 188.350 / 0.027
+Cost / err at iteration i=18, j=80: 187.418 / 0.028
+Cost / err at iteration i=19, j=0: 187.155 / 0.028
+Cost / err at iteration i=19, j=10: 210.489 / 0.030
+Cost / err at iteration i=19, j=20: 193.358 / 0.023
+Cost / err at iteration i=19, j=30: 203.273 / 0.031
+Cost / err at iteration i=19, j=40: 213.058 / 0.034
+Cost / err at iteration i=19, j=50: 234.467 / 0.041
+Cost / err at iteration i=19, j=60: 219.604 / 0.031
+Cost / err at iteration i=19, j=70: 221.491 / 0.030
+Cost / err at iteration i=19, j=80: 223.441 / 0.029
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<p><br></p>
+<h1 id="3.-TensorFlow---Appendix">3. TensorFlow - Appendix<a class="anchor-link" href="#3.-TensorFlow---Appendix">&#182;</a></h1><p>We are going to quickly now touch on a few of the concepts that TensorFlow will utilize. First we can talk about the <strong>graph</strong>.</p>
+<p><br></p>
+<h3 id="3.1-Graph">3.1 Graph<a class="anchor-link" href="#3.1-Graph">&#182;</a></h3><p>A graph is a useful construct in deep learning because a neural network is a special case of a graph. Recall that a graph is just a set of nodes and edges. In deep learning, each node represents some value, or computations on other values.</p>
+<p><img src="https://drive.google.com/uc?id=1K2nb8FEyzpmgTyo3rBVLUmv0L9-NEM-s" width="500"></p>
+<p>So, why do we need a graph? Well, we have seen that backpropagation is very hard. It is NOT something we would want to have to write manually. Even with only 1 hidden layer the equations are difficult to derive, now imagine trying to do that for 100 hidden layers. However, we know that differentiation follows some very basic rules. For example, we know that the partial derivative of E with respect to C is 1, $\frac{\partial d}{\partial C} = 1$, and it does not depend on $D$ at all. So the edges of a graph tell us which way to calculate the derivatives.</p>
+<p><img src="https://drive.google.com/uc?id=191XrLB6GiUI2M0QV5yV3sG6bjscXQsEP" width="500"></p>
+<p>You may also recall that in the deep learning notebook, we talked about how there is a recursiveness to backpropagation. No matter what layer you are in, derivative only depends on some error term that was calculated at the layer ahead, and is the same operation each time. Keep in mind that a tree is just a special case of a graph.</p>
+<p><br></p>
+<h3 id="3.2-Sessions">3.2 Sessions<a class="anchor-link" href="#3.2-Sessions">&#182;</a></h3><p>A session is a tensorflow specific construct. We know that google is the king of distributed systems. The key point when we talked about graphs was that none of the variables contained actual numbers (and the numbers you want to plug in may be too big to fit on just one machine).</p>
+<p>So, if we define C = A + B, we don't know what number C should be unless we provide the numbers for A and B as well. All we know is <em>how</em> to calculate C. So, in other words, the actual values for A and B have not yet been loaded into tensorflows "memory" (memory is being used loosely here). Why is this important? Well, if we are doing computations on the CPU, then we will load our data (arrays) into the main RAM. However, if we are doing computations on the GPU then we will load data into GPU RAM, which is separate. In the google world, they distribute computation across multiple GPUs, so sometimes data is too big to even fit on 1 GPU. So, a session allows you to specify where you are going to do your computation, so that when you pass in actual numbers, they go to the right place and enough space is allocated for them to exist.</p>
+<p>This also explains why we need to <strong>initialize</strong> variables, and pass in data through <strong>feed_dict</strong>. It is like telling tensorflow: "here is the value you are going to use for A, please copy it into your memory. Here is the value you are going to use for B, please copy it into your memory. Now perform the computation we asked for."</p>
+
+</div>
+</div>
+</div>
+<hr>
+&copy; 2018 Nathaniel Dake
+
+</div>
+</div>
+</body>
+</html>
