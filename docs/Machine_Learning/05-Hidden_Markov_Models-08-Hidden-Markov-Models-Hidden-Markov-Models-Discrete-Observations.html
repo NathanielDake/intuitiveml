@@ -554,10 +554,64 @@ return states</code></pre>
 <p>The <em><strong>Baum-Welch</strong></em> algorithm is named after the mathematicians who invented it, and it relies on the forward-backward algorithm that we learned about earlier. In fact, the first step to completing the Baum-Welch update, is to first compute the forward and backward variables, $\alpha$ and $\beta$.</p>
 <h2 id="7.1-New-Variable-$\rightarrow-\phi$">7.1 New Variable $\rightarrow \phi$<a class="anchor-link" href="#7.1-New-Variable-$\rightarrow-\phi$">&#182;</a></h2><p>Once we have those variables, we can compute a new quantity called $\phi$. It has three indices, $t,i,j$:</p>
 <p>$$\phi(t, i ,j) = p\big(z(t)=i, z(t+1)=j \mid x\big)$$</p>
-<p>Which simply means <em>being in the state $i$ at time $t$, transitioning to state $j$ at time $t + 1$, given the observation sequence</em>. This can be seen visually below:</p>
+<blockquote><p>Which simply represents the  <em>probability of being in the state $i$ at time $t$, transitioning to state $j$ at time $t + 1$, given the observation sequence</em>. This can be seen visually below:</p>
+</blockquote>
 <p><img src="https://drive.google.com/uc?id=1wlFzujos5h8KHtZit2QldjY2iOl2NtWN" width="350"></p>
 <p>The full definition of $\phi$ is as follows:</p>
 <p>$$\phi(t, i ,j) = \frac{\alpha(t,i)A(i,j)B\big(j, x(t+1)\big)\beta(t+1, j)}{\sum_{i=1}^M \sum_{j=1}^M \alpha(t,i)A(i,j)B\big(j, x(t+1)\big)\beta(t+1, j)}$$</p>
+<p>Now, at this point we have introduce yet another new variable, and our equation is dependent upon several others, in additions to states, symbols, and time steps. To help clarify all of this, the following summary has been created:</p>
+<h4 id="Forward-Variable:-$\alpha$">Forward Variable: $\alpha$<a class="anchor-link" href="#Forward-Variable:-$\alpha$">&#182;</a></h4><blockquote><ul>
+<li><strong>Description</strong>: It represents the joint probability of seeing the sequence you have observed up until now and being in a specific state at that time.</li>
+<li><strong>Probability Representation</strong>: $$\alpha(1, i) = p \big(x(1), z(1)=i\big)$$</li>
+<li><strong>Equation</strong></li>
+</ul>
+</blockquote>
+<h4 id="Backward-Variable:-$\beta$">Backward Variable: $\beta$<a class="anchor-link" href="#Backward-Variable:-$\beta$">&#182;</a></h4><blockquote><ul>
+<li><strong>Description</strong>: Given you are currently in state $i$, what is the the probability that the rest of the sequence you had observed plays out?</li>
+<li><strong>Probability Representation</strong>: $$\beta(t, i) = p\big(x(t+1), ... x(T) \mid z(t)=i\big)$$</li>
+</ul>
+</blockquote>
+<h4 id="Transition-Matrix:-$A$">Transition Matrix: $A$<a class="anchor-link" href="#Transition-Matrix:-$A$">&#182;</a></h4><blockquote><ul>
+<li><strong>Description</strong>: The probability of going from state $i$ to state $j$</li>
+<li><strong>Probability Representation</strong>: $$A(i,j) = p\big(z(t)=j|z(t-1)=i\big)$$</li>
+</ul>
+</blockquote>
+<h4 id="Observation/Emission-Matrix:-$B$">Observation/Emission Matrix: $B$<a class="anchor-link" href="#Observation/Emission-Matrix:-$B$">&#182;</a></h4><blockquote><ul>
+<li><strong>Description</strong>: The probability of seeing symbol $k$ from state $j$</li>
+<li><strong>Probability Representation</strong>: $$B(j,k) = p\big(x(t)=k|z(t)=j\big)$$</li>
+</ul>
+</blockquote>
+<h4 id="New-Variable:-$\phi$">New Variable: $\phi$<a class="anchor-link" href="#New-Variable:-$\phi$">&#182;</a></h4><blockquote><ul>
+<li><strong>Description</strong>: Probability of being in the state $i$ at time $t$, transitioning to state $j$ at time $t + 1$, given the observation sequence</li>
+<li><strong>Probability Representation</strong>: $$\phi(t, i ,j) = p\big(z(t)=i, z(t+1)=j \mid x\big)$$</li>
+<li><strong>Equation</strong>: $$\phi(t, i ,j) = \frac{\alpha(t,i)A(i,j)B\big(j, x(t+1)\big)\beta(t+1, j)}{\sum_{i=1}^M \sum_{j=1}^M \alpha(t,i)A(i,j)B\big(j, x(t+1)\big)\beta(t+1, j)}$$</li>
+<li><strong>Intuition</strong>: If we look at the above equation for $\phi$ we can see that the numerator and denominator are the same, except for the summations over $i$ and $j$ in the denominator. And if we dissect the numerator, we see the following: 
+$$\scriptsize
+\begin{pmatrix}
+  \text{Probability of seeing the} \\
+  \text{sequence you have observed} \\
+  \text{up until now and being in a }\\
+  \text{specific state at that time.}
+\end{pmatrix} *
+\begin{pmatrix}
+  \text{The probability of} \\
+  \text{going from state $i$} \\
+  \text{to state $j$} 
+\end{pmatrix} *
+\begin{pmatrix}
+  \text{The probability of} \\
+  \text{seeing symbol $k$ } \\
+  \text{from state $j$}
+\end{pmatrix} *
+\begin{pmatrix}
+  \text{The probability that the } \\
+  \text{rest of the sequence observed } \\
+  \text{plays out, given you are }\\
+  \text{currently in state $i$.}
+\end{pmatrix}
+$$</li>
+</ul>
+</blockquote>
 <h2 id="7.2-Another-New-Variable-$\rightarrow-\gamma$">7.2 Another New Variable $\rightarrow \gamma$<a class="anchor-link" href="#7.2-Another-New-Variable-$\rightarrow-\gamma$">&#182;</a></h2><p>Once we have $\phi$ we can define another variable, $\gamma$, which depends only on $t$ and $i$, and sum over $j$ which is all of the states:</p>
 <p>$$\gamma(t,i) = \sum_{j=1}^M \phi(t,i,j)$$</p>
 <p>So, $\gamma$ is just the $\phi$ probability, marginalized over $j$. In other words:</p>

@@ -519,6 +519,82 @@ Let's go through an example; suppose we are working with a dimensionality of 4. 
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
+<span class="kn">import</span> <span class="nn">theano</span>
+<span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="k">as</span> <span class="nn">T</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">rnn_util</span> <span class="k">import</span> <span class="n">init_weight</span><span class="p">,</span> <span class="n">all_parity_pairs</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="k">import</span> <span class="n">shuffle</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&quot;&quot;&quot;Create MLP (Multi Layer Perceptron)&quot;&quot;&quot;</span>
+<span class="k">class</span> <span class="nc">HiddenLayer</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">,</span> <span class="n">an_id</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">M1</span> <span class="o">=</span> <span class="n">M1</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">M2</span> <span class="o">=</span> <span class="n">M2</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">an_id</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M2</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">W</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="s1">&#39;W_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s1">&#39;b</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">]</span>
+    
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">T</span><span class="o">.</span><span class="n">nnet</span><span class="p">(</span><span class="n">relu</span><span class="p">)(</span><span class="n">X</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
+  
+<span class="k">class</span> <span class="nc">ANN</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hidden_layer_sizes</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layer_sizes</span> <span class="o">=</span> <span class="n">hidden_layer_sizes</span>
+    
+  <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">0.99</span><span class="p">,</span> 
+    <span class="n">reg</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">batch_sz</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">print_period</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">show_fig</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+    
+    <span class="n">N</span><span class="p">,</span> <span class="n">D</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">Y</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layers</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">M1</span> <span class="o">=</span> <span class="n">D</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span> 
+    <span class="k">for</span> <span class="n">M2</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layer_sizes</span><span class="p">:</span>
+      <span class="n">h</span> <span class="o">=</span> <span class="n">HiddenLayer</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">M2</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+      <span class="n">M1</span> <span class="o">=</span> <span class="n">M2</span>
+      <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="c1"># These are for the logistic regression layer</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">K</span><span class="p">)</span>
+    <span class="c1"># Need to make these theano shared variables</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">W</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="s1">&#39;W_logreg&#39;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s1">&#39;b_logreg&#39;</span><span class="p">)</span>
+    
+    <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layers</span><span class="p">:</span> 
+      
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
 <hr>
 &copy; 2018 Nathaniel Dake
 
