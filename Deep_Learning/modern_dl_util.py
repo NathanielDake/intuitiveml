@@ -87,9 +87,9 @@ def get_normalized_data():
     data = df.as_matrix().astype(np.float32)
     np.random.shuffle(data)
     X = data[:, 1:]
-    mu = X.mean(axis=0)
-    std = X.std(axis=0)
-    np.place(std, std == 0, 1)
+    mu = X.mean(axis=0) # Mean for each column in matrix. This gets the mean intensity for each pixel.
+    std = X.std(axis=0) # STD for each column in matrix. This gets the STD intensity for each pixel.
+    np.place(std, std == 0, 1) # If std is 0, replace with 1. This is done for to avoid divisor issues.
     X = (X - mu) / std # normalize the data
     Y = data[:, 0]
     return X, Y
