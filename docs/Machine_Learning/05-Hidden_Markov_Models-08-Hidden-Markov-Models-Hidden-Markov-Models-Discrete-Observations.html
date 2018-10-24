@@ -562,7 +562,7 @@ return states</code></pre>
 <p>Now, at this point we have introduce yet another new variable, and our equation is dependent upon several others, in additions to states, symbols, and time steps. To help clarify all of this, the following summary has been created:</p>
 <h4 id="Forward-Variable:-$\alpha$">Forward Variable: $\alpha$<a class="anchor-link" href="#Forward-Variable:-$\alpha$">&#182;</a></h4><blockquote><ul>
 <li><strong>Description</strong>: It represents the joint probability of seeing the sequence you have observed up until now and being in a specific state at that time.</li>
-<li><strong>Probability Representation</strong>: $$\alpha(1, i) = p \big(x(1), z(1)=i\big)$$</li>
+<li><strong>Probability Representation</strong>: $$\alpha(t,i) = p\big(x(1),...,x(t), z(t)=i\big)$$</li>
 <li><strong>Equation</strong></li>
 </ul>
 </blockquote>
@@ -584,8 +584,10 @@ return states</code></pre>
 <h4 id="New-Variable:-$\phi$">New Variable: $\phi$<a class="anchor-link" href="#New-Variable:-$\phi$">&#182;</a></h4><blockquote><ul>
 <li><strong>Description</strong>: Probability of being in the state $i$ at time $t$, transitioning to state $j$ at time $t + 1$, given the observation sequence</li>
 <li><strong>Probability Representation</strong>: $$\phi(t, i ,j) = p\big(z(t)=i, z(t+1)=j \mid x\big)$$</li>
-<li><strong>Equation</strong>: $$\phi(t, i ,j) = \frac{\alpha(t,i)A(i,j)B\big(j, x(t+1)\big)\beta(t+1, j)}{\sum_{i=1}^M \sum_{j=1}^M \alpha(t,i)A(i,j)B\big(j, x(t+1)\big)\beta(t+1, j)}$$</li>
-<li><strong>Intuition</strong>: If we look at the above equation for $\phi$ we can see that the numerator and denominator are the same, except for the summations over $i$ and $j$ in the denominator. And if we dissect the numerator, we see the following: 
+<li><strong>Equation</strong>: $$\phi(t, i ,j) = \frac{\alpha(t,i)A(i,j)B\big(j, x(t+1)\big)\beta(t+1, j)}{\sum_{i=1}^M \sum_{j=1}^M \alpha(t,i)A(i,j)B\big(j, x(t+1)\big)\beta(t+1, j)}$$<br>
+<br></li>
+<li><strong>Intuition</strong>: If we look at the above equation for $\phi$ we can see that the numerator and denominator are the same, except for the summations over $i$ and $j$ in the denominator. And if we dissect the numerator, we see the following: <br>
+<br>
 $$\scriptsize
 \begin{pmatrix}
   \text{Probability of seeing the} \\
@@ -609,7 +611,8 @@ $$\scriptsize
   \text{plays out, given you are }\\
   \text{currently in state $i$.}
 \end{pmatrix}
-$$</li>
+$$<br>
+This is then divided by the exact same probability, but normalized so that all possible $i$'s transitioning to all possible $j$'s are accounted for. </li>
 </ul>
 </blockquote>
 <h2 id="7.2-Another-New-Variable-$\rightarrow-\gamma$">7.2 Another New Variable $\rightarrow \gamma$<a class="anchor-link" href="#7.2-Another-New-Variable-$\rightarrow-\gamma$">&#182;</a></h2><p>Once we have $\phi$ we can define another variable, $\gamma$, which depends only on $t$ and $i$, and sum over $j$ which is all of the states:</p>
