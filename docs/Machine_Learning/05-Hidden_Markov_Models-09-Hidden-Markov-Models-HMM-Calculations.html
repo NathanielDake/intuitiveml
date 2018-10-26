@@ -219,13 +219,12 @@ body {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="9.-Hidden-Markov-Model-Calculations">9. Hidden Markov Model Calculations<a class="anchor-link" href="#9.-Hidden-Markov-Model-Calculations">&#182;</a></h1><p>This appendix serves as an accompaniment to hidden markov models, discrete observations. We will go over calculations concerning:</p>
-<blockquote><ol>
+<ol>
 <li><strong>Probability of a Sequence</strong></li>
 <li><strong>Forward-Backward Algorithm</strong></li>
 <li><strong>Viterbi Algorithm</strong></li>
 <li><strong>Baum-Welch Algorithm</strong></li>
 </ol>
-</blockquote>
 
 </div>
 </div>
@@ -262,8 +261,9 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<hr>
 <h1 id="1.-Probability-of-a-Sequence">1. Probability of a Sequence<a class="anchor-link" href="#1.-Probability-of-a-Sequence">&#182;</a></h1><p>We have gone over the equations utilized in determining the probability of a sequence, but we will now solidify that with an actual example. Here is the problem statement:</p>
-<blockquote><p>There is a magician who has two biased coins, <em>coin 1</em> and <em>coin 2</em> that he is flipping. We are trying to determine the probability of observing the following sequence of coin flips:<br>
+<p>There is a magician who has two biased coins, <em>coin 1</em> and <em>coin 2</em> that he is flipping. We are trying to determine the probability of observing the following sequence of coin flips:<br>
 <br>
 $$p\big(HHT \big)$$<br>
 $$p\big( x(1)=H, x(2)=H, x(3)=T \big)$$<br>
@@ -277,7 +277,6 @@ He is also very figity, and tends to switch between coins very often, so his sta
 Finally, the coin 1 is biased towards heads and has a 0.7 probability of being heads, and a 0.3 probability of being tails. Coin 2 is biased towards tails, and has a 0.6 probability of being tails, and a 0.4 probability of being heads. Hence, the observation matrix looks like:<br>
 <img src="https://drive.google.com/uc?id=1aCMvAQ-MFjnOSwBZc7sWz-0f6upXDsLG" width="200">
 <br></p>
-</blockquote>
 <p>We now have all of the information needed to find the probability of the sequence $H,H,T$. Intuitively, we can think about it as follows: We must first take into account the probability that we start in specific state, and from that state we observed heads. We then must account for the probability that from that state we transition to another hidden state and observe heads. And finally, we must take into the account that from the second hidden state we transition to <em>another</em> hidden state and observe tails. Let's look at each part separately.</p>
 <h4 id="1.1-The-probability-of-the-Initial-State">1.1 The probability of the Initial State<a class="anchor-link" href="#1.1-The-probability-of-the-Initial-State">&#182;</a></h4><p>We can write the probability of the initial state and observing heads as:</p>
 <p>$$\pi\big(z(1)\big)p\big(x(1)=1|z(1)\big)$$</p>
@@ -296,7 +295,7 @@ Finally, the coin 1 is biased towards heads and has a 0.7 probability of being h
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[98]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -443,7 +442,7 @@ Total Operations:  40
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[99]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Initial M states, T time steps, and alpha forward variable</span>
@@ -506,7 +505,7 @@ Total Operations:  19
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[100]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Initialize alpha forward variable</span>
@@ -568,7 +567,7 @@ Total Operations:  19
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
-<h1 id="3.3-Viterbi-Algorithm">3.3 Viterbi Algorithm<a class="anchor-link" href="#3.3-Viterbi-Algorithm">&#182;</a></h1><p>So far, the question that we have been asking is: <em>Given a sequence of observed symbols, what is the sequence's probability?</em> Another question that we are likely to want to ask is:</p>
+<h1 id="3.-Viterbi-Algorithm">3. Viterbi Algorithm<a class="anchor-link" href="#3.-Viterbi-Algorithm">&#182;</a></h1><p>So far, the question that we have been asking is: <em>Given a sequence of observed symbols, what is the sequence's probability?</em> Another question that we are likely to want to ask is:</p>
 <blockquote><p>What is the sequence of hidden states, given the observation?</p>
 </blockquote>
 <p>This is where the <em><strong>Viterbi Algorithm</strong></em> comes in; it calculates the most probable hidden states sequence, given the observed sequence, under the current model. Now, we will be sure to highlight that the viterbi algorithm works in a very similar manner to the forward algorithm. Whereas in the Forward Algorithm for each induction step we would take the sum of the current row of $\alpha$ (in effect marginalizing over all states of $z$), we are now going to take the <em>max</em> of the row.</p>
@@ -625,7 +624,7 @@ $$\psi(1,i) = 0$$</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[101]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Initialize variables to zeros matrices</span>
@@ -703,6 +702,7 @@ Hidden State Sequence (by coin label):  [&#39;coin 1&#39;, &#39;coin 2&#39;, &#3
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<hr>
 <h1 id="4.-Baum-Welch-Algorithm">4. Baum-Welch Algorithm<a class="anchor-link" href="#4.-Baum-Welch-Algorithm">&#182;</a></h1><p>Of the 3 previous techniques we have gone through so far, the Baum-Welch Algorithm is by far the most challenging. It used to help us find our <em>transition matrix</em>, $A$, and <em>emission matrix</em>, $B$, when they are not known. We will need to be very careful and ensure to aggresively question our intuitions and what is actually going on under the hood. It begins by performing the forward-backward algorithm.</p>
 <p>We went through the forward algorithm in section 2, but we have not touched on the backward algorithm yet. To jog your memory, the backward algorithm is used to find the <em>backward</em> variable $\beta$, which is defined as:</p>
 <blockquote><p>Given you are currently in state  $i$ , what is the the probability that the rest of the sequence you had observed plays out?</p>
@@ -712,14 +712,14 @@ Hidden State Sequence (by coin label):  [&#39;coin 1&#39;, &#39;coin 2&#39;, &#3
 <p>$$\beta(t, i) = p\big(x(t+1), ... x(T) \mid z(t)=i\big)$$</p>
 <p>And, an <em>induction step</em> that is carried out to time t=1 (or zero based on indexing):</p>
 <p>$$\beta(t, i) = \sum_{j=1}^M A(i,j)B\big(j, x(t+1)\big) \beta(t+1, j)$$</p>
-<h4 id="Calculate-$\alpha$">Calculate $\alpha$<a class="anchor-link" href="#Calculate-$\alpha$">&#182;</a></h4><p>We can begin by calculating our forward variable, $\alpha$, for our magician example:</p>
+<h3 id="4.1-Calculate-Forward-and-Backward-Variables">4.1 Calculate Forward and Backward Variables<a class="anchor-link" href="#4.1-Calculate-Forward-and-Backward-Variables">&#182;</a></h3><h4 id="Calculate-$\alpha$">Calculate $\alpha$<a class="anchor-link" href="#Calculate-$\alpha$">&#182;</a></h4><p>We can begin by calculating our forward variable, $\alpha$, for our magician example:</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[102]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
@@ -741,7 +741,7 @@ Hidden State Sequence (by coin label):  [&#39;coin 1&#39;, &#39;coin 2&#39;, &#3
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[103]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ---- Calculate alpha ----</span>
@@ -778,7 +778,7 @@ Hidden State Sequence (by coin label):  [&#39;coin 1&#39;, &#39;coin 2&#39;, &#3
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[104]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ---- Calculate beta ----</span>
@@ -801,7 +801,7 @@ Hidden State Sequence (by coin label):  [&#39;coin 1&#39;, &#39;coin 2&#39;, &#3
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[105]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Value of Alpha after forward algorithm: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -843,7 +843,7 @@ Value of Beta after Backward algorithm:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Okay, we have now solved for our forward and backward variables, meaning it is time to introduce $\phi$. This is where things can become a bit confusing, so we will trod carefully. $\phi$ is defined as:</p>
+<h3 id="Calculate-$\phi$">Calculate $\phi$<a class="anchor-link" href="#Calculate-$\phi$">&#182;</a></h3><p>Okay, we have now solved for our forward and backward variables, meaning it is time to introduce $\phi$. This is where things can become a bit confusing, so we will trod carefully. $\phi$ is defined as:</p>
 <blockquote><p>Probability of being in the state $i$ at time $t$, transitioning to state $j$ at time $t + 1$, given the observation sequence.</p>
 </blockquote>
 <p>It's exact probality is defined as:</p>
@@ -877,7 +877,7 @@ $\beta(t+1, j)$
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[106]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Probability that at time t = 2 we are in state 1</span>
@@ -937,7 +937,7 @@ $\beta(t+1, j)$
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[107]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># Coin 1, 0 based on indexing</span>
@@ -982,7 +982,7 @@ $\beta(t+1, j)$
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[108]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">normalizing_denominator</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1027,7 +1027,7 @@ $\beta(t+1, j)$
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[109]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">phi_t2_i1_j2</span> <span class="o">=</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">normalizing_denominator</span>
@@ -1068,7 +1068,7 @@ $\beta(t+1, j)$
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[110]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
@@ -1116,7 +1116,7 @@ $\beta(t+1, j)$
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Great, we have found $\phi$ for all values of $t$, $i$, and $j$. This is a good time to introduce the next new variable: $\gamma$. It is defined as:</p>
+<h3 id="Calculate-$\gamma$">Calculate $\gamma$<a class="anchor-link" href="#Calculate-$\gamma$">&#182;</a></h3><p>Great, we have found $\phi$ for all values of $t$, $i$, and $j$. This is a good time to introduce the next new variable: $\gamma$. It is defined as:</p>
 <p>$$\gamma(t,i) = \sum_{j=1}^M \phi(t,i,j)$$</p>
 <p>So, $\gamma$ is just the $\phi$ probability, marginalized over $j$. In other words:</p>
 <p>$$\gamma(t,i) = p \big(z(t) = i \mid x\big)$$</p>
@@ -1128,7 +1128,7 @@ $\beta(t+1, j)$
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[126]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
@@ -1181,7 +1181,7 @@ $\beta(t+1, j)$
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[127]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># marginalize phi over t</span>
@@ -1220,7 +1220,7 @@ $\beta(t+1, j)$
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[128]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># marginalize gamma over t</span>
@@ -1276,7 +1276,7 @@ $$</p>
 $$</p>
 <p>We can see above that the marginalized $\phi$ has rows corresponding to $i$, and columns to $j$, where the entry $i,j$ represents a transition from state $i$ to state $j$.</p>
 <p>For $\gamma$, it is a one dimensional array, where the first entry corresponds to transitioning from state $i = 1$ (coin 1), and the second transitioning from state $i=2$ (coin 2).</p>
-<p>What we can do next is perform our update equation for $A$, which is defined as the expected number of transitions from $i$ to $j$, divided by the number of transitions from $i$:</p>
+<h3 id="Update-$A$">Update $A$<a class="anchor-link" href="#Update-$A$">&#182;</a></h3><p>What we can do next is perform our update equation for $A$, which is defined as the expected number of transitions from $i$ to $j$, divided by the number of transitions from $i$:</p>
 <p>$$A(i,j) = \frac{\sum_{t=1}^{T-1} \phi(t,i,j)}{\sum_{t=1}^{T-1}\gamma(t,i)}$$</p>
 <p>In other words, we want to divide the first row of marginalized $\phi$ (representing transtions from $i = \text{coin 1}$  to $j$, by the first entry in $\gamma$ (representing transitions from $i$). We then repeat the same thing for the second row of marginalized $\phi$, dividing it by the second entry of marginalized $\gamma$. This leaves us with an updated $A$:</p>
 
@@ -1285,7 +1285,7 @@ $$</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[129]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">A_update</span> <span class="o">=</span> <span class="n">phi_marginalized</span>
@@ -1324,25 +1324,145 @@ $$</p>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can be confident that this is a valid distribution, as each row sums to 1. Notice, that it is similar to our original matrix (the ground truth $A$ that we started with). However, it is not the same; why is that? Well, this updated $A$ above was learned from <em>one sequence</em> (heads, heads, tails), that only consisted of 3 coin flips. That is a very small amount of data to learn from. The next steps would be to account for many <em>sequences</em>, ideally of slightly greater length.</p>
+<h3 id="Update-$B$">Update $B$<a class="anchor-link" href="#Update-$B$">&#182;</a></h3><p>The last step remaining is the complete the update for $B$. $B(i,k)$ is just all the $\gamma$'s if $x(t) = k$, divided by all the $\gamma$'s:</p>
+<p>$$B(i,k) = \frac{\sum_{t=1}^{T-1} \gamma(t,i) \; if \; x(t)=k, \; else \; 0}{\sum_{t=1}^{T-1}\gamma(t,i)}$$</p>
+<p>In case this is not clear, remember that:</p>
+<p>$$\gamma(t,i) = p \big(z(t) = i \mid x\big)$$</p>
+<p>And $B$ is representing:</p>
+<p>$$B(i,k) = p\big(x(t)=k|z(t)=i\big)$$</p>
+<p>So, since we have $\gamma$ we want to marginalize out the $t$, and incorporate the observed symbol $k$ in order to get an updated $B$. The most effective way to incorporate the observed symbol $k$ is, during the marginalization of $t$ in $\gamma$, essentially perform a count where the value of $\gamma(t,i)$ is only considered if $k \neq 0$ for that $t$.</p>
+<p>Remember, $\gamma$ is based on our <em>entire observation sequence</em>, while $B$ is utilized for a <em>specific observation</em>. So, we need a way to marginalize out all of the observations in <em>time</em>, and end up with a specific probability of observing each symbol, given the <em>state</em>. Again, this is the definition of $B$! So, what we are saying is:</p>
+<blockquote><p>At each state $i$ in $\gamma$ (each column of $\gamma$), marginalize out the time; however, only include that specific time entry (the row/index of the state column of $\gamma$ we are looking at), if for that time $t$, the $k$ (symbol) that we are currently calculating $B$ for, was observed at the time $t$.</p>
+</blockquote>
+<p>In our case, where $\gamma$ has been solved to be:</p>
+<p>$$\gamma(t, i) = \text{time}\left\{ 
+\overbrace{
+\begin{bmatrix}
+    0.74 &amp; 0.25\\
+    0.43 &amp; 0.56 \\
+    0 &amp; 0 
+\end{bmatrix}}^\text{state i}
+\right.
+$$</p>
+<p>If we were solving for $B(i = 1, k = 1)$ (in other words coin 1 and heads), then then numerator of our update equation would be:</p>
+<p>$$\gamma(1,1) + \gamma(2,1) = 0.74 + 0.43 = 1.17$$</p>
+<p>Both $\gamma$'s are included in the calculation, because for each time $t$ that iterated through in the summation in the numerator ($t=1$ and $t=2$), the observation was $heads$, $k=1$.</p>
+<p>However, if we had been solving for $B(i = 1, k = 2)$, we would have been summing 0 for both time steps, because the observation, heads ($k=1$) would not equal the value of the symbol index, $k = 2$.</p>
+<p>$$\gamma(1,1) + \gamma(2,1) = 0 + 0 = 0$$</p>
+<p>This is a way to perform maximum likelihood estimation in a sense. We are counting the situations where we observe a particular symbol from a particular state, and then dividing by how many times we are in that particular state (to ensure we end up with a valid probability). In other words we are finding:</p>
+<p>$$
+\begin{pmatrix}
+    \text{The probability of} \\
+    \text{observing symbol $k$} \\
+    \text{given you are in state $i$} 
+  \end{pmatrix} = 
+\frac{
+\begin{pmatrix}
+    \text{The number of times we were in state $i$,} \\
+    \text{observed symbol $k$, times the probability} \\
+    \text{of being in state $i$ at that time}
+  \end{pmatrix}
+}
+{
+\begin{pmatrix}
+    \text{Expected number of times} \\
+    \text{we are in state $i$} \\
+  \end{pmatrix}
+}
+$$</p>
+<p>In code we can calculate this as follows:</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[137]:</div>
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">B_update</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">M</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="p">))))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">B_update_numerator</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">M</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="p">))))</span>
 <span class="n">K</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># Observations, 0 is heads, 1 is tails</span>
+
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
-  <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>
+  <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">K</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+      <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="n">k</span><span class="p">:</span>
+        <span class="n">B_update_numerator</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">gamma</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">B_update_numerator</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">0</span> <span class="c1"># Just adding this in for clarity </span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Non-normalized update of B emission matrix: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">B_update_numerator</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Non-normalized update of B emission matrix: 
+ [[1.17940939 0.        ]
+ [0.82059061 0.        ]]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Divide by normalizer</span>
+<span class="n">B_update</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">M</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="p">))))</span>
+<span class="n">B_update</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">B_update_numerator</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">/</span> <span class="n">gamma_marginalized</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">B_update</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">B_update_numerator</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">/</span> <span class="n">gamma_marginalized</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Updated Emission matrix B: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">B_update</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Updated Emission matrix B: 
+ [[1. 0.]
+ [1. 0.]]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>What may seem slightly pecular at first is that fact that we received an emission matrix where the probability of heads is 100%, and the probability of observing tails is 0%. Surely that must be wrong, considering our original $B$ matrix had non zero probabilities for for heads and tails? Yet, on closer inspection it makes a lot of sense. Based on our one, simple/small training sequence, heads was observed twice, and tails was observed on the last time step, which is <em>not</em> factored into the udpate of $B$ (we sum up to $T-1$). Hence, as far as our update equations were concerned, they <em>have never seen a tails emission</em> and the probability must then be 0. Now, this is of course a shortcoming of our example, but never the less we can see how sparsity may come into play if we aren't careful; in other words, zero probabilities being assigned to situations which certainly can occur, due to lack of training data.</p>
+
+</div>
+</div>
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake
