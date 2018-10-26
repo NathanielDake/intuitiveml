@@ -3360,6 +3360,14 @@ div.body {
  background-color: #ffffff;
  background: #ffffff;
 }
+
+/*Test add media query*/
+@media (max-height: 800px) {
+  body {
+    zoom: 85%;
+  }
+} 
+
 body.notebook_app {
  padding: 0;
  background-color: #ffffff;
