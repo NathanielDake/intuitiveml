@@ -9,7 +9,7 @@ from datetime import datetime
 def init_weight(Mi, Mo):
     """Initializes weights so that they are randomly distributed and have
     small enough values to prevent gradient descent from going crazy. 
-    Takes in input size and output size."""
+    Takes in input size and output size. Returns an Mi x Mo matrix."""
     return np.random.randn(Mi, Mo) / np.sqrt(Mi + Mo)
 
 def all_parity_pairs(nbit):
