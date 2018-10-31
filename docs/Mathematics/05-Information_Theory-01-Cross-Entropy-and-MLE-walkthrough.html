@@ -306,7 +306,7 @@ body {
 <p>And, if we let $t_a$ just be represented as $t$, and $\hat{y}_a$ represented as $\hat{y}$:</p>
 <p>$$H(t, \hat{y}) = -\Big[ t log \big(\hat{y}\big) + \big(1 - t\big) log \big(1 - \hat{y} \big) \Big]$$</p>
 <p>And that is the exact definition of the cross entropy cost function that we have encountered numerous times, specifically with logistic regression. Now, keep in mind that the above Cross entropy will only yield an output for <em>one training example</em>. We generally will have <em>many training examples</em>, and want to learn distributions for <em>all of them</em>. In that case, if we have $n$ training examples, we can determine the <em>total cross entropy</em> via:</p>
-<p>$$\text{Total Cross Entropy $\forall$ examples}\sum_n^N  -\Big[ t_n log \big(\hat{y}_n\big) + \big(1 - t_n\big) log \big(1 - \hat{y}_n \big) \Big]$$</p>
+<p>$$\text{Total Cross Entropy $\forall$ examples} = - \sum_n^N \Big[ t_n log \big(\hat{y}_n\big) + \big(1 - t_n\big) log \big(1 - \hat{y}_n \big) \Big]$$</p>
 <p>We can quickly see why this is such a good cost function, specifically in the case of binary classification, with the following examples:</p>
 <p>$$\text{Cross Entropy}(t=1, y=1) \rightarrow = 0$$</p>
 <p>$$\text{Cross Entropy}(t=0, y=0) \rightarrow = 0$$</p>
