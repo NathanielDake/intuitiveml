@@ -762,7 +762,7 @@ def generate_sequence(N):
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
@@ -776,7 +776,7 @@ def generate_sequence(N):
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">random_normalized</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">):</span>
@@ -792,7 +792,7 @@ def generate_sequence(N):
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">HMM</span><span class="p">:</span>
@@ -813,6 +813,9 @@ def generate_sequence(N):
     <span class="bp">self</span><span class="o">.</span><span class="n">pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span>         <span class="c1"># Initialize state distribution to Uniform</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">random_normalized</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">)</span> <span class="c1"># Randomly initialized A matrix (M x M)  </span>
     <span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">random_normalized</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>      <span class="c1"># Randomly initialized B matrix (M x V)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;initial A: &#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;initial B: &#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">)</span>
+
     
     <span class="c1"># Enter our main Expectation Maximization Loop</span>
     <span class="n">costs</span> <span class="o">=</span> <span class="p">[]</span>
@@ -840,8 +843,105 @@ def generate_sequence(N):
         
         <span class="c1"># Loop through for each time after the initial time</span>
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
-          <span class="n">alpha</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">[</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+          <span class="n">alpha</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">[</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">)</span><span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">[:,</span> <span class="n">x</span><span class="p">[</span><span class="n">t</span><span class="p">]]</span>
         
+        <span class="c1"># At this point we have alpha, can calculate probability of the sequence</span>
+        <span class="n">P</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="n">alphas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
+        
+        <span class="c1"># Now, do this for beta</span>
+        <span class="n">beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">))</span>
+        <span class="n">beta</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># Initial value</span>
+        
+        <span class="c1"># Loop through while counting backwards</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span> 
+          <span class="n">beta</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">[:,</span> <span class="n">x</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span> <span class="o">*</span> <span class="n">beta</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">betas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span>
+        
+      <span class="c1"># Calculate total log likelihood  </span>
+      <span class="n">cost</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">P</span><span class="p">))</span>
+      <span class="n">costs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span>
+      
+      <span class="c1"># ------- Now we can reestimate pi, A, B --------</span>
+      <span class="c1"># pi is sum over all alphas</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">alphas</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">betas</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">P</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">))</span> <span class="o">/</span> <span class="n">N</span>
+      
+      <span class="c1"># We want to keep track of all denominators and numerators for A and B updates</span>
+      <span class="n">den1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="c1"># For A</span>
+      <span class="n">den2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="c1"># For B</span>
+      <span class="n">a_num</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="n">b_num</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        
+        <span class="c1"># Expand to for loop if this is unclear</span>
+        <span class="n">den1</span> <span class="o">+=</span> <span class="p">(</span><span class="n">alphas</span><span class="p">[</span><span class="n">n</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">betas</span><span class="p">[</span><span class="n">n</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">/</span> <span class="n">P</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="c1"># Sum up to T -1 </span>
+        <span class="n">den2</span> <span class="o">+=</span> <span class="p">(</span><span class="n">alphas</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">betas</span><span class="p">[</span><span class="n">n</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">/</span> <span class="n">P</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>           <span class="c1"># Sum up to T</span>
+        
+        <span class="c1"># Numerator for A</span>
+        <span class="n">a_num_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">):</span>
+          <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+              <span class="n">a_num_n</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">alphas</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="n">t</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span> <span class="o">*</span> <span class="n">betas</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+        <span class="n">a_num</span> <span class="o">+=</span> <span class="n">a_num_n</span> <span class="o">/</span> <span class="n">P</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+        
+        <span class="c1"># Numerator for B</span>
+        <span class="n">b_num_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="n">V</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">):</span> <span class="c1"># loop through every state</span>
+          <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">V</span><span class="p">):</span>    <span class="c1"># loop through every possible observation</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>  <span class="c1"># loop through every time</span>
+              <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="n">j</span><span class="p">:</span>
+                <span class="n">b_num_n</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">alphas</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="n">t</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">betas</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="n">t</span><span class="p">,</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">b_num</span> <span class="o">+=</span> <span class="n">b_num_n</span> <span class="o">/</span> <span class="n">P</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+        
+      <span class="c1"># We have looped through all samples and are ready to set new A and B</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">a_num</span> <span class="o">/</span> <span class="n">den1</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">b_num</span> <span class="o">/</span> <span class="n">den2</span>
+      
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;A: &#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;B: &#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pi: &#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+      
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">costs</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+      
+  <span class="k">def</span> <span class="nf">likelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Likelihood function for one observation. Returns P(x | model). We are essentially just doing the </span>
+<span class="sd">    forward operation.&quot;&quot;&quot;</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">))</span>
+    <span class="n">alpha</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">[:,</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
+      <span class="n">alpha</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">[</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">[:,</span> <span class="n">x</span><span class="p">[</span><span class="n">t</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">alpha</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+  
+  <span class="k">def</span> <span class="nf">likelihood_multi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculates the likelihoods of every observation.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">likelihood</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">])</span>
+  
+  <span class="k">def</span> <span class="nf">log_likelihood_multi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns log likelihood of every observation.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">likelihood_multi</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
+  
+  <span class="k">def</span> <span class="nf">get_state_sequence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This is the viterbi algorithm. Returns the most likely state sequence given observed sequence x.&quot;&quot;&quot;</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">))</span>
+    <span class="n">psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">))</span>
+    <span class="n">delta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">[:,</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>      <span class="c1"># loop through every other time</span>
+      <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">):</span>  <span class="c1"># loop through all states</span>
+        <span class="n">delta</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">delta</span><span class="p">[</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[:,</span> <span class="n">j</span><span class="p">])</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="n">t</span><span class="p">]]</span>
+        <span class="n">psi</span><span class="p">[</span><span class="n">t</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">delta</span><span class="p">[</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[:,</span> <span class="n">j</span><span class="p">])</span>
+        
+    <span class="c1"># Backtrack </span>
+    <span class="n">states</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="n">states</span><span class="p">[</span><span class="n">T</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">delta</span><span class="p">[</span><span class="n">T</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+      <span class="n">states</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">psi</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">states</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">states</span>      
 </pre></div>
 
 </div>
@@ -851,14 +951,32 @@ def generate_sequence(N):
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/coin_data.txt&#39;</span><span class="p">):</span>
-    <span class="c1"># 1 for H, 0 for T</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">e</span> <span class="o">==</span> <span class="s1">&#39;H&#39;</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fit_coin</span><span class="p">():</span>
+  <span class="sd">&quot;&quot;&quot;Loads data, trains HMM.&quot;&quot;&quot;</span>
+  <span class="n">X</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/coin_data.txt&#39;</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">e</span> <span class="o">==</span><span class="s1">&#39;H&#39;</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()]</span>
     <span class="n">X</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+  <span class="c1"># Define an HMM, by creating an object of type HMM. Number of hidden states is 2.</span>
+  <span class="n">hmm</span> <span class="o">=</span> <span class="n">HMM</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+  <span class="n">hmm</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+  <span class="n">L</span> <span class="o">=</span> <span class="n">hmm</span><span class="o">.</span><span class="n">log_likelihood_multi</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Log Likelihood with fitted params: &#39;</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+  
+  <span class="c1"># Try the true values</span>
+  <span class="n">hmm</span><span class="o">.</span><span class="n">pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+  <span class="n">hmm</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]])</span>
+  <span class="n">hmm</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">]])</span>
+  <span class="n">L</span> <span class="o">=</span> <span class="n">hmm</span><span class="o">.</span><span class="n">log_likelihood_multi</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Log Likelihood true params:&quot;</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+
+  <span class="c1"># And let&#39;s try the viterbi algorithm</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Best state sequence for: &quot;</span><span class="p">,</span> <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">hmm</span><span class="o">.</span><span class="n">get_state_sequence</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 </pre></div>
 
 </div>
@@ -868,14 +986,71 @@ def generate_sequence(N):
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">]</span>
-<span class="n">V</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fit_coin</span><span class="p">()</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>initial A:  [[0.7087962  0.2912038 ]
+ [0.29152056 0.70847944]]
+initial B:  [[0.62969057 0.37030943]
+ [0.58883752 0.41116248]]
+it:  0
+it:  10
+it:  20
+A:  [[0.70386662 0.29613338]
+ [0.28712763 0.71287237]]
+B:  [[0.54419694 0.45580306]
+ [0.53723247 0.46276753]]
+pi:  [0.50695647 0.49304353]
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Log Likelihood with fitted params:  -1034.7557547352073
+Log Likelihood true params: -1059.7229160265022
+Best state sequence for:  [0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1]
+[0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1]
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
