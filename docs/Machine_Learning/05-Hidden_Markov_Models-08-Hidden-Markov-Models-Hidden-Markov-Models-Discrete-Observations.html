@@ -1055,6 +1055,170 @@ Best state sequence for:  [0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1,
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="11.-Underflow-Problem">11. Underflow Problem<a class="anchor-link" href="#11.-Underflow-Problem">&#182;</a></h1><p>Now that we have worked through implementing the training of an HMM in code, it is time to touch on some technical details. The biggest thing that we must worry about is <strong>underflow</strong>. Imagine that we are dealing with a very long sequence. Well, the forward algorithm says that we should just keep multiplying alpha until the end of the sequence. But, issues arise when we keep multiplying small numbers together-the number continually gets smaller and smaller. For instance, if we try and perform:</p>
+
+<pre><code>0.1**500 = 0</code></pre>
+<p>We see that the result is 0. The largest number that we can raise 0.1 to the power of, seems to be 323:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mf">0.1</span><span class="o">**</span><span class="mi">323</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[21]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>1e-323</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>And after that it drops off to 0:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mf">0.1</span><span class="o">**</span><span class="mi">324</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[22]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.0</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, think about an audio signal. Audio signals are sampled at 44100Hz-or 44100 samples per second. Well, clearly our HMM will not be very useful if we can only represent a few seconds of data. So how do we solve this problem?</p>
+<h2 id="11.1-Viterbi-Case">11.1 Viterbi Case<a class="anchor-link" href="#11.1-Viterbi-Case">&#182;</a></h2><p>In the case of viterbi is a bit easier since it only involves multiplication!</p>
+<p>$$log(AB) = log(A) + log(B)$$</p>
+<p>We know that we can use the log probability instead of the actually probability, since the logarithm is monotonically increasing. So, in the case of Viterbi, it is solved!</p>
+<h2 id="11.2-Forward-Backward-Case">11.2 Forward-Backward Case<a class="anchor-link" href="#11.2-Forward-Backward-Case">&#182;</a></h2><p>Now, the forward-backward algorithm is a bit trickier to deal with, since it involves summations. This is going be be much harder, but what we will do is introduce the concept of scaling. To accomplish proper scaling, we are going to introduce a scale factor, which we can call $c(t)$. Just like $\alpha$ and $\beta$, it is going to be of lenghth $T$. With the scale factor, we can restate the 3 steps of the forward algorithm:</p>
+<h4 id="Step-1:-Initialization">Step 1: Initialization<a class="anchor-link" href="#Step-1:-Initialization">&#182;</a></h4><p>We begin by defining our initial $\alpha$ as $\alpha^\prime$:</p>
+<p>$$\alpha^\prime(1, i) = \pi_i B\big(j, x(1)\big) = \alpha(1, i)$$</p>
+<p>We then use the prime variable to define the <em>scale</em>:</p>
+<p>$$c(t) = \sum_{i=1}^M \alpha^\prime(t, i)$$</p>
+<p>Finally, we define $\hat{\alpha}$ to be:</p>
+<p>$$\hat{\alpha}(t,i) = \frac{\alpha^\prime(t,i)}{c(t)}$$</p>
+<p>$$\hat{\alpha}(1,i) = \frac{\pi_i B\big(j, x(1)\big)}{c(1)}$$</p>
+<h4 id="Step-2:-Induction">Step 2: Induction<a class="anchor-link" href="#Step-2:-Induction">&#182;</a></h4><p>We can then define our induction step as the next prime variable, in terms of the old $\hat{\alpha}$:</p>
+<p>$$\alpha^\prime(t,i) = \sum_{i=1}^M \hat{\alpha}(t-1, i)A(i,j)B\big(j, x(t)\big)$$</p>
+<p>This is the same expression that we had had before, except now on the left we have $\hat{\alpha}$, and on the right $\alpha^\prime$. We then scale as we had before:</p>
+<p>$$c(t) = \sum_{i=1}^M \alpha^\prime(t, i)$$</p>
+<p>$$\hat{\alpha}(t,i) = \frac{\alpha^\prime(t,i)}{c(t)}$$</p>
+<h4 id="Step-3:-Termination">Step 3: Termination<a class="anchor-link" href="#Step-3:-Termination">&#182;</a></h4><p>Finally, we can calculate the product of the entire sequence a follows:</p>
+<p>$$p(x) = \prod_{t=1}^T c(t)$$</p>
+<p>And this <em>can</em> be logged, since it only involves multiplication!</p>
+<h3 id="11.3-Prove-that-scaling-works">11.3 Prove that scaling works<a class="anchor-link" href="#11.3-Prove-that-scaling-works">&#182;</a></h3><p>Now, at first glance it may be slightly unclear as to <em>why</em> taking the product of all of the $c(t)$'s will yield the probability of the sequence. Let's walk through in detail to determine why this is so. We can start from our end result:</p>
+<p>$$p(x) = \prod_{t=1}^T c(t)$$</p>
+<p>This is essentially saying the following:</p>
+<p>$$p(x_1, x_2, x_3,...x_n) = \prod_{t=1}^T c(t)$$</p>
+<p>And, if we recall the <strong>independence assumption</strong> that we made earlier, we know that each observation is <em>only</em> dependent on the <em>current state</em>, hence:</p>
+<p>$$p(x_1) * p(x_2) * p(x_3) * p(x_n) = \prod_{t=1}^T c(t)$$</p>
+<p>So, we should immediately be thinking that each $c(t)$ is meant to represent the probability of the corresponding $x(t)$. Now, if we go back the start of our process, the initialization, we can see that:</p>
+<p>$$\alpha^\prime(1,i) = \alpha(1, i)$$</p>
+<p>And, recall from our initial walkthrough of the forward algorithm, that that is equivalent to:</p>
+<p>$$\alpha(1, i) = p\big(x(1), z(1) = i\big)$$</p>
+<p>So, we know that:</p>
+<p>$$\alpha^\prime(1,i) = p\big(x(1), z(1) = i\big)$$</p>
+<p>Now, for $t=1$, we defined $c$ as:</p>
+<p>$$c(t=1) = \sum_i^M \alpha^\prime(1,i) = \sum_i^M p\big(x(1), z(1) = i\big)$$</p>
+<p>And by taking the summation over $i$, we are marginalizing out $z$, leaving us with:</p>
+<p>$$c(t=1) = p\big(x(1)\big)$$</p>
+<p>Which is exactly what we should be looking for, based on the argument I put forward above. So, we know that the scaling term at $t=1$ is equal to the probability of observation $x$ at $t=1$. Let's quickly calculate our $\hat{\alpha}$:</p>
+<p>$$\hat{\alpha}(1,i) = \frac{\alpha^\prime(1,i)}{c(1)}$$</p>
+<p>Note, that since we know what $c(1)$ really represents, we can rewrite the above as:</p>
+<p>$$\hat{\alpha}(1,i) = \frac{\alpha^\prime(1,i)}{p\big(x(1)\big)}$$</p>
+<p>Now we are ready to move on to our induction step. By the definition we worked out earlier:</p>
+<p>$$\alpha^\prime(2,j) = \sum_i^M \hat{\alpha}(1,i)A(i,j)B\big( j, x(2)\big)$$</p>
+<p>And we can plug in what we had defined to be $\hat{\alpha}(1,i)$:</p>
+<p>$$\alpha^\prime(2,j) = \sum_i^M \frac{\alpha^\prime(1,i)A(i,j)B\big( j, x(2)\big)}{c(1)}$$</p>
+<p>Which, since we are just dividing by a constant, we can actually pull $c(1)$ out of the summation:</p>
+<p>$$\alpha^\prime(2,j) = \frac{\sum_i^M \alpha^\prime(1,i)A(i,j)B\big( j, x(2)\big)}{c(1)}$$</p>
+<p>And, we can then substitute in $p\big(x(1)\big)$ for $c(1)$!</p>
+<p>$$\alpha^\prime(2,j) = \frac{\sum_i^M \alpha^\prime(1,i)A(i,j)B\big( j, x(2)\big)}{p\big(x(1)\big)}$$</p>
+<p>And remember, that $\alpha^\prime(1,i)$ was equivalent to $\alpha(1,i)$, so we can update the above to be:</p>
+<p>$$\alpha^\prime(2,j) = \frac{\sum_i^M \alpha(1,i)A(i,j)B\big( j, x(2)\big)}{p\big(x(1)\big)}$$</p>
+<p>This is the big moment! If we just look at our numerator, it is just representative of:</p>
+<p>$$\sum_i^M  \alpha(1,i)A(i,j)B\big( j, x(2)\big) = p\big(x(1), x(2), z(2) = i\big)$$</p>
+<p>And then if reinclude our denominator, we will then divide out $p\big(x(1)\big)$!</p>
+<p>$$\frac{\sum_i^M  \alpha(1,i)A(i,j)B\big( j, x(2)\big)}{p\big(x(1)\big)} = \frac{p\big(x(1), x(2), z(2) = i\big)}{p\big(x(1)\big)}$$</p>
+<p>From our independence assumption, we know that the right side can technically be written as two independent probabilities multiplied together(probability of $x(1)$ is not depedent on probability of $x(2)$, and probability of $x(2)$ is only dependent on the hidden state at $t=2$), meaning the $p\big(x(1)\big)$ will cancel out:</p>
+<p>$$\frac{\sum_i^M  \alpha(1,i)A(i,j)B\big( j, x(2)\big)}{p\big(x(1)\big)} = \frac{p\big(x(1) \big) p\big( x(2), z(2) = i\big)}{p\big(x(1)\big)}$$</p>
+<p>$$\frac{\sum_i^M  \alpha(1,i)A(i,j)B\big( j, x(2)\big)}{p\big(x(1)\big)} = p\big( x(2), z(2) = i\big)$$</p>
+<p>And, if we want we can replug $c(1)$ on the left hand side:</p>
+<p>$$\frac{\sum_i^M  \alpha(1,i)A(i,j)B\big( j, x(2)\big)}{c(1)} = p\big( x(2), z(2) = i\big)$$</p>
+<p>Remember, this entire process was meant to solve for $\alpha^\prime(2,j)$:</p>
+<p>$$\alpha^\prime(2,j) = \frac{\sum_i^M  \alpha(1,i)A(i,j)B\big( j, x(2)\big)}{c(1)} = p\big( x(2), z(2) = i\big)$$</p>
+<p>And, based on the way we defined the scaling factor, we can solved for $c(2)$ as follows:</p>
+<p>$$c(2) = \sum_i^M \alpha^\prime(2,j) = \sum_i^M \frac{\sum_i^M  \alpha(1,i)A(i,j)B\big( j, x(2)\big)}{c(1)} = \sum_i^M p\big( x(2), z(2) = i\big)$$</p>
+<p>We can clearly see from the far right side of the above equation, that we will end up $z$ being marginalized out, and $c(2)$ being:</p>
+<p>$$c(2) = p\big( x(2) \big)$$</p>
+<p>Ahah! We have proven that by following this iterative process, our scaling term will represent the probability of observing $x$ at time $t$, and since they are independent of each other we can multiply them all together via:</p>
+<p>$$p(x) = \prod_{t=1}^T c(t)$$</p>
+<p>And, since this is now only multiplication, as I mentioned earlier we can now take the logarithm of the entire thing! Because this is in the form a product, we are able to calculate the log probabilities as our cost function. Even with multiple observations, we can remove the probability of the sequence from the update equations entirely.</p>
+
+</div>
+</div>
+</div>
 <hr>
 &copy; 2018 Nathaniel Dake
 
