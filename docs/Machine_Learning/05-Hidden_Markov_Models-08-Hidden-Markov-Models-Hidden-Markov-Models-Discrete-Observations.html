@@ -1167,7 +1167,7 @@ Best state sequence for:  [0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1,
 <h4 id="Step-3:-Termination">Step 3: Termination<a class="anchor-link" href="#Step-3:-Termination">&#182;</a></h4><p>Finally, we can calculate the product of the entire sequence a follows:</p>
 <p>$$p(x) = \prod_{t=1}^T c(t)$$</p>
 <p>And this <em>can</em> be logged, since it only involves multiplication!</p>
-<h3 id="11.3-Prove-that-scaling-works">11.3 Prove that scaling works<a class="anchor-link" href="#11.3-Prove-that-scaling-works">&#182;</a></h3><p>Now, at first glance it may be slightly unclear as to <em>why</em> taking the product of all of the $c(t)$'s will yield the probability of the sequence. Let's walk through in detail to determine why this is so. We can start from our end result:</p>
+<h3 id="11.2.1-Prove-that-scaling-works-(Forward)">11.2.1 Prove that scaling works (Forward)<a class="anchor-link" href="#11.2.1-Prove-that-scaling-works-(Forward)">&#182;</a></h3><p>Now, at first glance it may be slightly unclear as to <em>why</em> taking the product of all of the $c(t)$'s will yield the probability of the sequence. Let's walk through in detail to determine why this is so. We can start from our end result:</p>
 <p>$$p(x) = \prod_{t=1}^T c(t)$$</p>
 <p>This is essentially saying the following:</p>
 <p>$$p(x_1, x_2, x_3,...x_n) = \prod_{t=1}^T c(t)$$</p>
@@ -1215,6 +1215,24 @@ Best state sequence for:  [0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1,
 <p>Ahah! We have proven that by following this iterative process, our scaling term will represent the probability of observing $x$ at time $t$, and since they are independent of each other we can multiply them all together via:</p>
 <p>$$p(x) = \prod_{t=1}^T c(t)$$</p>
 <p>And, since this is now only multiplication, as I mentioned earlier we can now take the logarithm of the entire thing! Because this is in the form a product, we are able to calculate the log probabilities as our cost function. Even with multiple observations, we can remove the probability of the sequence from the update equations entirely.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="11.2.2-Scaling-Backward">11.2.2 Scaling Backward<a class="anchor-link" href="#11.2.2-Scaling-Backward">&#182;</a></h3><p>Now we can talk about our $\beta$ update; for this we do not have to calculate a new scale factor, we can just use the same one as before. So, again we have our steps:</p>
+<h4 id="Step-1:-Initialization">Step 1: Initialization<a class="anchor-link" href="#Step-1:-Initialization">&#182;</a></h4><p>We have the same initialization as before:</p>
+<p>$$\hat{\beta}(T, i) = 1$$</p>
+<h4 id="Step-2:-Induction-Step">Step 2: Induction Step<a class="anchor-link" href="#Step-2:-Induction-Step">&#182;</a></h4><p>The induction step is defined as follows:</p>
+<p>$$\hat{\beta}(t,i) = \frac{\sum_{j=1}^N A(i,j)B\big(j, x(t+1)\big)\hat{\beta}(t+1, j)}{c(t+1)}$$</p>
+<p>So, this is basically the old induction step, scaled by $c(t+1)$.</p>
+<h3 id="11.2.3-Identities">11.2.3 Identities<a class="anchor-link" href="#11.2.3-Identities">&#182;</a></h3><p>Now, at this point there are several identities that we can define, which will be used when writting our updates:</p>
+<p>$$\Big(\prod_{\tau = 1}^t c(\tau)\Big) \hat{\alpha}(t,i) = \alpha(t,i)$$</p>
+<p>$$\hat{\alpha}(t,i)\hat{\beta}(t,i)p(x) = \alpha(t,i) \beta(t,i)$$</p>
+<p>$$\alpha(t,i)\beta(t+1, j) = \frac{p(x)\hat{\alpha}(t,i)\hat{\beta}(t+1, j)}{c(t+1)}$$</p>
 
 </div>
 </div>
