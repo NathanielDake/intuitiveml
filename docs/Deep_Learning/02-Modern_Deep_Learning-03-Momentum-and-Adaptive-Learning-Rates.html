@@ -1861,10 +1861,10 @@ Final error rate: 0.042
 
 
 
-<div id="b3a6cf14-dd12-4008-b31d-d17c4c56fd14"></div>
+<div id="99ccee6c-e041-40c8-8065-846bbebad6e2"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#b3a6cf14-dd12-4008-b31d-d17c4c56fd14');
+var element = $('#99ccee6c-e041-40c8-8065-846bbebad6e2');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -2665,11 +2665,11 @@ if (IPython.notebook.kernel != null) {
 <h3 id="4.1.1-Step-Decay">4.1.1 Step Decay<a class="anchor-link" href="#4.1.1-Step-Decay">&#182;</a></h3><p>Periodically, say ever 100 iterations, we will reduce the learning rate by a constant factor. For example, if we constantly divide by 2, we will half it each time. <br></p>
 <h3 id="4.1.2-Exponential-Decay">4.1.2 Exponential Decay<a class="anchor-link" href="#4.1.2-Exponential-Decay">&#182;</a></h3><p>In this method the learning rate follows and exponential curve:</p>
 <p>$$\eta(t) = A * e^{-kt}$$</p>
-<p><img src="images/exp-decay.png"></p>
+<p><img src="https://drive.google.com/uc?id=1-8lpPA4qhPejHlLpAMZ9nyfLSwvY9QqX"></p>
 <h3 id="4.1.3-$\frac{1}{t}$-decay">4.1.3 $\frac{1}{t}$ decay<a class="anchor-link" href="#4.1.3-$\frac{1}{t}$-decay">&#182;</a></h3><p>Here the learning rate will decay proportionally to $\frac{1}{t}$:
 $$\eta(t) = \frac{A}{kt + 1 }$$
 In this case the dropoff is slower than exponential decay.</p>
-<p><img src="images/1t-decay.png"></p>
+<p><img src="https://drive.google.com/uc?id=1hlgb8CBJmkY1Odc3q2TqOQ80c0FQQfmA"></p>
 <h3 id="4.1.4-What-do-all-of-these-methods-have-in-common?">4.1.4 What do all of these methods have in common?<a class="anchor-link" href="#4.1.4-What-do-all-of-these-methods-have-in-common?">&#182;</a></h3><p>Well, each of these methods will decrease the learning rate as time goes on (i.e. the number of iterations increases). The question comes up, why would be want to do that? Well, generally speaking, when we initialize the weights of a neural network, they are going to be very far from the optimal weights, so it is good to start with a large learning rate so that we can take bigger steps towards the goal. This is the motivation behind momentum as well: We want to pick up speed by accumulating past gradients, because we know that if we are very far away from our goal, then those gradients should be large. However, as we get close to the goal, the gradient is going to shrink. In fact, by definition, the minimum of a function means the gradient must be 0-that is how we solve for the minimum of a function in calculus.</p>
 <p>But why may we want to slow down as we get close to the minimum? Well, when you are too close to the minimum and you take too big of a step, you are going to overshoot the minimum. So what ends up happening is that you just bounce back and forth. In fact, if you learning rate is too large then you will just bounce right of the valley and your loss may increase! So, in order to reduce all of this bouncing around, we would like to take smaller steps.</p>
 <p>One other things to think about is the following caveat: all of these methods mean that there are more <strong>hyperparameters</strong> to optimize. This adds more work to your plate as a data scientist.</p>
@@ -4417,10 +4417,10 @@ Final error rate: 0.033
 
 
 
-<div id="31682f7e-d813-4633-beae-83502faa9b5a"></div>
+<div id="b5e12fb9-852a-44d4-b718-541c0c08e818"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#31682f7e-d813-4633-beae-83502faa9b5a');
+var element = $('#b5e12fb9-852a-44d4-b718-541c0c08e818');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 

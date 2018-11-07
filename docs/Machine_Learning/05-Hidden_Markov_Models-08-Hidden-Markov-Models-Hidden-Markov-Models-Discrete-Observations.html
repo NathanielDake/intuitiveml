@@ -1229,10 +1229,94 @@ Best state sequence for:  [0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1,
 <h4 id="Step-2:-Induction-Step">Step 2: Induction Step<a class="anchor-link" href="#Step-2:-Induction-Step">&#182;</a></h4><p>The induction step is defined as follows:</p>
 <p>$$\hat{\beta}(t,i) = \frac{\sum_{j=1}^N A(i,j)B\big(j, x(t+1)\big)\hat{\beta}(t+1, j)}{c(t+1)}$$</p>
 <p>So, this is basically the old induction step, scaled by $c(t+1)$.</p>
-<h3 id="11.2.3-Identities">11.2.3 Identities<a class="anchor-link" href="#11.2.3-Identities">&#182;</a></h3><p>Now, at this point there are several identities that we can define, which will be used when writting our updates:</p>
-<p>$$\Big(\prod_{\tau = 1}^t c(\tau)\Big) \hat{\alpha}(t,i) = \alpha(t,i)$$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="11.2.3-Updates">11.2.3 Updates<a class="anchor-link" href="#11.2.3-Updates">&#182;</a></h3><p>Now we are finally at the point where we can derive out new update equations. In order to do so, however, it is useful to first define several identities.</p>
+<h4 id="11.2.3.1-Identities">11.2.3.1 Identities<a class="anchor-link" href="#11.2.3.1-Identities">&#182;</a></h4><p>The identities are as follows:</p>
+<h4 id="Identity-1">Identity 1<a class="anchor-link" href="#Identity-1">&#182;</a></h4><p>$$\Big(\prod_{\tau = 1}^t c(\tau)\Big) \hat{\alpha}(t,i) = \alpha(t,i)$$</p>
+<h4 id="Identity-2">Identity 2<a class="anchor-link" href="#Identity-2">&#182;</a></h4><p>$$\hat{\alpha}(t,i)\hat{\beta}(t,i)p(x) = \alpha(t,i) \beta(t,i)$$</p>
+<h4 id="Identity-3">Identity 3<a class="anchor-link" href="#Identity-3">&#182;</a></h4><p>$$\alpha(t,i)\beta(t+1, j) = \frac{p(x)\hat{\alpha}(t,i)\hat{\beta}(t+1, j)}{c(t+1)}$$</p>
+<p>I highly recommend before continuing that you try and workout the derivations for each of the 3 identities above. With that said, we will go through the derivations below. In order to do so we must recall the following equations and equivalences (which have all been proven throughout this post):</p>
+<h4 id="Equation-1-$\rightarrow-\alpha$">Equation 1 $\rightarrow \alpha$<a class="anchor-link" href="#Equation-1-$\rightarrow-\alpha$">&#182;</a></h4><p><span style="color:#0000cc">
+$$\alpha(t,i) = p\big(x(1), x(2),...,x(t),z(t)=i\big)$$
+</span></p>
+<h4 id="Equation-2-$\rightarrow-\beta$">Equation 2 $\rightarrow \beta$<a class="anchor-link" href="#Equation-2-$\rightarrow-\beta$">&#182;</a></h4><p><span style="color:#800080">
+$$\beta(t,i) = p\big(x(t+1),...,x(T) \mid z(t)=i\big)$$
+</span></p>
+<h4 id="Equation-3-$\rightarrow-\hat{\alpha}$">Equation 3 $\rightarrow \hat{\alpha}$<a class="anchor-link" href="#Equation-3-$\rightarrow-\hat{\alpha}$">&#182;</a></h4><p><span style="color:#008000">
+$$\hat{\alpha}(t,i) = \frac{\alpha^\prime(t,i)}{c(t)} = \frac{\alpha(t,i)}{c(t)} = \frac{p\big(x(1), x(2),...,x(t),z(t)=i\big)}{p\big(x(1)\big) * p\big(x(2)\big) * ...* p\big(x(t)\big)} = p\big(z(t)=i\big)$$
+</span></p>
+<h4 id="Equation-4-$\rightarrow-\hat{\beta}$">Equation 4 $\rightarrow \hat{\beta}$<a class="anchor-link" href="#Equation-4-$\rightarrow-\hat{\beta}$">&#182;</a></h4><p><span style="color:#cc0000">
+$$\hat{\beta}(t,i) = \frac{p\big(x(t+1),...,x(T) \mid z(t)=i\big)}{p\big(x(t+1)\big)* p\big(x(t+2)\big)*...*p\big(x(T)\big)}$$
+</span></p>
+<h4 id="Equation-5-$\rightarrow-c$">Equation 5 $\rightarrow c$<a class="anchor-link" href="#Equation-5-$\rightarrow-c$">&#182;</a></h4><p><span style="color:#ff8000">
+$$\prod_{t=1}^T c(t) = p(x)$$
+</span></p>
+<p><span style="color:#ff8000">
+$$c(t) = p\big(x(t)\big)$$
+</span></p>
+<p>Alright, now that we have the above reference the actual derivations of the identities should be rather straightforward. We can start with the first identity:</p>
+<h4 id="Identity-1-Proof">Identity 1 Proof<a class="anchor-link" href="#Identity-1-Proof">&#182;</a></h4><p>$$\Big(\prod_{\tau = 1}^t c(\tau)\Big) \hat{\alpha}(t,i) = \alpha(t,i)$$
+<br></p>
+<center>
+<span style="color:#ff8000">
+$p\big(x(1)\big) * p\big(x(2)\big) * ...* p\big(x(t)\big)$
+</span>
+<span style="color:#008000">
+$* p\big(z(t)=i\big) = $
+</span>
+<span style="color:#0000cc">
+$ p\big(x(1), x(2),...,x(t),z(t)=i\big)$
+</span>
+</center><p>Because the probabilities inside of the joint distribution are held to the independence assumption, by definition the left and right hand side are equivalent.</p>
+<h4 id="Identity-2-Proof">Identity 2 Proof<a class="anchor-link" href="#Identity-2-Proof">&#182;</a></h4><p>The proof surrounding the second identity is a bit more involved, but never the less straightforward.</p>
 <p>$$\hat{\alpha}(t,i)\hat{\beta}(t,i)p(x) = \alpha(t,i) \beta(t,i)$$</p>
+<p><br></p>
+<center>
+<span style="color:#008000">
+$\scriptsize p\big(z(t)=i\big)$
+</span>
+<span style="color:#cc0000">
+$\frac{p\big(x(t+1),...,x(T) \mid z(t)=i\big)}{p\big(x(t+1)\big)* p\big(x(t+2)\big)*...*p\big(x(T)\big)}$
+</span>
+$\scriptsize * p\big(x(1)\big) * p\big(x(2)\big) * ...* p\big(x(T)\big)$
+<span style="color:#0000cc">
+$\scriptsize =p\big(x(1), x(2),...,x(t),z(t)=i\big)$
+</span>
+<span style="color:#800080">
+$\scriptsize p\big(x(t+1),...,x(T) \mid z(t)=i\big)$
+</span>
+</center><p>On the left hand side we can cancel matching terms that occur in the denominator and numerator, leaving us with the following equivalence:</p>
+<p>$$\scriptsize p\big(z(t)=i\big) * p\big(x(1)\big)*...*p\big(x(t)\big)* p\big(x(t+1),...,x(T) \mid z(t)=i\big) = p\big(x(1), x(2),...,x(t),z(t)=i\big) * p\big(x(t+1),...,x(T) \mid z(t)=i\big)$$</p>
+<p>Where again, the equivalence occurs due to our independence assumption.</p>
+<h4 id="Identity-3-Proof">Identity 3 Proof<a class="anchor-link" href="#Identity-3-Proof">&#182;</a></h4><p>Finally, we can prove the third identity:</p>
 <p>$$\alpha(t,i)\beta(t+1, j) = \frac{p(x)\hat{\alpha}(t,i)\hat{\beta}(t+1, j)}{c(t+1)}$$</p>
+<p><br></p>
+<center>
+<span style="color:#0000cc">
+$\scriptsize p\big(x(1),...,x(t),z(t)=i\big)$
+</span>
+<span style="color:#800080">
+$\scriptsize p\big(x(t+2),...,x(T) \mid z(t+1)=i\big)$
+</span>
+$\scriptsize = p\big(x(1)\big) * ...* p\big(x(T)\big)$
+<span style="color:#008000">
+$\scriptsize p\big(z(t)=i\big)$
+</span>
+<span style="color:#cc0000">
+$\frac{p\big(x(t+2),...,x(T) \mid z(t+1)=i\big)}{p\big(x(t+2)\big)*...*p\big(x(T)\big)}$
+</span>
+<span style="color:#ff8000">
+$\frac{1}{p\big(x(t+1)\big)}$
+</span>
+</center><p>Which, after canceling terms leaves us with the following equivalence:</p>
+<p>$$\scriptsize p\big(x(1),...,x(t),z(t)=i\big) p\big(x(t+2),...,x(T) \mid z(t+1)=i\big)= p\big(x(1)\big) *...* p\big(x(t)\big) * p\big(z(t)=i\big) * p\big(x(t+2),...,x(T) \mid z(t+1)=i\big)$$</p>
 
 </div>
 </div>
