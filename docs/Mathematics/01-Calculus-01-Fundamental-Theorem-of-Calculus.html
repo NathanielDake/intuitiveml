@@ -1326,7 +1326,7 @@ $$Velocity \; at\;any\;point\;t  = 8t - t^2$$</p>
 <p>Now, this is the big mental leap we need. I want you to ask yourself:</p>
 <blockquote><p>"What is the derivative of that function? "</p>
 </blockquote>
-<p>It may seem initially confusing since we aren't quite sure how to take the derivative of an integral yet. However, forget about the right hand side of the equation for a moment. We are asking: What is the derivative of a function that represents distance? Well, intuitively we know that that is velocity! If we think about how the area changes as we increase $t$, we know that a small nudge in $t$, $dt$, would case the area under the curve to increase by $ds(t)$, a tiny additional sliver of area. The height of that sliver would be $v(t)$. So we know that the area of that sliver would be $dt$ times $v(t)$!</p>
+<p>It may seem initially confusing since we aren't quite sure how to take the derivative of an integral yet. However, forget about the right hand side of the equation for a moment. We are asking: What is the derivative of a function that represents distance? Well, intuitively we know that that is velocity! If we think about how the area changes as we increase $t$, we know that a small nudge in $t$, $dt$, would cause the area under the curve to increase by $ds(t)$, a tiny additional sliver of area. The height of that sliver would be $v(t)$. So we know that the area of that sliver would be $dt$ times $v(t)$!</p>
 <p>$$ds(t) = v(t)dt$$</p>
 <p>Let's get a deeper look an hopefully clear things up with a visualization.</p>
 
@@ -1390,7 +1390,7 @@ $$Velocity \; at\;any\;point\;t  = 8t - t^2$$</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In the above plot, we can see that the green area represents the total distance traveled up to time $t = 5$. We then nudge our value for $t$ slightly to the right - we can call this change in time $dt$. This small nudge $dt$ caused our area under the curve (distance!) to increase by an amount $ds(t)$, which is the shaded blue region. As $dt$ approaches 0, the blue region (our change in area/distnace) can be approximated as a rectangle, and the height of that rectangle is...$v(t)$! So, an area of a rectangnle is simple width times height, meaning we can determine:</p>
+<p>In the above plot, we can see that the green area represents the total distance traveled up to time $t = 5$. We then nudge our value for $t$ slightly to the right - we can call this change in time $dt$. This small nudge $dt$ caused our area under the curve (distance!) to increase by an amount $ds(t)$, which is the shaded blue region. As $dt$ approaches 0, the blue region (our change in area/distnace) can be approximated as a rectangle, and the height of that rectangle is...$v(t)$! So, an area of a rectangle is simply width times height, meaning we can determine:</p>
 <p>$$ds(t) = v(t)dt$$</p>
 <p>Before we move on to the last step, we can quickly look at a visual to see how this area really correponds to distance:</p>
 
@@ -1567,7 +1567,7 @@ $$Velocity \; at\;any\;point\;t  = 8t - t^2$$</p>
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So, in the plot above the green shaded area represents the distance traveled between 1 second and 7 seconds. So, in this case you would evaluate the antiderivative that we found at the top bound (which represents the distnace function at time $t = 7 \; seconds$ plus some constant, and subtract the antiderivative evaluated at the lower bound (which represents the distance function at time $t = 1 \; second$):</p>
 <p>$$\int_1^7 (8t - t^2)dt = \Big(4(7)^2 - \frac{1}{3}(7)^3\Big) - \Big(4(1)^2 - \frac{1}{3}(1)^3\Big)$$</p>
-<p>The nice thing in this situation is that even if the antiderivative had a constnt $C$ associated with it, it would be the same for both the upper and lower bound evalutation and hence cancel, so we don't need to worry about it in this case.</p>
+<p>The nice thing in this situation is that even if the antiderivative had a constant $C$ associated with it, it would be the same for both the upper and lower bound evalutation and hence cancel, so we don't need to worry about it in this case.</p>
 <p>So, if we now try and generalize this we can say that any time you want to integrate some function $f(x)$:</p>
 <p>$$\int_a^b f(x)dx$$</p>
 <p>Which we can think of as adding up value of $f(x)$ times $dx$ for inputs in a certain range, and asking "what does that sum approach as dx approaches 0"? The first step to evaluating that integral is to find an <strong>antiderivative</strong>, which is some other function $F(x)$, whose derivative is the function we are trying to integrate:</p>
