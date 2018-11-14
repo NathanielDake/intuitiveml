@@ -38,11 +38,17 @@ docs/Machine_Learning/04-Unsupervised_Learning_Cluster_Analysis-01-Cluster-Analy
 docs/Machine_Learning/04-Unsupervised_Learning_Cluster_Analysis-02-Cluster-Analysis-K-Means-Clustering.html
 docs/Machine_Learning/04-Unsupervised_Learning_Cluster_Analysis-03-Cluster-Analysis-Hierarchical-Clustering.html
 docs/Machine_Learning/04-Unsupervised_Learning_Cluster_Analysis-04-Cluster-Analysis-Gaussian-Mixture-Models.html
-docs/Machine_Learning/05-Hidden_Markov_Models-05-Hidden-Markov-Models-Introduction.html
-docs/Machine_Learning/05-Hidden_Markov_Models-06-Hidden-Markov-Models-Markov-Models.html
-docs/Machine_Learning/05-Hidden_Markov_Models-07-Hidden-Markov-Models-Example-Problems-and-Applications.html
-docs/Machine_Learning/05-Hidden_Markov_Models-08-Hidden-Markov-Models-Hidden-Markov-Models-Discrete-Observations.html
-docs/Machine_Learning/05-Hidden_Markov_Models-09-Hidden-Markov-Models-HMM-Calculations.html
+docs/Machine_Learning/05-Hidden_Markov_Models-01-Hidden-Markov-Models-Introduction.html
+docs/Machine_Learning/05-Hidden_Markov_Models-02-Hidden-Markov-Models-Markov-Models.html
+docs/Machine_Learning/05-Hidden_Markov_Models-03-Hidden-Markov-Models-Example-Problems-and-Applications.html
+docs/Machine_Learning/05-Hidden_Markov_Models-04-Hidden-Markov-Models-Hidden-Markov-Models-Discrete-Observations.html
+docs/Machine_Learning/05-Hidden_Markov_Models-05-Hidden-Markov-Models-HMM-Calculations.html
+docs/Machine_Learning/06-Ensemble_methods-01-Bias-Variance-Trade-Off .html
+docs/Machine_Learning/06-Ensemble_methods-02-Bias-Variance-Regression-Demo.html
+docs/Machine_Learning/06-Ensemble_methods-03-Bootstrap-Estimates-and-Bagging.html
+docs/Machine_Learning/06-Ensemble_methods-04-Random-Forest.html
+docs/Machine_Learning/06-Ensemble_methods-05-AdaBoost.html
+docs/Machine_Learning/06-Ensemble_methods-06-Summary-of-Concepts.html
 docs/Mathematics.html
 docs/Mathematics.tpl
 docs/Mathematics/01-Calculus-01-Fundamental-Theorem-of-Calculus.html

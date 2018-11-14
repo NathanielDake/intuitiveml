@@ -313,7 +313,7 @@ $(document).ready(function () {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="Machine_Learning/05-Hidden_Markov_Models-05-Hidden-Markov-Models-Introduction.html"><strong>5. Hidden Markov Models Introduction</strong></a><br>
+<p><a href="Machine_Learning/05-Hidden_Markov_Models-01-Hidden-Markov-Models-Introduction.html"><strong>1. Hidden Markov Models Introduction</strong></a><br>
 &nbsp; &nbsp;This notebook is going to cover <strong>hidden markov models</strong>, which are used for modeling sequences of data. Sequences appear everywhere, from stock prices, to language, credit scoring, webpage visits.</p>
 
 </div>
@@ -323,7 +323,7 @@ $(document).ready(function () {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="Machine_Learning/05-Hidden_Markov_Models-06-Hidden-Markov-Models-Markov-Models.html"><strong>6. Markov Models and The Markov Property</strong></a><br>
+<p><a href="Machine_Learning/05-Hidden_Markov_Models-02-Hidden-Markov-Models-Markov-Models.html"><strong>2. Markov Models and The Markov Property</strong></a><br>
 &nbsp; &nbsp;What is the markov property?</p>
 
 </div>
@@ -333,7 +333,7 @@ $(document).ready(function () {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="Machine_Learning/05-Hidden_Markov_Models-07-Hidden-Markov-Models-Example-Problems-and-Applications.html"><strong>7. Hidden Markov Models Example Problems</strong></a><br>
+<p><a href="Machine_Learning/05-Hidden_Markov_Models-03-Hidden-Markov-Models-Example-Problems-and-Applications.html"><strong>3. Hidden Markov Models Example Problems</strong></a><br>
 &nbsp; &nbsp;We will now look at a model that examines our state of healthiness vs. being sick. Keep in mind that this is very much like something you could do in real life. If you wanted to model a certain situation or environment, we could take some data that we have gathered, build a maximum likelihood model on it, and do things like study the properties that emerge from the model, or make predictions from the model, or generate the next most likely state.</p>
 
 </div>
@@ -343,7 +343,7 @@ $(document).ready(function () {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="Machine_Learning/05-Hidden_Markov_Models-08-Hidden-Markov-Models-Hidden-Markov-Models-Discrete-Observations.html"><strong>8. From Markov Models to Hidden Markov Models</strong></a><br>
+<p><a href="Machine_Learning/05-Hidden_Markov_Models-04-Hidden-Markov-Models-Hidden-Markov-Models-Discrete-Observations.html"><strong>4. From Markov Models to Hidden Markov Models</strong></a><br>
 &nbsp; &nbsp;We are now going to extend the basic idea of markov models to hidden markov models. We have talked about latent variables before, and they will be a very important concept as we move forward. They show up in <strong>K-means clustering</strong>, <strong>Gaussian Mixture Models</strong>, <strong>principle components analysis</strong>, and many other areas. With hidden markov models, it even shows up in the name, so you know that hidden (latent) variables are central to this model.</p>
 
 </div>
@@ -353,8 +353,76 @@ $(document).ready(function () {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="Machine_Learning/05-Hidden_Markov_Models-09-Hidden-Markov-Models-HMM-Calculations.html"><strong>9. Hidden Markov Model Calculations</strong></a><br>
+<p><a href="Machine_Learning/05-Hidden_Markov_Models-05-Hidden-Markov-Models-HMM-Calculations.html"><strong>5. Hidden Markov Model Calculations</strong></a><br>
 &nbsp; &nbsp;This appendix serves as an accompaniment to hidden markov models, discrete observations. We will go over calculations concerning:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="6.-Ensemble-methods">6. Ensemble methods<a class="anchor-link" href="#6.-Ensemble-methods">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="Machine_Learning/06-Ensemble_methods-01-Bias-Variance-Trade-Off .html"><strong>1. Bias-Variance Trade-Off</strong></a><br>
+&nbsp; &nbsp;As we get started with ensemble methods, we will being by looking at the <strong>bias-variance trade-off</strong>. There are three key terms in particular that we are going to look at:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="Machine_Learning/06-Ensemble_methods-02-Bias-Variance-Regression-Demo.html"><strong>2. Bias-Variance Regression Demo</strong></a><br>
+&nbsp; &nbsp;Let's take a moment to start from the beginning. In any data generating process, we have what is a called a <strong>ground truth function</strong>, which we will call:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="Machine_Learning/06-Ensemble_methods-03-Bootstrap-Estimates-and-Bagging.html"><strong>3. Bootstrap Estimation</strong></a><br>
+&nbsp; &nbsp;We previously looked at the bias-variance tradeoff and if you were thinking critically you may have wondered: "Could it be possible in some way to lower bias and variance simultaneously?"</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="Machine_Learning/06-Ensemble_methods-04-Random-Forest.html"><strong>4. Random Forest Algorithm</strong></a><br>
+&nbsp; &nbsp;We are now going to touch on the <strong>random forest</strong> algorithm, which touches on earlier concepts we have gone over.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="Machine_Learning/06-Ensemble_methods-05-AdaBoost.html"><strong>5. AdaBoost Algorithm</strong></a><br>
+&nbsp; &nbsp;We are now going to talk about <strong>boosting</strong>, and introduce a realization of the boosting idea, the algorithm <strong>AdaBoost</strong>. It is currently still one of the most powerful ensemble methods in existence, and like the random forest it is considered a good off the shelf/plug and play model.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="Machine_Learning/06-Ensemble_methods-06-Summary-of-Concepts.html"><strong>6. Summary</strong></a><br>
+&nbsp; &nbsp;We started off this series talking about the bias-variance trade-off. We showed that the error of any classification or regression model is a combination of <strong>bias</strong>, <strong>variance</strong>, and <strong>irreducible error</strong>. We then demonstrated that irreducible error can't be reduced, by bias and variance can! In the ideal situation both bias and variance are <strong>low</strong>. The main dilemma we saw was that as we decrease one, the other tends to increase. So, the idea that we found was that we want to find a happy medium where we are optimizing the test error. We learned than ensemble methods are a way to make the tradeoff, less of a tradeoff (i.e. attain low bias and low variance)!</p>
 
 </div>
 </div>

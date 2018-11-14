@@ -218,56 +218,24 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="5.-Hidden-Markov-Models-Introduction">5. Hidden Markov Models Introduction<a class="anchor-link" href="#5.-Hidden-Markov-Models-Introduction">&#182;</a></h1><p>This notebook is going to cover <strong>hidden markov models</strong>, which are used for modeling sequences of data. Sequences appear everywhere, from stock prices, to language, credit scoring, webpage visits.</p>
-<p>Often, we may be dealing with sequences in machine learning and we don't even realize it; or we may even ignore the fact that it came from a sequence. For instance, the following sentence:</p>
-<blockquote><p>"Like and cats dogs I"</p>
-</blockquote>
-<p>Clearly, this model does not make any sense. This is what happens when you use a model such as bag of words. The fact that it becomes much harder to tell what a sentence means when you take away the time aspect, tells you that there is a lot of information carried there. The original sentence was:</p>
-<blockquote><p>"I like cats and dogs"</p>
-</blockquote>
-<p>This may be relatively easy to decode on your own, but you can imagine that this gets much harder as the sentence gets longer.</p>
-<h2 id="1.1-Outline">1.1 Outline<a class="anchor-link" href="#1.1-Outline">&#182;</a></h2><ol>
-<li><p>We will start by looking at the most <strong>basic markov model</strong>, with no hidden portion. These are very useful for modeling sequences as we will see. We will talk about the mathematical properties of the markov model, and go through a ton of examples so we can see how they are used. Google's PageRank algorithm is based on markov models. So, despite being based on old technology, markov models are still very useful and relevant today.</p>
-</li>
-<li><p>We will also talk about how to model language, and how to analyze web visitor data, so you can fix problems like high bounce rate.</p>
-</li>
-<li><p>Next, we will look at the <strong>hidden markov model</strong>. This will be very complex mathematically, but the first section should prepare you. We will look at the three basic problems in hidden markov modeling:</p>
-<ul>
-<li>Predicting the probability of a sequence</li>
-<li>Predicting the most likely sequence of hidden states given an observed sequence</li>
-<li>How to train a hidden markov model </li>
-<li>We will even go further and look at how this relates to deep learning by using gradient descent to train our HMM. Typically, the expectation maximization algorithm is used. We will do this too, but we will see how gradient descent makes this much easier. </li>
-</ul>
-</li>
-<li>We will finally look at Hidden Markov Models for real-valued data.</li>
-</ol>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<hr>
+<h1 id="6.-Summary">6. Summary<a class="anchor-link" href="#6.-Summary">&#182;</a></h1><p>We started off this series talking about the bias-variance trade-off. We showed that the error of any classification or regression model is a combination of <strong>bias</strong>, <strong>variance</strong>, and <strong>irreducible error</strong>. We then demonstrated that irreducible error can't be reduced, by bias and variance can! In the ideal situation both bias and variance are <strong>low</strong>. The main dilemma we saw was that as we decrease one, the other tends to increase. So, the idea that we found was that we want to find a happy medium where we are optimizing the test error. We learned than ensemble methods are a way to make the tradeoff, less of a tradeoff (i.e. attain low bias and low variance)!</p>
 <p><br></p>
-<h1 id="Unsupervised-or-Supervised?">Unsupervised or Supervised?<a class="anchor-link" href="#Unsupervised-or-Supervised?">&#182;</a></h1><p>We can now discuss where HMM's fit in the spectrum of machine learning techniques. Hidden markov models are for modeling sequences. If you think of a sequence by itself, that could look like:</p>
-<blockquote>
-<pre><code>x(1), x(2),...,x(t),...,x(T)</code></pre>
-</blockquote>
-<p>We can see that there is no label there, so HMM's just model the distribution of a sequence; this means that it is unsupervised.</p>
-<h2 id="Classification">Classification<a class="anchor-link" href="#Classification">&#182;</a></h2><p>However, we often see HMMs being used for classifiers as well. For instance, we could train an HMM to model a male voice and a female voice. Then we could predict, given a new voice sample, whether the voice is male or female.</p>
-<p>How can we do this, given that we only have a model for the probability of the data, $p(X)$? The key idea here is bayes rule. What we actually modeled was $p(X \; | \; male)$ and $p(X \; | \; female)$. We know that bayes rule helps us reverse the conditional, leaving us with:</p>
-<p>$$p(male \; | \; x) \; and \; p(female \; | \; x)$$</p>
-<p>Now we can find the most probable class, and our prediction becomes whatever the most probable class is. From bayes rule we know that:</p>
-<p>$$p(male \; | \; x) = \frac{p(X \; | \; male) p(male)}{p(X)}$$</p>
-<p>$$p(female \; | \; x) = \frac{p(X \; | \; female) p(female)}{p(X)}$$</p>
-<p>And in general:
-$$posterior = \frac{likelihood * prior}{normalization \; constant}$$</p>
-<p>We do not care about the actual probability, $p(X \; | \; C)$, just which one is great. It should be noted that while we can model it with an HMM, but also with Naive Bayes:</p>
-<p>$$P(X \; | \; C) = P(x(1,1) \; | \; C)*P(x(1,2) \; | \; C)*...*P(x(T,D) \; | \; C)$$</p>
-<p>With Naive Bayes, we make the independence assumption, meaning that each sample is independent. So, we take the probability of each given feature, and multiply them together to get the final $P(X \; | \; C)$. What we can even do is extend this idea behind hidden markov models and model the data using more general concepts like Bayesian Belief Networks.</p>
-<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h2><p>At its core, HMMs are unsupervised. However, it can easily be used for classification just by creating a separate model for each class, and then making the prediction based on which model gives you the maximum posterior probability.</p>
+<h2 id="1.1-Bootstrap">1.1 Bootstrap<a class="anchor-link" href="#1.1-Bootstrap">&#182;</a></h2><p>We began our discussion of ensemble methods with the <strong>bootstrap technique</strong>. We showed that by using the bootstrap we can not only estimate confidence intervals, but we can actually reduce the variance of whatever we are trying to estimate; just by estimating it over and over again with resampled data sets. The key equation below, showed us that the variance of the bootstrap estimate was a function of the original variance, the correlation between each bootstrap sample, and the number of bootstrap samples.</p>
+<p>$$var(\bar{\theta}_B) = \frac{1 - \rho}{B}\sigma^2 + \rho \sigma^2$$</p>
+<p>This equation showed us that when the correlation between each bootstrap sample is 1, we do not get any reduction in variance. But, when the correlation between each bootstrap sample is 0, then we get the maximum reduction in variance, which is a $\frac{1}{B}$ decrease.</p>
+<p><br></p>
+<h2 id="1.2-Bagging">1.2 Bagging<a class="anchor-link" href="#1.2-Bagging">&#182;</a></h2><p>The bootstrap technique motivated the idea of <strong>bagging</strong>. This is where we would create an ensemble of models by training them on bootstrapped samples of the training data. We deduced that by using trees, which have very low bias and very high variance, we could achieve the desired decorrelation effect. We then combined the trees to lower the variance.</p>
+<p><br></p>
+<h2 id="1.3-Random-Forest">1.3 Random Forest<a class="anchor-link" href="#1.3-Random-Forest">&#182;</a></h2><p>Next we looked at the random forest, which further decorrelated the ensemble of trees by sampling the features as well.</p>
+<p><br></p>
+<h2 id="1.4-AdaBoost">1.4 AdaBoost<a class="anchor-link" href="#1.4-AdaBoost">&#182;</a></h2><p>Next we looked at AdaBoost, which unlike bagged trees and random forest, did not aim to use low bias, high variance models. Instead, the idea behind boosting was that many individual weak learners could be combined to be a strong learner if weighted properly. We demonstrated that this is true, by showing that AdaBoost achieve the best error rate on our data.</p>
+<p><br></p>
+<h2 id="1.4-Mixture-of-Experts">1.4 Mixture of Experts<a class="anchor-link" href="#1.4-Mixture-of-Experts">&#182;</a></h2><p>An interesting idea is how you may even go past boosting. First, we know that a bagging classifier just outputs the sum of all of its base learner predictions (assuming we are using -1 and +1 as targets).</p>
+<p>$$\textbf{Bagging} \rightarrow F(x) = \sum_{m=1}^Mf_m(x)$$</p>
+<p>Boosting extends this by adding weights to each base learner. These weights, however, are not dependent on the input. Thus, each weight has the same value no matter what x is.</p>
+<p>$$\textbf{Boosting} \rightarrow F(x) = \sum_{m=1}^M \alpha_mf_m(x)$$</p>
+<p>One idea is that you can extend that by making each base learner an expert at something different. In other words, the model weight will also depend on x, and that will tell us how good the model is at classifying that x. This is known as mixture of experts.</p>
+<p>$$\textbf{Mixture of Experts} \rightarrow F(x) = \sum_{m=1}^M \alpha_m(x)f_m(x)$$</p>
 
 </div>
 </div>
