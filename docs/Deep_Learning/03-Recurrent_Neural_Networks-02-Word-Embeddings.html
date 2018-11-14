@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/readable.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Nathaniel Dake Blog</title>
+
+<style type = "text/css">
+body {
+  font-family: "sans-serif";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Nathaniel Dake Blog</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../Deep_Learning.html">Deep Learning</a>
+</li>
+        
+<li>
+  <a href="../AI.html">AI</a>
+</li>
+        
+<li>
+  <a href="../Machine_Learning.html">Machine Learning</a>
+</li>
+        
+<li>
+  <a href="../NLP.html">NLP</a>
+</li>
+        
+<li>
+  <a href="../Mathematics.html">Mathematics</a>
+</li>
+        
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
+<li>
+  <a href="../Book_Reviews.html">Book Reviews</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="https://github.com/NathanielDake/nathanieldake.github.io"> source </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="2.-Word-Embeddings">2. Word Embeddings<a class="anchor-link" href="#2.-Word-Embeddings">&#182;</a></h1><p>This section is intended to serve as an introduction to many of the things that we will touch on in my NLP section pertaining to Deep learning applied to natural language processing.</p>
+<p>You will notice that a lot of the RNN examples that we go over, as well as elsewhere on the web will use word sequences as examples. Why is that?</p>
+<ol>
+<li>Language is an easy topic to comprehend! We speak, read, and write every single day, which makes it rather intuitive to deal with. If you are reading this post, then you are unavoidably using those abilities at this very moment.</li>
+<li>RNN's allow for us to no longer treat sentences as <strong>bag-of-words</strong>.</li>
+</ol>
+<p>Let's focus on number 2 above for a moment. As an example, consider the sentence:</p>
+<blockquote><p>"Dogs love cats and I"</p>
+</blockquote>
+<p>It <em>almost</em> has the correct gramatical structure, but its meaning is most certainly different from the original sentence:</p>
+<blockquote><p>"I love dogs and cats"</p>
+</blockquote>
+<p>So, there is a lot of information (in the quantitative sense) that is thrown away when you use bag-of-words. At this point I am assuming that you have gone through my posts concerning Logistic Regression and intro to NLP, which both go over sentiment analysis and utilize bag-of-words. But in case you have not, let me define bag of words quickly.</p>
+<h2 id="1.-Bag-of-Words">1. Bag-of-Words<a class="anchor-link" href="#1.-Bag-of-Words">&#182;</a></h2><p>Consider a the task of sentiment analysis, where we are trying to determine whether a sentence is positive or negative. A positive sentence may be:</p>
+<blockquote><p>"Wow, today is a great day!"</p>
+</blockquote>
+<p>While a negative sentence may be:</p>
+<blockquote><p>"Ugh, this movie is absolutely terrible."</p>
+</blockquote>
+<p>In order to turn each sentence into an input for the classifier, we first start with a vector of 0's of size $V$ (our vocabularly size), so there is an entry for every individual word:</p>
+
+<pre><code>X=[0,0,0,...,0]
+len(X) = V</code></pre>
+<p>We keep track of which word goes with which index using a dictionary, <code>word2idx</code>. Now, for every word in the sentence, we will set the corresponding index in the vector to <code>1</code>, or perhaps some other frequency measure:</p>
+
+<pre><code>X[idx_of_word] = 1</code></pre>
+<p>So, there is a nonzero value for every word that appears in the sentence, and everywhere else zero:</p>
+
+<pre><code>X = [0,1,0,0,...,1]</code></pre>
+<p>You can see how given this vector, it wouldn't be easy to determine the correct order of words in the sentence. It isn't completely impossible, if for instance the words are such that their is only one possible ordering, but generally some information is lost.</p>
+<p>Now, what happens when you have the two similar sentences:</p>
+<blockquote><p>"Today is a good day."</p>
+</blockquote>
+<p>And:</p>
+<blockquote><p>"Today is <em>not</em> a good day."</p>
+</blockquote>
+<p>Well, these lead to nearly the exact same input vector, except <code>X[not] = 1</code>. This is actually a known drawback of bag-of-words; they are notoriously bad at being able to handle negation. Now, given what we know about RNN's, you can imagine that they may be good at this because they keep state! For instance, if the RNN saw the word <em>not</em>, it may negate everything that comes after it.</p>
+<h2 id="2.-Word-Embeddings">2. Word Embeddings<a class="anchor-link" href="#2.-Word-Embeddings">&#182;</a></h2><p>This brings us to a paramount question: How <em>do</em> we treat words in deep learning? The popular method at the moment, which has been able to produce very impressive results, is the use of word embeddings or word vectors. That means that give a vocabulary size $V$, we choose a dimensionality that is much smaller than that, $D$, where $D &lt;&lt; V$, and then map each word vector to somewhere in the $D$ dimensional space. By training a model to do certain things like trying to predict the next word, or try to predict surrounding words, we get vectors (word embeddings) that can be manipulated via arithmetic to produce analogies such as:</p>
+<blockquote><p>king - man $\approx$ queen - woman</p>
+</blockquote>
+<p>The question now is how do we use word embeddings with Recurrent Neural Networks? To accomplish this, we simply create an embedding layer in the RNN. So, the input simply arrives as a one hot encoded word, and in the next layer it becomes a $D$ dimensional vector.</p>
+<p><img src="https://drive.google.com/uc?id=1Q2eh1IRL0qxB05p-xb4TJvYSwEHZP7HO" width="500"></p>
+<p>This requires the word embedding transformation matrix to be a $VxD$ matrix, where the $i$th row is the word vector for the $i$th word. For reference, all of the matrix dimensions are below:</p>
+<p>$$W_e = VxD$$</p>
+<p>$$W_x = DxM$$</p>
+<p>$$W_h = MxM$$</p>
+<p>$$W_o = MxK$$</p>
+<p>Two questions will naturally arise at this point. The first being:</p>
+<ol>
+<li>How do we traing this model?</li>
+</ol>
+<p>The answer to this is our old friend, gradient descent. We will also see later that when we do Word2Vec that there are some variations on the cross entropy error function that will help us speed up training. The second question is:</p>
+<ol>
+<li>What are the targets? </li>
+</ol>
+<p>This is a good question because language models don't necessarily have targets. You can attempt to learn word embeddings on a sentiment analysis task, so your targets could be movie ratings or some kind of movie score. Your targets could also be next word prediction as we discussed before. Again, if we use Word2Vec, the targets will also change based on the particular Word2Vec method we use.</p>
+<h2 id="3.-Word-Analogies-with-Word-Embeddings">3. Word Analogies with Word Embeddings<a class="anchor-link" href="#3.-Word-Analogies-with-Word-Embeddings">&#182;</a></h2><p>We are now going to go over how you actually can perform calculations that show that:</p>
+<blockquote><p>king - man $\approx$ queen - woman</p>
+</blockquote>
+<p>It is quite simple, but worth going through so that intuitions can start forming about this entire process.</p>
+<p>We can start be rewriting the above as:</p>
+<blockquote><p>king - man + woman = ?</p>
+</blockquote>
+<p>Then there are two main steps:</p>
+<ol>
+<li>Convert 3 words on the left to their word embeddings. For example: </li>
+</ol>
+
+<pre><code>vec(king) = Word_embedding[word2idx["king"]]
+v0 = vec(king) - vec(man) + vec(woman)</code></pre>
+<p>And <code>v0</code> is just a vector in space with an infinte number of values!</p>
+<ol>
+<li>We want to then find the "closest" actual word in our vocabulary to the <code>v0</code>, and return that word.</li>
+</ol>
+<p>Why do we need to do that? Well, the result of <code>vec(king) - vec(man) + vec(woman)</code> just gives us a vector. There is no way to map from vectors to words, since a vector space is continuous, and that would require and infinite number of words. So, the idea is that we just find closest word.</p>
+<h3 id="3.1-Distance">3.1 Distance<a class="anchor-link" href="#3.1-Distance">&#182;</a></h3><p>There are various ways of defining distance in the context above. Sometimes, we will simply use <em>Euclidean Distance</em>:</p>
+<p>$$\text{Euclidean Distance: } ||a - b||^2$$</p>
+<p>It is also common to use the <em>cosine distance</em>:</p>
+<p>$$\text{Cosine Distance: } cosine\_distance(a, b) = \frac{1 - a^Tb}{||a|| \; ||b||}$$</p>
+<p>In this later form, since only the angle matters, because:</p>
+<p>$$a^Tb = ||a|| \; ||b|| cos(a,b)$$</p>
+<p>During training we normalize all of the word vectors so that their length is 1:</p>
+<p>$$cos(0) = 1, \; cos(90) = 0, \; cos(180) = -1$$</p>
+<p>When two vectors are closer, $cos(\theta)$ is bigger. So, we want our distance to be:</p>
+<p>$$\text{Distance} = 1 - cos(\theta)$$</p>
+<p>At this point we can say that all of the word embeddings lie on the unit sphere.</p>
+<h3 id="3.2-Find-the-best-word">3.2 Find the best word<a class="anchor-link" href="#3.2-Find-the-best-word">&#182;</a></h3><p>Once we have our distance function, how do we actually find the closest word? The simplest word is to just look at every word in the vocabulary, and get the distance between each vector and your expression vector. Keep track of the smallest distance and then return that word.</p>
+
+<pre><code>min_dist = Infinity; best_word = ''
+for word, idx in word2idx.items():
+    v1 = Word_embedding[idx]
+    if dist(v0, v1) &lt; min_dist:
+        min_dist = dist(v0, v1)
+        best_word = word
+
+print("The best word is: ", best_word)</code></pre>
+<p>We may want to leave out the words from the left side of the equation, in this case <em>king, man</em>, and <em>woman</em>. Note that we will not be using this on our upcoming poetry data, since it doesn't have the kind of vocabulary we are looking for. We are more interested in things like nouns when we do word analogies. We want to compare kings and queens, men and women, occupations, etc. We will look more at word analogies later on.</p>
+<h2 id="4.-Representing-a-Sequence-of-Words-as-a-Sequence-of-Word-Embeddings">4. Representing a Sequence of Words as a Sequence of Word Embeddings<a class="anchor-link" href="#4.-Representing-a-Sequence-of-Words-as-a-Sequence-of-Word-Embeddings">&#182;</a></h2><p>Let's quickly go over one small detail from the upcoming code, that may be slightly confusing. We have a word embedding matrix, $W_e$, which is of size $V x D$ (V = vocabulary size, D = word vector dimensionality), and we have an input sequence of word indexes of length $T$. We would like to get a sequence of word vectors that represent a sentence, which is a $TxD$ vector. However, we will need to update the word embeddings via backpropagation, so the $TxD$ matrix we get after grabbing the word vectors cannot be the input into the neural network.</p>
+
+</div>
+</div>
+</div>
+<hr>
+&copy; 2018 Nathaniel Dake
+
+</div>
+</div>
+</body>
+</html>

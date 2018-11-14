@@ -1,0 +1,1846 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/readable.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Nathaniel Dake Blog</title>
+
+<style type = "text/css">
+body {
+  font-family: "sans-serif";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Nathaniel Dake Blog</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../Deep_Learning.html">Deep Learning</a>
+</li>
+        
+<li>
+  <a href="../AI.html">AI</a>
+</li>
+        
+<li>
+  <a href="../Machine_Learning.html">Machine Learning</a>
+</li>
+        
+<li>
+  <a href="../NLP.html">NLP</a>
+</li>
+        
+<li>
+  <a href="../Mathematics.html">Mathematics</a>
+</li>
+        
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
+<li>
+  <a href="../Book_Reviews.html">Book Reviews</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="https://github.com/NathanielDake/nathanieldake.github.io"> source </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="1.-Introduction-to-Natural-Language-Processing">1. Introduction to Natural Language Processing<a class="anchor-link" href="#1.-Introduction-to-Natural-Language-Processing">&#182;</a></h1><p>Natural Language Processing is certainly one of the most fascinating and exciting areas to be involved with at this point in time. It is a wonderful intersection of computer science, artificial intelligence, machine learning and linguistics. With the (somewhat) recent rise of Deep Learning, Natural Language Processing currently has a great deal of buzz surrounding it, and for good reason. The goal of this post is to do three things:</p>
+<ol>
+<li>Inspire the reader with the beauty of the problem of NLP</li>
+<li>Explain how machine learning techniques (i.e. something as simple as Logistic Regression) can be applied to text data.</li>
+<li>Prepare the reader for the next sections surrounding Deep Learning as it is applied to NLP.</li>
+</ol>
+<p>Before we dive in, I would like to share the poem <em>Jabberwocky</em> by Lewis Carrol, and an accompanying excerpt from the book "<em>Godel, Escher, Bach</em>", by Douglas Hofstadter.</p>
+<p><img src="https://drive.google.com/uc?id=1ROLVf2p6xYyTqQ3fmeky0eSD6ZCdfJ3M" width="300"></p>
+<p>And now, the corresponding excerpt, <em><strong>Translations of Jabberwocky</strong></em>.</p>
+<blockquote><h3>Translations of Jabberwocky<br></h3>
+<p>Douglas R. Hofstadter
+Imagine native speakers of English, French, and German, all of whom have excellent command of their respective native languages, and all of whom enjoy wordplay in their own language. Would their symbol networks be similar on a local level, or on a global level? Or is it meaningful to ask such a question? The question becomes concrete when you look at the preceding translations of Lewis Carroll's famous "Jabberwocky".
+<br>
+<br>
+[The "preceding translations" were "Jabberwocky" (English, original), by Lewis Carroll, "Le Jaseroque", (French), by Frank L. Warrin, and "Der Jammerwoch" (German), by Robert Scott. --kl]
+<br>
+<br>
+I chose this example because it demonstrates, perhaps better than an example in ordinary prose, the problem of trying to find "the same node" in two different networks which are, on some level of analysis, extremely nonisomorphic. In ordinary language, the task of translation is more straightforward, since to each word or phrase in the original language, there can usually be found a corresponding word or phrase in the new language. By contrast, in a poem of this type, many "words" do not carry ordinary meaning, but act purely as exciters of nearby symbols. However, what is nearby in one language may be remote in another.
+<br>
+<br>
+Thus, in the brain of a native speaker of English, "slithy" probably activates such symbols as "slimy", "slither", "slippery", "lithe", and "sly", to varying extents. Does "lubricilleux" do the corresponding thing in the brain of a Frenchman? What indeed would be "the corresponding thing"? Would it be to activate symbols which are the ordinary translations of those words? What if there is no word, real or fabricated, which will accomplish that? Or what if a word does exist, but it is very intellectual-sounding and Latinate ("lubricilleux"), rather than earthy and Anglo-Saxon ("slithy")? Perhaps "huilasse" would be better than "lubricilleux"? Or does the Latin origin of the word "lubricilleux" not make itself felt to a speaker of French in the way that it would if it were an English word ("lubricilious", perhaps)?
+<br>
+<br>
+An interesting feature of the translation into French is the transposition into the present tense. To keep it in the past would make some unnatural turns of phrase necessary, and the present tense has a much fresher flavour in French than in the past. The translator sensed that this would be "more appropriate"--in some ill-defined yet compelling sense--and made the switch. Who can say whether remaining faithful to the English tense would have been better?
+<br>
+<br>
+In the German version, the droll phrase "er an-zu-denken-fing" occurs; it does not correspond to any English original. It is a playful reversal of words, whose flavour vaguely resembles that of the English phrase "he out-to-ponder set", if I may hazard a reverse translation. Most likely this funny turnabout of words was inspired by the similar playful reversal in the English of one line earlier: "So rested he by the Tumtum tree". It corresponds, yet doesn't correspond.
+<br>
+<br>
+Incidentally, why did the Tumtum tree get changed into an "arbre Té-té" in French? Figure it out for yourself.
+<br>
+<br>
+The word "manxome" in the original, whose "x" imbues it with many rich overtones, is weakly rendered in German by "manchsam", which back-translates into English as "maniful". The French "manscant" also lacks the manifold overtones of "manxome". There is no end to the interest of this kind of translation task.
+<br>
+<br>
+When confronted with such an example, one realizes that it is utterly impossible to make an exact translation. Yet even in this pathologically difficult case of translation, there seems to be some rough equivalence obtainable. Why is this so, if there really is no isomorphism between the brains of people who will read the different versions? The answer is that there is a kind of rough isomorphism, partly global, partly local, between the brains of all the readers of these three poems.</p>
+</blockquote>
+<p>Now, the purpose of sharing the above is because if you are reading these posts (and are anything like me), you may very well spend a large chunk of your time studying mathematics, computer science, machine learning, writing code, and so on. But, if you are new to NLP the appreciation for the beauty and deeper meaning surrounding language may not be on the forefront of your mind-that is understandable! But hopefully the passage and commentary above ignited some interest in the wonderfully complex and worthwhile problem of Natural Language Processing and Understanding.</p>
+<h2 id="2.-Spam-Detection">2. Spam Detection<a class="anchor-link" href="#2.-Spam-Detection">&#182;</a></h2><p>Now, especially at first, I don't want to dive into phonemes, morphemes, syntactical structure, and the like. We will leave those linguistic concepts for later on. The goal here is to quickly allow someone with an understanding of basic machine learning algorithms and techniques to implement them in the domain of NLP.</p>
+<p>We will see that, at least at first, a lot of NLP deals with preprocessing data, which allows us to use algorithms that we already know. The question that most definitely arises is: How do we take a bunch of documents which are basically a bunch of text, and feed them into other machine learning algorithms where the input is usually a vector of numbers?</p>
+<p>Well, before we even get to that, let's take a preprocessed data set from the <a href="https://archive.ics.uci.edu/ml/datasets/Spambase">uci archive</a> and perform a simple classification on it. The data has been processed in such a way that we can consider columns 1-48 to the be the input, and column 49 to the be label (1 = spam, 0 = not spam).</p>
+<p>The input columns are considered the input, and they are a <strong>word frequency measure</strong>. This measure can be calculated via:</p>
+<p>$$\text{Word Frequency Measure} = \frac{\text{# of times word appears in a document}}{\text{Number of words in document}} * 100$$</p>
+<p>This will result in a <strong>Document Term matrix</strong>, which is a matrix where <em>terms</em> (words that appeared in the document) go along the columns, and <em>documents</em> (emails in this case) go along the rows:</p>
+<table>
+<thead><tr>
+<th></th>
+<th>word 1</th>
+<th>word 2</th>
+<th>word 3</th>
+<th>word 4</th>
+<th>word 5</th>
+<th>word 6</th>
+<th>word 7</th>
+<th>word 8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Email 1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Email 2</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Email 3</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Email 4</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Email 5</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="2.1-Implementation-in-Code">2.1 Implementation in Code<a class="anchor-link" href="#2.1-Implementation-in-Code">&#182;</a></h3><p>We will now use <code>Scikit Learn</code> to show that we can use <em>any</em> model on NLP data, as long as it has been preprocessed correctly. First, let's use scikit learns <code>NaiveBayes</code> classifier:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="k">import</span> <span class="n">MultinomialNB</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../data/nlp/spambase.data&#39;</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[18]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>0.64</th>
+      <th>0.64.1</th>
+      <th>0.1</th>
+      <th>0.32</th>
+      <th>0.2</th>
+      <th>0.3</th>
+      <th>0.4</th>
+      <th>0.5</th>
+      <th>0.6</th>
+      <th>...</th>
+      <th>0.40</th>
+      <th>0.41</th>
+      <th>0.42</th>
+      <th>0.778</th>
+      <th>0.43</th>
+      <th>0.44</th>
+      <th>3.756</th>
+      <th>61</th>
+      <th>278</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.21</td>
+      <td>0.28</td>
+      <td>0.50</td>
+      <td>0.0</td>
+      <td>0.14</td>
+      <td>0.28</td>
+      <td>0.21</td>
+      <td>0.07</td>
+      <td>0.00</td>
+      <td>0.94</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.132</td>
+      <td>0.0</td>
+      <td>0.372</td>
+      <td>0.180</td>
+      <td>0.048</td>
+      <td>5.114</td>
+      <td>101</td>
+      <td>1028</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.06</td>
+      <td>0.00</td>
+      <td>0.71</td>
+      <td>0.0</td>
+      <td>1.23</td>
+      <td>0.19</td>
+      <td>0.19</td>
+      <td>0.12</td>
+      <td>0.64</td>
+      <td>0.25</td>
+      <td>...</td>
+      <td>0.01</td>
+      <td>0.143</td>
+      <td>0.0</td>
+      <td>0.276</td>
+      <td>0.184</td>
+      <td>0.010</td>
+      <td>9.821</td>
+      <td>485</td>
+      <td>2259</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.63</td>
+      <td>0.00</td>
+      <td>0.31</td>
+      <td>0.63</td>
+      <td>0.31</td>
+      <td>0.63</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.137</td>
+      <td>0.0</td>
+      <td>0.137</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>3.537</td>
+      <td>40</td>
+      <td>191</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.63</td>
+      <td>0.00</td>
+      <td>0.31</td>
+      <td>0.63</td>
+      <td>0.31</td>
+      <td>0.63</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.135</td>
+      <td>0.0</td>
+      <td>0.135</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>3.537</td>
+      <td>40</td>
+      <td>191</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>1.85</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>1.85</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0.223</td>
+      <td>0.0</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>3.000</td>
+      <td>15</td>
+      <td>54</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 58 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">values</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>    <span class="c1"># randomly split data into train and test sets</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">48</span><span class="p">]</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">Xtrain</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="o">-</span><span class="mi">100</span><span class="p">,]</span>
+<span class="n">Ytrain</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[:</span><span class="o">-</span><span class="mi">100</span><span class="p">,]</span>
+<span class="n">Xtest</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">:,]</span>
+<span class="n">Ytest</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">:,]</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">MultinomialNB</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtrain</span><span class="p">,</span> <span class="n">Ytrain</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Classifcation Rate for NB: &quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Classifcation Rate for NB:  0.88
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Excellent, a classification rate of 92%! Let's now look utilize <code>AdaBoost</code>:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="k">import</span> <span class="n">AdaBoostClassifier</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">AdaBoostClassifier</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtrain</span><span class="p">,</span> <span class="n">Ytrain</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Classifcation Rate for Adaboost: &quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Classifcation Rate for Adaboost:  0.93
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Great, a nice improvement, but more importantly, we have shown that we can take text data and that via correct preprocessing we are able to utilize it with standard machine learning API's. The next step is to dig into <em>how</em> basic preprocessing is performed.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="3.-Sentiment-Analysis">3. Sentiment Analysis<a class="anchor-link" href="#3.-Sentiment-Analysis">&#182;</a></h1><p>To go through the basic preprocessing steps that are frequently used when performing machine learning on text data (often referred to an NLP pipeline) we are going to want to work on the problem of <strong>sentiment analysis</strong>. Sentiment is a measure of how positive or negative something is, and we are going to build a very simple sentiment analyzer to predict the sentiment of Amazon reviews. These are reviews, so they come with 5 star ratings, and we are going to look at the electronics category in particular. These are XML files, so we will need an XML parser.</p>
+<h3 id="3.1-NLP-Terminology">3.1 NLP Terminology<a class="anchor-link" href="#3.1-NLP-Terminology">&#182;</a></h3><p>Before we begin, I would just like to quickly go over some basic NLP terminology that will come up frequently throughout this post.</p>
+<ul>
+<li><strong>Corpus</strong>: Collection of text</li>
+<li><strong>Tokens</strong>: Words and punctuation that make up the corpus. </li>
+<li><strong>Type</strong>: a distinct token. Ex. "Run, Lola Run" has four tokens (comma counts as one) and 3 types.</li>
+<li><strong>Vocabulary</strong>: The set of all types. </li>
+<li>The google corpus (collection of text) has 1 trillion tokens, and only 13 million types. English only has 1 million dictionary words, but the google corpus includes types such as "www.facebook.com". </li>
+</ul>
+<h3 id="3.2-Problem-Overview">3.2 Problem Overview<a class="anchor-link" href="#3.2-Problem-Overview">&#182;</a></h3><p>Now, we are just going to be looking at the electronics category. We could use the 5 star targets to do regression, but instead we will just do classification since they are already marked "positive" and "negative". As I mentioned, we are going to be working with XML data, so we will need an XML parser, for which we will use <code>BeautifulSoup</code>. We will only look at the <code>review_text</code> attribute. To create our feature vector, we will count up the number of occurences of each word, and divided it by the total number of words. However, for that to work we will need two passes through the data:</p>
+<ol>
+<li>One to collect the total number of distinct words, so that we know the size of our feature vector, in other words the vocabulary size, and possibly remove stop words like "this", "is", "I", "to", etc, to decrease the vocabulary size. The goal here is to know the index of each token</li>
+<li>On the second pass, we will be able to assign values to each data vector whose index corresponds to which words, and one to create data vectors </li>
+</ol>
+<p>Once we have that, it is simply a matter of creating a classifier like the one we did for our spam detector! Here, we will use logistic regression, so we can intepret the weights! For example, if you see a word like horrible and it has a weight of minus 1, it is associated with negative reviews. With that started, let's begin!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3.3-Sentiment-Analysis-in-Code">3.3 Sentiment Analysis in Code<a class="anchor-link" href="#3.3-Sentiment-Analysis-in-Code">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">nltk</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">nltk.stem</span> <span class="k">import</span> <span class="n">WordNetLemmatizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="k">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="k">import</span> <span class="n">BeautifulSoup</span>
+
+<span class="n">wordnet_lemmatizer</span> <span class="o">=</span> <span class="n">WordNetLemmatizer</span><span class="p">()</span>                                <span class="c1"># this turns words into their base form </span>
+
+<span class="n">stopwords</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../../data/nlp/stopwords.txt&#39;</span><span class="p">))</span>         <span class="c1"># grab stop words </span>
+
+<span class="c1"># get pos reviews</span>
+<span class="c1"># only want rev text</span>
+<span class="n">positive_reviews</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../../data/nlp/electronics/positive.review&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="s2">&quot;lxml&quot;</span><span class="p">)</span> 
+<span class="n">positive_reviews</span> <span class="o">=</span> <span class="n">positive_reviews</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;review_text&#39;</span><span class="p">)</span>                                  
+
+<span class="n">negative_reviews</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../../data/nlp/electronics/negative.review&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="s2">&quot;lxml&quot;</span><span class="p">)</span>
+<span class="n">negative_reviews</span> <span class="o">=</span> <span class="n">negative_reviews</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;review_text&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Class-Imbalance">Class Imbalance<a class="anchor-link" href="#Class-Imbalance">&#182;</a></h3><p>There are more positive than negative reviews, so we are going to shuffle the positive reviews and then cut off any extra that we may have so that they are both the same size.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">positive_reviews</span><span class="p">)</span>
+<span class="n">positive_reviews</span> <span class="o">=</span> <span class="n">positive_reviews</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">negative_reviews</span><span class="p">)]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Tokenizer-function">Tokenizer function<a class="anchor-link" href="#Tokenizer-function">&#182;</a></h3><p>Lets now create a tokenizer function that can be used on our specific reviews.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">my_tokenizer</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">tokenize</span><span class="o">.</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>                        <span class="c1"># essentially string.split()</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tokens</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">]</span>                     <span class="c1"># get rid of short words</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">wordnet_lemmatizer</span><span class="o">.</span><span class="n">lemmatize</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">]</span>     <span class="c1"># get words to base form</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tokens</span> <span class="k">if</span> <span class="n">t</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stopwords</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">tokens</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Index-each-word">Index each word<a class="anchor-link" href="#Index-each-word">&#182;</a></h3><p>We now need to create an index for each of the words, so that each word has an index in the final data vector. However, to able able to do that we need to know the size of the final data vector, and to be able to know that we need to know how big the vocabulary is. Remember, the <strong>vocabulary</strong> is just the set of all types!</p>
+<p>We are essentially going to look at every individual review, tokenize them, and then add those tokens 1 by 1 to the map if they do not exist yet.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">word_index_map</span> <span class="o">=</span> <span class="p">{}</span>                            <span class="c1"># our vocabulary - dictionary that will map words to dictionaries</span>
+<span class="n">current_index</span> <span class="o">=</span> <span class="mi">0</span>                              <span class="c1"># counter increases whenever we see a new word</span>
+
+<span class="n">positive_tokenized</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">negative_tokenized</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># --------- loop through positive reviews ---------</span>
+<span class="k">for</span> <span class="n">review</span> <span class="ow">in</span> <span class="n">positive_reviews</span><span class="p">:</span>              
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">my_tokenizer</span><span class="p">(</span><span class="n">review</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>          <span class="c1"># converts single review into array of tokens (split function)</span>
+    <span class="n">positive_tokenized</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>                        <span class="c1"># loops through array of tokens for specific review</span>
+        <span class="k">if</span> <span class="n">token</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">word_index_map</span><span class="p">:</span>                        <span class="c1"># if the token is not in the map, add it</span>
+            <span class="n">word_index_map</span><span class="p">[</span><span class="n">token</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_index</span>          
+            <span class="n">current_index</span> <span class="o">+=</span> <span class="mi">1</span>                                 <span class="c1"># increment current index</span>
+                
+<span class="c1"># --------- loop through negative reviews ---------</span>
+<span class="k">for</span> <span class="n">review</span> <span class="ow">in</span> <span class="n">negative_reviews</span><span class="p">:</span>              
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">my_tokenizer</span><span class="p">(</span><span class="n">review</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>          
+    <span class="n">negative_tokenized</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>                       
+        <span class="k">if</span> <span class="n">token</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">word_index_map</span><span class="p">:</span>                        
+            <span class="n">word_index_map</span><span class="p">[</span><span class="n">token</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_index</span>          
+            <span class="n">current_index</span> <span class="o">+=</span> <span class="mi">1</span>   
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">word_index_map</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[29]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;you&#39;: 0,
+ &#39;lot&#39;: 1,
+ &#39;aaa&#39;: 2,
+ &#39;battery&#39;: 3,
+ &#39;this&#39;: 4,
+ &#39;deal&#39;: 5,
+ &#39;market&#39;: 6,
+ &#39;short&#39;: 7,
+ &#39;investing&#39;: 8,
+ &#39;recharging&#39;: 9,
+ &#39;unit&#39;: 10,
+ &#39;couple&#39;: 11,
+ &#39;rechargeable&#39;: 12,
+ &#39;value&#39;: 13,
+ &#39;easy&#39;: 14,
+ &#39;install&#39;: 15,
+ &#39;remote&#39;: 16,
+ &#39;doe&#39;: 17,
+ &#39;on/off&#39;: 18,
+ &#39;switch&#39;: 19,
+ &#39;replaced&#39;: 20,
+ &#39;tape&#39;: 21,
+ &#39;pleased&#39;: 22,
+ &#39;waiting&#39;: 23,
+ &#39;rewind&#39;: 24,
+ &#39;message&#39;: 25,
+ &#39;played&#39;: 26,
+ &#39;remove&#39;: 27,
+ &#39;accurate&#39;: 28,
+ &#39;time&#39;: 29,
+ &#39;love&#39;: 30,
+ &#39;advertized&#39;: 31,
+ &#39;wire&#39;: 32,
+ &#39;ipod&#39;: 33,
+ &#39;bag&#39;: 34,
+ &#39;headset&#39;: 35,
+ &#39;bit&#39;: 36,
+ &#39;control&#39;: 37,
+ &#39;power&#39;: 38,
+ &#39;receiver&#39;: 39,
+ &#39;instead&#39;: 40,
+ &#39;then&#39;: 41,
+ &#39;otherwise&#39;: 42,
+ &#39;sound&#39;: 43,
+ &#39;ha&#39;: 44,
+ &#34;n&#39;t&#34;: 45,
+ &#39;broken&#39;: 46,
+ &#39;keyboard&#39;: 47,
+ &#39;quality&#39;: 48,
+ &#39;product&#39;: 49,
+ &#39;price&#39;: 50,
+ &#39;recommend&#39;: 51,
+ &#39;looking&#39;: 52,
+ &#39;low&#39;: 53,
+ &#39;profile&#39;: 54,
+ &#39;w/numeric&#39;: 55,
+ &#39;entry&#39;: 56,
+ &#39;pad&#39;: 57,
+ &#39;mimimum&#39;: 58,
+ &#39;anount&#39;: 59,
+ &#39;desk&#39;: 60,
+ &#39;space&#39;: 61,
+ &#39;keypad&#39;: 62,
+ &#39;feel&#39;: 63,
+ &#39;notebook&#39;: 64,
+ &#39;computer&#39;: 65,
+ &#39;docking&#39;: 66,
+ &#39;station&#39;: 67,
+ &#39;slim&#39;: 68,
+ &#39;kepads&#39;: 69,
+ &#39;modern&#39;: 70,
+ &#39;laptop&#39;: 71,
+ &#39;totally&#39;: 72,
+ &#39;mouse&#39;: 73,
+ &#39;purchased&#39;: 74,
+ &#39;1st&#39;: 75,
+ &#39;month&#39;: 76,
+ &#39;bought&#39;: 77,
+ &#39;assortment&#39;: 78,
+ &#39;color&#39;: 79,
+ &#39;chose&#39;: 80,
+ &#39;life&#39;: 81,
+ &#39;pretty&#39;: 82,
+ &#39;comfortable&#39;: 83,
+ &#39;heavy&#39;: 84,
+ &#39;move&#39;: 85,
+ &#39;push&#39;: 86,
+ &#39;type&#39;: 87,
+ &#39;wrist&#39;: 88,
+ &#39;rest&#39;: 89,
+ &#34;&#39;ve&#34;: 90,
+ &#39;cushiony&#39;: 91,
+ &#39;sturdy&#39;: 92,
+ &#39;provide&#39;: 93,
+ &#39;support&#39;: 94,
+ &#39;sent&#39;: 95,
+ &#39;check&#39;: 96,
+ &#39;fairly&#39;: 97,
+ &#39;promptly&#39;: 98,
+ &#39;including&#39;: 99,
+ &#39;tax&#39;: 100,
+ &#39;ad&#39;: 101,
+ &#39;pro&#39;: 102,
+ &#39;compact&#39;: 103,
+ &#39;extra&#39;: 104,
+ &#39;dongle&#39;: 105,
+ &#39;con&#39;: 106,
+ &#39;included&#39;: 107,
+ &#39;software&#39;: 108,
+ &#39;worthless&#39;: 109,
+ &#39;considering&#39;: 110,
+ &#39;cordless&#39;: 111,
+ &#39;keyboard/mouse&#39;: 112,
+ &#39;set&#39;: 113,
+ &#39;nowaday&#39;: 114,
+ &#39;nut&#39;: 115,
+ &#39;trying&#39;: 116,
+ &#39;decent&#39;: 117,
+ &#39;headphone&#39;: 118,
+ &#39;wa&#39;: 119,
+ &#39;various&#39;: 120,
+ &#39;model&#39;: 121,
+ &#39;ear-buds&#39;: 122,
+ &#39;standard&#39;: 123,
+ &#39;phone&#39;: 124,
+ &#39;returning&#39;: 125,
+ &#39;figured&#39;: 126,
+ &#39;shell&#39;: 127,
+ &#39;buck&#39;: 128,
+ &#39;decided&#39;: 129,
+ &#39;pull&#39;: 130,
+ &#39;trigger&#39;: 131,
+ &#39;company&#39;: 132,
+ &#39;youth&#39;: 133,
+ &#39;choice&#39;: 134,
+ &#39;headphones-&#39;: 135,
+ &#39;kos&#39;: 136,
+ &#39;course&#39;: 137,
+ &#39;man-&#39;: 138,
+ &#39;heard&#39;: 139,
+ &#39;half&#39;: 140,
+ &#39;easily&#39;: 141,
+ &#39;compare&#39;: 142,
+ &#39;well-known&#39;: 143,
+ &#39;costing&#39;: 144,
+ &#39;finally&#39;: 145,
+ &#39;awful&#39;: 146,
+ &#39;hi-mid&#39;: 147,
+ &#39;peak&#39;: 148,
+ &#39;threaten&#39;: 149,
+ &#39;career&#39;: 150,
+ &#39;audio&#39;: 151,
+ &#39;engineer&#39;: 152,
+ &#39;*cough&#39;: 153,
+ &#39;cough&#39;: 154,
+ &#39;sony&#39;: 155,
+ &#39;cough*&#39;: 156,
+ &#39;comfortable-&#39;: 157,
+ &#39;traditional&#39;: 158,
+ &#39;over-the-head&#39;: 159,
+ &#39;band&#39;: 160,
+ &#39;quick&#39;: 161,
+ &#39;nice&#39;: 162,
+ &#39;full-&#39;: 163,
+ &#39;bass&#39;: 164,
+ &#39;thump&#39;: 165,
+ &#39;people&#39;: 166,
+ &#39;ear&#39;: 167,
+ &#39;smooth&#39;: 168,
+ &#39;listen&#39;: 169,
+ &#39;hour&#39;: 170,
+ &#39;fatigue&#39;: 171,
+ &#39;doubt&#39;: 172,
+ &#39;budget&#39;: 173,
+ &#39;owned&#39;: 174,
+ &#39;bottom&#39;: 175,
+ &#39;line-&#39;: 176,
+ &#39;grab&#39;: 177,
+ &#39;pop&#39;: 178,
+ &#39;insane&#39;: 179,
+ &#39;period&#39;: 180,
+ &#39;run&#39;: 181,
+ &#39;base&#39;: 182,
+ &#39;somewhat&#39;: 183,
+ &#39;expected&#39;: 184,
+ &#39;picture&#39;: 185,
+ &#39;handset&#39;: 186,
+ &#39;designed&#39;: 187,
+ &#39;previous&#39;: 188,
+ &#39;happened&#39;: 189,
+ &#39;mute&#39;: 190,
+ &#39;function&#39;: 191,
+ &#39;engaged&#39;: 192,
+ &#39;kept&#39;: 193,
+ &#39;head&#39;: 194,
+ &#39;shoulder&#39;: 195,
+ &#39;happen&#39;: 196,
+ &#39;speakerphone&#39;: 197,
+ &#39;feature&#39;: 198,
+ &#39;usable&#39;: 199,
+ &#39;outage&#39;: 200,
+ &#39;answering&#39;: 201,
+ &#39;machine&#39;: 202,
+ &#39;copy&#39;: 203,
+ &#39;phonebook&#39;: 204,
+ &#39;outdoor&#39;: 205,
+ &#39;trail&#39;: 206,
+ &#39;camera&#39;: 207,
+ &#39;wild&#39;: 208,
+ &#39;game&#39;: 209,
+ &#39;hold&#39;: 210,
+ &#39;weather&#39;: 211,
+ &#39;buy&#39;: 212,
+ &#39;kingston&#39;: 213,
+ &#39;photo&#39;: 214,
+ &#39;printer&#39;: 215,
+ &#39;week&#39;: 216,
+ &#39;consider&#39;: 217,
+ &#39;technically&#39;: 218,
+ &#39;proficient&#39;: 219,
+ &#39;scored&#39;: 220,
+ &#39;despite&#39;: 221,
+ &#39;gross&#39;: 222,
+ &#39;ignorance&#39;: 223,
+ &#39;wrong&#39;: 224,
+ &#39;astonishing&#39;: 225,
+ &#39;printed&#39;: 226,
+ &#39;professional&#39;: 227,
+ &#39;framed&#39;: 228,
+ &#39;result&#39;: 229,
+ &#39;fantastic&#39;: 230,
+ &#39;techno-challenged&#39;: 231,
+ &#39;running&#39;: 232,
+ &#39;quickly&#39;: 233,
+ &#39;radio&#39;: 234,
+ &#39;kitchen&#39;: 235,
+ &#39;counter&#39;: 236,
+ &#39;boston&#39;: 237,
+ &#39;acoustic&#39;: 238,
+ &#39;tivoli&#39;: 239,
+ &#39;preset&#39;: 240,
+ &#39;flip&#39;: 241,
+ &#39;commercial&#39;: 242,
+ &#39;reviewer&#39;: 243,
+ &#39;wrote&#39;: 244,
+ &#39;overpowering&#39;: 245,
+ &#39;rock&#39;: 246,
+ &#39;music&#39;: 247,
+ &#39;notice&#39;: 248,
+ &#39;complaint&#39;: 249,
+ &#39;advertises&#39;: 250,
+ &#39;picking&#39;: 251,
+ &#39;weak&#39;: 252,
+ &#39;pick&#39;: 253,
+ &#39;house&#39;: 254,
+ &#39;listening&#39;: 255,
+ &#39;display&#39;: 256,
+ &#39;limited&#39;: 257,
+ &#39;look&#39;: 258,
+ &#39;larger&#39;: 259,
+ &#39;medium&#39;: 260,
+ &#39;former&#39;: 261,
+ &#39;speaker&#39;: 262,
+ &#39;midiland&#39;: 263,
+ &#39;5.1&#39;: 264,
+ &#39;system&#39;: 265,
+ &#39;thoroughly&#39;: 266,
+ &#39;aged&#39;: 267,
+ &#39;falling&#39;: 268,
+ &#39;apart&#39;: 269,
+ &#39;upgrade&#39;: 270,
+ &#39;incredible&#39;: 271,
+ &#39;dvd&#39;: 272,
+ &#39;shopped&#39;: 273,
+ &#39;conclusion&#39;: 274,
+ &#39;aim&#39;: 275,
+ &#39;form&#39;: 276,
+ &#39;factor&#39;: 277,
+ &#39;bose&#39;: 278,
+ &#39;account&#39;: 279,
+ &#39;expensive&#39;: 280,
+ &#39;1000&#39;: 281,
+ &#39;dollar&#39;: 282,
+ &#39;999&#39;: 283,
+ &#39;sooo&#39;: 284,
+ &#39;bi-directional&#39;: 285,
+ &#39;midrange&#39;: 286,
+ &#39;subwoofer&#39;: 287,
+ &#39;cable&#39;: 288,
+ &#39;disappointing&#39;: 289,
+ &#39;include&#39;: 290,
+ &#39;sort&#39;: 291,
+ &#39;matter&#39;: 292,
+ &#39;leaf&#39;: 293,
+ &#39;customer&#39;: 294,
+ &#39;customize&#39;: 295,
+ &#39;his/her&#39;: 296,
+ &#39;suit&#39;: 297,
+ &#39;personal&#39;: 298,
+ &#39;and/or&#39;: 299,
+ &#39;includes&#39;: 300,
+ &#39;white&#39;: 301,
+ &#39;silver&#39;: 302,
+ &#39;black&#39;: 303,
+ &#39;packaged&#39;: 304,
+ &#39;aesthetically&#39;: 305,
+ &#39;pleasing&#39;: 306,
+ &#39;exception&#39;: 307,
+ &#39;sub&#39;: 308,
+ &#39;rectangular&#39;: 309,
+ &#39;box&#39;: 310,
+ &#39;meant&#39;: 311,
+ &#39;save&#39;: 312,
+ &#39;brought&#39;: 313,
+ &#39;specific&#39;: 314,
+ &#39;size&#39;: 315,
+ &#39;attractiveness&#39;: 316,
+ &#39;job&#39;: 317,
+ &#39;reproducing&#39;: 318,
+ &#39;sound-granted&#39;: 319,
+ &#39;paired&#39;: 320,
+ &#39;competent&#39;: 321,
+ &#39;qualm&#39;: 322,
+ &#39;equipment&#39;: 323,
+ &#39;par&#39;: 324,
+ &#39;store&#39;: 325,
+ &#39;home&#39;: 326,
+ &#39;package&#39;: 327,
+ &#39;instruction&#39;: 328,
+ &#39;hidden&#39;: 329,
+ &#39;marking&#39;: 330,
+ &#39;belong&#39;: 331,
+ &#39;to-a&#39;: 332,
+ &#39;handy&#39;: 333,
+ &#39;especially&#39;: 334,
+ &#39;hide&#39;: 335,
+ &#39;serious&#39;: 336,
+ &#39;issue&#39;: 337,
+ &#39;onkyo&#39;: 338,
+ &#39;related&#39;: 339,
+ &#39;presently&#39;: 340,
+ &#39;trouble&#39;: 341,
+ &#39;setting&#39;: 342,
+ &#39;card&#39;: 343,
+ &#39;getting&#39;: 344,
+ &#39;mesh&#39;: 345,
+ &#39;extremely&#39;: 346,
+ &#39;please&#39;: 347,
+ &#39;tweaking&#39;: 348,
+ &#39;minimal&#39;: 349,
+ &#39;deserves&#39;: 350,
+ &#39;tag-its&#39;: 351,
+ &#39;target&#39;: 352,
+ &#39;audience&#39;: 353,
+ &#39;usually&#39;: 354,
+ &#39;affluent&#39;: 355,
+ &#39;unable&#39;: 356,
+ &#39;spend&#39;: 357,
+ &#39;individual&#39;: 358,
+ &#39;level&#39;: 359,
+ &#39;range&#39;: 360,
+ &#39;test&#39;: 361,
+ &#39;soundtrack&#39;: 362,
+ &#39;gladiator&#39;: 363,
+ &#39;matrix&#39;: 364,
+ &#39;iii&#39;: 365,
+ &#39;snatch&#39;: 366,
+ &#39;track&#39;: 367,
+ &#39;ranging&#39;: 368,
+ &#39;techno&#39;: 369,
+ &#39;classical&#39;: 370,
+ &#39;alternative&#39;: 371,
+ &#39;sounded&#39;: 372,
+ &#39;response&#39;: 373,
+ &#39;differentiating&#39;: 374,
+ &#39;satellite&#39;: 375,
+ &#39;found&#39;: 376,
+ &#39;center&#39;: 377,
+ &#39;channel&#39;: 378,
+ &#39;front&#39;: 379,
+ &#39;drowning&#39;: 380,
+ &#39;voice&#39;: 381,
+ &#39;solved&#39;: 382,
+ &#39;little&#39;: 383,
+ &#39;major&#39;: 384,
+ &#39;investment&#39;: 385,
+ &#39;mind&#39;: 386,
+ &#39;satisfying&#39;: 387,
+ &#39;draining&#39;: 388,
+ &#39;bank&#39;: 389,
+ &#39;providing&#39;: 390,
+ &#39;surround&#39;: 391,
+ &#39;volume&#39;: 392,
+ &#39;set-up&#39;: 393,
+ &#39;built&#39;: 394,
+ &#39;speakers-aesthetically&#39;: 395,
+ &#39;physically&#39;: 396,
+ &#39;interference&#39;: 397,
+ &#39;feedback&#39;: 398,
+ &#39;bad&#39;: 399,
+ &#39;awkward&#39;: 400,
+ &#39;dedicated&#39;: 401,
+ &#39;pricey&#39;: 402,
+ &#39;compete&#39;: 403,
+ &#39;full-blown&#39;: 404,
+ &#39;tower&#39;: 405,
+ &#39;satisfied&#39;: 406,
+ &#39;gps&#39;: 407,
+ &#39;cobra&#39;: 408,
+ &#39;garmin&#39;: 409,
+ &#39;lowrance&#39;: 410,
+ &#39;started&#39;: 411,
+ &#39;stolen&#39;: 412,
+ &#39;mount&#39;: 413,
+ &#39;sgood&#39;: 414,
+ &#39;returned&#39;: 415,
+ &#39;340.&#39;: 416,
+ &#39;advantage&#39;: 417,
+ &#39;screen&#39;: 418,
+ &#39;solid&#39;: 419,
+ &#39;interface&#39;: 420,
+ &#39;intuitive&#39;: 421,
+ &#39;learn&#39;: 422,
+ &#39;actually&#39;: 423,
+ &#39;traffic&#39;: 424,
+ &#39;service&#39;: 425,
+ &#39;cost&#39;: 426,
+ &#39;capable&#39;: 427,
+ &#39;mentioned&#39;: 428,
+ &#39;overall&#39;: 429,
+ &#39;happier&#39;: 430,
+ &#39;lower&#39;: 431,
+ &#39;recently&#39;: 432,
+ &#39;patio&#39;: 433,
+ &#39;setup&#39;: 434,
+ &#39;wont&#39;: 435,
+ &#39;blow&#39;: 436,
+ &#39;lound&#39;: 437,
+ &#39;hear&#39;: 438,
+ &#39;outdoor/indoor&#39;: 439,
+ &#39;installation&#39;: 440,
+ &#39;bracket&#39;: 441,
+ &#39;screw&#39;: 442,
+ &#39;provided&#39;: 443,
+ &#39;thye&#39;: 444,
+ &#39;pric&#39;: 445,
+ &#39;normal&#39;: 446,
+ &#39;network&#39;: 447,
+ &#39;complex&#39;: 448,
+ &#39;due&#39;: 449,
+ &#39;voip&#39;: 450,
+ &#39;router&#39;: 451,
+ &#39;2nd&#39;: 452,
+ &#39;wireless&#39;: 453,
+ &#39;sling&#39;: 454,
+ &#39;web&#39;: 455,
+ &#39;site&#39;: 456,
+ &#39;mess&#39;: 457,
+ &#39;multiple&#39;: 458,
+ &#39;port&#39;: 459,
+ &#39;forwarding&#39;: 460,
+ &#39;5001.&#39;: 461,
+ &#39;video&#39;: 462,
+ &#39;tried&#39;: 463,
+ &#39;location&#39;: 464,
+ &#39;netgear&#39;: 465,
+ &#39;ethernet&#39;: 466,
+ &#39;adaptor&#39;: 467,
+ &#39;watching&#39;: 468,
+ &#39;via&#39;: 469,
+ &#39;watch&#39;: 470,
+ &#39;wife&#39;: 471,
+ &#39;able&#39;: 472,
+ &#39;news&#39;: 473,
+ &#39;morning&#39;: 474,
+ &#39;surf&#39;: 475,
+ &#39;window&#39;: 476,
+ &#39;dish&#39;: 477,
+ &#39;dvr&#39;: 478,
+ &#39;manage&#39;: 479,
+ &#39;satelite/dvr&#39;: 480,
+ &#39;travel&#39;: 481,
+ &#39;son&#39;: 482,
+ &#39;seaseme&#39;: 483,
+ &#39;street&#39;: 484,
+ &#39;road&#39;: 485,
+ &#39;offer&#39;: 486,
+ &#39;performance&#39;: 487,
+ &#39;mac&#39;: 488,
+ &#39;version&#39;: 489,
+ &#39;beautiful&#39;: 490,
+ &#39;15.4&#39;: 491,
+ &#39;inch&#39;: 492,
+ &#39;book&#39;: 493,
+ &#39;expecting&#39;: 494,
+ &#39;random&#39;: 495,
+ &#39;quirk&#39;: 496,
+ &#39;continued&#39;: 497,
+ &#39;using&#39;: 498,
+ &#39;none&#39;: 499,
+ &#39;whatsoever&#39;: 500,
+ &#39;sore&#39;: 501,
+ &#39;forced&#39;: 502,
+ &#39;search&#39;: 503,
+ &#39;mean&#39;: 504,
+ &#39;carry&#39;: 505,
+ &#39;research&#39;: 506,
+ &#39;backpack&#39;: 507,
+ &#39;settled&#39;: 508,
+ &#39;kensington&#39;: 509,
+ &#39;contour&#39;: 510,
+ &#39;name&#39;: 511,
+ &#39;jansport&#39;: 512,
+ &#39;kelty&#39;: 513,
+ &#39;backpacker&#39;: 514,
+ &#39;familiar&#39;: 515,
+ &#39;seeking&#39;: 516,
+ &#39;comfort&#39;: 517,
+ &#39;material&#39;: 518,
+ &#39;design&#39;: 519,
+ &#39;water&#39;: 520,
+ &#39;proofing&#39;: 521,
+ &#39;padding&#39;: 522,
+ &#39;urban&#39;: 523,
+ &#39;rugged&#39;: 524,
+ &#39;exterior&#39;: 525,
+ &#39;sophisticated&#39;: 526,
+ &#39;appearance&#39;: 527,
+ &#39;pocket&#39;: 528,
+ &#39;adjustable&#39;: 529,
+ &#39;lumbar&#39;: 530,
+ &#39;bottle&#39;: 531,
+ &#39;write&#39;: 532,
+ &#39;living&#39;: 533,
+ &#39;city&#39;: 534,
+ &#39;pack&#39;: 535,
+ &#39;exactly&#39;: 536,
+ &#39;protect&#39;: 537,
+ &#39;precious&#39;: 538,
+ &#39;hip&#39;: 539,
+ &#39;twice&#39;: 540,
+ &#39;hardware&#39;: 541,
+ &#39;zipper-handle&#39;: 542,
+ &#39;outside&#39;: 543,
+ &#39;fell&#39;: 544,
+ &#39;kennisington&#39;: 545,
+ &#39;immediately&#39;: 546,
+ &#39;free&#39;: 547,
+ &#39;airport&#39;: 548,
+ &#39;tab&#39;: 549,
+ &#39;adjusts&#39;: 550,
+ &#39;left&#39;: 551,
+ &#39;strap&#39;: 552,
+ &#39;broke&#39;: 553,
+ &#39;slung&#39;: 554,
+ &#39;contacted&#39;: 555,
+ &#39;kid&#39;: 556,
+ &#39;tunebase&#39;: 557,
+ &#39;charge&#39;: 558,
+ &#39;escort&#39;: 559,
+ &#39;passport&#39;: 560,
+ &#39;8500&#39;: 561,
+ &#39;x50&#39;: 562,
+ &#39;car&#39;: 563,
+ &#39;saved&#39;: 564,
+ &#39;caught&#39;: 565,
+ &#39;maniac&#39;: 566,
+ &#39;driver&#39;: 567,
+ &#39;detection&#39;: 568,
+ &#39;plenty&#39;: 569,
+ &#39;adjust&#39;: 570,
+ &#39;speed&#39;: 571,
+ &#39;police&#39;: 572,
+ &#39;blue&#39;: 573,
+ &#39;red&#39;: 574,
+ &#39;experienced&#39;: 575,
+ &#39;sometimes&#39;: 576,
+ &#39;laser&#39;: 577,
+ &#39;false&#39;: 578,
+ &#39;warning&#39;: 579,
+ &#39;signal&#39;: 580,
+ &#39;raining&#39;: 581,
+ &#39;day&#39;: 582,
+ &#39;defog&#39;: 583,
+ &#39;turbo&#39;: 584,
+ &#39;charged&#39;: 585,
+ &#39;cause&#39;: 586,
+ &#39;alert&#39;: 587,
+ &#39;help&#39;: 588,
+ &#39;detector&#39;: 589,
+ &#39;payback&#39;: 590,
+ &#39;own&#39;: 591,
+ &#39;initially&#39;: 592,
+ &#39;favor&#39;: 593,
+ &#39;srf-m37v&#39;: 594,
+ &#39;five&#39;: 595,
+ &#39;one-button&#39;: 596,
+ &#39;pre-sets&#39;: 597,
+ &#39;no-brainer&#39;: 598,
+ &#39;exercising&#39;: 599,
+ &#39;however&#39;: 600,
+ &#39;srf-59&#39;: 601,
+ &#39;analog&#39;: 602,
+ &#39;tuning&#39;: 603,
+ &#39;suffers&#39;: 604,
+ &#39;le&#39;: 605,
+ &#39;co-channel&#39;: 606,
+ &#39;adjacent&#39;: 607,
+ &#39;slightly&#39;: 608,
+ &#39;brighter&#39;: 609,
+ &#39;musical&#39;: 610,
+ &#39;pair&#39;: 611,
+ &#39;earbuds&#39;: 612,
+ &#39;digitally&#39;: 613,
+ &#39;tuned&#39;: 614,
+ &#39;cousin&#39;: 615,
+ &#39;yesterday&#39;: 616,
+ &#39;spent&#39;: 617,
+ &#39;evening&#39;: 618,
+ &#39;literally&#39;: 619,
+ &#39;shut&#39;: 620,
+ &#39;bed&#39;: 621,
+ &#39;fun&#39;: 622,
+ &#39;scanning&#39;: 623,
+ &#39;dial&#39;: 624,
+ &#39;program&#39;: 625,
+ &#39;aired&#39;: 626,
+ &#39;night&#39;: 627,
+ &#39;local&#39;: 628,
+ &#39;featured&#39;: 629,
+ &#39;bass-heavy&#39;: 630,
+ &#39;remixes&#39;: 631,
+ &#39;eighty&#39;: 632,
+ &#39;wave&#39;: 633,
+ &#39;hit&#39;: 634,
+ &#39;blessfully&#39;: 635,
+ &#39;interruption&#39;: 636,
+ &#39;session&#39;: 637,
+ &#39;gradually&#39;: 638,
+ &#39;cranked&#39;: 639,
+ &#39;lazy&#39;: 640,
+ &#39;fish&#39;: 641,
+ &#39;apparent&#39;: 642,
+ &#39;loud&#39;: 643,
+ &#39;tiny&#39;: 644,
+ &#39;amplifier&#39;: 645,
+ &#39;insufficient&#39;: 646,
+ &#39;drive&#39;: 647,
+ &#39;stock&#39;: 648,
+ &#39;walkman&#39;: 649,
+ &#39;style&#39;: 650,
+ &#39;clipped&#39;: 651,
+ &#39;simply&#39;: 652,
+ &#39;necessitated&#39;: 653,
+ &#39;tad&#39;: 654,
+ &#39;restore&#39;: 655,
+ &#39;musicality&#39;: 656,
+ &#39;understand&#39;: 657,
+ &#39;require&#39;: 658,
+ &#39;achieve&#39;: 659,
+ &#39;output&#39;: 660,
+ &#39;clipping&#39;: 661,
+ &#39;nevertheless&#39;: 662,
+ &#39;bargain-priced&#39;: 663,
+ &#39;ordinary&#39;: 664,
+ &#39;astounding&#39;: 665,
+ &#39;party&#39;: 666,
+ &#39;soundstage&#39;: 667,
+ &#39;disconcerting&#39;: 668,
+ &#39;located&#39;: 669,
+ &#39;sinus&#39;: 670,
+ &#39;pas&#39;: 671,
+ &#39;slouch&#39;: 672,
+ &#39;hauled&#39;: 673,
+ &#39;1200&#39;: 674,
+ &#39;woai&#39;: 675,
+ &#39;san&#39;: 676,
+ &#39;antonio&#39;: 677,
+ &#39;approximately&#39;: 678,
+ &#39;mile&#39;: 679,
+ &#39;true&#39;: 680,
+ &#39;performer&#39;: 681,
+ &#39;suspect&#39;: 682,
+ &#39;dxing&#39;: 683,
+ &#39;condition&#39;: 684,
+ &#39;visit&#39;: 685,
+ &#39;xin&#39;: 686,
+ &#39;feng&#39;: 687,
+ &#39;website&#39;: 688,
+ &#39;highly&#39;: 689,
+ &#39;cheap&#39;: 690,
+ &#39;thrill&#39;: 691,
+ &#39;durable&#39;: 692,
+ &#39;discrete&#39;: 693,
+ &#39;prefer&#39;: 694,
+ &#39;plug&#39;: 695,
+ &#39;fall&#39;: 696,
+ &#39;plane&#39;: 697,
+ &#39;difference&#39;: 698,
+ &#39;careful&#39;: 699,
+ &#39;treble&#39;: 700,
+ &#39;middle&#39;: 701,
+ &#39;dry&#39;: 702,
+ &#39;e.g&#39;: 703,
+ &#39;mp3-player&#39;: 704,
+ &#39;respond&#39;: 705,
+ &#39;request&#39;: 706,
+ &#39;review&#39;: 707,
+ &#39;sufficiently&#39;: 708,
+ &#39;ease&#39;: 709,
+ &#39;packing&#39;: 710,
+ &#39;technical&#39;: 711,
+ &#39;tracking&#39;: 712,
+ &#39;excellent&#39;: 713,
+ &#39;flawlessly&#39;: 714,
+ &#39;daily&#39;: 715,
+ &#39;canon&#39;: 716,
+ &#39;10d&#39;: 717,
+ &#39;30d&#39;: 718,
+ &#39;s40&#39;: 719,
+ &#39;fast&#39;: 720,
+ &#39;4gb&#39;: 721,
+ &#39;1600&#39;: 722,
+ &#39;jpgs&#39;: 723,
+ &#39;arrived&#39;: 724,
+ &#39;difficult&#39;: 725,
+ &#39;close&#39;: 726,
+ &#39;zip&#39;: 727,
+ &#39;awesome&#39;: 728,
+ &#39;whisper&#39;: 729,
+ &#39;quiet&#39;: 730,
+ &#39;experience&#39;: 731,
+ &#39;encoded&#39;: 732,
+ &#39;collection&#39;: 733,
+ &#39;flac&#39;: 734,
+ &#39;format&#39;: 735,
+ &#39;file&#39;: 736,
+ &#39;foobar2000/lame&#39;: 737,
+ &#39;convert&#39;: 738,
+ &#39;mp3&#39;: 739,
+ &#39;process&#39;: 740,
+ &#39;converting&#39;: 741,
+ &#39;io-intensive&#39;: 742,
+ &#39;completely&#39;: 743,
+ &#39;reliable&#39;: 744,
+ &#39;adequate&#39;: 745,
+ &#39;v200&#39;: 746,
+ &#39;logitech&#39;: 747,
+ &#39;king&#39;: 748,
+ &#39;slide&#39;: 749,
+ &#39;top&#39;: 750,
+ &#39;pulling&#39;: 751,
+ &#39;palm&#39;: 752,
+ &#39;reveal&#39;: 753,
+ &#39;slot&#39;: 754,
+ &#39;weigh&#39;: 755,
+ &#39;heavier&#39;: 756,
+ &#39;themselves&#39;: 757,
+ &#39;button&#39;: 758,
+ &#39;tilt&#39;: 759,
+ &#39;wheel&#39;: 760,
+ &#39;setpoint&#39;: 761,
+ &#39;alter&#39;: 762,
+ &#39;installing&#39;: 763,
+ &#39;hang&#39;: 764,
+ &#39;task&#39;: 765,
+ &#39;manager&#39;: 766,
+ &#39;quit&#39;: 767,
+ &#39;try&#39;: 768,
+ &#39;usb&#39;: 769,
+ &#39;2.4&#39;: 770,
+ &#39;ghz&#39;: 771,
+ &#39;meter&#39;: 772,
+ &#39;wow&#39;: 773,
+ &#39;plugged&#39;: 774,
+ &#39;begging&#39;: 775,
+ &#39;snapped&#39;: 776,
+ &#39;reason&#39;: 777,
+ &#39;opposite&#39;: 778,
+ &#39;hand&#39;: 779,
+ &#39;avoid&#39;: 780,
+ &#39;accidental&#39;: 781,
+ &#39;contact&#39;: 782,
+ &#39;hanging&#39;: 783,
+ &#39;edge&#39;: 784,
+ &#39;table&#39;: 785,
+ &#39;press&#39;: 786,
+ &#39;lightly&#39;: 787,
+ &#39;okay&#39;: 788,
+ &#39;break&#39;: 789,
+ &#39;magnet&#39;: 790,
+ &#39;holder&#39;: 791,
+ &#39;fit&#39;: 792,
+ &#39;smoothly&#39;: 793,
+ &#39;creates&#39;: 794,
+ &#39;block&#39;: 795,
+ &#39;shape&#39;: 796,
+ &#39;anyway&#39;: 797,
+ &#39;happens&#39;: 798,
+ &#39;knocked&#39;: 799,
+ &#39;user&#39;: 800,
+ &#39;cautious&#39;: 801,
+ &#39;device&#39;: 802,
+ &#39;mini&#39;: 803,
+ &#39;fab&#39;: 804,
+ &#39;idea&#39;: 805,
+ &#39;bluetooth&#39;: 806,
+ &#39;called&#39;: 807,
+ &#39;v270&#39;: 808,
+ &#39;internal&#39;: 809,
+ &#39;else&#39;: 810,
+ &#39;boat&#39;: 811,
+ &#39;forget&#39;: 812,
+ &#39;option&#39;: 813,
+ &#39;fault&#39;: 814,
+ &#39;care&#39;: 815,
+ &#39;jbl&#39;: 816,
+ &#39;outstanding&#39;: 817,
+ &#39;hesitant&#39;: 818,
+ &#39;poor&#39;: 819,
+ &#39;rating&#39;: 820,
+ &#39;reception&#39;: 821,
+ &#39;glad&#39;: 822,
+ &#39;disaster&#39;: 823,
+ &#39;inluding&#39;: 824,
+ &#39;flashlight&#39;: 825,
+ &#39;flashing&#39;: 826,
+ &#39;light&#39;: 827,
+ &#39;siren&#39;: 828,
+ &#34;&#39;re&#34;: 829,
+ &#39;trapped&#39;: 830,
+ &#39;building&#39;: 831,
+ &#39;crank&#39;: 832,
+ &#39;complained&#39;: 833,
+ &#39;broadcasting&#39;: 834,
+ &#39;noaa&#39;: 835,
+ &#39;received&#39;: 836,
+ &#39;huge&#39;: 837,
+ &#39;cellphone&#39;: 838,
+ &#39;charging&#39;: 839,
+ &#39;carrying&#39;: 840,
+ &#39;minor&#39;: 841,
+ &#39;criticism&#39;: 842,
+ &#39;afterthought&#39;: 843,
+ &#39;adapter&#39;: 844,
+ &#39;knob&#39;: 845,
+ &#39;tend&#39;: 846,
+ &#39;putting&#39;: 847,
+ &#39;protective&#39;: 848,
+ &#39;strong&#39;: 849,
+ &#39;storage&#39;: 850,
+ &#39;broadcast&#39;: 851,
+ &#39;information&#39;: 852,
+ &#39;source&#39;: 853,
+ &#39;replace&#39;: 854,
+ &#39;iriver&#39;: 855,
+ &#39;190t&#39;: 856,
+ &#39;3rd&#39;: 857,
+ &#39;malfunctioned&#39;: 858,
+ &#39;fused&#39;: 859,
+ &#39;pin&#39;: 860,
+ &#39;connection&#39;: 861,
+ &#39;2.0&#39;: 862,
+ &#39;faster&#39;: 863,
+ &#39;capacity&#39;: 864,
+ &#39;desired&#39;: 865,
+ &#39;replaceable&#39;: 866,
+ &#39;flash&#39;: 867,
+ &#39;based&#39;: 868,
+ &#39;player&#39;: 869,
+ &#39;picked&#39;: 870,
+ &#39;sale&#39;: 871,
+ &#39;playing&#39;: 872,
+ &#39;lyra&#39;: 873,
+ &#39;rd2315&#39;: 874,
+ &#39;ruggedness&#39;: 875,
+ &#39;rca&#39;: 876,
+ &#39;expandable&#39;: 877,
+ &#39;512&#39;: 878,
+ &#39;biking&#39;: 879,
+ &#39;yard&#39;: 880,
+ &#39;positioned&#39;: 881,
+ &#39;180&#39;: 882,
+ &#39;degree&#39;: 883,
+ &#39;reading&#39;: 884,
+ &#39;belt&#39;: 885,
+ &#39;clip/lanyard&#39;: 886,
+ &#39;line&#39;: 887,
+ &#39;recording&#39;: 888,
+ &#39;memo&#39;: 889,
+ &#39;backlights&#39;: 890,
+ &#39;preference&#39;: 891,
+ &#39;placing&#39;: 892,
+ &#39;prevents&#39;: 893,
+ &#39;clip&#39;: 894,
+ &#39;holding&#39;: 895,
+ &#39;slow&#39;: 896,
+ &#39;reaction&#39;: 897,
+ &#39;compared&#39;: 898,
+ &#39;wait&#39;: 899,
+ &#39;...&#39;: 900,
+ &#39;usage&#39;: 901,
+ &#39;ink&#39;: 902,
+ &#39;pen&#39;: 903,
+ &#39;cap&#39;: 904,
+ &#39;1.1&#39;: 905,
+ &#39;armband&#39;: 906,
+ &#39;available&#39;: 907,
+ &#39;firmware&#39;: 908,
+ &#39;3.11&#39;: 909,
+ &#39;testing&#39;: 910,
+ &#39;upgrading&#39;: 911,
+ &#39;1.11&#39;: 912,
+ &#39;electronics&#39;: 913,
+ &#34;&#39;ll&#34;: 914,
+ &#39;hugely&#39;: 915,
+ &#39;single&#39;: 916,
+ &#39;allows&#39;: 917,
+ &#39;tape-to-tape&#39;: 918,
+ &#39;duplication&#39;: 919,
+ &#39;ability&#39;: 920,
+ &#39;uninterrupted&#39;: 921,
+ &#39;100-disk&#39;: 922,
+ &#39;carousel&#39;: 923,
+ &#39;stuff&#39;: 924,
+ &#39;probably&#39;: 925,
+ &#39;taped&#39;: 926,
+ &#39;yourself&#39;: 927,
+ &#39;teac&#39;: 928,
+ &#39;dual-cassette&#39;: 929,
+ &#39;shelf&#39;: 930,
+ &#39;select&#39;: 931,
+ &#39;map&#39;: 932,
+ &#39;autoroute&#39;: 933,
+ &#39;caching&#39;: 934,
+ &#39;trip&#39;: 935,
+ &#39;read&#39;: 936,
+ &#39;built-in&#39;: 937,
+ &#39;100&#39;: 938,
+ &#39;satisfaction&#39;: 939,
+ &#39;fujifilm&#39;: 940,
+ &#39;dvd-r&#39;: 941,
+ &#39;success&#39;: 942,
+ &#39;dvd+r&#39;: 943,
+ &#39;i`ve&#39;: 944,
+ &#39;tremendous&#39;: 945,
+ &#39;tdk&#39;: 946,
+ &#39;brand&#39;: 947,
+ &#39;learned&#39;: 948,
+ &#39;baby&#39;: 949,
+ &#39;don`t&#39;: 950,
+ &#39;definitely&#39;: 951,
+ &#39;breathe&#39;: 952,
+ &#39;stack&#39;: 953,
+ &#39;ventilation&#39;: 954,
+ &#39;hole&#39;: 955,
+ &#39;panasonic&#39;: 956,
+ &#39;play&#39;: 957,
+ &#39;properly&#39;: 958,
+ &#39;record&#39;: 959,
+ &#39;dvd-ram&#39;: 960,
+ &#39;re-recordable&#39;: 961,
+ &#39;erased&#39;: 962,
+ &#39;watched&#39;: 963,
+ &#39;edit&#39;: 964,
+ &#39;cut&#39;: 965,
+ &#39;disc&#39;: 966,
+ &#39;vcr&#39;: 967,
+ &#39;recorder&#39;: 968,
+ &#39;you`ve&#39;: 969,
+ &#39;throw&#39;: 970,
+ &#39;forever&#39;: 971,
+ &#39;remember&#39;: 972,
+ &#39;over-the-air&#39;: 973,
+ &#39;crisp&#39;: 974,
+ &#39;bright&#39;: 975,
+ &#39;viewing&#39;: 976,
+ &#39;angle&#39;: 977,
+ &#39;triport&#39;: 978,
+ &#39;plastic&#39;: 979,
+ &#39;mine&#39;: 980,
+ &#39;recess&#39;: 981,
+ &#39;earcups&#39;: 982,
+ &#39;caused&#39;: 983,
+ &#39;tension&#39;: 984,
+ &#39;headband&#39;: 985,
+ &#39;frame&#39;: 986,
+ &#39;pushing&#39;: 987,
+ &#39;sitting&#39;: 988,
+ &#39;drawer&#39;: 989,
+ &#39;extended&#39;: 990,
+ &#39;recommendation&#39;: 991,
+ &#39;retracted&#39;: 992,
+ &#39;reduce&#39;: 993,
+ &#39;piece&#39;: 994,
+ &#39;hassle&#39;: 995,
+ &#39;receipt&#39;: 996,
+ &#39;registration&#39;: 997,
+ &#39;worth&#39;: 998,
+ &#39;money&#39;: 999,
+ ...}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<hr>
+&copy; 2018 Nathaniel Dake
+
+</div>
+</div>
+</body>
+</html>
