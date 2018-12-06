@@ -218,7 +218,7 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="1.-Working-With-Word-Vectors">1. Working With Word Vectors<a class="anchor-link" href="#1.-Working-With-Word-Vectors">&#182;</a></h1><p>In the introduction section we went over some very basic NLP techniques, and more importantly gained an understanding for how to apply <em>basic</em> machine learning models and APIs to the a problem revolving around text data.</p>
+<h1 id="2.-Working-With-Word-Vectors">2. Working With Word Vectors<a class="anchor-link" href="#2.-Working-With-Word-Vectors">&#182;</a></h1><p>In the introduction section we went over some very basic NLP techniques, and more importantly gained an understanding for how to apply <em>basic</em> machine learning models and APIs to the a problem revolving around text data.</p>
 <p>One of the things that we went over was the <strong>term-document matrix</strong>, and how it could be utilized in our process of converting text data to numerical data, so a model can understand it. Well, one of the things that we did not discuss is there is a slight problem with that method, namely its simple counting process. One of the things that tends to happen is that words such as "a", "the", "and", "in", "to", etc, have a high count for ALL documents, no matter what the category is! This is a very large amount of noise that will often overshadow the meaningful words.</p>
 <p>These words are known as <strong>stopwords</strong> and one common technique is to just remove them from the dataset before doing any machine learning.</p>
 <h3 id="1.1-TF-IDF">1.1 TF-IDF<a class="anchor-link" href="#1.1-TF-IDF">&#182;</a></h3><p>However, there is another technique that we can utilize: <strong>Term Frequency-Inverse Document Frequency</strong>, (TF-IDF). We will not go into the full details of TF-IDF, however, the jist is as follows: We know that words that appear in many documents are probably less meaningful. With this in mind, we can weight each vector component (in this case a word) by something related to how many documents that word appears in. So, intuitively speaking, we may do something like:</p>
@@ -229,6 +229,82 @@ body {
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="2.-Word-Analogy">2. Word Analogy<a class="anchor-link" href="#2.-Word-Analogy">&#182;</a></h1><p>One of the most popular applications of word embeddings is <strong>word analogies</strong>. This is where the famous <code>king - man = queen - woman</code> comes from.</p>
+<p><img src="https://drive.google.com/uc?id=1mlFNZ-GeyzawODRG4Fl0p05fXPSBwOLp" width="700"></p>
+<p>So, we are now going to focus on two main questions:</p>
+<ol>
+<li>What are word analogies?</li>
+<li>How can we calculate them?</li>
+</ol>
+<p>First, however, a few examples. We can start with:</p>
+<blockquote><p>King - Queen ~= Prince - Princess</p>
+</blockquote>
+<p>Above on each side, we have a male member of the royal family minus a female member of the royal family, who is from the same generation.</p>
+<blockquote><p>France - Paris ~= Germany - Berlin</p>
+</blockquote>
+<p>Now, on each side we have a country minus a famous city from that country.</p>
+<blockquote><p>Japan - Japanese ~= China - Chinese</p>
+</blockquote>
+<p>Here, we have a country minus the term used to refer to the people of that country.</p>
+<blockquote><p>Brother - Sister ~= Uncle - Aunt</p>
+</blockquote>
+<p>Now, we have a male member of the family, subtracting a close female member of the family.</p>
+<blockquote><p>Walk - Walking ~= Swim - Swimming</p>
+</blockquote>
+<p>Finally, we can see that we were able to learn something about verb tense.</p>
+<h3 id="2.1-Visualing-Analogies">2.1 Visualing Analogies<a class="anchor-link" href="#2.1-Visualing-Analogies">&#182;</a></h3><p>So, how can we actually visualize these analogies? As usual, it is very helpful to think of things geometrically. First, recall that word embedding just means word vector. In other words, if we have a grid, each word is just represented by a dot on the grid. So, what will happen when subtracting one vector from another vector? Well, of course that will just yield the vector between the two vectors. If we can say that the difference of the two vectors on the left is approximately equal to the two vectors on the right, then we know that the two difference vectors are approximately the same.</p>
+<p>Now, we know that a vector has two components: a direction and a magnitude. So, when we say that these two vectors are approximately the same, what we are really saying is that their magnitude and direction are very close to one another. This can be visualized below.</p>
+<p><img src="https://drive.google.com/uc?id=1toGKPnF6d51GBxUB15w0wYI6PDyZc2oU" width="300"></p>
+<h3 id="2.2-How-to-find-analogies?">2.2 How to find analogies?<a class="anchor-link" href="#2.2-How-to-find-analogies?">&#182;</a></h3><p>With that said, how do we actually we find word analogies? Well, we know that their are four words in every analogy. So, what we can do is take three of these words and try to find the fourth word. So, we have an input of three words, and an output of the fourth word. Notice that we because we are dealing entirely with vectors, we can just rearrange our equation as follows:</p>
+<p>$$\text{King - Man = ? - Woman}$$</p>
+<p>$$\downarrow$$</p>
+<p>$$\text{King - Man + Woman = ?}$$</p>
+<p>We know that the $?$ is representing <code>Queen</code>, however we will refer to it as <code>SomeVector</code> for the time being.</p>
+<p>$$\text{King - Man + Woman = SomeVector}$$</p>
+<p>So, our job is to find the word that is most closely associated with <code>SomeVector</code>. We will do this utilizing <em>distance</em>. In pseudocode this may look like:</p>
+
+<pre><code>closest_distance = infinity
+best_word = None
+test_vector = king - man + woman
+for word, vector in vocabulary:
+    distance = get_distance(test_vector, vector)
+    if distance &lt; closest_distance:
+        closest_distance = distance
+        best_word = word</code></pre>
+<p>Note that utilizing a <code>for</code> loop will be very slow, and we will of course want to vectorize this process utilizing <code>numpy</code>.</p>
+<p>Now, we did not define <code>get_distance</code> in the above pseudocode. We have a variety of options when deciding how to calculate distanc. Sometimes, we will simply use <em>Euclidean Distance</em>:</p>
+<p>$$\text{Euclidean Distance: } ||a - b||^2$$</p>
+<p>It is also common to use the <em>cosine distance</em>:</p>
+<p>$$\text{Cosine Distance: } cosine\_distance(a, b) = \frac{1 - a^Tb}{||a|| \; ||b||}$$</p>
+<p>In this later form, since only the angle matters, because:</p>
+<p>$$a^Tb = ||a|| \; ||b|| cos(a,b)$$</p>
+<p>During training we normalize all of the word vectors so that their length is 1:</p>
+<p>$$cos(0) = 1, \; cos(90) = 0, \; cos(180) = -1$$</p>
+<p>When two vectors are closer, $cos(\theta)$ is bigger. So, we want our distance to be:</p>
+<p>$$\text{Distance} = 1 - cos(\theta)$$</p>
+<p>At this point we can say that all of the word embeddings lie on the unit sphere.</p>
+<h3 id="2.3-Why-is-this-so-cool?">2.3 Why is this so cool?<a class="anchor-link" href="#2.3-Why-is-this-so-cool?">&#182;</a></h3><p>One pretty interesting fact about neural word embedding algorithms is that <em>they can find these analogies at all</em>. Once we have covered these algorithms, specifically <em><strong>word2vec</strong></em> and <em><strong>GloVe</strong></em>, it will become clear that these algorithms have no concept of analogies; in other words, what they want to optimize is totally unrelated to word analogies. So, the fact that word analogies suddenly emerge out of the training process is very intruiging. Remember, in all cases we are still dealing with a $VxD$ word embedding matrix. This is the case whether we are just using raw word counts, TF-IDF, or word2vec. Yet, raw word counts and TF-IDF do <em>not</em> give us good analogies. So, the fact that good word analogies emerge from the model and training process of word2vec is a very interesting research area.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake
