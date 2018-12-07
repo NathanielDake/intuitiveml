@@ -277,7 +277,7 @@ for word, vector in vocabulary:
         closest_distance = distance
         best_word = word</code></pre>
 <p>Note that utilizing a <code>for</code> loop will be very slow, and we will of course want to vectorize this process utilizing <code>numpy</code>.</p>
-<p>Now, we did not define <code>get_distance</code> in the above pseudocode. We have a variety of options when deciding how to calculate distanc. Sometimes, we will simply use <em>Euclidean Distance</em>:</p>
+<p>Now, we did not define <code>get_distance</code> in the above pseudocode. We have a variety of options when deciding how to calculate distance. Sometimes, we will simply use <em>Euclidean Distance</em>:</p>
 <p>$$\text{Euclidean Distance: } ||a - b||^2$$</p>
 <p>It is also common to use the <em>cosine distance</em>:</p>
 <p>$$\text{Cosine Distance: } cosine\_distance(a, b) = \frac{1 - a^Tb}{||a|| \; ||b||}$$</p>
@@ -292,19 +292,6 @@ for word, vector in vocabulary:
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-</div>
-</div>
-</div>
-
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake
