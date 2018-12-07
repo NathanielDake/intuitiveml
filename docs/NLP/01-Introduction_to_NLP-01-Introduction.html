@@ -1480,7 +1480,48 @@ When confronted with such an example, one realizes that it is utterly impossible
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
-<h1 id="5.-Latent-Semantic-Analysis">5. Latent Semantic Analysis<a class="anchor-link" href="#5.-Latent-Semantic-Analysis">&#182;</a></h1><p>We will now take a moment to extend our semantic analysis example from before, instead now performing <strong>Latent Semantic Analysis</strong>.</p>
+<h1 id="5.-Latent-Semantic-Analysis">5. Latent Semantic Analysis<a class="anchor-link" href="#5.-Latent-Semantic-Analysis">&#182;</a></h1><p>We will now take a moment to extend our semantic analysis example from before, instead now performing <strong>Latent Semantic Analysis</strong>. Latent semantic analysis is utilized to deal with the reality that we will often have <em>multiple</em> words with the <em>same</em> meaning, or on the other hand, <em>one</em> word with <em>multiple</em> meanings. These are referred to as <em>synonomy</em> and <em>polysemy</em> respectively.</p>
+<p>In the case of synonyms here are a few basic examples:</p>
+<ul>
+<li>"Buy" and "Purchase"</li>
+<li>"Big" and "Large"</li>
+<li>"Quick" and "Speedy"</li>
+</ul>
+<p>And in the case of polysemes:</p>
+<ul>
+<li>"Man" (man as in human, and man as in a male opposed to a female)</li>
+<li>"Milk" (can be a noun or a verb)</li>
+</ul>
+<p>In order to solve this problem, we will need to introduce <em>Latent Variables</em>.</p>
+<h2 id="5.1-Latent-Variables">5.1 Latent Variables<a class="anchor-link" href="#5.1-Latent-Variables">&#182;</a></h2><p>The easiest way to get your head around latent variables at first is via an example. Consider the words "computer", "laptop", and "PC"; these words are most likely seen together very often, meaning they are highly correlated. We can thinking a <em>latent</em> or <em>hidden</em> variable that is below representing them all, and we can call that $z$. We can mathematically define $z$ as:</p>
+<p>$$z = 0.7*computer \; + 0.5*PC \; + 0.6*laptop$$</p>
+<p>So, we now have an idea of what a latent variable is, but what is the job of Latent Semantic Analysis? The entire goal of LSA is:</p>
+<ol>
+<li>To find the latent/hidden variables.</li>
+<li>Then, transform original data into these new variables. </li>
+</ol>
+<p>Ideally, after the above has been performed, the dimensionality of the new data will be much smaller than that of the original data set. It is important to note that LSA definitely helps solve the synonomy problem, by combining correlated variables. However, there are conflicting view points about whether or not it helps with polysemy.</p>
+<h2 id="5.2-The-Math-Behind-LSA">5.2 The Math Behind LSA<a class="anchor-link" href="#5.2-The-Math-Behind-LSA">&#182;</a></h2><p>As we just discussed, the main goal when applying LSA is to deal with synonyms. For example, "small" and "little" would each make up their own unique variable, but in reality we know that they mean the same thing, so that is redundant. We could combine them into a single variable, reducing the dimensionality of our data set by one. So, to be clear the goal of LSA is:</p>
+<blockquote><p><strong>Goal of LSA</strong>: Reduce redundancy.</p>
+</blockquote>
+<h3 id="5.2.1-Redundancy-in-Numbers">5.2.1 Redundancy in Numbers<a class="anchor-link" href="#5.2.1-Redundancy-in-Numbers">&#182;</a></h3><p>Now, machine learning at its core is always dealing with numbers, so what exactly do I mean by redundancy from a numerical standpoint? Take a look at the the plot below:</p>
+<p><img src="https://drive.google.com/uc?id=1GK0COCtvumKXTI0nB0qHB_e696p2IE_J" width="300"></p>
+<p>We can see clearly that there is a linear relationship between the dependent and independent variable. In other words, there is a linear relationship between lean body mass and muscle strength. So, we could say that one of these variables is redundant; if we know someones lean body mass, we can accurately predict their muscle strength, and vice versa. If we want a compact representation of attributes related to someones athletic performance, then we may only need to know one of these variables, since the other can be predicted from it. This advantage becomes more apparent as our dimensionality grows; if we could go from 1 million variables down to variables, that is a 200,000x's savings of space! Saving space is good, and hence reducing redundancy is good!</p>
+<p>We are about ready to move onto the math portion, but before we do I want to preface by saying that the mathematics behind LSA involve a good deal of linear algebra, so I highly recommend brushing up (via my mathematics notes if you'd like) before continuing. With that said, LSA is essentially just the application of <strong>Singular Value Decomposition</strong> (SVD) to a term document matrix.</p>
+<p>Now, we can begin by gaining a brief bit of intuition behind what LSA may look like in code. As usual, we are going to begin with an input matrix <code>X</code> of shape $NxD$, where $N$ is the number of samples and $D$ is the number of features. This will be passed into scikit learns svd model, <code>TruncatedSVD</code>, call the <code>fit</code>, <code>transform</code> function, and finally receive an output matrix <code>Z</code> of shape $Nx2$, or $Nxd$, where $d &lt;&lt; D$.</p>
+
+<pre><code>model = TruncatedSVD()
+model.fit(X)
+Z = model.transform(X)
+# equivalent: Z = model.fit_transform(X)</code></pre>
+<p>Since, by default, $d$ is 2 dimensional, we can make a scatter plot of all the points. Note, however, that the $d$ can be any value up to and including $D$. If it is $D$, then we have not reduced anything, but we still have changed the representation of the data in some way.</p>
+<p>At this point, we can dive into a bit of the math behind how SVD works. We know that one sample of our data is represented by a vector, which we can call $x$, which has a length of $D$. What is the simplest transformation that we can perform on this vector? Well, the simplest transformation that we can perform on a vector is a linear transformation. Simply multiple $x$ by a matrix $V$, and get a new vector $z$:</p>
+<p>$$z = V^T x$$</p>
+<p>So, SVD is all about how to find this matrix $V$. Note, the shapes of the matrices and vectors are above are:</p>
+
+<pre><code>shape(x) = D
+shape(V) = D x d
+shape(z) = d  # where d &lt;&lt; D</code></pre>
 
 </div>
 </div>
