@@ -218,13 +218,13 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="2.-Working-With-Word-Vectors">2. Working With Word Vectors<a class="anchor-link" href="#2.-Working-With-Word-Vectors">&#182;</a></h1><p>In the introduction section we went over some very basic NLP techniques, and more importantly gained an understanding for how to apply <em>basic</em> machine learning models and APIs to the a problem revolving around text data.</p>
+<h1 id="1.-Working-With-Word-Vectors">1. Working With Word Vectors<a class="anchor-link" href="#1.-Working-With-Word-Vectors">&#182;</a></h1><p>In the introduction section we went over some very basic NLP techniques, and more importantly gained an understanding for how to apply <em>basic</em> machine learning models and APIs to the a problem revolving around text data.</p>
 <p>One of the things that we went over was the <strong>term-document matrix</strong>, and how it could be utilized in our process of converting text data to numerical data, so a model can understand it. Well, one of the things that we did not discuss is there is a slight problem with that method, namely its simple counting process. One of the things that tends to happen is that words such as "a", "the", "and", "in", "to", etc, have a high count for ALL documents, no matter what the category is! This is a very large amount of noise that will often overshadow the meaningful words.</p>
 <p>These words are known as <strong>stopwords</strong> and one common technique is to just remove them from the dataset before doing any machine learning.</p>
 <h3 id="1.1-TF-IDF">1.1 TF-IDF<a class="anchor-link" href="#1.1-TF-IDF">&#182;</a></h3><p>However, there is another technique that we can utilize: <strong>Term Frequency-Inverse Document Frequency</strong>, (TF-IDF). We will not go into the full details of TF-IDF, however, the jist is as follows: We know that words that appear in many documents are probably less meaningful. With this in mind, we can weight each vector component (in this case a word) by something related to how many documents that word appears in. So, intuitively speaking, we may do something like:</p>
 <p>$$\frac{\text{raw word count}}{\text{document count}}$$</p>
 <p>So, the numerator tells us <em>how many times does this word appear in this document</em>, and the denominator tells us <em>how many documents does this word appear in, in total</em>. Now, in practice we do some transformations on these, like taking the log count, smoothing, and so on. However, the specific implementation isn't nearly as important for this course as is the general understand behind the process.</p>
-<h3 id="1.2-Key-Point">1.2 Key Point<a class="anchor-link" href="#1.2-Key-Point">&#182;</a></h3><p>One of the most important things to keep in mind during all subsequent posts is that no matter what technique we are using, we are always interested in a matrix of size $(V x D)$, where $V$ is the vocabulary size (the number of total words), and $D$ is the vector dimensionality, which is we are doing something like counting up the total number of times a word appears in a set of books, $D$ is the total number of books.</p>
+<h3 id="1.2-Key-Point">1.2 Key Point<a class="anchor-link" href="#1.2-Key-Point">&#182;</a></h3><p>One of the most important things to keep in mind during all subsequent posts is that no matter what technique we are using, we are always interested in a matrix of size $(V x D)$, where $V$ is the vocabulary size (the number of total words), and $D$ is the vector dimensionality, which if we are doing something like counting up the total number of times a word appears in a set of books, $D$ is the total number of books.</p>
 <h3 id="1.3-Word-Embeddings">1.3 Word Embeddings<a class="anchor-link" href="#1.3-Word-Embeddings">&#182;</a></h3><p>A final thing to note, we are going to encounter the term <strong>Word-Embedding</strong> quite a bit. This is just a fancy word for an old and relatively straight forward concept. A word-embedding is just a fancy name for a feature vector that represents a word. In other words, we can take a categorical object-a word in this case-and then map this object to a list of numbers (in other words, a vector). We say that we have embedded this word into a vector space, and that is why we call them word embeddings.</p>
 
 </div>
@@ -289,6 +289,540 @@ for word, vector in vocabulary:
 <p>$$\text{Distance} = 1 - cos(\theta)$$</p>
 <p>At this point we can say that all of the word embeddings lie on the unit sphere.</p>
 <h3 id="2.3-Why-is-this-so-cool?">2.3 Why is this so cool?<a class="anchor-link" href="#2.3-Why-is-this-so-cool?">&#182;</a></h3><p>One pretty interesting fact about neural word embedding algorithms is that <em>they can find these analogies at all</em>. Once we have covered these algorithms, specifically <em><strong>word2vec</strong></em> and <em><strong>GloVe</strong></em>, it will become clear that these algorithms have no concept of analogies; in other words, what they want to optimize is totally unrelated to word analogies. So, the fact that word analogies suddenly emerge out of the training process is very intruiging. Remember, in all cases we are still dealing with a $VxD$ word embedding matrix. This is the case whether we are just using raw word counts, TF-IDF, or word2vec. Yet, raw word counts and TF-IDF do <em>not</em> give us good analogies. So, the fact that good word analogies emerge from the model and training process of word2vec is a very interesting research area.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="3.-Pretrained-word-vectors-from--GloVe">3. Pretrained word vectors from  GloVe<a class="anchor-link" href="#3.-Pretrained-word-vectors-from--GloVe">&#182;</a></h1><p>We are now going to take a look at some pretrained word vectors found by researchers at Stanford, who also created the <code>GloVe</code> algorithm. We will be studying <code>GloVe</code> shortly, but I want to to give some motivation and intuition before we do. We start with <code>GloVe</code> and not <code>Word2Vec</code> because the vectors are provided in plain text, and with a smaller vocabulary than the pretrained <code>Word2Vec</code> vectors. This has some advantages:</p>
+<ol>
+<li>It will allow us to parse the file using plain python, so we can actually look at the file and the checkout the format for ourselves. </li>
+<li>Because we are loading in the word vectors manually, we will be able to store them in a way that is convenient for our purposes. </li>
+</ol>
+<p>The pretrained word vectors can be found <a href="http://nlp.standford.edu/data/glove.6B.zip">here</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="k">import</span> <span class="n">pairwise_distances</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">dist1</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">dist2</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+
+<span class="c1"># Select a distance type</span>
+<span class="n">dist</span><span class="p">,</span> <span class="n">metric</span> <span class="o">=</span> <span class="n">dist2</span><span class="p">,</span> <span class="s1">&#39;cosine&#39;</span>
+<span class="c1"># dist, metric = dist1, &#39;euclidean&#39;</span>
+
+<span class="k">def</span> <span class="nf">find_analogies</span><span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">w3</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Slower implementation.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">w3</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">w</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">word2vec</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{w}</span><span class="s1"> not in dictionary.&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+    <span class="n">king</span> <span class="o">=</span> <span class="n">word2vec</span><span class="p">[</span><span class="n">w1</span><span class="p">]</span>
+    <span class="n">man</span> <span class="o">=</span> <span class="n">word2vec</span><span class="p">[</span><span class="n">w2</span><span class="p">]</span>
+    <span class="n">woman</span> <span class="o">=</span> <span class="n">word2vec</span><span class="p">[</span><span class="n">w3</span><span class="p">]</span>
+    <span class="n">v0</span> <span class="o">=</span> <span class="n">king</span> <span class="o">-</span> <span class="n">man</span> <span class="o">+</span> <span class="n">woman</span>
+    
+    <span class="n">min_dist</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
+    <span class="n">best_word</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">v1</span> <span class="ow">in</span> <span class="n">items</span><span class="p">(</span><span class="n">word2vec</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">w3</span><span class="p">):</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">dist</span><span class="p">(</span><span class="n">v0</span><span class="p">,</span> <span class="n">v1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="n">min_dist</span><span class="p">:</span>
+                <span class="n">min_dist</span> <span class="o">=</span> <span class="n">d</span>
+                <span class="n">best_word</span> <span class="o">=</span> <span class="n">word</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="n">best_word</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">w3</span><span class="p">)</span>
+    
+
+<span class="k">def</span> <span class="nf">find_analogies</span><span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">w3</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Faster implementation.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">w3</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">w</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">word2vec</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> not in dictionary&quot;</span> <span class="o">%</span> <span class="n">w</span><span class="p">)</span>
+            <span class="k">return</span>
+
+    <span class="n">king</span> <span class="o">=</span> <span class="n">word2vec</span><span class="p">[</span><span class="n">w1</span><span class="p">]</span>
+    <span class="n">man</span> <span class="o">=</span> <span class="n">word2vec</span><span class="p">[</span><span class="n">w2</span><span class="p">]</span>
+    <span class="n">woman</span> <span class="o">=</span> <span class="n">word2vec</span><span class="p">[</span><span class="n">w3</span><span class="p">]</span>
+    <span class="n">v0</span> <span class="o">=</span> <span class="n">king</span> <span class="o">-</span> <span class="n">man</span> <span class="o">+</span> <span class="n">woman</span>
+
+    <span class="c1"># Utilize scikit-learn pairwise_distances</span>
+    <span class="n">distances</span> <span class="o">=</span> <span class="n">pairwise_distances</span><span class="p">(</span><span class="n">v0</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">D</span><span class="p">),</span> <span class="n">embedding</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+    <span class="n">idxs</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[:</span><span class="mi">4</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">idxs</span><span class="p">:</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="n">idx2word</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">w3</span><span class="p">):</span> 
+            <span class="n">best_word</span> <span class="o">=</span> <span class="n">word</span>
+            <span class="k">break</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{w1}</span><span class="s1"> - </span><span class="si">{w2}</span><span class="s1"> = </span><span class="si">{best_word}</span><span class="s1"> - </span><span class="si">{w3}</span><span class="s1">&#39;</span><span class="p">)</span>    
+
+<span class="k">def</span> <span class="nf">nearest_neighbors</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">w</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">word2vec</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{w}</span><span class="s1"> not in dictionary&#39;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">v</span> <span class="o">=</span> <span class="n">word2vec</span><span class="p">[</span><span class="n">w</span><span class="p">]</span>
+    <span class="n">distances</span> <span class="o">=</span> <span class="n">pairwise_distances</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">D</span><span class="p">),</span> <span class="n">embedding</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+    <span class="n">idxs</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Neighbors of: </span><span class="si">{w}</span><span class="s1">&#39;</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">idxs</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1"> </span><span class="si">{idx2word[idx]}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we can load in the pretrained word vectors:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Loading word vectors...&#39;</span><span class="p">)</span>
+<span class="n">word2vec</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">embedding</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">idx2word</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../../data/nlp/glove.6B/glove.6B.50d.txt&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="c1"># Is just a space-separated text file in the format:</span>
+    <span class="c1">#  - word vec[0] vec[1] vec[2] ...</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+        <span class="n">word2vec</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="n">vec</span>
+        <span class="n">embedding</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span>
+        <span class="n">idx2word</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Found </span><span class="si">%s</span><span class="s1"> word vectors.&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">word2vec</span><span class="p">))</span>
+<span class="n">embedding</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">embedding</span><span class="p">)</span>
+<span class="n">V</span><span class="p">,</span> <span class="n">D</span> <span class="o">=</span> <span class="n">embedding</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Loading word vectors...
+Found 400000 word vectors.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;king&#39;</span><span class="p">,</span> <span class="s1">&#39;man&#39;</span><span class="p">,</span> <span class="s1">&#39;woman&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;france&#39;</span><span class="p">,</span> <span class="s1">&#39;paris&#39;</span><span class="p">,</span> <span class="s1">&#39;london&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;france&#39;</span><span class="p">,</span> <span class="s1">&#39;paris&#39;</span><span class="p">,</span> <span class="s1">&#39;rome&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;paris&#39;</span><span class="p">,</span> <span class="s1">&#39;france&#39;</span><span class="p">,</span> <span class="s1">&#39;italy&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;france&#39;</span><span class="p">,</span> <span class="s1">&#39;french&#39;</span><span class="p">,</span> <span class="s1">&#39;english&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;japan&#39;</span><span class="p">,</span> <span class="s1">&#39;japanese&#39;</span><span class="p">,</span> <span class="s1">&#39;chinese&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;japan&#39;</span><span class="p">,</span> <span class="s1">&#39;japanese&#39;</span><span class="p">,</span> <span class="s1">&#39;italian&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;japan&#39;</span><span class="p">,</span> <span class="s1">&#39;japanese&#39;</span><span class="p">,</span> <span class="s1">&#39;australian&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;december&#39;</span><span class="p">,</span> <span class="s1">&#39;november&#39;</span><span class="p">,</span> <span class="s1">&#39;june&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;miami&#39;</span><span class="p">,</span> <span class="s1">&#39;florida&#39;</span><span class="p">,</span> <span class="s1">&#39;texas&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;einstein&#39;</span><span class="p">,</span> <span class="s1">&#39;scientist&#39;</span><span class="p">,</span> <span class="s1">&#39;painter&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;china&#39;</span><span class="p">,</span> <span class="s1">&#39;rice&#39;</span><span class="p">,</span> <span class="s1">&#39;bread&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;man&#39;</span><span class="p">,</span> <span class="s1">&#39;woman&#39;</span><span class="p">,</span> <span class="s1">&#39;she&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;man&#39;</span><span class="p">,</span> <span class="s1">&#39;woman&#39;</span><span class="p">,</span> <span class="s1">&#39;aunt&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;man&#39;</span><span class="p">,</span> <span class="s1">&#39;woman&#39;</span><span class="p">,</span> <span class="s1">&#39;sister&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;man&#39;</span><span class="p">,</span> <span class="s1">&#39;woman&#39;</span><span class="p">,</span> <span class="s1">&#39;wife&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;man&#39;</span><span class="p">,</span> <span class="s1">&#39;woman&#39;</span><span class="p">,</span> <span class="s1">&#39;actress&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;man&#39;</span><span class="p">,</span> <span class="s1">&#39;woman&#39;</span><span class="p">,</span> <span class="s1">&#39;mother&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;heir&#39;</span><span class="p">,</span> <span class="s1">&#39;heiress&#39;</span><span class="p">,</span> <span class="s1">&#39;princess&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;nephew&#39;</span><span class="p">,</span> <span class="s1">&#39;niece&#39;</span><span class="p">,</span> <span class="s1">&#39;aunt&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;france&#39;</span><span class="p">,</span> <span class="s1">&#39;paris&#39;</span><span class="p">,</span> <span class="s1">&#39;tokyo&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;france&#39;</span><span class="p">,</span> <span class="s1">&#39;paris&#39;</span><span class="p">,</span> <span class="s1">&#39;beijing&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;february&#39;</span><span class="p">,</span> <span class="s1">&#39;january&#39;</span><span class="p">,</span> <span class="s1">&#39;november&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;france&#39;</span><span class="p">,</span> <span class="s1">&#39;paris&#39;</span><span class="p">,</span> <span class="s1">&#39;rome&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;paris&#39;</span><span class="p">,</span> <span class="s1">&#39;france&#39;</span><span class="p">,</span> <span class="s1">&#39;italy&#39;</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">nearest_neighbors</span><span class="p">(</span><span class="s1">&#39;king&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nearest_neighbors</span><span class="p">(</span><span class="s1">&#39;france&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nearest_neighbors</span><span class="p">(</span><span class="s1">&#39;japan&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nearest_neighbors</span><span class="p">(</span><span class="s1">&#39;einstein&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nearest_neighbors</span><span class="p">(</span><span class="s1">&#39;woman&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nearest_neighbors</span><span class="p">(</span><span class="s1">&#39;nephew&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nearest_neighbors</span><span class="p">(</span><span class="s1">&#39;february&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nearest_neighbors</span><span class="p">(</span><span class="s1">&#39;rome&#39;</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>king - man = queen - woman
+france - paris = britain - london
+france - paris = italy - rome
+paris - france = rome - italy
+france - french = england - english
+japan - japanese = china - chinese
+japan - japanese = italy - italian
+japan - japanese = australia - australian
+december - november = july - june
+miami - florida = houston - texas
+einstein - scientist = matisse - painter
+china - rice = chinese - bread
+man - woman = he - she
+man - woman = uncle - aunt
+man - woman = brother - sister
+man - woman = friend - wife
+man - woman = actor - actress
+man - woman = father - mother
+heir - heiress = queen - princess
+nephew - niece = uncle - aunt
+france - paris = japan - tokyo
+france - paris = china - beijing
+february - january = october - november
+france - paris = italy - rome
+paris - france = rome - italy
+Neighbors of: king
+	 prince
+	 queen
+	 ii
+	 emperor
+	 son
+
+Neighbors of: france
+	 french
+	 belgium
+	 paris
+	 spain
+	 netherlands
+
+Neighbors of: japan
+	 japanese
+	 china
+	 korea
+	 tokyo
+	 taiwan
+
+Neighbors of: einstein
+	 relativity
+	 bohr
+	 physics
+	 heisenberg
+	 freud
+
+Neighbors of: woman
+	 girl
+	 man
+	 mother
+	 her
+	 boy
+
+Neighbors of: nephew
+	 cousin
+	 brother
+	 grandson
+	 son
+	 uncle
+
+Neighbors of: february
+	 october
+	 december
+	 january
+	 august
+	 september
+
+Neighbors of: rome
+	 naples
+	 venice
+	 italy
+	 turin
+	 pope
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So, from the above we can see that for the most part, these vectors make a lot of sense and could prove to be very powerful!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="4.-Text-Classification-with-word-vectors">4. Text Classification with word vectors<a class="anchor-link" href="#4.-Text-Classification-with-word-vectors">&#182;</a></h1><p>We are now going to see how we could apply pretrained word vectors in order to do text classification. Unlike the remaining walkthroughs in section 2, we are going to use a bag of words model. What this means is that <code>toy dog</code> would be represented in the same way as <code>dog toy</code>, even though we know they have different meanings. In other words, we do not consider the order of the words. A few examples of bag of words that we have seen already are word counting and <code>TF-IDF</code>.</p>
+<h2 id="4.1-Bag-of-Words">4.1 Bag-of-Words<a class="anchor-link" href="#4.1-Bag-of-Words">&#182;</a></h2><p>So, how can we apply word vectors (such as what we would get from <code>word2vec</code> and <code>GloVe</code>) to bag-of-words. Well, it is quite simple; we know that we would like to represent a sentence, or document, as a single vector. First, for each word in the sentence, we can use our list of word vectors to get a vector. Then, we can just take the average of all of those word vectors; in other words, we add up all the word vectors, and divide by the number of vectors.</p>
+<p>For example, let's say that our sentence is:</p>
+<blockquote><p>"I like eggs."</p>
+</blockquote>
+<p>Our feature vector would then be:</p>
+
+<pre><code>Feature_vector = [vec('I') + vec('like') + vec('eggs')] / 3</code></pre>
+<p>Mathematically we can write this as:</p>
+<p>$$feature = \frac{1}{|sentence|} \sum_{w \in sentence} vec(w)$$</p>
+<h2 id="4.2-Perform-Classification">4.2 Perform Classification<a class="anchor-link" href="#4.2-Perform-Classification">&#182;</a></h2><p>At this point we are able to convert each document in our data set into a single feature vector, now what? Well, it is actually very simple! We can take this representation and plug it into any supervised machine learning classifier, such as Naive Bayes, Logistic Regression, Random Forest, Extra Trees (found in Scikit-Learn), etc! This is due to the standard classifcation api that scikit learn provides, namely:</p>
+
+<pre><code>model = Model()
+model.fit(X_train,Y_train)
+model.score(X_test, Y_test)</code></pre>
+<h2 id="4.3-What-is-the-&quot;meaning&quot;-of-this?">4.3 What is the "meaning" of this?<a class="anchor-link" href="#4.3-What-is-the-&quot;meaning&quot;-of-this?">&#182;</a></h2><p>One thing that you may have realized at this point is that in order for this work, our feature vectors must be <em>good</em>, or else we won't get an acceptable classification accuracy. In order for our feature vectors to be good feature vectors, the individual word vectors that are dependent on must make sense! So, this process of performing classification is actually a method use to <strong>evaluate</strong> how good a word embedding algorithm is!</p>
+<p>There are other methods for evaluating how good a word embedding algorithm is, such as word analogies and similarity. Of course, these evaluations are just a proxy for how well each algorithm will work on your particular problem with your particular dataset.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="4.4-Text-Classification-in-Code">4.4 Text Classification in Code<a class="anchor-link" href="#4.4-Text-Classification-in-Code">&#182;</a></h2><p>For this next portion we will be utilizing a text data set that can be found <a href="https://www.cs.umb.edu/~smimarog/textmining/datasets/">here</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="k">import</span> <span class="n">ExtraTreesClassifier</span><span class="p">,</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span> <span class="nn">gensim.models</span> <span class="k">import</span> <span class="n">KeyedVectors</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../data/nlp/r8-train-all-terms.txt&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../data/nlp/r8-test-all-terms.txt&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">train</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">]</span>
+<span class="n">test</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">GloveVectorizer</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Glove Vectorizer Fit Transform class&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Loading word vectors...&#39;</span><span class="p">)</span>
+        <span class="n">word2vec</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">embedding</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">idx2word</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../../data/nlp/glove.6B/glove.6B.50d.txt&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="c1"># Is just a space-separated text file in the format:</span>
+            <span class="c1">#  - word vec[0] vec[1] vec[2] ...</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">values</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">word</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+                <span class="n">word2vec</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="n">vec</span>
+                <span class="n">embedding</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span>
+                <span class="n">idx2word</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found {len(word2vec)} word vectors.&#39;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">word2vec</span> <span class="o">=</span> <span class="n">word2vec</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">embedding</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">word2idx</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">idx2word</span><span class="p">)}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span><span class="o">.</span><span class="n">shape</span>
+        
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="k">pass</span>
+    
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">D</span><span class="p">))</span> <span class="c1"># initialize data matrix X</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># index&#39;s data</span>
+        <span class="n">emptycount</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># how many sentences had words we coudn&#39;t find vectors for. </span>
+        <span class="k">for</span> <span class="n">sentence</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span> <span class="c1"># Loop through each sentence in the data</span>
+            <span class="n">tokens</span> <span class="o">=</span> <span class="n">sentence</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="n">vecs</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># stores all word vectors we encounter for this document (sentence)</span>
+            <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span> <span class="c1"># Loop through each words</span>
+                <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">word2vec</span><span class="p">:</span>  <span class="c1"># if word is in vocabularly, append its vector to vecs</span>
+                    <span class="n">vec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">word2vec</span><span class="p">[</span><span class="n">word</span><span class="p">]</span>
+                    <span class="n">vecs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vecs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>            <span class="c1"># Check if vecs has any vectors. If yes, assign mean to X[n]</span>
+                <span class="n">vecs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vecs</span><span class="p">)</span>
+                <span class="n">X</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">vecs</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">emptycount</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Number of samples with no words found: </span><span class="si">{emptycount}</span><span class="s1"> / {len(data)}&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">X</span>
+    
+    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>        
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vectorizer</span> <span class="o">=</span> <span class="n">GloveVectorizer</span><span class="p">()</span> <span class="c1"># Instantiate vectorizer</span>
+
+<span class="n">Xtrain</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">train</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+<span class="n">Ytrain</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">label</span>
+
+<span class="n">Xtest</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+<span class="n">Ytest</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">label</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Loading word vectors...
+Found 400000 word vectors.
+Number of samples with no words found: 0 / 5485
+Number of samples with no words found: 0 / 2189
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create the model, train it, print scores</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtrain</span><span class="p">,</span> <span class="n">Ytrain</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;train score:&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Xtrain</span><span class="p">,</span> <span class="n">Ytrain</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;test score:&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>train score: 0.9992707383773929
+test score: 0.9346733668341709
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can see that our glove vectors ended up performing well in the final Random Forest classification! This is a useful metric to show that our individual word vectors worked well.</p>
 
 </div>
 </div>
