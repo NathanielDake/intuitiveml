@@ -218,10 +218,393 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="2.-Language-Modeling-and-Neural-Networks">2. Language Modeling and Neural Networks<a class="anchor-link" href="#2.-Language-Modeling-and-Neural-Networks">&#182;</a></h1><p>This section is about language model and the relation to neural networks.</p>
+<h1 id="2.-Language-Modeling-and-Neural-Networks">2. Language Modeling and Neural Networks<a class="anchor-link" href="#2.-Language-Modeling-and-Neural-Networks">&#182;</a></h1><p>This post is about language modeling and its relation to neural networks. We will start with what may very well be the simplest task possible: creating a <strong>bigram language model</strong>.</p>
+<h2 id="2.1-Bigram-Language-Model">2.1 Bigram Language Model<a class="anchor-link" href="#2.1-Bigram-Language-Model">&#182;</a></h2><p>To start, in case it not clear, what is a language model? A language model is a model of the probabilities of sequences of words. In english, we refer to a sequence of words a sentence. So, for example, if we had the sentence:</p>
+
+<pre><code>The quick brown fox jumps over the lazy dog.</code></pre>
+<p>A language model will allow us to calculate:</p>
+<p>$$p\Big(\text{The quick brown fox jumps over the lazy dog.}\Big)$$</p>
+<p>The form that the above probability distribution takes is what makes up the model, and typically that is going to involve making some assumptions about the structure of language and how sentences are formed.</p>
+<h3 id="2.1.1-What-is-a-Model-anyways?">2.1.1 What is a Model anyways?<a class="anchor-link" href="#2.1.1-What-is-a-Model-anyways?">&#182;</a></h3><p>I want to take a moment to be very clear here and describe exactly what a model is. A model is trying to capture some real world phenomema (i.e. language, motion, finances, etc), and it will never be 100% correct. It is always going to make simplifying assumptions. The idea is that they will be correct most of the time, but some of the time they will be incorrect. For example, Newtonian Mechanics was determined to be incorrect (based on work by Einstein), but it still proves to be useful!</p>
+<h3 id="2.1.2-What-is-a-Bigram?">2.1.2 What is a Bigram?<a class="anchor-link" href="#2.1.2-What-is-a-Bigram?">&#182;</a></h3><p>A <strong>bigram</strong> is simply two consecutive words in a sentence. So, from our above example, the bigrams would be:</p>
+
+<pre><code>The quick
+quick brown
+brown fox
+fox jumps
+jump over
+over the
+the lazy
+lazy dog</code></pre>
+<p>We could also have <strong>trigrams</strong> and <strong>n-grams</strong>, which deal with three and $n$ consecutive words respectively. In terms of the bigram model, we are going to be modeling each bigram as a probability:</p>
+<p>$$Bigram \; model: p\big(w_t \mid w_{t-1}\big)$$</p>
+<p>So for example, we could have:</p>
+<p>$$p\big(brown \mid quick\big) = 0.5$$</p>
+<p>$$p\big(the \mid the\big) = 0$$</p>
+<p>In the above, all the statement is saying is: the probability of seeing the word <code>brown</code> given that we just saw the word <code>quick</code> is 0.5. Now, how do we actually find these probabilities? We just count! So, to find that $p\big(brown \mid quick\big) = 0.5$, we would simply count up how many times $quick \rightarrow brown$ appears in our documents, and how many times $brown$ appears, and then divide the former by the later. This will give us the <strong>maximum likelihood probability</strong>:</p>
+<p>$$p\big(brown \mid quick\big) = \frac{count(quick \rightarrow brown)}{count(quick)}$$</p>
+<p>I would like to clarify what I mean when I refer to <strong>documents</strong>. Generally speaking, we are going to have some training data - a list of exmaple sentences - to create our model. For our purposes, we will mostly be using wikipedia, but in general documents just refer to a set of files that contains sentences. This sometimes will be called a <strong>corpus</strong>.</p>
+<h3 id="2.1.3-What-is-a-Language-Model">2.1.3 What is a Language Model<a class="anchor-link" href="#2.1.3-What-is-a-Language-Model">&#182;</a></h3><p>Returning to the idea of a language model, recall that we want to know the probability of an entire sentence. How can bigrams help us do that? As per our previous discussion, this is going to involve making some assumptions. Let's look at a simpler example, specifically the sentence:</p>
+
+<pre><code>I like dogs.</code></pre>
+<p>Our goal is to find $p\big(I like dogs\big)$. Well, we can apply the <strong>rules of conditional probability</strong> here. For a quick refresher, recall that the rules of conditional probability state that:</p>
+<p>$$p\big(A \mid B\big) = \frac{p \big(A \cap B \big)}{p\big(B\big)}$$</p>
+<p>$$p \big(A \cap B \big) = p\big(A \mid B\big)  p\big(B\big)$$</p>
+<p>This can of course be extended to 3 variables like so:</p>
+<p>$$p \big(A, B, C \big) = p \big(C \mid A, B\big)  p\big(A, B\big)$$</p>
+<p>Which, in the case of our sentence above would leave us with:</p>
+<p>$$p \big(I, like, dogs \big) = p \big(dogs \mid I, like\big)  p\big(I, like\big)$$</p>
+<p>We can apply this rule of conditional probability yet again the joint probability $ p\big(I, like\big)$, resultin in:</p>
+<p>$$p \big(I, like, dogs \big) = p \big(dogs \mid I, like\big)  p\big(like \mid I\big) p \big(I\big)$$</p>
+<p>This could simply be continued if we had a longer sentence. This process encapsulates what is known as the <strong>chain rule</strong> of probability. So, why is the above important? Well, if we look at our resulting expression above, we can see that one of the probabilities is part of the bigram model:</p>
+<p><br></p>
+<center>
+<span style="color:#0000cc">$p \big(dogs \mid I, like\big)$</span>
+<span style="color:#ff0000">$p\big(like \mid I\big)$</span>
+<span style="color:#0000cc">$p \big(I\big)$</span>
+</center><p>Now, the two other terms in blue are <em>not</em> bigrams, but that is okay! We can still calculate them using maximum likelihood estimation. For the unigram $p(I)$, this is simply the number of times $I$ appears in the corpus, relative to the total corpus length:</p>
+<p>$$p\big(I\big) = \frac{count(I)}{corpus \; length }$$</p>
+<p>For the trigram $p \big(dogs \mid I, like\big)$, we would need to perform the following counts:</p>
+<p>$$p \big(dogs \mid I, like\big) = \frac{count(I, like, dogs)}{count(I, like)}$$</p>
+<p>We can extend the above logic to sentences of any length. So, if we were dealing with a sentence:</p>
+
+<pre><code>A B C D E</code></pre>
+<p>We could model it as:</p>
+<p>$$p\big( A, B, C, D, E\big) = p\big(E \mid A, B, C, D\big) p\big( D \mid A, B, C\big) p\big( C \mid A, B\big)
+p\big( B \mid A \big) p\big( A\big)$$</p>
+<p>Note, above we are using commas to separate our words, which makes it look like a joint probability. However, we must keep in mind that we are looking at a sequence, and not simply a joint probability. With that said, what we should be taking away from the above equation is that modeling these $n$-grams will at some point become problematic. For example, if we return to our original sentence:</p>
+
+<pre><code>The quick brown fox jumps over the lazy dog.</code></pre>
+<p>Perhaps this is the only sentence like this in our corpus! We know that:</p>
+
+<pre><code>The quick brown fox jumps over the lazy cat.</code></pre>
+<p>Is a valid and reasonable sentence. However, if it never shows up in our corpus, its maximum likelihood probability is 0. Zero is not an accurate probability in this case, since we <em>know</em> that the sentence makes sense, and that our language model should allow for it.</p>
+<h3 id="2.1.4-Add-One-Smoothing">2.1.4 Add-One Smoothing<a class="anchor-link" href="#2.1.4-Add-One-Smoothing">&#182;</a></h3><p>One simple way to overcome these zero probabilities is to add a small number to each count, instead of performing vanilla maximum-likelihood counting. For instance, if we have a vocabulary size of $V$, our probability would look like:</p>
+<p>$$p_{smooth}\big(B \mid A\big) = \frac{count(A \rightarrow B) + 1}{count(A) + V}$$</p>
+<p>We add $V$ to the denominator to ensure that our probabilities sum to one. This process ensures that even if a phrase does not appear in our corpus, it still has a small probability of occuring.</p>
+<h3 id="2.1.5-The-Markov-Assumption">2.1.5 The Markov Assumption<a class="anchor-link" href="#2.1.5-The-Markov-Assumption">&#182;</a></h3><p>Another thing we can do is make the <strong>Markov Assumption</strong>. This is that whatever you see <em>now</em> depends only on what you saw in the previous step. Mathematically this looks like:</p>
+<p>$$p\big( w_t \mid w_{t-1}, w_{t-2}, ... , w_1 \big) = p \big(w_t \mid w_{t-1}\big)$$</p>
+<p>This is know as a <strong>first order markov</strong> because it only depends on one previous term. For example, in our previous situation when modeling <code>A B C D E</code> we ended up with:</p>
+<p>$$p\big( A, B, C, D, E\big) = p\big(E \mid A, B, C, D\big) p\big( D \mid A, B, C\big) p\big( C \mid A, B\big)
+p\big( B \mid A \big) p\big( A\big)$$</p>
+<p>If we made the markov assumption, the first term on the right would be reduced to:</p>
+<p>$$p\big(E \mid A, B, C, D\big) = p\big(E \mid D\big)$$</p>
+<p>The entire sentence would be reduced to:</p>
+<p>$$p\big( A, B, C, D, E\big) = p\big(E \mid  D\big) p\big( D \mid  C\big) p\big( C \mid B\big)
+p\big( B \mid A \big) p\big( A\big)$$</p>
+<p>We end up with a probability consisting entirely of bigrams and one unigram! Why is this important? Well, we need to keep in mind that the longer a sentence, the less likely it is to appear in our training data. This is because our training data makes up only a tiny fraction of the entire space of possible sentences. However, very short phrases like bigrams are going to be very common. So, while phrases such as:</p>
+
+<pre><code>The quick brown fox jumps over the lazy cat.
+
+The quick brown fox jumps over the lazy lizard.</code></pre>
+<p>Are not likely to appear in our corpus, phrases such as <code>lazy cat</code> and <code>lazy lizard</code> most likely do. Hence, it is easier to model the probability for <code>lazy lizard</code> than it is to model the probability for <code>The quick brown fox jumps over the lazy lizard.</code>. This in turn makes the full sentence much more probable.</p>
+<h2 id="2.2-Creating-a-Bigram-Language-Model-with-NLTK">2.2 Creating a Bigram Language Model with NLTK<a class="anchor-link" href="#2.2-Creating-a-Bigram-Language-Model-with-NLTK">&#182;</a></h2><p>We are about to create a bigram language model in code using NLTK, but before we do there are a few things to consider. First, we know that probabilities are always between 0 and 1, and that the full joint probability of our bigram model is just the multiplication of each bigram probability in the sentence:</p>
+<p>$$p\big(w_1,...,w_T \big) = p\big(w_1\big) \prod_{t=2}^T p \big( w_t \mid w_{t-1}\big)$$</p>
+<p>We also know that multiplying two numbers less than one together will always yield a smaller number. The result is that if we just keep multiplying probabilities together, we may encounter the <strong>underflow</strong> problem, which means that we hit the limit of numerical precision that our computer can handle, and it will just round down to 0. The solution to this is to use the <strong>log probability</strong> instead:</p>
+<p>$$log \Big(p\big(w_1,...,w_T \big)\big) = log \Big(p\big(w_1\big)\Big) \sum_{t=2}^T log \Big( p \big( w_t \mid w_{t-1}\big) \Big)$$</p>
+<p>We can use this because we know that the log function is <strong>monotonically</strong> increasing, so if $A &gt; B$ then $log(A) &gt; log(B)$. The other thing that we are going to want to do is <strong>normalize</strong> each sentence. Since probabilities are between 0 and 1, log probabilities are always negative. Hence, the longer our sentences, the more negative numbers we are going to add together. This means that if we compare raw log probabilities, there is always going to be a bias towards shorter sentences. Shorter sentences will always have a higher log probabilty, simply because they have fewer negative numbers to add together. For example:</p>
+<p>$$logp\big( \text{the the the} \big) &gt; logp\big( \text{A real, but much longer sentence than the one to left} \big)$$</p>
+<p>To solve this, we can just compare the log probabilities, divided by the length of the sentence, $T$:</p>
+<p>$$\frac{1}{T}logp\big(w_1,...,w_T \big) = \frac{1}{T} \Big[ logp\big(w_1\big)\Big) \sum_{t=2}^T logp \big( w_t \mid w_{t-1}\big) \Big)\big]$$</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="2.3-Bigram-Language-Model-in-Code">2.3 Bigram Language Model in Code<a class="anchor-link" href="#2.3-Bigram-Language-Model-in-Code">&#182;</a></h2><p>We will start with our imports:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+<span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="k">import</span> <span class="n">brown</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>And then write a few functions to load our data:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_sentences</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Returns 57,430 sentences from the brown corpus. Each sentence is a list of individual string tokens.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">brown</span><span class="o">.</span><span class="n">sents</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">get_sentences_with_word2idx</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Converts sentences from word representation to index representation.</span>
+<span class="sd">    </span>
+<span class="sd">    Assign a unique integer, starting from 0, to every word that appears in the corpus.</span>
+<span class="sd">    Returns a dictionary that contains a mapping from every word to its corresponding index.&quot;&quot;&quot;</span>
+    <span class="n">sentences</span> <span class="o">=</span> <span class="n">get_sentences</span><span class="p">()</span>
+    <span class="n">indexed_sentences</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span> 
+    <span class="n">word2idx</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;START&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;END&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">sentence</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">:</span>
+        <span class="n">indexed_sentence</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">sentence</span><span class="p">:</span> 
+            <span class="n">token</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">token</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">word2idx</span><span class="p">:</span>
+                <span class="n">word2idx</span><span class="p">[</span><span class="n">token</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">indexed_sentence</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word2idx</span><span class="p">[</span><span class="n">token</span><span class="p">])</span>
+        <span class="n">indexed_sentences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">indexed_sentence</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Vocabulary size: &#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">indexed_sentences</span><span class="p">,</span> <span class="n">word2idx</span>
+
+<span class="n">KEEP_WORDS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span>
+  <span class="s1">&#39;king&#39;</span><span class="p">,</span> <span class="s1">&#39;man&#39;</span><span class="p">,</span> <span class="s1">&#39;queen&#39;</span><span class="p">,</span> <span class="s1">&#39;woman&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;italy&#39;</span><span class="p">,</span> <span class="s1">&#39;rome&#39;</span><span class="p">,</span> <span class="s1">&#39;france&#39;</span><span class="p">,</span> <span class="s1">&#39;paris&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;london&#39;</span><span class="p">,</span> <span class="s1">&#39;britain&#39;</span><span class="p">,</span> <span class="s1">&#39;england&#39;</span><span class="p">,</span>
+<span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">get_sentences_with_word2idx_limit_vocab</span><span class="p">(</span><span class="n">n_vocab</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">keep_words</span><span class="o">=</span><span class="n">KEEP_WORDS</span><span class="p">):</span>
+    <span class="n">sentences</span> <span class="o">=</span> <span class="n">get_sentences</span><span class="p">()</span>
+    <span class="n">indexed_sentences</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span> 
+    <span class="n">word2idx</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;START&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;END&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+    <span class="n">idx2word</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;START&#39;</span><span class="p">,</span> <span class="s1">&#39;END&#39;</span><span class="p">]</span>
+    
+    <span class="n">word_idx_count</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">),</span>
+    <span class="p">}</span>
+    
+    <span class="k">for</span> <span class="n">sentence</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">:</span>
+        <span class="n">indexed_sentence</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">sentence</span><span class="p">:</span> 
+            <span class="n">token</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">token</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">word2idx</span><span class="p">:</span>
+                <span class="n">idx2word</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+                <span class="n">word2idx</span><span class="p">[</span><span class="n">token</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># keep track of counts for later sorting</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">word2idx</span><span class="p">[</span><span class="n">token</span><span class="p">]</span>
+            <span class="n">word_idx_count</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">word_idx_count</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+            
+            <span class="n">indexed_sentence</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="n">indexed_sentences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">indexed_sentence</span><span class="p">)</span>
+    
+    <span class="c1"># ---- Restrict vocab size ----</span>
+    <span class="c1"># Set all the words that should be kept to infinity so that they are included when</span>
+    <span class="c1"># we pick the most common words</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">keep_words</span><span class="p">:</span>
+        <span class="n">word_idx_count</span><span class="p">[</span><span class="n">word2idx</span><span class="p">[</span><span class="n">word</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
+        
+    <span class="c1"># Sort word counts dictionary by value, in descending order</span>
+    <span class="n">sorted_word_idx_count</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">word_idx_count</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">word2idx_small</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">new_idx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">idx_new_idx_map</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">sorted_word_idx_count</span><span class="p">[:</span><span class="n">n_vocab</span><span class="p">]:</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="n">idx2word</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+<span class="c1">#         print(word, count)</span>
+        <span class="n">word2idx_small</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_idx</span>
+        <span class="n">idx_new_idx_map</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_idx</span>
+        <span class="n">new_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="c1"># let &#39;unknown&#39; be the last token</span>
+    <span class="n">word2idx_small</span><span class="p">[</span><span class="s1">&#39;UNKNOWN&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_idx</span> 
+    <span class="n">unknown</span> <span class="o">=</span> <span class="n">new_idx</span>
+    
+    <span class="k">assert</span><span class="p">(</span><span class="s1">&#39;START&#39;</span> <span class="ow">in</span> <span class="n">word2idx_small</span><span class="p">)</span>
+    <span class="k">assert</span><span class="p">(</span><span class="s1">&#39;END&#39;</span> <span class="ow">in</span> <span class="n">word2idx_small</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">keep_words</span><span class="p">:</span>
+        <span class="k">assert</span><span class="p">(</span><span class="n">word</span> <span class="ow">in</span> <span class="n">word2idx_small</span><span class="p">)</span>
+        
+    <span class="c1"># map old idx to new idx</span>
+    <span class="n">sentences_small</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">sentence</span> <span class="ow">in</span> <span class="n">indexed_sentences</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">new_sentence</span> <span class="o">=</span> <span class="p">[</span><span class="n">idx_new_idx_map</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">if</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">idx_new_idx_map</span> <span class="k">else</span> <span class="n">unknown</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">sentence</span><span class="p">]</span>
+            <span class="n">sentences_small</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_sentence</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">sentences_small</span><span class="p">,</span> <span class="n">word2idx_small</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we can start with our language model:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_bigram_probs</span><span class="p">(</span><span class="n">sentences</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">start_idx</span><span class="p">,</span> <span class="n">end_idx</span><span class="p">,</span> <span class="n">smoothing</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="c1"># Structure of bigram probability matrix will be:</span>
+    <span class="c1"># (last word, current word) -&gt; probability</span>
+    <span class="c1"># Utilizing add-1 smoothing</span>
+    <span class="n">bigram_probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">V</span><span class="p">,</span> <span class="n">V</span><span class="p">))</span> <span class="o">*</span> <span class="n">smoothing</span>
+    <span class="k">for</span> <span class="n">sentence</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sentence</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># Beginning word</span>
+                <span class="n">bigram_probs</span><span class="p">[</span><span class="n">start_idx</span><span class="p">,</span> <span class="n">sentence</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Middle word</span>
+                <span class="n">bigram_probs</span><span class="p">[</span><span class="n">sentence</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">sentence</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># Final Word</span>
+                <span class="c1"># We update the bigram for last -&gt; current</span>
+                <span class="c1"># AND current -&gt; End otken</span>
+                <span class="n">bigram_probs</span><span class="p">[</span><span class="n">sentence</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">end_idx</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">bigram_probs</span> <span class="o">/=</span> <span class="n">bigram_probs</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">bigram_probs</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># Load in the data</span>
+    <span class="c1"># Note: sentences are already converted to sequences of word indexes</span>
+    <span class="c1"># Note: you can limit the vocab size if you run out of memory</span>
+    <span class="n">sentences</span><span class="p">,</span> <span class="n">word2idx</span> <span class="o">=</span> <span class="n">get_sentences_with_word2idx_limit_vocab</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+
+    <span class="c1"># Vocab size</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">word2idx</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Vocab size:&quot;</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
+
+    <span class="c1"># Treat beginning of sentence and end of sentence as bigrams</span>
+    <span class="c1"># START -&gt; first word</span>
+    <span class="c1"># last word -&gt; END</span>
+    <span class="n">start_idx</span> <span class="o">=</span> <span class="n">word2idx</span><span class="p">[</span><span class="s1">&#39;START&#39;</span><span class="p">]</span>
+    <span class="n">end_idx</span> <span class="o">=</span> <span class="n">word2idx</span><span class="p">[</span><span class="s1">&#39;END&#39;</span><span class="p">]</span>
+
+    <span class="c1"># A matrix where:</span>
+    <span class="c1"># - row = last word</span>
+    <span class="c1"># - col = current word</span>
+    <span class="c1"># value at [row, col] = p(current word | last word)</span>
+    <span class="n">bigram_probs</span> <span class="o">=</span> <span class="n">get_bigram_probs</span><span class="p">(</span><span class="n">sentences</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">start_idx</span><span class="p">,</span> <span class="n">end_idx</span><span class="p">,</span> <span class="n">smoothing</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">get_score</span><span class="p">(</span><span class="n">sentence</span><span class="p">):</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sentence</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># Beginning word</span>
+                <span class="n">score</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">bigram_probs</span><span class="p">[</span><span class="n">start_idx</span><span class="p">,</span> <span class="n">sentence</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Middle word</span>
+                <span class="n">score</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">bigram_probs</span><span class="p">[</span><span class="n">sentence</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">sentence</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+        <span class="c1"># Final word        </span>
+        <span class="n">score</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">bigram_probs</span><span class="p">[</span><span class="n">sentence</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">end_idx</span><span class="p">])</span>
+        
+        <span class="k">return</span> <span class="n">score</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    
+    <span class="c1"># Map word indexes back to real words - helpful to display sentences</span>
+    <span class="n">idx2word</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">v</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">word2idx</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+    <span class="k">def</span> <span class="nf">get_words</span><span class="p">(</span><span class="n">sentence</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">idx2word</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sentence</span><span class="p">)</span>
+
+    <span class="c1"># when we sample a fake sentence, we want to ensure not to sample start token or end token</span>
+    <span class="n">sample_probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+    <span class="n">sample_probs</span><span class="p">[</span><span class="n">start_idx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">sample_probs</span><span class="p">[</span><span class="n">end_idx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">sample_probs</span> <span class="o">/=</span> <span class="n">sample_probs</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    
+    <span class="c1"># Test our model on real and fake sentences</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="c1"># real sentence</span>
+        <span class="n">real_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sentences</span><span class="p">))</span>
+        <span class="n">real</span> <span class="o">=</span> <span class="n">sentences</span><span class="p">[</span><span class="n">real_idx</span><span class="p">]</span>
+
+        <span class="c1"># fake sentence</span>
+        <span class="n">fake</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">real</span><span class="p">),</span> <span class="n">p</span><span class="o">=</span><span class="n">sample_probs</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;REAL:&quot;</span><span class="p">,</span> <span class="n">get_words</span><span class="p">(</span><span class="n">real</span><span class="p">),</span> <span class="s2">&quot;SCORE:&quot;</span><span class="p">,</span> <span class="n">get_score</span><span class="p">(</span><span class="n">real</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FAKE:&quot;</span><span class="p">,</span> <span class="n">get_words</span><span class="p">(</span><span class="n">fake</span><span class="p">),</span> <span class="s2">&quot;SCORE:&quot;</span><span class="p">,</span> <span class="n">get_score</span><span class="p">(</span><span class="n">fake</span><span class="p">))</span>
+
+        <span class="c1"># input your own sentence</span>
+        <span class="n">custom</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter your own sentence:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">custom</span> <span class="o">=</span> <span class="n">custom</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+        <span class="c1"># check that all tokens exist in word2idx (otherwise, we can&#39;t get score)</span>
+        <span class="n">bad_sentence</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">custom</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">token</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">word2idx</span><span class="p">:</span>
+                <span class="n">bad_sentence</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="n">bad_sentence</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sorry, you entered words that are not in the vocabulary&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># convert sentence into list of indexes</span>
+            <span class="n">custom</span> <span class="o">=</span> <span class="p">[</span><span class="n">word2idx</span><span class="p">[</span><span class="n">token</span><span class="p">]</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">custom</span><span class="p">]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SCORE:&quot;</span><span class="p">,</span> <span class="n">get_score</span><span class="p">(</span><span class="n">custom</span><span class="p">))</span>
+
+        <span class="n">cont</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Continue? [Y/n]&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cont</span> <span class="ow">and</span> <span class="n">cont</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">):</span>
+            <span class="k">break</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Vocab size: 10001
+REAL: when at last she could suffer the UNKNOWN no longer , nor face the girl&#39;s UNKNOWN , she said in a voice UNKNOWN : SCORE: -5.303214027073128
+FAKE: panic refer r yankees friction stained szold bake rico sought passions eleanor admiration cause aide charles keeping muzzle midst wtv transport pip&#39;s draws exert SCORE: -9.399468870608093
+Enter your own sentence:
+Hoping that this works
+SCORE: -7.237799525364752
+Continue? [Y/n]n
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake
