@@ -218,7 +218,7 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="3.-Word-Embeddings">3. Word Embeddings<a class="anchor-link" href="#3.-Word-Embeddings">&#182;</a></h1><p>This section is intended to serve as an introduction to many of the things that we will touch on in my NLP section pertaining to Deep learning applied to natural language processing.</p>
+<h1 id="3.-Word-Embeddings-&amp;-Poetry">3. Word Embeddings &amp; Poetry<a class="anchor-link" href="#3.-Word-Embeddings-&amp;-Poetry">&#182;</a></h1><p>This section is intended to serve as an introduction to many of the things that we will touch on in my NLP section pertaining to Deep learning applied to natural language processing.</p>
 <p>You will notice that a lot of the RNN examples that we go over, as well as elsewhere on the web will use word sequences as examples. Why is that?</p>
 <ol>
 <li>Language is an easy topic to comprehend! We speak, read, and write every single day, which makes it rather intuitive to deal with. If you are reading this post, then you are unavoidably using those abilities at this very moment.</li>
@@ -315,10 +315,110 @@ for word, idx in word2idx.items():
 
 print("The best word is: ", best_word)</code></pre>
 <p>We may want to leave out the words from the left side of the equation, in this case <em>king, man</em>, and <em>woman</em>. Note that we will not be using this on our upcoming poetry data, since it doesn't have the kind of vocabulary we are looking for. We are more interested in things like nouns when we do word analogies. We want to compare kings and queens, men and women, occupations, etc. We will look more at word analogies later on.</p>
-<h2 id="4.-Representing-a-Sequence-of-Words-as-a-Sequence-of-Word-Embeddings">4. Representing a Sequence of Words as a Sequence of Word Embeddings<a class="anchor-link" href="#4.-Representing-a-Sequence-of-Words-as-a-Sequence-of-Word-Embeddings">&#182;</a></h2><p>Let's quickly go over one small detail from the upcoming code, that may be slightly confusing. We have a word embedding matrix, $W_e$, which is of size $V x D$ (V = vocabulary size, D = word vector dimensionality), and we have an input sequence of word indexes of length $T$. We would like to get a sequence of word vectors that represent a sentence, which is a $TxD$ vector. However, we will need to update the word embeddings via backpropagation, so the $TxD$ matrix we get after grabbing the word vectors cannot be the input into the neural network.</p>
+<h2 id="4.-Representing-a-Sequence-of-Words-as-a-Sequence-of-Word-Embeddings">4. Representing a Sequence of Words as a Sequence of Word Embeddings<a class="anchor-link" href="#4.-Representing-a-Sequence-of-Words-as-a-Sequence-of-Word-Embeddings">&#182;</a></h2><p>Let's quickly go over one small detail from the upcoming code, that may be slightly confusing. We have a word embedding matrix, $W_e$, which is of size $V x D$ (V = vocabulary size, D = word vector dimensionality):</p>
+<p><img src="https://drive.google.com/uc?id=1knUHHjsH714GMPxk82qyFS-QpJF29XlK" width="350"></p>
+<p>Note that each row of the word embedding matrix is a <strong>word vector</strong>:</p>
+<p><img src="https://drive.google.com/uc?id=1heOWMPjnzAcM1lk5-5o_LH2J2hTpyYKP" width="700"></p>
+<p>And we have an input sequence of word indexes of length $T$:</p>
+<p><img src="https://drive.google.com/uc?id=1lUFji2r44sX__tdCkHkcjXjWAEbQxW53" width="300"></p>
+<p>We would like to get a sequence of word vectors that represent a sentence, which is a $TxD$ matrix. In other words, we want to take the indices from our vector above, and grab the correspond word vectors from the embedding matrix:</p>
+<p><img src="https://drive.google.com/uc?id=1IqlwpwkdJs-BjMBhYXOxHqx3rAGYpWjx" width="600"></p>
+<p>However, we will need to update the word embeddings via backpropagation, so the $TxD$ matrix we get after grabbing the word vectors cannot be the input into the neural network. This is because the word embeddings must be <em>part of the neural network</em> so that they can be updated via gradient descent with the other weights. This means that the input to the neural network will actually just be a list of word index's, and this list will correspond to however we decide to build our dictionary. This saves a lot of space, because now we can represent each input by a $Tx1$ vector of integers, rather than a $TxD$ matrix of floats.</p>
+<p>From a conceptual standpoint, we are trying to do the following:</p>
+
+<pre><code>word_vectors = []
+for index in input_sequence:
+    word_vector = We[index, :]
+    word_vectors.append(word_vector)
+return word_vectors</code></pre>
+<p>Here, we are simply taking each word index from the input sequence, grabbing its corresponding word vector, and adding it to a list of word vectors which is the output sequence. Mathematically speaking, the way that you would get a vector is by multiplying the one hot encoded word index vector, by the word embedding matrix:</p>
+
+<pre><code>s = one_hot_encode(input word index) # ex. [0,0,0,...,1,...,0] (1 x V)
+x = sW_e # (1 x D)</code></pre>
+<p>Above we are taking the dot product of a $1 x V$ vector with a $V x D$ matrix, which will result in a $1 x D$ word vector; exactly what we wanted. Visually, this can be seen below. We have a one hot encoded word, in this case "dog", that has a word index of 147, and our word embedding matrix:</p>
+<p><img src="https://drive.google.com/uc?id=1tFHc4IR5iB4QMDxWlsIhyWDqPQPSm0hU" width="550"></p>
+<p>We then perform the dot product of our one hot encoded word with the word embedding matrix:</p>
+<p><img src="https://drive.google.com/uc?id=1HVpHIQwu-hcRY8jVv4KIRO8XzzRDy1ve" width="400"></p>
+<p>We can see that because all entries in the one hot encoded word are zero (besides a 1 at the index 147, representing our dog), our result will be the exact row vector at index 147 of the word embedding matrix. This means that we can skip the computation, and just extract the row specified by our index! This would be trivial in numpy: <code>W_e[147]</code>.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="5.-Generating-Poetry">5. Generating Poetry<a class="anchor-link" href="#5.-Generating-Poetry">&#182;</a></h1><p>We are now going to dive into an interesting use case of an RNN: poetry generation. This is an unsupervised model, and as we discussed in the previous section, the softmax output will be the probability of the next word, given the previous sequence of words:</p>
+<p>$$p\big( w_t \mid w_{t-1}, w_{t-2},...,w_0\big)$$</p>
+<p>For this first iteration, we will also create an initial word distribution which we will call $\pi$. $\pi$ is just the distribution across all words that line in our poetry will start with a particular word:</p>
+<p>$$\pi = p\big( w_0 \big)$$</p>
+<p>We will sample from $\pi$ so that each line can start with a different word. The reason for doing this is so that we can generate different sequences. If we consistently had the same start token for input into our recurrent net, it would always output the same prediction (because neural network output is <strong>deterministic</strong>), and then it would put those two tokens into the recurrent net, and so on. Our predictions will take the form:</p>
+
+<pre><code>w0 = rnn.predict(START)
+w1 = rnn.predict(w0, START)
+w2 = rnn.predict(w0, w1, START)
+# and so on...</code></pre>
+<p>Remember, the prediction of a neural network is just the argmax of the softmax:</p>
+<p>$$w_t = argmax\Big(softmax \big(f(w_{t-1}, w_{t-2}, ...)\big)\Big)$$</p>
+<p>Sampling from the initial word distribution will allow each line to possibly start with a different word, which in turn will allow us to generate different sequences.</p>
+<h2 id="5.1-Word-Embeddings">5.1 Word Embeddings<a class="anchor-link" href="#5.1-Word-Embeddings">&#182;</a></h2><p>Because we are dealing with a language model, we will also need word embeddings. This means that this RNN will be slightly different than the one we had built for the parity problem. The first difference is that it is going to take, in addition to the hidden layer size, $M$, the dimensionality of the word embeddings, $D$, and the vocabularly size $V$, since the word embedding matrix, $W_e$, needs to be of size $V x D$.</p>
+<p>The second difference is that our <code>fit</code> function will only take in $X$, because there are no targets:</p>
+
+<pre><code>rnn.fit(X)</code></pre>
+<p>Within the <code>fit</code> function, however, we will create our own targets. The targets for word one to $t-1$, should be the word at time $t$:</p>
+<table>
+<thead><tr>
+<th>Input:</th>
+<th>START</th>
+<th>$x_0$</th>
+<th>$x_1$</th>
+<th>$x_2$</th>
+<th>$x_3$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Target:</td>
+<td>$x_0$</td>
+<td>$x_1$</td>
+<td>$x_2$</td>
+<td>$x_3$</td>
+<td>END</td>
+</tr>
+</tbody>
+</table>
+<p>We will need to predict the end of the sequence, however, or else we would just go on creating an infinite line. To do this, we will make the target of the full sequence the <code>END</code> token. Similarly, we will add a <code>START</code> token at the beginning of an input sequence and its target will be the first word. To summarize, the input sequence will be prepended with the <code>START</code> token, and the output sequence will be appended with the <code>END</code> token.</p>
+<h2 id="5.2-Accuracy">5.2 Accuracy<a class="anchor-link" href="#5.2-Accuracy">&#182;</a></h2><p>Unlike the parity problem, we want to measure accuracy not simply by the last word, but by every predicted word. Due to that, we will accumulate the number of correct words guessed, and divide it by the total number of words, in order to get the final accuracy:</p>
+<p>$$Accuracy = \frac{\text{words correctly guessed}}{\text{sum(len(sentence) + 1 for sentence in sentences})}$$</p>
+<h2 id="5.3-Load-and-Save">5.3 Load and Save<a class="anchor-link" href="#5.3-Load-and-Save">&#182;</a></h2><p>Additionally, because we may want to generate new poetry without having to retrain the model every time, we will want to save our model after it is trained, and also have a way to load said model. The API to do so is shown below:</p>
+
+<pre><code>rnn = SimpleRNN.load(filename)
+rnn.save(filename)</code></pre>
+<p>Note that the first method (<code>load</code>) is a <strong>static</strong> method, and the second method (<code>save</code>) is an instance method. Because theano functions need to be compiled, we can't just set the weights to saved numpy arrays. We must reinitialize the object with all of the required theano functions in order to make predictions.</p>
+<h2 id="5.4-The-Data">5.4 The Data<a class="anchor-link" href="#5.4-The-Data">&#182;</a></h2><p>Now, the data that we are going to be dealing with is a collection of Robert Frost poems; about 1500 lines. Each line is a separate sequence. We will perform preprocessing that consists of:</p>
+<ul>
+<li>Lowercasing all text, removing punctuation, split by whitespace and gather tokens</li>
+<li>Give each token an index in <code>word2idx</code> map. Indexes start from 0 and increment by 1</li>
+<li>Save each sentence as a sequence of word indexes</li>
+<li>Return sentences and <code>word2idx</code> map</li>
+</ul>
+<p>This is generally the same process that we will follow for building any language model. However, we will see how we can introduce more modifications when we look at more complicated data.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake
