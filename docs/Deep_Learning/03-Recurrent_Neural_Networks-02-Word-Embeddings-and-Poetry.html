@@ -407,12 +407,175 @@ rnn.save(filename)</code></pre>
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="5.5-Generating-Poetry-in-Code">5.5 Generating Poetry in Code<a class="anchor-link" href="#5.5-Generating-Poetry-in-Code">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">string</span>
+
+<span class="kn">import</span> <span class="nn">theano</span>
+<span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="k">as</span> <span class="nn">T</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="k">import</span> <span class="n">shuffle</span>
+<span class="k">def</span> <span class="nf">init_weight</span><span class="p">(</span><span class="n">Mi</span><span class="p">,</span> <span class="n">Mo</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">Mi</span><span class="p">,</span> <span class="n">Mo</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Mi</span> <span class="o">+</span> <span class="n">Mo</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">init_weight</span><span class="p">(</span><span class="n">Mi</span><span class="p">,</span> <span class="n">Mo</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">Mi</span><span class="p">,</span> <span class="n">Mo</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Mi</span> <span class="o">+</span> <span class="n">Mo</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">remove_punctuation</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">get_robert_frost</span><span class="p">():</span>
+    <span class="n">word2idx</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;START&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;END&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+    <span class="n">current_idx</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">sentences</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../../data/poems/robert_frost.txt&#39;</span><span class="p">):</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">line</span><span class="p">:</span>
+            <span class="n">tokens</span> <span class="o">=</span> <span class="n">remove_punctuation</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="n">sentence</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">t</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">word2idx</span><span class="p">:</span>
+                    <span class="n">word2idx</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_idx</span>
+                    <span class="n">current_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">idx</span> <span class="o">=</span> <span class="n">word2idx</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+                <span class="n">sentence</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+            <span class="n">sentences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sentences</span><span class="p">,</span> <span class="n">word2idx</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">SimpleRNN</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">V</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="n">D</span> <span class="c1"># Dimensionality of word embedding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">=</span> <span class="n">M</span> <span class="c1"># Hidden layer size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">V</span> <span class="o">=</span> <span class="n">V</span> <span class="c1"># Vocabularly size</span>
+        
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">10e-1</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">0.99</span><span class="p">,</span> <span class="n">reg</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">T</span><span class="o">.</span><span class="n">tanh</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">show_fig</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">D</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span>
+        <span class="n">V</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">activation</span>
+        
+        <span class="c1"># Initialize our weights</span>
+        <span class="n">We</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">D</span><span class="p">)</span>
+        <span class="n">Wx</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span>
+        <span class="n">Wh</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span>
+        <span class="n">bh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+        <span class="n">h0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+        <span class="n">Wo</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
+        <span class="n">bo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+        
+        <span class="c1"># Make weights theano shared</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">We</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">We</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Wx</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Wx</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Wh</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Wh</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bh</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">bh</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h0</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">h0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Wo</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Wo</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bo</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">bo</span><span class="p">)</span>
+        
+        <span class="c1"># Collect params so gradient descent is easy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">We</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Wx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Wh</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bh</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Wo</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bo</span><span class="p">]</span>
+
+        <span class="c1"># Define X</span>
+        <span class="n">thX</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">ivector</span><span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">)</span> <span class="c1"># A sequence of word index&#39;s</span>
+        <span class="n">Ei</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">We</span><span class="p">[</span><span class="n">thX</span><span class="p">]</span>    <span class="c1"># Word embedding indexed by thX indices, T x D matrix</span>
+        <span class="n">thY</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">ivector</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">recurrence</span><span class="p">(</span><span class="n">x_t</span><span class="p">,</span> <span class="n">h_t1</span><span class="p">):</span>
+        <span class="c1"># Returns h(t), y(t)</span>
+        <span class="n">h_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">x_t</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Wx</span><span class="p">)</span> <span class="o">+</span> <span class="n">h_t1</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Wh</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bh</span><span class="p">)</span>
+        <span class="n">y_t</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">nnet</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">h_t</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Wo</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bo</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">h_t</span><span class="p">,</span> <span class="n">y_t</span>
+    
+    <span class="c1"># Create scan function</span>
+    <span class="p">[</span><span class="n">h</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="n">_</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span>
+        <span class="n">fn</span><span class="o">=</span><span class="n">recurrence</span><span class="p">,</span>
+        <span class="n">outputs_info</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">h0</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="n">sequences</span><span class="o">=</span><span class="n">Ei</span><span class="p">,</span> 
+        <span class="n">n_steps</span><span class="o">=</span><span class="n">Ei</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="p">)</span>
+    
+    <span class="c1"># Get output</span>
+    <span class="n">py_x</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="c1"># Only care about 1st and last dimension</span>
+    <span class="n">prediction</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">py_x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="n">cost</span> <span class="o">=</span> <span class="o">-</span><span class="n">T</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">py_x</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">thY</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">thY</span><span class="p">]))</span> <span class="c1"># Standard cross entropy cost</span>
+    <span class="n">grads</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">cost</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span> <span class="c1"># Calculate all gradients in one step</span>
+    <span class="n">dparams</span> <span class="o">=</span> <span class="p">[</span><span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get_value</span><span class="p">()</span> <span class="o">*</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">]</span> <span class="c1"># Set momentum params</span>
+    
+    <span class="c1"># Update params with gradient descent with momentum</span>
+    <span class="n">updates</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">dp</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">dparams</span><span class="p">,</span> <span class="n">grads</span><span class="p">):</span>
+        <span class="n">new_dp</span> <span class="o">=</span> <span class="n">mu</span><span class="o">*</span><span class="n">dp</span> <span class="o">-</span> <span class="n">learning_rate</span><span class="o">*</span><span class="n">g</span>
+        <span class="n">updates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">dp</span><span class="p">,</span> <span class="n">new_dp</span><span class="p">))</span>
+
+        <span class="n">new_p</span> <span class="o">=</span> <span class="n">p</span> <span class="o">+</span> <span class="n">new_dp</span>
+        <span class="n">updates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">p</span><span class="p">,</span> <span class="n">new_p</span><span class="p">))</span>
+    
+    <span class="c1"># Define predict op and train op</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">predict_op</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">thX</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="n">prediction</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">train_op</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+        <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">thX</span><span class="p">,</span> <span class="n">thY</span><span class="p">],</span>
+        <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">cost</span><span class="p">,</span> <span class="n">prediction</span><span class="p">],</span>
+        <span class="n">updates</span><span class="o">=</span><span class="n">updates</span>
+    <span class="p">)</span>
+    
+    <span class="c1"># Enter main training loop</span>
+    <span class="n">costs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">n_total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">sentence</span> <span class="ow">in</span> <span class="n">X</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">n_correct</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Restart number correct and cost to be 0 at the start of each epoch</span>
+        <span class="n">cost</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+            <span class="n">input_sequence</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">output_sequence</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            
+            <span class="c1"># we set 0 to start and 1 to end</span>
+            <span class="n">c</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_op</span><span class="p">(</span><span class="n">input_sequence</span><span class="p">,</span> <span class="n">output_sequence</span><span class="p">)</span>
+            <span class="c1"># print &quot;p:&quot;, p</span>
+            <span class="n">cost</span> <span class="o">+=</span> <span class="n">c</span>
+            <span class="c1"># print &quot;j:&quot;, j, &quot;c:&quot;, c/len(X[j]+1)</span>
+            <span class="k">for</span> <span class="n">pj</span><span class="p">,</span> <span class="n">xj</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">output_sequence</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">pj</span> <span class="o">==</span> <span class="n">xj</span><span class="p">:</span>
+                    <span class="n">n_correct</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;i:&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&quot;cost:&quot;</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="s2">&quot;correct rate:&quot;</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">n_correct</span><span class="p">)</span><span class="o">/</span><span class="n">n_total</span><span class="p">))</span>
+        <span class="n">costs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span>
 </pre></div>
 
 </div>
