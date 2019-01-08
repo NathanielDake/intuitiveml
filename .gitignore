@@ -2,3 +2,5 @@
 **/.sos
 **/.ipynb_checkpoints
 **/__pycache__
+*.npz
+.idea
