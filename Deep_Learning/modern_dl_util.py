@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
+import sklearn
 from sklearn.linear_model import LogisticRegression
 
 
@@ -62,7 +63,7 @@ and the mean of x which is subtracted from x before doing PCA
 def get_transformed_data():
     print("Reading in and transforming data...")
 
-    df = pd.read_csv('../../../data/MNIST/train.csv')
+    df = pd.read_csv('../../data/MNIST/train.csv')
     data = df.as_matrix().astype(np.float32)
     np.random.shuffle(data)
 
@@ -83,7 +84,7 @@ Takes in raw X, subtracts mean, and divides by standard deviation
 def get_normalized_data():
     print("Reading in and transforming data...")
 
-    df = pd.read_csv('../../../data/MNIST/train.csv')
+    df = pd.read_csv('../../data/MNIST/train.csv')
     data = df.as_matrix().astype(np.float32)
     np.random.shuffle(data)
     X = data[:, 1:]
