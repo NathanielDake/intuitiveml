@@ -6,11 +6,13 @@ import operator
 from nltk import pos_tag, word_tokenize
 from datetime import datetime
 
+
 def init_weight(Mi, Mo):
     """Initializes weights so that they are randomly distributed and have
     small enough values to prevent gradient descent from going crazy. 
     Takes in input size and output size. Returns an Mi x Mo matrix."""
     return np.random.randn(Mi, Mo) / np.sqrt(Mi + Mo)
+
 
 def all_parity_pairs(nbit):
     """Takes in the number of bits, generates all possible combinations of bits."""
@@ -31,6 +33,7 @@ def all_parity_pairs(nbit):
         Y[ii] = X[ii].sum() % 2
     return X, Y
 
+
 def all_parity_pairs_with_sequence_labels(nbit):
     X, Y = all_parity_pairs(nbit)
     N, t = X.shape
@@ -47,3 +50,26 @@ def all_parity_pairs_with_sequence_labels(nbit):
 
     X = X.reshape(N, t, 1).astype(np.float32)
     return X, Y_t
+
+
+def remove_punctuation(s):
+    return s.translate(str.maketrans('','',string.punctuation))
+
+
+def get_robert_frost():
+    word2idx = {'START': 0, 'END': 1}
+    current_idx = 2
+    sentences = []
+    for line in open('../../data/poems/robert_frost.txt'):
+        line = line.strip()
+        if line:
+            tokens = remove_punctuation(line.lower()).split()
+            sentence = []
+            for t in tokens:
+                if t not in word2idx:
+                    word2idx[t] = current_idx
+                    current_idx += 1
+                idx = word2idx[t]
+                sentence.append(idx)
+            sentences.append(sentence)
+    return sentences, word2idx
