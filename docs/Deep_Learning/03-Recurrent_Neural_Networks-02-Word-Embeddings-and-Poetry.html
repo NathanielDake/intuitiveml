@@ -417,7 +417,7 @@ rnn.save(filename)</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -437,7 +437,7 @@ rnn.save(filename)</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">init_weight</span><span class="p">(</span><span class="n">Mi</span><span class="p">,</span> <span class="n">Mo</span><span class="p">):</span>
@@ -472,7 +472,7 @@ rnn.save(filename)</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">SimpleRNN</span><span class="p">:</span>
@@ -558,7 +558,7 @@ rnn.save(filename)</code></pre>
         <span class="bp">self</span><span class="o">.</span><span class="n">predict_op</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">thX</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="n">prediction</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">train_op</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
             <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">thX</span><span class="p">,</span> <span class="n">thY</span><span class="p">],</span>
-            <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">cost</span><span class="p">,</span> <span class="n">prediction</span><span class="p">],</span>
+            <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">cost</span><span class="p">,</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span>
             <span class="n">updates</span><span class="o">=</span><span class="n">updates</span>
         <span class="p">)</span>
 
@@ -569,13 +569,13 @@ rnn.save(filename)</code></pre>
             <span class="n">X</span> <span class="o">=</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
             <span class="n">n_correct</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Restart number correct and cost to be 0 at the start of each epoch</span>
             <span class="n">cost</span> <span class="o">=</span> <span class="mi">0</span>
+            
             <span class="c1"># Perform stochastic gradient descent</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
                 <span class="n">input_sequence</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="c1"># [0] for start token</span>
                 <span class="n">output_sequence</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># [1] for end token</span>
-
                 <span class="c1"># we set 0 to START and 1 to END</span>
-                <span class="n">c</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_op</span><span class="p">(</span><span class="n">input_sequence</span><span class="p">,</span> <span class="n">output_sequence</span><span class="p">)</span>
+                <span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_op</span><span class="p">(</span><span class="n">input_sequence</span><span class="p">,</span> <span class="n">output_sequence</span><span class="p">)</span>
                 <span class="n">cost</span> <span class="o">+=</span> <span class="n">c</span> <span class="c1"># Accumulate cost</span>
                 <span class="k">for</span> <span class="n">pj</span><span class="p">,</span> <span class="n">xj</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">output_sequence</span><span class="p">):</span> <span class="c1"># loop through all predictions</span>
                     <span class="k">if</span> <span class="n">pj</span> <span class="o">==</span> <span class="n">xj</span><span class="p">:</span>
@@ -677,8 +677,9 @@ rnn.save(filename)</code></pre>
                     
 <span class="k">def</span> <span class="nf">train_poetry</span><span class="p">():</span>
     <span class="n">sentences</span><span class="p">,</span> <span class="n">word2idx</span> <span class="o">=</span> <span class="n">get_robert_frost</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">word2idx</span><span class="p">))</span>
     <span class="n">rnn</span> <span class="o">=</span> <span class="n">SimpleRNN</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">word2idx</span><span class="p">))</span>
-    <span class="n">rnn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">sentences</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">show_fig</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">T</span><span class="o">.</span><span class="n">nnet</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+    <span class="n">rnn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">sentences</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">show_fig</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">T</span><span class="o">.</span><span class="n">nnet</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
     <span class="n">rnn</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;RNN_D30_M30_epochs2000_relu.npz&#39;</span><span class="p">)</span>
     
 <span class="k">def</span> <span class="nf">generate_poetry</span><span class="p">():</span>
@@ -833,18 +834,28 @@ that like if the course
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>    
-</pre></div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="6.-Classifying-Poetry">6. Classifying Poetry<a class="anchor-link" href="#6.-Classifying-Poetry">&#182;</a></h1><p>We are now going to move onto a different type of problem where RNN's can be applied: classifying poetry. Specifically, we are going to try and discriminate between Robert Frost and Edgar Allen Poe poems, given only sequences of parts-of-speech-tags.</p>
+<h3 id="6.1-Data-Processing">6.1 Data Processing<a class="anchor-link" href="#6.1-Data-Processing">&#182;</a></h3><p>Parts of speech tags are essentially things like noun, pronoun, adverb, determiner, etc, that tell us the role of each word in a sentence. So, given a sentence/sequence of words, we can get a sequence of pos tags of the same length. To do this we will use a library called <code>NLTK</code>.</p>
+<p>Once we have converted our sequences into sequences of pos tags, we then do the same thing that we did in the previous exercise. Namely, we turn each sequence of pos tags into a sequence of index's that represent those pos tags. We will add some caching ability since NLTK's pos tagging and word tokenization is extremely slow. We will also have the ability to input the number of desired samples per class. It simply saves the data, targets, and vocabulary size to a numpy blob.</p>
+<p>Note, we don't actually need the POS tag to index mapping, since we don't actually care about what the actual pos tags are-we just need to be able to differentiate them in order to do classification. Also, keep in mind that the dimensionality will be much smaller here, since there aren't that many pos tags.</p>
+<h3 id="6.2-The-Classifier">6.2 The Classifier<a class="anchor-link" href="#6.2-The-Classifier">&#182;</a></h3><p>Now let's look at the actual classifier itself. Again, it is slightly different from what we built before. The key differences are as follows:</p>
+<ul>
+<li>Even though this will somewhat represent a language model, it is not going to have any word embeddings, since we aren't using words (only pos tags). </li>
+<li>A one-hot vector for pos tags goes straight to the recurrent unit. </li>
+<li>This means that $W_x$ will now be $VxM$ instead of $DxM$ (because there is no $D$ at this point, that was only due to the word embedding dimensionality). </li>
+<li>The number of output classes is now $k=2$ instead of $V$, since we are not predicting the word, we are predicting the poet</li>
+<li>Based on the three ways of doing prediction that we discussed in the previous post, this is the 1st one: one class per sequence. Here, we only care about the output at the end of a sequence, or put another way, after the RNN considers the entire sequence. </li>
+</ul>
+<h3 id="6.3-Variable-Learning-Rate">6.3 Variable Learning Rate<a class="anchor-link" href="#6.3-Variable-Learning-Rate">&#182;</a></h3><p>One final note: we will be using a variable learning rate to prevent the cost function from jumping around in the later epochs. To do this, we will simply make the learning rate smaller after every epoch:</p>
+
+<pre><code>learning rate *= 0.9999</code></pre>
 
 </div>
 </div>
-</div>
-
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake
