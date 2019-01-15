@@ -73,3 +73,45 @@ def get_robert_frost():
                 sentence.append(idx)
             sentences.append(sentence)
     return sentences, word2idx
+
+
+def get_tags(s):
+    tuples = pos_tag(word_tokenize(s))
+    return [y for x, y in tuples]
+
+
+def get_poetry_classifier_data(samples_per_class, loaded_cached=True, save_cached=True):
+    datafile = 'poetry_classifier.npz'
+    if loaded_cached and os.path.exists(datafile):
+        npz = np.load(datafile)
+        X = npz['arr_0'] # Data
+        Y = npz['arr_1'] # Targets, 0 or 1
+        V = int(npz['arr_2']) # Vocabulary size
+        return X, Y, V
+
+    word2idx = {}
+    current_idx = 0
+    X = []
+    Y = []
+    for fn, label in zip(('../../data/poems/robert_frost.txt', '../../data/poems/edgar_allen_poe.txt')):
+        count = 0
+        for line in open(fn):
+            line = line.rstrip()
+            if line:
+                print(line)
+                tokens = get_tags(line)
+                if len(tokens) > 1:
+                    for token in tokens:
+                        if token not in word2idx:
+                            word2idx[token] = current_idx
+                            current_idx += 1
+                    sequence = np.array([word2idx[w] for w in tokens])
+                    X.append(sequence)
+                    Y.append(label)
+                    count += 1
+                    print(count)
+                    if count >= samples_per_class:
+                        break
+    if save_cached:
+        np.savez(datafile, X, Y, current_idx)
+    return X, Y, current_idx
