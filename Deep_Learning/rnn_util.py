@@ -93,7 +93,7 @@ def get_poetry_classifier_data(samples_per_class, loaded_cached=True, save_cache
     current_idx = 0
     X = []
     Y = []
-    for fn, label in zip(('../../data/poems/robert_frost.txt', '../../data/poems/edgar_allen_poe.txt')):
+    for fn, label in zip(('../../data/poems/robert_frost.txt', '../../data/poems/edgar_allan_poe.txt'), (0,1 )):
         count = 0
         for line in open(fn):
             line = line.rstrip()

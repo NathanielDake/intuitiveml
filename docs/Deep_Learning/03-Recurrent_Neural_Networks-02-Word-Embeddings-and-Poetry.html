@@ -857,6 +857,304 @@ that like if the course
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">nltk</span> <span class="k">import</span> <span class="n">pos_tag</span><span class="p">,</span> <span class="n">word_tokenize</span>
+
+<span class="k">def</span> <span class="nf">get_tags</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">tuples</span> <span class="o">=</span> <span class="n">pos_tag</span><span class="p">(</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">tuples</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[63]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_poetry_classifier_data</span><span class="p">(</span><span class="n">samples_per_class</span><span class="p">,</span> <span class="n">loaded_cached</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save_cached</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">datafile</span> <span class="o">=</span> <span class="s1">&#39;poetry_classifier.npz&#39;</span>
+    <span class="k">if</span> <span class="n">loaded_cached</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">datafile</span><span class="p">):</span>
+        <span class="n">npz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">datafile</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">npz</span><span class="p">[</span><span class="s1">&#39;arr_0&#39;</span><span class="p">]</span> <span class="c1"># Data</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">npz</span><span class="p">[</span><span class="s1">&#39;arr_1&#39;</span><span class="p">]</span> <span class="c1"># Targets, 0 or 1</span>
+        <span class="n">V</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">npz</span><span class="p">[</span><span class="s1">&#39;arr_2&#39;</span><span class="p">])</span> <span class="c1"># Vocabulary size</span>
+        <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">V</span>
+
+    <span class="n">word2idx</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">current_idx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">fn</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">((</span><span class="s1">&#39;../../data/poems/robert_frost.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;../../data/poems/edgar_allan_poe.txt&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span> <span class="p">)):</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">line</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="n">tokens</span> <span class="o">=</span> <span class="n">get_tags</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">token</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">word2idx</span><span class="p">:</span>
+                            <span class="n">word2idx</span><span class="p">[</span><span class="n">token</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_idx</span>
+                            <span class="n">current_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">sequence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">word2idx</span><span class="p">[</span><span class="n">w</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">])</span>
+                    <span class="n">X</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+                    <span class="n">Y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+                    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="n">samples_per_class</span><span class="p">:</span>
+                        <span class="k">break</span>
+    <span class="k">if</span> <span class="n">save_cached</span><span class="p">:</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="n">datafile</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">current_idx</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">current_idx</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[65]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">theano</span>
+<span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="k">as</span> <span class="nn">T</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="k">import</span> <span class="n">shuffle</span>
+<span class="kn">from</span> <span class="nn">rnn_util</span> <span class="k">import</span> <span class="n">init_weight</span><span class="p">,</span> <span class="n">get_poetry_classifier_data</span>
+
+
+<span class="k">class</span> <span class="nc">SimpleRNN</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">V</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">=</span> <span class="n">M</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">V</span> <span class="o">=</span> <span class="n">V</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">10e-1</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">0.99</span><span class="p">,</span> <span class="n">reg</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">T</span><span class="o">.</span><span class="n">tanh</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">show_fig</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span>
+        <span class="n">V</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span>
+        <span class="n">K</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">Y</span><span class="p">))</span> <span class="c1"># Number of class&#39;s (number of unique parts of speech tags)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of unique parts of speech tags, V: &#39;</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
+
+        <span class="c1"># Create validation set</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+        <span class="n">Nvalid</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="n">Xvalid</span><span class="p">,</span> <span class="n">Yvalid</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="o">-</span><span class="n">Nvalid</span><span class="p">:],</span> <span class="n">Y</span><span class="p">[</span><span class="o">-</span><span class="n">Nvalid</span><span class="p">:]</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="o">-</span><span class="n">Nvalid</span><span class="p">],</span> <span class="n">Y</span><span class="p">[:</span><span class="o">-</span><span class="n">Nvalid</span><span class="p">]</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="c1"># Initialize weights, no word embedding here</span>
+        <span class="n">Wx</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span>
+        <span class="n">Wh</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span>
+        <span class="n">bh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+        <span class="n">h0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+        <span class="n">Wo</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+        <span class="n">bo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">K</span><span class="p">)</span>
+
+        <span class="c1"># To prevent repetition, going to utilize set function. This will set theano shared&#39;s and functions</span>
+        <span class="n">thX</span><span class="p">,</span> <span class="n">thY</span><span class="p">,</span> <span class="n">py_x</span><span class="p">,</span> <span class="n">prediction</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">Wx</span><span class="p">,</span> <span class="n">Wh</span><span class="p">,</span> <span class="n">bh</span><span class="p">,</span> <span class="n">h0</span><span class="p">,</span> <span class="n">Wo</span><span class="p">,</span> <span class="n">bo</span><span class="p">,</span> <span class="n">activation</span><span class="p">)</span>
+
+        <span class="n">cost</span> <span class="o">=</span> <span class="o">-</span><span class="n">T</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">py_x</span><span class="p">[</span><span class="n">thY</span><span class="p">]))</span>
+        <span class="n">grads</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">cost</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">dparams</span> <span class="o">=</span> <span class="p">[</span><span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get_value</span><span class="p">()</span> <span class="o">*</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">]</span>
+        <span class="n">lr</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">scalar</span><span class="p">(</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">)</span> <span class="c1"># Symbolic adaptive/variable learning rate</span>
+
+        <span class="c1"># Update params first with momentum and variable learning rate, then update momentum params</span>
+        <span class="n">updates</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">p</span> <span class="o">+</span> <span class="n">mu</span><span class="o">*</span><span class="n">dp</span> <span class="o">-</span> <span class="n">lr</span><span class="o">*</span><span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">dp</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">dparams</span><span class="p">,</span> <span class="n">grads</span><span class="p">)</span>
+        <span class="p">]</span> <span class="o">+</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">mu</span><span class="o">*</span><span class="n">dp</span> <span class="o">-</span> <span class="n">lr</span><span class="o">*</span><span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="n">dp</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dparams</span><span class="p">,</span> <span class="n">grads</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Define train op</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">train_op</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+            <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">thX</span><span class="p">,</span> <span class="n">thY</span><span class="p">,</span> <span class="n">lr</span><span class="p">],</span>
+            <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">cost</span><span class="p">,</span> <span class="n">prediction</span><span class="p">],</span>
+            <span class="n">updates</span><span class="o">=</span><span class="n">updates</span><span class="p">,</span>
+            <span class="n">allow_input_downcast</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Main Loop</span>
+        <span class="n">costs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+            <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+            <span class="n">n_correct</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">cost</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span> <span class="c1"># Perform stochastic gradient descent</span>
+                <span class="n">c</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_op</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">learning_rate</span><span class="p">)</span>
+                <span class="n">cost</span> <span class="o">+=</span> <span class="n">c</span>
+                <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="n">Y</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+                    <span class="n">n_correct</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">learning_rate</span> <span class="o">*=</span> <span class="mf">0.9999</span> <span class="c1"># Adaptive learning rate. Update at the end of each iteration.</span>
+
+            <span class="c1"># Calculate Validation Accuracy</span>
+            <span class="n">n_correct_valid</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Nvalid</span><span class="p">):</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict_op</span><span class="p">(</span><span class="n">Xvalid</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="n">Yvalid</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+                    <span class="n">n_correct_valid</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">50</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;i: &#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s1">&#39;cost: &#39;</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="s1">&#39;correct rate: &#39;</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">n_correct</span><span class="p">)</span><span class="o">/</span><span class="n">N</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Validation correct rate: &#39;</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">n_correct_valid</span><span class="p">)</span><span class="o">/</span><span class="n">Nvalid</span><span class="p">))</span>
+            <span class="n">costs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">show_fig</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">costs</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="o">*</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">get_value</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">])</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">activation</span><span class="p">):</span>
+        <span class="c1"># TODO: would prefer to save activation to file too</span>
+        <span class="n">npz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">Wx</span> <span class="o">=</span> <span class="n">npz</span><span class="p">[</span><span class="s1">&#39;arr_0&#39;</span><span class="p">]</span>
+        <span class="n">Wh</span> <span class="o">=</span> <span class="n">npz</span><span class="p">[</span><span class="s1">&#39;arr_1&#39;</span><span class="p">]</span>
+        <span class="n">bh</span> <span class="o">=</span> <span class="n">npz</span><span class="p">[</span><span class="s1">&#39;arr_2&#39;</span><span class="p">]</span>
+        <span class="n">h0</span> <span class="o">=</span> <span class="n">npz</span><span class="p">[</span><span class="s1">&#39;arr_3&#39;</span><span class="p">]</span>
+        <span class="n">Wo</span> <span class="o">=</span> <span class="n">npz</span><span class="p">[</span><span class="s1">&#39;arr_4&#39;</span><span class="p">]</span>
+        <span class="n">bo</span> <span class="o">=</span> <span class="n">npz</span><span class="p">[</span><span class="s1">&#39;arr_5&#39;</span><span class="p">]</span>
+        <span class="n">V</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Wx</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">rnn</span> <span class="o">=</span> <span class="n">SimpleRNN</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
+        <span class="n">rnn</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">Wx</span><span class="p">,</span> <span class="n">Wh</span><span class="p">,</span> <span class="n">bh</span><span class="p">,</span> <span class="n">h0</span><span class="p">,</span> <span class="n">Wo</span><span class="p">,</span> <span class="n">bo</span><span class="p">,</span> <span class="n">activation</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rnn</span>
+
+    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Wx</span><span class="p">,</span> <span class="n">Wh</span><span class="p">,</span> <span class="n">bh</span><span class="p">,</span> <span class="n">h0</span><span class="p">,</span> <span class="n">Wo</span><span class="p">,</span> <span class="n">bo</span><span class="p">,</span> <span class="n">activation</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">activation</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">Wx</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Wx</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Wh</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Wh</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bh</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">bh</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h0</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">h0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Wo</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Wo</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bo</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">bo</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">Wx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Wh</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bh</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Wo</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bo</span><span class="p">]</span>
+
+        <span class="n">thX</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">ivector</span><span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">)</span>
+        <span class="n">thY</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">iscalar</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">recurrence</span><span class="p">(</span><span class="n">x_t</span><span class="p">,</span> <span class="n">h_t1</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;self.Wx is not dotted with x_t in this case because we can improve the efficiency of the</span>
+<span class="sd">            operation by simply selecting the row of Wx that corresponds to the pos tag index represented</span>
+<span class="sd">            by x_t. This will end up being identical to performing the dot product in this case.&quot;&quot;&quot;</span>
+            <span class="n">h_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Wx</span><span class="p">[</span><span class="n">x_t</span><span class="p">]</span> <span class="o">+</span> <span class="n">h_t1</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Wh</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bh</span><span class="p">)</span>
+            <span class="n">y_t</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">nnet</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">h_t</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Wo</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bo</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">h_t</span><span class="p">,</span> <span class="n">y_t</span>
+
+        <span class="p">[</span><span class="n">h</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="n">_</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span>
+            <span class="n">fn</span><span class="o">=</span><span class="n">recurrence</span><span class="p">,</span>
+            <span class="n">outputs_info</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">h0</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+            <span class="n">sequences</span><span class="o">=</span><span class="n">thX</span><span class="p">,</span>
+            <span class="n">n_steps</span><span class="o">=</span><span class="n">thX</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="p">)</span>
+
+        <span class="n">py_x</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="c1"># Only want last element of sequence -&gt; the final prediction</span>
+        <span class="n">prediction</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">py_x</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">predict_op</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+            <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">thX</span><span class="p">],</span>
+            <span class="n">outputs</span><span class="o">=</span><span class="n">prediction</span><span class="p">,</span>
+            <span class="n">allow_input_downcast</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">thX</span><span class="p">,</span> <span class="n">thY</span><span class="p">,</span> <span class="n">py_x</span><span class="p">,</span> <span class="n">prediction</span>
+
+<span class="k">def</span> <span class="nf">train_poetry</span><span class="p">():</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">get_poetry_classifier_data</span><span class="p">(</span><span class="n">samples_per_class</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+    <span class="n">rnn</span> <span class="o">=</span> <span class="n">SimpleRNN</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
+    <span class="n">rnn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">show_fig</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">T</span><span class="o">.</span><span class="n">nnet</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="n">train_poetry</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Number of unique parts of speech tags, V:  41
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/usr/local/lib/python3.6/site-packages/ipykernel_launcher.py:123: UserWarning: DEPRECATION: If x is a vector, Softmax will not automatically pad x anymore in next releases. If you need it, please do it manually. The vector case is gonna be supported soon and the output will be a vector.
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>i:  0 cost:  686.8815907973885 correct rate:  0.49595959595959593 Validation correct rate:  0.5
+i:  50 cost:  677.6267722626573 correct rate:  0.5737373737373738 Validation correct rate:  0.6
+i:  100 cost:  668.8502288537205 correct rate:  0.5969696969696969 Validation correct rate:  0.7
+i:  150 cost:  649.2098230879425 correct rate:  0.6393939393939394 Validation correct rate:  0.7
+i:  200 cost:  564.3782714624732 correct rate:  0.7 Validation correct rate:  0.8
+i:  250 cost:  532.7247522157297 correct rate:  0.7252525252525253 Validation correct rate:  0.8
+i:  300 cost:  513.183646697063 correct rate:  0.7373737373737373 Validation correct rate:  0.8
+i:  350 cost:  484.5950338842661 correct rate:  0.7545454545454545 Validation correct rate:  0.8
+i:  400 cost:  454.0003513957731 correct rate:  0.7767676767676768 Validation correct rate:  0.8
+i:  450 cost:  416.0178491311733 correct rate:  0.8080808080808081 Validation correct rate:  0.8
+i:  500 cost:  379.6741017036066 correct rate:  0.8373737373737373 Validation correct rate:  0.9
+i:  550 cost:  324.57269517401863 correct rate:  0.8676767676767677 Validation correct rate:  0.8
+i:  600 cost:  290.58066326336035 correct rate:  0.8919191919191919 Validation correct rate:  0.8
+i:  650 cost:  252.0072865994468 correct rate:  0.8909090909090909 Validation correct rate:  0.7
+i:  700 cost:  190.3540894317479 correct rate:  0.9262626262626262 Validation correct rate:  0.8
+i:  750 cost:  170.84591120526966 correct rate:  0.9383838383838384 Validation correct rate:  0.7
+i:  800 cost:  140.3503787326023 correct rate:  0.9494949494949495 Validation correct rate:  0.7
+i:  850 cost:  121.94900418124978 correct rate:  0.9585858585858585 Validation correct rate:  0.6
+i:  900 cost:  106.18664609875421 correct rate:  0.9656565656565657 Validation correct rate:  0.6
+i:  950 cost:  112.40428672965353 correct rate:  0.9636363636363636 Validation correct rate:  0.6
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
 <hr>
 &copy; 2018 Nathaniel Dake
 
