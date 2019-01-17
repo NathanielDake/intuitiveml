@@ -307,7 +307,7 @@ body {
 <p>If you recall the notebooks on vanilla deep learning, you may remember that <strong>backpropagation</strong> is just a fancy name for gradient descent. It has some interesting properties, but the entire idea lies behind <em><strong>calculating the gradient</strong></em> and <em><strong>moving in that direction</strong></em>.</p>
 <p>Similary, <em><strong>Backpropagation through time</strong></em>, often shortened to <strong>BPTT</strong>, is just a fancy name for backpropagation, which itself is just gradient descent. So what does that mean for us? That means that in the code, updating all of the weights is going to exactly the same, which makes things very easy for us:</p>
 
-<pre><code>W = W - \alpha*T.grad(cost, W)</code></pre>
+<pre><code>W = W - alpha*T.grad(cost, W)</code></pre>
 <h2 id="4.1-Recurisive-Nature">4.1 Recurisive Nature<a class="anchor-link" href="#4.1-Recurisive-Nature">&#182;</a></h2><p>However, we are still interested in taking the gradient. First, let's consider what our neural network outputs above would be calculated as (use the diagram for reference):</p>
 <p><strong>Solve $y(1)$</strong>
 $$y(1) = softmax\big(W_o^Th(1)\big)$$</p>
@@ -794,7 +794,7 @@ def some_function(element):
 <p>The first argument is going to be some function that is applied to every element of the sequence that is passed in. The second argument is the actual sequence to pass in. The third argument is the number of times to iterate, which is generally just the length of the sequence. The function returns two things, something called <code>outputs</code> and something called <code>updates</code>. <code>updates</code> is theano object of type <code>ordered_updates</code>; usually we just ignore it. <code>outputs</code> is what we are really interested in. Assuming <code>some_function</code> returns something, <code>outputs</code> will be all the $N$ things it returns, concatenated together. For example, if we pass in <code>[1,2,3]</code> and the function is <code>square</code> the outputs will be <code>[1,4,9]</code>:</p>
 
 <pre><code>square([1,2,3]) -&gt; [1,4,9]</code></pre>
-<h2 id="6.2--Advanced-Structure-of-a-Scan-function">6.2  Advanced Structure of a Scan function<a class="anchor-link" href="#6.2--Advanced-Structure-of-a-Scan-function">&#182;</a></h2><h3 id="6.2.1--Argument-$\rightarrow$-outputs_info">6.2.1  Argument $\rightarrow$ <code>outputs_info</code><a class="anchor-link" href="#6.2.1--Argument-$\rightarrow$-outputs_info">&#182;</a></h3><p>Of course, the <code>scan</code> function can do more complex things than this, so let's compute another argument <code>outputs_info</code>. This allows us to compute recurrence relations. The <code>outputs_info</code> argument represents the initial values of your recurring variables:</p>
+<h2 id="6.2--Advanced-Structure-of-a-Scan-function">6.2  Advanced Structure of a Scan function<a class="anchor-link" href="#6.2--Advanced-Structure-of-a-Scan-function">&#182;</a></h2><h3 id="6.2.1--Argument-$\rightarrow$-outputs_info">6.2.1  Argument $\rightarrow$ outputs_info<a class="anchor-link" href="#6.2.1--Argument-$\rightarrow$-outputs_info">&#182;</a></h3><p>Of course, the <code>scan</code> function can do more complex things than this, so let's compute another argument <code>outputs_info</code>. This allows us to compute recurrence relations. The <code>outputs_info</code> argument represents the initial values of your recurring variables:</p>
 
 <pre><code>outputs, updates = theano.scan(
     fn=recurrence,
@@ -806,7 +806,30 @@ def some_function(element):
 def recurrence(element, recurring_variable):
     return do_something_to(element, recurring_variable)</code></pre>
 <p>So, from the above you can imagine that we could compute something like the fibonacci sequence, which depends on the previous two values. Note that when we do this-when your recurrence returns more than one thing-the <code>outputs</code> of the <code>scan</code> gives us both of these things in a list, so we will get the recurring variables there too. In fact, however many things we return from the <code>recurrence</code>, that is the number of things we will get in the <code>outputs</code>.</p>
-<h3 id="6.2.2--Argument-$\rightarrow$-non_sequences">6.2.2  Argument $\rightarrow$ <code>non_sequences</code><a class="anchor-link" href="#6.2.2--Argument-$\rightarrow$-non_sequences">&#182;</a></h3><p>Another argument that we could add is the <code>non_sequences</code> argument. This is for passing sequences into the <code>recurrence</code> that we don't want to loop through; we just want the whole thing.</p>
+<p>A key thing to keep in mind here is that by definition, <code>scan</code> is going to iterate over each element in the sequence that is passed in. So, for instance, if we had a numpy array <code>[1,2,3,4,5]</code> and we wanted to determine the sum of all it's values, we could do so with the scan function and a simple recurrence. It would look like:</p>
+
+<pre><code>sequence = T.vector('sequence')
+
+def recurrence(current_x, current_total):
+    return current_x + current_total
+
+outputs, _ = theano.scan(
+    fn=recurrence,
+    sequences=sequence,
+    outputs_info=[np.float64(0)]
+)
+
+calculate_sum = theano.function(
+    inputs=[sequence],
+    outputs=outputs
+)
+
+final_sum = calculate_sum(np.array([1,2,3,4]))
+
+print(final_sum)
+&gt;&gt; [ 1.  3.  6. 10.]</code></pre>
+<p>This is crucial to understand in order to follow how scan determines moving averages and low pass filters.</p>
+<h3 id="6.2.2--Argument-$\rightarrow$-non_sequences">6.2.2  Argument $\rightarrow$ non_sequences<a class="anchor-link" href="#6.2.2--Argument-$\rightarrow$-non_sequences">&#182;</a></h3><p>Another argument that we could add is the <code>non_sequences</code> argument. This is for passing sequences into the <code>recurrence</code> that we don't want to loop through; we just want the whole thing.</p>
 
 <pre><code>outputs, updates = theano.scan(
     fn=recurrence,
