@@ -534,9 +534,241 @@ Finally, we arrive at the gated recurrent unit! The architecure simply requires 
 
     def output(x):
         return scan(recurrence, x)</code></pre>
+<p>And, a full class implementation:</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">theano</span>
+<span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="k">as</span> <span class="nn">T</span>
+
+<span class="kn">from</span> <span class="nn">rnn_util</span> <span class="k">import</span> <span class="n">init_weight</span>
+
+
+<span class="k">class</span> <span class="nc">GRU</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Mi</span><span class="p">,</span> <span class="n">Mo</span><span class="p">,</span> <span class="n">activation</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Mi</span> <span class="o">=</span> <span class="n">Mi</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Mo</span> <span class="o">=</span> <span class="n">Mo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">activation</span>
+
+        <span class="n">Wxr</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">Mi</span><span class="p">,</span> <span class="n">Mo</span><span class="p">)</span> <span class="c1"># Input into reset gate</span>
+        <span class="n">Whr</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">Mo</span><span class="p">,</span> <span class="n">Mo</span><span class="p">)</span> <span class="c1"># Hidden into reset gate</span>
+        <span class="n">br</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Mo</span><span class="p">)</span>         <span class="c1"># Bias reset gate</span>
+        <span class="n">Wxz</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">Mi</span><span class="p">,</span> <span class="n">Mo</span><span class="p">)</span> <span class="c1"># Input to update gate</span>
+        <span class="n">Whz</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">Mo</span><span class="p">,</span> <span class="n">Mo</span><span class="p">)</span> <span class="c1"># Hidden to update gate</span>
+        <span class="n">bz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Mo</span><span class="p">)</span>         <span class="c1"># Bias update gate</span>
+        <span class="n">Wxh</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">Mi</span><span class="p">,</span> <span class="n">Mo</span><span class="p">)</span>
+        <span class="n">Whh</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">Mo</span><span class="p">,</span> <span class="n">Mo</span><span class="p">)</span>
+        <span class="n">bh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Mo</span><span class="p">)</span>
+        <span class="n">h0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Mo</span><span class="p">)</span>
+
+        <span class="c1"># Create theano variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Wxr</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Wxr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Whr</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Whr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">br</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">br</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Wxz</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Wxz</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Whz</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Whz</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bz</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">bz</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Wxh</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Wxh</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Whh</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Whh</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bh</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">bh</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h0</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">h0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">Wxr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Whr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">br</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Wxz</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Whz</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bz</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Wxh</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Whh</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bh</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h0</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">recurrence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_t</span><span class="p">,</span> <span class="n">h_t1</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">nnet</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">x_t</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Wxr</span><span class="p">)</span> <span class="o">+</span> <span class="n">h_t1</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Whr</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">br</span><span class="p">)</span> <span class="c1"># Reset gate</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">nnet</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">x_t</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Wxz</span><span class="p">)</span> <span class="o">+</span> <span class="n">h_t1</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Whz</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bz</span><span class="p">)</span> <span class="c1"># Update gate</span>
+        <span class="n">hhat</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">x_t</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Wxh</span><span class="p">)</span> <span class="o">+</span><span class="p">(</span><span class="n">r</span><span class="o">*</span><span class="n">h_t1</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Whh</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bh</span><span class="p">)</span>  <span class="c1"># Candidate for h</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">z</span><span class="p">)</span><span class="o">*</span><span class="n">h_t1</span> <span class="o">+</span> <span class="n">z</span><span class="o">*</span><span class="n">hhat</span>
+        <span class="k">return</span> <span class="n">h</span>
+
+    <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># Output for this unit taking in an input sequence X. X is 2 dimensional: Time x Dimension</span>
+        <span class="n">h</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span>
+            <span class="n">fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">recurrence</span><span class="p">,</span>
+            <span class="n">sequences</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+            <span class="n">outputs_info</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">h0</span><span class="p">],</span>
+            <span class="n">n_steps</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">h</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3.-Long-Short-Term-Memory-(LSTM)">3. Long Short-Term Memory (LSTM)<a class="anchor-link" href="#3.-Long-Short-Term-Memory-(LSTM)">&#182;</a></h2><p>We are now going to move on from the GRU and start working with the <strong>LSTM</strong>. LSTM stands for <strong>Long Short-Term Memory</strong>, and it is a type of recurrent unit that has become very popular in recent years due to its superior performance/ability to overcome the vanishing gradient problem. Each recurrent unit that we have dug into has gotten progressively more complex, and each incorporated concepts from the previous unit.</p>
+<p>The LSTM is the most complex recurrent unit we will cover. However, that complexity does not involve abstract ideas or new mathematics; rather, the number of components that we are dealing with is higher. Essentially, we will now have <strong>three different gates</strong>, called the <strong>input</strong>, <strong>output</strong>, and <strong>forget</strong> gate. Additionally, we are going to add yet another internal unit that will exist alongside the hidden state, sometimes referred to as a <strong>memory cell</strong>. One way to think of this cell is that it takes the place of $\hat{h}$, or the candidate hidden value, when we talked about the GRU.</p>
+<h3 id="3.1-LSTM-Mathematics">3.1 LSTM Mathematics<a class="anchor-link" href="#3.1-LSTM-Mathematics">&#182;</a></h3><p>Now, the input gate, $i_t$, and forget gate, $f_t$, should remind you of the rate gate, $z_t$, from the GRU. Before, we were using $z_t$ and $1- z_t$; however, now we just have two seperate gates:</p>
+<p><strong>Input Gate</strong><br>
+The input gate just controls how much of the new value goes into the cell:</p>
+<p>$$i_t = \sigma\big(x_t W_{xi} + h_{t-1}W_{hi} + c_{t-1}W_{ci} + b_i\big)$$</p>
+<p><strong>Forget Gate</strong><br>
+The forget gate controls how much of the previous cell value goes into the current cell value:</p>
+<p>$$f_t = \sigma\big( x_t W_{xf} + h_{t-1}W_{hf} + c_{t-1}W_{cf} + b_f\big)$$</p>
+<p><strong>Candidate</strong><br>
+The candidate for the new cell value looks a lot like what would be the simple recurrent unit's value, right before it gets multiplied by the input gate:</p>
+<p>$$c_t = f_tc_{t-1} + i_t \;tanh\big(x_t W_{xc} + h_{t-1}W_{hc} + b_c\big)$$</p>
+<p><strong>Output Gate</strong><br>
+Finally, the output gate takes into account everything: the input at time $t$, the previous hidden state, and the current cell value:</p>
+<p>$$o_t = \sigma \big( x_t W_{xo} + h_{t-1}W_{ho} + c_t W_{co} + b_o\big) $$</p>
+<p><strong>New Hidden State</strong><br>
+The new hidden state is just the $tanh$ of the cell value, multiplied by the output gate:</p>
+<p>$$h_t = o_t \; tanh(c_t)$$</p>
+<h3 id="3.2-LSTM-Parameters">3.2 LSTM Parameters<a class="anchor-link" href="#3.2-LSTM-Parameters">&#182;</a></h3><p>Now, we just introduced a substantial number of new parameters, so it may be useful to try and break down exactly what they are.</p>
+<table>
+<thead><tr>
+<th>Model Component</th>
+<th>Parameters</th>
+<th>Depends on</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Input Gate</strong></td>
+<td>$W_{xi}$, $W_{hi}$, $W_{ci}$, $b_i$</td>
+<td>$x_t$, $h_{t-1}$, $c_{t-1}$</td>
+</tr>
+<tr>
+<td><strong>Forget Gate</strong></td>
+<td>$W_{xf}$, $W_{hf}$, $W_{cf}$, $b_f$</td>
+<td>$x_t$, $h_{t-1}$, $c_{t-1}$</td>
+</tr>
+<tr>
+<td><strong>Candidate Cell</strong></td>
+<td>$W_{xc}$, $W_{hc}$, $b_c$</td>
+<td>$x_t$, $h_{t-1}$</td>
+</tr>
+<tr>
+<td><strong>Output Gate</strong></td>
+<td>$W_{xo}$, $W_{ho}$, $W_{co}$, $b_o$</td>
+<td>$x_t$, $h_{t-1}$, $c_{t}$</td>
+</tr>
+</tbody>
+</table>
+<p>In total, we have 15 new weights and biases for this black box! We have come a long way from our original feedforward net, where we only had 1 weight and 1 bias. Another way that we can think of this is that as we add more parameters, we enable our model to be more expressive.</p>
+<h3 id="3.3-LSTM-Architecture">3.3 LSTM Architecture<a class="anchor-link" href="#3.3-LSTM-Architecture">&#182;</a></h3><p>Now, from an architecture perspective, an LSTM has the high level form of:</p>
+<p><img src="https://drive.google.com/uc?id=1B1OX2ew8J3AEA2mOdjOLtyqSX4jbhk1s" width="700"></p>
+<p>Where $\hat{c}$ is just meant to represent $x_t W_{xc} + h_{t-1}W_{hc} + b_c$ in the candidate equation. Now, for some this diagram may be sufficient, however, I would prefer to have a bit more insight to the inner working of the LSTM at a lower level. This can be seen below:</p>
+<p><img src="https://drive.google.com/uc?id=1eaCY0O9FNtwMZyRRHKNgsIcGcqohX06Q" width="700"></p>
+<p><img src="https://drive.google.com/uc?id=1YSdHlemvYVdlQ3ZxgRFsEWS35OOhIAdV" width="300"></p>
+<p>And we can highlight the actual cell as follows:</p>
+<p><img src="https://drive.google.com/uc?id=14cDQlcuK8cMXRXSZ2nVG8kvGSI77Qloo" width="700"></p>
+<p>I encourage you to take the equations the we defined earlier and follow them through the architecture diagram above to make sure they make sense. I should point out that in order to reduce visual noise in the diagram I didn't inclue the weight matrices or biases.</p>
+<h3 id="3.4-LSTM-in-Code">3.4 LSTM in Code<a class="anchor-link" href="#3.4-LSTM-in-Code">&#182;</a></h3><p>We can now implement an LSTM in code:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">theano</span>
+<span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="k">as</span> <span class="nn">T</span>
+
+<span class="kn">from</span> <span class="nn">rnn_util</span> <span class="k">import</span> <span class="n">init_weight</span>
+
+
+<span class="k">class</span> <span class="nc">LSTM</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Mi</span><span class="p">,</span> <span class="n">Mo</span><span class="p">,</span> <span class="n">activation</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Mi</span> <span class="o">=</span> <span class="n">Mi</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Mo</span> <span class="o">=</span> <span class="n">Mo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">activation</span>
+
+        <span class="n">Wxi</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">Mi</span><span class="p">,</span> <span class="n">Mo</span><span class="p">)</span>
+        <span class="n">Whi</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">Mo</span><span class="p">,</span> <span class="n">Mo</span><span class="p">)</span>
+        <span class="n">Wci</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">Mo</span><span class="p">,</span> <span class="n">Mo</span><span class="p">)</span>
+        <span class="n">bi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Mo</span><span class="p">)</span>
+        <span class="n">Wxf</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">Mi</span><span class="p">,</span> <span class="n">Mo</span><span class="p">)</span>
+        <span class="n">Whf</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">Mo</span><span class="p">,</span> <span class="n">Mo</span><span class="p">)</span>
+        <span class="n">Wcf</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">Mo</span><span class="p">,</span> <span class="n">Mo</span><span class="p">)</span>
+        <span class="n">bf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Mo</span><span class="p">)</span>
+        <span class="n">Wxc</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">Mi</span><span class="p">,</span> <span class="n">Mo</span><span class="p">)</span>
+        <span class="n">Whc</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">Mo</span><span class="p">,</span> <span class="n">Mo</span><span class="p">)</span>
+        <span class="n">bc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Mo</span><span class="p">)</span>
+        <span class="n">Wxo</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">Mi</span><span class="p">,</span> <span class="n">Mo</span><span class="p">)</span>
+        <span class="n">Who</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">Mo</span><span class="p">,</span> <span class="n">Mo</span><span class="p">)</span>
+        <span class="n">Wco</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">Mo</span><span class="p">,</span> <span class="n">Mo</span><span class="p">)</span>
+        <span class="n">bo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Mo</span><span class="p">)</span>
+        <span class="n">c0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Mo</span><span class="p">)</span>
+        <span class="n">h0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Mo</span><span class="p">)</span>
+
+        <span class="c1"># Create Theano variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Wxi</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Wxi</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Whi</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Whi</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Wci</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Wci</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bi</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">bi</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Wxf</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Wxf</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Whf</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Whf</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Wcf</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Wcf</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bf</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">bf</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Wxc</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Wxc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Whc</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Whc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bc</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">bc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Wxo</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Wxo</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Who</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Who</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Wco</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Wco</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bo</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">bo</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c0</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">c0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h0</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">h0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Wxi</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Whi</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Wci</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bi</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Wxf</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Whf</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Wcf</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bf</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Wxc</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Whc</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bc</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Wxo</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Who</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Wco</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bo</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c0</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">h0</span><span class="p">,</span>
+        <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">recurrence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_t</span><span class="p">,</span> <span class="n">h_t1</span><span class="p">,</span> <span class="n">c_t1</span><span class="p">):</span>
+        <span class="n">i_t</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">nnet</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">x_t</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Wxi</span><span class="p">)</span> <span class="o">+</span> <span class="n">h_t1</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Whi</span><span class="p">)</span> <span class="o">+</span> <span class="n">c_t1</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Wci</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bi</span><span class="p">)</span>
+        <span class="n">f_t</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">nnet</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">x_t</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Wxf</span><span class="p">)</span> <span class="o">+</span> <span class="n">h_t1</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Whf</span><span class="p">)</span> <span class="o">+</span> <span class="n">c_t1</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Wcf</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bf</span><span class="p">)</span>
+        <span class="n">c_t</span> <span class="o">=</span> <span class="n">f_t</span><span class="o">*</span><span class="n">c_t1</span> <span class="o">+</span> <span class="n">i_t</span><span class="o">*</span><span class="n">T</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">x_t</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Wxc</span><span class="p">)</span> <span class="o">+</span> <span class="n">h_t1</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Whc</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bc</span><span class="p">)</span>
+        <span class="n">o_t</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">nnet</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">x_t</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Wxo</span><span class="p">)</span> <span class="o">+</span> <span class="n">h_t1</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Who</span><span class="p">)</span> <span class="o">+</span> <span class="n">c_t</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Wco</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bo</span><span class="p">)</span>
+        <span class="n">h_t</span> <span class="o">=</span> <span class="n">o_t</span><span class="o">*</span><span class="n">T</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">c_t</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">h_t</span><span class="p">,</span> <span class="n">c_t</span>
+
+    <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># input X should be a matrix (2-D)</span>
+        <span class="c1"># rows index time</span>
+        <span class="p">[</span><span class="n">h</span><span class="p">,</span> <span class="n">c</span><span class="p">],</span> <span class="n">_</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span>
+            <span class="n">fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">recurrence</span><span class="p">,</span>
+            <span class="n">inputs</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+            <span class="n">outputs_info</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">h0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c0</span><span class="p">],</span> <span class="c1"># Include c so that recurrence has access to it!</span>
+            <span class="n">n_steps</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">h</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake
