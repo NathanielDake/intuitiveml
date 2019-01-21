@@ -6,6 +6,7 @@ import operator
 from nltk import pos_tag, word_tokenize
 from datetime import datetime
 
+relative_path = '../../data/'
 
 def init_weight(Mi, Mo):
     """Initializes weights so that they are randomly distributed and have
@@ -60,7 +61,7 @@ def get_robert_frost():
     word2idx = {'START': 0, 'END': 1}
     current_idx = 2
     sentences = []
-    for line in open('../../data/poems/robert_frost.txt'):
+    for line in open(f'{relative_path}poems/robert_frost.txt'):
         line = line.strip()
         if line:
             tokens = remove_punctuation(line.lower()).split()
@@ -93,7 +94,7 @@ def get_poetry_classifier_data(samples_per_class, loaded_cached=True, save_cache
     current_idx = 0
     X = []
     Y = []
-    for fn, label in zip(('../../data/poems/robert_frost.txt', '../../data/poems/edgar_allan_poe.txt'), (0,1 )):
+    for fn, label in zip((f'{relative_path}poems/robert_frost.txt', f'{relative_path}poems/edgar_allan_poe.txt'), (0,1 )):
         count = 0
         for line in open(fn):
             line = line.rstrip()
@@ -115,3 +116,101 @@ def get_poetry_classifier_data(samples_per_class, loaded_cached=True, save_cache
     if save_cached:
         np.savez(datafile, X, Y, current_idx)
     return X, Y, current_idx
+
+
+def my_tokenizer(s):
+    s = remove_punctuation(s)
+    s = s.lower()
+    return s.split()
+
+
+def get_wikipedia_data(n_files, n_vocab, by_paragraph=False):
+    """Converts Wikipedia txt files into correct format for Neural Network
+
+    This function takes in a number of files that is too large to fit into memory if all data is loaded
+    at once. 100 or less seems to be ideal. The vocabulary also needs to be limited, since it is a lot
+    larger than the poetry dataset. We are going to have ~500,000-1,000,000 words. Note that the output
+    target is the next word, so that is 1 million output classes, which is a lot of output classes.
+    This makes it hard to get good accuracy, and it will make our output weight very large. To remedy
+    this, the vocabulary size will be restricted to n_vocab. This is generally set to ~2000 most
+    common words.
+
+    Args:
+        n_files: Number of input files taken in
+        n_vocab: Vocabulary size
+        by_paragraph:
+
+    Returns:
+        sentences: list of lists containing sentences mapped to index
+        word2idx_small: word2index mapping reduced to size n_vocab
+
+    """
+    wiki_relative_path = f'{relative_path}wikipedia/unzipped'
+    input_files = [f for f in os.listdir(wiki_relative_path) if f.startswith('enwiki') and f.endswith('txt')]
+
+    # Return Variables
+    sentences = []
+    word2idx = {'START': 0, 'END': 1}
+    idx2word = ['START', 'END']
+    current_idx = 2
+    word_idx_count = {0: float('inf'), 1: float('inf')}
+
+    if n_files is not None:
+        input_files = input_files[:n_files]
+
+    for f in input_files:
+        print('Reading: ', f )
+        for line in open(f'{wiki_relative_path}/{f}'):
+            line = line.strip()
+            # Don't count headers, structured data, lists, etc
+            if line and line[0] not in ('[', '*', '-', '|', '=', '{', '}'):
+                if by_paragraph:
+                    sentence_lines = [line]
+                else:
+                    sentence_lines = line.split()
+                for sentence in sentence_lines:
+                    tokens = my_tokenizer(sentence)
+                    for t in tokens:
+                        if t not in word2idx:
+                            word2idx[t] = current_idx
+                            idx2word.append(t)
+                            current_idx += 1
+                        idx = word2idx[t]
+                        word_idx_count[idx] = word_idx_count.get(idx, 0) + 1
+                    sentences_by_idx = [word2idx[t] for t in tokens]
+                    sentences.append(sentences_by_idx)
+
+    # Reduce vocabulary size to n_vocab
+    sorted_word_idx_count = sorted(word_idx_count.items(), key=operator.itemgetter(1), reverse=True)
+    word2idx_small = {}
+    new_idx = 0
+    idx_new_idx_map = {}
+    for idx, count in sorted_word_idx_count[:n_vocab]:
+        word = idx2word[idx]
+        print(word, count)
+        word2idx_small[word] = new_idx
+        idx_new_idx_map[idx] = new_idx
+        new_idx += 1
+    # Let 'unknown' be last token
+    word2idx_small['UNKNOWN'] = new_idx
+    unknown = new_idx
+
+    assert('START' in word2idx_small)
+    assert('END' in word2idx_small)
+    assert('king' in word2idx_small)
+    assert('queen' in word2idx_small)
+    assert('man' in word2idx_small)
+    assert('woman' in word2idx_small)
+
+    # Map old idx to new idx
+    sentences_small = []
+    for sentence in sentences:
+        if len(sentence) > 1:
+            new_sentence = [idx_new_idx_map[idx] if idx in idx_new_idx_map else unknown for idx in sentence]
+            sentences_small.append(new_sentence)
+
+    return sentences_small, word2idx_small
+
+
+
+
