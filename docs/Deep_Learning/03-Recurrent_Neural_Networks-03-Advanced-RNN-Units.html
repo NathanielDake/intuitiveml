@@ -770,6 +770,403 @@ The new hidden state is just the $tanh$ of the cell value, multiplied by the out
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3.4-Learning-from-Wikipedia">3.4 Learning from Wikipedia<a class="anchor-link" href="#3.4-Learning-from-Wikipedia">&#182;</a></h2><p>We are now going to take our RNN/LSTM and utilize it on a set of data from wikipedia. Our goal is going to be to create a language model just as we had done for poetry. Both simply hold sequences of words, but wikipedia has a much larger vocabulary and total size (13 GB). We are going to see if our learned word embeddings end up producing useful word analogies, and specifically visualize them on a scatter plot (after performing dimensionality reduction).</p>
+<h3 id="3.4.1-Getting-the-Data">3.4.1 Getting the Data<a class="anchor-link" href="#3.4.1-Getting-the-Data">&#182;</a></h3><p>Overall, this section does not have a ton of new information in terms of theory/RNNs, but it focus's more on a how it would be applied in a real scenario. As such, I want to take a minute to go over how we actually would get the data. It can be found <a href="https://dumps.wikimedia.org/enwiki/">here</a>. Once you have arrived, you can decide whether you want to get the entire datate set (14.7 GB at this point), or if you would rather just deal with a specific set of pages articles. I am choosing to work with a set of pages articles (i.e. not the entire dataset), because it will require some careful thought to prevent crashing python by overloading it's memory.</p>
+<h3 id="3.4.2-Convert-data-to-text-files">3.4.2 Convert data to text files<a class="anchor-link" href="#3.4.2-Convert-data-to-text-files">&#182;</a></h3><p>Next, we are going to need to convert the above data into a text file format. To do this we will use the <a href="https://github.com/yohasebe/wp2txt">wp2txt library</a>. We can install it by running the following:</p>
+
+<pre><code>sudo gem install wp2txt</code></pre>
+<p>And it can then be run on a single file via:</p>
+
+<pre><code>wp2txt -i &lt;filename&gt;</code></pre>
+<h3 id="3.4.3-Processing-text-for-our-RNN">3.4.3 Processing text for our RNN<a class="anchor-link" href="#3.4.3-Processing-text-for-our-RNN">&#182;</a></h3><p>Finally, we can talk about how we are going to take our text files and get it into the right format for our neural network. To do this we will be using the function <code>get_wikipedia_data</code>:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_wikipedia_data</span><span class="p">(</span><span class="n">n_files</span><span class="p">,</span> <span class="n">n_vocab</span><span class="p">,</span> <span class="n">by_paragraph</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Converts Wikipedia txt files into correct format for Neural Network</span>
+
+<span class="sd">    This function takes in a number of files that is too large to fit into memory if all data is loaded</span>
+<span class="sd">    at once. 100 or less seems to be ideal. The vocabulary also needs to be limited, since it is a lot</span>
+<span class="sd">    larger than the poetry dataset. We are going to have ~500,000-1,000,000 words. Note that the output</span>
+<span class="sd">    target is the next word, so that is 1 million output classes, which is a lot of output classes.</span>
+<span class="sd">    This makes it hard to get good accuracy, and it will make our output weight very large. To remedy</span>
+<span class="sd">    this, the vocabulary size will be restricted to n_vocab. This is generally set to ~2000 most</span>
+<span class="sd">    common words.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n_files: Number of input files taken in</span>
+<span class="sd">        n_vocab: Vocabulary size</span>
+<span class="sd">        by_paragraph:</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        sentences: list of lists containing sentences mapped to index</span>
+<span class="sd">        word2idx_small: word2index mapping reduced to size n_vocab</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">wiki_relative_path</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{relative_path}</span><span class="s1">wikipedia/unzipped&#39;</span>
+    <span class="n">input_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">wiki_relative_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;enwiki&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;txt&#39;</span><span class="p">)]</span>
+
+    <span class="c1"># Return Variables</span>
+    <span class="n">sentences</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">word2idx</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;START&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;END&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+    <span class="n">idx2word</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;START&#39;</span><span class="p">,</span> <span class="s1">&#39;END&#39;</span><span class="p">]</span>
+    <span class="n">current_idx</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">word_idx_count</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">),</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)}</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">input_files</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">input_files</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">n_files</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">input_files</span> <span class="o">=</span> <span class="n">input_files</span><span class="p">[:</span><span class="n">n_files</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">input_files</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Reading: &#39;</span><span class="p">,</span> <span class="n">f</span> <span class="p">)</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{wiki_relative_path}</span><span class="s1">/</span><span class="si">{f}</span><span class="s1">&#39;</span><span class="p">):</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="c1"># Don&#39;t count headers, structured data, lists, etc</span>
+            <span class="k">if</span> <span class="n">line</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;{&#39;</span><span class="p">,</span> <span class="s1">&#39;}&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">by_paragraph</span><span class="p">:</span>
+                    <span class="n">sentence_lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">sentence_lines</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">sentence</span> <span class="ow">in</span> <span class="n">sentence_lines</span><span class="p">:</span>
+                    <span class="n">tokens</span> <span class="o">=</span> <span class="n">my_tokenizer</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">t</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">word2idx</span><span class="p">:</span>
+                            <span class="n">word2idx</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_idx</span>
+                            <span class="n">idx2word</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                            <span class="n">current_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">idx</span> <span class="o">=</span> <span class="n">word2idx</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+                        <span class="n">word_idx_count</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">word_idx_count</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+                    <span class="n">sentences_by_idx</span> <span class="o">=</span> <span class="p">[</span><span class="n">word2idx</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">]</span>
+                    <span class="n">sentences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sentences_by_idx</span><span class="p">)</span>
+
+    <span class="c1"># Reduce vocabulary size to n_vocab</span>
+    <span class="n">sorted_word_idx_count</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">word_idx_count</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">word2idx_small</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">new_idx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">idx_new_idx_map</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">sorted_word_idx_count</span><span class="p">[:</span><span class="n">n_vocab</span><span class="p">]:</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="n">idx2word</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+        <span class="n">word2idx_small</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_idx</span>
+        <span class="n">idx_new_idx_map</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_idx</span>
+        <span class="n">new_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="c1"># Let &#39;unknown&#39; be last token</span>
+    <span class="n">word2idx_small</span><span class="p">[</span><span class="s1">&#39;UNKNOWN&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_idx</span>
+    <span class="n">unknown</span> <span class="o">=</span> <span class="n">new_idx</span>
+
+    <span class="k">assert</span><span class="p">(</span><span class="s1">&#39;START&#39;</span> <span class="ow">in</span> <span class="n">word2idx_small</span><span class="p">)</span>
+    <span class="k">assert</span><span class="p">(</span><span class="s1">&#39;END&#39;</span> <span class="ow">in</span> <span class="n">word2idx_small</span><span class="p">)</span>
+    <span class="k">assert</span><span class="p">(</span><span class="s1">&#39;king&#39;</span> <span class="ow">in</span> <span class="n">word2idx_small</span><span class="p">)</span>
+    <span class="k">assert</span><span class="p">(</span><span class="s1">&#39;queen&#39;</span> <span class="ow">in</span> <span class="n">word2idx_small</span><span class="p">)</span>
+    <span class="k">assert</span><span class="p">(</span><span class="s1">&#39;man&#39;</span> <span class="ow">in</span> <span class="n">word2idx_small</span><span class="p">)</span>
+    <span class="k">assert</span><span class="p">(</span><span class="s1">&#39;woman&#39;</span> <span class="ow">in</span> <span class="n">word2idx_small</span><span class="p">)</span>
+
+    <span class="c1"># Map old idx to new idx</span>
+    <span class="n">sentences_small</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">sentence</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">new_sentence</span> <span class="o">=</span> <span class="p">[</span><span class="n">idx_new_idx_map</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">if</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">idx_new_idx_map</span> <span class="k">else</span> <span class="n">unknown</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">sentence</span><span class="p">]</span>
+            <span class="n">sentences_small</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_sentence</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">sentences_small</span><span class="p">,</span> <span class="n">word2idx_small</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A few things to note about the above function:</p>
+<ul>
+<li>Because the number of files that we are working with is too large to fit into memory, we must limit the amount of data that is loaded at a single time</li>
+<li>We must also limit the vocabulary size, the 2000 most common words is appropriate</li>
+<li>To do this, we must keep a count of how many times a word has appeared in the dictionary. Next, we need to sort that dictionary by value, in reverse so that the highest count value comes first. This will give us the index's for the top 2000 words. However, we are still not done. Our word embedding matrix needs to be of size $V = 2000$, so the word index's must be from 0-2000. But the word index's we currently have are just 2000 random numbers from 0-1,000,000. Hence, we need to create a new word mapping from old index to new index, where the old word index is any number from 0 to 1 million, and the new word index is a number from 0 to 2000. This also means we need to create a new word2idx dictionary as well. </li>
+</ul>
+<h3 id="3.4.4-Training-on-the-entire-dataset">3.4.4 Training on the entire dataset<a class="anchor-link" href="#3.4.4-Training-on-the-entire-dataset">&#182;</a></h3><p>Now, I should now that if we train on the entire dataset there is a good chance that we will run out of memory. To prevent this, we don't want to load all of our data into memory at the same time. One strategy would be to train on each separate text file, opening each within each epoch. We would have to, of course, keep a dictionary of the word2idx mapping handy, so that it remains consistent between each file. This would be rather slow of course.</p>
+<p>Another option, would be to convert each sentence into a list of word index's before running the neural network, and then save the word2idx mapping to a file as well. That way our input data can be just a bunch of arrays of word index's. This would still need to be in multiple files since it would still take up too much RAM, but we would prevent needing to convert the data each time we open the file.</p>
+<p>A final option would to use a DB like MySQL in order to store the arrays of word indexes. This way we could retrieve rows at random, without needing to store them in memory.</p>
+<h3 id="3.4.5-Training-RNN-with-LSTM-from-wikipedia-data">3.4.5 Training RNN with LSTM from wikipedia data<a class="anchor-link" href="#3.4.5-Training-RNN-with-LSTM-from-wikipedia-data">&#182;</a></h3><p>We will now implement this is code:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">theano</span>
+<span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="k">as</span> <span class="nn">T</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="k">import</span> <span class="n">shuffle</span>
+<span class="kn">from</span> <span class="nn">gru</span> <span class="k">import</span> <span class="n">GRU</span>
+<span class="kn">from</span> <span class="nn">lstm</span> <span class="k">import</span> <span class="n">LSTM</span>
+<span class="kn">from</span> <span class="nn">rnn_util</span> <span class="k">import</span> <span class="n">init_weight</span><span class="p">,</span> <span class="n">get_wikipedia_data</span>
+
+
+<span class="k">class</span> <span class="nc">RNN</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">hidden_layer_sizes</span><span class="p">,</span> <span class="n">V</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;RNN class constructor</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            hidden_layer_sizes: Number of units in each hidden layer</span>
+<span class="sd">            D: Embedding size</span>
+<span class="sd">            V: Vocabulary size</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layer_sizes</span> <span class="o">=</span> <span class="n">hidden_layer_sizes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="n">D</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">V</span> <span class="o">=</span> <span class="n">V</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">0.99</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+            <span class="n">show_fig</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">T</span><span class="o">.</span><span class="n">nnet</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span> <span class="n">RecurrentUnit</span><span class="o">=</span><span class="n">GRU</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit RNN class to data set via unsupervised learning (no Y labels)</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X: Input samples (sentences)</span>
+<span class="sd">            learning_rate: learning rate</span>
+<span class="sd">            mu: momentum</span>
+<span class="sd">            epochs: Number of training iterations</span>
+<span class="sd">            show_fig: Show figure</span>
+<span class="sd">            activation: non linear activation function</span>
+<span class="sd">            RecurrentUnit: GRU or LSTM</span>
+<span class="sd">            normalize: Normalizes word embeddings</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">D</span>
+        <span class="n">V</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="c1"># Number training samples (number of sentences)</span>
+
+        <span class="n">We</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">D</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">Mi</span> <span class="o">=</span> <span class="n">D</span>
+        <span class="k">for</span> <span class="n">Mo</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layer_sizes</span><span class="p">:</span> <span class="c1"># Create hidden layers</span>
+            <span class="n">ru</span> <span class="o">=</span> <span class="n">RecurrentUnit</span><span class="p">(</span><span class="n">Mi</span><span class="p">,</span> <span class="n">Mo</span><span class="p">,</span> <span class="n">activation</span><span class="p">)</span> <span class="c1"># Create recurrent unit (from class GRU or LSTM)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ru</span><span class="p">)</span>
+            <span class="n">Mi</span> <span class="o">=</span> <span class="n">Mo</span>
+
+        <span class="n">Wo</span> <span class="o">=</span> <span class="n">init_weight</span><span class="p">(</span><span class="n">Mi</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
+        <span class="n">bo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+
+        <span class="c1"># Create theano variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">We</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">We</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Wo</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">Wo</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bo</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">bo</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">Wo</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bo</span><span class="p">]</span>
+
+        <span class="c1"># For each recurrent unit in hidden_layers, append the params</span>
+        <span class="k">for</span> <span class="n">ru</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layers</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">+=</span> <span class="n">ru</span><span class="o">.</span><span class="n">params</span>
+
+        <span class="c1"># Create theano inputs and outputs</span>
+        <span class="n">thX</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">ivector</span><span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">)</span> <span class="c1"># Sequence of word indexes</span>
+        <span class="n">thY</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">ivector</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">)</span> <span class="c1"># Sequence of word indexes, offset for thX by 1</span>
+
+        <span class="n">Z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">We</span><span class="p">[</span><span class="n">thX</span><span class="p">]</span> <span class="c1"># Input sequence</span>
+        <span class="k">for</span> <span class="n">ru</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layers</span><span class="p">:</span>
+            <span class="n">Z</span> <span class="o">=</span> <span class="n">ru</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+        <span class="n">py_x</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">nnet</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">Z</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Wo</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bo</span><span class="p">)</span>
+        <span class="n">prediction</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">py_x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Let&#39;s return py_x too so we can draw a sample instead</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">predict_op</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+            <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">thX</span><span class="p">],</span>
+            <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">py_x</span><span class="p">,</span> <span class="n">prediction</span><span class="p">],</span>
+            <span class="n">allow_input_downcast</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Create cost and do gradient descent</span>
+        <span class="n">cost</span> <span class="o">=</span> <span class="o">-</span><span class="n">T</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">py_x</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">thY</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">thY</span><span class="p">)]))</span>
+        <span class="n">grads</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">cost</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">dparams</span> <span class="o">=</span> <span class="p">[</span><span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get_value</span><span class="p">()</span><span class="o">*</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">]</span>
+
+        <span class="c1"># Gradient descent for word embeddings</span>
+        <span class="n">dWe</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">We</span><span class="o">.</span><span class="n">get_value</span><span class="p">()</span><span class="o">*</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">gWe</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">cost</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">We</span><span class="p">)</span>
+        <span class="n">dWe_update</span> <span class="o">=</span> <span class="n">mu</span><span class="o">*</span><span class="n">dWe</span> <span class="o">-</span> <span class="n">learning_rate</span><span class="o">*</span><span class="n">gWe</span>
+        <span class="n">We_update</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">We</span> <span class="o">+</span> <span class="n">dWe_update</span>
+        <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
+            <span class="n">We_update</span> <span class="o">/=</span> <span class="n">We_update</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">updates</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">p</span> <span class="o">+</span> <span class="n">mu</span><span class="o">*</span><span class="n">dp</span> <span class="o">-</span> <span class="n">learning_rate</span><span class="o">*</span><span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">dp</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">dparams</span><span class="p">,</span> <span class="n">grads</span><span class="p">)</span>
+        <span class="p">]</span> <span class="o">+</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">mu</span><span class="o">*</span><span class="n">dp</span> <span class="o">-</span> <span class="n">learning_rate</span><span class="o">*</span><span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="n">dp</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dparams</span><span class="p">,</span> <span class="n">grads</span><span class="p">)</span>
+        <span class="p">]</span> <span class="o">+</span> <span class="p">[</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">We</span><span class="p">,</span> <span class="n">We_update</span><span class="p">),</span> <span class="p">(</span><span class="n">dWe</span><span class="p">,</span> <span class="n">dWe_update</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">train_op</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+            <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">thX</span><span class="p">,</span> <span class="n">thY</span><span class="p">],</span>
+            <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">cost</span><span class="p">,</span> <span class="n">prediction</span><span class="p">],</span>
+            <span class="n">updates</span><span class="o">=</span><span class="n">updates</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Main training loop</span>
+        <span class="n">costs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+            <span class="n">t0</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="n">n_correct</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">n_total</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">cost</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span> <span class="c1"># one sentence at a time</span>
+                <span class="c1"># 1% of time, will include END token</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.01</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">input_sequence</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                    <span class="n">output_sequence</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">input_sequence</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span><span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">output_sequence</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="n">n_total</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">output_sequence</span><span class="p">)</span>
+
+                <span class="c1"># test:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="c1"># we set 0 to start and 1 to end</span>
+                    <span class="n">c</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_op</span><span class="p">(</span><span class="n">input_sequence</span><span class="p">,</span> <span class="n">output_sequence</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">PYX</span><span class="p">,</span> <span class="n">pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict_op</span><span class="p">(</span><span class="n">input_sequence</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;input_sequence len:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_sequence</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PYX.shape:&quot;</span><span class="p">,</span><span class="n">PYX</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;pred.shape:&quot;</span><span class="p">,</span> <span class="n">pred</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">e</span>
+
+                <span class="n">cost</span> <span class="o">+=</span> <span class="n">c</span>
+                <span class="k">for</span> <span class="n">pj</span><span class="p">,</span> <span class="n">xj</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">output_sequence</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">pj</span> <span class="o">==</span> <span class="n">xj</span><span class="p">:</span>
+                        <span class="n">n_correct</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">j</span> <span class="o">%</span> <span class="mi">200</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="c1"># Using sys here helps compact the output.</span>
+                    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;j/N: </span><span class="si">%d</span><span class="s2">/</span><span class="si">%d</span><span class="s2"> correct rate so far: </span><span class="si">%f</span><span class="se">\r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">n_correct</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_total</span><span class="p">))</span>
+                    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;i:&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&quot;cost:&quot;</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="s2">&quot;correct rate:&quot;</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">n_correct</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_total</span><span class="p">),</span> <span class="s2">&quot;time for epoch:&quot;</span><span class="p">,</span>
+                  <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span><span class="p">))</span>
+            <span class="n">costs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">show_fig</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">costs</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">train_wikipedia</span><span class="p">(</span><span class="n">we_file</span><span class="o">=</span><span class="s1">&#39;word_embeddings.npy&#39;</span><span class="p">,</span> <span class="n">w2i_file</span><span class="o">=</span><span class="s1">&#39;wikipedia_word2idx.json&#39;</span><span class="p">,</span> <span class="n">RecurrentUnit</span><span class="o">=</span><span class="n">GRU</span><span class="p">):</span>
+    <span class="n">sentences</span><span class="p">,</span> <span class="n">word2idx</span> <span class="o">=</span> <span class="n">get_wikipedia_data</span><span class="p">(</span><span class="n">n_files</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">n_vocab</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;finished retrieving data&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;vocab size:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">word2idx</span><span class="p">),</span> <span class="s2">&quot;number of sentences:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">sentences</span><span class="p">))</span>
+    <span class="n">rnn</span> <span class="o">=</span> <span class="n">RNN</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="p">[</span><span class="mi">30</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">word2idx</span><span class="p">))</span>
+    <span class="n">rnn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">sentences</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">show_fig</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">T</span><span class="o">.</span><span class="n">nnet</span><span class="o">.</span><span class="n">relu</span><span class="p">)</span>
+
+    <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">we_file</span><span class="p">,</span> <span class="n">rnn</span><span class="o">.</span><span class="n">We</span><span class="o">.</span><span class="n">get_value</span><span class="p">())</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">w2i_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">word2idx</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">find_analogies</span><span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">w3</span><span class="p">,</span> <span class="n">we_file</span><span class="o">=</span><span class="s1">&#39;word_embeddings.npy&#39;</span><span class="p">,</span> <span class="n">w2i_file</span><span class="o">=</span><span class="s1">&#39;wikipedia_word2idx.json&#39;</span><span class="p">):</span>
+    <span class="n">We</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">we_file</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">w2i_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">word2idx</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="n">king</span> <span class="o">=</span> <span class="n">We</span><span class="p">[</span><span class="n">word2idx</span><span class="p">[</span><span class="n">w1</span><span class="p">]]</span>
+    <span class="n">man</span> <span class="o">=</span> <span class="n">We</span><span class="p">[</span><span class="n">word2idx</span><span class="p">[</span><span class="n">w2</span><span class="p">]]</span>
+    <span class="n">woman</span> <span class="o">=</span> <span class="n">We</span><span class="p">[</span><span class="n">word2idx</span><span class="p">[</span><span class="n">w3</span><span class="p">]]</span>
+    <span class="n">v0</span> <span class="o">=</span> <span class="n">king</span> <span class="o">-</span> <span class="n">man</span> <span class="o">+</span> <span class="n">woman</span>
+
+    <span class="k">def</span> <span class="nf">dist1</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">dist2</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">dist</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">dist1</span><span class="p">,</span> <span class="s1">&#39;Euclidean&#39;</span><span class="p">),</span> <span class="p">(</span><span class="n">dist2</span><span class="p">,</span> <span class="s1">&#39;cosine&#39;</span><span class="p">)]:</span>
+        <span class="n">min_dist</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
+        <span class="n">best_word</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">word2idx</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">w3</span><span class="p">):</span>
+                <span class="n">v1</span> <span class="o">=</span> <span class="n">We</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="n">dist</span><span class="p">(</span><span class="n">v0</span><span class="p">,</span> <span class="n">v1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="n">min_dist</span><span class="p">:</span>
+                    <span class="n">min_dist</span> <span class="o">=</span> <span class="n">d</span>
+                    <span class="n">best_word</span> <span class="o">=</span> <span class="n">word</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;closest match by&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;distance:&quot;</span><span class="p">,</span> <span class="n">best_word</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="n">best_word</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">w3</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">we</span> <span class="o">=</span> <span class="s1">&#39;lstm_word_embeddings2.npy&#39;</span>
+    <span class="n">w2i</span> <span class="o">=</span> <span class="s1">&#39;lstm_wikipedia_word2idx2.json&#39;</span>
+    <span class="n">train_wikipedia</span><span class="p">(</span><span class="n">we</span><span class="p">,</span> <span class="n">w2i</span><span class="p">,</span> <span class="n">RecurrentUnit</span><span class="o">=</span><span class="n">GRU</span><span class="p">)</span>
+    <span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;king&#39;</span><span class="p">,</span> <span class="s1">&#39;man&#39;</span><span class="p">,</span> <span class="s1">&#39;woman&#39;</span><span class="p">,</span> <span class="n">we</span><span class="p">,</span> <span class="n">w2i</span><span class="p">)</span>
+    <span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;france&#39;</span><span class="p">,</span> <span class="s1">&#39;paris&#39;</span><span class="p">,</span> <span class="s1">&#39;london&#39;</span><span class="p">,</span> <span class="n">we</span><span class="p">,</span> <span class="n">w2i</span><span class="p">)</span>
+    <span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;france&#39;</span><span class="p">,</span> <span class="s1">&#39;paris&#39;</span><span class="p">,</span> <span class="s1">&#39;rome&#39;</span><span class="p">,</span> <span class="n">we</span><span class="p">,</span> <span class="n">w2i</span><span class="p">)</span>
+    <span class="n">find_analogies</span><span class="p">(</span><span class="s1">&#39;paris&#39;</span><span class="p">,</span> <span class="s1">&#39;france&#39;</span><span class="p">,</span> <span class="s1">&#39;italy&#39;</span><span class="p">,</span> <span class="n">we</span><span class="p">,</span> <span class="n">w2i</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="3.4.6-Visualize-the-word-embeddings">3.4.6 Visualize the word embeddings<a class="anchor-link" href="#3.4.6-Visualize-the-word-embeddings">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.manifold</span> <span class="k">import</span> <span class="n">TSNE</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="k">import</span> <span class="n">PCA</span><span class="p">,</span> <span class="n">TruncatedSVD</span>
+
+<span class="k">def</span> <span class="nf">visualize_embeddings</span><span class="p">(</span><span class="n">we_file</span><span class="o">=</span><span class="s1">&#39;word_embeddings.npy&#39;</span><span class="p">,</span> <span class="n">w2i_file</span><span class="o">=</span><span class="s1">&#39;wikipedia_word2idx.json&#39;</span><span class="p">,</span> <span class="n">Model</span><span class="o">=</span><span class="n">PCA</span><span class="p">):</span>
+    <span class="n">We</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">we_file</span><span class="p">)</span>
+    <span class="n">V</span><span class="p">,</span> <span class="n">D</span> <span class="o">=</span> <span class="n">We</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">w2i_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">word2idx</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">idx2word</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">iteritems</span><span class="p">(</span><span class="n">word2idx</span><span class="p">)}</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">()</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">We</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">Z</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">Z</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">V</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="n">idx2word</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">visualize_embeddings</span><span class="p">(</span><span class="n">we_file</span><span class="o">=</span><span class="s1">&#39;working_files/batch_gru_word_embeddings.npy&#39;</span><span class="p">,</span> <span class="n">w2i_file</span><span class="o">=</span><span class="s1">&#39;working_files/batch_wikipedia_word2idx.json&#39;</span><span class="p">,</span> <span class="n">Model</span><span class="o">=</span><span class="n">TSNE</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
 <hr>
 &copy; 2018 Nathaniel Dake
 
