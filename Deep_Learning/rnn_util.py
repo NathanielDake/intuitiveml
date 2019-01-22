@@ -167,7 +167,7 @@ def get_wikipedia_data(n_files, n_vocab, by_paragraph=False):
                 if by_paragraph:
                     sentence_lines = [line]
                 else:
-                    sentence_lines = line.split()
+                    sentence_lines = line.split('. ')
                 for sentence in sentence_lines:
                     tokens = my_tokenizer(sentence)
                     for t in tokens:
@@ -177,8 +177,8 @@ def get_wikipedia_data(n_files, n_vocab, by_paragraph=False):
                             current_idx += 1
                         idx = word2idx[t]
                         word_idx_count[idx] = word_idx_count.get(idx, 0) + 1
-                    sentences_by_idx = [word2idx[t] for t in tokens]
-                    sentences.append(sentences_by_idx)
+                    sentence_by_idx = [word2idx[t] for t in tokens]
+                    sentences.append(sentence_by_idx)
 
     # Reduce vocabulary size to n_vocab
     sorted_word_idx_count = sorted(word_idx_count.items(), key=operator.itemgetter(1), reverse=True)

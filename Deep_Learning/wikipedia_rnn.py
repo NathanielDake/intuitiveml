@@ -84,7 +84,7 @@ class RNN:
         )
 
         # Create cost and do gradient descent
-        cost = -T.mean(T.log(py_x[T.arange(thY.shape[0], thY)]))
+        cost = -T.mean(T.log(py_x[T.arange(thY.shape[0]), thY]))
         grads = T.grad(cost, self.params)
         dparams = [theano.shared(p.get_value()*0) for p in self.params]
 
@@ -157,7 +157,7 @@ class RNN:
 
 
 def train_wikipedia(we_file='word_embeddings.npy', w2i_file='wikipedia_word2idx.json', RecurrentUnit=GRU):
-    sentences, word2idx = get_wikipedia_data(n_files=100, n_vocab=2000)
+    sentences, word2idx = get_wikipedia_data(n_files=20, n_vocab=2000)
     print("finished retrieving data")
     print("vocab size:", len(word2idx), "number of sentences:", len(sentences))
     rnn = RNN(30, [30], len(word2idx))
@@ -198,9 +198,9 @@ def find_analogies(w1, w2, w3, we_file='word_embeddings.npy', w2i_file='wikipedi
 
 
 if __name__ == '__main__':
-    we = 'lstm_word_embeddings2.npy'
-    w2i = 'lstm_wikipedia_word2idx2.json'
-    train_wikipedia(we, w2i, RecurrentUnit=GRU)
+    we = 'lstm_word_embeddings_2019_01_21.npy'
+    w2i = 'lstm_wikipedia_word2idx2_2019_01_21.json'
+    train_wikipedia(we, w2i, RecurrentUnit=LSTM)
     find_analogies('king', 'man', 'woman', we, w2i)
     find_analogies('france', 'paris', 'london', we, w2i)
     find_analogies('france', 'paris', 'rome', we, w2i)
