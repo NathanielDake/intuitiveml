@@ -1,0 +1,302 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/readable.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Nathaniel Dake Blog</title>
+
+<style type = "text/css">
+body {
+  font-family: "sans-serif";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Nathaniel Dake Blog</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../Deep_Learning.html">Deep Learning</a>
+</li>
+        
+<li>
+  <a href="../AI.html">AI</a>
+</li>
+        
+<li>
+  <a href="../Machine_Learning.html">Machine Learning</a>
+</li>
+        
+<li>
+  <a href="../NLP.html">NLP</a>
+</li>
+        
+<li>
+  <a href="../Mathematics.html">Mathematics</a>
+</li>
+        
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
+<li>
+  <a href="../Book_Reviews.html">Book Reviews</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="https://github.com/NathanielDake/nathanieldake.github.io"> source </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="3.-Introduction-to-Probability-Theory">3. Introduction to Probability Theory<a class="anchor-link" href="#3.-Introduction-to-Probability-Theory">&#182;</a></h1><p>This is a post that I have been excited to get to for over a year now. Probability theory plays an incredibly interesting and unique role in the studying of machine learning and articiail intelligence techniques. It gives us a wonderful way of dealing with <strong>uncertainty</strong>, and shows up in everything from <strong>Hidden Markov Models</strong>, <strong>Bayesian Networks</strong>, <strong>Causal Path Analysis</strong>, <strong>Bayesian A/B</strong> testing, and many other areas.</p>
+<p>There are several things that make probability so interesting, and I am going to try and cover all of them in this post and several others. The main points are as follows:</p>
+<ul>
+<li>Probability is rather intertwined with statistics; we will dissect the differences and also how they fit together.</li>
+<li>Many paradox's arise from probability, which makes it rather unintuitive to understand. <strong>Simpson's Paradox</strong> and <strong>the Monty Hall</strong> problem are two hallmark probability paradox problems. We will go through each in detail to discuss why they are paradoxical, and how to remedy it.</li>
+<li>There are many different ways to visualize and conceptualize probability.</li>
+<li><strong>Discrete</strong> vs. <strong>Continuous</strong> probability distributions cause certain visualizations to break down, causing a gap in understanding.</li>
+</ul>
+<p>This post will not cover all of the above, but it will certainly help us build a base from which we can climb to higher levels of understanding. To begin, I want to start from a historical perspective, digging into how probability first came to be.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3.1-Historical-Background-and-Definitions">3.1 Historical Background and Definitions<a class="anchor-link" href="#3.1-Historical-Background-and-Definitions">&#182;</a></h2><p>At is core, probability theory was defined incredibly well by <strong>Pierre-Simon Laplace</strong> in 1814:</p>
+<blockquote><p>Probability theory is nothing but common sense reduced to calculation. ... [Probability] is thus simply a fraction whose numerator is the number of favorable cases and whose denominator is the number of all the cases possible ... when nothing leads us to expect that any one of these cases should occur more than any other.</p>
+</blockquote>
+<p>This simple summary should always be kept in mind when working with probability. The following terms must also be defined:</p>
+<ul>
+<li><strong>Trial</strong>: A single occurrence with an outcome that is uncertain until we observe it. <ul>
+<li>For example, rolling a single die.</li>
+</ul>
+</li>
+<li><strong>Outcome</strong>: A possible result of a trial; one particular state of the world. What Laplace calls a case. <ul>
+<li>For example: 4.</li>
+</ul>
+</li>
+<li><strong>Sample Space</strong>: The set of all possible outcomes for the trial. <ul>
+<li>For example, {1, 2, 3, 4, 5, 6}.</li>
+</ul>
+</li>
+<li><strong>Event</strong>: A subset of outcomes that together have some property we are interested in. <ul>
+<li>For example, the event "even die roll" is the set of outcomes {2, 4, 6}.</li>
+</ul>
+</li>
+<li><strong>Probability</strong>: As Laplace said, the probability of an event with respect to a sample space is the "number of favorable cases" (outcomes from the sample space that are in the event) divided by the "number of all the cases" in the sample space (assuming "nothing leads us to expect that any one of these cases should occur more than any other"). Since this is a proper fraction, probability will always be a number between 0 (representing an impossible event) and 1 (representing a certain event). <ul>
+<li>For example, the probability of an even die roll is 3/6 = 1/2.</li>
+</ul>
+</li>
+</ul>
+<p>There is one more term that I would like to discuss before moving onto the general rules of probability; that term is <strong>probabilistic</strong>. The term probabilistic is thrown around frequently without many people having a sound definition for what it really entails. Probabilistic can be defined as:</p>
+<blockquote><p><strong>Probabilistic:</strong> Subject to or involving chance variation</p>
+</blockquote>
+<p>Another way of looking at it is that it deals with <strong>uncertainty</strong>. Now, uncertainty can come about in the real world in a variety of ways (no, I am not going to talk about rounds of cards):</p>
+<ol>
+<li>We have a partial knowledge of the state of the world.</li>
+<li>Noisy observations.</li>
+<li><em>Phenomena</em> not covered by our model.</li>
+<li>Inherent <strong>Stochasticity</strong> </li>
+</ol>
+<p>The entire goal of probability theory is to allow us to allow us to deal with uncertainty in ways that are principled and proven. Now, these definitions must be understood and internalized before moving on. One of the troubles with probability is the new vocabularly that it introduces, so be sure to look back on these definitions if anything is unclear as we move forward.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3.2-Probability-Rules">3.2 Probability Rules<a class="anchor-link" href="#3.2-Probability-Rules">&#182;</a></h2><p>Now, in general there are three</p>
+<h3 id="3.2.1-Maringal-Probabilities">3.2.1 Maringal Probabilities<a class="anchor-link" href="#3.2.1-Maringal-Probabilities">&#182;</a></h3><h3 id="3.2.3-Joint-Distribution">3.2.3 Joint Distribution<a class="anchor-link" href="#3.2.3-Joint-Distribution">&#182;</a></h3><h3 id="3.2.4-Conditional-Probabilities">3.2.4 Conditional Probabilities<a class="anchor-link" href="#3.2.4-Conditional-Probabilities">&#182;</a></h3><h3 id="3.2.2-Marginalization">3.2.2 Marginalization<a class="anchor-link" href="#3.2.2-Marginalization">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3.3-Discrete-vs.-Continuous-Distributions">3.3 Discrete vs. Continuous Distributions<a class="anchor-link" href="#3.3-Discrete-vs.-Continuous-Distributions">&#182;</a></h2><h3 id="3.3.1-Discrete-Distributions">3.3.1 Discrete Distributions<a class="anchor-link" href="#3.3.1-Discrete-Distributions">&#182;</a></h3><h3 id="3.3.2-Continuous-Distributions">3.3.2 Continuous Distributions<a class="anchor-link" href="#3.3.2-Continuous-Distributions">&#182;</a></h3><h3 id="Probability-Density-Functions">Probability Density Functions<a class="anchor-link" href="#Probability-Density-Functions">&#182;</a></h3>
+</div>
+</div>
+</div>
+<hr>
+&copy; 2018 Nathaniel Dake
+
+</div>
+</div>
+</body>
+</html>
