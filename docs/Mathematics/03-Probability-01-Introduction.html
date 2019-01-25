@@ -280,8 +280,112 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="3.2-Probability-Rules">3.2 Probability Rules<a class="anchor-link" href="#3.2-Probability-Rules">&#182;</a></h2><p>Now, in general there are three</p>
-<h3 id="3.2.1-Maringal-Probabilities">3.2.1 Maringal Probabilities<a class="anchor-link" href="#3.2.1-Maringal-Probabilities">&#182;</a></h3><h3 id="3.2.3-Joint-Distribution">3.2.3 Joint Distribution<a class="anchor-link" href="#3.2.3-Joint-Distribution">&#182;</a></h3><h3 id="3.2.4-Conditional-Probabilities">3.2.4 Conditional Probabilities<a class="anchor-link" href="#3.2.4-Conditional-Probabilities">&#182;</a></h3><h3 id="3.2.2-Marginalization">3.2.2 Marginalization<a class="anchor-link" href="#3.2.2-Marginalization">&#182;</a></h3>
+<h2 id="3.2-Probability-Rules">3.2 Probability Rules<a class="anchor-link" href="#3.2-Probability-Rules">&#182;</a></h2><p>Now, in general there are three very commonly used probabilities: <strong>marginal</strong>, <strong>joint</strong> and <strong>conditional</strong> probability. I like to do this via looking at an example, as I feel it will help keep the concepts more concrete. Suppose we have the situation shown in the table below:</p>
+<p><img src="https://drive.google.com/uc?id=1aNGxEap1BWNCnBbQlo8VJn8kp1RKtHs8" width="600"></p>
+<p>Here we are looking at historical data surrounding an ecommerce site and purchases from different countries. Each cell corresponds to the number of people from a specific country who either purchased or did not purchase something from the site. This is known as a <strong>discrete distribution</strong>, which we will cover in more depth later in this post. For now, let's try and and answer some questions about this distribution, and in the process, get a feel for the main types of probability.</p>
+<p>One final thing before we get going here. I want to quickly give an informal defintion for the term <strong>random variable</strong>. It comes up very frequently in the discussion of probability, and while we don't need to get into the technicalities surrounding it yet, we should have a general idea of what it represents:</p>
+<blockquote><p>A <strong>random variable</strong> is a quantitative variable whose value depends on chance in some way.</p>
+</blockquote>
+<p>This is a very broad and informal definition, however it should at least convey the general idea. A random variable is not known until its value is observed. We can think of the roll of a die as a random variable, or if we were to flip a coin 3 times and set $X$ to be the number of heads, $X$ would then be a random variable that could take on the values: $\{1,2,3,4\}$</p>
+<h3 id="3.2.1-Marginal-Probabilities">3.2.1 Marginal Probabilities<a class="anchor-link" href="#3.2.1-Marginal-Probabilities">&#182;</a></h3><p>Say for a moment that we wanted to know:</p>
+<blockquote><p>What is the probability that a user is from a specific country?</p>
+</blockquote>
+<p>Mathematically, that can be written as:</p>
+<p>$$P(Country = c)$$</p>
+<p>Where $c$ is the specific country you are interested in. Now, without knowing anything about marginal probabilities, I would guess that most people would end up with the following equation:</p>
+<p>$$P(Country = c) = \frac{\text{users from } c}{\text{total number of users}}$$</p>
+<p>This is entirely correct! Again, keeping in mind the original quote from Laplace, probability can very often be reduced to common sense and counting (at least in the discrete cases). So, we can do just that:</p>
+<p>$$P(Country = Canada) = \frac{300 + 20}{300 + 20 + 50 + 500 + 10 + 200} = 0.30$$</p>
+<p>$$P(Country = USA) = \frac{500 + 50}{300 + 20 + 50 + 500 + 10 + 200} = 0.51$$</p>
+<p>$$P(Country = Mexia) = \frac{200 + 10}{300 + 20 + 50 + 500 + 10 + 200} = 0.19$$</p>
+<p>Above we have just found the distribution $P(Country)$ over all countries. We can ensure that it is a correct and legal probability distribution by checking that it sums to 1:</p>
+<p>$$\sum_{c} P(Country = c) = 0.3 + 0.51 + 0.19 = 1$$</p>
+<p>Now, as I said earlier, I would have expected that even with <em>no knowledge</em> of marginal probabilities most people would come to that conclusion. However, I want to give a way of thinking about the problem as it relates to marginal probabilities and <strong>marginalization</strong> (we will go over marginalization in much greater detail soon).</p>
+<p>When dealing with a distribution that contains multiple variables of interest, such as <em>purchase</em> and <em>country</em> in this case, we often want to acquire information about a single variable (such as country in the above example). To do that, we need to <strong>marginalize</strong> out the variable that we are not interested in (purchase in the above example). We intuitively did it above, but there is a great way to visualy think about this. Let's reconsider our table, but with a different shading of our cells:</p>
+<p><img src="https://drive.google.com/uc?id=11fqKDqAHHhFRFEaIcMncbZZETLjVMvR-" width="600"></p>
+<p>Here, I have shaded the <em>purchased</em> cell's gray since we are not interested in them. What we are interested in is the country information in the red and blue rows. We want to get rid of the purchase information, which by definition is what is means to <strong>marginalize out</strong> a variable. The visual trick here is to think of <em>collapsing</em> the rows, so that the <em>purchase</em> is erased and we are only left with our variable of interest: <em>country</em>.</p>
+<p><img src="https://drive.google.com/uc?id=1xh5D-zTZUZkneKF8w2FoPC7omc1Eu0en" width="600"></p>
+<p>Now this visual collapsing is really just a summation along each individual column, but the ability to think about a visual collapse helps in understanding how we get rid of the variables that aren't of interest. Now, there is one issue though that I am sure you are wondering about at this point: This final table isn't a probability distrubtion is it? No, it is not! The row does not sum to 1, which actually brings us to our last step: Dividing each entry by the sum of the entire row to ensure it is a valid distribution:</p>
+<p><img src="https://drive.google.com/uc?id=1I_Y8LWwRx7cWUGwFIfXkDRRUW1Qw1KPx" width="600"></p>
+<p>I hope that that visual has helped in understanding what is going on here, but if it still hasn't quite set in fear not! We will be going over a few more examples shortly. The main thing to take away is that on an intuitive level, a marginal distribution is used when trying to dissociate certain variables so you can gain insight into only the variable of interest.</p>
+<p>For those interested in more "text-book defintion", we can define a marginal distribution as:</p>
+<blockquote><p>The marginal distribution of a subset of a collection of random variables is the probability distribution of the variables contained in the subset.</p>
+</blockquote>
+<p>A marginal distribution gives the probabilities of various values of the variables in the subset without reference to the values of the other variables. <strong>Marginal variables</strong> are those variables in the subset of variables being <em>retained</em>. So, in our above case that would be <em>country</em>. These concepts are "marginal" because they can be found by summing values in a table along rows or columns, and writing the sum in the margins of the table. I don't like that visualization quite as much, but for reference that would look like:</p>
+<p><img src="https://drive.google.com/uc?id=1yxysUkkytZavgqZKv6xomXocRWJWOtAr" width="600"></p>
+<p>The distribution of the marginal variables (the marginal distribution) is obtained by marginalizing – that is, focusing on the sums in the margin – over the distribution of the variables being discarded, and the discarded variables are said to have been marginalized out.</p>
+<h3 id="3.2.2-Joint-Distribution">3.2.2 Joint Distribution<a class="anchor-link" href="#3.2.2-Joint-Distribution">&#182;</a></h3><p>Now let's move on to another question all together:</p>
+<blockquote><p>What is the probability that someone will make a purchase and that they are from a certain country?</p>
+</blockquote>
+<p>Mathematically we can write that as:</p>
+<p>$$P(Buy=b, Country=c)$$</p>
+<p>Where $b$ is either 0 (they did not buy something) or 1 (they did buy something), and $c$ is again country. This visually looks like our original table:</p>
+<p><img src="https://drive.google.com/uc?id=1aNGxEap1BWNCnBbQlo8VJn8kp1RKtHs8" width="600"></p>
+<p>Now, as before, I would guess that most people could probably reason about this problem based on general intuition. We know that there are two outcomes if a users buys (yes or no) and there are three countries. So, there are 6 total combinations of $b$ and $c$ that the above equation could be filled with. We can easily solve for each of the probabilities as follows:</p>
+<p>$$P(Buy=1, Country=Canada)= \frac{20}{1080} = 0.019$$</p>
+<p>$$P(Buy=0, Country=Canada)= \frac{300}{1080} = 0.28$$</p>
+<p>$$P(Buy=1, Country=USA)= \frac{50}{1080} = 0.046$$</p>
+<p>$$P(Buy=0, Country=USA)= \frac{500}{1080} = 0.46$$</p>
+<p>$$P(Buy=1, Country=Mexico)= \frac{10}{1080} = 0.0093$$</p>
+<p>$$P(Buy=0, Country=Mexico)= \frac{200}{1080} = 0.19$$</p>
+<p>Above, we simply take each cell corresponding to $b$ and $c$ and divide its value by the total number of outcomes. Now, we just calculated the joint probabilities by what amounts to gut instinct. However, let's try and put <em>what just felt right</em> into a more defined framework. For instance, what steps did we naturally take in order to calculate $P(Buy=1, Country=Canada)$?</p>
+<p>Well, first and foremost we honed in on the column specifically associated with Canada. Because the table was already filled out we may not have even thought about it, but we actively <em>focused</em> on a certain column. Well, that means that we needed to know how probable it was for a user to be from canada in the first place (that is a consequence of our focusing). This can be visualized as:</p>
+<p><img src="https://drive.google.com/uc?id=1OUBHqzdXcfMTyLHXtydL6Wz51uu4f_Sk" width="600"></p>
+<p>Now, as just mentioned, this focusing must be accounted for in our calculation! By selecting the canada row, we must define how probable a user is to be from canada in the first place. Mathematically this looks like:</p>
+<p>$$P(Country=Canada)$$</p>
+<p>And from earlier, we know that is equal to:</p>
+<p>$$P(Country=Canada) = \frac{320}{1080}$$</p>
+<p>So, in defining a more robust way to reason about joint probabilities, we must ensure that the above is included! Now, after this focusing has occured, we are only looking at:</p>
+<p><img src="https://drive.google.com/uc?id=1Dzu8tM-qRcIEcAFk6NNFmsVh_MsbULTO" width="400"></p>
+<p>Remember, the only way that we are able to ignore the rest of the table is if <em>we account for it in our equation</em>. That is why we need to make sure we include $P(Country=Canada)$ in our final calculation.</p>
+<p>So, with this focused view, what is the probability that someone from Canada buys something? Well, that can be written as:</p>
+<p>$$P(Buy=1 \mid Country=Canada) = \frac{20}{320}$$</p>
+<p>The way that we <em>encode</em> the focusing that we had just done is via the $\mid$ symbol. In english, it means <em>given</em>. So, the entire equation above can be interpreted as: "The probability that a user does buy something, given that they are from canada". This idea of focusing will be defined more thoroughly in the next section concerning <strong>conditional probability</strong> and <strong>conditioning</strong> on certain variables.</p>
+<p>At this point, we have everything that we need to calculate $P(Buy=1, Country=Canada)$, via a more robust framework. Specifically, our equation is:</p>
+<p>$$P(Buy=1, Country=Canada) = P(Buy=1 \mid Country=Canada) P(Country=Canada)$$</p>
+<p>$$P(Buy=1, Country=Canada) = \frac{20}{320} *\frac{320}{1080} = 0.019$$</p>
+<p>The equation above is the standard definition for joint probability. Written more generally, we have:</p>
+<p>$$P(A,B) = P(A \mid B)P(B)$$</p>
+<p>There is an additional visualization that can be rather helpful to further our understanding here:</p>
+<p><img src="https://drive.google.com/uc?id=1-yonC3jkzjoJ6pmm4M7MkfvMKpyKzYma" width="400"></p>
+<p>We can think of the grey area above as our total probability space, of which there is also a space the represents the probability of being from canada, and another that represents the probability of buying something. Where those two areas overlap represents the probability of being from Canada and buying something.</p>
+<p>With that we have just gone through an intuitive derivation of the formula for joint probability (in the discrete case). A few things are worth noting at this point:</p>
+<ul>
+<li>The table that we worked with above was the joint distribution</li>
+<li>As we add more variables it can be shown to increase the space of probabilities exponentially. For instance, we had 2 variables-one that had 2 potential values, the other 3 potential values, leaving us with a space of 6. If we added an additional variable that could have 2 potential values, our space would increase to 12. In the simplest case where each new variable is binary (and only holds 2 values), our space grows as: $2^n$, where $n$ is the number of variables in our distribution. This is known as the <strong>curse of dimensionality</strong></li>
+<li>Notice that the final probabilities we found above are much smaller than the marginal probabilities. This is due to the fact that our distribution must sum to one, and since our total possibilities grows exponentially with each additional variable, the actual probabilities will shrink exponentially</li>
+</ul>
+<p>Now, just as we did with marginal probabilities, we can close with some dry definitions for those who are interested:</p>
+<blockquote><p>Given random variables $X$, $Y$, that are defined on a probability space, the joint probability distribution for $X$, $Y$, is a probability distribution that gives the probability that each of $X$, $Y$, falls in any particular range or discrete set of values specified for that variable. In the case of only two random variables, this is called a bivariate distribution, but the concept generalizes to any number of random variables, giving a multivariate distribution.</p>
+</blockquote>
+<h3 id="3.2.3-Conditional-Probabilities">3.2.3 Conditional Probabilities<a class="anchor-link" href="#3.2.3-Conditional-Probabilities">&#182;</a></h3><p>As before, we can transition to another question of interest:</p>
+<blockquote><p>What is the probability that a user buys or doesn't buy, given that they are from a certain country?</p>
+</blockquote>
+<p>Again, just going off of gut instinct we can see that we start with the base table:</p>
+<p><img src="https://drive.google.com/uc?id=1aNGxEap1BWNCnBbQlo8VJn8kp1RKtHs8" width="600"></p>
+<p>We again perform the focusing that we talked about earlier, only now we have a new word for it: <strong>conditioning</strong>. Conditioning simply means that we are going to focus in on a subset of variables in the distributions in some way. Intuively, after we have focused our calculations look like:</p>
+<p>$$P(Buy=1 \mid Country=Canada)= \frac{20}{320} = 0.07$$</p>
+<p>$$P(Buy=0 \mid Country=Canada)= \frac{300}{320} = 0.93$$</p>
+<p>$$P(Buy=1 \mid Country=USA)= \frac{50}{550} = 0.09$$</p>
+<p>$$P(Buy=0 \mid Country=USA)= \frac{500}{550} = 0.91$$</p>
+<p>$$P(Buy=1 \mid Country=Mexico)= \frac{10}{210} = 0.04$$</p>
+<p>$$P(Buy=0 \mid Country=Mexico)= \frac{200}{210} = 0.96$$</p>
+<p>Notice that the sum of the above results is three, not one. This is because country is no longer random at this point-it is given! So, the results for each given country sum to one, and since there are three countries all of the results sum to three.</p>
+<p>Now if we looked at a specific example, where we are trying to determine the probability that a user does or doesn't buy given they are from the united states, that would look like:</p>
+<p><img src="https://drive.google.com/uc?id=1mu2pIDnrEN-YZOWRyAQb5xadyNsH40Oj" width="600"></p>
+<p>Now recall the equation for the joint distribution:</p>
+<p>$$P(Buy=1, Country=USA) = P(Buy=1 \mid Country=USA) P(Country=USA)$$</p>
+<p>In our current situation, we are not trying to solve for the joint, but rather the conditional probability above:</p>
+<p>$$ P(Buy=1 \mid Country=USA) = \frac{P(Buy=1, Country=USA)}{P(Country=USA)}$$</p>
+<p>The above was just some basic algebraic manipulation, but it allows us to express our conditional probability in a way that may not be quite as intuitive. However, the nice thing about it is that we already have values for the two probabilities on the right hand side of the equation!</p>
+<p>$$ P(Buy=1 \mid Country=USA) = \frac{0.046}{0.51} = 0.09$$</p>
+<p>And that is exactly what we had found above via our slightly more intuitive, gut-instinct approach.</p>
+<p>Now, using our visualization from before, we can think of finding $P(Buy=1 \mid Country=USA)$ as follows:</p>
+<p><img src="https://drive.google.com/uc?id=1XpW1AGgUDGC_GliqeZ8xgZx-FyleKYhd" width="600"></p>
+<p>We are specifically being <em>given</em> information, in this case that the country is the USA. What that essentially means is that we are <em>focusing</em> in on only the space where country is the USA. That space has a probability of 0.51. We then look at, within that space, what fraction of users buy something. In other words, we know that our total (focused) space has a size of 0.51 while our subspace where a user buys something is 0.046. We simply divide the latter by the former in order to compute our desired probability!</p>
+<p>So, we are (as always) looking for a specific event and then dividing by the total number of events. In this case, our total number of events is constrained (conditioned) based on the focusing around the country being the USA.</p>
+<p>These two visualizations are very helpful because they provide two unique viewpoints with the same information conveyed, but through a different medium (you could even say they are isomorphic, in the informal sense of the word).</p>
+<h3 id="3.2.4-Bayes-Rule">3.2.4 Bayes Rule<a class="anchor-link" href="#3.2.4-Bayes-Rule">&#182;</a></h3><h3 id="3.2.5-Marginalization">3.2.5 Marginalization<a class="anchor-link" href="#3.2.5-Marginalization">&#182;</a></h3>
 </div>
 </div>
 </div>
