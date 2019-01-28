@@ -385,7 +385,25 @@ body {
 <p>We are specifically being <em>given</em> information, in this case that the country is the USA. What that essentially means is that we are <em>focusing</em> in on only the space where country is the USA. That space has a probability of 0.51. We then look at, within that space, what fraction of users buy something. In other words, we know that our total (focused) space has a size of 0.51 while our subspace where a user buys something is 0.046. We simply divide the latter by the former in order to compute our desired probability!</p>
 <p>So, we are (as always) looking for a specific event and then dividing by the total number of events. In this case, our total number of events is constrained (conditioned) based on the focusing around the country being the USA.</p>
 <p>These two visualizations are very helpful because they provide two unique viewpoints with the same information conveyed, but through a different medium (you could even say they are isomorphic, in the informal sense of the word).</p>
-<h3 id="3.2.4-Bayes-Rule">3.2.4 Bayes Rule<a class="anchor-link" href="#3.2.4-Bayes-Rule">&#182;</a></h3><h3 id="3.2.5-Marginalization">3.2.5 Marginalization<a class="anchor-link" href="#3.2.5-Marginalization">&#182;</a></h3>
+<p>We can close our discussion of conditional probability by discussing a formal definition.</p>
+<blockquote><p>Conditional probability is a measure of the probability of an event (some particular situation occurring) given that (by assumption, presumption, assertion or evidence) another event has occurred. The conditional probability of A given B is written as $P(A \mid B)$.</p>
+</blockquote>
+<p>As another example, the probability that any given person has a cough on any given day may be only 5%. But if we know or assume that the person has a cold, then they are much more likely to be coughing. The conditional probability of coughing given that you have a cold might be a much higher 75%.</p>
+<p>In the most general case, we define conditional probability as:</p>
+<p>$$P(A \mid B) = \frac{P(A \cap B)}{P(B)}$$</p>
+<h3 id="3.2.4-Bayes-Rule">3.2.4 Bayes Rule<a class="anchor-link" href="#3.2.4-Bayes-Rule">&#182;</a></h3><p>Now, I would like to give a quick introduction to the increasingly popularized <strong>Bayes Rule</strong>. At it's core, Bayes Rule is just a unification of conditional probability and the idea that two things that each equal a third thing must also equal each other (as shown by Euclid over 2,000 years ago). We just showed above the idea of conditional probability in one direction:</p>
+<p>$$P(A \mid B) = \frac{P(A \cap B)}{P(B)}$$</p>
+<p>But, the reverse is equally true:</p>
+<p>$$P(B \mid A) = \frac{P(B \cap A)}{P(A)}$$</p>
+<p>Because the order of a joint probability does not matter, we know that:</p>
+<p>$$P(B \cap A) = P(A \cap B)$$</p>
+<p>If we then multiply each of our conditionals by the respective marginal:</p>
+<p>$$P(A \mid B)P(B) = P(A \cap B)$$</p>
+<p>$$P(B \mid A)P(A) = P(A \cap B)$$</p>
+<p>We see that in each of the two above equations, the left hand side equals $P(A \cap B)$. So, finally let's set the two left hand sides equal to each other:</p>
+<p>$$P(A \mid B)P(B) = P(B \mid A)P(A)$$</p>
+<p>The above relationship is Baye's rule! Now, I am dedicating the entire next post in this series to an in depth look at Bayes Rule, so we won't go into much more detail now. The purpose of the above was just to show that Bayes Rule is only a slight extension to our understanding of basic conditional probabilities.</p>
+
 </div>
 </div>
 </div>
@@ -394,6 +412,62 @@ body {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="3.3-Discrete-vs.-Continuous-Distributions">3.3 Discrete vs. Continuous Distributions<a class="anchor-link" href="#3.3-Discrete-vs.-Continuous-Distributions">&#182;</a></h2><h3 id="3.3.1-Discrete-Distributions">3.3.1 Discrete Distributions<a class="anchor-link" href="#3.3.1-Discrete-Distributions">&#182;</a></h3><h3 id="3.3.2-Continuous-Distributions">3.3.2 Continuous Distributions<a class="anchor-link" href="#3.3.2-Continuous-Distributions">&#182;</a></h3><h3 id="Probability-Density-Functions">Probability Density Functions<a class="anchor-link" href="#Probability-Density-Functions">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3.4-Marginalization">3.4 Marginalization<a class="anchor-link" href="#3.4-Marginalization">&#182;</a></h2><p>The final introductory probability concept that I wanted to highlight was that of <strong>marginalization</strong>. We have seen marginalization before when determining our marginal probabilities. We can informally define marginalization as follows:</p>
+<blockquote><p><strong>Marginalization</strong>: A way to safely ignore variables.</p>
+</blockquote>
+<p>And, as a quick reminder of what we just discussed earlier:</p>
+<ul>
+<li><strong>Marginal probability</strong>: is the probability of any single event occurring unconditioned on any other events. Whenever someone asks you whether the weather is going to be rainy or sunny today, you are computing a marginal probability. </li>
+<li><strong> Joint probability</strong>: probability of more than one event occurring simultaneously. If I ask you whether the weather is going to be rainy and the temperature is going to be above a certain number, you are computing a joint probability.</li>
+<li><strong>Conditional probability</strong>:  probability of an event occurring given some events that you have already observed. When I ask you what’s the probability that today is rainy or sunny given that I noticed the temperature is going to be above 80 degrees, you are computing a conditional probability.</li>
+</ul>
+<p>Okay, we are now ready to dig into the discrete case of marginalization.</p>
+<h3 id="3.4.1-Marginalization-$\rightarrow$-Discrete">3.4.1 Marginalization $\rightarrow$ Discrete<a class="anchor-link" href="#3.4.1-Marginalization-$\rightarrow$-Discrete">&#182;</a></h3><p>Let's start with a simple discrete example. Say we have a the following table:</p>
+<p><img src="https://drive.google.com/uc?id=1rfE1rxv-Rn_7lgM_G1su_vGOYRL-FugF" width="400"></p>
+<p>Now, let's ask: What is the probability that someone is experiencing symptoms? In order to solve this, intuitively we say:</p>
+<blockquote><p>What are all of the ways in which someone can be experience symptoms?</p>
+</blockquote>
+<p>In other words, what is the probability that $Y=1$?</p>
+<p>$$p(Y=1)$$</p>
+<p>In order to find that we can just sum up the different ways in which $Y=1$! Visually that looks like:</p>
+<p><img src="https://drive.google.com/uc?id=10skKfKglkRI9mjs3R5Ulks0Lr5t7DOm0" width="400"></p>
+<p>And we can write it as:</p>
+<p>$$p(Y=1) = p(Y=1, X=0) + p(Y=1, X=1) = 0.1 + 0.3 = 0.4$$</p>
+<p>This can be rewritten with a summation for consciseness:</p>
+<p>$$p(Y=1) = \sum_{x}p(Y=1, X=x)$$</p>
+<p>Now, our general case above can be expanded for the general formula of marginalization:</p>
+<p>$$P(Y=y) = \sum_{x}p(Y=y, X=x)$$</p>
+<p>Now, keep in mind that we can do the exact same thing to the $X$ variable if we'd like; that is, we can marginalize out $Y$ and be left with only $X$. For instance, say we want to know:</p>
+<blockquote><p>What is the probability that someone has the disease?</p>
+</blockquote>
+<p>Intuitvely, we know that is just <em>the probability someone has the disease and shows symptons</em>, plus <em>the probability someone has the disease and doesn't show symptoms</em>.</p>
+<p><img src="https://drive.google.com/uc?id=1VzQ_X9PmN3xXgbz6i4r4GnWtyueG26qy" width="400"></p>
+<p>And we can write it as:</p>
+<p>$$p(X=1) = p(Y=0, X=1) + p(Y=1, X=1) = 0.1 + 0.3 = 0.4$$</p>
+<h3 id="3.4.1.1-Discrete-Case-Intuition">3.4.1.1 Discrete Case Intuition<a class="anchor-link" href="#3.4.1.1-Discrete-Case-Intuition">&#182;</a></h3><p>A way to think about this in the discrete case (when we are dealing with tables), is that we are <em>collapsing</em> the dimension that we are marginalizing out. For instance, our table above represents the <em><strong>joint distribution</strong></em> between <em>disease</em> and <em>symptoms</em>. Now, if we wanted to find just the distribution of <em>symptoms</em>, we would need to marginalize out <em>disease</em>:</p>
+<p>$$P(Symptoms) = \sum_{disease={yes,no}}p(Symptoms, Disease=disease)$$</p>
+<p>$$P(Y) = \sum_{x}p(Y, X=x)$$</p>
+<p>The key is to remember how this looks visually:</p>
+<p><img src="https://drive.google.com/uc?id=18HW5nckCyi3_zOLSzl7b7LOhzwwFGa5T" width="700"></p>
+<p>We can see that out columns in $X$ (the disease) were collapsed into a single probability column for $Y$, and the $X$ variable no longer remained.</p>
+<h3 id="3.4.1.2-A-Confusing-Convention">3.4.1.2 A Confusing Convention<a class="anchor-link" href="#3.4.1.2-A-Confusing-Convention">&#182;</a></h3><p>You may notice that if we are trying to find $p(Y)$ for all $y$, the equation to do so is written as:</p>
+<p>$$P(Y) = \sum_{x}p(Y, X=x)$$</p>
+<p>What may seem strange if you think about this from the mechanical perspective (or if you think about implementing it in code), is that we seem to be missing an iterator. In other words, what we are trying to do is sum over all $x$ in $X$, <em>for each</em> $y$. In code we could write it as:</p>
+
+<pre><code>P(y,x) # Joint Distribution
+P(y) # Marginalized Distribution
+for y in Y:
+    for x in X:
+        P(y) += P(y,x)</code></pre>
+<p>However, when we write the actual mathematical equation, that first iterator that occurs over all $y$ is missing. That is simply a convention, nothing more.</p>
+<h3 id="3.4.2-Marginalization-$\rightarrow$-Continuous">3.4.2 Marginalization $\rightarrow$ Continuous<a class="anchor-link" href="#3.4.2-Marginalization-$\rightarrow$-Continuous">&#182;</a></h3>
 </div>
 </div>
 </div>
