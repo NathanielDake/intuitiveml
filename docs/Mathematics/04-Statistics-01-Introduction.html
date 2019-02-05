@@ -412,6 +412,11 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>When describing populations and samples, there is additional vocabulary that we must be aware of; specifically:</p>
+<ul>
+<li>A <strong>statistic</strong> is used to describe a <strong>sample</strong>.</li>
+<li>A <strong>parameter</strong> is used to describe a <strong>population</strong>.</li>
+</ul>
 <p>Now, we will pause our discussion surrounding sampling here for now, and move on to build up our vocabulary in several other areas of statistics before coming back. Once we have a deeper understanding of a few other areas, it will strengthen the need for sampling and it's connection to the population.</p>
 
 </div>
@@ -471,6 +476,26 @@ body {
 <h3 id="2.3-Mode">2.3 Mode<a class="anchor-link" href="#2.3-Mode">&#182;</a></h3><p>Finally, we have the statistic known as the <strong>mode</strong>. The mode is the value in a data set that occurs most often. In other words, it is the value that is most likely to be sampled. In the bar example, the mode would be 40,000 dollars as well.</p>
 <p>A visual comparison of the above in the setting of a continuous distribution can be seen below.</p>
 <p><img src="https://drive.google.com/uc?id=1qoDe2jOG57qmVCoiKDNuf2yiHvN1g0z7" width="250"></p>
+<h3 id="2.4-Standard-Deviation">2.4 Standard Deviation<a class="anchor-link" href="#2.4-Standard-Deviation">&#182;</a></h3><p>Now, so far we have been discussing statistics that entirely relate to the the <em>middle</em> of a data set. However, there is another statistics that can help us describe what may otherwise just be a jumble of numbers: the <strong>standard deviation</strong>. Before digging into what the standard deviation is, let's see what it necessary.</p>
+<p>Consider the following two groups:</p>
+<ol>
+<li>100 runners participating the in the NYC marathon.</li>
+<li>100 people on the next incoming flight to JFK.</li>
+</ol>
+<p>We will assume that the mean weight for each group is 150 pounds. Now, if you have ever been in or to a marathon, you may know that most athletes have relatively similar builds and weights. However, the standard plane may consist of babies weighing 10 lbs, and football players weighing over 300 lbs. We intuitvely know that the the group of 100 on the plane is more spread out, visualized like so:</p>
+<p><img src="https://drive.google.com/uc?id=1vkSrkRvSZxvpYyZDa7IhEUFDhvi3a2De"></p>
+<p>Above, we see that the marathon runners are tightly bunched around their mean, while the airplane passengers are far more dispered. If all I told you was that we were dealing with two groups that each had a mean weight of 150 lbs, you may think that they were very similar. That is where the standard deviation comes in!</p>
+<blockquote><p>The <strong>standard deviation</strong> is a statistic whose purpose is to provide transparency into the dispersion of a data set.</p>
+</blockquote>
+<p>In the case of the marathon runners group, there would be a <em>low</em> standard deviation, while the airplane passengers would have a <em>high</em> standard deviation. That is the beauty of the standard deviation: it allows us to assign a single number to this dispersion around the mean!</p>
+<p>As a small note pertaining to the above visualization, if you have ever seen a histogram and wondered exactly why it was necessary, now you know! When dealing with counts among a single dimension (in this case counts of people along the dimension weight) you quickly run into an issue of many overlapping data points. By allowing the count to become a second dimension (our y axis) we provide a much cleaner visualization.</p>
+<p>Now, we can finally go over the exact formula for standard deviation, but I must stress that it is of far less importance than the intuition behind it! With that said, in order to define standard deviation, it helps to define a closely related statistic: <strong>variance</strong>. Variance is closely related to standard deviation, with it's exact definition being:</p>
+<blockquote><p><strong>Variance</strong>: How far are a set of random numbers spread out from their average value.</p>
+</blockquote>
+<p>We can define variance as:</p>
+<p>$$Var(X) = \sigma^2 = \frac{1}{n} \sum_{i-1}^n \big(x_i - \mu\big)^2$$</p>
+<p>Where $\mu$ is the mean of $X$. Now, the standard deviation is just the square root of the variance:</p>
+<p>$$Std(X) = \sigma = \sqrt{Var(X)} = \sqrt{\frac{1}{n} \sum_{i-1}^n \big(x_i - \mu\big)^2}$$</p>
 
 </div>
 </div>
@@ -479,7 +504,31 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="3.-Random-Variables">3. Random Variables<a class="anchor-link" href="#3.-Random-Variables">&#182;</a></h2><h3 id="3.1-Expected-Value">3.1 Expected Value<a class="anchor-link" href="#3.1-Expected-Value">&#182;</a></h3><h3 id="3.2-Variance">3.2 Variance<a class="anchor-link" href="#3.2-Variance">&#182;</a></h3><h3 id="3.3-Standard-Deviation">3.3 Standard Deviation<a class="anchor-link" href="#3.3-Standard-Deviation">&#182;</a></h3><h3 id="3.4-Standard-Error">3.4 Standard Error<a class="anchor-link" href="#3.4-Standard-Error">&#182;</a></h3>
+<h2 id="3.-Random-Variables">3. Random Variables<a class="anchor-link" href="#3.-Random-Variables">&#182;</a></h2><p>Now, in statistics (as was the case with probability) <strong>random variables</strong> play a crucial role. Random variables, also known as <strong>stochastic variables</strong> can be defined as:</p>
+<blockquote><p><strong>Random Variables</strong>: a variable whose possible values are outcomes of a random phenomenom.</p>
+</blockquote>
+<p>More concretely, a random variable is a defined as a <em>function</em> that maps the outcomes of an unpredictable process to numerical quantities, typically real numbers. It is a variable (specifically a dependent variable), in the sense that it depends on the outcome of an underlying process providing the input to this function, and it is random in the sense that the underlying process is assumed to be random.</p>
+<p>A random variable has a <strong>probability distribution</strong>, which specifies the probability of its values. Random variables can be discrete or continuous.</p>
+<p>For those who would like a mathematical representation (and I do recommend gaining comfort with these representations over time) we can define a function as:</p>
+<p>$$f: X \rightarrow Y$$</p>
+<p>And subsequently define a random variable as:</p>
+<p>$$X : \Omega \rightarrow E$$</p>
+<p>Where $\Omega$ represents the set of <em>potential outcomes</em> and $E$ represents the <em>measureable space</em>. Generally, $E$ is real valued, $\Re$. An example could be a die roll, where our potential outcomes are the numbers 1-6, and the measureable space is the set of real numbers from 0-1. This can be shown as:</p>
+<p>$$\{\omega : X(\omega) = outcome \} = P(X=outcome)$$</p>
+<p>$$X(1) = \frac{1}{6}$$</p>
+<p>$$X(2) = \frac{1}{6}$$</p>
+<p>$$X(3) = \frac{1}{6}$$</p>
+<p>$$X(4) = \frac{1}{6}$$</p>
+<p>$$X(5) = \frac{1}{6}$$</p>
+<p>$$X(6) = \frac{1}{6}$$</p>
+<p>Where all of the above can also be written with the following (more familiar) notation:</p>
+<p>$$P(X = 1) = \frac{1}{6} $$</p>
+<p>$$P(X = 2) = \frac{1}{6} $$</p>
+<p>$$P(X = 3) = \frac{1}{6} $$</p>
+<p>$$P(X = 4) = \frac{1}{6} $$</p>
+<p>$$P(X = 5) = \frac{1}{6} $$</p>
+<p>$$P(X = 6) = \frac{1}{6} $$</p>
+<h3 id="3.1-Expected-Value">3.1 Expected Value<a class="anchor-link" href="#3.1-Expected-Value">&#182;</a></h3><h3 id="3.2-Variance">3.2 Variance<a class="anchor-link" href="#3.2-Variance">&#182;</a></h3><h3 id="3.3-Standard-Deviation">3.3 Standard Deviation<a class="anchor-link" href="#3.3-Standard-Deviation">&#182;</a></h3><h3 id="3.4-Standard-Error">3.4 Standard Error<a class="anchor-link" href="#3.4-Standard-Error">&#182;</a></h3>
 </div>
 </div>
 </div>
