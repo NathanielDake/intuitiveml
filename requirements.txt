@@ -1,0 +1,6 @@
+ipython>=4.1.2
+jupyter>=1.0.0
+matplotlib>=1.5.1
+numpy>=1.10.4
+pandas>=0.17.1
+seaborn>=0.7.0
