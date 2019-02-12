@@ -1529,8 +1529,11 @@ Standard deviation in height:  0.4 ft
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="5.-Central-Limit-Theorem">5. Central Limit Theorem<a class="anchor-link" href="#5.-Central-Limit-Theorem">&#182;</a></h2><p>I mentioned above that one of the main uses for the gaussian distribution was in the central limit theorem. The central limit theorem is one of the most important ideas in statistics, and truly in all of mathematics. It is what allows to go from working with a <em>sample</em> to making inferences about the underlying <em>population</em>.</p>
-<p>To use an example, think back to our dice experiments. We simulated rolling a dice 1000 times, and saw that our expected value was indeed 3.5 We can think of our 1000 die rolls as our <em>population</em>. We know that the expected value (mean) of our population is 3.5. However, what if we don't have data pertaining to 1000 die rolls? What do we do in that case? Enter the Central Limit Theorem. The central limit theorem works as follows:</p>
+<h2 id="5.-Central-Limit-Theorem">5. Central Limit Theorem<a class="anchor-link" href="#5.-Central-Limit-Theorem">&#182;</a></h2><p>I mentioned above that one of the main uses for the gaussian distribution was in the central limit theorem. The central limit theorem is one of the most important ideas in statistics, and truly in all of mathematics.</p>
+<blockquote><p>The <strong>Central Limit Theorem</strong> is what allows us to go from working with a <em>sample</em> to making inferences about the underlying <em>population</em>.</p>
+</blockquote>
+<p><img src="https://drive.google.com/uc?id=1x0rBwTnW1Y8WP-8N4igRh_OqLYLCBSGU" width="500"></p>
+<p>To use a concrete example, think back to our dice experiments. We simulated rolling a dice 1000 times, and saw that our expected value was indeed 3.5 We can think of our 1000 die rolls as our <em>population</em>. We know that the expected value (mean) of our population is 3.5. However, what if we don't have data pertaining to 1000 die rolls? What do we do in that case? Enter the Central Limit Theorem. The central limit theorem works as follows:</p>
 <ol>
 <li>We chose a number $n$, which is much less than 1000. Let's say we chose 10. This will represent our sample size.  </li>
 <li>We roll the die 10 times, getting 10 different outcomes. We take the average of those outcomes. Let's say this average is 3.2. We will refer to this average as $\mu_{x1}$.</li>
@@ -1539,7 +1542,7 @@ Standard deviation in height:  0.4 ft
 </ol>
 <p>Keep in mind that the rolling of die is not a normally distributed process. It follows a uniform distribution, where each outcome is equally likely. Hence, the fact that the distribution of the sample means ends up being uniform proves that the population distribution does <em>not</em> need to be normal. This make this process that much more powerful.</p>
 <p>From a more technical standpoint, we can say that the <strong>sampling distribution</strong> of the <strong>sampling means</strong> approaches a <strong>normal distribution</strong> as the sample size gets <strong>larger</strong> — <em>no matter what the shape of the population distribution</em>. This fact holds especially true for sample sizes over 30. All this is saying is that as you take more samples, especially large ones, your graph of the sample means will look more like a normal distribution.</p>
-<p>“Many real-world observations can be approximated by, and tested against, the same expected pattern: the normal distribution. In this familiar symmetric bell-shaped pattern, most observations are close to average, and there are fewer observations further from the average. The size of flowers, the physiological response to a drug, the breaking force in a batch of steel cables — these and other observations often fit a normal distribution.</p>
+<p>Many real-world observations can be approximated by, and tested against, the same expected pattern: the normal distribution. In this familiar symmetric bell-shaped pattern, most observations are close to average, and there are fewer observations further from the average. The size of flowers, the physiological response to a drug, the breaking force in a batch of steel cables — these and other observations often fit a normal distribution.</p>
 <p>There are, however, many important things we would like to measure and test that do not follow a normal distribution. Household income doesn’t – high values are much further from the average than low values are.</p>
 <p>But even when raw data does not fit a normal distribution, there is often a normal distribution lurking within it. This makes it possible to still use the normal distribution to test ideas about non-normal data.</p>
 <p>Let's take a look at our die example in the following set of simulations. We first have a sample size of 5 die rolls, and for each sample of 5 die rolls we take the average value. This process commences for 1000 iterations, and after each set of 5 rols we generate a new histogram with that average included:</p>
@@ -1714,15 +1717,23 @@ Standard deviation in height:  0.4 ft
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Finally, we can increase the sample size to 50 rolls. Again, we see a normal distribution, but now the variance is much smaller and we have a much more confidence in where the true population expected value will fall.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=1RH_HaLJIG4DFjDHuFU4LG_xes4qYpG2H"></p>
+<h3 id="5.1-The-Normal-Distribution-and-Standard-Error">5.1 The Normal Distribution and Standard Error<a class="anchor-link" href="#5.1-The-Normal-Distribution-and-Standard-Error">&#182;</a></h3><p>With the Central Limit Theorem at our disposal, the Normal Distribution becomes much more powerful. By definition we know what proportion of observations will lie within 1 standard deviation above or below the mean (68%), what proportion will lie within 2 standard deviations above or below the mean (95%), and so on. Visually this can be seen below:</p>
+<p><img src="https://drive.google.com/uc?id=1k7koNn0cKvOOSk9bwMz9pNyaP0bEZTSn" width="700"></p>
+<p>Before discussing exactly where those percentages come from, we will introduce an additional concept: the <strong>standard error</strong>:</p>
+<blockquote><p>The <strong>standard error</strong> measures the dispersion of the sample means.</p>
+</blockquote>
+<p>In other words, the standard errors gives us a way express quantitatively how tightly we expect the sample means to cluster around the population mean. This can definitely generate some confusion, seeing at the difference between the standard deviation and standard error is subtle. So, to break it down:</p>
+<ol>
+<li>The standard deviation measures dispersion in the underlying population. </li>
+<li>The standard error measures the dispersion of the sample means.</li>
+<li>Hence, the standard error is the standard deviation of the sample means!</li>
+</ol>
+<p>So, we could say that the experiment above with 5 die rolls had a large standard error, while the experiment with 50 die rolls had a small standard erorr. This patter will always hold: sample means will cluster more tightly around the population mean as the size of each sample gets larger. At the same time, sample means will cluster less tightly around the population mean when the underlying population is more spread out. Mathematically, we define the standard error as:</p>
+<p>$$SE = \frac{s}{\sqrt{n}}$$</p>
+<p>Where $s$ is the standard deviation of the population and $n$ is the size of the sample. At this point we finally are reaching the payoff for all of this work. Because sample means are distributed normally around the population means, we can harness the power of the normal curve. Based on the earlier visual, we expect that 68% of sample means will lie within one standard deviation of the population mean, 95% of sample means will lie within two standard deviations of the population mean, and 99.7% will lie within three standard deviations of the population mean. Note, you may ask were this percentages come from; well, we are able to calculate them based on the fact that the entire area under the curve must sum to 1. Making use of integrals from calculus we are able to find the area under the curve like so:</p>
+<p>$$\int_{-\sigma}^{\sigma} f(x \mid \mu, \sigma^2)$$</p>
+<p>This area is going to be ~0.68, which we can divide by 1 (the total area) in order to get the percentage of area under the curve from $[-\sigma, \sigma]$, resulting in 68%. This is an incredibly powerful feature that is the main reason the central limit theorem and normal distribution are so valuable. We are going to discuss in depth in the next section, however, here is an example to get us started. Say that we have two groups, $A$ and $B$, who are indentical in all ways expect that they are shown differently styled webpages when checking out on an ecommerce site. If we observe that 10% of group A end up making a purchase, and 12% of group B make a purchase, we can then use everything we have just talked about to see if the different landing pages shown to A and B were able to create a statistically significant difference in the purchase likelihood. This would allow for the site to find the optimal page configuration, assuming they want to maximize purchases.</p>
 
 </div>
 </div>
@@ -1731,7 +1742,7 @@ Standard deviation in height:  0.4 ft
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="6.-Hypothesis-Testing">6. Hypothesis Testing<a class="anchor-link" href="#6.-Hypothesis-Testing">&#182;</a></h2><h3 id="6.1-Confidence-Intervals">6.1 Confidence Intervals<a class="anchor-link" href="#6.1-Confidence-Intervals">&#182;</a></h3><h3 id="6.2-Standard-Error">6.2 Standard Error<a class="anchor-link" href="#6.2-Standard-Error">&#182;</a></h3><h3 id="6.3-t-test">6.3 t-test<a class="anchor-link" href="#6.3-t-test">&#182;</a></h3><h3 id="6.4-p-value">6.4 p-value<a class="anchor-link" href="#6.4-p-value">&#182;</a></h3>
+<h2 id="6.-Statistical-Inferrence">6. Statistical Inferrence<a class="anchor-link" href="#6.-Statistical-Inferrence">&#182;</a></h2><h3 id="6.1-Confidence-Intervals">6.1 Confidence Intervals<a class="anchor-link" href="#6.1-Confidence-Intervals">&#182;</a></h3><h3 id="6.2-Standard-Error">6.2 Standard Error<a class="anchor-link" href="#6.2-Standard-Error">&#182;</a></h3><h3 id="6.3-t-test">6.3 t-test<a class="anchor-link" href="#6.3-t-test">&#182;</a></h3><h3 id="6.4-p-value">6.4 p-value<a class="anchor-link" href="#6.4-p-value">&#182;</a></h3><h3 id="6.5-Correlation">6.5 Correlation<a class="anchor-link" href="#6.5-Correlation">&#182;</a></h3>
 </div>
 </div>
 </div><script>
