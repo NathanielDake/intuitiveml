@@ -1733,7 +1733,7 @@ Standard deviation in height:  0.4 ft
 <p>$$SE = \frac{s}{\sqrt{n}}$$</p>
 <p>Where $s$ is the standard deviation of the population and $n$ is the size of the sample. At this point we finally are reaching the payoff for all of this work. Because sample means are distributed normally around the population means, we can harness the power of the normal curve. Based on the earlier visual, we expect that 68% of sample means will lie within one standard deviation of the population mean, 95% of sample means will lie within two standard deviations of the population mean, and 99.7% will lie within three standard deviations of the population mean. Note, you may ask were this percentages come from; well, we are able to calculate them based on the fact that the entire area under the curve must sum to 1. Making use of integrals from calculus we are able to find the area under the curve like so:</p>
 <p>$$\int_{-\sigma}^{\sigma} f(x \mid \mu, \sigma^2)$$</p>
-<p>This area is going to be ~0.68, which we can divide by 1 (the total area) in order to get the percentage of area under the curve from $[-\sigma, \sigma]$, resulting in 68%. This is an incredibly powerful feature that is the main reason the central limit theorem and normal distribution are so valuable. We are going to discuss in depth in the next section, however, here is an example to get us started. Say that we have two groups, $A$ and $B$, who are indentical in all ways expect that they are shown differently styled webpages when checking out on an ecommerce site. If we observe that 10% of group A end up making a purchase, and 12% of group B make a purchase, we can then use everything we have just talked about to see if the different landing pages shown to A and B were able to create a statistically significant difference in the purchase likelihood. This would allow for the site to find the optimal page configuration, assuming they want to maximize purchases.</p>
+<p>This area is going to be ~0.68, which we can divide by 1 (the total area) in order to get the percentage of area under the curve from $[-\sigma, \sigma]$, resulting in 68%. This is an incredibly powerful feature that is the main reason the central limit theorem and normal distribution are so valuable. We are going to discuss in depth in the next section, however, here is an example to get us started. Say that we have two groups, $A$ and $B$, who are indentical in all ways expect that they are shown differently styled webpages when checking out on an ecommerce site. If we observe that 10% of group $A$ end up making a purchase, and 12% of group $B$ make a purchase, we can then use everything we have just talked about to see if the different landing pages shown to $A$ and $B$ were able to create a statistically significant difference in the purchase likelihood. This would allow for the site to find the optimal page configuration, assuming they want to maximize purchases.</p>
 
 </div>
 </div>
@@ -1742,7 +1742,40 @@ Standard deviation in height:  0.4 ft
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="6.-Statistical-Inferrence">6. Statistical Inferrence<a class="anchor-link" href="#6.-Statistical-Inferrence">&#182;</a></h2><h3 id="6.1-Confidence-Intervals">6.1 Confidence Intervals<a class="anchor-link" href="#6.1-Confidence-Intervals">&#182;</a></h3><h3 id="6.2-Standard-Error">6.2 Standard Error<a class="anchor-link" href="#6.2-Standard-Error">&#182;</a></h3><h3 id="6.3-t-test">6.3 t-test<a class="anchor-link" href="#6.3-t-test">&#182;</a></h3><h3 id="6.4-p-value">6.4 p-value<a class="anchor-link" href="#6.4-p-value">&#182;</a></h3><h3 id="6.5-Correlation">6.5 Correlation<a class="anchor-link" href="#6.5-Correlation">&#182;</a></h3>
+<h2 id="6.-Statistical-Inference">6. Statistical Inference<a class="anchor-link" href="#6.-Statistical-Inference">&#182;</a></h2><p>At this point we finally arrive at the payoff for all of our work: <strong>statistical inference</strong>. Statistical inference is used a wide variety of ways, but for now we will informally describe it as follows:</p>
+<blockquote><p>Statistics cannot prove anything with certainty. Instead, statistical inference derives its power from observing some pattern or outcome and then using probability to determine the most likely explanation for that outcome.</p>
+</blockquote>
+<p>To demonstrate with an extreme example, imagine that you have a friend who makes you the following bet: he has a 10 sided die, and bets you that if he rolls a 9 you pay him \$1000 and if he rolls anything else you pay him \$1000. He then proceeds to roll eight 9's in a row, forcing you to pay him \$8000. One possibility is that he was incredibly lucky, the other that he cheated. The probability of rolling eight 9's in a row with a 10 sided die is one in one hundred million. Again, there may be no way to prove with 100\% certainty that he cheated, but we should definitely investigate the die.</p>
+<p>The intuition that you had above that told you he most likely cheated, in a sense statistical inference is the building of that intuition into a mathematical framework, allowing us to quantify probabilities surrounding decisions.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's consider a much more important scenario that comes into play frequently in the fields of medicine and epidemiology. Imagine there is a new heart medication on the market, and there is a <strong>randomized controlled trial</strong> to determine its effectiveness. Let's say that 52 out of 100 patients taking the new medication showed improvement compared to 49 of 100 patients who had the placebo. In this case we would not be able to immediately conclude that the new drug is effective, since it easily <em>explained</em> by chance variation between the two groups.</p>
+<p>Now, suppose instead that 92 out of 100 patients taking the medication showed improvement, compared to only 49 of 100 in the control group. It is still possible that the result is unrelated to the drug; the patients in the treatment group may have just been very lucky, and of course the experiment may have missed controlling for a <strong>confounder</strong>. However, that is now a <em>much less likely explanation</em>. In the language of statistical inference, the following would most likely be concluded:</p>
+<ol>
+<li>If the experimental drug has no effect, we would rarely see this amount of variation in outcomes between those who are receiving the drug and those who are receiving the placebo.</li>
+<li>It is therefore highly improbably that the drug has no positive effect.</li>
+<li>The alternative, and more likely, explanation for the pattern of data observed is that the experimental drug has a positive effect. </li>
+</ol>
+<p>This is the payoff for all of our work! The main goal surrounding statistics, and really all of applied mathematics for that matter, is <em>not</em> to just go through an array of calculations just to seem smart-no, it is to gain insight into the world around us! In the case of statistics, it is used to gain insight into social phenomena, to determine confidence around certain measurements and experiments, to ensure that experiments are conducted in a valid manner. To summarize:</p>
+<blockquote><p>Statistics, and in particular statistical inference, are used in order to gain <em>insight</em> into the world around us. They can take a complex and intractable universe and find underlying trends that humans can understand and use advantageously.</p>
+</blockquote>
+<h3 id="6.1-Hypothesis-testing">6.1 Hypothesis testing<a class="anchor-link" href="#6.1-Hypothesis-testing">&#182;</a></h3><p>Null and alternative hypothesis.</p>
+<h4 id="6.1.1-t-test">6.1.1 t-test<a class="anchor-link" href="#6.1.1-t-test">&#182;</a></h4><p>Probability post, continuous distribution visuals.</p>
+<h4 id="6.1.2-P-value">6.1.2 P value<a class="anchor-link" href="#6.1.2-P-value">&#182;</a></h4><h4 id="6.1.3-Confidence-Intervals">6.1.3 Confidence Intervals<a class="anchor-link" href="#6.1.3-Confidence-Intervals">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="7.-Correlation">7. Correlation<a class="anchor-link" href="#7.-Correlation">&#182;</a></h2>
 </div>
 </div>
 </div><script>
