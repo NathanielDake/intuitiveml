@@ -1502,7 +1502,7 @@ height=410
 <p>$$e^{Ax^2} * e^{Ay^2} = e^{Ax^2} * e^{Ay^2}$$</p>
 <p>And as expected, it does! We now know what $g$ is, and from our prior definition of $g$, we know that the function we have been trying to solve for all along, $f$, is equal to:</p>
 <p>$$f(x) = \lambda g(x)$$</p>
-<h3 id="$$f(x)-=-\lambda-e^{Ax^2}$$"><span style="color:#0000cc">$$f(x) = \lambda e^{Ax^2}$$</span><a class="anchor-link" href="#$$f(x)-=-\lambda-e^{Ax^2}$$">&#182;</a></h3><p>This is the most general class of functions that we are interested in. Visually we can see that we have indeed arrived at the correct shape we set out to find:</p>
+<h4 id="$$f(x)-=-\lambda-e^{Ax^2}$$"><span style="color:#0000cc">$$f(x) = \lambda e^{Ax^2}$$</span><a class="anchor-link" href="#$$f(x)-=-\lambda-e^{Ax^2}$$">&#182;</a></h4><p>This is the most general class of functions that we are interested in. Visually we can see that we have indeed arrived at the correct shape we set out to find:</p>
 
 </div>
 </div>
@@ -1914,7 +1914,80 @@ height=360
 </ul>
 </blockquote>
 <p>This brings us to our final main step, that is to find a formula for $\lambda$ in terms of $\sigma$.</p>
-<h3 id="2.1.2-Solving-for-Constants:-Find-equation-for-$\lambda$-in-terms-of-$\sigma$">2.1.2 Solving for Constants: Find equation for $\lambda$ in terms of $\sigma$<a class="anchor-link" href="#2.1.2-Solving-for-Constants:-Find-equation-for-$\lambda$-in-terms-of-$\sigma$">&#182;</a></h3>
+<h3 id="2.1.2-Solving-for-Constants:-Find-equation-for-$\lambda$-in-terms-of-$\sigma$">2.1.2 Solving for Constants: Find equation for $\lambda$ in terms of $\sigma$<a class="anchor-link" href="#2.1.2-Solving-for-Constants:-Find-equation-for-$\lambda$-in-terms-of-$\sigma$">&#182;</a></h3><p>Before we begin the process of finding a formula for $\lambda$ in terms of $\sigma$, it is important to keep in mind our expected outcome. This is hugely valuable in fact checking our solution.</p>
+<p>Intuitively, and based on the plot above, we should expect $\lambda$ to be inversely proportional to $\sigma$:</p>
+<p>$$\lambda \propto \frac{1}{\sigma}$$</p>
+<p>With that in mind, we can start by defining variance as the integral of the <strong>squared deviations from the mean</strong>, $x^2$, times $f(x)$. In our case the mean is zero, so the squared deviations from the mean are:</p>
+<p>$$\text{Squared Deviations from Mean} = (x - \mu)^2 = x^2$$</p>
+<p>And we know that $f$ is:</p>
+<p>$$f(x) = e^{-\pi \lambda^2x^2}$$</p>
+<p>So we end up with our variance:</p>
+<p>$$\sigma^2 = \int _{-\infty}^{\infty} x^2 \lambda e^{-\pi \lambda^2x^2} dx$$</p>
+<p>We can pull $\lambda$ outside of the integral:</p>
+<p>$$\sigma^2 = \lambda \int _{-\infty}^{\infty} x * x e^{-\pi \lambda^2x^2} dx$$</p>
+<p>In order to complete this integral we are going to need to perform <strong>integration by parts</strong>. For those who are not familiar or need a quick recap, we will perform one here:</p>
+<h4 id="2.1.2.2-Integration-by-Parts-review">2.1.2.2 Integration by Parts review<a class="anchor-link" href="#2.1.2.2-Integration-by-Parts-review">&#182;</a></h4><p>Integration by parts can be thought of as a <strong>reverse product rule</strong>. Recall that the product rule states that:</p>
+<p>$$\frac{d}{dx}\big[ f(x) g(x) \big] = f'(x)g(x) + f(x) g'(x)$$</p>
+<p>If we were to take the antiderivative of both sides we would get:</p>
+<p>$$f(x) g(x) = \int f'(x)g(x) dx + \int f(x) g'(x) dx$$</p>
+<p>Which we can then rearrange to get the formula for integration by parts:</p>
+<h4 id="$$\text{Integration-by-Parts}\rightarrow-\int-f(x)-g'(x)-dx-=-f(x)-g(x)---\int-f'(x)g(x)-dx$$"><span style="color:#0000cc">$$\text{Integration by Parts}\rightarrow \int f(x) g'(x) dx = f(x) g(x) - \int f'(x)g(x) dx$$</span><a class="anchor-link" href="#$$\text{Integration-by-Parts}\rightarrow-\int-f(x)-g'(x)-dx-=-f(x)-g(x)---\int-f'(x)g(x)-dx$$">&#182;</a></h4><p>The key idea here is that we want to assign $f(x)$ so that $f'(x)$ is <em>simpler</em> than $f(x)$, and then assign $g(x)$ so that taking it's antiderivative doesn't make it <em>more complicated</em>. A small example will make this more clear. Let's say we were asked to find the integral of:</p>
+<p>$$\int x cos(x) dx$$</p>
+<p>Here we have two separate functions, $x$ and $cos(x)$, that are multiplied together. Our first priority is to relate the above integral to:</p>
+<p>$$\int f(x) g'(x) dx$$</p>
+<p>Keeping in mind that we must map $x$ to either $f$ or $g$, and then map $cos(x)$ to the remaining function. It should be clear that since we want to map $f(x)$ so that it's derivative is <em>simpler</em>, we should assign $f(x)$ to x.</p>
+<p>$$f(x) = x$$</p>
+<p>$$f'(x) = 1$$</p>
+<p>We then map $g'(x)$ to $cos(x)$, keeping in mind that it's antiderivative is not more complicated:</p>
+<p>$$g'(x) = cos(x)$$</p>
+<p>$$g(x) = sin(x)$$</p>
+<p>Going back to our formula for integration by parts, we can now substitute in the above values of $f$, $f'$, $g$, and $g'$:</p>
+<p>$$\int f(x) g'(x) dx = f(x) g(x) - \int f'(x)g(x) dx$$</p>
+<p>$$\int x cos(x) dx = x sin(x) - \int 1 * sin(x) dx$$</p>
+<p>$$\int x cos(x) dx = x sin(x) - cos(x) + C$$</p>
+<p>And just like that we have arrived at the answer to our original integral.</p>
+<h3 id="2.1.2-Solving-for-Constants:-Find-equation-for-$\lambda$-in-terms-of-$\sigma$,-continued">2.1.2 Solving for Constants: Find equation for $\lambda$ in terms of $\sigma$, continued<a class="anchor-link" href="#2.1.2-Solving-for-Constants:-Find-equation-for-$\lambda$-in-terms-of-$\sigma$,-continued">&#182;</a></h3><p>Picking up where we left off, we are going to perform integration by parts on the integral:</p>
+<p>$$\sigma^2 = \lambda \int _{-\infty}^{\infty} x * x e^{-\pi \lambda^2x^2} dx$$</p>
+<p>Specifically, we will start by letting:</p>
+<p>$$f(x) = x$$</p>
+<p>$$f'(x) = dx$$</p>
+<p>$$g'(x) = x e^{-\pi \lambda^2x^2} dx$$</p>
+<p>$$g(x) = \int g'(x) = \int x e^{-\pi \lambda^2x^2} dx = ?$$</p>
+<p>Notice that the integration of $g'(x)$ is not elementary. In fact, we must perform <em>u-substitution</em> in order to find the value of $g(x)$. We are starting with:</p>
+<p>$$g(x) = \int x e^{-\pi \lambda^2x^2} dx$$</p>
+<p>I will let:</p>
+<p>$$u = x^2$$</p>
+<p>$$x = \sqrt{u}$$</p>
+<p>$$du = 2x dx = 2 \sqrt{u}dx$$</p>
+<p>$$dx = \frac{du}{2\sqrt{u}}$$</p>
+<p>We can then sub in our values:</p>
+<p>$$g(x) = \int \sqrt{u}* e^{-\pi \lambda^2u} \frac{du}{2\sqrt{u}}$$</p>
+<p>Perform elementary cancellation:</p>
+<p>$$g(x) = \frac{1}{2} \int e^{-\pi \lambda^2u} du$$</p>
+<p>Evaluate the integral of the exponential (using standard rules from calculus I):</p>
+<p>$$g(x) = \frac{1}{2} \frac{-1}{\pi \lambda^2} e^{-\pi \lambda^2u}$$</p>
+<p>$$g(x) = \frac{-1}{2 \pi \lambda^2} e^{-\pi \lambda^2 x^2}$$</p>
+<p>We now have all of the values we need to perform our original integration by parts! We can start with the original formula:</p>
+<p>$$\int f(x) g'(x) dx = f(x) g(x) - \int f'(x)g(x) dx$$</p>
+<p>And then sub in all of our values for $f$, $f'$, $g$, and $g'$:</p>
+<p>$$\int x * x e^{-\pi \lambda^2x^2} dx = \lambda \Big( \overbrace{ x * \frac{-1}{2 \pi \lambda^2} e^{-\pi \lambda^2 x^2} \Big|_{-\infty}^{\infty}}^\text{Part 1} - \overbrace{ \int_{-\infty}^{\infty} \frac{-1}{2 \pi \lambda^2} e^{-\pi \lambda^2 x^2} dx}^\text{Part 2} \Big)$$</p>
+<p>When we evaluate part 1 above, the exponential term is going to go to zero more quickly than the fraction, so the entire part 1 will evaluate to zero. This leaves us with just part 2:</p>
+<p>$$\int x * x e^{-\pi \lambda^2x^2} dx = \lambda \Big(  \overbrace{ \int_{-\infty}^{\infty} \frac{1}{2 \pi \lambda^2} e^{-\pi \lambda^2 x^2} dx}^\text{Part 2} \Big)$$</p>
+<p>And remember that this is all equal to $\sigma^2$:</p>
+<p>$$\int x * x e^{-\pi \lambda^2x^2} dx = \sigma^2 = \lambda \Big(\int_{-\infty}^{\infty} \frac{1}{2 \pi \lambda^2} e^{-\pi \lambda^2 x^2} dx \Big)$$</p>
+<p>We can switch the constants in the integral:</p>
+<p>$$ \sigma^2 = \frac{1}{2 \pi \lambda^2} \int_{-\infty}^{\infty}\lambda   e^{-\pi \lambda^2 x^2} dx $$</p>
+<p>Here is the payoff of some of our earlier work-recall that we have already proven/found the function $f(x)$ such that it satisfies the normalization condition; in other words, the integral of $f(x)$ integrates to one:</p>
+<p>$$\int f(x) dx = \int_{-\infty}^{\infty}\lambda   e^{-\pi \lambda^2 x^2} dx = 1$$</p>
+<p>Which means that our equation can be reduced to:</p>
+<p>$$ \sigma^2 = \frac{1}{2 \pi \lambda^2} * 1 $$</p>
+<p>And we can simply solve for $\lambda$:</p>
+<p>$$\lambda = \frac{1}{\sigma \sqrt{2 \pi}}$$</p>
+<h3 id="2.1.3-Final-Solution">2.1.3 Final Solution<a class="anchor-link" href="#2.1.3-Final-Solution">&#182;</a></h3><p>We are now at a point where we can make the final substitution! Recall that we originally found a class of gaussians:</p>
+<h4 id="$$\text{Original-Class-of-Gaussians}\rightarrow-f(x)-=-\lambda-e^{-\pi-\lambda^2-x^2}$$"><span style="color:#0000cc">$$\text{Original Class of Gaussians}\rightarrow f(x) = \lambda e^{-\pi \lambda^2 x^2}$$</span><a class="anchor-link" href="#$$\text{Original-Class-of-Gaussians}\rightarrow-f(x)-=-\lambda-e^{-\pi-\lambda^2-x^2}$$">&#182;</a></h4><p>And we have now found $\lambda$ in terms of variance, so our class is reduced to:</p>
+<h4 id="$$\text{Reduced-Class-of-Gaussians}\rightarrow-f(x)-=-\frac{1}{\sigma-\sqrt{2-\pi}}-e^{\frac{-x^2}{2-\sigma^2}}$$"><span style="color:#0000cc">$$\text{Reduced Class of Gaussians}\rightarrow f(x) = \frac{1}{\sigma \sqrt{2 \pi}} e^{\frac{-x^2}{2 \sigma^2}}$$</span><a class="anchor-link" href="#$$\text{Reduced-Class-of-Gaussians}\rightarrow-f(x)-=-\frac{1}{\sigma-\sqrt{2-\pi}}-e^{\frac{-x^2}{2-\sigma^2}}$$">&#182;</a></h4><p>Where in the above class we are dealing with a mean of zero and a standard deviation $\sigma$. Now, if we wanted to center this curve at some other value, $\mu$, we would do this via a simple shift. Recall the basic property of shifting curves is to consider not $f(x)$, but rather $f(x -\mu)$:</p>
+<h4 id="$$\text{Most-Standard-Class-of-Gaussians}\rightarrow-f(x)-=-\frac{1}{\sigma-\sqrt{2-\pi}}-e^{\frac{-(-x--\mu)^2}{2-\sigma^2}}$$"><span style="color:#0000cc">$$\text{Most Standard Class of Gaussians}\rightarrow f(x) = \frac{1}{\sigma \sqrt{2 \pi}} e^{\frac{-( x- \mu)^2}{2 \sigma^2}}$$</span><a class="anchor-link" href="#$$\text{Most-Standard-Class-of-Gaussians}\rightarrow-f(x)-=-\frac{1}{\sigma-\sqrt{2-\pi}}-e^{\frac{-(-x--\mu)^2}{2-\sigma^2}}$$">&#182;</a></h4><p>And above we now have a mean of $\mu$ and a standard deviation $\sigma$.</p>
+
 </div>
 </div>
 </div><script>
