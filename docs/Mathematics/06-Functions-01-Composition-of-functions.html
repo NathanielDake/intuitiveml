@@ -321,7 +321,7 @@ height=408
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The graph above is incredibly important to keep in mind throughout this post! Take a moment to think above how on earth this was derived? Likewise, think about the shape (bell shape)-how would you take an input (the curve $y=x$), and transform it to have that shape?</p>
+<p>The graph above is incredibly important to keep in mind throughout this post! Take a moment to think above how on earth this was derived? Likewise, think about the shape (bell shape)-how would you take an input and transform it to have that shape?</p>
 <p>That was the problem that <strong><a href="https://en.wikipedia.org/wiki/Abraham_de_Moivre">Abraham de Moivre</a></strong> faced in the mid 1700's. He and many colleagues, had observered that certain random processes began to take on the <strong>binomial distribution</strong> when repeated many times (green discrete distribution below).</p>
 <p>They realized that in order to keep their calculations computationaly feasible, they must determine an <strong>approximation</strong> to this discrete distribution (curve in red below).</p>
 
@@ -400,7 +400,7 @@ height=408
 <p>Which brings us to our main goal in this post, that is to answer the following:</p>
 <blockquote><p>How would <em>you</em> derive the equation of the red curve in the above plot?</p>
 </blockquote>
-<p>This is by no means an easy question to answer! It took some of the worlds brightest minds many years to come to normal distribution equation we saw earlier. However, I found that the most fundamental gap I needed to fill in order to answer the above question was that relating to <strong>functions</strong>, particularly their <strong>composition</strong>.</p>
+<p>This is by no means an easy question to answer! It took some of the worlds brightest minds many years to come to the normal distribution equation we saw earlier. However, I found that the most fundamental gap I needed to fill in order to answer the above question was that relating to <strong>functions</strong>, particularly their <strong>composition</strong>.</p>
 
 </div>
 </div>
@@ -409,7 +409,7 @@ height=408
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="2.-Functions:-Mapping-input-to-response">2. Functions: Mapping <em>input</em> to <em>response</em><a class="anchor-link" href="#2.-Functions:-Mapping-input-to-response">&#182;</a></h2><p>Forget $x$s and $y$s for the moment, forget equations that have been rotely memorized. What is a function, and why would we even need one?</p>
+<h2 id="2.-Functions:-Mapping-input-to-response">2. Functions: Mapping <em>input</em> to <em>response</em><a class="anchor-link" href="#2.-Functions:-Mapping-input-to-response">&#182;</a></h2><p>Forget $x$'s and $y$'s for the moment, forget equations that have been rotely memorized. What is a function, and why would we even need one?</p>
 <p>Well let's consider the real world scenario where you are trying to buy a car. Let's say you know that the car was made in 2010 and it has 100,000 miles on it. Intuitively, and without even realizing it, you create a function that maps those features of the car, to what you feel it is worth. Maybe you think that car is worth 4,000 dollars. That means that in some way you decided in your head that there is a function, which we can call $Car \;Price \;Estimator$:</p>
 <p>$$Function = Car \; Price \; Estimator $$</p>
 <p>And it takes two inputs, the year it was made and the number of miles on it:</p>
@@ -442,7 +442,7 @@ height=408
 <p>Bringing in a slightly more formal terminology, we say that:</p>
 <blockquote><p>A function is a relationship that associates each element $x$ of a set $X$, the <strong>domain</strong> of the function, to a single element $y$ of another set $Y$ (possibly the same set), the <strong>codomain</strong> of the function. If the function is called $f$, the relation is denoted $y= f(x)$.</p>
 </blockquote>
-<h3 id="2.1-Graphs-of-Functions">2.1 Graphs of Functions<a class="anchor-link" href="#2.1-Graphs-of-Functions">&#182;</a></h3><p>Now that we have an intuitive understanding of what a function is actually representing, we can move on to graphing of a function. There is something incredibly subtle that takes place here, of which there is utmost importance that we fully grasp before moving on.</p>
+<h3 id="2.1-Graphs-of-Functions">2.1 Graphs of Functions<a class="anchor-link" href="#2.1-Graphs-of-Functions">&#182;</a></h3><p>Now that we have an intuitive understanding of what a function is actually representing, we can move on to graphing of a function. There is something incredibly subtle that takes place here, of which there is the utmost importance that we fully grasp before moving on.</p>
 <p>Let's consider the function:</p>
 <p>$$f(x) = x^2$$</p>
 <p>This is a very simple function, which I am confident that anyone reading this post has come across before; it can be visualized below:</p>
@@ -582,7 +582,7 @@ height=417
 </tr>
 </tbody>
 </table>
-<p>I don't imagine that anyone would disagree with me in saying that the table and graph are equivalent representations of the same thing; that is the function $f(x) = x^2$ evaluated from $[-5, 5]$ (for all integers within the interval). Now, as students we are taught to view the function, $f$, and it's graphical representation as <em>equivalent</em>. And, for the most part this is true. However, this view point is slightly narrow and can lead to confusion, especially as we move into advanced mathematics or coming up with original solutions on our own.</p>
+<p>I don't imagine that anyone would disagree with me in saying that the table and graph are equivalent representations of the same thing; that is the function $f(x) = x^2$ evaluated from $[-5, 5]$ (for all integers within the interval). Now, as students we are taught to view the function, $f$, and it's graphical representation as <em>equivalent</em>. And, for the most part this is true. However, this view point is slightly narrow and can lead to confusion, especially as we move into advanced mathematics or try coming up with original solutions on our own.</p>
 <h4 id="2.1.1-Ordering-of-$x$-inputs">2.1.1 Ordering of $x$ inputs<a class="anchor-link" href="#2.1.1-Ordering-of-$x$-inputs">&#182;</a></h4><p>To build a better intuition for how a function and it's graphical representation relate, let's start by rearranging the inputs $x$ in the table above to be as follows:</p>
 <table>
 <thead><tr>
@@ -781,7 +781,7 @@ height=414
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We see above that even though our $x$ inputs were not ordered (we plotted based on the ordering of the second table), we have the curve that we would expect. That is because this time all points were plotted first, and <em>then</em> the line of best fit was drawn.</p>
-<h4 id="2.1.2-Inputs-to-the-graphical-representation-of-$f$">2.1.2 Inputs to the graphical representation of $f$<a class="anchor-link" href="#2.1.2-Inputs-to-the-graphical-representation-of-$f$">&#182;</a></h4><p>Now we have dug into the ordering of $x$ inputs when dealing with a graphical representation of a function, let's pick things up a notch. I pose the following question: when graphing the function $f(x)$, how many inputs does $f$ take?</p>
+<h4 id="2.1.2-Inputs-to-the-graphical-representation-of-$f$">2.1.2 Inputs to the graphical representation of $f$<a class="anchor-link" href="#2.1.2-Inputs-to-the-graphical-representation-of-$f$">&#182;</a></h4><p>Now that we have dug into the ordering of $x$ inputs when dealing with a graphical representation of a function, let's pick things up a notch. I pose the following question: when graphing the function $f(x)$, how many inputs does $f$ take?</p>
 <p>You may sit back and laugh when asked; surely if our function $f$ takes in a single input $x$, then the graphical representation of $f$ must only take in a single input, $x$, as well!</p>
 <p>Not so fast! While our function $f$ only takes a single input $x$, we have to keep in mind that $f$ only does one thing: it maps an input to an output:</p>
 <p>$$f(input) \rightarrow output$$</p>
@@ -878,8 +878,8 @@ height=417
 <p>$$f(x_{location}, x_{value}) \rightarrow (x_{location}, y)$$</p>
 <p>$$f((-4, 0)) \rightarrow (-4,16)$$</p>
 <p>In the graphical representation of the function, $f$ now takes in a <strong>point</strong>, $(-4, 0)$, instead of simply a stand alone value, $-4$. This is often a new way of view functions for most people (myself included), so I encourage you to take a moment to let this subtle change sink in. Once you have, you may realize what was wrong with the plot above.</p>
-<p>Based on the idea that in reality the graphical representation of a function must take in <em>two</em> inputs, $x_{location}$ and $x_{value}$, you can see what is wrong with our green input point. It's $x_{location}$ is correct; it is equal to -4. However, it's $x_{value}$ is incredibly ambiguous! You most likely determine in your head that the $x_{value}$ must also be -4, but based on the visual representation we have provided, is is actually 0! This is often the case when we take our $x$ axis and treat it both as the location and value of our input.</p>
-<p>Why is this so important? Well, it creates an incredibly shaky foundation for us to build a top of if we ever want to be able to derive our own unique solutions! There is no way to fully intuit function composition and derive the normal distribution if we are working inside of this ambigious frame work. The solution is as follows:</p>
+<p>Based on the idea that in reality the graphical representation of a function must take in <em>two</em> inputs, $x_{location}$ and $x_{value}$, you can see what is wrong with our green input point. It's $x_{location}$ is correct; it is equal to -4. However, it's $x_{value}$ is incredibly ambiguous! You most likely determine in your head that the $x_{value}$ must also be -4, but based on the visual representation we have provided, it is actually 0! This is often the case when we take our $x$ axis and treat it both as the location and value of our input.</p>
+<p>Why is this so important? Well, it creates an incredibly shaky foundation for us to build a top of if we ever want to be able to derive our own unique solutions! There is no way to fully intuit function composition and derive the normal distribution if we are working inside of this ambigious framework. The solution is as follows:</p>
 <blockquote><p>We need to ensure that when graphing functions our input curve/point has an unambiguous $x_{location}$ and $x_{value}$.</p>
 </blockquote>
 <p>This can be done by no longer using the $x$ axis as both the location and input to our function, but instead use the line $y=x$! Visually this will become more clear:</p>
@@ -1084,7 +1084,7 @@ height=413
 <p>Where $f$ and $g$ are said to be <strong>composed</strong> to yield a function that maps $x$ in $X$ to $g(f(x))$ in $Z$. This idea of function compositions is why we spent so the time earlier distinguishing between a function and a graphical representation of a function.</p>
 <p>You may not initially realize it, but almost all functions other than most elementary are actually a composition of smaller functions! For example, consider the following:</p>
 <p>$$h(x) = -x^2$$</p>
-<p>Now, written as a I did above, it may be viewed as a single function. However, it is actually a composition of two separate functions:</p>
+<p>Now, written as a I did above, it may be viewed as a single function, $h$. However, it is actually a composition of two separate functions:</p>
 <p>$$\text{Negate Function:} \; \; \; g(x) = -x$$</p>
 <p>$$\text{Square Function:} \; \; \; f(x) = x^2$$</p>
 <p>Where we can then write $h$ as the composition of $f$ and $g$:</p>
@@ -1256,7 +1256,7 @@ height=419
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And just like that we end up with our desired shape! Of course this is not the exact normal distribution, there are cosmetic updates that must be made in order to ensure it meets the constraints of a valid probability distribution (more on that can be found in my post on the history of the normal distribution). However, the significance of what we just accomplised cannot be overlooked! By composing just three elementary functions we were able to end up with the shape of the normal distribution. Recall how intimidating that function looked at the outset of this post!</p>
-<p>Now, I have shown the end result and a very high level view of how we get there, simply composing three basic functions. As promised, we are now going to step through the details, using the concept of $x_{location}$ and $x_{value}$ that we discussed earlier.</p>
+<p>Now that I have shown the end result and a very high level view of how we get there, simply composing three basic functions, we will step through the details, using the concept of $x_{location}$ and $x_{value}$ that we discussed earlier.</p>
 <h3 id="2.1.4-Function-Compositions:-Finding-the-shape-of-the-Normal-Distribution">2.1.4 Function Compositions: Finding the shape of the Normal Distribution<a class="anchor-link" href="#2.1.4-Function-Compositions:-Finding-the-shape-of-the-Normal-Distribution">&#182;</a></h3><p>I have already told you that the first thing that we are going to do in order to generate our approximation of the normal distribution is square our input $x$. This brings us back to what we spoke about earlier, that being the graphical representation of a function technically takes <em>two inputs</em>, a <em>location</em> and a <em>value</em>.</p>
 <p>We have already gone over why this is the case, and specifically so in relation to the function $f(x) = x^2$. This can be visualized below:</p>
 
@@ -1552,15 +1552,15 @@ height=419
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>And just like that, all of our earlier work relating to the details behind graphs of functions-specifically inputs have <em>locations</em> and <em>values</em>-has paid off! This is exactly the scenario that requires us to expand our mental framework around what it means to graph a function. Let's run through what just happened and hone in on why our earlier work was necessary:</p>
+<p>And just like that, all of our earlier work relating to the details behind graphs of functions-specifically that inputs have <em>locations</em> and <em>values</em>-has paid off! This is exactly the scenario that requires us to expand our mental framework around what it means to graph a function. Let's run through what just happened and hone in on why our earlier work was necessary:</p>
 <ul>
-<li>In general when graphing a function, we simply take $x$ (being the <em>location</em> along the) $x$ axis, and pass it in as an input.</li>
+<li>In general when graphing a function, we simply take $x$ (being the <em>location</em> along the $x$ axis), and pass it in as an input.</li>
 <li>However, we discussed earlier how in reality, we are passing in a <em>location</em> and a <em>value</em>, which just so happen to be equal for a stand alone function.</li>
 <li>When dealing with function composition's (above) the idea of <em>location</em> and <em>value</em> are <em>paramount</em>. </li>
-<li>Our input to the negation function (the black arrow) is the <em>output</em> of the square function!</li>
-<li>In other words, we have the green point representing our input. This input was just the <em>output</em> of the square function. We pass that into the negate function, resulting in the red point, out new output. </li>
+<li>Our input to the negation function (the black arrow) is the <em>output</em> of the square function (green point)!</li>
+<li>Now, our $x_{location}$ and $x_{value}$ are <em>not equivalent</em>.</li>
 </ul>
-<p>Again, it is so crucial to note that our input is made up an $x_{location}$ and $x_{value}$. For example, if we were not dealing with a graph and we had an input $x = 4$ passed into our negate function $g$:</p>
+<p>Again, this is why it is so crucial that our input is made up an $x_{location}$ and $x_{value}$. For example, if we were not dealing with a graph and we had an input $x = 4$ passed into our negate function $g$:</p>
 <p>$$g(4) = -4$$</p>
 <p>However, here we need to be aware that the $x_{location}$ and $x_{value}$ are <em>no longer equivalent</em>! For instance, take a look at the squared input (green curve) above; at what $x_{location}$ does $x_{value} =4$? At $x_{location} = 2$!</p>
 <p>Because we are no longer just graphing a standard input $x$ where the location and value are equivalent (as is the case where $y=x$), our function needs to be able to handle both the $x_{location}$ and $x_{value}$.</p>
@@ -1714,8 +1714,7 @@ height=419
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=1GvPjXHlRk1l-urBOS86NGpplyBtkwbhR" width="700"></p>
 <p>Again, we see that we are passing in a 2 dimensional point to our function (in green) and that is being mapped to a 2 dimensional point (red), our output. The only way that we can intuitively understand the graph of the function $n(x) = e^{-x^2}$ as a composition of functions $f, g$ and $h$, is if we can follow passing curves (aka a list of two dimensional points) as inputs to these functions.</p>
-<p>The ability to do that is an incredibly powerful skill. When we put everything together</p>
-<p>We can visualize our entire function composition as follows:</p>
+<p>The ability to do that is an incredibly powerful skill. When we put everything together we can visualize our entire function composition as follows:</p>
 
 </div>
 </div>
@@ -2286,7 +2285,7 @@ height=419
 <p>With that said, there is a much larger theme of this post that I would like you to leave with. Thousands upon thousands of formulas and equations have been derived over the past 2000 years; they span quantum mechanics, network theory, statistical learning, financial modeling, computational biology, and so on. Often times you will be presented with one of these equations in a text book and expected to take it on face value, or given a erudite proof.</p>
 <p>However, what is often left out is the underlying process that was used to arrive at that equation. I want you to be able to find your equations, to create your own solutions to the hard problems that face our world today. One of the most fundamental ways that this is done in mathematics and related sciences is via the following process:</p>
 <ol>
-<li>Collecting data on whatever it is you want to know more about. That could the financial markets, the force due to gravity, the rate at which bacteria grow in a petri dish, etc.</li>
+<li>Collecting data on whatever it is you want to know more about. That could be the financial markets, the force due to gravity, the rate at which bacteria grow in a petri dish, etc.</li>
 <li>That data gives you a discrete representation of some underlying function (how the financial markets respond due to certain inputs, how the force of gravity is effected by distance, how bacteria grow in a petri dish as a function of time). You can plot this discrete data and get a representation like the binomial distribution we saw earlier.</li>
 <li>You want to find the underlying function that accounts for this data! In other words, you want to find a function, $f$, that when you input your collected data everything checks out! <strong>This is one of the most important problems in all of mathematics and science</strong>.</li>
 <li>Most people don't have the slightest idea of where to start when they hit this point. But, you on the other hand now do. Function composition is your friend. Mapping inputs from one space to another, composing many functions, it is how many of the greatest laws of math and science have been derived! </li>
