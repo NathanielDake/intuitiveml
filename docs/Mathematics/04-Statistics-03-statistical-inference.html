@@ -218,7 +218,7 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="3.-Statistical-Inference">3. Statistical Inference<a class="anchor-link" href="#3.-Statistical-Inference">&#182;</a></h1><p>If you went through my <strong>Introduction to Statistics</strong> post, then you are finally arriving at the payoff for all of our work: <strong>statistical inference</strong>. Statistical inference is used a wide variety of ways, but for now we will informally describe it as follows:</p>
+<h1 id="3.-Statistical-Inference-and-Frequentist-A/B-Testing">3. Statistical Inference and Frequentist A/B Testing<a class="anchor-link" href="#3.-Statistical-Inference-and-Frequentist-A/B-Testing">&#182;</a></h1><p>If you went through my <strong>Introduction to Statistics</strong> post, then you are finally arriving at the payoff for all of our work: <strong>statistical inference</strong>. Statistical inference is used a wide variety of ways, but for now we will informally describe it as follows:</p>
 <blockquote><p>Statistics cannot prove anything with certainty. Instead, statistical inference derives its power from observing some pattern or outcome and then using probability to determine the most likely explanation for that outcome.</p>
 </blockquote>
 <p>To demonstrate with an extreme example, imagine that you have a friend who makes you the following bet: he has a 10 sided die, and bets you that if he rolls a 9 you pay him 1000 and if he rolls anything else you pay him 1000. He then proceeds to roll eight 9's in a row, forcing you to pay him 8000. One possibility is that he was incredibly lucky, the other that he cheated. The probability of rolling eight 9's in a row with a 10 sided die is one in one hundred million. Again, there may be no way to prove with 100% certainty that he cheated, but we should definitely investigate the die.</p>
@@ -230,13 +230,14 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">matplotlib.animation</span> <span class="k">import</span> <span class="n">FuncAnimation</span>
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">rc</span><span class="p">,</span> <span class="n">animation</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">norm</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">from</span> <span class="nn">IPython.core.display</span> <span class="k">import</span> <span class="n">HTML</span>
@@ -372,7 +373,7 @@ height=333
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="2.-Confidence-Intervals">2. Confidence Intervals<a class="anchor-link" href="#2.-Confidence-Intervals">&#182;</a></h2><p>Consider the following situation: you run an e-commerce site, and you want to track and measure the <em>click-through-rate</em> (CTR) for different users. The CTR is a metric that can either be yes or no, meaning the user either entered the website, found an item, went to the checkout and completed the purchase (<em>buy</em>), or they did not (<em>don't buy</em>).</p>
+<h2 id="2.-Confidence-Intervals">2. Confidence Intervals<a class="anchor-link" href="#2.-Confidence-Intervals">&#182;</a></h2><h3 id="2.1-Parameter-Estimation---Bernoulli-Distribution">2.1 Parameter Estimation - Bernoulli Distribution<a class="anchor-link" href="#2.1-Parameter-Estimation---Bernoulli-Distribution">&#182;</a></h3><p>Consider the following situation: you run an e-commerce site, and you want to track and measure the <em>click-through-rate</em> (CTR) for different users. The CTR is a metric that can either be yes or no, meaning the user either entered the website, found an item, went to the checkout and completed the purchase (<em>buy</em>), or they did not (<em>don't buy</em>).</p>
 <p>This is not a Gaussian Distribution, rather it is more like that of a coin toss, meaning there are two possible outcomes-namely a <strong>bernoulli distribution</strong>:</p>
 <p>$$P(n) = p^n (1-p)^{1-n}$$</p>
 <p>Where $p$ is the probability of buying something, $p = P(buy)$. Let's say that we have historical data related to five users:</p>
@@ -407,14 +408,14 @@ height=333
 </table>
 <p>If we know that $P(buy) = p$, and there are only two outcomes, then it follows that:</p>
 <p>$$P(not \; buy) = 1 - p$$</p>
-<p>We also know that these events are <strong>independent</strong> and <strong>idenitically distributed</strong>; in other words, person 1 buying/not buying does not effect the outcome of person 4. Finally, keep in mind that the bernoulli distribution only has one parameter, $p$, while the gaussian distribution has two parameters $\mu$ and $\sigma^2$.</p>
+<p>We also know that these events are <strong>independent</strong> and <strong>idenitically distributed</strong> (IID); in other words, person 1 buying/not buying does not effect the outcome of person 4. Finally, keep in mind that the bernoulli distribution only has one parameter, $p$, while the gaussian distribution has two parameters $\mu$ and $\sigma^2$.</p>
 <p>With all of the above information, we want to answer the following question:</p>
 <blockquote><p>What is the total likelihood of our observations in the above table?</p>
 </blockquote>
 <p>Well, based on the Bernoulli distribution, we can say that the total likelihood is equal to:</p>
 <p>$$L(2 \; buy, 3 \; not \;buy) = p^2 (1-p)^3 = P(buy)P(not \; buy)P(not \; buy)P(buy)P(not \; buy)$$</p>
 <p>Above, we were able to multiply the probabilities because they were independent events. This can be generalized as:</p>
-<p>$$L(N_{buy}, N_{!buy}) p^{N_{buy}} (1-p)^{N_{!buy}}$$</p>
+<p>$$L(N_{buy}, N_{!buy}) = p^{N_{buy}} (1-p)^{N_{!buy}}$$</p>
 <p>Keep in mind that we do <em>not</em> know $p$ yet. So, at this point we cannot calculate the total likelihood. In order to do so, we must answer the following question first:</p>
 <blockquote><p>What is the <strong>maximum likelihood estimate</strong> of $p$, based on the data that we have collected?</p>
 </blockquote>
@@ -530,23 +531,169 @@ height=333
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>From the above visualization it is clear that the value of $p$ which maximize the likelihood of observing the data that we did is $0.4$. This is based on the value where the likelihood plot on the right peaks, namely $p=0.4$. Now, with a little bit of calculus we can solve for this arg max without needing to look a the plot. To do there we want to take the derivative of our likelihood function and set it equal to zero; this way we can find our extrema.</p>
+<p>There is one minor implementation detail I must mention-in order to prevent computational precision issues from arising (these come about due to multiplying together many small probabilities), we will take the $log$ of our likelihood.</p>
+<p>$$L(N_{buy}, N_{!buy}) = p^{N_{buy}} (1-p)^{N_{!buy}}$$</p>
+<p>$$log \Big\{ L(N_{buy}, N_{!buy}) \Big\} = log \Big\{ p^{N_{buy}} (1-p)^{N_{!buy}}\Big\} = N_{buy} log(p) + N_{!buy} log(1-p)$$</p>
+<p>We can then take the derivative and set to 0:</p>
+<p>$$\frac{\partial L}{\partial p} = \frac{N_H}{p} - \frac{N_T}{(1-p)} = 0$$</p>
+<p>And finally, we can solve for $p$:</p>
+<p>$$p = \frac{N_{buy}}{N_{buy} + N_{!buy}}$$</p>
+<p>Which, just a quick sanity check we can see that it does indeed result in the value of $p$ that maximizes our total likelihood:</p>
+<p>$$p = \frac{2}{2 + 3} = 0.4$$</p>
+<p>And, if we let $Buy = 1$ and $!Buy = 0$ then we can end up with standard formula for the mean:</p>
+<p>$$p = \frac{1}{N} \sum_{i=1}^N x_i$$</p>
+<p>Now, we have just performed our <strong>parameter estimation</strong> based upon our data, but there is something that may be troubling you. Based on the above methodology, if we had observed 20 people buy and 30 people not buy, we would still end up with a 40% probability $p$ that someone buys. The same can be said if we were to observe 2000 buy and 3000 not buy.</p>
+<p>Yet, intuitively we know that the more observations we have, the more reliable our parameter estimate is, and the less likely it is to be skewed due to random chance. The way that we deal with that in standard <strong>frequentist statistics</strong> is through the use of <strong>confidence intervals</strong>. We will delve into what they are and how they work in the next section, but first I want to go over one more example of parameter estimation concerning the gaussian distribution.</p>
+<h3 id="2.1-Parameter-Estimation---Gaussian-Distribution">2.1 Parameter Estimation - Gaussian Distribution<a class="anchor-link" href="#2.1-Parameter-Estimation---Gaussian-Distribution">&#182;</a></h3><p>I would like to pose the following question:</p>
+<blockquote><p>How do you find the mean of a gaussian distribution?</p>
+</blockquote>
+<p>As we did in the example above, we will again use maximum likelihood estimation. Consider for a moment that we collected one sample from a gaussian distributed data source, which we will call $x$. What is the probability density of that one point? Well, we simply need to plug it into the gaussian distribution formula:</p>
+<p>$$p(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} exp\big( -\frac{1}{2} \frac{(x-\mu)^2}{\sigma^2}\big)$$</p>
+<p>And we will get a single number as a result, the probability density of observing that single sample. Of course in real experiments we will be collecting many samples. Generally, these samples are <strong>IID</strong>, which in this case means:</p>
+<ul>
+<li><strong>Identically Distributed</strong>: Each sample is generated from a gaussian distribution with the same mean and variance</li>
+<li><strong>Independent</strong>: The outcome of one sample does not effect the outcome of any other samples. Think of a coin toss. Just because I flip heads on my first try does not mean that I am any more likely to flip heads on the second try. </li>
+</ul>
+<p>This independence also means that if we wanted to know the joint probability of all the sample we have observed, we just multiply the individual probabilities of each sample together:</p>
+<p>$$p\big(x_1, x_2,...,x_n\big) = \prod_{i=1}^N \frac{1}{\sqrt{2 \pi \sigma^2}} exp\big( -\frac{1}{2} \frac{(x-\mu)^2}{\sigma^2}\big)$$</p>
+<p>Now, the equation above is nearly correct for our purposes, we just need to make one final update. Our goal is to the find the mean, $\mu$, of this gaussian. So, we can define the probability of the data as:</p>
+<p>$$p\big(x_1, x_2,...,x_n \mid \mu \big) = \prod_{i=1}^N p\big(x_i \mid \mu \big)$$</p>
+<p><strong>Data Likelihood</strong><br>
+The above probability has a name: the <strong>likelihood distribution</strong>. In general terms, the likelihood distribution represents the probability of the observed data, given the parameters. In our case, this is the probability of our observations, given the mean of the gaussian distribution:</p>
+<p>$$p(data \mid parameters)$$</p>
+<p>Our parameters will depend entirely on what the model is, e.g. Gaussian, Bernoulli, Beta, Gamma, etc. Now the Gaussian does have two parameters, $\mu$ and $\sigma$, but we will focus on $\mu$.</p>
+<p><strong>Maximum Likelihood</strong><br>
+Now that we have our likelihood, how do we maximize it? In other words, what is the best value for $\mu$ such that our total likelihood of observing our data is maximized.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[68]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">mle_gaussian</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
+    <span class="n">likelihood_of_data</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+    <span class="n">log_likelihood_of_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">likelihood_of_data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">log_likelihood_of_data</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[69]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lower_bound</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span>
+<span class="n">upper_bound</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">length</span> <span class="o">=</span> <span class="mi">2000</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ioff</span><span class="p">()</span>                          
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>       
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Total Likelihood of Observations vs. $\mu$&quot;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="s2">&quot;10&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\mu$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">lower_bound</span><span class="p">,</span> <span class="n">upper_bound</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">expected_mean</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">num_observed_points</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">observed_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">expected_mean</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">num_observed_points</span><span class="p">)</span>
+<span class="n">x_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">expected_mean</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">xkcd_rgb</span><span class="p">[</span><span class="s2">&quot;greenish&quot;</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">)</span>
+
+<span class="n">ax_mle</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">xkcd_rgb</span><span class="p">[</span><span class="s2">&quot;red&quot;</span><span class="p">])</span>                         <span class="c1"># Initialize plot object for distance</span>
+<span class="n">marker1</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lower_bound</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;or&#39;</span><span class="p">)</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+<span class="n">likelihoods</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+<span class="k">def</span> <span class="nf">animate</span><span class="p">(</span><span class="n">current_mu</span><span class="p">):</span>
+    <span class="c1"># Gaussian Plot - left </span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+    <span class="n">gaussian_dist</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x_axis</span><span class="p">,</span> <span class="n">current_mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_axis</span><span class="p">,</span> <span class="n">gaussian_dist</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">xkcd_rgb</span><span class="p">[</span><span class="s2">&quot;grey&quot;</span><span class="p">],</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x_axis</span><span class="p">,</span> <span class="n">gaussian_dist</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">xkcd_rgb</span><span class="p">[</span><span class="s2">&quot;powder blue&quot;</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">observed_data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">observed_data</span><span class="p">)),</span> <span class="n">c</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">xkcd_rgb</span><span class="p">[</span><span class="s2">&quot;neon purple&quot;</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+    <span class="n">ax1</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">current_mu</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">xkcd_rgb</span><span class="p">[</span><span class="s2">&quot;dusty blue&quot;</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">expected_mean</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">xkcd_rgb</span><span class="p">[</span><span class="s2">&quot;greenish&quot;</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\mu$ = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">current_mu</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="p">[</span><span class="o">-</span><span class="mf">4.5</span><span class="p">,</span><span class="mf">0.38</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Gaussian Distribution: Function of $\mu$&quot;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="s2">&quot;10&quot;</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$x$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+    <span class="c1"># MLE Update - right</span>
+    <span class="k">global</span> <span class="n">mu</span>
+    <span class="k">global</span> <span class="n">likelihoods</span>
+    <span class="n">current_mu_likelihood</span> <span class="o">=</span> <span class="n">mle_gaussian</span><span class="p">(</span><span class="n">observed_data</span><span class="p">,</span> <span class="n">current_mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">current_mu</span><span class="p">)</span>
+    <span class="n">likelihoods</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">likelihoods</span><span class="p">,</span> <span class="n">current_mu_likelihood</span><span class="p">)</span>
+    <span class="n">ax_mle</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">likelihoods</span><span class="p">)</span>     
+    <span class="n">marker1</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">current_mu</span><span class="p">,</span> <span class="n">mle_gaussian</span><span class="p">(</span><span class="n">observed_data</span><span class="p">,</span> <span class="n">current_mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">ax_gaussian</span><span class="p">,</span> <span class="n">ax_mle</span>
+
+<span class="k">def</span> <span class="nf">init</span><span class="p">():</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> 
+    <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>                               <span class="c1"># Initialize x and y limits</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">650</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> 
+    <span class="k">return</span> <span class="n">ax_gaussian</span><span class="p">,</span> <span class="n">ax_mle</span>
+
+<span class="sd">&quot;&quot;&quot; Define steps and create animation object &quot;&quot;&quot;</span>
+<span class="n">step</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">lower_bound</span><span class="p">,</span> <span class="n">upper_bound</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="c1"># For rendering html video in cell</span>
+<span class="c1"># html_video = HTML(</span>
+<span class="c1">#     animation.FuncAnimation(</span>
+<span class="c1">#         fig,</span>
+<span class="c1">#         animate,</span>
+<span class="c1">#         steps,</span>
+<span class="c1">#         init_func=init, </span>
+<span class="c1">#         interval=25,</span>
+<span class="c1">#     ).to_html5_video()</span>
+<span class="c1"># )</span>
+<span class="c1"># display(html_video)</span>
+<span class="n">gif_video</span> <span class="o">=</span> <span class="n">animation</span><span class="o">.</span><span class="n">FuncAnimation</span><span class="p">(</span>
+        <span class="n">fig</span><span class="p">,</span>
+        <span class="n">animate</span><span class="p">,</span>
+        <span class="n">steps</span><span class="p">,</span>
+        <span class="n">init_func</span><span class="o">=</span><span class="n">init</span><span class="p">,</span> 
+        <span class="n">interval</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="n">gif_video</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;mle_gaussian_estimation.gif&#39;</span><span class="p">,</span> <span class="n">writer</span><span class="o">=</span><span class="s1">&#39;imagemagick&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://drive.google.com/uc?id=1cyHP0ZF8-tt6Ng4qrZSX5iA_yhd03MRa" width="800"></p>
+
+</div>
+</div>
 </div><script>
   function code_toggle() {
     if (code_shown){
