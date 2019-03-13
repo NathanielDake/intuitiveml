@@ -840,8 +840,23 @@ height=333
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The more samples we have, the narrower our probability distribution is for $\hat{\mu}$, meaning that our confidence interval will be narrow! The opposite is true for a small number of samples. Note, a 95% confidence interval does <strong>not</strong> tell us "$\mu$ is in this interval with probability 95%". In reality, all we can say is: if we did many experiments to calculate the sample mean, 95% of the time, the confidence interval would contain the true $\mu$.</p>
-<h4 id="Confidence-Level/Significance-Level">Confidence Level/Significance Level<a class="anchor-link" href="#Confidence-Level/Significance-Level">&#182;</a></h4><p>We have a symbole that we use to represent this confidence level:</p>
+<p>The more samples we have, the narrower our probability distribution is for $\hat{\mu}$, meaning that our confidence interval will be narrow! The opposite is true for a small number of samples. Note, a 95% confidence interval does <strong>not</strong> tell us "$\mu$ is in this interval with probability 95%". In reality, all we can say is:</p>
+<blockquote><p>If we did many experiments to calculate the sample mean, 95% of the time, it's respective confidence interval would contain the true $\mu$.</p>
+</blockquote>
+<p>Now, this is a very subtle and often overlooked point-yet it has great consequence. I want to take a moment to break it down and relate it back to the Central Limit Theorem.</p>
+<ul>
+<li>Recall the visualization of the CLT from my previous post; we saw that as we gathered sample means, they ended up normally distributed.</li>
+</ul>
+<p><img src="https://drive.google.com/uc?id=1hdQS5RqcVsXUzL7u86UFJlu96xR0f4j5" width="500"></p>
+<ul>
+<li>We also know that each sample mean is a function of random variables, and hence is also a random variable (meaning it has it's own distribution).</li>
+<li>Based on the sample size of each sample mean, it's distribution will be wider or smaller.</li>
+<li>Each sample mean (each additional chunk of green rectangle added at each iteration in the visual above) will have a corresponding distribution that has a confidence interval. 95% of these confidence intervals created contain the true mean!</li>
+<li>This is becasuse 95% of the sample means gathered will lie within a certain range of the true population mean. </li>
+<li>So, in the visual above, the sample means gathered near 2 and 5 will be part of the 5% that have associated confidence intervals that <em>do not</em> contain the true population mean.</li>
+</ul>
+<p>I realize this is a bit convoluted and make take a moment to digest, however I encourage you to do so! If not, you are likely to draw incorrect conclusions when dealing with confidence intervals.</p>
+<h4 id="Confidence-Level/Significance-Level">Confidence Level/Significance Level<a class="anchor-link" href="#Confidence-Level/Significance-Level">&#182;</a></h4><p>We have a symbol that we use to represent this confidence level:</p>
 <p>$$1 - \alpha$$</p>
 <p>Where we call the significance level $\alpha$.</p>
 <h4 id="Confidence-Interval-Limits">Confidence Interval Limits<a class="anchor-link" href="#Confidence-Interval-Limits">&#182;</a></h4><p>Now, how do we go about finding the actual confidence interval? In other words, we want the min and max value for the range where $\mu$ should lie; we can call them $x_{left}$ and $x_{right}$. We want to find the limits such that the area under the Gaussian is 0.95. Again, calculus provides the tools for us-we can use an integral!</p>
