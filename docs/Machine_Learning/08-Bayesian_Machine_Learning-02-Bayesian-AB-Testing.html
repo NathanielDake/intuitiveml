@@ -218,7 +218,168 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="2.-Bayesian-A/B-Testing">2. Bayesian A/B Testing<a class="anchor-link" href="#2.-Bayesian-A/B-Testing">&#182;</a></h1>
+<h1 id="2.-Bayesian-A/B-Testing">2. Bayesian A/B Testing<a class="anchor-link" href="#2.-Bayesian-A/B-Testing">&#182;</a></h1><p>In this post we are going to discuss Bayesian Methods and their application to Bayesian A/B testing. In particular we will:</p>
+<ul>
+<li>Look at the shortcomings of standard frequentist A/B testing</li>
+<li>Motivate why Bayesian Methods are an improvement</li>
+<li>Implement Bayesian A/B Testing in code</li>
+</ul>
+<p>Note that I am writing with the assumption that you have gone through my post on statistical inference and frequentist A/B testing, or are very comfortable with both of those topics. With that out of the way, let's get started.</p>
+<h2 id="1.-Drawbacks-of-Frequentist-A/B-Testing">1. Drawbacks of Frequentist A/B Testing<a class="anchor-link" href="#1.-Drawbacks-of-Frequentist-A/B-Testing">&#182;</a></h2><p>To begin, consider the following example:</p>
+<blockquote><p>A drug you are testing is working well-can you stop the test and improve quality of life of all participants?</p>
+</blockquote>
+<p>Standard frequentist statistics would say <em>no</em>. This is because it is bad to stop early when doing frequentist statistics, since it increases the chances that you reach a false positive conclusion. Remember, the $p$-value can pass below/above the threshold over time. Clearly this can be a shortcoming in many scenarios, and in some even go as far as being deadly.</p>
+<h3 id="1.1-Multi-Armed-Bandit">1.1 Multi-Armed Bandit<a class="anchor-link" href="#1.1-Multi-Armed-Bandit">&#182;</a></h3><p>Now, imagine the following scenario, commonly referred to as the <strong>Multi-Armed Bandit</strong> problem: You are at the casino playing slots (hence the term arm). The slot machines are bandits because they are taking your money. Not all of the slots machines are equal. Specifically:</p>
+<ul>
+<li>1 pays out 30% of the time</li>
+<li>1 pays out 20% of the time</li>
+<li>1 pays out 10% of the time </li>
+</ul>
+<p>This is the same problem as the click-through or conversion rate! Only now we would substitute click for getting a prize. So, if we wanted to find out what arm we should pull the receive the largest payout over time, we would setup an A/B test, run the experiment, and by the end you would know if any one arm was significantly better than the others. In other words, we would run the A/B test for a specific number of $N$ trials, then calculate the $p$-value.</p>
+<p>Now, let me ask another question: what would you do in real life? For instance, say that 1 arm gives you a prize 3 out of 3 times, and the other arm gives you a prize 0 out of 3 times. Well, most people (myself included) would intuitively play the arm that payed out 3 times! Why is this? Because we <em>adapt</em>. Even though three plays for each arms is most likely not enough to gain statistical significance, most people still feel compelled to believe that the first arm is better.</p>
+<h3 id="1.2-Reinforcement-Learning">1.2 Reinforcement Learning<a class="anchor-link" href="#1.2-Reinforcement-Learning">&#182;</a></h3><p>If you have gone through my posts on AI you will certainly have seen those related to Reinforcement Learning, which faces the same problem that we are here. Specifically, in RL we are trying to teach a machine to play a game. It models rewards it gets based on the actions it takes. The problem is that this process is <strong>stochastic</strong> and your model of the rewards is only an estimate (it is not feasible to try every possible action, in every possible state). In general, early on there are few actions to take, and the machine is unsure about most of the rewards. It can't "choose the action that leads to the best reward", because the knowledge about rewards is currently minimal. Only after collection a lot of data will the estimate be accurate.</p>
+<h3 id="1.3-Explore-vs.-Exploit">1.3 Explore vs. Exploit<a class="anchor-link" href="#1.3-Explore-vs.-Exploit">&#182;</a></h3><p>This problem that we are dealing with has a name: <strong>The Explore-Exploit Dilemma</strong>. We can use this name to frame the following question:</p>
+<blockquote><p>If we have gotten 3/3 on bandit 1, and 0/3 from bandit 2, should we:</p>
+<ul>
+<li><strong>Exploit</strong> bandit 1 more?</li>
+<li><strong>Explore</strong> at random to gather more data?</li>
+</ul>
+</blockquote>
+<p>This is the problem that we are going to be trying to solve in this post. We will look at several solutions, all of which are <em>adaptive</em>, but only some will be Bayesian. We will show the bayesian method last.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="2.-Adaptive-Learning-Methods">2. Adaptive Learning Methods<a class="anchor-link" href="#2.-Adaptive-Learning-Methods">&#182;</a></h2><h3 id="2.1-Epsilon-Greedy-Solution">2.1 Epsilon-Greedy Solution<a class="anchor-link" href="#2.1-Epsilon-Greedy-Solution">&#182;</a></h3><p>One method of solving the explore-exploit dilemma is called the <strong>epsilon-greedy</strong> algorithm (and it is intuitive). It just so happens that this algorithm is also used in reinforcement learning. Here is how it works:</p>
+<blockquote><p>Say you have some software that is serving 2 advertisements ($A$ &amp; $B$), you will <em>not</em> run a full A/B test by blindly serving ad $A$ and ad $B$ an equal number of times. Instead you will adapt to the data you have collected. If ad $A$ is performing better, it will be shown more often.</p>
+</blockquote>
+<p>Note: even with this adaptive system, you can still do traditional A/B test after collecting data. Remember the contingency table for the chi-square test doesn't require both samples to be the same size. The thing changing here is not the test, but the machine that serves the ads. It will adapt based on the performance of each ad.</p>
+<h4 id="How-does-it-work?">How does it work?<a class="anchor-link" href="#How-does-it-work?">&#182;</a></h4><p>It is simpler than it sounds! We start by choosing a small number epsilon ($\epsilon$) between 0 and 1 which will serve as our <em>probability of exploration</em>. Typical values are 5% or 10%. In pseudocode it may look like:</p>
+
+<pre><code>epsilon = 0.1 
+while True:
+    r = rand()
+    if r &lt; epsilon:
+        # explore
+        # show random advertisement
+    else:
+        # exploit
+        # show best advertisement (as determined by #clicks/#impressions)</code></pre>
+<h4 id="Analyis-of-Epsilon-Greedy">Analyis of Epsilon-Greedy<a class="anchor-link" href="#Analyis-of-Epsilon-Greedy">&#182;</a></h4><p>We can clearly see that that was pretty simple, so let's analyze further. One problem is that this algorithm does the same thing <em>forever</em>. For instance, even when ad $A$ is statistically significantly better than $B$, it will still sometimes choose $B$. Suppose the test has converged, $A$ is better than $B$, how much reward will we get? If we say that:</p>
+<p>$$reward(click) = 1 \;,\; reward(noclick) =0$$</p>
+<p>Then after $N$ impressions:</p>
+<p>$$reward = N(1-\frac{\epsilon}{2})$$</p>
+<p>In other words, for $\epsilon = 0.1$, we get $0.95N$ instead of $N$. However, this is still better than traditional A/B testing with no adaptation.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="2.2-UCB1">2.2 UCB1<a class="anchor-link" href="#2.2-UCB1">&#182;</a></h3><p>Alright, so we have now looked at one adaptive learning method. The question is, can we improve upon it? To find out, let's look at the <strong>UCB1</strong> algorithm. Recall earlier discussions about confidence intervals. We determined an upper and lower limit to represent where we believe the true CTR is. We'll now look at a very similar idea, but we are not going to use the confidence bound we discussed before.</p>
+<p>If you are unsure how confidence intervals relate to the scenario at hand, considering the following: Intuitively, we know that if you collect 10 samples and take the mean, this is not as accurate as if you collect 1000 samples and take the mean. If you were to draw a confidence bound around the 10 sample mean, it would be much wider than that which was around the 1000 sample mean. This concept can be used algorithmically in order to dynamically update when each advertisement should be served.</p>
+<p>Now, to be clear, we are not going to be using the exact same confidence interval that we have worked with before. Rather, we are going to use a <em>tighter</em> bound,: the <strong>Chernoff-Hoeffding</strong> bound. It says for some:</p>
+<p>$$\epsilon &gt; 0$$</p>
+<p>That the following probability inequality is true:</p>
+<p>$$P \big(\hat{\mu}&gt;\mu+\epsilon \big) \leq e^{-2\epsilon^2N} $$</p>
+<p>It also follows that the opposite side is also true:</p>
+<p>$$P \big(\hat{\mu} &lt; \mu+\epsilon \big) \leq e^{-2\epsilon^2N}  $$</p>
+<p>Note, this bound is a little different from the confidence interval that we have seen before. Namely, the confidence interval gave us specific numbers, and said that the probability that the true parameter lied within that interval was 95% (this isn't <em>entirely accurate</em>, but is an approximate description):</p>
+<p>$$P(\text{lower bound} &lt; \mu &lt; \text{upper bound} ) = 95\%$$</p>
+<p>On the other hand, our new equation says that:</p>
+<p>$$P(\mu \text{in interval}) &gt; f(N)$$</p>
+<p>Or in english, "the probability that the true parameter lies within this range is greater than some function of $N$". In order to get the greater than sign, we just need to combine and arrange the two probabilities:</p>
+<p>$$P(\hat{\mu} - \mu &gt; \epsilon) \leq e^{-2\epsilon^2N}  \longleftrightarrow P(\hat{\mu} - \mu \leq \epsilon) &gt; 1 - e^{-2\epsilon^2N} $$</p>
+<p>$$P(\hat{\mu} - \mu &lt; - \epsilon) \leq e^{-2\epsilon^2N}  \longleftrightarrow P(\hat{\mu} - \mu \geq - \epsilon) &gt; 1 - e^{-2\epsilon^2N} $$</p>
+<p>$$P \big( |\hat{\mu} - \mu| \leq \epsilon \big) &gt; 1 - 2 e^{-2\epsilon^2N} $$</p>
+<h4 id="Upper-Confidence-Bound">Upper Confidence Bound<a class="anchor-link" href="#Upper-Confidence-Bound">&#182;</a></h4><p>In any case, for us we are only interested in the upper bound, because we want to get the highest reward possible. How exactly does this help us? Well, intuitively if we have a tighter upper bound, we can be more confident above that maximum possible win rate of any bandit. We are skipping some math here, but essentially for any arm $j$, we "choose" $\epsilon$ to be:</p>
+<p>$$\epsilon_j = \sqrt{\frac{2 lnN}{N_j}}$$</p>
+<p>Where $N$ is the total number of games played so far, and $N_j$ is the total times that arm $j$ has been played. We can define the upper confidence bound via:</p>
+<p>$$\mu_{UCB-j} = \hat{\mu}_j + \epsilon_j$$</p>
+<p>$$\mu_{UCB-j} = \hat{\mu}_j + \sqrt{\frac{2 lnN}{N_j}}$$</p>
+<p>So, in other words, we are picking whichever bandit arm gives us the largest <em>upper confidence bound</em> for any given turn. Again, as with epsilon-greedy, we will be using a greedy strategy. However, we are not simply greedy with respect to the sample mean $j$, but rather the upper confidence bound of the sample mean. In psuedocode, we would have:</p>
+
+<pre><code>N = 0
+N_j = 0 for all bandits j
+
+while True:
+    j* = argmax(mu_j + sqrt( (2ln(N)) / (N_j) ))
+
+    Play arm j*
+
+    Update mu_j*
+
+    N++; Nj*++</code></pre>
+<p>In english the above can be described as follows:</p>
+<ol>
+<li>We set $N$ and $N_j$ equal to 0, for all bandits $j$.</li>
+<li>Then, in a loop, we get the $argmax$ of the estimated mean, $\hat{\mu}$, plus the epsilon that we just defined, $\epsilon_j = \sqrt{\frac{2 lnN}{N_j}}$. In other words, we choose the bandit with the highest upper bound.</li>
+<li>We play that bandits arms, and then we update the estimated mean for that arm, $\hat{\mu}_j$.</li>
+<li>Finally, we increment $N$ and $N_j$.</li>
+</ol>
+<h4 id="How-does-this-help-with-the-Explore-vs.-Exploit-problem?">How does this help with the Explore vs. Exploit problem?<a class="anchor-link" href="#How-does-this-help-with-the-Explore-vs.-Exploit-problem?">&#182;</a></h4><p>You may look at this algorithm and wonder how it helps us explore and exploit. Well, let's look at where the main logic of this algorithm is held, the following line:</p>
+<p>$$j^* = argmax \Big( \hat{\mu}_j + \sqrt{\frac{2 lnN}{N_j}} \Big)$$</p>
+<p>Let's now look at each term individually. The first term is just the estimated mean:</p>
+<p>$$\hat{\mu}_j$$</p>
+<p>If that is high, then we will be exploiting it more often. If you look at the second term:</p>
+<p>$$\sqrt{\frac{2 lnN}{N_j}}$$</p>
+<p>You will see that it depends on $N$, the total number of plays, and $N_j$, the number of plays for arm $j$. If $N$ is large while $N_j$ is low, then that will encourage us to explore arm $j$ more, because it increases the upper confidence bound. We also should consider the asymptotic behavior of:</p>
+<p>$$\frac{ln(N)}{N}$$</p>
+<p>Above, as $N \rightarrow \infty$, $\frac{ln(N)}{N}$ approaches 0, so we use only the true CTR (estimated means) when $N$ is large.</p>
+<p>We can see that from a coding/implementation perspective, this is no more complex than the epsilon-greedy algorithm. The right question to ask at this point, however, is what is our expected loss from this algorithm. With a good deal of math it can be shown that the loss is proportional to $ln(N)$. Compare this to epsilon-greedy where the loss is proportional to $N$. This means that in the long run, <strong>UCB1</strong> will perform much better than epsilon-greedy.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3.-Bayesian-Adaptive-Learning">3. Bayesian Adaptive Learning<a class="anchor-link" href="#3.-Bayesian-Adaptive-Learning">&#182;</a></h2><h3 id="3.1-Bayesian-Paradigm">3.1 Bayesian Paradigm<a class="anchor-link" href="#3.1-Bayesian-Paradigm">&#182;</a></h3><p>We are finally approaching the point of implementing full blown bayesian learning. But before we do, I think it would be useful to make a distinction as to what the Bayesian Paradigm really is, and how it differs from the frequentist paradigm.</p>
+<p>Now, intuitively we know that as we collect more data, our estimates will become more accurate. As far as frequentist statistics are concerned, the method that we use to determine how accurate our measurements are is the <em>confidence interval</em>.</p>
+<p>One key point to remember is that the estimated click through rates (or whatever we are trying to measure) is a distribution! To be clear, an estimated parameter (like the mean) is a random variable, because it is the sum of independent and identically distributed random variables. Therefore, it has a distribution that is approximately gaussian, due to the central limit theorem.</p>
+<p>So, a <em>very important</em> distinction that we want to make is that the true CTR is <strong>fixed</strong>. It is something that we are trying to find by obtaining data. We call this <strong>Frequentist Statistics</strong>. In frequentist statistics:</p>
+<ul>
+<li>The parameters of the distribution are set (think population mean), we just don't know what they are.</li>
+<li>Data is this randomly generated via those distributions (which are based on the population parameters)</li>
+</ul>
+<p>On the other hand, we have <strong>Bayesian Statistics</strong>. This essentially works in the opposite way. We give the parameter a distribution. It becomes a random variable that has an actual probability distribution. The data on the other hand is <strong>fixed</strong>. You can make the argument that this better reflects reality because data <em>is</em> fixed. This is what happens in the real world. There is no randomness to a coin toss result after the fact. In this way we can then model the distribution of the parameter, given some data (i.e. $p(parameter \mid data)$).</p>
+<p>To be clear, we can classify the two paradigms as follows:</p>
+<h4 id="Frequentist-Statistics">Frequentist Statistics<a class="anchor-link" href="#Frequentist-Statistics">&#182;</a></h4><p>When doing frequentist statistics we are trying to find the argmax of the likelihood. In other words, the value of the parameter that maximizes the likelihood of our data, $X$. This is a point estimate.</p>
+<p>$$\hat{\theta} = argmax_{\theta} P(X \mid \theta)$$</p>
+<p>For example, when using the frequentist paradigm, we measure things like mean and click through rate with <em>point estimates</em>:</p>
+<p>$$\frac{\sum X} {N}$$</p>
+<p>The problem that you may see is that the above method doesn't take into account how accurate those estimates are. The frequentist solution is to use the central limit theorem to show that the confidence interval was approximately gaussian and from there we could get an upper and lower bound on the 95% confidence interval.</p>
+<p>So, the frequentist paradigm:</p>
+<ol>
+<li>Calculates the likelihood-the probability of your data, given the parameter. For example, the probability that you observed the data that you did, given a gaussian distribution with a mean $\mu =4$</li>
+<li>Maximizes the likelihood with respec to the parameter in question. For example, find the mean $\mu$ (and associated gaussian distribution) that maximizes the probability you observed the data that you did.</li>
+<li>This leaves us with a maximum likelihood estimate for that parameter.</li>
+</ol>
+<p>This can all be represented by the equation we saw earlier:</p>
+<p>$$\hat{\theta} = argmax_{\theta} P(X \mid \theta)$$</p>
+<p>It is general, but think of the case: the likelihood of the data we observed ($X$) maximized by a given value of the mean $(\theta = \mu)$. The final value for $\hat{\theta}$ is a point estimate, not a distribution.</p>
+<h4 id="Bayesian-Statistics">Bayesian Statistics<a class="anchor-link" href="#Bayesian-Statistics">&#182;</a></h4><p>When we do Bayesian Statistics, we are trying to find the <strong>posterior distributon</strong>:</p>
+<p>$$P(\theta \mid X)$$</p>
+<p>This is the probability of a parameter, given the data. Data is given, and data is fixed. So, in bayesian statistics our parameter, $\theta$, has a distribution! This is the opposite of frequentist statistics where $\theta$ is a point estimate.</p>
+<p>So, in Bayesian Statistics we treat $\theta$ as a random variable too. Because of this, and the subsequent fact that it has a distribution, we can use the shape of it's distribution to tell us how confident we are for any value of that parameter. We can apply bayes rule to help us with this:</p>
+<p>$$P(\theta \mid X) = \frac{P(X \mid \theta) P(\theta)}{P(X)} = \frac{P(X \mid \theta) P(\theta)}{Z}$$</p>
+<p>Where above:</p>
+<p>$$Z \rightarrow \text{normalizing constant}$$</p>
+<p>$$P(X \mid \theta) \rightarrow \text{Likelihood of data given current }\theta$$</p>
+<p>$$P(\theta) \rightarrow \text{Prior, old beliefs about }\theta$$</p>
+<p>$$P(\theta \mid X) \rightarrow \text{Posterior, new beliefs about }\theta \text{after seeing data}$$</p>
+<p>Now, at this point you may be thinking that this should be easy! This is just multiplication and division! Not so fast. These are all probability distributions. In particular, remember that $P(X)$ is the integral over:</p>
+<p>$$\int P(X \mid \theta) P(\theta) d\theta$$</p>
+<p>Generally speaking, this integral is either very hard or impossible to solve. One solution is to use sampling methods like <strong>Markov Chain Monte Carlo</strong>, but we are not going to cover that since we are going to arrive at a much more elegant solution.</p>
+<h3 id="3.2-Conjugate-Priors">3.2 Conjugate Priors<a class="anchor-link" href="#3.2-Conjugate-Priors">&#182;</a></h3><p>The answer to our problem from above is <strong>conjugate priors</strong>!</p>
+
 </div>
 </div>
 </div>
