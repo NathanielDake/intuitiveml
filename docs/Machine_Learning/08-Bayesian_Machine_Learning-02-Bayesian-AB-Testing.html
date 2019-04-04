@@ -1073,7 +1073,7 @@ height=355
 <p>Specifically, we can find the the joint distribution of $\lambda_A$ and $\lambda_B$:</p>
 <p>$$P(\lambda_A) = Beta(a=a_A,b=b_A) = \frac{\lambda_A^{a-1} (1- \lambda_A)^{b-1}}{B(a,b)}$$</p>
 <p>$$P(\lambda_B) = Beta(a=a_B,b=b_B) = \frac{\lambda_B^{a-1} (1- \lambda_B)^{b-1}}{B(a,b)}$$</p>
-<p>$$P(\lambda_A, \lambda_B) = Beta(a=a_A,b=b_A) \cdot Beta(a=a_B,b=b_B) = \frac{\lambda_A^{a-1} (1- \lambda_A)^{b-1}}{B(a,b)} \cdot \frac{\lambda_B^{a-1} (1- \lambda_B)^{b-1}}{B(a,b)}$$</p>
+<p>$$P(\lambda_A, \lambda_B) = Beta(a=a_A,b=b_A) \cdot Beta(a=a_B,b=b_B) = \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)}$$</p>
 <p>While this may look rather intimidating, it's 3d representation is quite intuitive, as seen below:</p>
 
 </div>
@@ -1747,6 +1747,7 @@ loss_A = 0
 for lambda_a in range(0,1):
     for lambda_b in range(0,1):
         loss += joint_posterior[lambda_a, lambda_b] * loss(i, j "A")</code></pre>
+<p>Now, I should note again that the volume under these curves is currently being determined via <em>numerical integration</em>. However, a <strong>closed form</strong> solution can be found and is derived in the appendix.</p>
 
 </div>
 </div>
@@ -1763,6 +1764,89 @@ for lambda_a in range(0,1):
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Appendix">Appendix<a class="anchor-link" href="#Appendix">&#182;</a></h2><h3 id="A.1-Closed-Form-Solution-$-\rightarrow-P(\lambda_B-&gt;-\lambda_A)$">A.1 Closed Form Solution $ \rightarrow P(\lambda_B &gt; \lambda_A)$<a class="anchor-link" href="#A.1-Closed-Form-Solution-$-\rightarrow-P(\lambda_B-&gt;-\lambda_A)$">&#182;</a></h3><p>As mentioned earlier when we had been computing $P(\lambda_B &gt; \lambda_A)$ via numerical integration, a closed form solution does exist. I didn't feel the need to use it since it would most likely not be used in practice (since it is not extensible to more than two variants), but it is a great exercise to go through. This derivation is based off of derivations that can be found <a href="http://www.evanmiller.org/bayesian-ab-testing.html#binary_ab_implementation">here</a>.</p>
+<p>Recall the definition of $P(\lambda_B &gt; \lambda_A)$:</p>
+<p>$$P(\lambda_B &gt; \lambda_A) = \int_0^1 \int_{\lambda_A}^1 P(\lambda_A, \lambda_B) d\lambda_B d\lambda_A$$</p>
+<p>Where our joint distribution is defined as:</p>
+<p>$$P(\lambda_A, \lambda_B) = \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)}$$</p>
+<p>And hence, we want to find a closed form solution to the following integral:</p>
+<p>$$P(\lambda_B &gt; \lambda_A) = \int_0^1 \int_{\lambda_A}^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B d\lambda_A$$</p>
+<p>To give you an idea of where we are heading, we will find the the solution to this integral to be:</p>
+<p><span style="color:#000099">$$P(\lambda_B > \lambda_A) = \sum_{i=0}^{a_B-1} \frac{B(a_A + i, b_B + b_A)}{(b_B + i)B(1+i, b_B)B(a_A, b_A)}$$</span></p>
+<p>Where:</p>
+<p>$$a_A \rightarrow \text{number of successes for } A + 1$$</p>
+<p>$$a_B \rightarrow \text{number of failures for } A + 1$$</p>
+<p>$$b_A \rightarrow \text{number of successes for } B + 1$$</p>
+<p>$$b_B \rightarrow \text{number of failures for } B + 1$$</p>
+<h4 id="Derivation">Derivation<a class="anchor-link" href="#Derivation">&#182;</a></h4><p>With that said, let's finally get into the derivation. To begin, I want to start with a few simple definitions/clarifications. First, we have the <a href="https://en.wikipedia.org/wiki/Beta_distribution"><strong>Beta Distribution</strong></a>:</p>
+<p>$$Beta(a, b) = \frac{\lambda^{a-1}(1 - \lambda)^{b - 1}}{B(a, b)}$$</p>
+<p>A continuous probability distribution commonly used as a conjugate prior in bayesian inference. We then have the <a href="https://en.wikipedia.org/wiki/Beta_function"><strong>Beta Function</strong></a>:</p>
+<p>$$B(a,b) = \int_0^1 \lambda^{a-1}(1-\lambda)^{b-\lambda}d\lambda$$</p>
+<p>Where the beta function also has a special relationship to the $\Gamma$ function:</p>
+<p>$$B(a,b) = \frac{\Gamma(a) \Gamma(b)}{\Gamma(a+b)}$$</p>
+<p>And $\Gamma$ is:</p>
+<p>$$\Gamma(n) = (n-1)!$$</p>
+<p>Our goal is defined as follows:</p>
+<blockquote><p>Find $P(\lambda_B &gt; \lambda_A)$, the probability that $B$ will beat $A$ in the long run.</p>
+</blockquote>
+<h4 id="Original-Univariate-Distributions">Original Univariate Distributions<a class="anchor-link" href="#Original-Univariate-Distributions">&#182;</a></h4><p>So, for both variant $A$ and $B$ we hold beliefs (probability distributions):</p>
+<p>$$\lambda_A \approx Beta(a_A, b_A) = \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)}$$</p>
+<p>$$\lambda_B \approx Beta(a_B, b_B) = \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)}$$</p>
+<h4 id="Joint-Distributions">Joint Distributions<a class="anchor-link" href="#Joint-Distributions">&#182;</a></h4><p>Because these distributions are independent of eachother, we can find the joint distribution by simply multiplying them together. In order to get the total probability that $\lambda_B &gt; \lambda_A$, we must integrate over the joint distribution where $\lambda_B &gt; \lambda_A$:</p>
+<p>$$P(\lambda_B &gt; \lambda_A) = \int_0^1 \overbrace{\int_{\lambda_A}^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B}^\text{Inner Integral} d\lambda_A$$</p>
+<h4 id="Evaluate-Inner-Integral-using-Incomplete-Beta-Function">Evaluate Inner Integral using Incomplete Beta Function<a class="anchor-link" href="#Evaluate-Inner-Integral-using-Incomplete-Beta-Function">&#182;</a></h4><p>Let's start by evaluating the inner integral. The beta distribution containing $\lambda_A$ can be pulled out because the inner integral is with respect to $\lambda_B$:</p>
+<p>$$\int_0^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \overbrace{\int_{\lambda_A}^1\frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B}^\text{Inner Integral} d\lambda_A$$</p>
+<p>Now, reviewing what we know about the Beta function, the inner integral above looks to be of the exact shape as the <a href="https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function"><strong>regularized incomplete beta function</strong></a>:</p>
+<p>$$I_x(a,b) = \frac{B(x; a,b)}{B(a,b)} = \int_0^x\frac{t^{a-1} (1-t)^{b-1}}{B(a,b)}dt$$</p>
+<p>$$\overbrace{\int_{\lambda_A}^1\frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B}^\text{Inner Integral} \; \; \; \longleftrightarrow \int_0^x\frac{t^{a-1} (1-t)^{b-1}}{B(a,b)}dt$$</p>
+<p>So, we can replace out inner integral with $I_x$, but there is one thing we must look out for; the bounds in our inner integral are swapped with those in the incomplete beta function. To resolve this, we have to hold a very intuitive grasp of the situation at hand. We are trying to solve a double integral and find the volume under a portion of our joint distribution surface. We know that that total volume under the joint distribution must be equal to 1:</p>
+<p>$$\int_0^1 \int_0^1 P(\lambda_A, \lambda_B) d\lambda_A d\lambda_B= 1$$</p>
+<p>Hence, in order to account for the reversed bounds of integration in our inner integral, we simply need to subtract our expression from 1:</p>
+<p>$$P(\lambda_B &gt; \lambda_A) = 1 - \int_0^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} I_{\lambda_A}(a_B, b_B)d\lambda_A$$</p>
+<p>Again, this is to account for the fact that out inner integral was from $\int_{\lambda_A}^1$ and not $\int_0^{\lambda_A}$.</p>
+<h4 id="Express-$I$-without-integral">Express $I$ without integral<a class="anchor-link" href="#Express-$I$-without-integral">&#182;</a></h4><p>From here our goal is to now define $I$ in terms that involve no integration. In order to do this we will make use of a recurrence relationship that $I$ has, as well as a base case/identity. We can start by trying to find the identity, $I_{\lambda_A}(1, b)$:</p>
+<p>$$I_{\lambda_A} (a,b) = \int_0^{\lambda_A} \frac{t^{a-1} (1-t)^{b-1}}{B(a,b)}dt$$</p>
+<p>$$I_{\lambda_A} (1,b) = \int_0^{\lambda_A} \frac{(1-t)^{b-1}}{B(1,b)}dt$$</p>
+<p>Where we can solve the integral via u-substitution:</p>
+<p>$$\int (1-t)^{b-1}dt$$</p>
+<p>$$\text{let:   } u = 1- t \text{;   } du = -dt$$</p>
+<p>$$\int u^{b-1}du$$</p>
+<p>Via the power rule we end up with:</p>
+<p>$$\frac{-u^b}{b} = \frac{-(1-t)^b}{b} + C$$</p>
+<p>We also can make use of the following <a href="https://en.wikipedia.org/wiki/Beta_function#Properties">identity</a> concerning the Beta Function:</p>
+<p>$$B(1,b) = \frac{1}{b}$$</p>
+<p>Which we can substitute back into our original expression in order to arrive at a base case identity:</p>
+<p>$$I_{\lambda_A} (1,b) = \frac{\frac{-(1-t)^b}{b}}{\frac{1}{b}} \Big|_0^{\lambda_A} = -(1-t)^b \Big|_0^{\lambda_A} = 1 - (1 - \lambda_A)^b$$</p>
+<p>$$I_{\lambda_A} (1,b) = 1 - (1 - \lambda_A)^b$$</p>
+<p>Now, we can also make use of the following <a href="https://en.wikipedia.org/wiki/Beta_function#Properties_2">recursive relationship</a> that $I$ holds:</p>
+<p>$$I_x(a+1, b) = I_x(a,b) - \frac{x^a(1-x)^b}{aB(a,b)}$$</p>
+<p>Which we can tweak in our case to be (simply subtracting 1 from each $a$ in the case above):</p>
+<p>$$I_{\lambda_A}(a,b) = I_{\lambda_A}(a-1,b) - \frac{\lambda_A^{a_A - 1} (1 - \lambda_A)^{b_A}}{(a_A - 1)B(a_A -1, b_A)}$$</p>
+<p>Now, we still have an $I$ on the right hand side (that contains an integral we want to get rid of), but we are a bit closer to the expression we want. We want to now define the $I$ on the right hand side based on our original recursive relationship; this continues until $I$ is defined entirely recursively:</p>
+<p>$$
+I_{\lambda_A}(a_A,b_A) = 
+\overbrace{1 - (1 - \lambda_A)^b_A}^\text{Identity/base case} - 
+\overbrace{
+\sum_{j=1}^{a_A-1} \frac{\lambda_A^{a_A - j} (1 - \lambda_A)^{b_A}}{(a_A - j)B(a_A - j, b_A)}
+}^\text{Recursive Portion}
+$$</p>
+<p>Great, we have arrived at an expression for $I$ that doesn't have an integral of $I$ on the right hand side! Equivalently, we can express the above equation as:</p>
+<p>$$
+I_{\lambda_A}(a_A,b_A) = 
+1 - \sum_{i=0}^{a_A-1} \frac{\lambda_A^{i} (1 - \lambda_A)^{b_A}}{(b_A + i)B(1 + i, b_A)}
+$$</p>
+<h4 id="Substitute-back-into-expression-for-joint-distribution">Substitute back into expression for joint distribution<a class="anchor-link" href="#Substitute-back-into-expression-for-joint-distribution">&#182;</a></h4><p>Now that we have found $I$ in form that involves no integration, we can substitute it into our last expression for the joint distribution:</p>
+<p>$$P(\lambda_B &gt; \lambda_A) = 1 - \int_0^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} I_{\lambda_A}(a_B, b_B)d\lambda_A$$</p>
+<p>$$P(\lambda_B &gt; \lambda_A) = 1 - \int_0^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \Big(1 - \sum_{i=0}^{a_A-1} \frac{\lambda_A^{i} (1 - \lambda_A)^{b_A}}{(b_A + i)B(1 + i, b_A)} \Big) d\lambda_A$$</p>
+<h3 id="A.2-Closed-Form-Loss-Function-$-\rightarrow-L(\lambda_A,-\lambda_B,-ad)$">A.2 Closed Form Loss Function $ \rightarrow L(\lambda_A, \lambda_B, ad)$<a class="anchor-link" href="#A.2-Closed-Form-Loss-Function-$-\rightarrow-L(\lambda_A,-\lambda_B,-ad)$">&#182;</a></h3><p>We can build off of the closed form solution derived about in order to find a closed form loss function. This derivation draws from work <a href="https://www.chrisstucchio.com/blog/2014/bayesian_ab_decision_rule.html">here</a>.</p>
+
+</div>
+</div>
 </div><script>
   function code_toggle() {
     if (code_shown){
