@@ -1842,8 +1842,95 @@ I_{\lambda_A}(a_A,b_A) =
 $$</p>
 <h4 id="Substitute-back-into-expression-for-joint-distribution">Substitute back into expression for joint distribution<a class="anchor-link" href="#Substitute-back-into-expression-for-joint-distribution">&#182;</a></h4><p>Now that we have found $I$ in form that involves no integration, we can substitute it into our last expression for the joint distribution:</p>
 <p>$$P(\lambda_B &gt; \lambda_A) = 1 - \int_0^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} I_{\lambda_A}(a_B, b_B)d\lambda_A$$</p>
-<p>$$P(\lambda_B &gt; \lambda_A) = 1 - \int_0^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \Big(1 - \sum_{i=0}^{a_A-1} \frac{\lambda_A^{i} (1 - \lambda_A)^{b_A}}{(b_A + i)B(1 + i, b_A)} \Big) d\lambda_A$$</p>
+<p>$$P(\lambda_B &gt; \lambda_A) = 
+1 - \int_0^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} 
+\Big(1 - \sum_{i=0}^{a_B-1} \frac{\lambda_A^{i} (1 - \lambda_A)^{b_B}}{(b_B + i)B(1 + i, b_B)} \Big) d\lambda_A
+$$</p>
+<p>We can make a simplification by splitting the integral into two parts and seeing that the first part is the integral of a probability distribution, which will evaluate to 1:</p>
+<p>$$P(\lambda_B &gt; \lambda_A) = 
+1 - \overbrace{\int_0^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} d\lambda_A}^\text{Probability distribution, evaluates to 1}  + 
+\int_0^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)}  \sum_{i=0}^{a_B-1} \frac{\lambda_A^{i} (1 - \lambda_A)^{b_B}}{(b_B + i)B(1 + i, b_B)} d\lambda_A$$</p>
+<p>Next, we can bring the expression outside of the summation inside, collecting like terms:</p>
+<p>$$P(\lambda_B &gt; \lambda_A) = 
+\int_0^1 \overbrace{\frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)}}^\text{Bring inside, collect terms} \sum_{i=0}^{a_B-1} \frac{\lambda_A^{i} (1 - \lambda_A)^{b_B}}{(b_B + i)B(1 + i, b_B)} d\lambda_A$$</p>
+<p>$$
+P(\lambda_B &gt; \lambda_A) = 
+\int_0^1 \sum_{i=0}^{a_B-1} \frac{\lambda_A^{a_A - 1 + i} (1 - \lambda_A)^{b_A + b_B - 1}}{(b_B + i)B(a_A, b_A)B(1 + i, b_B)} d\lambda_A
+$$</p>
+<p>And then swap the order of the integral and summation:</p>
+<p>$$
+P(\lambda_B &gt; \lambda_A) = 
+\sum_{i=0}^{a_B-1} \int_0^1 \frac{\lambda_A^{a_A - 1 + i} (1 - \lambda_A)^{b_A + b_B - 1}}{(b_B + i)B(a_A, b_A)B(1 + i, b_B)} d\lambda_A
+$$</p>
+<p>Followed by pulling out the terms that are not with respect to the variable of integration ($d\lambda_A$), and multiplying by $\frac{B(a_A + i, b_A + b_B)}{B(a_A + i, b_A + b_B)}$. This leaves use with a beta distribution inside of the integral, which evaluates to 1:</p>
+<p>$$
+P(\lambda_B &gt; \lambda_A) = 
+\sum_{i=0}^{a_B-1} \frac{B(a_A + i, b_A + b_B)}{(b_B + i)B(a_A, b_A)B(1 + i, b_B)} \overbrace{\int_0^1 \frac{\lambda_A^{a_A - 1 + i} (1 - \lambda_A)^{b_A + b_B - 1}}{B(a_A + i, b_A + b_B)}}^\text{A beta distribution} d\lambda_A 
+$$</p>
+<p>Finally, we arrive at our closed form solution:</p>
+<p>$$
+P(\lambda_B &gt; \lambda_A) = 
+\sum_{i=0}^{a_B-1} \frac{B(a_A + i, b_A + b_B)}{(b_B + i)B(a_A, b_A)B(1 + i, b_B)}
+$$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="A.2-Closed-Form-Loss-Function-$-\rightarrow-L(\lambda_A,-\lambda_B,-ad)$">A.2 Closed Form Loss Function $ \rightarrow L(\lambda_A, \lambda_B, ad)$<a class="anchor-link" href="#A.2-Closed-Form-Loss-Function-$-\rightarrow-L(\lambda_A,-\lambda_B,-ad)$">&#182;</a></h3><p>We can build off of the closed form solution derived about in order to find a closed form loss function. This derivation draws from work <a href="https://www.chrisstucchio.com/blog/2014/bayesian_ab_decision_rule.html">here</a>.</p>
+<p>Recall, the idea behind the loss function (and solving for $P(\lambda_B &gt; \lambda_A)$ in general) was because we wanted to know when we could stop running the test, i.e. that one variant was mathematically proven to be better than the other, within a certain threshold of caring. This looked like:</p>
+<p>$$P(\lambda_B &gt; \lambda_A) = \int_0^1 \int_{\lambda_A}^1 P(\lambda_A, \lambda_B) d\lambda_B d\lambda_A$$</p>
+<p>$$P(\lambda_B &gt; \lambda_A) = \int_0^1 \int_{\lambda_A}^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B d\lambda_A$$</p>
+<p>And we stated that:</p>
+<blockquote><p>The test will be stopped when $P(\lambda_B &gt; \lambda_A)$ is less then some threshold of caring.</p>
+</blockquote>
+<p>In other words:</p>
+<p>$$P(\lambda_B &gt; \lambda_A) \leq \text{Threshold of caring}$$</p>
+<p>To help simplify this derivation, we are going to let our closed form solution from earlier equal $h$:</p>
+<p>$$
+P(\lambda_B &gt; \lambda_A) = 
+\sum_{i=0}^{a_B-1} \frac{B(a_A + i, b_A + b_B)}{(b_B + i)B(a_A, b_A)B(1 + i, b_B)} = h(a_A, b_A, b_A, b_B)
+$$</p>
+<p>So, if we want to apply what we learned in A.1 to the loss function, we must first start by updating our equation above to consider the loss function:</p>
+<p>$$L = (\lambda_A - \lambda_B)\int_0^1 \int_{\lambda_A}^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B d\lambda_A$$</p>
+<p>We can distribute across our loss, $(\lambda_A - \lambda_B)$:</p>
+<p>$$L = 
+\int_0^1 \int_{\lambda_A}^1 \frac{\lambda_A^{a_A} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} 
+\cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B d\lambda_A - 
+\int_0^1 \int_{\lambda_A}^1 \frac{\lambda_A^{a_A - 1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} 
+\cdot \frac{\lambda_B^{a_B} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B d\lambda_A
+$$</p>
+<p>And then perform some rather simple arithmetic:</p>
+<p><br></p>
+<p><span style="font-size:12px">
+$$L = 
+\frac{B(a_B + 1, b_B)}{B(a_B + 1 , b_B)}
+\int_0^1 \int_{\lambda_A}^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} 
+\cdot \frac{\lambda_B^{a_B} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B d\lambda_A - 
+\frac{B(a_A + 1, b_A)}{B(a_A + 1 , b_A)}
+\int_0^1 \int_{\lambda_A}^1 \frac{\lambda_A^{a_A} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} 
+\cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B d\lambda_A
+$$
+</span></p>
+<p><br></p>
+<p><span style="font-size:12px">
+$$L = 
+\frac{B(a_B + 1, b_B)}{B(a_B,b_B) }
+\int_0^1 \int_{\lambda_A}^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} 
+\cdot \frac{\lambda_B^{a_B} (1- \lambda_B)^{b_B-1}}{B(a_B + 1 , b_B)} d\lambda_B d\lambda_A - 
+\frac{B(a_A + 1, b_A)}{B(a_A,b_A)}
+\int_0^1 \int_{\lambda_A}^1 \frac{\lambda_A^{a_A} (1- \lambda_A)^{b_A-1}}{B(a_A + 1 , b_A)} 
+\cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B d\lambda_A
+$$
+</span></p>
+<p>$$L = 
+\frac{B(a_B + 1, b_B)}{B(a_B,b_B) } h(a_A, b_A, a_B + 1, b_B) - 
+\frac{B(a_A + 1, b_A)}{B(a_A,b_A)} h(a_A + 1, b_A, a_B, b_B)
+$$</p>
+<p>And we end up with the form that our closed form solution was expecting.</p>
 
 </div>
 </div>
