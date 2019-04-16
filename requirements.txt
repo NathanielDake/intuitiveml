@@ -8,3 +8,6 @@ dateparser>=0.7.0
 sos>=0.18.6
 bs4
 sos-essentials
+boto3
+scipy
+statsmodels
