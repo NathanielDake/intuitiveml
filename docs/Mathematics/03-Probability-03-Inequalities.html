@@ -1,0 +1,515 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/readable.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Nathaniel Dake Blog</title>
+
+<style type = "text/css">
+body {
+  font-family: "sans-serif";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Nathaniel Dake Blog</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../Deep_Learning.html">Deep Learning</a>
+</li>
+        
+<li>
+  <a href="../AI.html">AI</a>
+</li>
+        
+<li>
+  <a href="../Machine_Learning.html">Machine Learning</a>
+</li>
+        
+<li>
+  <a href="../NLP.html">NLP</a>
+</li>
+        
+<li>
+  <a href="../Mathematics.html">Mathematics</a>
+</li>
+        
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
+<li>
+  <a href="../Book_Reviews.html">Book Reviews</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="https://github.com/NathanielDake/nathanieldake.github.io"> source </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="3.-Probability-Inequalities">3. Probability Inequalities<a class="anchor-link" href="#3.-Probability-Inequalities">&#182;</a></h1><p>Probability inequality play a large role in determining an answer to the crucial question: Is learning feasible? Of course in this context I am referring to statistical/machine learning. You may think to yourself: "Of course it is possible! We constantly here about wonderful new algorithms and ML techniques created, computer vision systems, natural language understanding virtual assistants-many of which are discussed in depth in this blog!". In this you are most certainly correct.</p>
+<p>However, what my question specifically is honing in on is:</p>
+<blockquote><p>Can we provide a theoretical back bone to ensure that the learning that we are doing will indeed generalize?</p>
+</blockquote>
+<p>Answering that question is the purpose of this post. In order to get there we will actually move backwards. To start I will show the few equations that prove learning is indeed possible, and we will then go through several derivations in order to expose how we arrived at our answer.</p>
+<h2 id="1.-Is-Learning-Feasible?">1. Is Learning Feasible?<a class="anchor-link" href="#1.-Is-Learning-Feasible?">&#182;</a></h2><p>I want us to start by supposing the following: We are dealing with a <strong>sample</strong> from a <strong>population</strong>:</p>
+<p>$$\mu = \text{population parameter}$$</p>
+<p>$$\nu = \text{sample parameter}$$</p>
+<p>$$N = \text{sample size}$$</p>
+<p>$$\epsilon = \text{very small value}$$</p>
+<p>Now, in a very large sample (i.e. $N$ is large) we know that $\nu$ is probably close to $\mu$ (if this is unfamiliar I recommend looking at my statistics post on the central limit theorem). Another way of saying that these two values are close is by saying there are within $\epsilon$ of eachother:</p>
+<p>$$\big| \nu - \mu \big| &lt; \epsilon$$</p>
+<p>Our goal though is to make this a bit more concrete; put another way, we want to be able to offer a <em>guarantee</em> about $\nu$. How probable is it that it is within $\epsilon$ of $\mu$? Well, we can prove that the probability that $\nu$ is <em>not</em> with $\epsilon$ of $\mu$ is:</p>
+<p>$$P\big( \big| \nu - \mu \big| &gt; \epsilon \big) \leq 2e^{-2\epsilon^2N}$$</p>
+<p>Where the equation above is known as <strong>Hoeffding's Inequality</strong>. The statement is known as a P.A.C. statement-meaning that it is <em>probably</em>, <em>approximately correct</em>. In english, it says the following:</p>
+<blockquote><p>The probability that the difference between the sample and the population parameter is greater than $\epsilon$ is less than the exponential of $e^{-\epsilon^2N}$.</p>
+</blockquote>
+<p>From a slightly more formal vantage point, it provides an upper bound on the probability that the sum of bounded <em>independent random variables</em> deviates from its expected value by more than a certain amount. This inequality is a member of the <strong>Law of Large Numbers</strong>.</p>
+<h3 id="1.1-Extending-to-Learning">1.1 Extending to Learning<a class="anchor-link" href="#1.1-Extending-to-Learning">&#182;</a></h3><p>With relative ease we can extend this to learning. In order to do so we will need a bit of new notation. We are going to introduce $h$, $\hat{E}(h)$ and $E(h)$, where they are defined as:</p>
+<p>$$h = \text{Learned Hypothesis/Model}$$</p>
+<p>$$\hat{E}(h) = \text{Training set Error}$$</p>
+<p>$$E(h) = \text{Population Error}$$</p>
+<p>For those familiar with machine learning this should be rather clear, but if you are not I will provide a bit of context. In a general learning scenario we acknowledge that there is a population data set that we <em>do not have access to</em>. It contains <em>every single data point</em> that exists. We only have access to a <em>training data set</em>, which is a very small sample from the population. If we learn a model, $h$, that makes predictions on input data points, then $\hat{E}(h)$ is the error that $h$ would make on the <em>training data set</em>, while $E(h)$ is the error that $h$ would make on the population data set.</p>
+<p>What we want to ensure is that if $h$ is learned based off of our training data, can it generalize? In other words, we want to have some sort of guarantee on the difference between the error between $\hat{E}(h)$ and $E(h)$. We will refer to the probability of this difference as the <em>bad event</em>, since we do not want it to happen:</p>
+<p>$$\overbrace{P\big( \big| \hat{E}(h) - E(h) \big| &gt; \epsilon \big)}^\text{Bad event}$$</p>
+<p>We want a bound on this bad event-a worst case guarantee. Once again we can use the hoeffding bound (since it deals with the sum of random variables differing from their expected value-here the error of each data point is a random variable and $E(h)$ is the expected value of the error):</p>
+<p>$$P\big( \big| \hat{E}(h) - E(h) \big| &gt; \epsilon \big) \leq 2e^{-2\epsilon^2N}$$</p>
+<p>Where $\hat{E}(h)$ is the estimated sample error and $E(h)$ is the true error. Now, in all actuality we know that there are multiple hypothesis that we will be choosing from, so our equation can be expanded:</p>
+<p>$$P\big( \big| \hat{E}(h) - E(h) \big| &gt; \epsilon \big) \leq \sum_{m=1}^M P\big( \big| \hat{E}(h_m) - E(h_m) \big| &gt; \epsilon \big) $$</p>
+<p>Above we are simply taking the probability associated with each of $M$ hypotheses having an error greater than $\epsilon$ and summing them all up. This is known as the <strong><a href="https://en.wikipedia.org/wiki/Boole%27s_inequality">union bound</a></strong> and specifically states that:</p>
+<blockquote><p>For any finite or countable set of events, the probability that at least one of the events happens is no greater than the sum of the probabilities of the individual events.</p>
+</blockquote>
+<p>So, essentially we are taking the <em>worst</em> case and adding up all of the probabilities associated with the error difference between the sample and true hypothesis being greater than $\epsilon$. The reason we want the worst case is because we don't want to jeopardize the <em>applicability</em> of our results. I should note that while this type of assumption is in fact simplistic, it is not trivially restricting but rather it is intended to ensure we are not missing some scenario that could be worse than what we are willing to accept.</p>
+<p>We can then substitute the hoeffding bound that was shown earlier:</p>
+<p>$$P\big( \big| \hat{E}(h) - E(h) \big| &gt; \epsilon \big) \leq \sum_{m=1}^M 2e^{-2\epsilon^2N} $$</p>
+<p>Which provides us with our final takeaway:</p>
+<blockquote><p>We can be confident that the probability that the difference between our training error and the population error is larger than our tolerance ($\epsilon$, the bad event), under the true learning scenario of generating $M$ hypothesis and picking the <em>best</em> one, is less than or equal to the summation on the right.</p>
+</blockquote>
+<p>Note that the right hand side has an exponential in it which is good! That will decay towards zero quickly. However, we also have a $\epsilon^2$ term which will slow the decay to zero. And even more unfortunately, there is an added factor $M$:</p>
+<p>$$P\big( \big| \hat{E}(h) - E(h) \big| &gt; \epsilon \big) \leq 2Me^{-2\epsilon^2N} $$</p>
+<p>We obviously want the probability of our bad event to be small, and hence we don't like having to magnify the right hand side, because that is the probability of something bad happening. Now, we can see that if we use $M=10$ hypothesis we are probably okay. On the other hand, if we use $M= one \; million$ hypothesis, we may run into trouble.</p>
+<p>Now, we will get into what happens when we have many (eventually infinite) hypothesis in a post on the <strong>theory of generalization</strong>, but for now I want to move on and discuss the bound above.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="2.-Probability-Bounds-and-Inequalities">2. Probability Bounds and Inequalities<a class="anchor-link" href="#2.-Probability-Bounds-and-Inequalities">&#182;</a></h2><p>How exactly did we arrive at that interesting looking exponential bound defined as the Hoeffding Inequality? More generally, what is the point of a bound? The best way to answer both of the above questions is via a derivation of the Hoeffding Inequality itself. Now, in order to get there we will need to build up our knowledge of several other inequalities, so let's get started.</p>
+<h3 id="2.1-Markov-Inequality">2.1 Markov Inequality<a class="anchor-link" href="#2.1-Markov-Inequality">&#182;</a></h3><p>It may not be entirely clear what exactly the point of a probability bound is, specifically in the context of learning above. In order to gain a full appreciation, consider the following:</p>
+<blockquote><p>We may be interested in saying something about the probability of an extreme event. Suppose that unfortunately we only know a little bit about the probability distribution at hand, in this case we only know the expected value. Can we still saying something about the probability of an extreme event occuring?</p>
+</blockquote>
+<p>Above is precisely the goal of probabilistic inequalities. We want to be able to make mathematically backed claims about the probabilities of certain (often bad) events occurring. I like to think about inequalities allowing the following transition:</p>
+<p>$$\text{Intuitive statement} \rightarrow \text{Precise, mathematically backed statement}$$</p>
+<p>The best way to gain an intuitive understanding of this is via an example, and one that is crucial in understanding the hoeffding derivation, that is the <a href="https://en.wikipedia.org/wiki/Markov%27s_inequality"><strong>Markov Inequality</strong></a>. The Markov Inequality, at its core, is trying to take an intuitive statement and provide it a mathematical backing. The intuitve statement is as follows:</p>
+<blockquote><p>If $X \geq 0$ and $E[X]$ is small, then $X$ is unlikely to be very large.</p>
+</blockquote>
+<p>Intuitively that should make sense! If $E[X] = 1.2$ then the probability of $X = 10,000,000$ should be incredibly small. What the Markov Inequality allows us to do is make the intuitive statement much more precise. It states:</p>
+<p>$$ \text{If} \; X \geq 0 \; \text{and} \; a &gt;0, \text{then} \; P(x \geq a) \leq \frac{E[X]}{a}$$</p>
+<h4 id="Derivation-1">Derivation 1<a class="anchor-link" href="#Derivation-1">&#182;</a></h4><p>How exactly do we arrive at the above inequality? Well, our derivation looks as follows; first, we recall the expected value of $X$:</p>
+<p>$$E[X] = \int_{0}^{\infty} x f_x(x) dx$$</p>
+<p>Which, we can then state the following:</p>
+<p>$$E[X] = \overbrace{\int_{0}^{\infty} x f_x(x) dx}^\text{Expected value of x} \;\; \geq  \;\;\overbrace{\int_{a}^{\infty} x f_x(x) dx}^\text{Smaller bound, less area}$$</p>
+<p>The above is true because when integrating from $[a, \infty]$ we are dealing with less total area. We can then focus on this new integral:</p>
+<p>$$\int_{a}^{\infty} x f_x(x) dx$$</p>
+<p>Which we can note that when evaluated $x$ will always be at least as large as $a$, given our bounds. This allows us to write:</p>
+<p>$$\int_{a}^{\infty} x f_x(x) dx \;\; \geq \;\; \int_{a}^{\infty} a f_x(x) dx$$</p>
+<p>And since $a$ is a constant we can pull that out:</p>
+<p>$$\int_{a}^{\infty} x f_x(x) dx \;\; \geq \;\; a \overbrace{\int_{a}^{\infty} f_x(x) dx}^{P(x \geq a)}$$</p>
+<p>Substituting $P(x \geq a)$ for our right integral:</p>
+<p>$$\overbrace{\int_{a}^{\infty} x f_x(x) dx}^\text{Integral 1} \;\; \geq \;\; aP(x \geq a)$$</p>
+<p>Recall the first line of our derivation:</p>
+<p>$$E[X] = \int_{0}^{\infty} x f_x(x) dx \;\; \geq  \;\; \overbrace{\int_{a}^{\infty} x f_x(x) dx}^\text{Integral 1}$$</p>
+<p>We can substitute in $aP(x \geq a)$ for integral 1 (because of the matching inequalities):</p>
+<p>$$E[X] \;\; \geq  \;\; aP(x \geq a)$$</p>
+<p>Which can be written equivalently as:</p>
+<p>$$P(x \geq a) \;\; \leq  \;\; \frac{E[X]}{a}$$</p>
+<p>And with that we have arrived at the inequality that we were trying prove!</p>
+<h4 id="Derivation-2">Derivation 2<a class="anchor-link" href="#Derivation-2">&#182;</a></h4><p>I'd like to also walk through a second derivation which may provide a nice alternative way of looking at things. We will start by defining a new variable $Y$:</p>
+<p>$$
+Y =
+\begin{cases}
+ 0, &amp; \text{if } x &lt; a \\
+ a, &amp; \text{if } x \geq a
+\end{cases}
+$$</p>
+<p>We can see above that in all cases $Y \leq X$, and hence:</p>
+<p>$$E[Y] \leq E[X]$$</p>
+<p>Next, we can solve for the expected value of $Y$:</p>
+<p>$$E[Y] = 0 \cdot P(X &lt; a) + a \cdot P(X \geq a) = a \cdot P(X \geq a)$$</p>
+<p>This allows us to rewrite our prior inequality as:</p>
+<p>$$a \cdot P(X \geq a) \;\; \leq \;\; E[X]$$</p>
+<p>And with a simple algebraic manipulation we again arrive at the Markov Inequality:</p>
+<p>$$P(X \geq a) \;\; \leq \;\; \frac{E[X]}{a}$$</p>
+<h4 id="Example">Example<a class="anchor-link" href="#Example">&#182;</a></h4><p>Now, why exactly is this useful? Consider the following example: we have a random variable $X$ that is exponentially distributed with $\lambda = 1$:</p>
+<p>$$
+f(x ; \lambda) =
+\begin{cases}
+ \lambda e ^{-\lambda x}, &amp; \text{if } x \geq 0 \\
+ 0, &amp; \text{if } x &lt;0
+\end{cases}
+$$</p>
+<p>And since $\lambda = 1$, we can rewrite the above as:</p>
+<p>$$
+f(x ; \lambda = 1) =
+\begin{cases}
+ e ^{-x}, &amp; \text{if } x \geq 0 \\
+ 0, &amp; \text{if } x &lt;0
+\end{cases}
+$$</p>
+<p>A <a href="https://en.wikipedia.org/wiki/Exponential_distribution#Mean,_variance,_moments_and_median">property of the exponential distribution</a> is that it's expected value is equal to:</p>
+<p>$$E[X] = \frac{1}{\lambda}$$</p>
+<p>And in this case that evaluates to $E[X] = 1$. Because $X$ is a random variable, we can apply the Markov Inequality!</p>
+<p>$$P(X \geq a) \;\; \leq \;\; \frac{E[X]}{a}$$</p>
+<p>Substituting in our expected value of 1:</p>
+<p>$$P(X \geq a) \;\; \leq \;\; \frac{1}{a}$$</p>
+<p>Taking a step back, let's restate our goal here:</p>
+<blockquote><p>We are trying to bound the probability $P(X \geq a)$. Often we won't know it's exact value, so knowing the worst case can be very helpful.</p>
+</blockquote>
+<p>Now, because we <em>know</em> the distribution that $X$ takes on, we actually do know the true value for this probability:</p>
+<p>$$P(X \geq a) = e^{-a}$$</p>
+<p>However, as stated above, we often don't know the true distribution. By making use of the little bit of information that we are assuming that we <em>do know</em> about $X$, namely that it is a random variable and has an expected value of 1, we can apply the Markov Inequality in order to get a guarantee on the probability that $X$ is greater than or equal to $a$.</p>
+<p>Visually, we can see the true probability and the bound generated via the Markov Inequality below (for visualization purposes $a$ is equal to 1 below):</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s2">&quot;husl&quot;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;talk&quot;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
+
+<span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;retina&#39;
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-.</span><span class="mi">1</span><span class="p">,</span><span class="o">.</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="o">-</span><span class="mf">0.001</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">true_prob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">e</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="n">a</span><span class="p">)</span>
+<span class="n">markov_inequality_bound</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">a</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">true_prob</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">markov_inequality_bound</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.55</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.55</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+    <span class="s1">&#39;0&#39;</span><span class="p">,</span>
+    <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="o">-.</span><span class="mi">015</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">),</span>
+    <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+    <span class="s1">&#39;1&#39;</span><span class="p">,</span>
+    <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mf">0.98</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">),</span>
+    <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s1">&#39;$e^{-a}$&#39;</span><span class="p">,</span>
+    <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">true_prob</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00008</span><span class="p">),</span>
+    <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="n">true_prob</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.04</span><span class="p">),</span>
+    <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">connectionstyle</span><span class="o">=</span><span class="s2">&quot;angle3,angleA=90,angleB=0&quot;</span><span class="p">),</span>
+    <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s1">&#39;$\frac</span><span class="si">{1}{a}</span><span class="s1">&quot;$&#39;</span><span class="p">,</span>
+    <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">markov_inequality_bound</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00008</span><span class="p">),</span>
+    <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="n">markov_inequality_bound</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.04</span><span class="p">),</span>
+    <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">connectionstyle</span><span class="o">=</span><span class="s2">&quot;angle3,angleA=90,angleB=0&quot;</span><span class="p">),</span>
+    <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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tNZO2/jN1trpSf4kyYmLTT/IjZ/VA8CIvKcHADbn7UkekeSWSd7TWntpkkuTnJTk8Ul+IfMw+mKSuyW5uPd+7UizArBE9ADA5rwiyZOTPDDJPZO8ZsP3P7X4/ocW6x5iALAm3N4GAJvQe78mySOT/GaSL2R++9o3krw3yS9m/sS2v0py8uIl3s8DsCYmwzCMPQMAAMC2caUHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJQmegAAgNJEDwAAUJroAQAAShM9AABAaaIHAAAoTfQAAACliR4AAKA00QMAAJT2/wCnMX8NjLMnsQAAAABJRU5ErkJggg==
+"
+width=414
+height=265
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, in general we consider a bound good or useful if the bound is close the correct value. Clearly we can see that in this case the bound is not very close the actual value. For an idea of the numerical values involved here, when evaluated we have:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;True probability: &quot;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">e</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">),</span> <span class="mi">5</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Markov Inequality Bound: &quot;</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>True probability:  0.13534
+Markov Inequality Bound:  0.5
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So, cleary the bound is correct, however it is not incredibly useful. If I told you that $P(X \geq a)$ is less than 0.99 I would be correct, but you would most likely roll your eyes and say that is obvious. The same thing is occuring here. The true probability will fall off exponetially as $a$ increases in magnitude, while the Markov Inequality will fall off at $\frac{1}{X}$. This raises the question: Are there other inequalities that can yield a more useful bound?</p>
+<h3 id="2.2-Chebyshev-Inequality">2.2 Chebyshev Inequality<a class="anchor-link" href="#2.2-Chebyshev-Inequality">&#182;</a></h3><p>The answer to that question is a resounding <em>yes</em>. There are indeed many other inequalities that exist that can produce more informative and useful bounds.</p>
+
+</div>
+</div>
+</div>
+<hr>
+&copy; 2018 Nathaniel Dake
+
+</div>
+</div>
+</body>
+</html>
