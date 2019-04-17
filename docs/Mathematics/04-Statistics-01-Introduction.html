@@ -818,7 +818,7 @@ height=410
 <p>The law of large numbers if important because it guarantees <em>stable</em> long term results for the averages of some random events. For example, while a casino (or the lottery) may lose money in a single spin or ticket, the earnings will tend towards a predictable percentage over a large number of spins.</p>
 <p>This same effect is used extensively in the insurance industry, only here it is referred to as <strong>expected loss</strong>. The idea is the same though! To determine the expected loss of insuring a 19 year old male driver, they calculate (from historical data and mathematical models) the probability he will get into an accident, and then place a value on what it will take to fix the car in that place. Let's say (to keep things simple), they determine he has a 10% chance of getting into an accident this year, and that the accident will cost \$3,000 to fix. The expected loss in that case is:</p>
 <p>$$3000 * 0.10 = 300$$</p>
-<p>So, the insurance company will then set a monthly rate that guarantees that they charge more than that expected value on the whole of the year. Of course this is incredibly dumbed down, but was just meant to show how wide spread the expected value (and loss) really is!</p>
+<p>So, the insurance company will then set a monthly rate that guarantees that they charge more than that expected value on the whole of the year. Of course this is incredibly dumbed down, but was just meant to show how wide spread the expected value (and loss) really is! For a full proof of the Law of Large Numbers, please take a look at the appendix of this post.</p>
 
 </div>
 </div>
@@ -1767,6 +1767,15 @@ height=353
 <p>$$\int_{-\sigma}^{\sigma} f(x \mid \mu, \sigma^2)$$</p>
 <p>This area is going to be ~0.68, which we can divide by 1 (the total area) in order to get the percentage of area under the curve from $[-\sigma, \sigma]$, resulting in 68%. This is an incredibly powerful feature that is the main reason the central limit theorem and normal distribution are so valuable. We are going to discuss in depth in the next section, however, here is an example to get us started. Say that we have two groups, $A$ and $B$, who are indentical in all ways expect that they are shown differently styled webpages when checking out on an ecommerce site. If we observe that 10% of group $A$ end up making a purchase, and 12% of group $B$ make a purchase, we can then use everything we have just talked about to see if the different landing pages shown to $A$ and $B$ were able to create a statistically significant difference in the purchase likelihood. This would allow for the site to find the optimal page configuration, assuming they want to maximize purchases.</p>
 <p>At this risk of this post becoming far too long I am going to leave off here and pick up in my post <strong>Statistical Inference</strong>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Appendix">Appendix<a class="anchor-link" href="#Appendix">&#182;</a></h2><h3 id="A.1-The-Weak-Law-of-Large-Numbers">A.1 The Weak Law of Large Numbers<a class="anchor-link" href="#A.1-The-Weak-Law-of-Large-Numbers">&#182;</a></h3><p>This section will serve as a derivation of the <strong>Weak Law of Large Numbers</strong>, and is meant to provide a more concrete vantage point, in junction with the intuitive explanations from earlier.</p>
 
 </div>
 </div>
