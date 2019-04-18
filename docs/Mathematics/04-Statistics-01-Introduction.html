@@ -1775,7 +1775,73 @@ height=353
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Appendix">Appendix<a class="anchor-link" href="#Appendix">&#182;</a></h2><h3 id="A.1-The-Weak-Law-of-Large-Numbers">A.1 The Weak Law of Large Numbers<a class="anchor-link" href="#A.1-The-Weak-Law-of-Large-Numbers">&#182;</a></h3><p>This section will serve as a derivation of the <strong>Weak Law of Large Numbers</strong>, and is meant to provide a more concrete vantage point, in junction with the intuitive explanations from earlier.</p>
+<h2 id="Appendix">Appendix<a class="anchor-link" href="#Appendix">&#182;</a></h2><h3 id="A.1-The-Weak-Law-of-Large-Numbers">A.1 The Weak Law of Large Numbers<a class="anchor-link" href="#A.1-The-Weak-Law-of-Large-Numbers">&#182;</a></h3><p>This section will serve as a derivation for the <strong>Weak Law of Large Numbers</strong>, and is meant to provide a more concrete vantage point, in junction with the intuitive explanations from earlier.</p>
+<p>To start, we will assume that we have a random variable, $X$, with a probability distribution that has a certain (finite) mean, $\mu$, and variance, $\sigma^2$. We then draw $n$ independent and identically distributed random variables from $X$:</p>
+<p>$$\{ x_1, x_2,...,x_n\}$$</p>
+<p>After drawing $n$ samples from $X$ we have a <strong>sample mean</strong>:</p>
+<p>$$\text{sample mean} \longrightarrow M_n = \frac{x_1 + ... + x_n}{n}$$</p>
+<p>Where the sample mean is a random variable because it is a function of random variables. This should be distinguished between the true mean, $\mu$, which is a <em>number</em>-it is <em>not</em> random:</p>
+<p>$$\text{true mean} \longrightarrow E[X]$$</p>
+<p>Now, the sample mean is the most natural way to estimate the true mean. The weak law of large numbers provides support for this notion. We can calculate the expectation of the sample mean:</p>
+<p>$$E[M_n]$$</p>
+<p>Note, there are two different types of averaging going on here:</p>
+<ol>
+<li>First, the sample mean averages over the values observed in one long experiment</li>
+<li>Secondly, the expectation averages over all possible outcomes of the experiment. It is a theoretical average. </li>
+</ol>
+<h4 id="Expectation-of-Sample-Mean">Expectation of Sample Mean<a class="anchor-link" href="#Expectation-of-Sample-Mean">&#182;</a></h4><p>We can find the expectation as follows:</p>
+<p>$$E[M_n] = \frac{E[x_1 + x_2 + ... + x_n]}{n}$$</p>
+<p>Then, using <a href="https://en.wikipedia.org/wiki/Expected_value#Linearity">linearity</a> we can apply the fact that $E[x_i] = \mu$:</p>
+<p>$$E[M_n] = \frac{n \mu}{n} = \mu$$</p>
+<h4 id="Variance-of-Sample-Mean">Variance of Sample Mean<a class="anchor-link" href="#Variance-of-Sample-Mean">&#182;</a></h4><p>We can now calculate the variance of the sample mean, $var(M_n)$:</p>
+<p>$$Var\Big(\frac{x_1 + ... + x_n}{n}\Big)$$</p>
+<p>The variance of a random variable divided by a number is equivalent to the variance of the random variable, divided by the square of that number (seen <a href="https://en.wikipedia.org/wiki/Variance#Basic_properties">here</a>). In the nature of keeping this appendix self contained, we can quickly prove that now. We can let:</p>
+<p>$$Y = aX$$</p>
+<p>$$E[X] = \mu$$</p>
+<p>$$ \nu = E[Y] = a \cdot E[X] = a \cdot \mu $$</p>
+<p>$$Var(Y) = E \big[(ax - a\mu)^2 \big] = E \big[ a^2 (x - \mu)^2 \big] = a^2 E \big[(x-\mu)^2\big] = a^2 Var(X)$$</p>
+<p>$$\text{Rule} \longrightarrow Var(aX) = a^2 Var(X)$$</p>
+<p>And we have the property that we were looking for. So, picking up where we left off:</p>
+<p>$$Var\Big(\frac{1}{n}\frac{x_1 + ... + x_n}{1}\Big) = \frac{Var(x_1 + ... + x_n)}{n^2}$$</p>
+<p>Because the $x_i$'s are independent, the variance of $x_i$ is the sum of the variances. Hence, we end up with $n$ times the variance of each one of them:</p>
+<p>$$Var(M_n) = \frac{n \sigma^2}{n^2} = \frac{\sigma^2}{n}$$</p>
+<h4 id="Apply-Chebyshev-Inequality">Apply Chebyshev Inequality<a class="anchor-link" href="#Apply-Chebyshev-Inequality">&#182;</a></h4><p>Now we are in a position to apply the <strong>Chebyshev Inequality</strong>. If you are unfamilar, I highly recommend checking out my post on probability inequalities. Chebyshev tells us that the distance of a random variable from it's mean being larger than a certain number, has a probability that is bounded above by the variance of the random variable of interest, divided by the square of the certain number:</p>
+<p>$$P \big(\big| M_n - \mu \big|\geq \epsilon \big) \; \leq \; \frac{Var(M_n)}{\epsilon^2}$$</p>
+<p>We have already calculated the variance, and so this quantity is:</p>
+<p>$$P \big(\big| M_n - \mu \big|\geq \epsilon \big) \; \leq \; \frac{\sigma^2}{n\epsilon^2}$$</p>
+<p>If we consider $\epsilon$ to be a fixed number and let $n \rightarrow \infty$, then we obtain a limiting value of 0:</p>
+<p>$$P \big(\big| M_n - \mu \big|\geq \epsilon \big) \; \leq \; \frac{\sigma^2}{\infty \epsilon^2} = 0$$</p>
+<p>This shows that the probability of falling far away from the mean diminishes to zero as we draw more samples.</p>
+<h4 id="Weak-Law-of-Large-Numbers">Weak Law of Large Numbers<a class="anchor-link" href="#Weak-Law-of-Large-Numbers">&#182;</a></h4><p>So, to summarize, the Weak Law of Large Numbers is defined as:</p>
+<h4 id="$$\text{Weak-Law-of-Large-Numbers}-\longrightarrow--\text{For-}-\epsilon-&gt;-0-\;-,-\;-P\big(-\big|M_n---\mu-\big|-\geq-\epsilon-\big)-=-P-\Big(-\Big|-\frac{X_1-+-...-+-X_n}{n}---\mu-\Big|-\geq-\epsilon-\Big)-\rightarrow-0-\;-,-\;-\text{as-}-n-\rightarrow-\infty$$"><span style="color:#0000cc">$$\text{Weak Law of Large Numbers} \longrightarrow  \text{For } \epsilon &gt; 0 \; , \; P\big( \big|M_n - \mu \big| \geq \epsilon \big) = P \Big( \Big| \frac{X_1 + ... + X_n}{n} - \mu \Big| \geq \epsilon \Big) \rightarrow 0 \; , \; \text{as } n \rightarrow \infty$$</span><a class="anchor-link" href="#$$\text{Weak-Law-of-Large-Numbers}-\longrightarrow--\text{For-}-\epsilon-&gt;-0-\;-,-\;-P\big(-\big|M_n---\mu-\big|-\geq-\epsilon-\big)-=-P-\Big(-\Big|-\frac{X_1-+-...-+-X_n}{n}---\mu-\Big|-\geq-\epsilon-\Big)-\rightarrow-0-\;-,-\;-\text{as-}-n-\rightarrow-\infty$$">&#182;</a></h4><p>I'd like to also offer an interpretation for the WLLN. We can think of having one long experiment, and during that experiment we draw many random variables from the same distribution. A way to think about those random variables is that each one is equal to the true mean plus some measurement noise:</p>
+<p>$$X_i = \mu + W_i$$</p>
+<p>Where $W_i$ has an expected value of 0, $E[W_i] = 0$, and is independent. So, we have a collection of noisy measurements and we take the average of them. The WLLN tells use that the sample mean of $M_n$ is unlikely to be far off from the true mean, $\mu$.</p>
+<p>As a special case let us consider a probabilistic model in which we repeat, many times and independently, the same experiment. There is an event associated with that experiment that has a certain probability:</p>
+<p>$$\text{Event: } A$$</p>
+<p>$$p = P(A)$$</p>
+<p>And $X_i$ acts an indicator of the events occurrence:</p>
+<p>$$
+X_i =
+\begin{cases}
+ 1, &amp; \text{if A occurs} \\
+ 0, &amp; \text{if A does not occur}
+\end{cases}
+$$</p>
+<p>Where the expected value of $X_i$ is:</p>
+<p>$$E[X_i] = p$$</p>
+<p>In this particular case, the sample mean counts how many times $A$ occurred out of the $n$ experiments that we carried out. So, it is just the frequency with which event $A$ occurred. In other words, the sample mean $M_n$ is the <strong>empirical frequency</strong> of event $A$. The WLLN tells us that the empirical frequency will be close the the probability of the event $A$. In this way it reinforces or justifies the interpretation of probabilities as frequencies.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2><ol>
+<li><a href="https://www.youtube.com/watch?v=Yh5bR7X3ch8">The Law of Large Numbers</a></li>
+<li><a href="https://www.youtube.com/watch?v=ZWo1XgAQE5k&amp;list=PLUl4u3cNGP60hI9ATjSFgLZpbNJ7myAg6&amp;index=63&amp;t=507s">Properties of Variance</a></li>
+</ol>
 
 </div>
 </div>
