@@ -285,10 +285,10 @@ Finally, the coin 1 is biased towards heads and has a 0.7 probability of being h
 <p>Now, if we repeated this process for transitioning from state 2 to 3, we would end up with the following equation:</p>
 <p>$$p\big(x,z \big) = \pi\big(z(1)\big)p\big(x(1)=1|z(1)\big) * p\big(z(2)|z(1)\big) * p\big(x(2)=1|z(2)\big) * p\big(z(3)|z(2)\big) * p\big(x(3)=0|z(3)\big)$$</p>
 <p>Which we can then update by utilizing our matrices $A$ and $B$:</p>
-<p>$$p\big(x,z \big) = \pi\big(z(1)\big)B\big(z(2),x(2)=1\big) * A\big(z(1),z(2)\big) * B\big(z(2),x(2)=1\big) * A\big(z(2),z(3)\big) * B\big(z(3),x(3)=0\big)$$</p>
+<p>$$p\big(x,z \big) = \pi\big(z(1)\big)B\big(z(1),x(1)=1\big) * A\big(z(1),z(2)\big) * B\big(z(2),x(2)=1\big) * A\big(z(2),z(3)\big) * B\big(z(3),x(3)=0\big)$$</p>
 <p>Now, at this point we can see that there are multiple values that $z$ can take on, and that in order to find $p(x)$ we must marginalize out $z$, like so:</p>
 <p>$$\sum_{z_1 = 1..M,..,z_3=1..M}\pi\big(z(1)\big)B\big(z(2),x(2)=1\big) * A\big(z(1),z(2)\big) * B\big(z(2),x(2)=1\big) * A\big(z(2),z(3)\big) * B\big(z(3),x(3)=0\big)$$</p>
-<p>We can see that since $M$ is 2, and we have $T =3$ observations, there are going to be $2^3$ different operations (separate summations) that need to be performed in order to marginalize out $z$. That would be very messy to write out, be we will calculate it in code below:</p>
+<p>We can see that since $M$ is 2, and we have $T =3$ observations, there are going to be $2^3$ different operations (separate summations) that need to be performed in order to marginalize out $z$. That would be very messy to write out, but we will calculate it in code below:</p>
 
 </div>
 </div>
