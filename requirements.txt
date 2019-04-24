@@ -11,3 +11,4 @@ sos-essentials
 boto3
 scipy
 statsmodels
+plotly
