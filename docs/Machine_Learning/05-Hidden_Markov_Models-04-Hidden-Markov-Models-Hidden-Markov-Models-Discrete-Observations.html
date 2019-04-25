@@ -222,12 +222,12 @@ body {
 <p>The basic idea behind a latent variable is that there is something going on beyond what we can observe/measure. What we observe is generally stochastic/random, since if it were deterministic we could predict it without doing any machine learning at all. The assumption that we make when we assume there are latent or hidden variables is that there is some cause behind the scenes that is leading to the observations that we see. In hidden markov models, the hidden cause itself is stochastic-it is a random process, the markov chain.</p>
 <p>An example of this can be seen in genetics. As a human, we are just a physical manifestation of some biological code. Now that the code is readable, it is not hidden in the sense that we can't measure it, but there was a time when we couldn't. At that point, people would use HMM's to determine how genes map to actual physical attributes.</p>
 <p>Another example is speech to text. A computer isn't able to read the words you are attempting to say, but it can use an internal language model-i.e. a model of likely sequences of hidden states, to try and match those to the sounds that it hears. So, in this case what is observed are the sound signal, and the latent variables are just the sentence or phrase that you are saying.</p>
-<h2 id="1.1-Markov-$\rightarrow$-Hidden-Markov">1.1 Markov $\rightarrow$ Hidden Markov<a class="anchor-link" href="#1.1-Markov-$\rightarrow$-Hidden-Markov">&#182;</a></h2><p>So, how do we go from markov models to hidden markov models? The simplest way to explain this is via an example. Suppose you are at a carnival and a magician has two biased coins that he is hiding behind his back. He will choose to flip one of the coins at random, and all you get to see is the result of the coin toss (H/T). So, what are the <strong>hidden states</strong> and what are the <strong>observed variables</strong>?</p>
+<h3 id="1.1-Markov-$\rightarrow$-Hidden-Markov">1.1 Markov $\rightarrow$ Hidden Markov<a class="anchor-link" href="#1.1-Markov-$\rightarrow$-Hidden-Markov">&#182;</a></h3><p>So, how do we go from markov models to hidden markov models? The simplest way to explain this is via an example. Suppose you are at a carnival and a magician has two biased coins that he is hiding behind his back. He will choose to flip one of the coins at random, and all you get to see is the result of the coin toss (H/T). So, what are the <strong>hidden states</strong> and what are the <strong>observed variables</strong>?</p>
 <ul>
 <li>Since we can see the results of the coin toss, that means heads and tails are our <em>observed variables</em>. We can think of this as a vocabulary or space of possible observed values. </li>
 <li>The <strong>hidden states</strong>, of course, are which coin the magician chose to flip. We can't see them, so they are hidden. This is called a stochastic or random process, since it is a sequence of random variables. </li>
 </ul>
-<h2 id="1.2-Define-an-HMM">1.2 Define an HMM<a class="anchor-link" href="#1.2-Define-an-HMM">&#182;</a></h2><p>How do we actually go about defining an HMM? Well, an HMM has 3 parts:</p>
+<h3 id="1.2-Define-an-HMM">1.2 Define an HMM<a class="anchor-link" href="#1.2-Define-an-HMM">&#182;</a></h3><p>How do we actually go about defining an HMM? Well, an HMM has 3 parts:</p>
 <blockquote><p><strong>$\pi$, A, B</strong></p>
 </blockquote>
 <p>(Note that this is opposed to the regular markov model which just has $\pi$ and $A$). $\pi$ is the <strong>initial state distribution</strong>, or the probability of being in a state when the sequence begins. In our coin example, say the magician really likes coin 1, so the probability that he starts with coin 1 is 0.9.</p>
@@ -246,11 +246,11 @@ body {
 $$</p>
 <p>The new variable here of course is $B$. This is the probability of observing some symbol given what state you are in. Note this also a matrix because it has two inputs. What state you are in, which is $j$, and what you observe, which is $k$.</p>
 <p>$$B(j,k) = probability \; of \;observing \;symbol\;k\;while\;you\;are\;in\;state\;j$$</p>
-<h2 id="1.3-Indepence-Assumptions">1.3 Indepence Assumptions<a class="anchor-link" href="#1.3-Indepence-Assumptions">&#182;</a></h2><p>In the HMM we are making more independence assumptions than just the markov assumption. Remember, the markov assumption is that the current state only depends on the previous state, but is independent of any state before the previous state. Now that we have both observed and hidden variables in our model, we have another independence assumption:</p>
+<h3 id="1.3-Indepence-Assumptions">1.3 Indepence Assumptions<a class="anchor-link" href="#1.3-Indepence-Assumptions">&#182;</a></h3><p>In the HMM we are making more independence assumptions than just the markov assumption. Remember, the markov assumption is that the current state only depends on the previous state, but is independent of any state before the previous state. Now that we have both observed and hidden variables in our model, we have another independence assumption:</p>
 <blockquote><p>"What we observe is only dependent on the current state"</p>
 </blockquote>
 <p>So, the observation at time $t$, depends only on the state at time $t$, but not at any other time, state, or observation.</p>
-<h2 id="1.4-What-can-we-do-with-an-HMM?">1.4 What can we do with an HMM?<a class="anchor-link" href="#1.4-What-can-we-do-with-an-HMM?">&#182;</a></h2><p>So, what are we able to do with an HMM once we have one? Well, it will be similar to what we had discussed with regular markov models, with some additions. With markov models there were two main things we could do:</p>
+<h3 id="1.4-What-can-we-do-with-an-HMM?">1.4 What can we do with an HMM?<a class="anchor-link" href="#1.4-What-can-we-do-with-an-HMM?">&#182;</a></h3><p>So, what are we able to do with an HMM once we have one? Well, it will be similar to what we had discussed with regular markov models, with some additions. With markov models there were two main things we could do:</p>
 <blockquote><ol>
 <li><strong>Get the probability of a sequence</strong>. This was just the multiplication of each state transition probability, and the probability of the initial state.  </li>
 <li><strong>Train the model.</strong> For this we just used maximum likelihood. That was just using frequency counts. </li>
@@ -330,7 +330,7 @@ Which when we break it down we see that we have <strong>the probability of the i
 <p>$$\pi\big(z(1)\big)p\big(x(1)|z(1)\big)$$</p>
 <p>Given us the second product. This occurs for a total of $T$ times, hence $2T$ products. We then subtract 1 from this based on where $T$ is initialized, leaving us with $2T -1$ products. How many times do we need to compute this product? This is equal to the number of possible state sequences, which is $M^T$. So in total that leaves us with $O(TM^T)$. This is exponential growth which is pretty bad, so we don't want to do this. A better way of doing this would be the forward backward algorithm. The main issue that is causing us so many problems is that we have a product inside of a sum. Normally, we can't simplify a product inside of a sum, but in this case we can factor the expression using the properties of probability to reduce the number of calculations we have to do.</p>
 <p>As a note, if you would like to see an example of the above calculation and the subsequent Forward-Backward algorithm, it can be found in the Appendix - HMM Calculations.</p>
-<h2 id="4.1-Forward-Backword-Algorithm-Process">4.1 Forward-Backword Algorithm Process<a class="anchor-link" href="#4.1-Forward-Backword-Algorithm-Process">&#182;</a></h2><p>So, how does the forward backward algorithm actually work? It utilizes <em>dynamic programming</em> in order to reduce the computational complexity of our task. We need to define a variable called $\alpha$:</p>
+<h3 id="4.1-Forward-Backword-Algorithm-Process">4.1 Forward-Backword Algorithm Process<a class="anchor-link" href="#4.1-Forward-Backword-Algorithm-Process">&#182;</a></h3><p>So, how does the forward backward algorithm actually work? It utilizes <em>dynamic programming</em> in order to reduce the computational complexity of our task. We need to define a variable called $\alpha$:</p>
 <blockquote><p><em>This is the forward variable, and it represents the joint probability of seeing the sequence you have observed up until now and being in a specific state at that time.</em></p>
 </blockquote>
 <p>$$\alpha(t,i) = p\big(x(1),...,x(t), z(t)=i\big)$$</p>
@@ -362,7 +362,7 @@ Which when we break it down we see that we have <strong>the probability of the i
 <h4 id="Induction-Step">Induction Step<a class="anchor-link" href="#Induction-Step">&#182;</a></h4><p>The induction step is to then calculate the previous $\beta$ for every state, similar to what we did with the forward algorithm:</p>
 <p>$$\beta(t, i) = \sum_{j=1}^M A(i,j)B\big(j, x(t+1)\big) \beta(t+1, j)$$</p>
 <p>Again, we want to do this for all times down to 1 or 0, depending on how you index, and for every state at each time.</p>
-<h2 id="4.3-Pseudocode">4.3 Pseudocode<a class="anchor-link" href="#4.3-Pseudocode">&#182;</a></h2>
+<h3 id="4.3-Pseudocode">4.3 Pseudocode<a class="anchor-link" href="#4.3-Pseudocode">&#182;</a></h3>
 <pre><code>alpha = np.zeros((T, self.M))
 alpha[0] = self.pi * self.B[:, x[0]]
 for t in range(1, T):
@@ -382,7 +382,7 @@ for t in range(T-2, -1, -1):
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="4.4-Forward-Algorithm-Explanation">4.4 Forward Algorithm Explanation<a class="anchor-link" href="#4.4-Forward-Algorithm-Explanation">&#182;</a></h2><p>The key idea behind the forward algorithm is that we are going to unroll the HMM in time.</p>
+<h3 id="4.4-Forward-Algorithm-Explanation">4.4 Forward Algorithm Explanation<a class="anchor-link" href="#4.4-Forward-Algorithm-Explanation">&#182;</a></h3><p>The key idea behind the forward algorithm is that we are going to unroll the HMM in time.</p>
 <h3 id="4.4.1-Sequence-of-Length-1">4.4.1 Sequence of Length 1<a class="anchor-link" href="#4.4.1-Sequence-of-Length-1">&#182;</a></h3><p>First we can discuss what we do with a sequence of length 1. Remember, the goal is to determine the probability of the sequence. Well, that is just a simple probability problem.</p>
 <p>We have the following:</p>
 <blockquote><ul>
@@ -448,18 +448,17 @@ $\pi$ times $B$ for the 3 states. </li>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr>
-<h1 id="5.-Viterbi-Algorithm">5. Viterbi Algorithm<a class="anchor-link" href="#5.-Viterbi-Algorithm">&#182;</a></h1><p>One question that we may have for our HMM, especially if our hidden states are modeled on some physical reality or an actual system, rather than just being arbitrary latent variables, is:</p>
+<h2 id="5.-Viterbi-Algorithm">5. Viterbi Algorithm<a class="anchor-link" href="#5.-Viterbi-Algorithm">&#182;</a></h2><p>One question that we may have for our HMM, especially if our hidden states are modeled on some physical reality or an actual system, rather than just being arbitrary latent variables, is:</p>
 <blockquote><p>What is the sequence of hidden states, given the observation?</p>
 </blockquote>
 <p>For example, given a sound sample of someone speaking, what are the words that they are saying? This is what the <strong>Viterbi Algorithm</strong> calculates-the most probable hidden state sequence, given the observed sequence, under the current model.</p>
 <p>We will see that the viterbi algorithm works a lot like the forward algorithm we just went ever, expect that instead of just taking the sum, we just take the max.</p>
 <p>One extra thing we will need to add is <em><strong>backtracking</strong></em>, since we will need to keep track of the actual states, not just determine the final probability.</p>
-<h2 id="5.1-Viterbi-Algorithm-Internals">5.1 Viterbi Algorithm Internals<a class="anchor-link" href="#5.1-Viterbi-Algorithm-Internals">&#182;</a></h2><p>To do this we will create two new variables:</p>
+<h3 id="5.1-Viterbi-Algorithm-Internals">5.1 Viterbi Algorithm Internals<a class="anchor-link" href="#5.1-Viterbi-Algorithm-Internals">&#182;</a></h3><p>To do this we will create two new variables:</p>
 <blockquote><ul>
 <li>$\delta(t,i)$, which is indexed by time and state. This will represent the maximum probability of ending up in state $i$ at time $t$, which is a joint probability distribution over the state sequence and observed sequence. <br>
 <br>
-$$\delta(t,i) = max \Big \{p\big(z(1), z(t)=i, x(1),...,x(t) \big) \Big \}$$
+$$\delta(t,i) = max \Big \{p\big(z(1),...,z(t)=i, x(1),...,x(t) \big) \Big \}$$
 <br></li>
 <li>$\psi(t,i)$, which is also indexed by time and state. This will keep track of the actual state sequences that end up at time $t$ and in state $i$. <br>
 <br>
@@ -475,11 +474,10 @@ $$\psi(1,i) = 0$$</p>
 <h3 id="5.1.3-Step-3---Termination-Step">5.1.3 Step 3 - Termination Step<a class="anchor-link" href="#5.1.3-Step-3---Termination-Step">&#182;</a></h3><p>Finally, we have the termination step, where we find the maximum probability:</p>
 <p>$$p^* = max_{1 \leq i \leq M} \delta(T,i)$$</p>
 <p>For the best state sequence, in the final best state:</p>
-<p>$$z(T)^* argmax_{1 \leq i \leq M} \delta(T, i)$$</p>
+<p>$$z(T)^* = argmax_{1 \leq i \leq M} \delta(T, i)$$</p>
 <p>To determine the rest of the best state sequence, we just need to back track using $\psi$. This is done for time equals $T-1$ all the way down to 1:</p>
 <p>$$z(T)^* = \psi (t+1, z(t+1)^*)$$</p>
 <h3 id="5.1.4-Pseudocode">5.1.4 Pseudocode<a class="anchor-link" href="#5.1.4-Pseudocode">&#182;</a></h3><p>In pseudocode, it may look like:</p>
-<hr>
 
 <pre><code>delta = np.zeros((T, self.M))
 psi = np.zeros((T, self.M))
@@ -495,7 +493,6 @@ states[T-1] = np.argmax(delta[T-1])
 for t in range(T-2, -1, -1):
     states[t] = psi[t+1, states[t+1]]
 return states</code></pre>
-<hr>
 
 </div>
 </div>
@@ -504,18 +501,19 @@ return states</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr>
-<h1 id="6.-Viterbi-Visualization">6. Viterbi Visualization<a class="anchor-link" href="#6.-Viterbi-Visualization">&#182;</a></h1><p>The main difference between the viterbi algorithm and the forward algorithm, is that instead of taking the sum over all of the previous states that could have lead to the current one, we want to take the <em>max</em>. This is because we want to find the sequence that gives us the highest <em>observation probability</em>.</p>
-<h2 id="6.1-First-Step-Visualization">6.1 First Step Visualization<a class="anchor-link" href="#6.1-First-Step-Visualization">&#182;</a></h2><p>The first step is to consider just one observation, $x(1)$.</p>
+<h2 id="6.-Viterbi-Visualization">6. Viterbi Visualization<a class="anchor-link" href="#6.-Viterbi-Visualization">&#182;</a></h2><p>The main difference between the viterbi algorithm and the forward algorithm, is that instead of taking the sum over all of the previous states that could have lead to the current one, we want to take the <em>max</em>. This is because we want to find the sequence that gives us the highest <em>observation probability</em>.</p>
+<h3 id="6.1-First-Step-Visualization">6.1 First Step Visualization<a class="anchor-link" href="#6.1-First-Step-Visualization">&#182;</a></h3><p>The first step is to consider just one observation, $x(1)$.</p>
 <p><img src="https://drive.google.com/uc?id=1fobPF0X0ud6boBSGufMhEqSMFlrW_h2W" width="350"></p>
 <p>Since just one observation corresponds to just one state, then we just want to find the most probable single state. This is just the maximum of $\pi$ times $B$:</p>
 <p>$$max\Big(\pi_1B\big(1, x(1)\big), \pi_2B\big(2, x(1)\big), \pi_3B\big(3, x(1)\big) \Big)$$</p>
-<p>This is just the probability of going to a state, and then observing what we observed from that state. Remember, we defined $\pi B$ as $\delta$, which is indexed by time and state:</p>
+<p>This is just the probability of going to a state, and then observing what we observed from that state. Remember, we defined $\pi B$ as $\delta$, which is indexed by time and state; this allows us to make the following substitution:</p>
 <p>$$max \Big(\delta(t=1, 1), \delta(t=1, 2), \delta(t=1, 3)\Big)$$</p>
-<h2 id="6.2-Two-Step-Sequence-$\rightarrow$-Induction-Step">6.2 Two Step Sequence $\rightarrow$ Induction Step<a class="anchor-link" href="#6.2-Two-Step-Sequence-$\rightarrow$-Induction-Step">&#182;</a></h2><p>Let's now look at a two step sequence to get a better intuition for how our induction step works. We have the following visualization:</p>
+<h3 id="6.2-Two-Step-Sequence-$\rightarrow$-Induction-Step">6.2 Two Step Sequence $\rightarrow$ Induction Step<a class="anchor-link" href="#6.2-Two-Step-Sequence-$\rightarrow$-Induction-Step">&#182;</a></h3><p>Let's now look at a two step sequence to get a better intuition for how our induction step works. We have the following visualization:</p>
 <p><img src="https://drive.google.com/uc?id=1BFQUEiASvSw_B88xaddwrmj1RCd9guul" width="350"></p>
-<p>We will consider the following: a two step sequence, which we observe $x(1)$ and $x(2)$. Note, in our visualization $x(1)$ is not shown to allow things to state more compact. We can ask: how can we get to state 1 (the state at the top, $z_2 = 1$) at time $t=2$ from $t=1$?</p>
-<p>The answer is that we can get there from any other state! So the main idea is that we want to pick the one that gives us the maximum probability so far. How can we get that probability? That is the previous $\delta$, which if we recall is $\pi B$ at time $t=1$:</p>
+<p>We will consider the following: a two step sequence, which we observe $x(1)$ and $x(2)$. Note, in our visualization $x(1)$ is not shown to allow things to stay more compact. Instead, $\delta$ is utilized in the place of the $\pi \rightarrow x$ observations from the previous diagram. We can ask: how can we get to state 1 (the state at the top, $z_2 = 1$) at time $t=2$ from $t=1$?</p>
+<p>The answer is that we can get there from any other state! This can be seen clearly below:</p>
+<p><img src="https://drive.google.com/uc?id=1xHg9PBHYoGIeqUJfdosfFdcCk_3HzcRQ" width="350"></p>
+<p>So the main idea is that we want to pick the one that gives us the maximum probability so far. How can we get that probability? That is the previous $\delta$, which if we recall is $\pi B$ at time $t=1$:</p>
 <p>$$\delta(1,i)$$</p>
 <p>And then transitioning from that state to the current state (which we are currently assuming is 1):</p>
 <p>$$A(i,1)$$</p>
@@ -523,10 +521,16 @@ return states</code></pre>
 <p>$$B\big( 1, x(2)\big)$$</p>
 <p>The <em>best</em> path is whatever gives us:</p>
 <p>$$max \Big(\delta(1,i)A(i,1)B\big( 1, x(2)\big) \Big)$$</p>
+<p>$$max \Big( 
+\overbrace{ \delta(1,1)A(1,1)B\big( 1, x(2)\big)}^\text{Transitioning from 1 to 1}, 
+\overbrace{ \delta(1,2)A(2,1)B\big( 1, x(2)\big)}^\text{Transitioning from 2 to 1}, 
+\overbrace{ \delta(1,3)A(3,1)B\big( 1, x(2)\big)}^\text{Transitioning from 3 to 1}, 
+\Big)$$</p>
 <p>That max is clearly dependent on the previous state, $i$, so we are taking the max with respect to $i$. Note, the above equation is just the definition of the next $\delta$!</p>
 <p>$$\delta(2,1) = max \Big(\delta(1,i)A(i,1)B\big( 1, x(2)\big) \Big)$$</p>
-<p>Hence, $\delta$ is also defined recursively in terms of its previous value.</p>
-<p>In the end, what we we are looking for is the best state sequence, considering all the observed variables as a whole. So that means that looking at only the first observation, perhaps being in state 1 gives us the best total probability. But, if we considering both observations, being in state 2 and then transitioning to state 1 might give us the best total probability for the entire sequence. In that case, we should say that the state at time $t=1$ is 2, $z_1 = 2$.</p>
+<p>Hence, $\delta$ is also defined recursively in terms of its previous value. Keep in mind that we just found $\delta(2,1)$, but there are two more entries that we must find still: $\delta(2,2)$ and $\delta(2,3)$. This represent the max of going from all states to state 2, and from all states to state 3, respectively (shown below).</p>
+<p><img src="https://drive.google.com/uc?id=1Ji1z8_MlWz46zEqJJuT4_lUYJdcHwgEo" width="650"></p>
+<p>In the end, what we are looking for is the best state sequence, considering all the observed variables as a whole. So that means that looking at only the first observation, perhaps being in state 1 gives us the best total probability. But, if we are considering both observations, being in state 2 and then transitioning to state 1 might give us the best total probability for the entire sequence. In that case, we should say that the state at time $t=1$ is 2, $z_1 = 2$.</p>
 <p>Because we can only determine the best sequence at the very last $\delta(T,i)$, we need to keep track of all possible state transitions that we encounter. Thus, we want to keep track of <em>ALL</em> possible state transitions that we encountered. That is not exponential, because it doesn't consider all possible state transitions in total, just the ones that were giving us the best probabilities along the way.</p>
 <p><img src="https://drive.google.com/uc?id=1ALIbniOfAGr9d9JwmDFJvDwUaAnF1bYj" width="350"></p>
 <h3 id="6.3-Termination-Step">6.3 Termination Step<a class="anchor-link" href="#6.3-Termination-Step">&#182;</a></h3><p>Since $\delta(T,i)$ is the best probability for observing the whole sequence $x(1), ..., x(T)$ and ending up in state $i$, then the max of that will give us the best probability overall:</p>
@@ -542,13 +546,12 @@ return states</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr>
-<h1 id="7.-Baum-Welch-Algorithm">7. Baum-Welch Algorithm<a class="anchor-link" href="#7.-Baum-Welch-Algorithm">&#182;</a></h1><p>We are now going to discuss the last of the three tasks that we can perform on an HMM, and it is the most critical:</p>
+<h2 id="7.-Baum-Welch-Algorithm">7. Baum-Welch Algorithm<a class="anchor-link" href="#7.-Baum-Welch-Algorithm">&#182;</a></h2><p>We are now going to discuss the last of the three tasks that we can perform on an HMM, and it is the most critical:</p>
 <blockquote><p>How do we train an HMM?</p>
 </blockquote>
 <p>Similar to when we studied Gaussian Mixture Models, we have a latent variable where all of the possibilities need to be summed over, so we can't easily find the maximum likelihood solution. We need to use the expectation maximization algorithm, which is an iterative algorithm.</p>
 <p>The <em><strong>Baum-Welch</strong></em> algorithm is named after the mathematicians who invented it, and it relies on the forward-backward algorithm that we learned about earlier. In fact, the first step to completing the Baum-Welch update, is to first compute the forward and backward variables, $\alpha$ and $\beta$.</p>
-<h2 id="7.1-New-Variable-$\rightarrow-\phi$">7.1 New Variable $\rightarrow \phi$<a class="anchor-link" href="#7.1-New-Variable-$\rightarrow-\phi$">&#182;</a></h2><p>Once we have those variables, we can compute a new quantity called $\phi$. It has three indices, $t,i,j$:</p>
+<h3 id="7.1-New-Variable-$\rightarrow-\phi$">7.1 New Variable $\rightarrow \phi$<a class="anchor-link" href="#7.1-New-Variable-$\rightarrow-\phi$">&#182;</a></h3><p>Once we have those variables, we can compute a new quantity called $\phi$. It has three indices, $t,i,j$:</p>
 <p>$$\phi(t, i ,j) = p\big(z(t)=i, z(t+1)=j \mid x\big)$$</p>
 <blockquote><p>Which simply represents the  <em>probability of being in the state $i$ at time $t$, transitioning to state $j$ at time $t + 1$, given the observation sequence</em>. This can be seen visually below:</p>
 </blockquote>
@@ -611,15 +614,15 @@ $$<br>
 This is then divided by the exact same probability, but normalized so that all possible $i$'s transitioning to all possible $j$'s are accounted for. </li>
 </ul>
 </blockquote>
-<h2 id="7.2-Another-New-Variable-$\rightarrow-\gamma$">7.2 Another New Variable $\rightarrow \gamma$<a class="anchor-link" href="#7.2-Another-New-Variable-$\rightarrow-\gamma$">&#182;</a></h2><p>Once we have $\phi$ we can define another variable, $\gamma$, which depends only on $t$ and $i$, and sum over $j$ which is all of the states:</p>
+<h3 id="7.2-Another-New-Variable-$\rightarrow-\gamma$">7.2 Another New Variable $\rightarrow \gamma$<a class="anchor-link" href="#7.2-Another-New-Variable-$\rightarrow-\gamma$">&#182;</a></h3><p>Once we have $\phi$ we can define another variable, $\gamma$, which depends only on $t$ and $i$, and sum over $j$ which is all of the states:</p>
 <p>$$\gamma(t,i) = \sum_{j=1}^M \phi(t,i,j)$$</p>
 <p>So, $\gamma$ is just the $\phi$ probability, marginalized over $j$. In other words:</p>
 <p>$$\gamma(t,i) = p \big(z(t) = i \mid x\big)$$</p>
-<h2 id="7.3-Sum-over-time">7.3 Sum over time<a class="anchor-link" href="#7.3-Sum-over-time">&#182;</a></h2><p>The key here is that when we sum these variables over all time, $\gamma$ represents the expected number of transitions from state $i$:</p>
+<h3 id="7.3-Sum-over-time">7.3 Sum over time<a class="anchor-link" href="#7.3-Sum-over-time">&#182;</a></h3><p>The key here is that when we sum these variables over all time, $\gamma$ represents the expected number of transitions from state $i$:</p>
 <p>$$\sum_{t=1}^{T-1}\gamma(t,i) = E\big( \text{number of transitions from state i}\big)$$</p>
 <p>And $\phi$ represents the expected number of transitions from state $i$ to state $j$:</p>
 <p>$$\sum_{t=1}^{T-1}\phi(t,i,j) = E\big( \text{number of transitions from state i to state j}\big)$$</p>
-<h2 id="7.4-Update-Equations">7.4 Update Equations<a class="anchor-link" href="#7.4-Update-Equations">&#182;</a></h2><p>So, we can define our update equations as follows; $\pi$ is just:</p>
+<h3 id="7.4-Update-Equations">7.4 Update Equations<a class="anchor-link" href="#7.4-Update-Equations">&#182;</a></h3><p>So, we can define our update equations as follows; $\pi$ is just:</p>
 <p>$$\pi = \gamma(1, i)$$</p>
 <p>$A(i,j)$ is just the expected number of transitions from $i$ to $j$, divided by the number of transitions from $i$:</p>
 <p>$$A(i,j) = \frac{\sum_{t=1}^{T-1} \phi(t,i,j)}{\sum_{t=1}^{T-1}\gamma(t,i)}$$</p>
@@ -635,7 +638,7 @@ This is then divided by the exact same probability, but normalized so that all p
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
-<h1 id="8.-Baum-Welch-Explanation-and-Intuition">8. Baum-Welch Explanation and Intuition<a class="anchor-link" href="#8.-Baum-Welch-Explanation-and-Intuition">&#182;</a></h1><p>Let's now take a minute to dig into the mechanics of the Baum-Welch Algorithm. It can come across as rather confusing at first, but we can break it down into multiple steps so that it is easier to process.</p>
+<h2 id="8.-Baum-Welch-Explanation-and-Intuition">8. Baum-Welch Explanation and Intuition<a class="anchor-link" href="#8.-Baum-Welch-Explanation-and-Intuition">&#182;</a></h2><p>Let's now take a minute to dig into the mechanics of the Baum-Welch Algorithm. It can come across as rather confusing at first, but we can break it down into multiple steps so that it is easier to process.</p>
 <p>First and foremost, we need to keep in mind the following: so far we have been using predefined $A$, $B$, and $\pi$ matrices. In reality we will most likely not have those to start with and will need to use a <em>learning process through training</em> to find them. And that is where the Baum-Welch Algorithm comes into play.</p>
 <blockquote><p>The Baum-Welch algorithm is used to find the correct values for $A$, $B$, and $\pi$.</p>
 </blockquote>
@@ -647,7 +650,7 @@ This is then divided by the exact same probability, but normalized so that all p
 <p>$$p(VERB \mid NOUN) = \frac{count(NOUN \rightarrow VERB)}{count(NOUN)}$$</p>
 <p>We could similarly find observational probabilities. For example, the word "milk" can be a noun or a verb. To find the probability of the word <em>milk</em> given NOUN, or the probability of the word <em>milk</em> given VERB is easy, since we already have all that data in the training set.</p>
 <p>$$p(milk \mid NOUN) = \frac{count(milk \; is \; NOUN)}{count(NOUN)}$$</p>
-<h2 id="8.1-HMM's-in-General">8.1 HMM's in General<a class="anchor-link" href="#8.1-HMM's-in-General">&#182;</a></h2><p>Now the problem with HMM's in general is that the hidden states are <em>not</em> known. Simply put, we don't know which Gaussian the data point came from. We need to define it in terms of probabilities.</p>
+<h3 id="8.1-HMM's-in-General">8.1 HMM's in General<a class="anchor-link" href="#8.1-HMM's-in-General">&#182;</a></h3><p>Now the problem with HMM's in general is that the hidden states are <em>not</em> known. Simply put, we don't know which Gaussian the data point came from. We need to define it in terms of probabilities.</p>
 <p>In Gaussian Mixture Models, "which" Gaussian is the hidden variable. If we knew which Gaussian, we wouldn't need Expectation Maximization.</p>
 <p>Hidden Markov Models are the same! Since we don't know "which" hidden states are the correct states, we define possible hidden states probabilistically. That is the <em><strong>expectation step</strong></em>.</p>
 <p>$$\phi(t, i ,j) = p\big(z(t)=i, z(t+1)=j \mid x\big)$$</p>
@@ -661,8 +664,7 @@ This is then divided by the exact same probability, but normalized so that all p
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr>
-<h1 id="9.-Multiple-Observations">9. Multiple Observations<a class="anchor-link" href="#9.-Multiple-Observations">&#182;</a></h1><p>We are now going to discuss how to train an HMM when we have multiple observation sequences. Our training data isn't going to just be one sample, and we will want our model to accurately fit to all our training data as a whole. Usually, when we have $N$ samples of dimensionality $D$ we can put them in an $NxD$ numpy array or matrix. Now, when we are talking about sequences this becomes a problem.</p>
+<h2 id="9.-Multiple-Observations">9. Multiple Observations<a class="anchor-link" href="#9.-Multiple-Observations">&#182;</a></h2><p>We are now going to discuss how to train an HMM when we have multiple observation sequences. Our training data isn't going to just be one sample, and we will want our model to accurately fit to all our training data as a whole. Usually, when we have $N$ samples of dimensionality $D$ we can put them in an $NxD$ numpy array or matrix. Now, when we are talking about sequences this becomes a problem.</p>
 <p>This can be seen by the following example; suppose we are looking at voice samples. A sample of someone saying:</p>
 <blockquote><p>"Hello world"</p>
 </blockquote>
@@ -670,7 +672,7 @@ This is then divided by the exact same probability, but normalized so that all p
 <blockquote><p>"I just saved 15% on my car insurance."</p>
 </blockquote>
 <p>The simplest way is to store each individual sample as an element in a python list. Inside the python list (of length $N$) we can have individual numpy arrays of any length. So, for now we can just call that $T(n)$, where $n=1..N$. Each of the $N$ sequences is going to have its own version of all the updating variables ($\alpha, \beta$, etc) that we have talked about earlier. So, we will have $p(n)$ to represent the probability of the sequence, and we will have $\alpha(n)$ which will be the forward variable, and we will have $\beta(n)$ which will represent the backward variable. At this point, it is actually more convenient to express our updates in terms of $\alpha$ and $\beta$, so we will forget about $\phi$ and $\gamma$ for now.</p>
-<h2 id="9.1-Update-Equations">9.1 Update Equations<a class="anchor-link" href="#9.1-Update-Equations">&#182;</a></h2><p>So, our update for $\pi$ is just:</p>
+<h3 id="9.1-Update-Equations">9.1 Update Equations<a class="anchor-link" href="#9.1-Update-Equations">&#182;</a></h3><p>So, our update for $\pi$ is just:</p>
 <p>$$\pi_i = \frac{1}{N} \sum_{n=1}^N \frac{\alpha_n(1,i)\beta_n(1,i)}{P(n)}$$</p>
 <p>And for $A(i,j)$:</p>
 <p>$$A(i,j) = \frac{\sum_{n=1}^N \frac{1}{P(n)} \sum_{t=1}^{T(n)-1} \alpha_n(t,i)A(i,j)B\big(j, x_n(t+1)\big) \beta_n(t+1, j)}{\sum_{n=1}^N \frac{1}{P(n)} \sum_{t=1}^{T(n)-1} \alpha_n(t,i) \beta_n(t,i)}$$</p>
@@ -751,8 +753,7 @@ def generate_sequence(N):
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr>
-<h1 id="10.-Discrete-Hidden-Markov-Models-in-Code">10. Discrete Hidden Markov Models in Code<a class="anchor-link" href="#10.-Discrete-Hidden-Markov-Models-in-Code">&#182;</a></h1>
+<h2 id="10.-Discrete-Hidden-Markov-Models-in-Code">10. Discrete Hidden Markov Models in Code<a class="anchor-link" href="#10.-Discrete-Hidden-Markov-Models-in-Code">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -1055,8 +1056,7 @@ Best state sequence for:  [0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1,
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr>
-<h1 id="11.-Underflow-Problem">11. Underflow Problem<a class="anchor-link" href="#11.-Underflow-Problem">&#182;</a></h1><p>Now that we have worked through implementing the training of an HMM in code, it is time to touch on some technical details. The biggest thing that we must worry about is <strong>underflow</strong>. Imagine that we are dealing with a very long sequence. Well, the forward algorithm says that we should just keep multiplying alpha until the end of the sequence. But, issues arise when we keep multiplying small numbers together-the number continually gets smaller and smaller. For instance, if we try and perform:</p>
+<h2 id="11.-Underflow-Problem">11. Underflow Problem<a class="anchor-link" href="#11.-Underflow-Problem">&#182;</a></h2><p>Now that we have worked through implementing the training of an HMM in code, it is time to touch on some technical details. The biggest thing that we must worry about is <strong>underflow</strong>. Imagine that we are dealing with a very long sequence. Well, the forward algorithm says that we should just keep multiplying alpha until the end of the sequence. But, issues arise when we keep multiplying small numbers together-the number continually gets smaller and smaller. For instance, if we try and perform:</p>
 
 <pre><code>0.1**500 = 0</code></pre>
 <p>We see that the result is 0. The largest number that we can raise 0.1 to the power of, seems to be 323:</p>
@@ -1144,10 +1144,10 @@ Best state sequence for:  [0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1,
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, think about an audio signal. Audio signals are sampled at 44100Hz-or 44100 samples per second. Well, clearly our HMM will not be very useful if we can only represent a few seconds of data. So how do we solve this problem?</p>
-<h2 id="11.1-Viterbi-Case">11.1 Viterbi Case<a class="anchor-link" href="#11.1-Viterbi-Case">&#182;</a></h2><p>In the case of viterbi is a bit easier since it only involves multiplication!</p>
+<h3 id="11.1-Viterbi-Case">11.1 Viterbi Case<a class="anchor-link" href="#11.1-Viterbi-Case">&#182;</a></h3><p>In the case of viterbi is a bit easier since it only involves multiplication!</p>
 <p>$$log(AB) = log(A) + log(B)$$</p>
 <p>We know that we can use the log probability instead of the actually probability, since the logarithm is monotonically increasing. So, in the case of Viterbi, it is solved!</p>
-<h2 id="11.2-Forward-Backward-Case">11.2 Forward-Backward Case<a class="anchor-link" href="#11.2-Forward-Backward-Case">&#182;</a></h2><p>Now, the forward-backward algorithm is a bit trickier to deal with, since it involves summations. This is going be be much harder, but what we will do is introduce the concept of scaling. To accomplish proper scaling, we are going to introduce a scale factor, which we can call $c(t)$. Just like $\alpha$ and $\beta$, it is going to be of lenghth $T$. With the scale factor, we can restate the 3 steps of the forward algorithm:</p>
+<h3 id="11.2-Forward-Backward-Case">11.2 Forward-Backward Case<a class="anchor-link" href="#11.2-Forward-Backward-Case">&#182;</a></h3><p>Now, the forward-backward algorithm is a bit trickier to deal with, since it involves summations. This is going be be much harder, but what we will do is introduce the concept of scaling. To accomplish proper scaling, we are going to introduce a scale factor, which we can call $c(t)$. Just like $\alpha$ and $\beta$, it is going to be of lenghth $T$. With the scale factor, we can restate the 3 steps of the forward algorithm:</p>
 <h4 id="Step-1:-Initialization">Step 1: Initialization<a class="anchor-link" href="#Step-1:-Initialization">&#182;</a></h4><p>We begin by defining our initial $\alpha$ as $\alpha^\prime$:</p>
 <p>$$\alpha^\prime(1, i) = \pi_i B\big(j, x(1)\big) = \alpha(1, i)$$</p>
 <p>We then use the prime variable to define the <em>scale</em>:</p>
@@ -1328,8 +1328,7 @@ $\frac{1}{p\big(x(t+1)\big)}$
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr>
-<h1 id="12.-Discrete-HMM-with-Scaling-in-Code">12. Discrete HMM with Scaling in Code<a class="anchor-link" href="#12.-Discrete-HMM-with-Scaling-in-Code">&#182;</a></h1><p>This will have a good deal of similarity to the previous non scaled implementation, so we will be starting with some code from there.</p>
+<h2 id="12.-Discrete-HMM-with-Scaling-in-Code">12. Discrete HMM with Scaling in Code<a class="anchor-link" href="#12.-Discrete-HMM-with-Scaling-in-Code">&#182;</a></h2><p>This will have a good deal of similarity to the previous non scaled implementation, so we will be starting with some code from there.</p>
 
 </div>
 </div>
