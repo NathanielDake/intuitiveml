@@ -1,8 +1,3 @@
-# https://deeplearningcourses.com/c/machine-learning-in-python-random-forest-adaboost
-# https://www.udemy.com/machine-learning-in-python-random-forest-adaboost
-# mushroom data from:
-# https://archive.ics.uci.edu/ml/datasets/Mushroom
-# put all files in the folder ../large_files/
 from __future__ import print_function, division
 from future.utils import iteritems
 from builtins import range, input
