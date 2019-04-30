@@ -1,13 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from Machine_Learning.hmm.utils import get_obj_s3
-
-
-def random_normalized(d1, d2):
-    """Create random Markov Matrix, d1 x d2, normalizing to ensure rows sum to 1"""
-    x = np.random.random((d1, d2))
-    return x / x.sum(axis=1, keepdims=True)
+from Machine_Learning.hmm.utils import get_obj_s3, random_normalized
 
 
 class HMM:
