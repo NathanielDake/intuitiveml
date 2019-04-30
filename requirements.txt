@@ -12,3 +12,4 @@ boto3
 scipy
 statsmodels
 plotly
+theano

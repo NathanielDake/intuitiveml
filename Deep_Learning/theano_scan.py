@@ -28,9 +28,6 @@ def scan_example_a():
     print('Output: ', output_value)
 
 
-
-
-
 def scan_example_b():
     N = T.iscalar('N')
 
@@ -90,6 +87,7 @@ def scan_example_d():
     sequence = T.vector('sequence')
 
     def recurrence(current_x, current_total):
+        print("HIT")
         return current_x + current_total
 
     outputs, _ = theano.scan(
@@ -110,4 +108,4 @@ def scan_example_d():
 
 
 if __name__ == '__main__':
-    scan_example_d()
+    scan_example_c()
