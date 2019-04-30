@@ -105,9 +105,9 @@ class HMM:
                                 self.A[i, j] * self.B[j, x[t+1]] / scales[n][t+1]
                             )
                 # ----- B numerator update -------
-                for i in range(self.M):
+                for j in range(self.M):
                     for t in range(T):
-                        b_num[i, x[t]] += alphas[n][t,i] * betas[n][t,i]
+                        b_num[j, x[t]] += alphas[n][t,i] * betas[n][t,j]
 
             # ----- Update for A and B -------
             self.A = a_num / den_A
