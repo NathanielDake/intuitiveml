@@ -37,6 +37,10 @@ power = theano.function(
 # -------- Simple Accumulation into a scalar -------------
 up_to = T.iscalar("up_to")
 
+
+# Scan is meant to function as a for loop of sorts, iterating over a sequence and
+# doing something as it iterates
+#
 # The general order of function parameters to fn in theano.scan() is:
 # 1) sequences (if any)
 # 2) prior result(s) (if needed)
@@ -46,6 +50,8 @@ up_to = T.iscalar("up_to")
 # 1) The current sequence value that we are looping over. Our sequence in np.array([1,...,15])
 # 2) Our current total/sum (all previously summed values in the array). This takes an initial
 #    value of outputs_info (in this case 0)
+#
+# For more documentation: http://deeplearning.net/software/theano_versions/0.9.X/library/scan.html#lib-scan
 
 def accumulate_by_adding(current_arange_val, sum_to_date):
     return current_arange_val + sum_to_date

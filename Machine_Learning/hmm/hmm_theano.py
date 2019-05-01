@@ -11,7 +11,7 @@ class HMM:
 
     def fit(self, X, learning_rate=0.001, max_iter=10, V=None, p_cost=1.0, print_period=10):
         """Train HMM model using stochastic gradient descent."""
-        print("hit")
+
         # Determine V, the vocabulary size
         if V is None:
             V = max(max(x) for x in X) + 1
@@ -24,6 +24,11 @@ class HMM:
 
         thx, cost = self.set(pi0, A0, B0)
 
+        # This is a beauty of theano and it's computational graph. By defining a cost function,
+        # which is representing p(x), the probability of a sequence, we can then find the gradient
+        # of the cost with respect to our parameters (pi, A, B). The gradient updated rules are
+        # applied as usual. Note, the reason that this is stochastic gradient descent is because
+        # we are only looking at a single training example at a time.
         pi_update = self.pi - learning_rate * T.grad(cost, self.pi)
         pi_update = pi_update / pi_update.sum()
 
@@ -48,6 +53,7 @@ class HMM:
         costs = []
         for it in range(max_iter):
             for n in range(N):
+                # Looping through all N training examples
                 c = self.get_cost_multi(X, p_cost).sum()
                 costs.append(c)
                 train_op(X[n])
@@ -81,21 +87,33 @@ class HMM:
         # Define input, a vector
         thx = T.ivector("thx")
 
-        def recurrence(t, old_alpha, x):
-            """Scaled version of updates for HMM"""
+        def recurrence_to_find_alpha(t, old_alpha, x):
+            """Scaled version of updates for HMM. This is used to find the forward variable alpha.
+
+                Args:
+                    t:         Current time step, from pass in from scan:
+                               sequences=T.arange(1, thx.shape[0])
+                    old_alpha: Previously returned alpha, or on the first time step the initial value,
+                               outputs_info=[self.pi *  self.B[:, thx[0]], None]
+                    x:         thx, non_sequences (our actual set of observations)
+            """
             alpha = old_alpha.dot(self.A) * self.B[:, x[t]]
             s = alpha.sum()
             return (alpha / s), s
 
+        # alpha and scale, once returned, are both matrices with values at each time step
         [alpha, scale], _ = theano.scan(
-            fn=recurrence,
+            fn=recurrence_to_find_alpha,
             sequences=T.arange(1, thx.shape[0]),
-            outputs_info=[self.pi *  self.B[:, thx[0]], None],
+            outputs_info=[self.pi *  self.B[:, thx[0]], None],    # Initial value of alpha
             n_steps=thx.shape[0] - 1,
             non_sequences=thx,
         )
 
-        cost = -T.log(scale).sum()      # Negative log likelihood
+        # scale is an array, and scale.prod() = p(x)
+        # The property log(A) + log(B) = log(AB) can be used here to prevent underflow problem
+        p_of_x = -T.log(scale).sum()      # Negative log likelihood
+        cost = p_of_x
 
         self.cost_op = theano.function(
             inputs=[thx],
