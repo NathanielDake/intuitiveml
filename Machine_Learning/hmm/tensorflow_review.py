@@ -20,6 +20,27 @@ with tf.Session() as session:
         square_op,
         feed_dict={x: [1, 2, 3, 4, 5]}
     )
-    print("output: ", o_val)
+    print("Output: ", o_val)
 
 
+# ----------------------- Fibonacci -----------------------
+# N is the number fibonacci numbers that we want
+N = tf.placeholder(tf.int32, shape=(), name="N")
+
+def fibonacci(last, current):
+    # last[0] is the last value, last[1] is the second last value
+    return (last[1], last[0] + last[1])
+
+
+fib_op = tf.scan(
+    fn=fibonacci,
+    elems=tf.range(N),
+    initializer=(0, 1),
+)
+
+with tf.Session() as session:
+    o_val = session.run(
+        fib_op,
+        feed_dict={N: 8}
+    )
+    print("Output: ", o_val)
