@@ -30,13 +30,14 @@ class HMM:
         # applied as usual. Note, the reason that this is stochastic gradient descent is because
         # we are only looking at a single training example at a time.
         pi_update = self.pi - learning_rate * T.grad(cost, self.pi)
-        pi_update = pi_update / pi_update.sum()
+        pi_update = pi_update / pi_update.sum() # Normalizing to ensure it stays a probability
 
         A_update = self.A - learning_rate*T.grad(cost, self.A)
-        A_update = A_update / A_update.sum(axis=1).dimshuffle(0, 'x')
+        A_update = A_update / A_update.sum(axis=1).dimshuffle(0, 'x') # Normalizing to ensure it stays a probability
+                                                                      # dimshuffle so it broadcasts correctly
 
         B_update = self.B - learning_rate*T.grad(cost, self.B)
-        B_update = B_update / B_update.sum(axis=1).dimshuffle(0, 'x')
+        B_update = B_update / B_update.sum(axis=1).dimshuffle(0, 'x') # Normalizing to ensure it stays a probability
 
         updates = [
             (self.pi, pi_update),

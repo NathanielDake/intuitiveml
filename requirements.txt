@@ -13,3 +13,4 @@ scipy
 statsmodels
 plotly
 theano
+tensorflow
