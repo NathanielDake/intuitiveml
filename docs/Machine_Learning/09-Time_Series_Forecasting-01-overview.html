@@ -617,18 +617,18 @@ body {
   <tbody>
     <tr>
       <th>2020-01-01</th>
-      <td>1.003707</td>
-      <td>-0.192673</td>
+      <td>0.036005</td>
+      <td>1.372734</td>
     </tr>
     <tr>
       <th>2020-01-02</th>
-      <td>0.014045</td>
-      <td>0.292572</td>
+      <td>-0.461907</td>
+      <td>1.654139</td>
     </tr>
     <tr>
       <th>2020-01-03</th>
-      <td>-1.496478</td>
-      <td>2.265750</td>
+      <td>0.941474</td>
+      <td>-0.425419</td>
     </tr>
   </tbody>
 </table>
@@ -1002,7 +1002,7 @@ Freq: A-DEC, Name: Close, dtype: float64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -1078,40 +1078,17 @@ Freq: A-DEC, Name: Close, dtype: float64</pre>
 
 </div>
 
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
-        <script type="text/javascript">
-        window.PlotlyConfig = {MathJaxConfig: 'local'};
-        if (window.MathJax) {MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
-        if (typeof require !== 'undefined') {
-        require.undef("plotly");
-        requirejs.config({
-            paths: {
-                'plotly': ['https://cdn.plot.ly/plotly-latest.min']
-            }
-        });
-        require(['plotly'], function(Plotly) {
-            window._Plotly = Plotly;
-        });
-        }
-        </script>
-        
-</div>
-
-</div>
-
 </div>
 </div>
 
-</div>
+</div><script src="mathjax/MathJax.js?config=TeX-AMS-MML_SVG"></script>
+<script>
+   window.PlotlyConfig = {MathJaxConfig: 'local'}
+</script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_resampled</span><span class="o">.</span><span class="n">iplot</span><span class="p">(</span>
@@ -1142,21 +1119,21 @@ Freq: A-DEC, Name: Close, dtype: float64</pre>
 <div>
         
         
-            <div id="6c67e016-d6ab-44bc-9a5a-25e1116d4dbd" class="plotly-graph-div" style="height:350px; width:450px;"></div>
+            <div id="37dd6f2c-9146-4185-baf2-3b745797457f" class="plotly-graph-div" style="height:350px; width:450px;"></div>
             <script type="text/javascript">
                 require(["plotly"], function(Plotly) {
                     window.PLOTLYENV=window.PLOTLYENV || {};
                     window.PLOTLYENV.BASE_URL='https://plot.ly';
                     
-                if (document.getElementById("6c67e016-d6ab-44bc-9a5a-25e1116d4dbd")) {
+                if (document.getElementById("37dd6f2c-9146-4185-baf2-3b745797457f")) {
                     Plotly.newPlot(
-                        '6c67e016-d6ab-44bc-9a5a-25e1116d4dbd',
-                        [{"marker": {"color": "rgba(0, 128, 0, 0.6)", "line": {"color": "rgba(0, 128, 0, 1.0)", "width": 1}}, "name": "Close", "orientation": "v", "text": "", "type": "bar", "uid": "f5248820-ad05-4336-8249-95faf039a47e", "x": ["2015-12-31", "2016-12-31", "2017-12-31", "2018-12-31"], "y": [38.0061, 55.078, 53.11, 56.3243]}],
+                        '37dd6f2c-9146-4185-baf2-3b745797457f',
+                        [{"marker": {"color": "rgba(0, 128, 0, 0.6)", "line": {"color": "rgba(0, 128, 0, 1.0)", "width": 1}}, "name": "Close", "orientation": "v", "text": "", "type": "bar", "uid": "381f8e04-2567-4dfa-8e83-63a00b701490", "x": ["2015-12-31", "2016-12-31", "2017-12-31", "2018-12-31"], "y": [38.0061, 55.078, 53.11, 56.3243]}],
                         {"height": 350, "legend": {"bgcolor": "#F5F6F9", "font": {"color": "#4D5663"}}, "paper_bgcolor": "#F5F6F9", "plot_bgcolor": "#F5F6F9", "title": {"font": {"color": "#4D5663"}, "text": "Yearly Mean Closing Price for Starbucks"}, "width": 450, "xaxis": {"gridcolor": "#E1E5ED", "showgrid": true, "tickfont": {"color": "#4D5663"}, "title": {"font": {"color": "#4D5663"}, "text": "Date"}, "zerolinecolor": "#E1E5ED"}, "yaxis": {"gridcolor": "#E1E5ED", "showgrid": true, "tickfont": {"color": "#4D5663"}, "title": {"font": {"color": "#4D5663"}, "text": "Mean Closing Price"}, "zerolinecolor": "#E1E5ED"}},
                         {"showLink": true, "linkText": "Export to plot.ly", "plotlyServerURL": "https://plot.ly", "responsive": true}
                     ).then(function(){
                             
-var gd = document.getElementById('6c67e016-d6ab-44bc-9a5a-25e1116d4dbd');
+var gd = document.getElementById('37dd6f2c-9146-4185-baf2-3b745797457f');
 var x = new MutationObserver(function (mutations, observer) {{
         var display = window.getComputedStyle(gd).display;
         if (!display || display === 'none') {{
