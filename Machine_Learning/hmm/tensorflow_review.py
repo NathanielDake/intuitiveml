@@ -1,5 +1,6 @@
 import numpy as np
 import tensorflow as tf
+import matplotlib.pyplot as plt
 
 x = tf.placeholder(tf.int32, shape=(None,), name="x")
 
@@ -44,3 +45,37 @@ with tf.Session() as session:
         feed_dict={N: 8}
     )
     print("Output: ", o_val)
+
+
+# ----------------------- Low Pass Filter -----------------------
+original = np.sin(np.linspace(0, 3*np.pi, 300))
+X = 2*np.random.randn(300) + original
+
+fig = plt.figure(figsize=(15,5))
+plt.subplot(1, 2, 1)
+ax = plt.plot(X)
+plt.title("Original")
+
+# Setup placeholders
+decay = tf.placeholder(tf.float32, shape=(), name="decay")
+sequence = tf.placeholder(tf.float32, shape=(None, ), name="sequence")
+
+# The recurrence function and loop
+def recurrence(last, x):
+    return (1.0 - decay)*x + decay*last
+
+low_pass_filter = tf.scan(
+    fn=recurrence,
+    elems=sequence,
+    initializer=0.0 # sequence[0] to use first value of the sequence
+)
+
+# Run it!
+with tf.Session() as session:
+    Y = session.run(low_pass_filter, feed_dict={sequence: X, decay: 0.97})
+
+    plt.subplot(1, 2, 2)
+    ax = plt.plot(Y)
+    ax2 = plt.plot(original)
+    plt.title("Low pass filter")
+    plt.show()
