@@ -10,19 +10,34 @@ intensity:
 
 So, in other words the intensity is the complex number z, squared, plus
 a constant c.
-
 """
 import time
-import pylab
+
+from notebooks.computer_science.high_performance_python.profiling.utils_plotting import plot_julia
 
 # Area of complex space to investigate
 x1, x2, y1, y2 = -1.8, 1.8, -1.8, 1.8
 c_real, c_imag = -0.62772, -0.42193
 
-# Create coordinate lists as input to calculation function
+
 def calc_pure_python(desired_width, max_iterations):
-    """Create a list of complex coordinates (zs) and complex
-    parameters (cs), build Julia set, and display."""
+    """
+    Create a list of complex coordinates (zs) and complex parameters (cs), build Julia set, and display.
+
+    Notes:
+        - The lists, x and y, are created entirely from scratch. Generally this could be accomplished
+          with the range function, but the goal is for this to be as transparent as possible.
+        - Lists will have shape -> x = [-1.8,...,1.8], y = [-1.8,...,1.8]
+        - x and y are converted to the real and imaginary coords of a complex number
+        - The initial condition is a constant and could easily be removed, but we use it simulate
+          a real-world scenario with several inputs to our function
+        - We then time calculate_z_serial_purepython, which actually calculates the Julia output
+          for a given complex coordinate
+        - Finally, check to see if the output is what we expect. The Julia set is deterministic so
+          this check can be made.
+    """
+
+    # Create coordinate lists as input to calculation function
     x_step = (float(x2 - x1) / float(desired_width))
     y_step = (float(y1 - y2) / float(desired_width))
     x = []
@@ -38,8 +53,6 @@ def calc_pure_python(desired_width, max_iterations):
         xcoord += x_step
 
     # Build a list of coordinates and the initial condition for each cell.
-    # Note that the initial condition is a constant and could easily be removed.
-    # We use it to simulate a real-world scenario with several inputs to our function
     zs = []
     cs = []
     for ycoord in y:
@@ -50,27 +63,34 @@ def calc_pure_python(desired_width, max_iterations):
     print("Length of x: ", len(x))
     print("Total elements: ", len(zs))
 
+    # Time the building of the Julia set
     start_time = time.time()
     output = calculate_z_serial_purepython(max_iterations, zs, cs)
     end_time = time.time()
     secs = end_time - start_time
 
     print(calculate_z_serial_purepython.__name__ + " took", secs, "seconds")
+    assert sum(output) == 33219980 # This sum is expected for a 1000^2 grid with 300 iterations.
 
-    # This sum is expected for a 1000^2 grid with 300 iterations. It catches minor errors
-    # we might introduce when we're working on a fixed set of input.
-    assert sum(output) == 33219980
-
-    return output
+    return output, zs
 
 
 def calculate_z_serial_purepython(maxiter, zs, cs):
     """
     Calculate output list using Julia update rule.
 
+    Args:
+        - maxiter: max number of iterations before breaking. This is to prevent iterating to
+          infinity, which is possible with the julia set.
+        - zs: Complex coordinate grid --> real = [-1.8,...,1.8], imaginary = [-1.8j, 1.8j)
+        - cs: list of constants
+
     This is a CPU bound calculation function. This specifically is a serial implementation.
-    W e have operations being satisfied one at a time, each one waiting for the previous
+    We have operations being satisfied one at a time, each one waiting for the previous
     operation to complete.
+
+    For each complex coordinate in list zs, while the condition abs(z) < 0 holds perform update
+    rule z = z^2 + c and count the number of times this occurs before the condition breaks.
     """
     output = [0] * len(zs)
     for i in range(len(zs)):
@@ -87,8 +107,8 @@ def calculate_z_serial_purepython(maxiter, zs, cs):
 if __name__ == "__main__":
     # Calculate julia set using a pure python solution with
     # reasonable defaults for a laptop
-    output = calc_pure_python(desired_width=1000, max_iterations=300)
+    output, zs = calc_pure_python(desired_width=1000, max_iterations=300)
 
-    fig = pylab.subplots(figsize=(15,10))
-    pylab.subplot(141)
-    pylab.imshow(output, cmap='gray_r')
+
+
+
