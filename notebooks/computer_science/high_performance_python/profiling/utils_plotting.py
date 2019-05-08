@@ -1,13 +1,15 @@
 import matplotlib.pyplot as plt
-import matplotlib.cm as cm
 import numpy as np
-import random
 
 
-def plot_julia():
-    data = []
-    for i in range(2500):
-        data.append(random.randint(0,1))
+def plot_julia(output, width):
+    output = np.array(output).reshape(width, width)
 
-    plt.imshow(np.array(data).reshape(50, 50), cmap=cm.gray)
+
+    plt.imshow(
+        output,
+        cmap=plt.get_cmap('jet'),
+        vmin=0,
+        vmax=300
+    )
     plt.show()
