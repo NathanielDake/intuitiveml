@@ -69,7 +69,7 @@ def get_signals(N=20, T=100, init=big_init):
     Pseudocode:
         for n in number_of_sequences:
             for t in length_of_sequence:
-                Find next hidden sate (sample from A)
+                Find next hidden state (sample from A)
                 Find next gaussian based on current hidden state (sample from R)
                 Calculate probability of x (randomly sample from selected gaussian)
     """
@@ -87,9 +87,9 @@ def get_signals(N=20, T=100, init=big_init):
 
         # Loop through all time steps after time t = 0
         for t in range(1, T):
-            s = np.random.choice(M, p=A[s]) # randomly select next state using state transition probabilities
-            r = np.random.choice(K, p=R[s]) # randomly select next gaussian (choose mixture)
-            x[t] = np.random.multivariate_normal(mu[s][r], sigma[s][r])
+            s = np.random.choice(M, p=A[s])  # sample from A[s] to select next state using A
+            r = np.random.choice(K, p=R[s])  # sample from R[s] to select next gaussian (choose mixture)
+            x[t] = np.random.multivariate_normal(mu[s][r], sigma[s][r])  #  generate data point
 
         X.append(x)
     return X

@@ -85,9 +85,6 @@ class HMM:
                 betas.append(beta)
 
                 # This was not needed in the discrete case
-                # TODO: Ask lazy programmer for clarification regarding gamma. Is it responsibility,
-                # or is it the gamma variable from discrete update?
-
                 gamma = np.zeros((T, self.M, self.K))
                 for t in range(T):
                     # Denominator only depends on t
