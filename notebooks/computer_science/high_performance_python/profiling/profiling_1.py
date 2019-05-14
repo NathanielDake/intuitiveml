@@ -24,8 +24,8 @@ The specs of the laptop that this is being run on are as follows:
 """
 import time
 
-from notebooks.computer_science.high_performance_python.profiling.utils_plotting import plot_julia
-from notebooks.computer_science.high_performance_python.profiling.utils_timing import timefn
+# from notebooks.computer_science.high_performance_python.profiling.utils_plotting import plot_julia
+# from notebooks.computer_science.high_performance_python.profiling.utils_timing import timefn
 
 # Area of complex space to investigate
 x1, x2, y1, y2 = -1.8, 1.8, -1.8, 1.8
@@ -86,7 +86,7 @@ def calc_pure_python(desired_width, max_iterations):
 
     return output, zs
 
-@timefn
+# @timefn
 def calculate_z_serial_purepython(maxiter, zs, cs):
     """
     Calculate output list using Julia update rule.
@@ -121,6 +121,6 @@ if __name__ == "__main__":
     # reasonable defaults for a laptop
     output, zs = calc_pure_python(desired_width=1000, max_iterations=300)
 
-    plot_julia(output, 1000)
+    # plot_julia(output, 1000)
 
 
