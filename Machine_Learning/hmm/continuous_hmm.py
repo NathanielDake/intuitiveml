@@ -9,8 +9,12 @@ from Machine_Learning.hmm.utils import random_normalized
 class HMM:
     def __init__(self, M, K):
         """
+        Continuous HMM class. Note that there are 2 hidden states now, M and K.
+        M is the hidden state that was used in regular HMMs. K is a new hidden
+        state that is represented by a gaussian distribution.
+
         :param M: Number of hidden states
-        :param K: Number of gaussians
+        :param K: Number of 2nd hidden states
         """
         self.M = M
         self.K = K

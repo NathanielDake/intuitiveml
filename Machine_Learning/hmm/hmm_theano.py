@@ -17,14 +17,15 @@ class HMM:
             V = max(max(x) for x in X) + 1
         N = len(X)
 
-        # Initialize HMM variables
+        # ---------- 1. Initialize HMM model parameters ----------
         pi0 = np.ones(self.M) / self.M          # Initial state distribution
         A0 = random_normalized(self.M, self.M)  # State transition matrix
         B0 = random_normalized(self.M, V)       # Output distribution
 
         thx, cost = self.set(pi0, A0, B0)
 
-        # This is a beauty of theano and it's computational graph. By defining a cost function,
+        # ---------- 2. Perform updates on HMM Model parameters via stochastic gradient descent ----------
+        # This is the beauty of theano and it's computational graph. By defining a cost function,
         # which is representing p(x), the probability of a sequence, we can then find the gradient
         # of the cost with respect to our parameters (pi, A, B). The gradient updated rules are
         # applied as usual. Note, the reason that this is stochastic gradient descent is because
@@ -88,6 +89,9 @@ class HMM:
         # Define input, a vector
         thx = T.ivector("thx")
 
+        # -------- Recurrence Step ---------
+        # Find forward probability and subsequently the probability of an individual sequence. This
+        # will be the cost. Link everything together in a computational graph.
         def recurrence_to_find_alpha(t, old_alpha, x):
             """Scaled version of updates for HMM. This is used to find the forward variable alpha.
 
