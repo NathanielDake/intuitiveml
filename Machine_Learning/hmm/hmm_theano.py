@@ -65,7 +65,8 @@ class HMM:
         print("pi learned from training: \n", self.pi.get_value())
 
 
-        plt.plot(costs)
+        plt.figure(figsize=(8,5))
+        plt.plot(costs, color="blue")
         plt.xlabel("Iteration Number")
         plt.ylabel("Cost")
         plt.show()
