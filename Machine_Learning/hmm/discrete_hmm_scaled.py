@@ -146,21 +146,24 @@ class HMM:
         This is the viterbi algorithm. Returns the most likely
         state sequence given observed sequence x."""
         T = len(x)
+        if T == 0:
+            states = np.zeros(T, dtype=np.int32)
+            return states
         delta = np.zeros((T, self.M))
         psi = np.zeros((T, self.M))
-        delta[0] = np.log(self.pi) + np.log(self.B[:, x[0]])
+        delta[0] = np.log(self.pi) + np.log(self.B[:,x[0]])
 
         # Loop through the rest of the times and states
         for t in range(1, T):
             for j in range(self.M):
-                delta[t, j] = np.max(delta[t - 1] + np.log(self.A[:, j])) + np.log(self.B[j, x[t]])
-                psi[t, j] = np.argmax(delta[t - 1] + np.log(self.A[:, j]))
+                delta[t,j] = np.max(delta[t-1] + np.log(self.A[:,j])) + np.log(self.B[j, x[t]])
+                psi[t,j] = np.argmax(delta[t-1] + np.log(self.A[:,j]))
 
         # Backtrack
         states = np.zeros(T, dtype=np.int32)
-        states[T - 1] = np.argmax(delta[T - 1])
-        for t in range(T - 2, -1, -1):
-            states[t] = psi[t + 1, states[t + 1]]
+        states[T-1] = np.argmax(delta[T-1])
+        for t in range(T-2, -1, -1):
+            states[t] = psi[t+1, states[t+1]]
         return states
 
 
