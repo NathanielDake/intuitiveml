@@ -225,30 +225,15 @@ body {
 <p>Visually, this iterative process looks like:</p>
 <p><img src="https://drive.google.com/uc?id=1R2zVTj3uo5zmow6vFujWlU-qs9jRF_XG" width="250"></p>
 <p>Where above we are looking at a contour plot of a three dimensional bowl, and the center of the bowl is a minimum. Now, the actual underlying mechanics of gradient descent work as follows:</p>
-<ol>
-<li>Define a model/hypothesis that will be mapping inputs to outputs, or in other words making predictions:</li>
-</ol>
-<p>$$h_{\theta}(x) = \theta_0 + \theta_1x$$</p>
+<h4 id="1.-Define-a-model/hypothesis-that-will-be-mapping-inputs-to-outputs,-or-in-other-words-making-predictions:">1. Define a model/hypothesis that will be mapping inputs to outputs, or in other words making predictions:<a class="anchor-link" href="#1.-Define-a-model/hypothesis-that-will-be-mapping-inputs-to-outputs,-or-in-other-words-making-predictions:">&#182;</a></h4><p>$$h_{\theta}(x) = \theta_0 + \theta_1x$$</p>
 <p>In this case $x$ is our input and $h(x)$, often thought of as $y$, is our output. We are stating that we believe the ground truth relationship between $x$ and $h(x)$ is captured by the linear combination of $\theta_0 + \theta_1x$. Now, what are $\theta_0$ and $\theta_1$ equal to?</p>
-<ol>
-<li>Define a <strong>cost</strong> function for which you are trying to find the minimum. Generally, this cost function is defined as some form of <strong>error</strong>, and it will be parameterized by variables related to your model in some way. </li>
-</ol>
-<p>$$cost = J = (y - h_{\theta}(x))^2$$</p>
+<h4 id="2.-Define-a-cost-function-for-which-you-are-trying-to-find-the-minimum.-Generally,-this-cost-function-is-defined-as-some-form-of-error,-and-it-will-be-parameterized-by-variables-related-to-your-model-in-some-way.">2. Define a <strong>cost</strong> function for which you are trying to find the minimum. Generally, this cost function is defined as some form of <strong>error</strong>, and it will be parameterized by variables related to your model in some way.<a class="anchor-link" href="#2.-Define-a-cost-function-for-which-you-are-trying-to-find-the-minimum.-Generally,-this-cost-function-is-defined-as-some-form-of-error,-and-it-will-be-parameterized-by-variables-related-to-your-model-in-some-way.">&#182;</a></h4><p>$$cost = J = (y - h_{\theta}(x))^2$$</p>
 <p>Above $y$ refers to the ground truth/actual value of the output, and $h_{\theta}(x)$ refers to that which our model predicted. The difference, squared, represents our cost. We can see that if our prediction is exactly equal to the ground truth value, our cost will be 0. If our prediction is very far off from our ground truth value then our cost will be very high. Our goal is to minimize the cost (error) of our model.</p>
-<ol>
-<li>Take the <a href="https://en.wikipedia.org/wiki/Gradient"><strong>gradient</strong></a> (multi-variable generalization of the derivative) of the cost function with respect to the parameters that you have control over.</li>
-</ol>
-<p>$$\nabla J = \frac{\partial J}{\partial \theta}$$</p>
+<h4 id="3.-Take-the-gradient-(multi-variable-generalization-of-the-derivative)-of-the-cost-function-with-respect-to-the-parameters-that-you-have-control-over.">3. Take the <a href="https://en.wikipedia.org/wiki/Gradient"><strong>gradient</strong></a> (multi-variable generalization of the derivative) of the cost function with respect to the parameters that you have control over.<a class="anchor-link" href="#3.-Take-the-gradient-(multi-variable-generalization-of-the-derivative)-of-the-cost-function-with-respect-to-the-parameters-that-you-have-control-over.">&#182;</a></h4><p>$$\nabla J = \frac{\partial J}{\partial \theta}$$</p>
 <p>Simply put, we want to see how $J$ changes as we change our model parameters, $\theta_0$ and $\theta_1$.</p>
-<ol>
-<li>Based on the gradient update our values for $\theta$ with a simple update rule:</li>
-</ol>
-<p>$$\theta_0 \rightarrow \theta_0 - \alpha \cdot \frac{\partial J}{\partial \theta_0}$$</p>
+<h4 id="4.-Based-on-the-gradient-update-our-values-for-$\theta$-with-a-simple-update-rule:">4. Based on the gradient update our values for $\theta$ with a simple update rule:<a class="anchor-link" href="#4.-Based-on-the-gradient-update-our-values-for-$\theta$-with-a-simple-update-rule:">&#182;</a></h4><p>$$\theta_0 \rightarrow \theta_0 - \alpha \cdot \frac{\partial J}{\partial \theta_0}$$</p>
 <p>$$\theta_1 \rightarrow \theta_1 - \alpha \cdot \frac{\partial J}{\partial \theta_1}$$</p>
-<ol>
-<li>Repeat steps two and three for a set number of iterations/until convergence.</li>
-</ol>
-<p>After a set number of steps, the hope is that the model weights that were <em>learned</em> are the most optimal weights to minimize prediction error. Now after everything we discussed in the past two posts you may be wondering, how exactly does this relate to Hidden Markov Models, which have been trained via Expectation Maximization?</p>
+<h4 id="5.-Repeat-steps-two-and-three-for-a-set-number-of-iterations/until-convergence.">5. Repeat steps two and three for a set number of iterations/until convergence.<a class="anchor-link" href="#5.-Repeat-steps-two-and-three-for-a-set-number-of-iterations/until-convergence.">&#182;</a></h4><p>After a set number of steps, the hope is that the model weights that were <em>learned</em> are the most optimal weights to minimize prediction error. Now after everything we discussed in the past two posts you may be wondering, how exactly does this relate to Hidden Markov Models, which have been trained via Expectation Maximization?</p>
 <h3 id="1.1-Gradient-Descent-and-Hidden-Markov-Models">1.1 Gradient Descent and Hidden Markov Models<a class="anchor-link" href="#1.1-Gradient-Descent-and-Hidden-Markov-Models">&#182;</a></h3><p>Let's say for a moment that our goal that we wish to accomplish is predict the probability of an observed sequence, $p(x)$. And let's say that we have 100 observed sequences at our disposal. It should be clear that if we have a trained HMM that predicts the majority of our sequences are very unlikely, the HMM was probably not trained very well. Ideally, our HMM parameters would be learned in a way that maximizes the probability of observing what we did (this was the goal of expectation maximization).</p>
 <p>What may start to become apparent at this point is that we have a perfect cost function already created for us! The total probability of our observed sequences, based on our HMM parameters $A$, $B$, and $\pi$. We can define this mathematically as follows (for the scaled version); in the previous post we proved that:</p>
 <p>$$p(x) = \prod_{t=1}^T c(t)$$</p>
