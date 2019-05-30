@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="ipynb_website:version" content="0.9.6" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
@@ -195,14 +195,6 @@ body {
   <a href="../Mathematics.html">Mathematics</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
-<li>
-  <a href="../Book_Reviews.html">Book Reviews</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -215,8 +207,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="6.-Facial-Recognition-Project">6. Facial Recognition Project<a class="anchor-link" href="#6.-Facial-Recognition-Project">&#182;</a></h1><p>We are now going to go through an example project concerning facial recognition.</p>
 
@@ -224,8 +215,7 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="1.1-Show-images">1.1 Show images<a class="anchor-link" href="#1.1-Show-images">&#182;</a></h2>
 </div>
@@ -242,7 +232,7 @@ body {
 <span class="kn">from</span> <span class="nn">util</span> <span class="k">import</span> <span class="n">getData</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -255,7 +245,7 @@ body {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">label_map</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Anger&#39;</span><span class="p">,</span> <span class="s1">&#39;Disgust&#39;</span><span class="p">,</span> <span class="s1">&#39;Fear&#39;</span><span class="p">,</span> <span class="s1">&#39;Happy&#39;</span><span class="p">,</span> <span class="s1">&#39;Sad&#39;</span><span class="p">,</span> <span class="s1">&#39;Surprise&#39;</span><span class="p">,</span> <span class="s1">&#39;Neutral&#39;</span><span class="p">]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -288,7 +278,7 @@ body {
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -298,7 +288,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -313,7 +303,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -328,7 +318,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -343,7 +333,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -358,7 +348,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -373,7 +363,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -388,7 +378,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -403,7 +393,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -418,8 +408,7 @@ Y
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Notes-on-Structure-of-Data">Notes on Structure of Data<a class="anchor-link" href="#Notes-on-Structure-of-Data">&#182;</a></h2><p>Each image sample is a 48x48 pixel image. This means that we have 2304 input dimensions. If the images had contained color, it would have been 3x48x48 = 6912 dimensions. When we work with logistic regression and basic neural netowkrs we will use a flat 2304 dimensional vector. This means that spatial relationships are ignored. We can think of it like this: originally, an input image would look like:</p>
 <ul>
@@ -440,8 +429,7 @@ But because these are pixel values and are strictly positive, we can just divide
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></br></p>
@@ -461,14 +449,13 @@ But because these are pixel values and are strictly positive, we can just divide
 <span class="kn">from</span> <span class="nn">util</span> <span class="k">import</span> <span class="n">getBinaryData</span><span class="p">,</span> <span class="n">sigmoid</span><span class="p">,</span> <span class="n">sigmoid_cost</span><span class="p">,</span> <span class="n">error_rate</span><span class="p">,</span> <span class="n">relu</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, let's define a class <code>ANN</code>. It will have an initializer that is called with the <code>__init__</code> method.</p>
 
@@ -551,14 +538,13 @@ But because these are pixel values and are strictly positive, we can just divide
         <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">error_rate</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">prediction</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now define our main method.</p>
 
@@ -589,7 +575,7 @@ But because these are pixel values and are strictly positive, we can just divide
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -599,7 +585,7 @@ But because these are pixel values and are strictly positive, we can just divide
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -636,8 +622,7 @@ i: 2300 cost: 504.43663903077663 error: 0.263
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></br></p>
@@ -657,7 +642,7 @@ i: 2300 cost: 504.43663903077663 error: 0.263
 <span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="k">import</span> <span class="n">shuffle</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -719,7 +704,7 @@ i: 2300 cost: 504.43663903077663 error: 0.263
         <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">error_rate</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">prediction</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -740,14 +725,13 @@ i: 2300 cost: 504.43663903077663 error: 0.263
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></br></p>
@@ -829,7 +813,7 @@ i: 2300 cost: 504.43663903077663 error: 0.263
         <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">error_rate</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">prediction</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -852,7 +836,20 @@ i: 2300 cost: 504.43663903077663 error: 0.263
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
+    </div>
 </div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
 </div>
 </div>
 

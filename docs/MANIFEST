@@ -8,8 +8,6 @@ docs/AI/01-Reinforcement_Learning-05-Dynamic-Programming.html
 docs/AI/01-Reinforcement_Learning-06-Monte-Carlo.html
 docs/AI/01-Reinforcement_Learning-07-Temporal-Difference-Learning.html
 docs/AI/01-Reinforcement_Learning-08-Approximation-Methods.html
-docs/Book_Reviews.html
-docs/Book_Reviews.tpl
 docs/Deep_Learning.html
 docs/Deep_Learning.tpl
 docs/Deep_Learning/01-Neural_Networks-01-Predictions-in-Neural-Networks.html
@@ -78,8 +76,6 @@ docs/NLP/01-Introduction_to_NLP-01-Introduction.html
 docs/NLP/01-Introduction_to_NLP-Natural-Language-Corpus-Data.html
 docs/NLP/02-NLP_with_Deep_Learning-01-working-with-word-vectors.html
 docs/NLP/02-NLP_with_Deep_Learning-02-language-modeling-and-neural-networks.html
-docs/Projects.html
-docs/Projects.tpl
 docs/index.html
 docs/index.tpl
 docs/js/docs.js

@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="ipynb_website:version" content="0.9.6" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
@@ -195,14 +195,6 @@ body {
   <a href="../Mathematics.html">Mathematics</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
-<li>
-  <a href="../Book_Reviews.html">Book Reviews</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -215,8 +207,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="8.-HMM-Applications">8. HMM Applications<a class="anchor-link" href="#8.-HMM-Applications">&#182;</a></h1><p>We have now covered the vast majority of the theory related to HMM's. We have seen how they model the probability of a sequence, and can handle when those sequences deal with latent states. Additionally we saw how they can be extended to deal with continuous observations by incorporating the concept of a gaussian mixture model in place of the $B$ emission matrix. I want to take a post to go over a few different real world applications of HMM's and leave you with a few ideas of what else is possible.</p>
 <h2 id="1.-Generative-vs.-Discriminative-Classifiers">1. Generative vs. Discriminative Classifiers<a class="anchor-link" href="#1.-Generative-vs.-Discriminative-Classifiers">&#182;</a></h2><p>Recall in the introduction that we discussed how even though the HMM is an unsupervised model because it models a probability, we can utilize it effectively as a classifier by making use of bayes rule. There is a name for these types of classifiers: <strong>Generative Models</strong>. The reason for this name is because they take the probability density of a class, and you pretend that it generates the data that you observe.</p>
@@ -248,7 +239,7 @@ body {
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -354,7 +345,7 @@ body {
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -364,7 +355,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -424,7 +415,7 @@ pi learned from training:
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -441,7 +432,7 @@ height=339
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -500,7 +491,7 @@ pi learned from training:
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -517,7 +508,7 @@ height=339
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -531,8 +522,7 @@ height=339
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="3.-HMM-POS-Tagging">3. HMM POS Tagging<a class="anchor-link" href="#3.-HMM-POS-Tagging">&#182;</a></h2><p>We now are going to go through an example that deals with parts of speech tagging. Below is a preview of what the data looks like:</p>
 
@@ -550,10 +540,7 @@ expected VBN I-VP</code></pre>
 
 This company is milking its customers' money.</code></pre>
 <p>We will also caculate the <strong>F1</strong> score, which is the harmonic mean of the <strong>precision</strong> and <strong>recall</strong>:</p>
-<p>$$Precision = \frac{\text{True positives}}{\text{True positives + False positives}}$$</p>
-<p>$$Recall = \frac{\text{True positives}}{\text{True positives + False negatives}}$$</p>
-<p>$$F1 = \frac{2(precision \cdot recall)}{precision + recall}$$</p>
-<h3 id="Using-Sequence's-to-our-advantage">Using Sequence's to our advantage<a class="anchor-link" href="#Using-Sequence's-to-our-advantage">&#182;</a></h3><p>One question that you may want to ask is can we use the fact that these words show up in a sequence, and hence can we use the <em>context</em> to achieve better predictions? The answer is yes we can! We could utilize a recurrent neural network, or a Hidden Markov Model! We will use hidden markov model's since that is the focus of this post.</p>
+$$Precision = \frac{\text{True positives}}{\text{True positives + False positives}}$$$$Recall = \frac{\text{True positives}}{\text{True positives + False negatives}}$$$$F1 = \frac{2(precision \cdot recall)}{precision + recall}$$<h3 id="Using-Sequence's-to-our-advantage">Using Sequence's to our advantage<a class="anchor-link" href="#Using-Sequence's-to-our-advantage">&#182;</a></h3><p>One question that you may want to ask is can we use the fact that these words show up in a sequence, and hence can we use the <em>context</em> to achieve better predictions? The answer is yes we can! We could utilize a recurrent neural network, or a Hidden Markov Model! We will use hidden markov model's since that is the focus of this post.</p>
 <p>We can think of the words as the observed sequence, and the tags as the sequence of hidden states. There is one small twist, however. Generally with HMM's we use an algorithm called expectation maximization to train the model. We will not need that in this scenario! This is because we actually know the hidden states; in other words, the hidden states are not some abstract hyper parameter, but an actual real thing.</p>
 <p>Recall that HMM's are defined by three things:</p>
 <ul>
@@ -803,7 +790,7 @@ This company is milking its customers' money.</code></pre>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -813,7 +800,7 @@ This company is milking its customers' money.</code></pre>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -898,7 +885,7 @@ i: 5 j: 2000 n_batches: 2117 cost: 0.34005020963439436 error: 0.09
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -913,7 +900,7 @@ i: 5 j: 2000 n_batches: 2117 cost: 0.34005020963439436 error: 0.09
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -933,18 +920,13 @@ lr test f1: 0.8713374692511834
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="HMM-Implementation">HMM Implementation<a class="anchor-link" href="#HMM-Implementation">&#182;</a></h3><p>The nice thing about hidden markov models is that if the hidden states have an explicit meaning we can actually measure them directly. For instance, if our hidden states represent the part of speech tag for a given word, we can determine that for all of our training examples. In that case, we can determine $A$ rather easily! We would count up all of the times we transition from one pos tag to another, and divide by the total number of times we are in the first part of speech tag to begin with. For example, if we want to know the probability of transition from a noun to a verb, we would simply do:</p>
-<p>$$A(noun, verb) = \frac{\text{# times nouns transitions to verb}}{\text{total # times hidden state is noun}}$$</p>
-<p>Where we know that $A$'s probabilistic meaning is:</p>
-<p>$$A(noun, verb)  = p \big(z(t) = verb \mid z(t-1) = noun\big)$$</p>
-<p>This simple counting can be done for all different hidden state (pos tag) transitions (note this is simply maximum likelihood). In order to determine the $B$ observation matrix, we can simply count the number of times we observed a certain word in our vocabulary, given we are in a particular hidden state (pos tag). For instance, if we wanted to know the probability of observing the word <code>milk</code> given our word is a verb, we would do:</p>
-<p>$$B(milk, verb) = \frac{\text{# times nouns transitions to verb}}{\text{total # times hidden state is noun}}$$</p>
-<p>Again, we know that $B$ can be defined as:</p>
-<p>$$B(milk, verb) = p \big(x(t) = milk \mid z(t) = verb\big)$$</p>
-<h4 id="Viterbi-Algorithm">Viterbi Algorithm<a class="anchor-link" href="#Viterbi-Algorithm">&#182;</a></h4><p>One of the main algorithms that we can perform on an HMM is the <strong>viterbi algorithm</strong>, which as we know allows us to look at problems in the <em>reverse direction</em>. Normally, we think of hidden causes as <em>producing</em> the observations that we see. The viterbi algorithm allows us to ask:</p>
+$$A(noun, verb) = \frac{\text{# times nouns transitions to verb}}{\text{total # times hidden state is noun}}$$<p>Where we know that $A$'s probabilistic meaning is:</p>
+$$A(noun, verb)  = p \big(z(t) = verb \mid z(t-1) = noun\big)$$<p>This simple counting can be done for all different hidden state (pos tag) transitions (note this is simply maximum likelihood). In order to determine the $B$ observation matrix, we can simply count the number of times we observed a certain word in our vocabulary, given we are in a particular hidden state (pos tag). For instance, if we wanted to know the probability of observing the word <code>milk</code> given our word is a verb, we would do:</p>
+$$B(milk, verb) = \frac{\text{# times nouns transitions to verb}}{\text{total # times hidden state is noun}}$$<p>Again, we know that $B$ can be defined as:</p>
+$$B(milk, verb) = p \big(x(t) = milk \mid z(t) = verb\big)$$<h4 id="Viterbi-Algorithm">Viterbi Algorithm<a class="anchor-link" href="#Viterbi-Algorithm">&#182;</a></h4><p>One of the main algorithms that we can perform on an HMM is the <strong>viterbi algorithm</strong>, which as we know allows us to look at problems in the <em>reverse direction</em>. Normally, we think of hidden causes as <em>producing</em> the observations that we see. The viterbi algorithm allows us to ask:</p>
 <blockquote><p>Given a sequence of observations, what is the most likely sequence of hidden states?</p>
 </blockquote>
 <p>So, in the example above, our observations would be a string of words, and the viterbi algorithm would allow us to determine the most likely sequence of parts of speech. What is important to be aware of here is the API of the viterbi algorithm:</p>
@@ -953,13 +935,11 @@ lr test f1: 0.8713374692511834
 
 output -&gt; corresponding sequence of hidden states</code></pre>
 <p>If we think about what we are actually doing when modeling parts of speech tags with an HMM, we come to the conclusion that we are coming up with a probability model of grammar! This is pretty cool if you ask me. Our model will encapsulate the principle that a verb often follows a noun, and a verb is unlikely to follow a verb:</p>
-<p>$$p(verb \mid noun) \rightarrow high$$</p>
-<p>For example:</p>
+$$p(verb \mid noun) \rightarrow high$$<p>For example:</p>
 
 <pre><code>"John ran"</code></pre>
 <p>And likewise:</p>
-<p>$$p(verb \mid verb) \rightarrow low$$</p>
-
+$$p(verb \mid verb) \rightarrow low$$
 <pre><code>"walk jump"</code></pre>
 <h3 id="Using-HMM's-for-Parts-of-Speech-Tagging">Using HMM's for Parts of Speech Tagging<a class="anchor-link" href="#Using-HMM's-for-Parts-of-Speech-Tagging">&#182;</a></h3><p>Here is how we will use HMM's in order to do parts of speech tagging:</p>
 <ol>
@@ -1055,7 +1035,7 @@ output -&gt; corresponding sequence of hidden states</code></pre>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1065,7 +1045,7 @@ output -&gt; corresponding sequence of hidden states</code></pre>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1077,6 +1057,19 @@ test f1: 0.862609207175332
 </div>
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
 </div>
 </div>
 

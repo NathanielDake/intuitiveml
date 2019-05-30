@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="ipynb_website:version" content="0.9.6" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
@@ -195,14 +195,6 @@ body {
   <a href="../Mathematics.html">Mathematics</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
-<li>
-  <a href="../Book_Reviews.html">Book Reviews</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -215,8 +207,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="7.-HMM's-with-Continuous-Observations">7. HMM's with Continuous Observations<a class="anchor-link" href="#7.-HMM's-with-Continuous-Observations">&#182;</a></h1><p>At this point we are ready to look at the use application of Hidden Markov Model's to discrete observations. All that is meant by continuous observations is that what you observe is a number on a scale, rather than a symbol such as heads or tails, or words. This is an interesting topic in and of itself, because it allows us to think about:</p>
 <ul>
@@ -256,14 +247,13 @@ body {
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="1.-GMM's-and-HMM's">1. GMM's and HMM's<a class="anchor-link" href="#1.-GMM's-and-HMM's">&#182;</a></h2><p>Now, the question is: How can we relate the concepts of GMM's back to what we already know about HMM's (specifically, to allow our HMM to deal with continuous data)? Remember that a Hidden Markov Model is defined by three things: $\pi$, $A$, and $B$. Because we are now working with continuous emissions, it seems that $B$ is what needs to change, since it used to be an $MxV$ matrix, and there are no longer just $V$ possible symbols.</p>
 <p>Take a moment to think about what $\pi$ and $A$ really represent. They both are entirely related to what hidden state, $M$, we can expect to be in at a given time. Once we are in a specific hidden state, we know that $B$ determines the probability of observing a specific emission. This actually relates to gaussian mixture models quite nicely! Recall that GMM's also have a their own latent variable (the specific gaussian that a data point was generated via, aka the cluster it belongs to). In other words, our HMM has the concept of being in a specific hidden state, $Z$, and then the GMM has the concept of being in a particular hidden gaussian. In combination these can be used to determine the probability of observation. A visualization should help make this more concrete:</p>
@@ -285,8 +275,7 @@ body {
 <p>In english, an entry in this matrix can be thought of as the probability that you are in a specific hidden state, $Z$, and you then have an observation from a specific second hidden state, $K$.</p>
 <p>Put another way, what we are really saying here is that based on the specific hidden state, $Z$, that we are in, there is a corresponding <strong>prior distribution</strong> to select one of the $K$ latent states, which will then generate our data point $x$. As a simple example, let's say that we are looking at household energy usage. The first hidden state, $Z$, is the time of day (morning, afternoon, evening), the second hidden state (for which we have a gaussian distribution) is what appliance is being utilized (washer, blow dryer, blender, etc), and the observed $x$ is the energy usage in watts. If we know that the hidden state, time, is morning, then the probability that the blow dryer or blender are being use is higher than evening (a person is more likely to blow dry their hair in the morning, and also more likely to make a smoothie for breakfast). So, the probability of being in a specific second hidden state is most certainly based on the first hidden state that we are in.</p>
 <p>If you did in fact go through my post on GMM's, you may recall that we defined the probability of an observation $x$ as:</p>
-<p>$$P(x) = \pi_1 N(x \mid \mu_1, \Sigma_1) + \pi_2 N(x \mid \mu_2, \Sigma_2) + \pi_3 N(x \mid \mu_3, \Sigma_3)$$</p>
-<p>Here the probability of ending up in a specific latent state (gaussian) was encapsulated entirely by $\pi$ (not the initial state probability that we deal with in HMM's). In our current scenario, the probability of ending up in a specific gaussian is based on our responsibilities, $R$ (which $\pi$ above heavily related to-see GMM post), as well our state transition matrix $A$, and our initial state probabilities, $\pi$ (or HMM $\pi$).</p>
+$$P(x) = \pi_1 N(x \mid \mu_1, \Sigma_1) + \pi_2 N(x \mid \mu_2, \Sigma_2) + \pi_3 N(x \mid \mu_3, \Sigma_3)$$<p>Here the probability of ending up in a specific latent state (gaussian) was encapsulated entirely by $\pi$ (not the initial state probability that we deal with in HMM's). In our current scenario, the probability of ending up in a specific gaussian is based on our responsibilities, $R$ (which $\pi$ above heavily related to-see GMM post), as well our state transition matrix $A$, and our initial state probabilities, $\pi$ (or HMM $\pi$).</p>
 <p>Moving on the gaussians themselves, Each individual $\mu$ is $D$ dimensional, and there are $K$ of them. We need one for each of the $M$ states; hence, $\mu$ will be an $MxKxD$ matrix:</p>
 
 <pre><code>mu = (M x K x D)</code></pre>
@@ -296,39 +285,30 @@ body {
 <p>Now, if you did in fact go through my post on GMM's, the above may seem slightly confusing/incorrect. In a standard GMM, we have our latent variable, of which there are $K$ possibilities. For each $K$ there is a specific corresponding gaussian, for which the means are held in a <code>K x D</code> matrix. Why do we suddenly have $M$ different gaussians for each of the $K$ latent states? The easiest way to explain this is via an extension of our energy example.</p>
 <p>In the energy example, the second latent variable was <em>appliance</em>, of which there are $K$. The question is, based on the first hidden state (time of day), will the distribution of the appliance usage change? The answer is most certainly yes! You can imagine that the mean value of a blowdryer usage in the morning may be 20 watts, while in the evening it may have a mean value of 5 watts. Regardless of the actual numbers, based on the time of day our distribution is going to change. In order to account for this, each latent variable, $k$, must have a distribution at each particular time (first hidden state, $M$). The simplest way to achieve this goal is to hold our means as <code>mu = (M x K x D)</code> and our covariances as: <code>sigma = (M x K x D x D)</code>.</p>
 <h4 id="Create-$B$-observation-matrix">Create $B$ observation matrix<a class="anchor-link" href="#Create-$B$-observation-matrix">&#182;</a></h4><p>Once a state ($j$) has been chosen ($\pi$ and $A$ have done their job), we create a "$B$" observation probability matrix of size $MxT$:</p>
-<p>$$B(j,t) = \sum_{k=1}^K \overbrace{R(j,k) N\Big( x(t), \mu(j,k), \Sigma(j,k)\Big)}^\text{Gaussian Mixture Model}$$</p>
-<p>Even though we don't technically have a $B$ matrix anymore, we can still make one by calculating it for each sequence. And we will store the individual mixture components as well:</p>
-<p>$$Comp(j, k, t) = \overbrace{R(j,k) N\Big( x(t), \mu(j,k), \Sigma(j,k)\Big)}
-^\text{Individual Mixture Component}$$</p>
-<p>So, based on a the current hidden state, we transition/select one of multiple gaussians. The $comp$ is <em>one</em> of these gaussians. $B(j,t)$ is their <strong>linear combination</strong> (the definition of a gaussian mixture model).</p>
+$$B(j,t) = \sum_{k=1}^K \overbrace{R(j,k) N\Big( x(t), \mu(j,k), \Sigma(j,k)\Big)}^\text{Gaussian Mixture Model}$$<p>Even though we don't technically have a $B$ matrix anymore, we can still make one by calculating it for each sequence. And we will store the individual mixture components as well:</p>
+$$Comp(j, k, t) = \overbrace{R(j,k) N\Big( x(t), \mu(j,k), \Sigma(j,k)\Big)}
+^\text{Individual Mixture Component}$$<p>So, based on a the current hidden state, we transition/select one of multiple gaussians. The $comp$ is <em>one</em> of these gaussians. $B(j,t)$ is their <strong>linear combination</strong> (the definition of a gaussian mixture model).</p>
 <p>I want to add a bit more detail to the above procedure. Remember that what we start with is a set of $X = X_1,...,X_T$ observations. What we are saying is that each individual sequence will have it's own unique emissions matrix $B$ based on it's unique set of observations. For instance, with standard HMM's if you wanted the probability of a specific observation given a hidden state you would find the specific entry in the $B$ matrix (think back to the coin toss example). Now, it is essentially the same thing! The $B$ matrix will be created based on the unique observations in $x$, and the probability is based on the sum of the mixture components.</p>
 <p>Visually we this can be represented by the image below:</p>
 <p><img src="https://drive.google.com/uc?id=126GJydFxg9V4Hp-FyeUU57Lu0MD53b3G" width="300"></p>
 <p>Based on a given hidden state and time, we must account for all of the ways that we can observed $x_1$; in this case the red, blue, and green paths (each being an entry in $comp$). We then sum up all of those possibilties and record it in our $B$ matrix as $B(j=1, t=1)$, for sequence one.</p>
 <h4 id="Expectation-Step">Expectation Step<a class="anchor-link" href="#Expectation-Step">&#182;</a></h4><p>With our $B$ matrix defined, we can move onto our <strong>expectation step</strong>. First, we can calculate a new $\gamma$, where $\gamma$ is the same variable defined in my prior HMM post:</p>
-<p>$$\gamma(j,k,t) = \frac{\alpha(t, j) \beta(t, j)}{\sum_{j'=1}^M \alpha(t, j') \beta(t, j')} 
+$$\gamma(j,k,t) = \frac{\alpha(t, j) \beta(t, j)}{\sum_{j'=1}^M \alpha(t, j') \beta(t, j')} 
 \frac{R(j,k) N\Big( x(t), \mu(j,k), \Sigma(j,k)\Big)}{\sum_{k'=1}^K R(j,k') N\Big( x(t), \mu(j,k'), \Sigma(j,k')\Big)} 
-$$</p>
-<p>$$\gamma(j,k,t) = \frac{\alpha(t, j) \beta(t, j)}{\sum_{j'=1}^M \alpha(t, j') \beta(t, j')} 
+$$$$\gamma(j,k,t) = \frac{\alpha(t, j) \beta(t, j)}{\sum_{j'=1}^M \alpha(t, j') \beta(t, j')} 
 \frac{Comp(j, k, t)}{B(j,t)} 
-$$</p>
-<h4 id="Maximization-Step">Maximization Step<a class="anchor-link" href="#Maximization-Step">&#182;</a></h4><p>Moving on to our <strong>maximization step</strong>, we can now define the updates for $R$, $\mu$ and $\Sigma$:</p>
-<p>$$R(j, k) = \frac{\sum_{t=1}^T \gamma(j, k, t)}{\sum_{t=1}^T \sum_{k'=1}^K \gamma(j, k', t)}$$</p>
-<p>$$\mu(j, k) = \frac{\sum_{t=1}^T \gamma(j,k,t)x(t)}{\sum_{t=1}^T \gamma(j,k,t)}$$</p>
-<p>$$\Sigma(j,k) = \frac{\sum_{t=1}^T \gamma(j, k, t)\big(x(t) - \mu(j,k)\big) \big(x(t) - \mu(j, k) \big)^T}{\sum_{t=1}^T \gamma(j, k, t)}$$</p>
-<h3 id="1.1-Continuous-HMM's-vs-Regular-HMM's-$\rightarrow$-Comparison">1.1 Continuous HMM's vs Regular HMM's $\rightarrow$ Comparison<a class="anchor-link" href="#1.1-Continuous-HMM's-vs-Regular-HMM's-$\rightarrow$-Comparison">&#182;</a></h3><p>I want to take a quick moment to compare the continuous HMM update rules above with those for the regular HMM from past posts. The update rule for $\gamma$ for the regular HMM looked like:</p>
+$$<h4 id="Maximization-Step">Maximization Step<a class="anchor-link" href="#Maximization-Step">&#182;</a></h4><p>Moving on to our <strong>maximization step</strong>, we can now define the updates for $R$, $\mu$ and $\Sigma$:</p>
+$$R(j, k) = \frac{\sum_{t=1}^T \gamma(j, k, t)}{\sum_{t=1}^T \sum_{k'=1}^K \gamma(j, k', t)}$$$$\mu(j, k) = \frac{\sum_{t=1}^T \gamma(j,k,t)x(t)}{\sum_{t=1}^T \gamma(j,k,t)}$$$$\Sigma(j,k) = \frac{\sum_{t=1}^T \gamma(j, k, t)\big(x(t) - \mu(j,k)\big) \big(x(t) - \mu(j, k) \big)^T}{\sum_{t=1}^T \gamma(j, k, t)}$$<h3 id="1.1-Continuous-HMM's-vs-Regular-HMM's-$\rightarrow$-Comparison">1.1 Continuous HMM's vs Regular HMM's $\rightarrow$ Comparison<a class="anchor-link" href="#1.1-Continuous-HMM's-vs-Regular-HMM's-$\rightarrow$-Comparison">&#182;</a></h3><p>I want to take a quick moment to compare the continuous HMM update rules above with those for the regular HMM from past posts. The update rule for $\gamma$ for the regular HMM looked like:</p>
 <p><strong>Original HMM</strong> <br>
 $$\phi(t, i ,j) = \frac{\alpha(t,i)A(i,j)B\big(j, x(t+1)\big)\beta(t+1, j)}{\sum_{i=1}^M \sum_{j=1}^M \alpha(t,i)A(i,j)B\big(j, x(t+1)\big)\beta(t+1, j)}$$</p>
-<p>$$\gamma(t,i) = \sum_{j=1}^M \phi(t,i,j)$$</p>
-<p>And, to reinforce the new update rule for the continuous HMM:</p>
+$$\gamma(t,i) = \sum_{j=1}^M \phi(t,i,j)$$<p>And, to reinforce the new update rule for the continuous HMM:</p>
 <p><strong>Continuous HMM</strong> <br>
 $$\gamma(j,k,t) = \frac{\alpha(t, j) \beta(t, j)}{\sum_{j'=1}^M \alpha(t, j') \beta(t, j')} 
 \frac{R(j,k) N\Big( x(t), \mu(j,k), \Sigma(j,k)\Big)}{\sum_{k'=1}^K R(j,k') N\Big( x(t), \mu(j,k'), \Sigma(j,k')\Big)} 
 $$</p>
-<p>$$\gamma(j,k,t) = \frac{\alpha(t, j) \beta(t, j)}{\sum_{j'=1}^M \alpha(t, j') \beta(t, j')} 
+$$\gamma(j,k,t) = \frac{\alpha(t, j) \beta(t, j)}{\sum_{j'=1}^M \alpha(t, j') \beta(t, j')} 
 \frac{Comp(j, k, t)}{B(j,t)} 
-$$</p>
-<p>The key differences are as follows:</p>
+$$<p>The key differences are as follows:</p>
 <ol>
 <li>In the original HMM update the $A$ transition matrix was utilized. In the updated case, it is no longer present; rather the indexing has changed for $\alpha$ and $\beta$ leaving $A$ accounted for.</li>
 <li>The original $B$ matrix is replaced by the gaussian mixture. </li>
@@ -363,8 +343,7 @@ Meanwhile, our continuous HMM functions as follows:</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.-Generating-Continuous-HMM-Data">2. Generating Continuous HMM Data<a class="anchor-link" href="#2.-Generating-Continuous-HMM-Data">&#182;</a></h2><p>I want to now take a moment to actually dissect the data generation process of continuous HMM's, since I feel that it will provide clarity to their internal mechanics. Recall that with the discrete HMM, such as the magician's coin toss or a sentence, we had observation sequences:</p>
 
@@ -509,7 +488,7 @@ sentence -&gt; x = "The red fox ran away"</code></pre>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -519,7 +498,7 @@ sentence -&gt; x = "The red fox ran away"</code></pre>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -539,8 +518,7 @@ height=339
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Here we can see our continuous data plotted above; we have 2 unique dimensions (red and blue) each plotted against time. Below, we can see how our observation point $x$ moves through 2 dimensional space over time:</p>
 
@@ -599,14 +577,13 @@ height=339
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=1iWem7LFu_ZpZratsrH8Ny4d08Rqn3Brs" width="500"></p>
 
@@ -614,8 +591,7 @@ height=339
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="3.-Continuous-HMM's-in-Code">3. Continuous HMM's in Code<a class="anchor-link" href="#3.-Continuous-HMM's-in-Code">&#182;</a></h2><p>Below is HMM implemented in code.</p>
 
@@ -883,7 +859,7 @@ height=339
     <span class="n">fake_signal</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="n">simple_init</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -893,7 +869,7 @@ height=339
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -926,7 +902,7 @@ pi:
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -943,7 +919,7 @@ height=339
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -957,8 +933,7 @@ height=339
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="4.-HMM-Continuous-with-Theano">4. HMM Continuous with Theano<a class="anchor-link" href="#4.-HMM-Continuous-with-Theano">&#182;</a></h2><p>And below is an implementation with Theano. Keep in mind that that vast majority is similar to the discrete HMM implementation with Theano; we still have a <strong>recurrence block</strong> that is used to calculate the probability sequence/cost and we still have the <strong>update block</strong> that is used to update our HMM variables. The difference is that our update block now updates $R$, $\mu$ and $\Sigma$.</p>
 <p>Additionally, we also have a portion prior to the recurrence block where we must calculate our emissions matrix $B$. This is done for each individual sequence, and $B$ is then used in finding the probability of the specific sequence (cost).</p>
@@ -1192,7 +1167,7 @@ height=339
     <span class="n">real_signal</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1202,7 +1177,7 @@ height=339
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1315,7 +1290,7 @@ pi: [0.200041   0.19995993 0.1999805  0.20000982 0.20000874]
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1351,6 +1326,32 @@ height=339
   });
 </script>
 <form action="javascript:code_toggle()"><input type="submit" id="toggleButton" value="Show Code"></form>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
 <hr>
 &copy; 2018 Nathaniel Dake
 

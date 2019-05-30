@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="ipynb_website:version" content="0.9.6" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
@@ -195,14 +195,6 @@ body {
   <a href="../Mathematics.html">Mathematics</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
-<li>
-  <a href="../Book_Reviews.html">Book Reviews</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -215,8 +207,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="1.-Hidden-Markov-Models-Introduction">1. Hidden Markov Models Introduction<a class="anchor-link" href="#1.-Hidden-Markov-Models-Introduction">&#182;</a></h1><p>This post is going to cover <strong>hidden markov models</strong>, which are used for modeling sequences of data. Sequences appear everywhere, from stock prices, to language, credit scoring, webpage visits.</p>
 <p>Often, we may be dealing with sequences in machine learning and we don't even realize it; or we may even ignore the fact that it came from a sequence. For instance, the following sentence:</p>
@@ -246,8 +237,7 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><br></p>
 <h2 id="2.--Unsupervised-or-Supervised?">2.  Unsupervised or Supervised?<a class="anchor-link" href="#2.--Unsupervised-or-Supervised?">&#182;</a></h2><p>We can now discuss where HMM's fit in the spectrum of machine learning techniques. Hidden markov models are for modeling sequences. If you think of a sequence by itself, that could look like:</p>
@@ -256,19 +246,28 @@ body {
 <p>We can see that there is no label there, so HMM's just model the distribution of a sequence; this means that it is unsupervised.</p>
 <h3 id="Classification">Classification<a class="anchor-link" href="#Classification">&#182;</a></h3><p>However, we often see HMMs being used for classifiers as well. For instance, we could train an HMM to model a male voice and a female voice. Then we could predict, given a new voice sample, whether the voice is male or female.</p>
 <p>How can we do this, given that we only have a model for the probability of the data, $p(X)$? The key idea here is bayes rule. What we actually modeled was $p(X \; | \; male)$ and $p(X \; | \; female)$. We know that bayes rule helps us reverse the conditional, leaving us with:</p>
-<p>$$p(male \; | \; x) \; and \; p(female \; | \; x)$$</p>
-<p>Now we can find the most probable class, and our prediction becomes whatever the most probable class is. From bayes rule we know that:</p>
-<p>$$p(male \; | \; x) = \frac{p(X \; | \; male) p(male)}{p(X)}$$</p>
-<p>$$p(female \; | \; x) = \frac{p(X \; | \; female) p(female)}{p(X)}$$</p>
-<p>And in general:
+$$p(male \; | \; x) \; and \; p(female \; | \; x)$$<p>Now we can find the most probable class, and our prediction becomes whatever the most probable class is. From bayes rule we know that:</p>
+$$p(male \; | \; x) = \frac{p(X \; | \; male) p(male)}{p(X)}$$$$p(female \; | \; x) = \frac{p(X \; | \; female) p(female)}{p(X)}$$<p>And in general:
 $$posterior = \frac{likelihood * prior}{normalization \; constant}$$</p>
 <p>We do not care about the actual probability, $p(X \; | \; C)$, just which one is greater. It should be noted that while we can model it with an HMM, but also with Naive Bayes:</p>
-<p>$$P(X \; | \; C) = P(x(1,1) \; | \; C)*P(x(1,2) \; | \; C)*...*P(x(T,D) \; | \; C)$$</p>
-<p>With Naive Bayes, we make the independence assumption, meaning that each sample is independent. So, we take the probability of each given feature, and multiply them together to get the final $P(X \; | \; C)$. What we can even do is extend this idea behind hidden markov models and model the data using more general concepts like Bayesian Belief Networks.</p>
+$$P(X \; | \; C) = P(x(1,1) \; | \; C)*P(x(1,2) \; | \; C)*...*P(x(T,D) \; | \; C)$$<p>With Naive Bayes, we make the independence assumption, meaning that each sample is independent. So, we take the probability of each given feature, and multiply them together to get the final $P(X \; | \; C)$. What we can even do is extend this idea behind hidden markov models and model the data using more general concepts like Bayesian Belief Networks.</p>
 <h3 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h3><p>At its core, HMMs are unsupervised. However, it can easily be used for classification just by creating a separate model for each class, and then making the prediction based on which model gives you the maximum posterior probability.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake

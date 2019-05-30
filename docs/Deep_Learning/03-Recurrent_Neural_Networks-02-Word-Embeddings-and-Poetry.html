@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="ipynb_website:version" content="0.9.6" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
@@ -195,14 +195,6 @@ body {
   <a href="../Mathematics.html">Mathematics</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
-<li>
-  <a href="../Book_Reviews.html">Book Reviews</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -215,8 +207,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="3.-Word-Embeddings-&amp;-Poetry">3. Word Embeddings &amp; Poetry<a class="anchor-link" href="#3.-Word-Embeddings-&amp;-Poetry">&#182;</a></h1><p>This section is intended to serve as an introduction to many of the things that we will touch on in my NLP section pertaining to Deep learning applied to natural language processing.</p>
 <p>You will notice that a lot of the RNN examples that we go over, as well as elsewhere on the web will use word sequences as examples. Why is that?</p>
@@ -261,11 +252,7 @@ len(X) = V</code></pre>
 <p>The question now is how do we use word embeddings with Recurrent Neural Networks? To accomplish this, we simply create an embedding layer in the RNN. So, the input simply arrives as a one hot encoded word, and in the next layer it becomes a $D$ dimensional vector.</p>
 <p><img src="https://drive.google.com/uc?id=1Q2eh1IRL0qxB05p-xb4TJvYSwEHZP7HO" width="500"></p>
 <p>This requires the word embedding transformation matrix to be a $VxD$ matrix, where the $i$th row is the word vector for the $i$th word. For reference, all of the matrix dimensions are below:</p>
-<p>$$W_e = VxD$$</p>
-<p>$$W_x = DxM$$</p>
-<p>$$W_h = MxM$$</p>
-<p>$$W_o = MxK$$</p>
-<p>Two questions will naturally arise at this point. The first being:</p>
+$$W_e = VxD$$$$W_x = DxM$$$$W_h = MxM$$$$W_o = MxK$$<p>Two questions will naturally arise at this point. The first being:</p>
 <ol>
 <li>How do we traing this model?</li>
 </ol>
@@ -294,16 +281,12 @@ v0 = vec(king) - vec(man) + vec(woman)</code></pre>
 </ol>
 <p>Why do we need to do that? Well, the result of <code>vec(king) - vec(man) + vec(woman)</code> just gives us a vector. There is no way to map from vectors to words, since a vector space is continuous, and that would require and infinite number of words. So, the idea is that we just find closest word.</p>
 <h3 id="3.1-Distance">3.1 Distance<a class="anchor-link" href="#3.1-Distance">&#182;</a></h3><p>There are various ways of defining distance in the context above. Sometimes, we will simply use <em>Euclidean Distance</em>:</p>
-<p>$$\text{Euclidean Distance: } ||a - b||^2$$</p>
-<p>It is also common to use the <em>cosine distance</em>:</p>
-<p>$$\text{Cosine Distance: } cosine\_distance(a, b) = \frac{1 - a^Tb}{||a|| \; ||b||}$$</p>
-<p>In this later form, since only the angle matters, because:</p>
-<p>$$a^Tb = ||a|| \; ||b|| cos(a,b)$$</p>
+$$\text{Euclidean Distance: } ||a - b||^2$$<p>It is also common to use the <em>cosine distance</em>:</p>
+$$\text{Cosine Distance: } cosine\_distance(a, b) = \frac{1 - a^Tb}{||a|| \; ||b||}$$<p>In this later form, since only the angle matters, because:</p>
+$$a^Tb = ||a|| \; ||b|| cos(a,b)$$<p></p>
 <p>During training we normalize all of the word vectors so that their length is 1:</p>
-<p>$$cos(0) = 1, \; cos(90) = 0, \; cos(180) = -1$$</p>
-<p>When two vectors are closer, $cos(\theta)$ is bigger. So, we want our distance to be:</p>
-<p>$$\text{Distance} = 1 - cos(\theta)$$</p>
-<p>At this point we can say that all of the word embeddings lie on the unit sphere.</p>
+$$cos(0) = 1, \; cos(90) = 0, \; cos(180) = -1$$<p>When two vectors are closer, $cos(\theta)$ is bigger. So, we want our distance to be:</p>
+$$\text{Distance} = 1 - cos(\theta)$$<p>At this point we can say that all of the word embeddings lie on the unit sphere.</p>
 <h3 id="3.2-Find-the-best-word">3.2 Find the best word<a class="anchor-link" href="#3.2-Find-the-best-word">&#182;</a></h3><p>Once we have our distance function, how do we actually find the closest word? The simplest word is to just look at every word in the vocabulary, and get the distance between each vector and your expression vector. Keep track of the smallest distance and then return that word.</p>
 
 <pre><code>min_dist = Infinity; best_word = ''
@@ -345,22 +328,18 @@ x = sW_e # (1 x D)</code></pre>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="5.-Generating-Poetry">5. Generating Poetry<a class="anchor-link" href="#5.-Generating-Poetry">&#182;</a></h1><p>We are now going to dive into an interesting use case of an RNN: poetry generation. This is an unsupervised model, and as we discussed in the previous section, the softmax output will be the probability of the next word, given the previous sequence of words:</p>
-<p>$$p\big( w_t \mid w_{t-1}, w_{t-2},...,w_0\big)$$</p>
-<p>For this first iteration, we will also create an initial word distribution which we will call $\pi$. $\pi$ is just the distribution across all words that line in our poetry will start with a particular word:</p>
-<p>$$\pi = p\big( w_0 \big)$$</p>
-<p>We will sample from $\pi$ so that each line can start with a different word. The reason for doing this is so that we can generate different sequences. If we consistently had the same start token for input into our recurrent net, it would always output the same prediction (because neural network output is <strong>deterministic</strong>), and then it would put those two tokens into the recurrent net, and so on. Our predictions will take the form:</p>
+$$p\big( w_t \mid w_{t-1}, w_{t-2},...,w_0\big)$$<p>For this first iteration, we will also create an initial word distribution which we will call $\pi$. $\pi$ is just the distribution across all words that line in our poetry will start with a particular word:</p>
+$$\pi = p\big( w_0 \big)$$<p>We will sample from $\pi$ so that each line can start with a different word. The reason for doing this is so that we can generate different sequences. If we consistently had the same start token for input into our recurrent net, it would always output the same prediction (because neural network output is <strong>deterministic</strong>), and then it would put those two tokens into the recurrent net, and so on. Our predictions will take the form:</p>
 
 <pre><code>w0 = rnn.predict(START)
 w1 = rnn.predict(w0, START)
 w2 = rnn.predict(w0, w1, START)
 # and so on...</code></pre>
 <p>Remember, the prediction of a neural network is just the argmax of the softmax:</p>
-<p>$$w_t = argmax\Big(softmax \big(f(w_{t-1}, w_{t-2}, ...)\big)\Big)$$</p>
-<p>Sampling from the initial word distribution will allow each line to possibly start with a different word, which in turn will allow us to generate different sequences.</p>
+$$w_t = argmax\Big(softmax \big(f(w_{t-1}, w_{t-2}, ...)\big)\Big)$$<p>Sampling from the initial word distribution will allow each line to possibly start with a different word, which in turn will allow us to generate different sequences.</p>
 <h2 id="5.1-Word-Embeddings">5.1 Word Embeddings<a class="anchor-link" href="#5.1-Word-Embeddings">&#182;</a></h2><p>Because we are dealing with a language model, we will also need word embeddings. This means that this RNN will be slightly different than the one we had built for the parity problem. The first difference is that it is going to take, in addition to the hidden layer size, $M$, the dimensionality of the word embeddings, $D$, and the vocabularly size $V$, since the word embedding matrix, $W_e$, needs to be of size $V x D$.</p>
 <p>The second difference is that our <code>fit</code> function will only take in $X$, because there are no targets:</p>
 
@@ -389,8 +368,7 @@ w2 = rnn.predict(w0, w1, START)
 </table>
 <p>We will need to predict the end of the sequence, however, or else we would just go on creating an infinite line. To do this, we will make the target of the full sequence the <code>END</code> token. Similarly, we will add a <code>START</code> token at the beginning of an input sequence and its target will be the first word. To summarize, the input sequence will be prepended with the <code>START</code> token, and the output sequence will be appended with the <code>END</code> token.</p>
 <h2 id="5.2-Accuracy">5.2 Accuracy<a class="anchor-link" href="#5.2-Accuracy">&#182;</a></h2><p>Unlike the parity problem, we want to measure accuracy not simply by the last word, but by every predicted word. Due to that, we will accumulate the number of correct words guessed, and divide it by the total number of words, in order to get the final accuracy:</p>
-<p>$$Accuracy = \frac{\text{words correctly guessed}}{\text{sum(len(sentence) + 1 for sentence in sentences})}$$</p>
-<h2 id="5.3-Load-and-Save">5.3 Load and Save<a class="anchor-link" href="#5.3-Load-and-Save">&#182;</a></h2><p>Additionally, because we may want to generate new poetry without having to retrain the model every time, we will want to save our model after it is trained, and also have a way to load said model. The API to do so is shown below:</p>
+$$Accuracy = \frac{\text{words correctly guessed}}{\text{sum(len(sentence) + 1 for sentence in sentences})}$$<h2 id="5.3-Load-and-Save">5.3 Load and Save<a class="anchor-link" href="#5.3-Load-and-Save">&#182;</a></h2><p>Additionally, because we may want to generate new poetry without having to retrain the model every time, we will want to save our model after it is trained, and also have a way to load said model. The API to do so is shown below:</p>
 
 <pre><code>rnn = SimpleRNN.load(filename)
 rnn.save(filename)</code></pre>
@@ -408,8 +386,7 @@ rnn.save(filename)</code></pre>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="5.5-Generating-Poetry-in-Code">5.5 Generating Poetry in Code<a class="anchor-link" href="#5.5-Generating-Poetry-in-Code">&#182;</a></h2>
 </div>
@@ -430,7 +407,7 @@ rnn.save(filename)</code></pre>
 <span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="k">import</span> <span class="n">shuffle</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -465,7 +442,7 @@ rnn.save(filename)</code></pre>
     <span class="k">return</span> <span class="n">sentences</span><span class="p">,</span> <span class="n">word2idx</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -697,7 +674,7 @@ rnn.save(filename)</code></pre>
     <span class="n">rnn</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">pi</span><span class="p">,</span> <span class="n">word2idx</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -712,7 +689,7 @@ rnn.save(filename)</code></pre>
     <span class="n">generate_poetry</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -722,7 +699,7 @@ rnn.save(filename)</code></pre>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stderr output_text">
@@ -733,7 +710,7 @@ rnn.save(filename)</code></pre>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -783,7 +760,7 @@ i: 1950 cost: 2350.8788770181172 correct rate: 0.6122448979591837
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -798,7 +775,7 @@ i: 1950 cost: 2350.8788770181172 correct rate: 0.6122448979591837
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stderr output_text">
@@ -809,7 +786,7 @@ i: 1950 cost: 2350.8788770181172 correct rate: 0.6122448979591837
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -826,8 +803,7 @@ that like if the course
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Something that is very intersting to note about the above solution is that we started with a <strong>randomly initialized</strong> word embedding and ended up with a word embedding matrix that yielded a decent classification! In other words, this process allowed us to take words and convert them into vectors. Even if you have not gone through my posts on <strong>Word2Vec</strong> yet, this should still give a small taste as to how it may work!</p>
 
@@ -835,8 +811,7 @@ that like if the course
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="6.-Classifying-Poetry">6. Classifying Poetry<a class="anchor-link" href="#6.-Classifying-Poetry">&#182;</a></h1><p>We are now going to move onto a different type of problem where RNN's can be applied: classifying poetry. Specifically, we are going to try and discriminate between Robert Frost and Edgar Allen Poe poems, given only sequences of parts-of-speech-tags.</p>
 <h3 id="6.1-Data-Processing">6.1 Data Processing<a class="anchor-link" href="#6.1-Data-Processing">&#182;</a></h3><p>Parts of speech tags are essentially things like noun, pronoun, adverb, determiner, etc, that tell us the role of each word in a sentence. So, given a sentence/sequence of words, we can get a sequence of pos tags of the same length. To do this we will use a library called <code>NLTK</code>.</p>
@@ -870,7 +845,7 @@ that like if the course
     <span class="k">return</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">tuples</span><span class="p">]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -917,7 +892,7 @@ that like if the course
     <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">current_idx</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1076,7 +1051,7 @@ that like if the course
 <span class="n">train_poetry</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1086,7 +1061,7 @@ that like if the course
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1097,7 +1072,7 @@ that like if the course
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stderr output_text">
@@ -1108,7 +1083,7 @@ that like if the course
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1138,7 +1113,7 @@ i:  950 cost:  112.40428672965353 correct rate:  0.9636363636363636 Validation c
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1151,6 +1126,45 @@ i:  950 cost:  112.40428672965353 correct rate:  0.9636363636363636 Validation c
 
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[57]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
 </div>
 </div>
 

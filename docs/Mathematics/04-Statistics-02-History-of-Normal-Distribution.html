@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="ipynb_website:version" content="0.9.6" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
@@ -195,14 +195,6 @@ body {
   <a href="../Mathematics.html">Mathematics</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
-<li>
-  <a href="../Book_Reviews.html">Book Reviews</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -215,8 +207,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="2.-History-of-the-Gaussian-Distribution">2. History of the Gaussian Distribution<a class="anchor-link" href="#2.-History-of-the-Gaussian-Distribution">&#182;</a></h1><p>If you have read any of my other posts, worked with statistics/probability, or any sort of machine learning, there is a very good chance that you have come across the <strong>Gaussian Distribution</strong>. The gaussian distribution, also known as the <strong>Normal Distribution</strong>, has an incredibly large range of uses; we will not talk about them here, however. For that I recommend looking through my other notebooks, digging into the <strong>Central Limit Theorem</strong>, <strong>sampling</strong>, <strong>Gaussian Mixture Models</strong>, distributions in the social sciences, <strong>hypothesis testing</strong>, and so on.</p>
 <p>The purpose of this post is to uncover what bothered me while learning about so many of the above topics:</p>
@@ -229,8 +220,7 @@ body {
 <li>It plays a large role in <strong>statistical inference</strong> based on its use in the central limit theorem.</li>
 </ul>
 <p>Mathematically, the Gaussian Distribution is defined as follows:</p>
-<p>$$f(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} exp(-\frac{(x-\mu)^2}{2\sigma^2})$$</p>
-<p>Where $\mu$ is the <strong>mean</strong>/<strong>expectation</strong> of the distribution, $\sigma$ is the <strong>standard deviation</strong>, and $\sigma^2$ is the <strong>variance</strong>. If you are rusty on your understanding of the prior term's definitions, I recommend reviewing my previous post. It is worth noting that the normal distribution is parameterized by $\mu$ and $\sigma^2$, and it can be stated verbally as:</p>
+$$f(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} exp(-\frac{(x-\mu)^2}{2\sigma^2})$$<p>Where $\mu$ is the <strong>mean</strong>/<strong>expectation</strong> of the distribution, $\sigma$ is the <strong>standard deviation</strong>, and $\sigma^2$ is the <strong>variance</strong>. If you are rusty on your understanding of the prior term's definitions, I recommend reviewing my previous post. It is worth noting that the normal distribution is parameterized by $\mu$ and $\sigma^2$, and it can be stated verbally as:</p>
 <blockquote><p>It is a curve representing the probability distribution of the random variable $x$ given $\mu$ and $\sigma^2$.</p>
 </blockquote>
 <p>Visually, it looks like:</p>
@@ -256,7 +246,7 @@ body {
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -284,7 +274,7 @@ body {
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -294,7 +284,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -314,28 +304,23 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, the question remains: where on earth did this come from? Upon examination is is clearly a rather complex equation, with an exponential, $\pi$, a square root, square, and so on. Yes it is very useful, but I think that having at least a decent idea of where it came from will only help one when putting it to use.</p>
 <h2 id="1.-Approximating-Discrete-Distributions">1. Approximating Discrete Distributions<a class="anchor-link" href="#1.-Approximating-Discrete-Distributions">&#182;</a></h2><p>In the mid 1600's probability theory was in it's infancy. Fermat and Pascal having their <a href="https://www.amazon.com/Unfinished-Game-Pascal-Fermat-Seventeenth-Century/dp/0465018963">famous correspondance</a>, and were considering many different types of problems, one of which dealt with the <strong>Binomial Distribution</strong>. Before we cover the binomial distribution, we are going to go over a special case of it, known as the <strong>Bernoulli Distribution</strong>.</p>
 <h3 id="1.1-Bernoulli-Distribution">1.1 Bernoulli Distribution<a class="anchor-link" href="#1.1-Bernoulli-Distribution">&#182;</a></h3><p>The Bernoulli Distribution is a discrete probability distribution surrounding a <strong>bernoulli random variable</strong>. This is the simplest type of random variable there is, and can only take on two values: $\{0,1\}$. For example, a simple bernoulli random variable would be a coin flip.</p>
 <p>This random variable has the following probability mass function:</p>
-<p>$$f(k \mid p) = 
+$$f(k \mid p) = 
 \left\{
 \begin{array}{ll}
   p \;  \hspace{47pt} if \; k =1 \\
   q = 1 - p \hspace{20pt} if \; k = 0\\
 \end{array}
 \right.
-$$</p>
-<p>Or, it can also be written as:</p>
-<p>$$f(k \mid p) = p^k(1-p)^{1-k}$$</p>
-<p>In both equations, $p$ is the probability of success (for instance, the probability of flipping heads), and $k$ represents whether it was a successful trial or not. As an example of how to evaluate the above pmf, consider a coin has a probability of heads of 0.6 (it is biased). The probability of flipping heads ($k=1$):</p>
-<p>$$f(1 \mid 0.6) = 0.6^1(0.4)^{1-1} = 0.6$$</p>
-<p>And the probability of flipping tails ($k=0$):</p>
-<p>$$f(0 \mid 0.6) = 0.6^0(0.4)^{1-0} = 0.4$$</p>
-<p>What makes the bernoulli distribution a special case of the binomial distribution is that we are dealing with a <strong>single trial</strong>. In other words the number of trials, $n$, is equal to one. Hence, this distribution will allow us to see the probability of heads given a single coin flip. Visually, we can see this below. On the left we see the frequency of heads across 10,000 single coin tosses, and on the right we see the normalized probabilities.</p>
+$$<p>Or, it can also be written as:</p>
+$$f(k \mid p) = p^k(1-p)^{1-k}$$<p>In both equations, $p$ is the probability of success (for instance, the probability of flipping heads), and $k$ represents whether it was a successful trial or not. As an example of how to evaluate the above pmf, consider a coin has a probability of heads of 0.6 (it is biased). The probability of flipping heads ($k=1$):</p>
+$$f(1 \mid 0.6) = 0.6^1(0.4)^{1-1} = 0.6$$<p>And the probability of flipping tails ($k=0$):</p>
+$$f(0 \mid 0.6) = 0.6^0(0.4)^{1-0} = 0.4$$<p>What makes the bernoulli distribution a special case of the binomial distribution is that we are dealing with a <strong>single trial</strong>. In other words the number of trials, $n$, is equal to one. Hence, this distribution will allow us to see the probability of heads given a single coin flip. Visually, we can see this below. On the left we see the frequency of heads across 10,000 single coin tosses, and on the right we see the normalized probabilities.</p>
 
 </div>
 </div>
@@ -384,7 +369,7 @@ $$</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -394,7 +379,7 @@ $$</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -414,8 +399,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Above we are shown the frequency of heads when our single trial experiment was repeated 10,000 times. We ended up with ~6,000 heads and ~4,000 tails; exactly what we would expect based on our probabilities!</p>
 
@@ -423,23 +407,16 @@ height=353
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>It should also be apparent that the expected value of our random variable is:</p>
-<p>$$E[X] = p$$</p>
-<p>Intuitively, I have no doubt that this makes sense. If you know the probability of heads is 0.7, and heads is defined as success (our random variable), then the expectation of our random variable is 0.7. If this is not intuitively clear, please see my previous intro to statistics post.</p>
+$$E[X] = p$$<p>Intuitively, I have no doubt that this makes sense. If you know the probability of heads is 0.7, and heads is defined as success (our random variable), then the expectation of our random variable is 0.7. If this is not intuitively clear, please see my previous intro to statistics post.</p>
 <p>However, we can still place some mathematical rigor behind this intuitive outcome, with the following proof below. Note, there will be a slight change in notation: I am now going to represent our bernoulli random variable as $X$ and the outcome as $x$ (no longer $k$). So our probability mass function will look like:</p>
-<p>$$P(X = x) = p^x(1-p)^{1-x}$$</p>
-<p>Where the outcome $x$ can be either 0 or 1. We will utilize the shorthand for our pmf:</p>
-<p>$$P(X=x) = p(x)$$</p>
-<p>By definition, the expectation of a discrete random variable $X$ is:</p>
-<p>$$E(X) = \sum_x xp(x)$$</p>
-<p>In the bernoulli process, there are only two possible outcomes that can occur, $x = \{0, 1\}$:</p>
-<p>$$E(X) = 0*p^0(1-p)^{1-0} + 1*p^1(1-p)^{1-1}$$</p>
-<p>Above, we are just multiplying 0 times the probability that 0 occurs and adding it to 1 times the probability that 1 occurs. This results in:</p>
-<p>$$E(X) = 0(1-p) + 1p = p$$</p>
-<p>And there we have it, a quick proof that $E(X) = p$ in the case of a bernoulli random variable $X$.</p>
+$$P(X = x) = p^x(1-p)^{1-x}$$<p>Where the outcome $x$ can be either 0 or 1. We will utilize the shorthand for our pmf:</p>
+$$P(X=x) = p(x)$$<p>By definition, the expectation of a discrete random variable $X$ is:</p>
+$$E(X) = \sum_x xp(x)$$<p>In the bernoulli process, there are only two possible outcomes that can occur, $x = \{0, 1\}$:</p>
+$$E(X) = 0*p^0(1-p)^{1-0} + 1*p^1(1-p)^{1-1}$$<p>Above, we are just multiplying 0 times the probability that 0 occurs and adding it to 1 times the probability that 1 occurs. This results in:</p>
+$$E(X) = 0(1-p) + 1p = p$$<p>And there we have it, a quick proof that $E(X) = p$ in the case of a bernoulli random variable $X$.</p>
 <p>Now, it is incredibly important to keep in mind that the random variable in this case is <em>the number of heads on a single flip</em>. Recall, a random variable is a function, so our function is literally just the probability of flipping heads if we flip the coin one time. This will be important as we discuss the binomial distribution next.</p>
 <h3 id="1.2-Binomial-Distribution">1.2 Binomial Distribution<a class="anchor-link" href="#1.2-Binomial-Distribution">&#182;</a></h3><p>Now that we have a good understanding of the bernoulli distribution, we can start dissecting the <strong>binomial distribution</strong>. The binomial distribution is very similar to the bernoulli in that it:</p>
 <ul>
@@ -448,32 +425,21 @@ height=353
 </ul>
 <p>The main difference is that the number of trials, $n$, can now be greater than 1! To make this a bit more clear it helps to think about what random variable we are actually finding the distribution of in this case. We are going to be dealing with the random variable that represents the <em>number of successes</em> in $n$ successive independent trials of a bernoulli experiment.</p>
 <p>For example, we may now be looking for the number of heads in $n$ coin flips. This means that if $n=10$, our random variable will take on a value between 0 and 10 (the minimum and maximum number of coin flips). Mathematically the binomial distribution looks like:</p>
-<p>$$P(k \mid n, p) = {n\choose k} p^k (1-p)^{n-k}$$</p>
-<p>Where ${n\choose k}$ is the <strong>binomial coefficient</strong>:</p>
-<p>$${n\choose k} = \frac{n!}{k!(n-k)!}$$</p>
-<p>The binomial coefficient is used to take into account the fact that their are multiple ways to pick $k$ unordered outcomes from $n$ possibilities. This is known as a <strong>combination</strong> or <strong>combinatorial number</strong>. For instance, if we were flipping a coin twice, there are multiple ways to get a single head: We could flip heads on the first try and tails on the second, or vice versa; they each result in a single head.</p>
+$$P(k \mid n, p) = {n\choose k} p^k (1-p)^{n-k}$$<p>Where ${n\choose k}$ is the <strong>binomial coefficient</strong>:</p>
+$${n\choose k} = \frac{n!}{k!(n-k)!}$$<p>The binomial coefficient is used to take into account the fact that their are multiple ways to pick $k$ unordered outcomes from $n$ possibilities. This is known as a <strong>combination</strong> or <strong>combinatorial number</strong>. For instance, if we were flipping a coin twice, there are multiple ways to get a single head: We could flip heads on the first try and tails on the second, or vice versa; they each result in a single head.</p>
 <p>I also should note that the above is the <em>probability mass function</em>, meaning it represents the probability of getting exactly $k$ successes in $n$ trials. The <em>cumulative distribution function</em> on the other hand is defined as:</p>
-<p>$$F(k \mid n, p) = P(X \leq k) = \sum_{i=0}^k {n\choose i} p^i (1-p)^{n-i}$$</p>
-<p>This summation will come back to be very important later on, so keep it in mind!</p>
+$$F(k \mid n, p) = P(X \leq k) = \sum_{i=0}^k {n\choose i} p^i (1-p)^{n-i}$$<p>This summation will come back to be very important later on, so keep it in mind!</p>
 <p>With that said, we can also write the pmf definition as follows:</p>
-<p>$$P(X=x) = {n\choose k} p^x (1-p)^{n-x}$$</p>
-<p>And:</p>
-<p>$${n\choose x} = \frac{n!}{x!(n-x)!}$$</p>
-<p>Where $x = 0,1,2,...,n$. Depending on whether you have seen the binomial distribution before you may be more comfortable with one or another of the above equations.</p>
+$$P(X=x) = {n\choose k} p^x (1-p)^{n-x}$$<p>And:</p>
+$${n\choose x} = \frac{n!}{x!(n-x)!}$$<p>Where $x = 0,1,2,...,n$. Depending on whether you have seen the binomial distribution before you may be more comfortable with one or another of the above equations.</p>
 <p>What that out of the way, our expected value is updated to reflect the number of flips times the probability of success:</p>
-<p>$$E[X] = np$$</p>
-<p>As with the bernoulli expectation, this should be rather intuitive. If we flip a coin with a probability of 0.5 for heads 100 times, we would expect to get 50 heads. However, again I find it useful to derive this for good measure.</p>
+$$E[X] = np$$<p>As with the bernoulli expectation, this should be rather intuitive. If we flip a coin with a probability of 0.5 for heads 100 times, we would expect to get 50 heads. However, again I find it useful to derive this for good measure.</p>
 <p>We must take into account that a binomial random variable can just be thought of as the sum of $n$ independent Bernoulli random variables, each with a mean $p$ and variance $p(1-p)$. If we let $U_1,...,U_n$ be independent Bernoulli random variables (for example, coin flips), where:</p>
-<p>$$E(U_i) = p$$</p>
-<p>Hence, our binomial random variable $X$ will be the sum of these bernoulli random variables:</p>
-<p>$$X = U_1 + ... + U_n$$</p>
-<p>And the expectation of our binomial random variable $X$ is the sum of the $n$ bernoulli random variables:</p>
-<p>$$E(X) = E(U_1 + ... + U_n)$$</p>
-<p>We can use the properties of the expectation to show that this is just the sum of the expecations:</p>
-<p>$$E(X) = E(U_1) + ... + E(U_n)$$</p>
-<p>Remember, each bernoulli random variable $U_i$ has an expectation of $p$! So we are simply adding up $p$ $n$ times:</p>
-<p>$$E(X) = \sum_i^n = p_i = np$$</p>
-<p>A concrete example will make this more clear. Imagine that our random variable is <em>the function/process of flipping a coin twice and getting a certain number of heads</em>. Keep in mind, prior to this our random variable was representing flipping the coin a single time and getting heads. So now we are flipping the coin twice. We want to model the distribution of heads in the outcomes. Our potential outcomes would look like:</p>
+$$E(U_i) = p$$<p>Hence, our binomial random variable $X$ will be the sum of these bernoulli random variables:</p>
+$$X = U_1 + ... + U_n$$<p>And the expectation of our binomial random variable $X$ is the sum of the $n$ bernoulli random variables:</p>
+$$E(X) = E(U_1 + ... + U_n)$$<p>We can use the properties of the expectation to show that this is just the sum of the expecations:</p>
+$$E(X) = E(U_1) + ... + E(U_n)$$<p>Remember, each bernoulli random variable $U_i$ has an expectation of $p$! So we are simply adding up $p$ $n$ times:</p>
+$$E(X) = \sum_i^n = p_i = np$$<p>A concrete example will make this more clear. Imagine that our random variable is <em>the function/process of flipping a coin twice and getting a certain number of heads</em>. Keep in mind, prior to this our random variable was representing flipping the coin a single time and getting heads. So now we are flipping the coin twice. We want to model the distribution of heads in the outcomes. Our potential outcomes would look like:</p>
 <table>
 <thead><tr>
 <th>Outcomes</th>
@@ -580,7 +546,7 @@ height=353
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -590,7 +556,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -610,8 +576,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And we can see how the distribution changes as we change the probability of success:</p>
 
@@ -662,7 +627,7 @@ height=353
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -672,7 +637,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -692,8 +657,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>What is more interesting do, however, is to change the <em>number of trials</em>. So far we have looked at the bernoulli distribution where $n=1$ and then a simple case of the binomial where $n=2$. What about the case where $n=5$?</p>
 
@@ -734,7 +698,7 @@ height=353
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -744,7 +708,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -764,8 +728,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>It is interesting to take note of the shape that is starting to emerge. Let's look at the case where $n=10$:</p>
 
@@ -806,7 +769,7 @@ height=353
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -816,7 +779,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -836,8 +799,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This should be starting to look more and more familiar to the normal distribution that we looked at earlier and that you have surely seen in the past. Let's check $n=25$ and $n=50$:</p>
 
@@ -903,7 +865,7 @@ height=353
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -913,7 +875,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -933,8 +895,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="1.3-Approximating-the-Binomial-Distribution">1.3 Approximating the Binomial Distribution<a class="anchor-link" href="#1.3-Approximating-the-Binomial-Distribution">&#182;</a></h3><p>This is beginning to look very close to the normal distribution! We can even overlay the theoretical normal distribution on top of each of these plots to show what a great approximation to the binomial distribution the normal is:</p>
 
@@ -1008,7 +969,7 @@ height=353
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1018,7 +979,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1038,15 +999,13 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, this is a big idea! Simply put:</p>
 <blockquote><p>The normal distrubtion came about as a way to utilize a continuous distribution to approximate the discrete binomial distribution.</p>
 </blockquote>
 <p>The binomial distrubtion suffered from many computational challenges, something very common when dealing with summations of the type seen in the cumulative distribution function shown earlier:</p>
-<p>$$F(k \mid n, p) = P(X \leq k) = \sum_{i=0}^k {n\choose i} p^i (1-p)^{n-i}$$</p>
-<p>These computational challenges meant that mathematicians began searching for <strong>approximations</strong>. In a sense, we can view that situation as follows: mathematicians <em>had access to the green discrete distribution above</em> and they wanted to find the red function that could be used to approximate it. Now before we dig into how exactly they did that, we need to take a quick aside to talk about function transformations.</p>
+$$F(k \mid n, p) = P(X \leq k) = \sum_{i=0}^k {n\choose i} p^i (1-p)^{n-i}$$<p>These computational challenges meant that mathematicians began searching for <strong>approximations</strong>. In a sense, we can view that situation as follows: mathematicians <em>had access to the green discrete distribution above</em> and they wanted to find the red function that could be used to approximate it. Now before we dig into how exactly they did that, we need to take a quick aside to talk about function transformations.</p>
 <h4 id="Function-Transformations">Function Transformations<a class="anchor-link" href="#Function-Transformations">&#182;</a></h4><p>I would highly recommend anyone who has made it this far go to my post on <strong>composition of functions</strong>. It goes through a more visual intuition of how you can end up creating a bell shaped curve. It will make the math that is about to follow more easily digestable, and even more importantly it more fundamental to understand (in my humble opinion).</p>
 <p>With that said, we can now move onto the derivation behind the normal distribution.</p>
 
@@ -1054,8 +1013,7 @@ height=353
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.-The-Normal-Distribution">2. The Normal Distribution<a class="anchor-link" href="#2.-The-Normal-Distribution">&#182;</a></h2><p>In 1850 astronomer John Herschel gave an incredibly compelling derivation of the normal distribution. For more history surrounding the derivation and all that lead to it, I highly recommend reading <a href="https://www.maa.org/sites/default/files/pdf/upload_library/22/Allendoerfer/stahl96.pdf">this article</a>, which goes into wonderful detail of the entire subject.</p>
 <p>We will go through Herschel's derivation, making a point to dig into the weeds where necessary. This may be review for some, while treading into uncharted waters for others; no matter! The main goal here is to provide an accessible derivation of one of the most widely used functions in the history of mathematics. And with that, let's begin.</p>
@@ -1128,7 +1086,7 @@ height=353
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1138,7 +1096,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1157,9 +1115,21 @@ height=358
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that the darts have clustered near the center, and as we move further away we see fewer and fewer darts. We also see that as we increase our sample size ($n$, the number of dart throws), our clustering around the origin becomes more and more apparent.</p>
 <p>Now, we can define our goal as follows:</p>
@@ -1167,8 +1137,7 @@ height=358
 </blockquote>
 <p>In order to do that, we will define a probability density function, $\phi$. Realize that at this point we have taken a problem that was one dimensional and transitioned to solving a problem that is in two dimesions; that is okay! I have done this on purpose for reasons that will be clear soon.</p>
 <p>Now, $\phi$ is going to take in a point $(x,y)$ on this 2-d board and yield the relative probability of finding a dart near that point. The probability of finding a point in a very small 2-dimensional box, $dA$, will be the coordinates describing the location of the box, $(x,y)$, plugged into our probability density function $\phi$, times the area of the box:</p>
-<p>$$\phi(x,y) dA$$</p>
-
+$$\phi(x,y) dA$$
 </div>
 </div>
 </div>
@@ -1247,7 +1216,7 @@ height=358
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1257,7 +1226,7 @@ height=358
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1277,8 +1246,7 @@ height=410
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>There are several features of this function $\phi$ that we can intuit relatively easily:</p>
 <ol>
@@ -1402,7 +1370,7 @@ height=410
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1412,7 +1380,7 @@ height=410
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1432,77 +1400,39 @@ height=410
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>What we are really saying about the function $\phi$ is that it is <strong>rotationality symmetric</strong>. Because $\phi$ is only dependent on $r$, we can write it as:</p>
-<p>$$\phi(r) dA$$</p>
-<h3 id="2.1.1-Solving-for-general-class-of-function">2.1.1 Solving for general class of function<a class="anchor-link" href="#2.1.1-Solving-for-general-class-of-function">&#182;</a></h3><p>We have been talking about polar coordinates up until this point, but we need to keep in mind that each box shown above has an $x$ coordinate and $y$ coordinate in the cartesian space. So, the next assumption that we are going to make is that the $x$ and $y$ dimensions are statistically independent. That is to say that the $x$ coordinate tells us nothing about the $y$ coordinate. This statistical independence allows us to express our probability in another way:</p>
-<p>$$\phi(r) dA = f(x)f(y)dA$$</p>
-<p>In english the above just says that $\phi(r) dA$ is equal to a new probability density function $f$ taking in $x$, times this new pdf $f$ taking in $y$ times $dA$. The reason for the multiplication is because we are assuming statistical independence. The reason that we use $f$ to operate on both $x$ and $y$ is because there is no special distinction between $x$ and $y$. At this point we can cancel out the $dA$'s and reveal the equality between of probability density functions:</p>
-<p>$$\phi(r) = f(x)f(y)$$</p>
-<p>Recall, that in polar coordinates:</p>
-<p>$$r = \sqrt{x^2 + y^2}$$</p>
-<p>Hence, we can write:</p>
-<p>$$\phi\big(\sqrt{x^2 + y^2}\big) = f(x)f(y)$$</p>
-<p>You may be thinking that we are currently building up a large number of unknowns and functions, making things more complicated at each step. However, that is the beauty of this proof! There is a precise relationship between $\phi$ and $f$ that makes this process worth while! Let's set $y=0$. This is completely fine because if the above statement is true in general it obviously must be true in a specific case, namely where $y=0$:</p>
-<p>$$\phi\big(\sqrt{x^2 + 0^2}\big) = f(x)f(0)$$</p>
-<p>$$\phi(x) = f(x)f(0)$$</p>
-<p>Realize that $f(0)$ is simply some unknown constant (whatever $f$ evaluates to for a given input 0). We will refer to that constant as $\lambda$:</p>
-<p>$$\lambda = f(0)$$</p>
-<p>This allows us to write:</p>
-<p>$$\phi(x) = \lambda f(x)$$</p>
-<p>The takeaway from the above is that the function $\phi$ operating on any particular input, is but a scalar multiple, $\lambda$, of $f$ operating on that same input. That is to say that $\phi$ is just some scalar multiple of $f$, namely $\lambda$. With that knowledge, we can return to our earlier line:</p>
-<p>$$\phi \big(\sqrt{x^2 + y^2}\big) = f(x)f(y)$$</p>
-<p>Now, the input to $\phi$ above may look complex, but it is really just one value, namely the result of $\sqrt{x^2 + y^2}$ being inputed into $\phi$. Now, because $\phi$ is a scalar multiple, $\lambda$, of $f$, we can use the relationship we just derived to see:</p>
-<p>$$\phi \big(\sqrt{x^2 + y^2}\big) = \lambda f(\sqrt{x^2 + y^2}) =  f(x)f(y)$$</p>
-<p>And just like that we were able to get rid of the probability density function $\phi$, leaving us with the <a href="https://brilliant.org/wiki/functional-equations/"><strong>functional equation</strong></a>:</p>
-<p>$$ \lambda f(\sqrt{x^2 + y^2}) = f(x)f(y)$$</p>
-<p>$f$ is the function that we actually care about in this functional equation, but we will make a little modification first. To show this we will divide each side by $\lambda ^2$:</p>
-<p>$$\frac{f(x)}{\lambda} \frac{f(y)}{\lambda} = \frac{f(\sqrt{x^2 + y^2})}{\lambda}$$</p>
-<p>At this point we can define a new function, namely $g(x)$, that is equal to:</p>
-<p>$$g(x) = \frac{f(x)}{\lambda}$$</p>
-<p>$$g(x)g(y) = g(\sqrt{x^2 + y^2})$$</p>
-<p>Our goal is to find $g$ which in turn will allow us to easily find $f$, since $f$ is just a scalar multiple of $g$. So, we are trying to find functions that have the property where if we take $g(x)$ and multiply it by $g(y)$ it will be equal to $g\big(\sqrt{x^2 + y^2})$. It is not immediately obvious which sorts of functions will have this particular property, but we can actually solve this functional equation via inspection!</p>
+$$\phi(r) dA$$<h3 id="2.1.1-Solving-for-general-class-of-function">2.1.1 Solving for general class of function<a class="anchor-link" href="#2.1.1-Solving-for-general-class-of-function">&#182;</a></h3><p>We have been talking about polar coordinates up until this point, but we need to keep in mind that each box shown above has an $x$ coordinate and $y$ coordinate in the cartesian space. So, the next assumption that we are going to make is that the $x$ and $y$ dimensions are statistically independent. That is to say that the $x$ coordinate tells us nothing about the $y$ coordinate. This statistical independence allows us to express our probability in another way:</p>
+$$\phi(r) dA = f(x)f(y)dA$$<p>In english the above just says that $\phi(r) dA$ is equal to a new probability density function $f$ taking in $x$, times this new pdf $f$ taking in $y$ times $dA$. The reason for the multiplication is because we are assuming statistical independence. The reason that we use $f$ to operate on both $x$ and $y$ is because there is no special distinction between $x$ and $y$. At this point we can cancel out the $dA$'s and reveal the equality between of probability density functions:</p>
+$$\phi(r) = f(x)f(y)$$<p>Recall, that in polar coordinates:</p>
+$$r = \sqrt{x^2 + y^2}$$<p>Hence, we can write:</p>
+$$\phi\big(\sqrt{x^2 + y^2}\big) = f(x)f(y)$$<p>You may be thinking that we are currently building up a large number of unknowns and functions, making things more complicated at each step. However, that is the beauty of this proof! There is a precise relationship between $\phi$ and $f$ that makes this process worth while! Let's set $y=0$. This is completely fine because if the above statement is true in general it obviously must be true in a specific case, namely where $y=0$:</p>
+$$\phi\big(\sqrt{x^2 + 0^2}\big) = f(x)f(0)$$$$\phi(x) = f(x)f(0)$$<p>Realize that $f(0)$ is simply some unknown constant (whatever $f$ evaluates to for a given input 0). We will refer to that constant as $\lambda$:</p>
+$$\lambda = f(0)$$<p>This allows us to write:</p>
+$$\phi(x) = \lambda f(x)$$<p>The takeaway from the above is that the function $\phi$ operating on any particular input, is but a scalar multiple, $\lambda$, of $f$ operating on that same input. That is to say that $\phi$ is just some scalar multiple of $f$, namely $\lambda$. With that knowledge, we can return to our earlier line:</p>
+$$\phi \big(\sqrt{x^2 + y^2}\big) = f(x)f(y)$$<p>Now, the input to $\phi$ above may look complex, but it is really just one value, namely the result of $\sqrt{x^2 + y^2}$ being inputed into $\phi$. Now, because $\phi$ is a scalar multiple, $\lambda$, of $f$, we can use the relationship we just derived to see:</p>
+$$\phi \big(\sqrt{x^2 + y^2}\big) = \lambda f(\sqrt{x^2 + y^2}) =  f(x)f(y)$$<p>And just like that we were able to get rid of the probability density function $\phi$, leaving us with the <a href="https://brilliant.org/wiki/functional-equations/"><strong>functional equation</strong></a>:</p>
+$$ \lambda f(\sqrt{x^2 + y^2}) = f(x)f(y)$$<p>$f$ is the function that we actually care about in this functional equation, but we will make a little modification first. To show this we will divide each side by $\lambda ^2$:</p>
+$$\frac{f(x)}{\lambda} \frac{f(y)}{\lambda} = \frac{f(\sqrt{x^2 + y^2})}{\lambda}$$<p>At this point we can define a new function, namely $g(x)$, that is equal to:</p>
+$$g(x) = \frac{f(x)}{\lambda}$$$$g(x)g(y) = g(\sqrt{x^2 + y^2})$$<p>Our goal is to find $g$ which in turn will allow us to easily find $f$, since $f$ is just a scalar multiple of $g$. So, we are trying to find functions that have the property where if we take $g(x)$ and multiply it by $g(y)$ it will be equal to $g\big(\sqrt{x^2 + y^2})$. It is not immediately obvious which sorts of functions will have this particular property, but we can actually solve this functional equation via inspection!</p>
 <p>In order to do so, let's consider a different functional equation (one that is easier to work with). We can define $h$, where:</p>
-<p>$$h(x)h(y) = h(x + y)$$</p>
-<p>So, what sorts of functions have this property? Namely, the product of two outputs is the same as the output of the sum of the two inputs, $x$ and $y$. Now, I encourage you to reflect on this for a few minutes, but hopefully you can come to the realization that this is satisfied via the <strong>exponential function</strong>:</p>
-<p>$$h = e^x$$</p>
-<p>$$e^x e^y = e ^ {x+y}$$</p>
-<p>Now, not that we did <em>not</em> need to chose that particular base $e$. For instance, we could have chosen 5 as our base. This would also satisfy our functional equation:</p>
-<p>$$5^x 5^y = 5 ^ {x+y}$$</p>
-<p>So, we can see that the sorts of functions that solve $h$ will be exponential functions. Now, if we switch gears to working with $g$ again, we see that $g$ cannot merely be exponetiation. We need to somehow get rid of the square root in order to get something like we saw with $h$. The key insight here is:</p>
+$$h(x)h(y) = h(x + y)$$<p>So, what sorts of functions have this property? Namely, the product of two outputs is the same as the output of the sum of the two inputs, $x$ and $y$. Now, I encourage you to reflect on this for a few minutes, but hopefully you can come to the realization that this is satisfied via the <strong>exponential function</strong>:</p>
+$$h = e^x$$$$e^x e^y = e ^ {x+y}$$<p>Now, not that we did <em>not</em> need to chose that particular base $e$. For instance, we could have chosen 5 as our base. This would also satisfy our functional equation:</p>
+$$5^x 5^y = 5 ^ {x+y}$$<p>So, we can see that the sorts of functions that solve $h$ will be exponential functions. Now, if we switch gears to working with $g$ again, we see that $g$ cannot merely be exponetiation. We need to somehow get rid of the square root in order to get something like we saw with $h$. The key insight here is:</p>
 <blockquote><p>The function $g$ is composed of two operations. We need an operation that is going to get rid of the square root. To do that, we will start by squaring our input.</p>
 </blockquote>
 <p><strong>Square input</strong><br></p>
-<p>$$x \rightarrow x^2$$</p>
-<p>$$y \rightarrow y^2$$</p>
-<p>$$\sqrt{x^2+y^2} \rightarrow x^2+y^2$$</p>
-<p>Note that our modified inputs, $x^2$ and $y^2$, when summed, will give us $x^2+y^2$. This is starting look similar to our exponentation function we saw in $h$! At this point, we can exponetiate our squared input.</p>
+$$x \rightarrow x^2$$$$y \rightarrow y^2$$$$\sqrt{x^2+y^2} \rightarrow x^2+y^2$$<p>Note that our modified inputs, $x^2$ and $y^2$, when summed, will give us $x^2+y^2$. This is starting look similar to our exponentation function we saw in $h$! At this point, we can exponetiate our squared input.</p>
 <p><strong>Exponetiate</strong><br></p>
-<p>$$x^2 \rightarrow e^{x^2}$$</p>
-<p>$$y^2 \rightarrow e^{y^2}$$</p>
-<p>$$x^2+y^2 \rightarrow e^{x^2+y^2}$$</p>
-<p>This is can be seen very clearly in my post concerning <strong>function composition</strong>. If you have not checked that out yet, I highly recommend it to gain a bit more intuition on this process. With that said, we can string together the above operations succinctly as follows:</p>
+$$x^2 \rightarrow e^{x^2}$$$$y^2 \rightarrow e^{y^2}$$$$x^2+y^2 \rightarrow e^{x^2+y^2}$$<p>This is can be seen very clearly in my post concerning <strong>function composition</strong>. If you have not checked that out yet, I highly recommend it to gain a bit more intuition on this process. With that said, we can string together the above operations succinctly as follows:</p>
 <p><strong>Input $\rightarrow$ Square() $\rightarrow$ Output/Input $\rightarrow$ Exponentiate() $\rightarrow$ Output</strong><br></p>
-<p>$$x \rightarrow x^2 \rightarrow e^{x^2}$$</p>
-<p>$$y \rightarrow y^2 \rightarrow e^{y^2}$$</p>
-<p>$$\sqrt{x^2+y^2} \rightarrow x^2+y^2 \rightarrow e^{x^2+y^2}$$</p>
-<p>The above satisfies our functional equation perfectly. As we noted earlier, the based that we chose, $e$, was done somewhat arbitrarily; any base would technically do. Therefore, during our exponetiation step there is inherent ambiguity. For instance, we could have chosen a base of 2:</p>
-<p>$$x^2 \rightarrow 2^{x^2}$$</p>
-<p>We know, however, that no matter which base we chose we can always change the base. That is:</p>
-<p>$$2^{x^2} = e ^{Ax^2}$$</p>
-<p>Where in the above case $A = ln(2)$. This means that the most general source of solutions coming from the functional equation for $g$ is going to be:</p>
-<p>$$g(x) = e^{Ax^2}$$</p>
-<p>Again, remember that $A$ comes from the ambiguity of chosing a base. We can perform a sanity check to ensure that our general solution does in fact solve our original equation:</p>
-<p>$$g(x)g(y) = g(\sqrt{x^2 + y^2})$$</p>
-<p>$$e^{Ax^2} * e^{Ay^2} = e^{A\sqrt{x^2 + y^2}^2}$$</p>
-<p>$$e^{Ax^2} * e^{Ay^2} = e^{A(x^2 + y^2)}$$</p>
-<p>$$e^{Ax^2} * e^{Ay^2} = e^{Ax^2 + Ay^2}$$</p>
-<p>$$e^{Ax^2} * e^{Ay^2} = e^{Ax^2} * e^{Ay^2}$$</p>
-<p>And as expected, it does! We now know what $g$ is, and from our prior definition of $g$, we know that the function we have been trying to solve for all along, $f$, is equal to:</p>
-<p>$$f(x) = \lambda g(x)$$</p>
-<h4 id="$$f(x)-=-\lambda-e^{Ax^2}$$"><span style="color:#0000cc">$$f(x) = \lambda e^{Ax^2}$$</span><a class="anchor-link" href="#$$f(x)-=-\lambda-e^{Ax^2}$$">&#182;</a></h4><p>This is the most general class of functions that we are interested in. Visually we can see that we have indeed arrived at the correct shape we set out to find:</p>
+$$x \rightarrow x^2 \rightarrow e^{x^2}$$$$y \rightarrow y^2 \rightarrow e^{y^2}$$$$\sqrt{x^2+y^2} \rightarrow x^2+y^2 \rightarrow e^{x^2+y^2}$$<p>The above satisfies our functional equation perfectly. As we noted earlier, the based that we chose, $e$, was done somewhat arbitrarily; any base would technically do. Therefore, during our exponetiation step there is inherent ambiguity. For instance, we could have chosen a base of 2:</p>
+$$x^2 \rightarrow 2^{x^2}$$<p>We know, however, that no matter which base we chose we can always change the base. That is:</p>
+$$2^{x^2} = e ^{Ax^2}$$<p>Where in the above case $A = ln(2)$. This means that the most general source of solutions coming from the functional equation for $g$ is going to be:</p>
+$$g(x) = e^{Ax^2}$$<p>Again, remember that $A$ comes from the ambiguity of chosing a base. We can perform a sanity check to ensure that our general solution does in fact solve our original equation:</p>
+$$g(x)g(y) = g(\sqrt{x^2 + y^2})$$$$e^{Ax^2} * e^{Ay^2} = e^{A\sqrt{x^2 + y^2}^2}$$$$e^{Ax^2} * e^{Ay^2} = e^{A(x^2 + y^2)}$$$$e^{Ax^2} * e^{Ay^2} = e^{Ax^2 + Ay^2}$$$$e^{Ax^2} * e^{Ay^2} = e^{Ax^2} * e^{Ay^2}$$<p>And as expected, it does! We now know what $g$ is, and from our prior definition of $g$, we know that the function we have been trying to solve for all along, $f$, is equal to:</p>
+$$f(x) = \lambda g(x)$$<h4 id="$$f(x)-=-\lambda-e^{Ax^2}$$"><span style="color:#0000cc">$$f(x) = \lambda e^{Ax^2}$$</span><a class="anchor-link" href="#$$f(x)-=-\lambda-e^{Ax^2}$$">&#182;</a></h4><p>This is the most general class of functions that we are interested in. Visually we can see that we have indeed arrived at the correct shape we set out to find:</p>
 
 </div>
 </div>
@@ -1533,7 +1463,7 @@ height=410
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1543,7 +1473,7 @@ height=410
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1563,58 +1493,34 @@ height=360
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="2.1.2-Solve-for-Constants:-Reduce-to-a-single-constant">2.1.2 Solve for Constants: Reduce to a single constant<a class="anchor-link" href="#2.1.2-Solve-for-Constants:-Reduce-to-a-single-constant">&#182;</a></h3><p>At this point we have done the vast majority of the conceptual work needed for this proof. We have found general class of functions that can be parameterized in order to yield the proper probability density function based on our assumptions and constraints assigned earlier. The main piece that is left is merely cosmetic, and that is finding the constants $A$ and $\lambda$.</p>
 <p>The first thing to note is that we are always going to want $A$ to be a negative number. This is because if $A$ is positive then we have $e$ raised to a positive number, which is going to cause our equation to blow up to $\infty$. This is clearly not what we want when dealing with probabilities.</p>
 <p>To ensure that $A$ always negative, we can redefine $A$ as:</p>
-<p>$$A = -h^2$$</p>
-<p>Where $h$ is just some number. The squaring operation ensures that the number is always positive, and then we negate that positive number to ensure $A$ is negative. We can then redefine $f$ as:</p>
-<p>$$f(x) = \lambda e^{-h^2x^2}$$</p>
-<p>Now, even if we did not have the plotting capabilites that we do (from matplotlib), we could see that the above function is <strong>even</strong>, meaning:</p>
-<p>$$f(x) = f(-x)$$</p>
-<p>This means that our function will be symmetric about the y-axis. So, even without the plotting capabilities we have, we could reason that our function would be bell shaped, centered about the y-axis (bell shaped because we see that as $x \rightarrow \infty$, $f(x) \rightarrow 0$.</p>
+$$A = -h^2$$<p>Where $h$ is just some number. The squaring operation ensures that the number is always positive, and then we negate that positive number to ensure $A$ is negative. We can then redefine $f$ as:</p>
+$$f(x) = \lambda e^{-h^2x^2}$$<p>Now, even if we did not have the plotting capabilites that we do (from matplotlib), we could see that the above function is <strong>even</strong>, meaning:</p>
+$$f(x) = f(-x)$$<p>This means that our function will be symmetric about the y-axis. So, even without the plotting capabilities we have, we could reason that our function would be bell shaped, centered about the y-axis (bell shaped because we see that as $x \rightarrow \infty$, $f(x) \rightarrow 0$.</p>
 <p>We have an additional constraint, namely that the total area under our curve must be equal to 1. This can be written mathematically as:</p>
-<p>$$\int _{-\infty}^{\infty}f(x) dx = 1$$</p>
-<p>What we will see is that the total number of unknowns is going to be reduced to 1 (we currently have 2, $\lambda$ and $h$). We can rewrite the above as:</p>
-<p>$$\lambda \int _{-\infty}^{\infty}e^{-h^2 x^2} dx = 1$$</p>
-<p>At this point we can perform <strong>u-substitution</strong>:</p>
-<p>$$u = hx$$</p>
-<p>$$du = h dx$$</p>
-<p>$$dx = \frac{du}{h}$$</p>
-<p>Which then allows us to substitute $u$ in:</p>
-<p>$$\frac{\lambda}{h} \int _{-\infty}^{\infty}e^{-u^2} du = 1$$</p>
-<p>Now, the integral above is very famous; it is known as the <strong>Gaussian Integral</strong>. At the risk of making this post to long I am going to derive it, since I find it very enlightening when trying to intuit where all terms in the final normal equation originate from.</p>
+$$\int _{-\infty}^{\infty}f(x) dx = 1$$<p>What we will see is that the total number of unknowns is going to be reduced to 1 (we currently have 2, $\lambda$ and $h$). We can rewrite the above as:</p>
+$$\lambda \int _{-\infty}^{\infty}e^{-h^2 x^2} dx = 1$$<p>At this point we can perform <strong>u-substitution</strong>:</p>
+$$u = hx$$$$du = h dx$$$$dx = \frac{du}{h}$$<p>Which then allows us to substitute $u$ in:</p>
+$$\frac{\lambda}{h} \int _{-\infty}^{\infty}e^{-u^2} du = 1$$<p>Now, the integral above is very famous; it is known as the <strong>Gaussian Integral</strong>. At the risk of making this post to long I am going to derive it, since I find it very enlightening when trying to intuit where all terms in the final normal equation originate from.</p>
 <h4 id="2.1.2.1-Gaussian-Integral-Derivation">2.1.2.1 Gaussian Integral Derivation<a class="anchor-link" href="#2.1.2.1-Gaussian-Integral-Derivation">&#182;</a></h4><p>Right from the get go it is clear that this integral is trying to evaluate a curve that has the exact shape of the normal distribution. We have our constants outside of the integral, so we can ignore them, leaving us with the evaluation of:</p>
-<p>$$ \int _{-\infty}^{\infty}e^{-u^2} du = 1$$</p>
-<p>For the sake of clarity, and <em>just for this derivation</em>, I am going to use $x$ instead of $u$, since it is purely a choice of nomenclature and will make it easier to follow. However, once we have derived it know that we would have come to the exact same conclusion if we had used $u$; it is simply a naming convention:</p>
-<p>$$ \int _{-\infty}^{\infty}e^{-x^2} dx = 1$$</p>
-<p>To start, we can define our integral as follows:</p>
-<p>$$I = \int _{-\infty}^{\infty}e^{-x^2} dx$$</p>
-<p>Now, in order to find what $I$ is we can look at a very similar integral, namely:</p>
-<p>$$\int _{-\infty}^{\infty} \int _{-\infty}^{\infty}e^{-(x^2 + y^2)} dy dx$$</p>
-<p>If we look at the particular function that we are performing a double integral over, we see it is:</p>
-<p>$$e^{-(x^2 + y^2)}$$</p>
-<p>This can be rewritten as:</p>
-<p>$$e^{-x^2} e^{-y^2}$$</p>
-<p>We can then look at the inner integral:</p>
-<p>$$I^2 = \int _{-\infty}^{\infty} \overbrace{\int _{-\infty}^{\infty}e^{-x^2} e^{-y^2} dy}^\text{First integral wrt y} dx$$</p>
-<p>Now, this inner integral is taken with respect to $y$. This means that the $e^{-x^2}$ portion is not going to effect the integral in any way. This allows us to take this bit as a constant and pull it outside of the integral:</p>
-<p>$$e^{-x^2} \int _{-\infty}^{\infty} e^{-y^2} dy$$</p>
-<p>This leaves us with integral $\int _{-\infty}^{\infty} e^{-y^2} dy$, which can be evaluated somehow, yielding a number; i.e. yielding a constant:</p>
-<p>$$\int _{-\infty}^{\infty} e^{-y^2} dy = constant$$</p>
-<p>We can then put our other integral back in, keeping in mind that the integral above will just yield a constant:</p>
-<p>$$\int _{-\infty}^{\infty} e^{-x^2} \overbrace{ \int _{-\infty}^{\infty} e^{-y^2} dy }^\text{Evaluates to a constant} dx$$</p>
-<p>Because the inner portion evaluates to a constant we can move it outside of the outer integral:</p>
-<p>$$\overbrace{ \int _{-\infty}^{\infty} e^{-y^2} dy }^\text{Integral 1} \overbrace{ \int _{-\infty}^{\infty} e^{-x^2} dx} ^\text{Integral 2}$$</p>
-<p>Now, integral 2, above, will just be equal to $I$ as we defined earlier. Integral 1 will also be equal to $I$, because it is the same integral-we are simply writing everything in terms of $y$! If we recall the integral we defined earlier, we now see that it is simply equal to $I^2$:</p>
-<p>$$I^2 = \int _{-\infty}^{\infty} \int _{-\infty}^{\infty}e^{-(x^2 + y^2)} dy dx$$</p>
-<p>So, to recap, we are interested in this integral:</p>
-<p>$$I = \int _{-\infty}^{\infty}e^{-x^2} dx$$</p>
-<p>And in order to find it, we simply need to find the answer to the integral:</p>
-<p>$$I^2 = \int _{-\infty}^{\infty} \int _{-\infty}^{\infty}e^{-(x^2 + y^2)} dy dx$$</p>
-<p>And then take the square root of it in order to get $I$! Surprisingly, the above integral is much easier to solve than our original. To get an idea of what this multivariate function looks like, we can plot it below:</p>
+$$ \int _{-\infty}^{\infty}e^{-u^2} du = 1$$<p>For the sake of clarity, and <em>just for this derivation</em>, I am going to use $x$ instead of $u$, since it is purely a choice of nomenclature and will make it easier to follow. However, once we have derived it know that we would have come to the exact same conclusion if we had used $u$; it is simply a naming convention:</p>
+$$ \int _{-\infty}^{\infty}e^{-x^2} dx = 1$$<p>To start, we can define our integral as follows:</p>
+$$I = \int _{-\infty}^{\infty}e^{-x^2} dx$$<p>Now, in order to find what $I$ is we can look at a very similar integral, namely:</p>
+$$\int _{-\infty}^{\infty} \int _{-\infty}^{\infty}e^{-(x^2 + y^2)} dy dx$$<p>If we look at the particular function that we are performing a double integral over, we see it is:</p>
+$$e^{-(x^2 + y^2)}$$<p>This can be rewritten as:</p>
+$$e^{-x^2} e^{-y^2}$$<p>We can then look at the inner integral:</p>
+$$I^2 = \int _{-\infty}^{\infty} \overbrace{\int _{-\infty}^{\infty}e^{-x^2} e^{-y^2} dy}^\text{First integral wrt y} dx$$<p>Now, this inner integral is taken with respect to $y$. This means that the $e^{-x^2}$ portion is not going to effect the integral in any way. This allows us to take this bit as a constant and pull it outside of the integral:</p>
+$$e^{-x^2} \int _{-\infty}^{\infty} e^{-y^2} dy$$<p>This leaves us with integral $\int _{-\infty}^{\infty} e^{-y^2} dy$, which can be evaluated somehow, yielding a number; i.e. yielding a constant:</p>
+$$\int _{-\infty}^{\infty} e^{-y^2} dy = constant$$<p>We can then put our other integral back in, keeping in mind that the integral above will just yield a constant:</p>
+$$\int _{-\infty}^{\infty} e^{-x^2} \overbrace{ \int _{-\infty}^{\infty} e^{-y^2} dy }^\text{Evaluates to a constant} dx$$<p>Because the inner portion evaluates to a constant we can move it outside of the outer integral:</p>
+$$\overbrace{ \int _{-\infty}^{\infty} e^{-y^2} dy }^\text{Integral 1} \overbrace{ \int _{-\infty}^{\infty} e^{-x^2} dx} ^\text{Integral 2}$$<p>Now, integral 2, above, will just be equal to $I$ as we defined earlier. Integral 1 will also be equal to $I$, because it is the same integral-we are simply writing everything in terms of $y$! If we recall the integral we defined earlier, we now see that it is simply equal to $I^2$:</p>
+$$I^2 = \int _{-\infty}^{\infty} \int _{-\infty}^{\infty}e^{-(x^2 + y^2)} dy dx$$<p>So, to recap, we are interested in this integral:</p>
+$$I = \int _{-\infty}^{\infty}e^{-x^2} dx$$<p>And in order to find it, we simply need to find the answer to the integral:</p>
+$$I^2 = \int _{-\infty}^{\infty} \int _{-\infty}^{\infty}e^{-(x^2 + y^2)} dy dx$$<p>And then take the square root of it in order to get $I$! Surprisingly, the above integral is much easier to solve than our original. To get an idea of what this multivariate function looks like, we can plot it below:</p>
 
 </div>
 </div>
@@ -1659,7 +1565,7 @@ height=360
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1669,7 +1575,7 @@ height=360
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1689,19 +1595,15 @@ height=1258
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>What we see above is that we are now dealing with a 3 dimensional bell shaped curve. The goal with the above integral is to find the <strong>volume</strong> underneath the 3 dimensional curve. Now, the way that we are going to be finding the volume under this bell shaped integral is rather interesting!</p>
 <p>If we inspect this function closely, we can see that the first thing that happens is that was sum $x^2$ and $y^2$:</p>
-<p>$$x^2 + y^2$$</p>
-<p>But what does $x^2 + y^2$ equal? Well, based on earlier studies of geometry you may remember that:</p>
-<p>$$x^2 + y^2 = r^2$$</p>
-<p>Where $r$ is the radius of the circle that the function represents:</p>
+$$x^2 + y^2$$<p>But what does $x^2 + y^2$ equal? Well, based on earlier studies of geometry you may remember that:</p>
+$$x^2 + y^2 = r^2$$<p>Where $r$ is the radius of the circle that the function represents:</p>
 <p><img src="https://drive.google.com/uc?id=1OQaSyBD-jN-fES5JLGwiNg2wbajNLYvO" width="400"></p>
 <p>This knowledge allows us to replace our original $x^2 + y^2$ with $r^2$ in $f$:</p>
-<p>$$f(r) = e^{-r^2}$$</p>
-<p>We now are dealing with a function that just depends on $r$. This is just the distance that the point is away from the origin in 2-d (as in the image above), or the $z$-axis when dealing with 3 dimensions! Keep in mind that if we took a cross section perpendicular to the $z$ axis at any point, our cross section would yield a circle, with a radius $r$ away from the origin. Also, note that our multivariate gaussian below exhibits a <strong>radial symmetry</strong> about the z axis, meaning that we can rotate it about the $z$ axis and it will still look the same:</p>
+$$f(r) = e^{-r^2}$$<p>We now are dealing with a function that just depends on $r$. This is just the distance that the point is away from the origin in 2-d (as in the image above), or the $z$-axis when dealing with 3 dimensions! Keep in mind that if we took a cross section perpendicular to the $z$ axis at any point, our cross section would yield a circle, with a radius $r$ away from the origin. Also, note that our multivariate gaussian below exhibits a <strong>radial symmetry</strong> about the z axis, meaning that we can rotate it about the $z$ axis and it will still look the same:</p>
 
 </div>
 </div>
@@ -1742,7 +1644,7 @@ height=1258
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1752,7 +1654,7 @@ height=1258
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1772,8 +1674,7 @@ height=490
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This property of radial symmetry will help a great deal when trying to find the volume under this curve. Now, how can we actually go about finding the volume under this graph? Well, we can go about trying to break this volume into simpler shapes which we can work with more easily. We are going to want to pick shapes that exhibit the same radial symmetry that we see in our graph above.</p>
 <p>We are going to pick <em>cylinders</em>, or more specifically, hollow cylinders: aka <em>tubes</em>.</p>
@@ -1784,67 +1685,39 @@ height=490
 <p>To start, we can take out an individual tube and try to find it's volume. However, we can make things a bit simpler. Instead of thinking of this as an individual tube, we can imagine <em>unrolling</em> the tube, leaving us with thin rectangular strip-you can think of it as a sheet of paper. This can be seen below:</p>
 <p><img src="https://drive.google.com/uc?id=1twizjVZucyE1-6YQSbW7AlHdn8hCbCM-"></p>
 <p>The height of the rectangular strip is simple, it is just whatever the function is equal to for a given $r$. In other words, it is $f(r)$, where $f(r) = e^{-r^2}$. Now, as for the length of the strip, it used to be a cylinder, so the length will be equal to whatever the circumference of the cylinder had been, namely $2 \pi r$. We then have the depth or thickness, which is simply $dr$, an infintesimally small distance.</p>
-<p>$$\text{Height} = f(r) = e^{-r^2}$$</p>
-<p>$$\text{Length} = 2 \pi r$$</p>
-<p>$$\text{Thickness} = dr$$</p>
-<p>When we multiply all of the above together, we see that the volume of a tube is:</p>
-<p>$$\text{Volume of tube} = e^{-r^2} 2 \pi r dr$$</p>
-<p>Because we have an infinite number of these tubes, all the way from 0 to $\infty$, we need to perform an infinite sum of these tubes, aka an integral:</p>
-<p>$$\text{Volume under surface} = \int_0^\infty e^{-r^2} 2 \pi r dr$$</p>
-<p>At this point, finding the volume under the surface is as simple as finding the value of the above integral. We can do this by using a bit of substitution. We can let:</p>
-<p>$$u = r^2$$</p>
-<p>$$\frac{du}{dr} = 2r$$</p>
-<p>$$du = 2r dr$$</p>
-<p>And then substitute in our new values:</p>
-<p>$$\pi \int_{u=0}^{u=\infty} e^{-u} du$$</p>
-<p>The above integral can easily be evaluated as follows:</p>
-<p>$$\pi \Big[ -e^{-u}\Big]_{u=0}^{u=\infty}$$</p>
-<p>$$\pi \Big[0 - (-1)\Big] = \pi$$</p>
-<p>$$\text{Volume under surface} = \pi$$</p>
-<p>We now have arrived at the solution to the volume underneath the surface! Keep in mind that that means we have solved the answer to the original integral:</p>
-<p>$$I^2 = \int _{-\infty}^{\infty} \int _{-\infty}^{\infty}e^{-(x^2 + y^2)} dy dx = \pi$$</p>
-<p>Because the above integral is equal to $I^2$, we can finally find what $I$ is equal to (our original goal!):</p>
-<p>$$I^2 = \pi$$</p>
-<p>$$I = \sqrt{ \pi }$$</p>
-<p>Where, if you remember, $I$ is equal to:</p>
-<p>$$I = \int _{-\infty}^{\infty}e^{-x^2} dx$$</p>
-<p>And so our original integral evaluates to:</p>
-<p>$$\int _{-\infty}^{\infty}e^{-x^2} dx = \sqrt{ \pi }$$</p>
-
+$$\text{Height} = f(r) = e^{-r^2}$$$$\text{Length} = 2 \pi r$$$$\text{Thickness} = dr$$<p>When we multiply all of the above together, we see that the volume of a tube is:</p>
+$$\text{Volume of tube} = e^{-r^2} 2 \pi r dr$$<p>Because we have an infinite number of these tubes, all the way from 0 to $\infty$, we need to perform an infinite sum of these tubes, aka an integral:</p>
+$$\text{Volume under surface} = \int_0^\infty e^{-r^2} 2 \pi r dr$$<p>At this point, finding the volume under the surface is as simple as finding the value of the above integral. We can do this by using a bit of substitution. We can let:</p>
+$$u = r^2$$$$\frac{du}{dr} = 2r$$$$du = 2r dr$$<p>And then substitute in our new values:</p>
+$$\pi \int_{u=0}^{u=\infty} e^{-u} du$$<p>The above integral can easily be evaluated as follows:</p>
+$$\pi \Big[ -e^{-u}\Big]_{u=0}^{u=\infty}$$$$\pi \Big[0 - (-1)\Big] = \pi$$$$\text{Volume under surface} = \pi$$<p>We now have arrived at the solution to the volume underneath the surface! Keep in mind that that means we have solved the answer to the original integral:</p>
+$$I^2 = \int _{-\infty}^{\infty} \int _{-\infty}^{\infty}e^{-(x^2 + y^2)} dy dx = \pi$$<p>Because the above integral is equal to $I^2$, we can finally find what $I$ is equal to (our original goal!):</p>
+$$I^2 = \pi$$$$I = \sqrt{ \pi }$$<p>Where, if you remember, $I$ is equal to:</p>
+$$I = \int _{-\infty}^{\infty}e^{-x^2} dx$$<p>And so our original integral evaluates to:</p>
+$$\int _{-\infty}^{\infty}e^{-x^2} dx = \sqrt{ \pi }$$
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="2.1.2-Solving-for-Constants:-Reduce-to-a-single-constant-continued">2.1.2 Solving for Constants: Reduce to a single constant continued<a class="anchor-link" href="#2.1.2-Solving-for-Constants:-Reduce-to-a-single-constant-continued">&#182;</a></h3><p>We set off to solve the Gaussian integral since it was needed in order to find the constants we were looking for in relation to the normal distribution. Specifically, we left off trying to solve:</p>
-<p>$$\frac{\lambda}{h} \int _{-\infty}^{\infty}e^{-u^2} du = 1$$</p>
-<p>Well, we now know that:</p>
-<p>$$\int _{-\infty}^{\infty}e^{-u^2} du = \sqrt{\pi}$$</p>
-<p>So, we can then write:</p>
-<p>$$\frac{\lambda}{h} \sqrt{ \pi } = 1 $$</p>
-<p>$$\lambda \sqrt{\pi} = h$$</p>
-<p>I can then square both sides to find a value for $h^2$:</p>
-<p>$$h^2 = \pi \lambda^2$$</p>
-<p>We can then substitute this into our definition of $f$ that we came up with earlier, namely:</p>
-<p>$$f(x) = \lambda e^{-h^2x^2}$$</p>
-<p>$$f(x) = \lambda e^{-\pi \lambda^2x^2}$$</p>
-<p><strong>Recap: Getting rid of $h^2$</strong><br>
+$$\frac{\lambda}{h} \int _{-\infty}^{\infty}e^{-u^2} du = 1$$<p>Well, we now know that:</p>
+$$\int _{-\infty}^{\infty}e^{-u^2} du = \sqrt{\pi}$$<p>So, we can then write:</p>
+$$\frac{\lambda}{h} \sqrt{ \pi } = 1 $$$$\lambda \sqrt{\pi} = h$$<p>I can then square both sides to find a value for $h^2$:</p>
+$$h^2 = \pi \lambda^2$$<p>We can then substitute this into our definition of $f$ that we came up with earlier, namely:</p>
+$$f(x) = \lambda e^{-h^2x^2}$$$$f(x) = \lambda e^{-\pi \lambda^2x^2}$$<p><strong>Recap: Getting rid of $h^2$</strong><br>
 I want to take a moment to recap what just happened, since a lot of mechanical operations were performed and it is easy to lose the high level purpose.</p>
 <ol>
 <li>We had determined that our curves were part of a class of functions:</li>
 </ol>
-<p>$$f(x) = \lambda e^{-h^2x^2}$$</p>
-<ol>
+$$f(x) = \lambda e^{-h^2x^2}$$<ol>
 <li>We knew that the area under our curve must be equal to 1 (satisfying our probability constraint):</li>
 </ol>
-<p>$$\int _{-\infty}^{\infty}f(x) dx = 1$$</p>
-<ol>
+$$\int _{-\infty}^{\infty}f(x) dx = 1$$<ol>
 <li>Based on the constraint (our normalization condition, the total area under curve must be equal to one), our class of functions is reduced to:</li>
 </ol>
-<p>$$f(x) = \lambda e^{-\pi \lambda^2x^2}$$</p>
-<p>We can now plot our newly reduced general class of functions for different values of $\lambda$:</p>
+$$f(x) = \lambda e^{-\pi \lambda^2x^2}$$<p>We can now plot our newly reduced general class of functions for different values of $\lambda$:</p>
 
 </div>
 </div>
@@ -1874,7 +1747,7 @@ I want to take a moment to recap what just happened, since a lot of mechanical o
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1884,7 +1757,7 @@ I want to take a moment to recap what just happened, since a lot of mechanical o
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1904,8 +1777,7 @@ height=360
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>There is an interesting observation that can be made based on the above plot. If the above curves were meant to be describing some data, there is more of the data which is clustered closer to the central value zero when $\lambda$ is two. Another way of saying this is that there is less <strong>variance</strong> in the data. The general relationship is:</p>
 <blockquote><ul>
@@ -1916,74 +1788,36 @@ height=360
 <p>This brings us to our final main step, that is to find a formula for $\lambda$ in terms of $\sigma$.</p>
 <h3 id="2.1.2-Solving-for-Constants:-Find-equation-for-$\lambda$-in-terms-of-$\sigma$">2.1.2 Solving for Constants: Find equation for $\lambda$ in terms of $\sigma$<a class="anchor-link" href="#2.1.2-Solving-for-Constants:-Find-equation-for-$\lambda$-in-terms-of-$\sigma$">&#182;</a></h3><p>Before we begin the process of finding a formula for $\lambda$ in terms of $\sigma$, it is important to keep in mind our expected outcome. This is hugely valuable in fact checking our solution.</p>
 <p>Intuitively, and based on the plot above, we should expect $\lambda$ to be inversely proportional to $\sigma$:</p>
-<p>$$\lambda \propto \frac{1}{\sigma}$$</p>
-<p>With that in mind, we can start by defining variance as the integral of the <strong>squared deviations from the mean</strong>, $x^2$, times $f(x)$. In our case the mean is zero, so the squared deviations from the mean are:</p>
-<p>$$\text{Squared Deviations from Mean} = (x - \mu)^2 = x^2$$</p>
-<p>And we know that $f$ is:</p>
-<p>$$f(x) = e^{-\pi \lambda^2x^2}$$</p>
-<p>So we end up with our variance:</p>
-<p>$$\sigma^2 = \int _{-\infty}^{\infty} x^2 \lambda e^{-\pi \lambda^2x^2} dx$$</p>
-<p>We can pull $\lambda$ outside of the integral:</p>
-<p>$$\sigma^2 = \lambda \int _{-\infty}^{\infty} x * x e^{-\pi \lambda^2x^2} dx$$</p>
-<p>In order to complete this integral we are going to need to perform <strong>integration by parts</strong>. For those who are not familiar or need a quick recap, we will perform one here:</p>
+$$\lambda \propto \frac{1}{\sigma}$$<p>With that in mind, we can start by defining variance as the integral of the <strong>squared deviations from the mean</strong>, $x^2$, times $f(x)$. In our case the mean is zero, so the squared deviations from the mean are:</p>
+$$\text{Squared Deviations from Mean} = (x - \mu)^2 = x^2$$<p>And we know that $f$ is:</p>
+$$f(x) = e^{-\pi \lambda^2x^2}$$<p>So we end up with our variance:</p>
+$$\sigma^2 = \int _{-\infty}^{\infty} x^2 \lambda e^{-\pi \lambda^2x^2} dx$$<p>We can pull $\lambda$ outside of the integral:</p>
+$$\sigma^2 = \lambda \int _{-\infty}^{\infty} x * x e^{-\pi \lambda^2x^2} dx$$<p>In order to complete this integral we are going to need to perform <strong>integration by parts</strong>. For those who are not familiar or need a quick recap, we will perform one here:</p>
 <h4 id="2.1.2.2-Integration-by-Parts-review">2.1.2.2 Integration by Parts review<a class="anchor-link" href="#2.1.2.2-Integration-by-Parts-review">&#182;</a></h4><p>Integration by parts can be thought of as a <strong>reverse product rule</strong>. Recall that the product rule states that:</p>
-<p>$$\frac{d}{dx}\big[ f(x) g(x) \big] = f'(x)g(x) + f(x) g'(x)$$</p>
-<p>If we were to take the antiderivative of both sides we would get:</p>
-<p>$$f(x) g(x) = \int f'(x)g(x) dx + \int f(x) g'(x) dx$$</p>
-<p>Which we can then rearrange to get the formula for integration by parts:</p>
+$$\frac{d}{dx}\big[ f(x) g(x) \big] = f'(x)g(x) + f(x) g'(x)$$<p>If we were to take the antiderivative of both sides we would get:</p>
+$$f(x) g(x) = \int f'(x)g(x) dx + \int f(x) g'(x) dx$$<p>Which we can then rearrange to get the formula for integration by parts:</p>
 <h4 id="$$\text{Integration-by-Parts}\rightarrow-\int-f(x)-g'(x)-dx-=-f(x)-g(x)---\int-f'(x)g(x)-dx$$"><span style="color:#0000cc">$$\text{Integration by Parts}\rightarrow \int f(x) g'(x) dx = f(x) g(x) - \int f'(x)g(x) dx$$</span><a class="anchor-link" href="#$$\text{Integration-by-Parts}\rightarrow-\int-f(x)-g'(x)-dx-=-f(x)-g(x)---\int-f'(x)g(x)-dx$$">&#182;</a></h4><p>The key idea here is that we want to assign $f(x)$ so that $f'(x)$ is <em>simpler</em> than $f(x)$, and then assign $g(x)$ so that taking it's antiderivative doesn't make it <em>more complicated</em>. A small example will make this more clear. Let's say we were asked to find the integral of:</p>
-<p>$$\int x cos(x) dx$$</p>
-<p>Here we have two separate functions, $x$ and $cos(x)$, that are multiplied together. Our first priority is to relate the above integral to:</p>
-<p>$$\int f(x) g'(x) dx$$</p>
-<p>Keeping in mind that we must map $x$ to either $f$ or $g$, and then map $cos(x)$ to the remaining function. It should be clear that since we want to map $f(x)$ so that it's derivative is <em>simpler</em>, we should assign $f(x)$ to x.</p>
-<p>$$f(x) = x$$</p>
-<p>$$f'(x) = 1$$</p>
-<p>We then map $g'(x)$ to $cos(x)$, keeping in mind that it's antiderivative is not more complicated:</p>
-<p>$$g'(x) = cos(x)$$</p>
-<p>$$g(x) = sin(x)$$</p>
-<p>Going back to our formula for integration by parts, we can now substitute in the above values of $f$, $f'$, $g$, and $g'$:</p>
-<p>$$\int f(x) g'(x) dx = f(x) g(x) - \int f'(x)g(x) dx$$</p>
-<p>$$\int x cos(x) dx = x sin(x) - \int 1 * sin(x) dx$$</p>
-<p>$$\int x cos(x) dx = x sin(x) - cos(x) + C$$</p>
-<p>And just like that we have arrived at the answer to our original integral.</p>
+$$\int x cos(x) dx$$<p>Here we have two separate functions, $x$ and $cos(x)$, that are multiplied together. Our first priority is to relate the above integral to:</p>
+$$\int f(x) g'(x) dx$$<p>Keeping in mind that we must map $x$ to either $f$ or $g$, and then map $cos(x)$ to the remaining function. It should be clear that since we want to map $f(x)$ so that it's derivative is <em>simpler</em>, we should assign $f(x)$ to x.</p>
+$$f(x) = x$$$$f'(x) = 1$$<p>We then map $g'(x)$ to $cos(x)$, keeping in mind that it's antiderivative is not more complicated:</p>
+$$g'(x) = cos(x)$$$$g(x) = sin(x)$$<p>Going back to our formula for integration by parts, we can now substitute in the above values of $f$, $f'$, $g$, and $g'$:</p>
+$$\int f(x) g'(x) dx = f(x) g(x) - \int f'(x)g(x) dx$$$$\int x cos(x) dx = x sin(x) - \int 1 * sin(x) dx$$$$\int x cos(x) dx = x sin(x) - cos(x) + C$$<p>And just like that we have arrived at the answer to our original integral.</p>
 <h3 id="2.1.2-Solving-for-Constants:-Find-equation-for-$\lambda$-in-terms-of-$\sigma$,-continued">2.1.2 Solving for Constants: Find equation for $\lambda$ in terms of $\sigma$, continued<a class="anchor-link" href="#2.1.2-Solving-for-Constants:-Find-equation-for-$\lambda$-in-terms-of-$\sigma$,-continued">&#182;</a></h3><p>Picking up where we left off, we are going to perform integration by parts on the integral:</p>
-<p>$$\sigma^2 = \lambda \int _{-\infty}^{\infty} x * x e^{-\pi \lambda^2x^2} dx$$</p>
-<p>Specifically, we will start by letting:</p>
-<p>$$f(x) = x$$</p>
-<p>$$f'(x) = dx$$</p>
-<p>$$g'(x) = x e^{-\pi \lambda^2x^2} dx$$</p>
-<p>$$g(x) = \int g'(x) = \int x e^{-\pi \lambda^2x^2} dx = ?$$</p>
-<p>Notice that the integration of $g'(x)$ is not elementary. In fact, we must perform <em>u-substitution</em> in order to find the value of $g(x)$. We are starting with:</p>
-<p>$$g(x) = \int x e^{-\pi \lambda^2x^2} dx$$</p>
-<p>I will let:</p>
-<p>$$u = x^2$$</p>
-<p>$$x = \sqrt{u}$$</p>
-<p>$$du = 2x dx = 2 \sqrt{u}dx$$</p>
-<p>$$dx = \frac{du}{2\sqrt{u}}$$</p>
-<p>We can then sub in our values:</p>
-<p>$$g(x) = \int \sqrt{u}* e^{-\pi \lambda^2u} \frac{du}{2\sqrt{u}}$$</p>
-<p>Perform elementary cancellation:</p>
-<p>$$g(x) = \frac{1}{2} \int e^{-\pi \lambda^2u} du$$</p>
-<p>Evaluate the integral of the exponential (using standard rules from calculus I):</p>
-<p>$$g(x) = \frac{1}{2} \frac{-1}{\pi \lambda^2} e^{-\pi \lambda^2u}$$</p>
-<p>$$g(x) = \frac{-1}{2 \pi \lambda^2} e^{-\pi \lambda^2 x^2}$$</p>
-<p>We now have all of the values we need to perform our original integration by parts! We can start with the original formula:</p>
-<p>$$\int f(x) g'(x) dx = f(x) g(x) - \int f'(x)g(x) dx$$</p>
-<p>And then sub in all of our values for $f$, $f'$, $g$, and $g'$:</p>
-<p>$$\int x * x e^{-\pi \lambda^2x^2} dx = \lambda \Big( \overbrace{ x * \frac{-1}{2 \pi \lambda^2} e^{-\pi \lambda^2 x^2} \Big|_{-\infty}^{\infty}}^\text{Part 1} - \overbrace{ \int_{-\infty}^{\infty} \frac{-1}{2 \pi \lambda^2} e^{-\pi \lambda^2 x^2} dx}^\text{Part 2} \Big)$$</p>
-<p>When we evaluate part 1 above, the exponential term is going to go to zero more quickly than the fraction, so the entire part 1 will evaluate to zero. This leaves us with just part 2:</p>
-<p>$$\int x * x e^{-\pi \lambda^2x^2} dx = \lambda \Big(  \overbrace{ \int_{-\infty}^{\infty} \frac{1}{2 \pi \lambda^2} e^{-\pi \lambda^2 x^2} dx}^\text{Part 2} \Big)$$</p>
-<p>And remember that this is all equal to $\sigma^2$:</p>
-<p>$$\int x * x e^{-\pi \lambda^2x^2} dx = \sigma^2 = \lambda \Big(\int_{-\infty}^{\infty} \frac{1}{2 \pi \lambda^2} e^{-\pi \lambda^2 x^2} dx \Big)$$</p>
-<p>We can switch the constants in the integral:</p>
-<p>$$ \sigma^2 = \frac{1}{2 \pi \lambda^2} \int_{-\infty}^{\infty}\lambda   e^{-\pi \lambda^2 x^2} dx $$</p>
-<p>Here is the payoff of some of our earlier work-recall that we have already proven/found the function $f(x)$ such that it satisfies the normalization condition; in other words, the integral of $f(x)$ integrates to one:</p>
-<p>$$\int f(x) dx = \int_{-\infty}^{\infty}\lambda   e^{-\pi \lambda^2 x^2} dx = 1$$</p>
-<p>Which means that our equation can be reduced to:</p>
-<p>$$ \sigma^2 = \frac{1}{2 \pi \lambda^2} * 1 $$</p>
-<p>And we can simply solve for $\lambda$:</p>
-<p>$$\lambda = \frac{1}{\sigma \sqrt{2 \pi}}$$</p>
-<h3 id="2.1.3-Final-Solution">2.1.3 Final Solution<a class="anchor-link" href="#2.1.3-Final-Solution">&#182;</a></h3><p>We are now at a point where we can make the final substitution! Recall that we originally found a class of gaussians:</p>
+$$\sigma^2 = \lambda \int _{-\infty}^{\infty} x * x e^{-\pi \lambda^2x^2} dx$$<p>Specifically, we will start by letting:</p>
+$$f(x) = x$$$$f'(x) = dx$$$$g'(x) = x e^{-\pi \lambda^2x^2} dx$$$$g(x) = \int g'(x) = \int x e^{-\pi \lambda^2x^2} dx = ?$$<p>Notice that the integration of $g'(x)$ is not elementary. In fact, we must perform <em>u-substitution</em> in order to find the value of $g(x)$. We are starting with:</p>
+$$g(x) = \int x e^{-\pi \lambda^2x^2} dx$$<p>I will let:</p>
+$$u = x^2$$$$x = \sqrt{u}$$$$du = 2x dx = 2 \sqrt{u}dx$$$$dx = \frac{du}{2\sqrt{u}}$$<p>We can then sub in our values:</p>
+$$g(x) = \int \sqrt{u}* e^{-\pi \lambda^2u} \frac{du}{2\sqrt{u}}$$<p>Perform elementary cancellation:</p>
+$$g(x) = \frac{1}{2} \int e^{-\pi \lambda^2u} du$$<p>Evaluate the integral of the exponential (using standard rules from calculus I):</p>
+$$g(x) = \frac{1}{2} \frac{-1}{\pi \lambda^2} e^{-\pi \lambda^2u}$$$$g(x) = \frac{-1}{2 \pi \lambda^2} e^{-\pi \lambda^2 x^2}$$<p>We now have all of the values we need to perform our original integration by parts! We can start with the original formula:</p>
+$$\int f(x) g'(x) dx = f(x) g(x) - \int f'(x)g(x) dx$$<p>And then sub in all of our values for $f$, $f'$, $g$, and $g'$:</p>
+$$\int x * x e^{-\pi \lambda^2x^2} dx = \lambda \Big( \overbrace{ x * \frac{-1}{2 \pi \lambda^2} e^{-\pi \lambda^2 x^2} \Big|_{-\infty}^{\infty}}^\text{Part 1} - \overbrace{ \int_{-\infty}^{\infty} \frac{-1}{2 \pi \lambda^2} e^{-\pi \lambda^2 x^2} dx}^\text{Part 2} \Big)$$<p>When we evaluate part 1 above, the exponential term is going to go to zero more quickly than the fraction, so the entire part 1 will evaluate to zero. This leaves us with just part 2:</p>
+$$\int x * x e^{-\pi \lambda^2x^2} dx = \lambda \Big(  \overbrace{ \int_{-\infty}^{\infty} \frac{1}{2 \pi \lambda^2} e^{-\pi \lambda^2 x^2} dx}^\text{Part 2} \Big)$$<p>And remember that this is all equal to $\sigma^2$:</p>
+$$\int x * x e^{-\pi \lambda^2x^2} dx = \sigma^2 = \lambda \Big(\int_{-\infty}^{\infty} \frac{1}{2 \pi \lambda^2} e^{-\pi \lambda^2 x^2} dx \Big)$$<p>We can switch the constants in the integral:</p>
+$$ \sigma^2 = \frac{1}{2 \pi \lambda^2} \int_{-\infty}^{\infty}\lambda   e^{-\pi \lambda^2 x^2} dx $$<p>Here is the payoff of some of our earlier work-recall that we have already proven/found the function $f(x)$ such that it satisfies the normalization condition; in other words, the integral of $f(x)$ integrates to one:</p>
+$$\int f(x) dx = \int_{-\infty}^{\infty}\lambda   e^{-\pi \lambda^2 x^2} dx = 1$$<p>Which means that our equation can be reduced to:</p>
+$$ \sigma^2 = \frac{1}{2 \pi \lambda^2} * 1 $$<p>And we can simply solve for $\lambda$:</p>
+$$\lambda = \frac{1}{\sigma \sqrt{2 \pi}}$$<h3 id="2.1.3-Final-Solution">2.1.3 Final Solution<a class="anchor-link" href="#2.1.3-Final-Solution">&#182;</a></h3><p>We are now at a point where we can make the final substitution! Recall that we originally found a class of gaussians:</p>
 <h5 id="$$\text{Original-Class-of-Gaussians}\rightarrow-f(x)-=-\lambda-e^{-\pi-\lambda^2-x^2}$$"><span style="color:#0000cc">$$\text{Original Class of Gaussians}\rightarrow f(x) = \lambda e^{-\pi \lambda^2 x^2}$$</span><a class="anchor-link" href="#$$\text{Original-Class-of-Gaussians}\rightarrow-f(x)-=-\lambda-e^{-\pi-\lambda^2-x^2}$$">&#182;</a></h5><p>And we have now found $\lambda$ in terms of variance, so our class is reduced to:</p>
 <h5 id="$$\text{Reduced-Class-of-Gaussians}\rightarrow-f(x)-=-\frac{1}{\sigma-\sqrt{2-\pi}}-e^{\frac{-x^2}{2-\sigma^2}}$$"><span style="color:#0000cc">$$\text{Reduced Class of Gaussians}\rightarrow f(x) = \frac{1}{\sigma \sqrt{2 \pi}} e^{\frac{-x^2}{2 \sigma^2}}$$</span><a class="anchor-link" href="#$$\text{Reduced-Class-of-Gaussians}\rightarrow-f(x)-=-\frac{1}{\sigma-\sqrt{2-\pi}}-e^{\frac{-x^2}{2-\sigma^2}}$$">&#182;</a></h5><p>Where in the above class we are dealing with a mean of zero and a standard deviation $\sigma$. Now, if we wanted to center this curve at some other value, $\mu$, we would do this via a simple shift. Recall the basic property of shifting curves is to consider not $f(x)$, but rather $f(x -\mu)$:</p>
 <h5 id="$$\text{Most-Standard-Class-of-Gaussians}\rightarrow-f(x)-=-\frac{1}{\sigma-\sqrt{2-\pi}}-e^{\frac{-(-x--\mu)^2}{2-\sigma^2}}$$"><span style="color:#0000cc">$$\text{Most Standard Class of Gaussians}\rightarrow f(x) = \frac{1}{\sigma \sqrt{2 \pi}} e^{\frac{-( x- \mu)^2}{2 \sigma^2}}$$</span><a class="anchor-link" href="#$$\text{Most-Standard-Class-of-Gaussians}\rightarrow-f(x)-=-\frac{1}{\sigma-\sqrt{2-\pi}}-e^{\frac{-(-x--\mu)^2}{2-\sigma^2}}$$">&#182;</a></h5><p>And above we now have a mean of $\mu$ and a standard deviation $\sigma$.</p>

@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="ipynb_website:version" content="0.9.6" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
@@ -195,14 +195,6 @@ body {
   <a href="../Mathematics.html">Mathematics</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
-<li>
-  <a href="../Book_Reviews.html">Book Reviews</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -215,8 +207,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="2.-The-Simple-Recurrent-Unit">2. The Simple Recurrent Unit<a class="anchor-link" href="#2.-The-Simple-Recurrent-Unit">&#182;</a></h1><p>We are now going to talk about the <em><strong>simple recurrent unit</strong></em>, also known as the <em>Elman Unit</em>. But before we do that, I want to quickly touch on <em>sequences</em>. This is going to look slightly different from the data that we are used to.</p>
 <p>Recall that our input data $X$ is usually represented with an $NxD$ matrix ($N$ samples and $D$ features); there are no sequences here. Well, let's suppose that we did have a sequence of length $T$. How many dimensions would that require?</p>
@@ -233,13 +224,9 @@ body {
 <p>Notice that the feedback loop implies that there is a delay of one time unit. So, one of the input units into $h(t)$ is $h(t-1)$.</p>
 <p>A question that you may have is: How big is $W_h$? Just like the other layers, we connect "everything-to-everything". So, if there are $M$ hidden units, the first hidden unit connects back to all $M$ units, the second hidden unit connects back to all $M$ units, and so on. In total there will be $M^2$ hidden to hidden weights. Hence, $W_h$ is an $MxM$ matrix.</p>
 <h3 id="1.1.1-Simple-Recurrent-Mathematical-Output">1.1.1 Simple Recurrent Mathematical Output<a class="anchor-link" href="#1.1.1-Simple-Recurrent-Mathematical-Output">&#182;</a></h3><p>Here is how we would represent the output of a recurrent net in math:</p>
-<p>$$h(t) = f \big(W_h^T h(t-1) + W_x^T x(t) + b_h\big)$$</p>
-<p>$$y(t) = softmax\big(W_o^T h(t) + b_o\big)$$</p>
-<p>Note that the feedback connection represents a time delay of 1, so the hidden layer takes in both $x$ and its last hidden value. Also, note that $f$ can be any of the usual nonlinearities, such as the sigmoid, tanh, or ReLu.</p>
+$$h(t) = f \big(W_h^T h(t-1) + W_x^T x(t) + b_h\big)$$$$y(t) = softmax\big(W_o^T h(t) + b_o\big)$$<p>Note that the feedback connection represents a time delay of 1, so the hidden layer takes in both $x$ and its last hidden value. Also, note that $f$ can be any of the usual nonlinearities, such as the sigmoid, tanh, or ReLu.</p>
 <h2 id="1.2-Not-The-Markov-Assumption">1.2 Not The Markov Assumption<a class="anchor-link" href="#1.2-Not-The-Markov-Assumption">&#182;</a></h2><p>One thing that is worth noting is that this is not the Markov Assumption. Why is that? Well, even though $h(t)$ is defined in terms of its previous value, it's previous value can be defined in terms of the value before that, and so on:</p>
-<p>$$h(t) = f \big(W_h^T h(t-1) + W_x^T x(t) + b_h\big)$$</p>
-<p>$$h(t) = f \Big(W_h^T f \big( W_h^T h(t-2) + W_x^T x(t-1) + b_h \big) + W_x^T x(t) + b_h\Big)$$</p>
-<p>This also means that $h(t)$ has to have an initial state, $h(0)$. Sometimes researchers will set this to 0, and other times it will be a hyperparameter that we can use back propagation on. Since theano automatically differentiates things for us, we will treat it as an updatable parameter.</p>
+$$h(t) = f \big(W_h^T h(t-1) + W_x^T x(t) + b_h\big)$$$$h(t) = f \Big(W_h^T f \big( W_h^T h(t-2) + W_x^T x(t-1) + b_h \big) + W_x^T x(t) + b_h\Big)$$<p>This also means that $h(t)$ has to have an initial state, $h(0)$. Sometimes researchers will set this to 0, and other times it will be a hyperparameter that we can use back propagation on. Since theano automatically differentiates things for us, we will treat it as an updatable parameter.</p>
 <h2 id="1.3-More-Layers">1.3 More Layers<a class="anchor-link" href="#1.3-More-Layers">&#182;</a></h2><p>One question you may have is can we add more than one recurrent unit to the network:</p>
 <p><img src="https://drive.google.com/uc?id=1gUgdG48Pz3H1oEQIXz_huhugWMt858-W" width="400"></p>
 <p>The answer is yes! The number of recurrent layers is a hyperparameter, just like how the number of hidden layers is a parameter for a regular feed forward net. The question of how many depends on your type of specific problem.</p>
@@ -249,29 +236,22 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="2.-Prediction-and-Relationship-to-Markov-Models">2. Prediction and Relationship to Markov Models<a class="anchor-link" href="#2.-Prediction-and-Relationship-to-Markov-Models">&#182;</a></h1><p>We are now going to look more closely at what a recurrent neural network can predict, and talk about how under certain circumstances, we can relate it back to what we know about Markov Models.</p>
 <p>Adding a time component gives us a few more options in terms of the objective, or in other words <em>what we are trying to predict</em>.</p>
 <h2 id="2.1-Softmax">2.1 Softmax<a class="anchor-link" href="#2.1-Softmax">&#182;</a></h2><p>Let's being by talking about something we know already: Softmax and Multiclass classification. So, suppose we take an entire sequence, and take the argmax of the softmax, and use that as the class:</p>
-<p>$$Prediction = argmax_k \big( p(y=k \mid x)\big) = argmax_k \big( softmax(W_o^T h(t)) + b_o\big)$$</p>
-<p>What assumption have we made? Well, first and foremost we forgot about the time component, but we will get to that shortly. The thing that we are assuming is that the entire sequence corresponds to one class. This makes perfect sense for a lot of problems. For example, if we wanted to classify between male and female voices, you would have sound samples from males and females. If you were looking at one sound file of a male saying "Hello world", the class for that sample is male; one sequence, one label.</p>
-<p>$$Prediction(t) = argmax_k \big( p(y(t)=k \mid x)\big) = argmax_k \big( softmax(W_o^T h(t)) + b_o\big)$$</p>
-<p>But, we can't forget that for every $h(t)$ there is a $y(t)$. $y(t)$ is just the final layer calculated from $h(t)$. So, technically we could have a label for every time step.</p>
+$$Prediction = argmax_k \big( p(y=k \mid x)\big) = argmax_k \big( softmax(W_o^T h(t)) + b_o\big)$$<p>What assumption have we made? Well, first and foremost we forgot about the time component, but we will get to that shortly. The thing that we are assuming is that the entire sequence corresponds to one class. This makes perfect sense for a lot of problems. For example, if we wanted to classify between male and female voices, you would have sound samples from males and females. If you were looking at one sound file of a male saying "Hello world", the class for that sample is male; one sequence, one label.</p>
+$$Prediction(t) = argmax_k \big( p(y(t)=k \mid x)\big) = argmax_k \big( softmax(W_o^T h(t)) + b_o\big)$$<p>But, we can't forget that for every $h(t)$ there is a $y(t)$. $y(t)$ is just the final layer calculated from $h(t)$. So, technically we could have a label for every time step.</p>
 <p>What are some situations where this may be useful? Well, let's think about brain computer interfaces. These are systems that are constantly reading electrical signals from your brain. Suppose the purpose of this brain computer interface is for controlling a wheelchair. Considering the wheelchair is how you will get around, you will need fine grain control on the device. So, it moves forward, stops, turns left, etc, when you want it to. These would be our labels:</p>
-<p>$$Labels = \{ forward, stop, left, right, back\}$$</p>
+$$Labels = \{ forward, stop, left, right, back\}$$<p></p>
 <p>We want the action to be taken right as we think of it. In this case we would need a $y(t)$ for every $x(t)$. So this is precisely a situation where we would want to have not just one label for one sequence, but one label for every moment in time.</p>
 <p>Let's now consider a third situation. Suppose we are looking at a sequence of words, or in other words, sentences. As is typical, we want to predict the next word given all of the previous words (our target is the previous word). What is interesting about this is that it is essentially unsupervised learning, since there is essentially no target label-the target is just the input. In other words, we are trying to model the probability:</p>
-<p>$$p\big( x(t) \mid x(t-1), x(t-2),...,x(1)\big)$$</p>
-<p>Remember that the current hidden state depends on all of the previous hidden states, so this is <em>not</em> the markov assumption. Consider what happens when we try to make the whole input sequence the target sequence; we are trying to model the probability:</p>
-<p>$$p\big(x(1)\big)p\big(x(2) \mid x(1)\big)p\big(x(3) \mid x(2), x(1)\big)...$$</p>
-<p>Now, what happens if we join the first two terms together? Using bayes rule we get the joint probability of $p\big( x(2), x(1)\big)$:</p>
-<p>$$p\big( x(2), x(1)\big))p\big(x(3) \mid x(2), x(1)\big)...$$</p>
-<p>Now, if we join the first two terms of that together, we get:</p>
-<p>$$p\big( x(3), x(2), x(1)\big)$$</p>
-<p>This is known as the chain rule of probability. Eventually what we end up with is just the joint probability of the entire sequence.</p>
+$$p\big( x(t) \mid x(t-1), x(t-2),...,x(1)\big)$$<p>Remember that the current hidden state depends on all of the previous hidden states, so this is <em>not</em> the markov assumption. Consider what happens when we try to make the whole input sequence the target sequence; we are trying to model the probability:</p>
+$$p\big(x(1)\big)p\big(x(2) \mid x(1)\big)p\big(x(3) \mid x(2), x(1)\big)...$$<p>Now, what happens if we join the first two terms together? Using bayes rule we get the joint probability of $p\big( x(2), x(1)\big)$:</p>
+$$p\big( x(2), x(1)\big))p\big(x(3) \mid x(2), x(1)\big)...$$<p>Now, if we join the first two terms of that together, we get:</p>
+$$p\big( x(3), x(2), x(1)\big)$$<p>This is known as the chain rule of probability. Eventually what we end up with is just the joint probability of the entire sequence.</p>
 <h2 id="2.2-Joint-Probability">2.2 Joint Probability<a class="anchor-link" href="#2.2-Joint-Probability">&#182;</a></h2><p>That is very interesting, because it is exactly what we are trying to optimize with Hidden Markov Models! So, we can see that with Recurrent Neural Networks we can optimize the same thing as HMM's, but without making the markov assumption. This could lead us to the intuition that these RNN's may be more powerful.</p>
 <p>Another advantage is that, if you recall, HMM's suffer from the fact that longer sequences have probabilities that go down to zero, because you are continually multiplying values together that are less than 1. Luckily, we don't have that problem with RNN's, and the fact that we have the joint probability is implicit in the model itself, so there is no need to calculate it.</p>
 <h2 id="2.3-Summary">2.3 Summary<a class="anchor-link" href="#2.3-Summary">&#182;</a></h2><p>To conclude, we have identified 3 different ways of using RNN's for prediction.</p>
@@ -286,8 +266,7 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="3.-Unfolding-a-Recurrent-Neural-Network">3. Unfolding a Recurrent Neural Network<a class="anchor-link" href="#3.-Unfolding-a-Recurrent-Neural-Network">&#182;</a></h1><p>Because time is a somewhat invisible notion in the recurrent neural network architecture, this section is about visualizing the RNN in terms of a feedforward neural network. One key idea that returns here is the idea of shared weights.</p>
@@ -299,8 +278,7 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="4.-Backpropagation-Through-Time">4. Backpropagation Through Time<a class="anchor-link" href="#4.-Backpropagation-Through-Time">&#182;</a></h1><p>We are now going to return through backpropagation as a mental exercise. Note, in code we are going to use Theano and Tensorflow to calculate the gradients for us. This would be useful if you were to write a Recurrent Neural Network from scratch.</p>
@@ -313,73 +291,38 @@ body {
 $$y(1) = softmax\big(W_o^Th(1)\big)$$</p>
 <p><strong>Solve $y(2)$</strong>
 $$y(2) = softmax\big(W_o^Th(2)\big)$$</p>
-<p>$$h(2) = f\big(W_x^T x(2) + W_h^T h(1)\big)$$</p>
-<p>$$y(2) = softmax\big(W_o^T f\big(W_x^T x(2) + W_h^T h(1)\big) \big)$$</p>
-<p><strong>Solve $y(3)$</strong>
+$$h(2) = f\big(W_x^T x(2) + W_h^T h(1)\big)$$$$y(2) = softmax\big(W_o^T f\big(W_x^T x(2) + W_h^T h(1)\big) \big)$$<p><strong>Solve $y(3)$</strong>
 $$y(3) = softmax\big(W_o^Th(3)\big)$$</p>
-<p>$$h(3) = f\big(W_x^T x(3) + W_h^T h(2)\big)$$</p>
-<p>$$h(3) = f\Big(W_x^T x(3) + W_h^T f\big(W_x^T x(2) + W_h^T h(1)\big)\Big)$$</p>
-<p>$$y(3) = softmax\Big\{W_o^T f\Big(W_x^T x(3) + W_h^T f\big(W_x^T x(2) + W_h^T h(1)\big)\Big)\Big\}$$</p>
-<p><strong>General Pattern</strong><br>
+$$h(3) = f\big(W_x^T x(3) + W_h^T h(2)\big)$$$$h(3) = f\Big(W_x^T x(3) + W_h^T f\big(W_x^T x(2) + W_h^T h(1)\big)\Big)$$$$y(3) = softmax\Big\{W_o^T f\Big(W_x^T x(3) + W_h^T f\big(W_x^T x(2) + W_h^T h(1)\big)\Big)\Big\}$$<p><strong>General Pattern</strong><br>
 We could continue this for $y(4)$ and $y(5)$, but instead let us write out the general pattern:</p>
-<p>$$y(t) = softmax \big(W_o^T h(t) \big)$$</p>
-<p>$$y(t) = softmax \Big(W_o^T f\big(W_h^T h(t-1) + W_x^T x(t) \big) \Big)$$</p>
-<p>$$y(t) = softmax\Big\{W_o^T f\Big(W_x^T x(t) + W_h^T f\big(W_x^T x(t-1) + W_h^T h(t-2)\big)\Big)\Big\}$$</p>
-<h2 id="4.2-How-Does-Error-Change-With-Respect-to-our-Weights?">4.2 How Does Error Change With Respect to our Weights?<a class="anchor-link" href="#4.2-How-Does-Error-Change-With-Respect-to-our-Weights?">&#182;</a></h2><p>The pattern of our output can clearly be seen above.</p>
+$$y(t) = softmax \big(W_o^T h(t) \big)$$$$y(t) = softmax \Big(W_o^T f\big(W_h^T h(t-1) + W_x^T x(t) \big) \Big)$$$$y(t) = softmax\Big\{W_o^T f\Big(W_x^T x(t) + W_h^T f\big(W_x^T x(t-1) + W_h^T h(t-2)\big)\Big)\Big\}$$<h2 id="4.2-How-Does-Error-Change-With-Respect-to-our-Weights?">4.2 How Does Error Change With Respect to our Weights?<a class="anchor-link" href="#4.2-How-Does-Error-Change-With-Respect-to-our-Weights?">&#182;</a></h2><p>The pattern of our output can clearly be seen above.</p>
 <h4 id="4.2.1-Derivative-of-Error-With-Respect-to-$W_o$">4.2.1 Derivative of Error With Respect to $W_o$<a class="anchor-link" href="#4.2.1-Derivative-of-Error-With-Respect-to-$W_o$">&#182;</a></h4><p>Note, our output weight, $W_o$, occurs <em>after</em> the recurrence, so we do not need to consider time in that case. Hence, when trying to determine how our error, $J$, changes with respect to the output weight, we can calculate the derivative as normal (for more detail please see my post on Neural Network Training):</p>
-<p>$$\frac{dJ}{dW_o} = \frac{\partial J}{\partial y}\frac{\partial y}{\partial a}\frac{\partial a}{\partial W_o}$$</p>
-<h4 id="4.2.1-Derivative-of-Error-With-Respect-to-$W_h$">4.2.1 Derivative of Error With Respect to $W_h$<a class="anchor-link" href="#4.2.1-Derivative-of-Error-With-Respect-to-$W_h$">&#182;</a></h4><p>However, we have to be more careful when determining how the error changes with respect to $W_h$. If we look at the derivative of $J$ with respect to $W_h$:</p>
-<p>$$\frac{dJ}{dW_h} = \frac{\partial J}{\partial a}\frac{\partial a}{\partial h}\frac{\partial h}{\partial W_h}$$</p>
-<p>In order to best demonstrate this and make the idea more concrete, let's look specifically node 3 and how the error, $J_3$, changes as we change $W_h$:</p>
+$$\frac{dJ}{dW_o} = \frac{\partial J}{\partial y}\frac{\partial y}{\partial a}\frac{\partial a}{\partial W_o}$$<h4 id="4.2.1-Derivative-of-Error-With-Respect-to-$W_h$">4.2.1 Derivative of Error With Respect to $W_h$<a class="anchor-link" href="#4.2.1-Derivative-of-Error-With-Respect-to-$W_h$">&#182;</a></h4><p>However, we have to be more careful when determining how the error changes with respect to $W_h$. If we look at the derivative of $J$ with respect to $W_h$:</p>
+$$\frac{dJ}{dW_h} = \frac{\partial J}{\partial a}\frac{\partial a}{\partial h}\frac{\partial h}{\partial W_h}$$<p>In order to best demonstrate this and make the idea more concrete, let's look specifically node 3 and how the error, $J_3$, changes as we change $W_h$:</p>
 <p><img src="https://drive.google.com/uc?id=1y-pmfwOHpW2iHiF_v1VbmCU-cpstMTLT" width="650"></p>
-<p>$$\frac{dJ_3}{dW_h} = \frac{\partial J_3}{\partial a_3}\frac{\partial a_3}{\partial h_3}\frac{\partial h_3}{\partial W_h}$$</p>
-<p>The first term of that derivative is no problem, it is simply:</p>
-<p>$$\frac{\partial J_3}{\partial a_3} = \frac{\partial J_3}{\partial y_3}\frac{\partial y_3}{\partial a_3}$$</p>
-<p>And the second is also taken care of easily:</p>
-<p>$$a_3 = W_o^Th_3$$</p>
-<p>$$\frac{\partial a_3}{\partial h_3} = W_o^T$$</p>
-<p>The third term in that derivative, $\frac{\partial h_3}{\partial W_h}$, is where we run into problems. Recall, that $h_3$ was determined to be:</p>
-<p>$$h(3) = f\big(W_x^T x(3) + W_h^T h(2)\big)$$</p>
-<p>And hence we can rewrite our derivative as:</p>
-<p>$$\frac{\partial h_3}{\partial W_h} = \frac{\partial f\big(W_x^T x(3) + W_h^T h(2)\big)}{\partial W_h}$$</p>
-<p>To make our example more concrete, we will let our activation function, $f$, be the $tanh$ function:</p>
-<p>$$\frac{\partial h_3}{\partial W_h} = \frac{\partial \Big \{ tanh\big(W_x^T x(3) + W_h^T h(2)\big) \Big \}}{\partial W_h}$$</p>
-<p>Now, we can perform the chain rule and up with the following:</p>
-<p>$$\frac{\partial h_3}{\partial W_h} = \overbrace{sech^2\big(W_x^T x(3) + W_h^T h(2)\big)}^\text{Outer } * \overbrace{\frac{ \partial \big(W_x^T x(3) + W_h^T h(2) \big)}{\partial W_h}}^\text{Inner}$$</p>
-<p>The inner derivative is where we start to run into issues. We can drop $W_x^T x(3)$, considering it does not depend on $W_h$. However, we are still left with a product of <em>two</em> terms which are a function of $W_h$, $W_h^T*h(2)$. This means that we need to use the <em>product rule</em> in order to solve the derivative. If we let $a$ and $b$ equal (dropping the transpose on our matrices to increase readability):</p>
-<p>$$a = h(2)$$</p>
-<p>$$b = W_h$$</p>
-<p>Then, be the product rule, the derivative of $(a*b)'$ is:</p>
-<p>$$(a*b)' = a'*b + b'*a$$</p>
-<p>Recall, $h(2)$ was defined as:</p>
-<p>$$h(2) = tanh\big(W_x x(2) + W_h h(1)\big)$$</p>
-<p>So, $a$ can be written as:</p>
-<p>$$a = tanh\big(W_x x(2) + W_h h(1)\big)$$</p>
-<p>$$(a*b)' = \overbrace{ \frac{\partial \Big \{ tanh \big(W_x x(2) + W_h h(1)\big) \Big \} }{\partial W_h}}^\text{a'} * \overbrace{W_h}^\text{b} + \overbrace{1}^\text{b'} *\overbrace { tanh\big(W_x x(2) + W_h h(1)\big)}^\text{a}$$</p>
-<p>But wait! We once again run into an issue where in order to find $a'$ we need to use the chain rule:</p>
-<p>$$a' = \frac{\partial \Big \{ tanh \big(W_x x(2) + W_h h(1)\big) \Big \} }{\partial W_h}$$</p>
-<p>So, we can go ahead and work that out:</p>
-<p>$$a' = \frac{\partial h_2}{\partial W_h} = \overbrace{sech^2\big(W_x x(2) + W_h h(1)\big)}^\text{Outer } * \overbrace{\frac{\partial\big( W_x x(2) + W_h h(1) \big)}{\partial W_h}}^\text{Inner}$$</p>
-<p>And again, we run into problems with the inner derivative! We can drop the first term since it does not depend on $W_h$, but that still leaves us with:</p>
-<p>$$\frac{\partial\big( W_h h(1) \big)}{\partial W_h}$$</p>
-<p>Clearly, we need to use the product rule since we have two terms being multiplied which both depend on the variable we are taking the derivative with respect to ($W_h$). Let us again use $a$ and $b$ to represent our terms:</p>
-<p>$$a = h(1)$$</p>
-<p>$$a = tanh\big(W_x x(1) + W_h h(0)\big)$$</p>
-<p>$$b = W_h$$</p>
-<p>And utilize the product rule:</p>
-<p>$$(a*b)' = \overbrace{ \frac{\partial \Big \{ tanh \big(W_x x(1) + W_h h(0)\big) \Big \} }{\partial W_h}}^\text{a'} * \overbrace{W_h}^\text{b} + \overbrace{1}^\text{b'} *\overbrace { tanh\big(W_x x(1) + W_h h(0)\big)}^\text{a}$$</p>
-<p>The trend should be very clear at this point:</p>
+$$\frac{dJ_3}{dW_h} = \frac{\partial J_3}{\partial a_3}\frac{\partial a_3}{\partial h_3}\frac{\partial h_3}{\partial W_h}$$<p>The first term of that derivative is no problem, it is simply:</p>
+$$\frac{\partial J_3}{\partial a_3} = \frac{\partial J_3}{\partial y_3}\frac{\partial y_3}{\partial a_3}$$<p>And the second is also taken care of easily:</p>
+$$a_3 = W_o^Th_3$$$$\frac{\partial a_3}{\partial h_3} = W_o^T$$<p>The third term in that derivative, $\frac{\partial h_3}{\partial W_h}$, is where we run into problems. Recall, that $h_3$ was determined to be:</p>
+$$h(3) = f\big(W_x^T x(3) + W_h^T h(2)\big)$$<p>And hence we can rewrite our derivative as:</p>
+$$\frac{\partial h_3}{\partial W_h} = \frac{\partial f\big(W_x^T x(3) + W_h^T h(2)\big)}{\partial W_h}$$<p>To make our example more concrete, we will let our activation function, $f$, be the $tanh$ function:</p>
+$$\frac{\partial h_3}{\partial W_h} = \frac{\partial \Big \{ tanh\big(W_x^T x(3) + W_h^T h(2)\big) \Big \}}{\partial W_h}$$<p>Now, we can perform the chain rule and up with the following:</p>
+$$\frac{\partial h_3}{\partial W_h} = \overbrace{sech^2\big(W_x^T x(3) + W_h^T h(2)\big)}^\text{Outer } * \overbrace{\frac{ \partial \big(W_x^T x(3) + W_h^T h(2) \big)}{\partial W_h}}^\text{Inner}$$<p>The inner derivative is where we start to run into issues. We can drop $W_x^T x(3)$, considering it does not depend on $W_h$. However, we are still left with a product of <em>two</em> terms which are a function of $W_h$, $W_h^T*h(2)$. This means that we need to use the <em>product rule</em> in order to solve the derivative. If we let $a$ and $b$ equal (dropping the transpose on our matrices to increase readability):</p>
+$$a = h(2)$$$$b = W_h$$<p>Then, be the product rule, the derivative of $(a*b)'$ is:</p>
+$$(a*b)' = a'*b + b'*a$$<p>Recall, $h(2)$ was defined as:</p>
+$$h(2) = tanh\big(W_x x(2) + W_h h(1)\big)$$<p>So, $a$ can be written as:</p>
+$$a = tanh\big(W_x x(2) + W_h h(1)\big)$$$$(a*b)' = \overbrace{ \frac{\partial \Big \{ tanh \big(W_x x(2) + W_h h(1)\big) \Big \} }{\partial W_h}}^\text{a'} * \overbrace{W_h}^\text{b} + \overbrace{1}^\text{b'} *\overbrace { tanh\big(W_x x(2) + W_h h(1)\big)}^\text{a}$$<p>But wait! We once again run into an issue where in order to find $a'$ we need to use the chain rule:</p>
+$$a' = \frac{\partial \Big \{ tanh \big(W_x x(2) + W_h h(1)\big) \Big \} }{\partial W_h}$$<p>So, we can go ahead and work that out:</p>
+$$a' = \frac{\partial h_2}{\partial W_h} = \overbrace{sech^2\big(W_x x(2) + W_h h(1)\big)}^\text{Outer } * \overbrace{\frac{\partial\big( W_x x(2) + W_h h(1) \big)}{\partial W_h}}^\text{Inner}$$<p>And again, we run into problems with the inner derivative! We can drop the first term since it does not depend on $W_h$, but that still leaves us with:</p>
+$$\frac{\partial\big( W_h h(1) \big)}{\partial W_h}$$<p>Clearly, we need to use the product rule since we have two terms being multiplied which both depend on the variable we are taking the derivative with respect to ($W_h$). Let us again use $a$ and $b$ to represent our terms:</p>
+$$a = h(1)$$$$a = tanh\big(W_x x(1) + W_h h(0)\big)$$$$b = W_h$$<p>And utilize the product rule:</p>
+$$(a*b)' = \overbrace{ \frac{\partial \Big \{ tanh \big(W_x x(1) + W_h h(0)\big) \Big \} }{\partial W_h}}^\text{a'} * \overbrace{W_h}^\text{b} + \overbrace{1}^\text{b'} *\overbrace { tanh\big(W_x x(1) + W_h h(0)\big)}^\text{a}$$<p>The trend should be very clear at this point:</p>
 <blockquote><p>We are continually going to be alternating back and forth, recursively, between the chain rule and product rule until we hit our base case/starting point.</p>
 </blockquote>
 <p>We can see that $a'$ will require the chain rule:</p>
-<p>$$a' = \frac{\partial h_1}{\partial W_h} = \overbrace{sech^2\big(W_x x(1) + W_h h(0)\big)}^\text{Outer } * \overbrace{\frac{\partial\big( W_x x(1) + W_h h(0) \big)}{\partial W_h}}^\text{Inner}$$</p>
-<p>However, we have finally reached a base case and will <em>not</em> require another product rule! The inner derivative, which is:</p>
-<p>$$\frac{\partial\big( W_x x(1) + W_h h(0) \big)}{\partial W_h}$$</p>
-<p>Can have the first term dropped, and we can substitute in $h(0)$:</p>
-<p>$$\frac{\partial\Big( W_h * tanh\big(W_x x(0)\big)\Big)}{\partial W_h}$$</p>
-<p>We see that only the first term in this product depends on $W_h$, and hence our derivative is just:</p>
-<p>$$\frac{\partial\Big( W_h * tanh\big(W_x x(0)\big)\Big)}{\partial W_h} = 1 * tanh\big(W_x x(0)\big) $$</p>
-<p>The main takeaway from this process should be the intuition that because of the recurrent net is defined, there will be a recursive process of the chain rule leading the product rule which leads back to the chain rule, and so on, down to our base case. This same process will occur when dealing with $\frac{\partial J}{\partial W_x}$, however, we need not go through all of the steps for sake of redundancy. Keep this intuition in mind as we discuss the <em>parity problem</em> and the <em>vanishing gradient</em> in the next sections.</p>
+$$a' = \frac{\partial h_1}{\partial W_h} = \overbrace{sech^2\big(W_x x(1) + W_h h(0)\big)}^\text{Outer } * \overbrace{\frac{\partial\big( W_x x(1) + W_h h(0) \big)}{\partial W_h}}^\text{Inner}$$<p>However, we have finally reached a base case and will <em>not</em> require another product rule! The inner derivative, which is:</p>
+$$\frac{\partial\big( W_x x(1) + W_h h(0) \big)}{\partial W_h}$$<p>Can have the first term dropped, and we can substitute in $h(0)$:</p>
+$$\frac{\partial\Big( W_h * tanh\big(W_x x(0)\big)\Big)}{\partial W_h}$$<p>We see that only the first term in this product depends on $W_h$, and hence our derivative is just:</p>
+$$\frac{\partial\Big( W_h * tanh\big(W_x x(0)\big)\Big)}{\partial W_h} = 1 * tanh\big(W_x x(0)\big) $$<p>The main takeaway from this process should be the intuition that because of the recurrent net is defined, there will be a recursive process of the chain rule leading the product rule which leads back to the chain rule, and so on, down to our base case. This same process will occur when dealing with $\frac{\partial J}{\partial W_x}$, however, we need not go through all of the steps for sake of redundancy. Keep this intuition in mind as we discuss the <em>parity problem</em> and the <em>vanishing gradient</em> in the next sections.</p>
 <p>One final thing to keep in mind, recall from earlier posts regarding deep learning that a weight gets updated via an <em>error signal</em> from whatever nodes it influences when it goes in the forward direction. Below, we can see the influence of $w_h$ in red:</p>
 <p><img src="https://drive.google.com/uc?id=15Tokk-VRfYQ9JzCPZFYI43x7GlyQs7rb" width="700"></p>
 <p>The upward arrows going to the output $y$ only matter if you are considering that as a part of your output. This will be different depending on whether you have a target for every time step, or a target just at the end of a sequence. The arrows going from left to right must always be backpropagated, because these are the hidden to hidden weights.</p>
@@ -395,8 +338,7 @@ if ||g|| &gt;= threshold:
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="5.-The-Parity-Problem">5. The Parity Problem<a class="anchor-link" href="#5.-The-Parity-Problem">&#182;</a></h1><p>We are now going to go back to the <em>XOR</em> problem, but with an additional twist. Recall, the XOR problem is simply to implement the XOR logic gate using a neural network. The result is a zero if the two inputs are the same, and the result is a 1 if the two inputs are different:</p>
@@ -436,11 +378,9 @@ if ||g|| &gt;= threshold:
 <li>The label is 0 if the number of bits that are 1 is even </li>
 </ul>
 <h3 id="5.1-Background">5.1 Background<a class="anchor-link" href="#5.1-Background">&#182;</a></h3><p>Just for a bit of background, I should mention that the parity problem occurs in a few different places in computer science. One application is data transmission in communication systems. If you imagine that a source is trying to send a bit stream to a receiver, but one of the bits gets reversed via noise, how can we detect this? One simple way to do this is to add a parity bit to the end of each message. We set a requirement that each message must have an even number of ones, and if the actual message has an odd number of ones, we will make the parity bit a one to make the total even. If the actual message already has an even number of ones, we will make the parity bit a zero so that the total is still even. For example:</p>
-<p>$$\text{M = 0 1 0 1} \rightarrow \text{P = 0} \rightarrow \text{Transmit: 0 1 0 1 0}$$</p>
-<p>This way, when the receiver gets the message, it can check how many ones their are, and if it is odd then we know something has gone wrong in the transmission of the message.</p>
+$$\text{M = 0 1 0 1} \rightarrow \text{P = 0} \rightarrow \text{Transmit: 0 1 0 1 0}$$<p>This way, when the receiver gets the message, it can check how many ones their are, and if it is odd then we know something has gone wrong in the transmission of the message.</p>
 <h3 id="5.2-Why-Not-Use-A-Regular-Feedforward-Net">5.2 Why Not Use A Regular Feedforward Net<a class="anchor-link" href="#5.2-Why-Not-Use-A-Regular-Feedforward-Net">&#182;</a></h3><p>If you were to try and solve the parity problem with a regular feedforward net, you will see that the number of hidden units will grow very fast compared to the number of bits. For example, if for one bit, we would need two hidden units. As we jumped to 12 bits, we would need:</p>
-<p>$$2^{11} = 2048$$</p>
-<p>We can mitigate this problem by creating deeper networks with less units per layer.</p>
+$$2^{11} = 2048$$<p>We can mitigate this problem by creating deeper networks with less units per layer.</p>
 <h3 id="5.3-Solving-the-Parity-Problem-with-RNNs">5.3 Solving the Parity Problem with RNNs<a class="anchor-link" href="#5.3-Solving-the-Parity-Problem-with-RNNs">&#182;</a></h3><p>The basic idea here is that we would like the Neural Network to keep track of its state. So, if the output is 0 and we see another 1 in the input, we would like to switch to a 1. If the output is 1 and we see another 1 in the input, we would like to switch to a 0. If we see a 0 in the input, we would just like to maintain whatever the current output is.</p>
 <p>Can our RNN actually do this? Well, before answering that, let's think about what type of labeling we are dealing with; there are 3 different types:</p>
 <ol>
@@ -512,8 +452,7 @@ Let's go through an example; suppose we are working with a dimensionality of 4. 
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="5.4-The-Parity-Problem-in-Code-using-a-FeedForward-Net">5.4 The Parity Problem in Code using a FeedForward Net<a class="anchor-link" href="#5.4-The-Parity-Problem-in-Code-using-a-FeedForward-Net">&#182;</a></h3>
 </div>
@@ -533,7 +472,7 @@ Let's go through an example; suppose we are working with a dimensionality of 4. 
 <span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="k">import</span> <span class="n">shuffle</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -685,7 +624,7 @@ Let's go through an example; suppose we are working with a dimensionality of 4. 
   <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">print_period</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">show_fig</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -699,7 +638,7 @@ Let's go through an example; suppose we are working with a dimensionality of 4. 
 <span class="c1">#   wide()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -709,7 +648,7 @@ Let's go through an example; suppose we are working with a dimensionality of 4. 
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -735,7 +674,7 @@ Let's go through an example; suppose we are working with a dimensionality of 4. 
 <span class="c1">#   deep()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -745,7 +684,7 @@ Let's go through an example; suppose we are working with a dimensionality of 4. 
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -763,8 +702,7 @@ Let's go through an example; suppose we are working with a dimensionality of 4. 
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="6.-Theano-Scan">6. Theano Scan<a class="anchor-link" href="#6.-Theano-Scan">&#182;</a></h1><p>Before moving forward, it is important that we have a good understanding of how the Theano Scan function works. Recall how theano works, we need to create variables and link them together functionally, but they don't have values until you actually run the functions. So, when you create your $X$ matrix you don't give it a shape; you just say that it is a matrix so that Theano knows that it is a 2-dimensional object.</p>
@@ -884,7 +822,7 @@ def recurrence(x, last, decay):
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Output: &#39;</span><span class="p">,</span> <span class="n">output_value</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -894,7 +832,7 @@ def recurrence(x, last, decay):
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -908,8 +846,7 @@ def recurrence(x, last, decay):
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Great, that worked just as expected. We can now look at <code>scan</code> when dealing with <code>recurrence</code>. Our goal will be to calculate fibonacci:</p>
 
@@ -944,7 +881,7 @@ def recurrence(x, last, decay):
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Output: &#39;</span><span class="p">,</span> <span class="n">output_value</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -954,7 +891,7 @@ def recurrence(x, last, decay):
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -968,8 +905,7 @@ def recurrence(x, last, decay):
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Excellent, again that worked as expected. We can finally go a bit further and work with <code>non_sequences</code> and implement a low pass filter:</p>
 
@@ -1017,7 +953,7 @@ def recurrence(x, last, decay):
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1027,7 +963,7 @@ def recurrence(x, last, decay):
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1042,7 +978,7 @@ def recurrence(x, last, decay):
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1053,7 +989,7 @@ def recurrence(x, last, decay):
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1071,8 +1007,7 @@ def recurrence(x, last, decay):
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="7.-Parity-Problem-with-Recurrent-Neural-Networks">7. Parity Problem with Recurrent Neural Networks<a class="anchor-link" href="#7.-Parity-Problem-with-Recurrent-Neural-Networks">&#182;</a></h1>
 </div>
@@ -1092,7 +1027,7 @@ def recurrence(x, last, decay):
 <span class="kn">from</span> <span class="nn">rnn_util</span> <span class="k">import</span> <span class="n">init_weight</span><span class="p">,</span> <span class="n">all_parity_pairs</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1236,7 +1171,7 @@ def recurrence(x, last, decay):
           <span class="n">activation</span><span class="o">=</span><span class="n">T</span><span class="o">.</span><span class="n">nnet</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span> <span class="n">show_fig</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1249,7 +1184,7 @@ def recurrence(x, last, decay):
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">parity</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1259,7 +1194,7 @@ def recurrence(x, last, decay):
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stderr output_text">
@@ -1270,7 +1205,7 @@ def recurrence(x, last, decay):
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1287,7 +1222,7 @@ i: 2 cost: 86.70091633228286 classification rate: 1.0
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1313,7 +1248,7 @@ i: 2 cost: 86.70091633228286 classification rate: 1.0
 <span class="n">test</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1323,7 +1258,7 @@ i: 2 cost: 86.70091633228286 classification rate: 1.0
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[20]:</div>
+    <div class="prompt output_prompt">Out[20]:</div>
 
 
 
@@ -1348,7 +1283,7 @@ i: 2 cost: 86.70091633228286 classification rate: 1.0
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">test</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1358,7 +1293,7 @@ i: 2 cost: 86.70091633228286 classification rate: 1.0
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[23]:</div>
+    <div class="prompt output_prompt">Out[23]:</div>
 
 
 
@@ -1369,6 +1304,19 @@ i: 2 cost: 86.70091633228286 classification rate: 1.0
 
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
 </div>
 </div>
 

@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="ipynb_website:version" content="0.9.6" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
@@ -195,14 +195,6 @@ body {
   <a href="../Mathematics.html">Mathematics</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
-<li>
-  <a href="../Book_Reviews.html">Book Reviews</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -215,8 +207,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="3.-Probability-Inequalities">3. Probability Inequalities<a class="anchor-link" href="#3.-Probability-Inequalities">&#182;</a></h1><p>Probability inequality play a large role in determining an answer to the crucial question: Is learning feasible? Of course in this context I am referring to statistical/machine learning. You may think to yourself: "Of course it is possible! We constantly here about wonderful new algorithms and ML techniques created, computer vision systems, natural language understanding virtual assistants-many of which are discussed in depth in this blog!". In this you are most certainly correct.</p>
 <p>However, what my question specifically is honing in on is:</p>
@@ -224,123 +215,87 @@ body {
 </blockquote>
 <p>Answering that question is the purpose of this post. In order to get there we will actually move backwards. To start I will show the few equations that prove learning is indeed possible, and we will then go through several derivations in order to expose how we arrived at our answer.</p>
 <h2 id="1.-Is-Learning-Feasible?">1. Is Learning Feasible?<a class="anchor-link" href="#1.-Is-Learning-Feasible?">&#182;</a></h2><p>I want us to start by supposing the following: We are dealing with a <strong>sample</strong> from a <strong>population</strong>:</p>
-<p>$$\mu = \text{population parameter}$$</p>
-<p>$$\nu = \text{sample parameter}$$</p>
-<p>$$N = \text{sample size}$$</p>
-<p>$$\epsilon = \text{very small value}$$</p>
-<p>Now, in a very large sample (i.e. $N$ is large) we know that $\nu$ is probably close to $\mu$ (if this is unfamiliar I recommend looking at my statistics post on the central limit theorem). Another way of saying that these two values are close is by saying there are within $\epsilon$ of eachother:</p>
-<p>$$\big| \nu - \mu \big| &lt; \epsilon$$</p>
-<p>Our goal though is to make this a bit more concrete; put another way, we want to be able to offer a <em>guarantee</em> about $\nu$. How probable is it that it is within $\epsilon$ of $\mu$? Well, we can prove that the probability that $\nu$ is <em>not</em> with $\epsilon$ of $\mu$ is:</p>
-<p>$$P\big( \big| \nu - \mu \big| &gt; \epsilon \big) \leq 2e^{-2\epsilon^2N}$$</p>
-<p>Where the equation above is known as <strong>Hoeffding's Inequality</strong>. The statement is known as a P.A.C. statement-meaning that it is <em>probably</em>, <em>approximately correct</em>. In english, it says the following:</p>
+$$\mu = \text{population parameter}$$$$\nu = \text{sample parameter}$$$$N = \text{sample size}$$$$\epsilon = \text{very small value}$$<p>Now, in a very large sample (i.e. $N$ is large) we know that $\nu$ is probably close to $\mu$ (if this is unfamiliar I recommend looking at my statistics post on the central limit theorem). Another way of saying that these two values are close is by saying there are within $\epsilon$ of eachother:</p>
+$$\big| \nu - \mu \big| &lt; \epsilon$$<p>Our goal though is to make this a bit more concrete; put another way, we want to be able to offer a <em>guarantee</em> about $\nu$. How probable is it that it is within $\epsilon$ of $\mu$? Well, we can prove that the probability that $\nu$ is <em>not</em> with $\epsilon$ of $\mu$ is:</p>
+$$P\big( \big| \nu - \mu \big| &gt; \epsilon \big) \leq 2e^{-2\epsilon^2N}$$<p>Where the equation above is known as <strong>Hoeffding's Inequality</strong>. The statement is known as a P.A.C. statement-meaning that it is <em>probably</em>, <em>approximately correct</em>. In english, it says the following:</p>
 <blockquote><p>The probability that the difference between the sample and the population parameter is greater than $\epsilon$ is less than the exponential of $e^{-\epsilon^2N}$.</p>
 </blockquote>
 <p>From a slightly more formal vantage point, it provides an upper bound on the probability that the sum of bounded <em>independent random variables</em> deviates from its expected value by more than a certain amount. This inequality is a member of the <strong>Law of Large Numbers</strong>.</p>
 <h3 id="1.1-Extending-to-Learning">1.1 Extending to Learning<a class="anchor-link" href="#1.1-Extending-to-Learning">&#182;</a></h3><p>With relative ease we can extend this to learning. In order to do so we will need a bit of new notation. We are going to introduce $h$, $\hat{E}(h)$ and $E(h)$, where they are defined as:</p>
-<p>$$h = \text{Learned Hypothesis/Model}$$</p>
-<p>$$\hat{E}(h) = \text{Training set Error}$$</p>
-<p>$$E(h) = \text{Population Error}$$</p>
-<p>For those familiar with machine learning this should be rather clear, but if you are not I will provide a bit of context. In a general learning scenario we acknowledge that there is a population data set that we <em>do not have access to</em>. It contains <em>every single data point</em> that exists. We only have access to a <em>training data set</em>, which is a very small sample from the population. If we learn a model, $h$, that makes predictions on input data points, then $\hat{E}(h)$ is the error that $h$ would make on the <em>training data set</em>, while $E(h)$ is the error that $h$ would make on the population data set.</p>
+$$h = \text{Learned Hypothesis/Model}$$$$\hat{E}(h) = \text{Training set Error}$$$$E(h) = \text{Population Error}$$<p>For those familiar with machine learning this should be rather clear, but if you are not I will provide a bit of context. In a general learning scenario we acknowledge that there is a population data set that we <em>do not have access to</em>. It contains <em>every single data point</em> that exists. We only have access to a <em>training data set</em>, which is a very small sample from the population. If we learn a model, $h$, that makes predictions on input data points, then $\hat{E}(h)$ is the error that $h$ would make on the <em>training data set</em>, while $E(h)$ is the error that $h$ would make on the population data set.</p>
 <p>What we want to ensure is that if $h$ is learned based off of our training data, can it generalize? In other words, we want to have some sort of guarantee on the difference between the error between $\hat{E}(h)$ and $E(h)$. We will refer to the probability of this difference as the <em>bad event</em>, since we do not want it to happen:</p>
-<p>$$\overbrace{P\big( \big| \hat{E}(h) - E(h) \big| &gt; \epsilon \big)}^\text{Bad event}$$</p>
-<p>We want a bound on this bad event-a worst case guarantee. Once again we can use the hoeffding bound (since it deals with the sum of random variables differing from their expected value-here the error of each data point is a random variable and $E(h)$ is the expected value of the error):</p>
-<p>$$P\big( \big| \hat{E}(h) - E(h) \big| &gt; \epsilon \big) \leq 2e^{-2\epsilon^2N}$$</p>
-<p>Where $\hat{E}(h)$ is the estimated sample error and $E(h)$ is the true error. Now, in all actuality we know that there are multiple hypothesis that we will be choosing from, so our equation can be expanded:</p>
-<p>$$P\big( \big| \hat{E}(h) - E(h) \big| &gt; \epsilon \big) \leq \sum_{m=1}^M P\big( \big| \hat{E}(h_m) - E(h_m) \big| &gt; \epsilon \big) $$</p>
-<p>Above we are simply taking the probability associated with each of $M$ hypotheses having an error greater than $\epsilon$ and summing them all up. This is known as the <strong><a href="https://en.wikipedia.org/wiki/Boole%27s_inequality">union bound</a></strong> and specifically states that:</p>
+$$\overbrace{P\big( \big| \hat{E}(h) - E(h) \big| &gt; \epsilon \big)}^\text{Bad event}$$<p>We want a bound on this bad event-a worst case guarantee. Once again we can use the hoeffding bound (since it deals with the sum of random variables differing from their expected value-here the error of each data point is a random variable and $E(h)$ is the expected value of the error):</p>
+$$P\big( \big| \hat{E}(h) - E(h) \big| &gt; \epsilon \big) \leq 2e^{-2\epsilon^2N}$$<p>Where $\hat{E}(h)$ is the estimated sample error and $E(h)$ is the true error. Now, in all actuality we know that there are multiple hypothesis that we will be choosing from, so our equation can be expanded:</p>
+$$P\big( \big| \hat{E}(h) - E(h) \big| &gt; \epsilon \big) \leq \sum_{m=1}^M P\big( \big| \hat{E}(h_m) - E(h_m) \big| &gt; \epsilon \big) $$<p>Above we are simply taking the probability associated with each of $M$ hypotheses having an error greater than $\epsilon$ and summing them all up. This is known as the <strong><a href="https://en.wikipedia.org/wiki/Boole%27s_inequality">union bound</a></strong> and specifically states that:</p>
 <blockquote><p>For any finite or countable set of events, the probability that at least one of the events happens is no greater than the sum of the probabilities of the individual events.</p>
 </blockquote>
 <p>So, essentially we are taking the <em>worst</em> case and adding up all of the probabilities associated with the error difference between the sample and true hypothesis being greater than $\epsilon$. The reason we want the worst case is because we don't want to jeopardize the <em>applicability</em> of our results. I should note that while this type of assumption is in fact simplistic, it is not trivially restricting but rather it is intended to ensure we are not missing some scenario that could be worse than what we are willing to accept.</p>
 <p>We can then substitute the hoeffding bound that was shown earlier:</p>
-<p>$$P\big( \big| \hat{E}(h) - E(h) \big| &gt; \epsilon \big) \leq \sum_{m=1}^M 2e^{-2\epsilon^2N} $$</p>
-<p>Which provides us with our final takeaway:</p>
+$$P\big( \big| \hat{E}(h) - E(h) \big| &gt; \epsilon \big) \leq \sum_{m=1}^M 2e^{-2\epsilon^2N} $$<p>Which provides us with our final takeaway:</p>
 <blockquote><p>We can be confident that the probability that the difference between our training error and the population error is larger than our tolerance ($\epsilon$, the bad event), under the true learning scenario of generating $M$ hypothesis and picking the <em>best</em> one, is less than or equal to the summation on the right.</p>
 </blockquote>
 <p>Note that the right hand side has an exponential in it which is good! That will decay towards zero quickly. However, we also have a $\epsilon^2$ term which will slow the decay to zero. And even more unfortunately, there is an added factor $M$:</p>
-<p>$$P\big( \big| \hat{E}(h) - E(h) \big| &gt; \epsilon \big) \leq 2Me^{-2\epsilon^2N} $$</p>
-<p>We obviously want the probability of our bad event to be small, and hence we don't like having to magnify the right hand side, because that is the probability of something bad happening. Now, we can see that if we use $M=10$ hypothesis we are probably okay. On the other hand, if we use $M= one \; million$ hypothesis, we may run into trouble.</p>
+$$P\big( \big| \hat{E}(h) - E(h) \big| &gt; \epsilon \big) \leq 2Me^{-2\epsilon^2N} $$<p>We obviously want the probability of our bad event to be small, and hence we don't like having to magnify the right hand side, because that is the probability of something bad happening. Now, we can see that if we use $M=10$ hypothesis we are probably okay. On the other hand, if we use $M= one \; million$ hypothesis, we may run into trouble.</p>
 <p>Now, we will get into what happens when we have many (eventually infinite) hypothesis in a post on the <strong>theory of generalization</strong>, but for now I want to move on and discuss the bound above.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.-Probability-Bounds-and-Inequalities">2. Probability Bounds and Inequalities<a class="anchor-link" href="#2.-Probability-Bounds-and-Inequalities">&#182;</a></h2><p>How exactly did we arrive at that interesting looking exponential bound defined as the Hoeffding Inequality? More generally, what is the point of a bound? The best way to answer both of the above questions is via a derivation of the Hoeffding Inequality itself. Now, in order to get there we will need to build up our knowledge of several other inequalities, so let's get started.</p>
 <h3 id="2.1-Markov-Inequality">2.1 Markov Inequality<a class="anchor-link" href="#2.1-Markov-Inequality">&#182;</a></h3><p>It may not be entirely clear what exactly the point of a probability bound is, specifically in the context of learning above. In order to gain a full appreciation, consider the following:</p>
 <blockquote><p>We may be interested in saying something about the probability of an extreme event. Suppose that unfortunately we only know a little bit about the probability distribution at hand, in this case we only know the expected value. Can we still saying something about the probability of an extreme event occuring?</p>
 </blockquote>
 <p>Above is precisely the goal of probabilistic inequalities. We want to be able to make mathematically backed claims about the probabilities of certain (often bad) events occurring. I like to think about inequalities allowing the following transition:</p>
-<p>$$\text{Intuitive statement} \rightarrow \text{Precise, mathematically backed statement}$$</p>
-<p>The best way to gain an intuitive understanding of this is via an example, and one that is crucial in understanding the hoeffding derivation, that is the <a href="https://en.wikipedia.org/wiki/Markov%27s_inequality"><strong>Markov Inequality</strong></a>. The Markov Inequality, at its core, is trying to take an intuitive statement and provide it a mathematical backing. The intuitve statement is as follows:</p>
+$$\text{Intuitive statement} \rightarrow \text{Precise, mathematically backed statement}$$<p>The best way to gain an intuitive understanding of this is via an example, and one that is crucial in understanding the hoeffding derivation, that is the <a href="https://en.wikipedia.org/wiki/Markov%27s_inequality"><strong>Markov Inequality</strong></a>. The Markov Inequality, at its core, is trying to take an intuitive statement and provide it a mathematical backing. The intuitve statement is as follows:</p>
 <blockquote><p>If $X \geq 0$ and $E[X]$ is small, then $X$ is unlikely to be very large.</p>
 </blockquote>
 <p>Intuitively that should make sense! If $E[X] = 1.2$ then the probability of $X = 10,000,000$ should be incredibly small. What the Markov Inequality allows us to do is make the intuitive statement much more precise. It states:</p>
 <h4 id="$$-\text{Markov-Inequality}-\longrightarrow-\text{If}-\;-X-\geq-0-\;-\text{and}-\;-a-&gt;0,-\text{then}-\;-P(x-\geq-a)-\leq-\frac{E[X]}{a}$$"><span style="color:#0000cc">$$ \text{Markov Inequality} \longrightarrow \text{If} \; X \geq 0 \; \text{and} \; a &gt;0, \text{then} \; P(x \geq a) \leq \frac{E[X]}{a}$$</span><a class="anchor-link" href="#$$-\text{Markov-Inequality}-\longrightarrow-\text{If}-\;-X-\geq-0-\;-\text{and}-\;-a-&gt;0,-\text{then}-\;-P(x-\geq-a)-\leq-\frac{E[X]}{a}$$">&#182;</a></h4><h4 id="Derivation-1">Derivation 1<a class="anchor-link" href="#Derivation-1">&#182;</a></h4><p>How exactly do we arrive at the above inequality? Well, our derivation looks as follows; first, we recall the expected value of $X$:</p>
-<p>$$E[X] = \int_{0}^{\infty} x f_x(x) dx$$</p>
-<p>Which, we can then state the following:</p>
-<p>$$E[X] = \overbrace{\int_{0}^{\infty} x f_x(x) dx}^\text{Expected value of x} \;\; \geq  \;\;\overbrace{\int_{a}^{\infty} x f_x(x) dx}^\text{Smaller bound, less area}$$</p>
-<p>The above is true because when integrating from $[a, \infty]$ we are dealing with less total area. We can then focus on this new integral:</p>
-<p>$$\int_{a}^{\infty} x f_x(x) dx$$</p>
-<p>Which we can note that when evaluated $x$ will always be at least as large as $a$, given our bounds. This allows us to write:</p>
-<p>$$\int_{a}^{\infty} x f_x(x) dx \;\; \geq \;\; \int_{a}^{\infty} a f_x(x) dx$$</p>
-<p>And since $a$ is a constant we can pull that out:</p>
-<p>$$\int_{a}^{\infty} x f_x(x) dx \;\; \geq \;\; a \overbrace{\int_{a}^{\infty} f_x(x) dx}^{P(x \geq a)}$$</p>
-<p>Substituting $P(x \geq a)$ for our right integral:</p>
-<p>$$\overbrace{\int_{a}^{\infty} x f_x(x) dx}^\text{Integral 1} \;\; \geq \;\; aP(x \geq a)$$</p>
-<p>Recall the first line of our derivation:</p>
-<p>$$E[X] = \int_{0}^{\infty} x f_x(x) dx \;\; \geq  \;\; \overbrace{\int_{a}^{\infty} x f_x(x) dx}^\text{Integral 1}$$</p>
-<p>We can substitute in $aP(x \geq a)$ for integral 1 (because of the matching inequalities):</p>
-<p>$$E[X] \;\; \geq  \;\; aP(x \geq a)$$</p>
-<p>Which can be written equivalently as:</p>
-<p>$$P(x \geq a) \;\; \leq  \;\; \frac{E[X]}{a}$$</p>
-<p>And with that we have arrived at the inequality that we were trying prove!</p>
+$$E[X] = \int_{0}^{\infty} x f_x(x) dx$$<p>Which, we can then state the following:</p>
+$$E[X] = \overbrace{\int_{0}^{\infty} x f_x(x) dx}^\text{Expected value of x} \;\; \geq  \;\;\overbrace{\int_{a}^{\infty} x f_x(x) dx}^\text{Smaller bound, less area}$$<p>The above is true because when integrating from $[a, \infty]$ we are dealing with less total area. We can then focus on this new integral:</p>
+$$\int_{a}^{\infty} x f_x(x) dx$$<p>Which we can note that when evaluated $x$ will always be at least as large as $a$, given our bounds. This allows us to write:</p>
+$$\int_{a}^{\infty} x f_x(x) dx \;\; \geq \;\; \int_{a}^{\infty} a f_x(x) dx$$<p>And since $a$ is a constant we can pull that out:</p>
+$$\int_{a}^{\infty} x f_x(x) dx \;\; \geq \;\; a \overbrace{\int_{a}^{\infty} f_x(x) dx}^{P(x \geq a)}$$<p>Substituting $P(x \geq a)$ for our right integral:</p>
+$$\overbrace{\int_{a}^{\infty} x f_x(x) dx}^\text{Integral 1} \;\; \geq \;\; aP(x \geq a)$$<p>Recall the first line of our derivation:</p>
+$$E[X] = \int_{0}^{\infty} x f_x(x) dx \;\; \geq  \;\; \overbrace{\int_{a}^{\infty} x f_x(x) dx}^\text{Integral 1}$$<p>We can substitute in $aP(x \geq a)$ for integral 1 (because of the matching inequalities):</p>
+$$E[X] \;\; \geq  \;\; aP(x \geq a)$$<p>Which can be written equivalently as:</p>
+$$P(x \geq a) \;\; \leq  \;\; \frac{E[X]}{a}$$<p>And with that we have arrived at the inequality that we were trying prove!</p>
 <h4 id="Derivation-2">Derivation 2<a class="anchor-link" href="#Derivation-2">&#182;</a></h4><p>I'd like to also walk through a second derivation which may provide a nice alternative way of looking at things. We will start by defining a new variable $Y$:</p>
-<p>$$
+$$
 Y =
 \begin{cases}
  0, &amp; \text{if } x &lt; a \\
  a, &amp; \text{if } x \geq a
 \end{cases}
-$$</p>
-<p>We can see above that in all cases $Y \leq X$, and hence:</p>
-<p>$$E[Y] \leq E[X]$$</p>
-<p>Next, we can solve for the expected value of $Y$:</p>
-<p>$$E[Y] = 0 \cdot P(X &lt; a) + a \cdot P(X \geq a) = a \cdot P(X \geq a)$$</p>
-<p>This allows us to rewrite our prior inequality as:</p>
-<p>$$a \cdot P(X \geq a) \;\; \leq \;\; E[X]$$</p>
-<p>And with a simple algebraic manipulation we again arrive at the Markov Inequality:</p>
-<p>$$P(X \geq a) \;\; \leq \;\; \frac{E[X]}{a}$$</p>
-<h4 id="Example">Example<a class="anchor-link" href="#Example">&#182;</a></h4><p>Now, why exactly is this useful? Consider the following example: we have a random variable $X$ that is exponentially distributed with $\lambda = 1$:</p>
-<p>$$
+$$<p>We can see above that in all cases $Y \leq X$, and hence:</p>
+$$E[Y] \leq E[X]$$<p>Next, we can solve for the expected value of $Y$:</p>
+$$E[Y] = 0 \cdot P(X &lt; a) + a \cdot P(X \geq a) = a \cdot P(X \geq a)$$<p>This allows us to rewrite our prior inequality as:</p>
+$$a \cdot P(X \geq a) \;\; \leq \;\; E[X]$$<p>And with a simple algebraic manipulation we again arrive at the Markov Inequality:</p>
+$$P(X \geq a) \;\; \leq \;\; \frac{E[X]}{a}$$<h4 id="Example">Example<a class="anchor-link" href="#Example">&#182;</a></h4><p>Now, why exactly is this useful? Consider the following example: we have a random variable $X$ that is exponentially distributed with $\lambda = 1$:</p>
+$$
 f(x ; \lambda) =
 \begin{cases}
  \lambda e ^{-\lambda x}, &amp; \text{if } x \geq 0 \\
  0, &amp; \text{if } x &lt;0
 \end{cases}
-$$</p>
-<p>And since $\lambda = 1$, we can rewrite the above as:</p>
-<p>$$
+$$<p>And since $\lambda = 1$, we can rewrite the above as:</p>
+$$
 f(x ; \lambda = 1) =
 \begin{cases}
  e ^{-x}, &amp; \text{if } x \geq 0 \\
  0, &amp; \text{if } x &lt;0
 \end{cases}
-$$</p>
-<p>A <a href="https://en.wikipedia.org/wiki/Exponential_distribution#Mean,_variance,_moments_and_median">property of the exponential distribution</a> is that it's expected value is equal to:</p>
-<p>$$E[X] = \frac{1}{\lambda}$$</p>
-<p>And in this case that evaluates to $E[X] = 1$. Because $X$ is a random variable, we can apply the Markov Inequality!</p>
-<p>$$P(X \geq a) \;\; \leq \;\; \frac{E[X]}{a}$$</p>
-<p>Substituting in our expected value of 1:</p>
-<p>$$P(X \geq a) \;\; \leq \;\; \frac{1}{a}$$</p>
-<p>Taking a step back, let's restate our goal here:</p>
+$$<p>A <a href="https://en.wikipedia.org/wiki/Exponential_distribution#Mean,_variance,_moments_and_median">property of the exponential distribution</a> is that it's expected value is equal to:</p>
+$$E[X] = \frac{1}{\lambda}$$<p>And in this case that evaluates to $E[X] = 1$. Because $X$ is a random variable, we can apply the Markov Inequality!</p>
+$$P(X \geq a) \;\; \leq \;\; \frac{E[X]}{a}$$<p>Substituting in our expected value of 1:</p>
+$$P(X \geq a) \;\; \leq \;\; \frac{1}{a}$$<p>Taking a step back, let's restate our goal here:</p>
 <blockquote><p>We are trying to bound the probability $P(X \geq a)$. Often we won't know it's exact value, so knowing the worst case can be very helpful.</p>
 </blockquote>
 <p>Now, because we <em>know</em> the distribution that $X$ takes on, we actually do know the true value for this probability:</p>
-<p>$$P(X \geq a) = e^{-a}$$</p>
-<p>However, as stated above, we often don't know the true distribution. By making use of the little bit of information that we are assuming that we <em>do know</em> about $X$, namely that it is a random variable and has an expected value of 1, we can apply the Markov Inequality in order to get a guarantee on the probability that $X$ is greater than or equal to $a$.</p>
+$$P(X \geq a) = e^{-a}$$<p>However, as stated above, we often don't know the true distribution. By making use of the little bit of information that we are assuming that we <em>do know</em> about $X$, namely that it is a random variable and has an expected value of 1, we can apply the Markov Inequality in order to get a guarantee on the probability that $X$ is greater than or equal to $a$.</p>
 <p>Visually, we can see the true probability and the bound generated via the Markov Inequality below (for visualization purposes $a$ is equal to 1 below):</p>
 
 </div>
@@ -363,7 +318,7 @@ $$</p>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -443,7 +398,7 @@ $$</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -453,7 +408,7 @@ $$</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -473,8 +428,7 @@ height=265
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, in general we consider a bound good or useful if the bound is close the correct value. Clearly we can see that in this case the bound is not very close the actual value. For an idea of the numerical values involved here, when evaluated we have:</p>
 
@@ -490,7 +444,7 @@ height=265
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Markov Inequality Bound: &quot;</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -500,7 +454,7 @@ height=265
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -515,8 +469,7 @@ Markov Inequality Bound:  0.5
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Cleary the bound is correct, however it is not incredibly useful. If I told you that $P(X \geq a)$ is less than 0.99 I would be correct, but you would most likely roll your eyes and say that is obvious. The same thing is occuring here. The true probability will fall off exponetially as $a$ increases in magnitude, while the Markov Inequality will fall off at $\frac{1}{X}$. This raises the question: Are there other inequalities that can yield a more useful bound?</p>
 <h3 id="2.2-Chebyshev-Inequality">2.2 Chebyshev Inequality<a class="anchor-link" href="#2.2-Chebyshev-Inequality">&#182;</a></h3><p>The answer to that question is a resounding <em>yes</em>. There are indeed many other inequalities that exist that can produce more informative and useful bounds. We will look at two in the remainder of this post, starting with the <strong>Chebyshev Inequality</strong>.</p>
@@ -527,33 +480,25 @@ Markov Inequality Bound:  0.5
 <p>This can be precisely stated as:</p>
 <h4 id="$$\text{Chebyshev-Inequality}-\longrightarrow-P-\big(\big|-X---\mu\big|-\geq-c-\big)--\;-\leq-\;-\frac{\sigma^2}{c^2}$$"><span style="color:#0000cc">$$\text{Chebyshev Inequality} \longrightarrow P \big(\big| X - \mu\big| \geq c \big)  \; \leq \; \frac{\sigma^2}{c^2}$$</span><a class="anchor-link" href="#$$\text{Chebyshev-Inequality}-\longrightarrow-P-\big(\big|-X---\mu\big|-\geq-c-\big)--\;-\leq-\;-\frac{\sigma^2}{c^2}$$">&#182;</a></h4><p>In english is can be stated as: The probability that the distance from the mean is larger than $c$ is less than the variance divided by the square of $c$. If the variance is small, the probability of falling far from the mean is small. If $c$ is large (a large distance from the mean), then the probability falls off at a rate of at least $\frac{1}{c^2}$</p>
 <h4 id="Derivation">Derivation<a class="anchor-link" href="#Derivation">&#182;</a></h4><p>As always the question that should be asked is how exactly did Chebyshev arrive at this inequality? The derivation proceeds as follows: First we will want to apply the Markov Inequality.</p>
-<p>$$P(X \geq a) \;\; \leq \;\; \frac{E[X]}{a}$$</p>
-<p>Remember, the Markov Inequality can be utilized for <em>any</em> random variable, $X$, and any number $a$ (that is greater than 0). So, nothing is stopping us from letting our random variable be $|x - \mu|$ and call $a$, $c$:</p>
-<p>$$P(|X - \mu| \geq c)$$</p>
-<p>Now, here is where the brilliance of Chebyshev comes in. He knew that he wanted to utilize information about $X$ that Markov's Inequality did not, namely he wanted to utilize the <strong>variance</strong>. In order to do that he realized that he could square both terms in the probability:</p>
-<p>$$P\big((X - \mu)^2 \geq c^2\big)$$</p>
-<p>At which point the Inequality would look like:</p>
-<p>$$P\big((X - \mu)^2 \geq c^2\big) \;\; \leq \;\; \frac{\overbrace{E\big[ (X-\mu^2)\big]}^\text{Variance of X}}{c^2}$$</p>
-<p>And based on Chebyshev's choice of random variable, $(X - \mu)^2$, our numerator on the right side is actually just the variance of $X$! So, we can substitute that in:</p>
-<p>$$P\big((X - \mu)^2 \geq c^2\big) \;\; \leq \;\; \frac{\sigma^2}{c^2}$$</p>
-<p>And we have arrived at the definition of the Chebyshev Inequality! Note, the event that we are finding the probability of has a square on each side-these can both be removed an replaced with an absolute value in order to achieve the exact same shape as the original inequality.</p>
+$$P(X \geq a) \;\; \leq \;\; \frac{E[X]}{a}$$<p>Remember, the Markov Inequality can be utilized for <em>any</em> random variable, $X$, and any number $a$ (that is greater than 0). So, nothing is stopping us from letting our random variable be $|x - \mu|$ and call $a$, $c$:</p>
+$$P(|X - \mu| \geq c)$$<p>Now, here is where the brilliance of Chebyshev comes in. He knew that he wanted to utilize information about $X$ that Markov's Inequality did not, namely he wanted to utilize the <strong>variance</strong>. In order to do that he realized that he could square both terms in the probability:</p>
+$$P\big((X - \mu)^2 \geq c^2\big)$$<p>At which point the Inequality would look like:</p>
+$$P\big((X - \mu)^2 \geq c^2\big) \;\; \leq \;\; \frac{\overbrace{E\big[ (X-\mu^2)\big]}^\text{Variance of X}}{c^2}$$<p>And based on Chebyshev's choice of random variable, $(X - \mu)^2$, our numerator on the right side is actually just the variance of $X$! So, we can substitute that in:</p>
+$$P\big((X - \mu)^2 \geq c^2\big) \;\; \leq \;\; \frac{\sigma^2}{c^2}$$<p>And we have arrived at the definition of the Chebyshev Inequality! Note, the event that we are finding the probability of has a square on each side-these can both be removed an replaced with an absolute value in order to achieve the exact same shape as the original inequality.</p>
 <h4 id="Application">Application<a class="anchor-link" href="#Application">&#182;</a></h4><p>An application of the Chebyshev Inequality could be something along the following lines: Assume we want to determine the probability that the distance from the mean is at least $k$ standard deviations. Well, in that case we can utilize Chebyshev by setting $c$ to be $k \sigma$:</p>
-<p>$$P \big(\big| X - \mu\big| \geq k \sigma \big) \; \leq \; \frac{\sigma^2}{k^2 \sigma^2}$$</p>
-<p>Which reduces to:</p>
-<p>$$P \big(\big| X - \mu\big| \geq k \sigma \big) \; \leq \; \frac{1}{k^2}$$</p>
-<p>How can this be useful to us? Well, for example let $k=3$. This is saying that the probability that you fall 3 standard deviations or more away from the mean is less than or equal to $\frac{1}{9}$. This is true <em>regardless</em> of the type of distribution that is being utilized.</p>
+$$P \big(\big| X - \mu\big| \geq k \sigma \big) \; \leq \; \frac{\sigma^2}{k^2 \sigma^2}$$<p>Which reduces to:</p>
+$$P \big(\big| X - \mu\big| \geq k \sigma \big) \; \leq \; \frac{1}{k^2}$$<p>How can this be useful to us? Well, for example let $k=3$. This is saying that the probability that you fall 3 standard deviations or more away from the mean is less than or equal to $\frac{1}{9}$. This is true <em>regardless</em> of the type of distribution that is being utilized.</p>
 <p>If it is not immediately apparent, the reason this is very useful is because we can use this bound as a guarantee of our worst case scenario. For instance, let's say that we are modeling the temperature of an actuator in an aircraft, and we know the mean and the variance of the actuator temperature. We also know that if it becomes too hot-if the temperature rises three standard deviations or more above the mean-failure occurs. Clearly we want to know how probable this events occurrence is.</p>
 <p>Now, <em>remember</em> that this is not saying that the probability is <em>equal</em> to $\frac{1}{9}$. Clearly if we have a very tight variance the probabilty of falling three standard deviations away from the mean is much less than $\frac{1}{9}$ (simply think about the <a href="https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule">normal distribution</a> to reinforce this fact). However, that is the point of the bound. It is not giving us point estimate, which would indeed require more information. In the case of the normal distribution we know that it normal, it's actual mean and it's actual variance. This will not always be available! That is why it is incredibly useful to have such a generic inequality! Keep in mind that the the result above has <em>no dependency</em> on the value of the standard deviation or variance; the right hand side only is a function of $k$, the number of standard deviations.</p>
 <p>While this is clearly a good thing in some ways (allows this to be applied very broadly), if we have additional information it may very well not be utilizing it in the most effective way.</p>
 <h4 id="Example">Example<a class="anchor-link" href="#Example">&#182;</a></h4><p>Let's now return to our earlier example that we performed with the Markov Inequality. We have a random variable $X$ that is exponentially distributed with $\lambda = 1$:</p>
-<p>$$
+$$
 f(x ; \lambda = 1) =
 \begin{cases}
  e ^{-x}, &amp; \text{if } x \geq 0 \\
  0, &amp; \text{if } x &lt;0
 \end{cases}
-$$</p>
-<p>We saw that the Markov Inequality gave us a bound of $\frac{1}{a}$ and the exact answer was $e^{-a}$. Let's see what bound we can get with the Chebyshev Inequality. To start, remember that $X$ has a mean of 1. We want to then assume that $a$ is greater than 1, which is shown visually below:</p>
+$$<p>We saw that the Markov Inequality gave us a bound of $\frac{1}{a}$ and the exact answer was $e^{-a}$. Let's see what bound we can get with the Chebyshev Inequality. To start, remember that $X$ has a mean of 1. We want to then assume that $a$ is greater than 1, which is shown visually below:</p>
 
 </div>
 </div>
@@ -620,7 +565,7 @@ $$</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -630,7 +575,7 @@ $$</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -650,22 +595,15 @@ height=265
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We are interested in the green region to the right of $a$, specifically the probability that $X$ is greater than or equal to $a$. We are looking at this region in order to get a comparison with the bound found via the Markov Inequality. As a quick reminder, Chebyshev has the form:</p>
-<p>$$P \big(\big| X - \mu\big| \geq c \big)  \; \leq \; \frac{\sigma^2}{c^2}$$</p>
-<p>And that is the form that we are trying to end up with. We can start by stating that the probability that $X$ falls in the green region is equivalent to:</p>
-<p>$$P(X \geq a) \; = \; P(X - 1 \geq a - 1)$$</p>
-<p>And due to the symmetry associated with the absolute value, we can write that:</p>
-<p>$$P(X - 1 \geq a - 1) \; \leq \; \overbrace{P( |X - 1| \geq a - 1)}^\text{Form of Chebyshev}$$</p>
-<p>Now the right side has the form of the Chebyshev Inequality, so we can apply it as follows:</p>
-<p>$$P( |X - 1| \geq a - 1) \; \leq \; \frac{\sigma^2}{(a-1)^2}$$</p>
-<p>Where $\sigma^2$ is <a href="https://en.wikipedia.org/wiki/Exponential_distribution#properties">equal to 1</a>:</p>
-<p>$$P( |X - 1| \geq a - 1) \; \leq \; \frac{1}{(a-1)^2}$$</p>
-<p>And we can swap back in $P(X \geq a)$ from original equality:</p>
-<p>$$P(X \geq a) \; \leq \; \frac{1}{(a-1)^2}$$</p>
-<p>Let's see how this bound compares with the Markov bound, as well as the true value:</p>
+$$P \big(\big| X - \mu\big| \geq c \big)  \; \leq \; \frac{\sigma^2}{c^2}$$<p>And that is the form that we are trying to end up with. We can start by stating that the probability that $X$ falls in the green region is equivalent to:</p>
+$$P(X \geq a) \; = \; P(X - 1 \geq a - 1)$$<p>And due to the symmetry associated with the absolute value, we can write that:</p>
+$$P(X - 1 \geq a - 1) \; \leq \; \overbrace{P( |X - 1| \geq a - 1)}^\text{Form of Chebyshev}$$<p>Now the right side has the form of the Chebyshev Inequality, so we can apply it as follows:</p>
+$$P( |X - 1| \geq a - 1) \; \leq \; \frac{\sigma^2}{(a-1)^2}$$<p>Where $\sigma^2$ is <a href="https://en.wikipedia.org/wiki/Exponential_distribution#properties">equal to 1</a>:</p>
+$$P( |X - 1| \geq a - 1) \; \leq \; \frac{1}{(a-1)^2}$$<p>And we can swap back in $P(X \geq a)$ from original equality:</p>
+$$P(X \geq a) \; \leq \; \frac{1}{(a-1)^2}$$<p>Let's see how this bound compares with the Markov bound, as well as the true value:</p>
 
 </div>
 </div>
@@ -764,7 +702,7 @@ height=265
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -774,7 +712,7 @@ height=265
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -794,8 +732,7 @@ height=265
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see a clear improvement in the Chebyshev Inequality compared the Markov Inequality!</p>
 <blockquote><p>Generally, Chebyshev is stronger and more informative than the Markov Inequality. This is because it <em>exploits</em> more information about the distribution of the random variable $X$. Specifically, it uses knowledge about not just the mean of $X$, but also the variance!</p>
@@ -804,13 +741,10 @@ height=265
 <blockquote><p>To bound the probability of our training error differing from our population by more than a certain amount.</p>
 </blockquote>
 <p>Specifically, I made the claim that this probability was:</p>
-<p>$$P\big( \big| \hat{E}(h) - E(h) \big| &gt; \epsilon \big) \leq 2e^{-2\epsilon^2N}$$</p>
-<p>This a case of hoeffdings inequality; in it's most general form it looks like:</p>
+$$P\big( \big| \hat{E}(h) - E(h) \big| &gt; \epsilon \big) \leq 2e^{-2\epsilon^2N}$$<p>This a case of hoeffdings inequality; in it's most general form it looks like:</p>
 <h4 id="$$\text{Hoeffding-Inequality}-\longrightarrow-P\big(-X_1-+-...-+-X_n---n\mu_X-\geq-na-\big)-\leq-e^{\frac{-na^2}{2}}$$"><span style="color:#0000cc">$$\text{Hoeffding Inequality} \longrightarrow P\big( X_1 + ... + X_n - n\mu_X \geq na \big) \leq e^{\frac{-na^2}{2}}$$</span><a class="anchor-link" href="#$$\text{Hoeffding-Inequality}-\longrightarrow-P\big(-X_1-+-...-+-X_n---n\mu_X-\geq-na-\big)-\leq-e^{\frac{-na^2}{2}}$$">&#182;</a></h4><p>Which specifically is looking for the probability that the sum of $n$ i.i.d. random variables takes on an abnormally large value. That may sound like a strange thing to be interested in at first, but I like to simply think of it as an extension of the Markov Inequality. In the Markov Inequality we were simply trying to determine the probability that a single sampled random variable $X$ would take on a value greater than $a$:</p>
-<p>$$P(X \geq a)$$</p>
-<p>Now, we are extending this to $n$ variables that are randomly sampled from $X$, and trying to determine the probability of observing their sum be greater than or equal to $na$:</p>
-<p>$$P\big( X_1 + ... + X_n \geq na \big)$$</p>
-<p>Our goal is to find the upper bound for the above quantity, which is hoeffdings inequality. This is an inequality that applies to a special case, although the special case does generalize. Here is the special case that we will consdier: the random variables, $X_i$'s drawn from $X$, are equally likely to take the values $+1$ or $-1$:</p>
+$$P(X \geq a)$$<p>Now, we are extending this to $n$ variables that are randomly sampled from $X$, and trying to determine the probability of observing their sum be greater than or equal to $na$:</p>
+$$P\big( X_1 + ... + X_n \geq na \big)$$<p>Our goal is to find the upper bound for the above quantity, which is hoeffdings inequality. This is an inequality that applies to a special case, although the special case does generalize. Here is the special case that we will consdier: the random variables, $X_i$'s drawn from $X$, are equally likely to take the values $+1$ or $-1$:</p>
 
 </div>
 </div>
@@ -863,7 +797,7 @@ height=265
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -873,7 +807,7 @@ height=265
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -893,20 +827,14 @@ height=265
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We are interested in the random variable which is the sum of the $X$'s:</p>
-<p>$$Y = X_1 + ... + X_n$$</p>
-<p>Now, what do we know about $Y$? Well, because the distribution of $X$ is symmetric it's expected value is 0:</p>
-<p>$$E[X_i] = 0$$</p>
-<p>And based on linearity we know that:</p>
-<p>$$E[Y] = 0$$</p>
-<p>Additionally, $X_i$ has a variance of 1:</p>
-<p>$$Var(X_i) = 1$$</p>
-<p>And because there are $n$ $X_i$'s, the variance of $Y$ is $n$:</p>
-<p>$$Var(Y) = n$$</p>
-<p>By the central limit theorem $Y$ has an approximately normal distribution, $Y \approx N(0, 1)$, with a mean of 0:</p>
+$$Y = X_1 + ... + X_n$$<p>Now, what do we know about $Y$? Well, because the distribution of $X$ is symmetric it's expected value is 0:</p>
+$$E[X_i] = 0$$<p>And based on linearity we know that:</p>
+$$E[Y] = 0$$<p>Additionally, $X_i$ has a variance of 1:</p>
+$$Var(X_i) = 1$$<p>And because there are $n$ $X_i$'s, the variance of $Y$ is $n$:</p>
+$$Var(Y) = n$$<p>By the central limit theorem $Y$ has an approximately normal distribution, $Y \approx N(0, 1)$, with a mean of 0:</p>
 
 </div>
 </div>
@@ -951,7 +879,7 @@ height=265
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -961,7 +889,7 @@ height=265
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -981,14 +909,11 @@ height=359
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, we can standardize $Y$ by dividing the by the square root of $n$. The proof for standardizing a random variable is shown in the appendix, but we end up with. Because $Y$ has a mean of 0, after standardization it looks like:</p>
-<p>$$\frac{Y}{\sqrt{n}}$$</p>
-<p>And we can then state that:</p>
-<p>$$P \Big(\frac{Y}{\sqrt{n}} \geq a\Big) \approx 1 - \Phi(a)$$</p>
-<p>Where $\Phi$ represents the standard normal CDF. Visually, this looks like:</p>
+$$\frac{Y}{\sqrt{n}}$$<p>And we can then state that:</p>
+$$P \Big(\frac{Y}{\sqrt{n}} \geq a\Big) \approx 1 - \Phi(a)$$<p>Where $\Phi$ represents the standard normal CDF. Visually, this looks like:</p>
 
 </div>
 </div>
@@ -1040,7 +965,7 @@ height=359
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1050,7 +975,7 @@ height=359
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1070,12 +995,10 @@ height=384
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We know that the entire area under the curve is equal to 1, and the shaded blue region represents $\Phi(a)$, meaning the shaded red region, which is simply $1 - \Phi(a)$, represents the probability that we are looking for. Now, there are two things to notice here; first and foremost, we are able to manipulate the inequality inside of the probability to be:</p>
-<p>$$P \Big(Y \geq \sqrt{n}a\Big) \approx 1 - \Phi(a)$$</p>
-<p>Our plot can be updated to reflect this:</p>
+$$P \Big(Y \geq \sqrt{n}a\Big) \approx 1 - \Phi(a)$$<p>Our plot can be updated to reflect this:</p>
 
 </div>
 </div>
@@ -1127,7 +1050,7 @@ height=384
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1137,7 +1060,7 @@ height=384
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1157,8 +1080,7 @@ height=370
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Secondly, notice that the right hand side does not depend on $n$! Regardless of the value of $n$, the probability on the left is going to be approximately equal to $1 - \Phi(a)$. From this we can infer that values of the order of $\sqrt{n}$ are fairly likely to occur. However, remember that our goal was to determine the probability of being larger than $na$, not simply $\sqrt{n}a$. In other words, we are interested in the following probability:</p>
 
@@ -1213,7 +1135,7 @@ height=370
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1223,7 +1145,7 @@ height=370
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1243,51 +1165,29 @@ height=366
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So, our question at this point is to determine how small the probability $P(Y \geq na)$ is. At this point, we have Chebyshev's Inequality, which tells us that:</p>
-<p>$$P(Y \geq na) \; \leq \; \frac{Var(Y)}{n^2a^2} $$</p>
-<p>And in this case since the variance of $Y$ is $n$, the above reduces to:</p>
-<p>$$P(Y \geq na) \; \leq \; \frac{1}{na^2} $$</p>
-<p>So, Chebyshev's Inequality tells us that $P(Y \geq na)$ goes to 0 at least as fast as $\frac{1}{n}$ goes to 0. However, it turns out that this is <em>extremely conservative</em>. Hoeffdings Inequality, which we are still in the process of establishing, can tell us something much stronger. It tells us that the tail probability falls exponentially with $n$:</p>
-<p>$$P(Y \geq na) \; \leq \; e^{\frac{-na^2}{2}}$$</p>
-<p>This is clearly a signficant improvement over Chebyshev, so I hope that you are sufficiently motivated to see how Hoeffding arrived at this inequality. Let's waste no time, on to the derivation!</p>
+$$P(Y \geq na) \; \leq \; \frac{Var(Y)}{n^2a^2} $$<p>And in this case since the variance of $Y$ is $n$, the above reduces to:</p>
+$$P(Y \geq na) \; \leq \; \frac{1}{na^2} $$<p>So, Chebyshev's Inequality tells us that $P(Y \geq na)$ goes to 0 at least as fast as $\frac{1}{n}$ goes to 0. However, it turns out that this is <em>extremely conservative</em>. Hoeffdings Inequality, which we are still in the process of establishing, can tell us something much stronger. It tells us that the tail probability falls exponentially with $n$:</p>
+$$P(Y \geq na) \; \leq \; e^{\frac{-na^2}{2}}$$<p>This is clearly a signficant improvement over Chebyshev, so I hope that you are sufficiently motivated to see how Hoeffding arrived at this inequality. Let's waste no time, on to the derivation!</p>
 <h4 id="Derivation">Derivation<a class="anchor-link" href="#Derivation">&#182;</a></h4><p>The derivation relies on a beautiful trick. Instead of looking at our original event, $X_1 + ... + X_n \geq na$, we are going to look at the following equivalent event:</p>
-<p>$$e^{s(X_1+...+X_n)} \geq e^{sna}$$</p>
-<p>Where $s$ is a fixed positive number, whose choice will remain free for now. To be clear, throughout the remainder of this derivation we are assuming:</p>
-<p>$$s &gt; 0$$</p>
-<p>$$a &gt; 0$$</p>
-<p>Because we multipied each side of our original event by $s$ and then exponentiated (a monotonic function), we can state that:</p>
-<p>$$X_1 + ... + X_n \geq na \;\; \text{ if and only if } \;\; e^{s(X_1+...+X_n)} \geq e^{sna}$$</p>
-<p>Since the events are mathematically equivalent, we will try and say something about the probability of the transformed event:</p>
-<p>$$P \big( e^{s(X_1+...+X_n)} \geq e^{sna} \big)$$</p>
-<p>We will start by utilizing the Markov Inequality! Recall, Markov's Inequality has the form:</p>
-<p>$$P \big(Z \geq c \big) \; \leq \; \frac{E[Z]}{c}$$</p>
-<p>So, we can let $Z = e^{s(X_1+...+X_n)}$ and $c = e^{sna}$:</p>
-<p>$$P \big(e^{s(X_1+...+X_n)} \geq e^{sna} \big) \; \leq \; \frac{E[e^{s(X_1+...+X_n)}]}{e^{sna}}$$</p>
-<p>On the right hand side we can factor the exponential of a sum as a product of exponentials:</p>
-<p>$$\frac{E[e^{sX_1}\cdot...\cdot e^{sX_n}]}{e^{sna}}$$</p>
-<p>And then we can use the assumption that the $X$'s are independent. We have the expectation of the product of independent random variables, which is equal to the product of the expectations:</p>
-<p>$$\frac{E[e^{sX_1}]\cdot...\cdot E[e^{sX_1}]}{e^{sna}}$$</p>
-<p>And because $X_i$ is identically distributed, all of our terms will actually look the same:</p>
-<p>$$\frac{\Big(E[e^{sX_1}] \Big) ^n}{e^{sna}}$$</p>
-<p>Which with a bit of algebra can be written more generally as:</p>
-<p>$$\Big(\frac{E[e^{sX_1}]}{e^{sa}}\Big) ^n$$</p>
-<p>We can let the inner expression be equal to some number $\rho$:</p>
-<p>$$\rho = \frac{E[e^{sX_1}]}{e^{sa}}$$</p>
-<p>And we then have:</p>
-<p>$$\rho^n$$</p>
-<p>Let's take a minute to recap where we are at and the subsequent implications. We have shown that:</p>
-<p>$$P\big( X_1 + ... + X_n \geq na \big) = P \big(e^{s(X_1+...+X_n)} \geq e^{sna} \big) \; \leq \; \rho^n $$</p>
-<p>Now, when is this bound going to be interesting? Well, it will be interesting when $\rho$ is less than one, in which case our original probability will fall off exponentially with $n$. The key at this point is that we have the freedom to choose $s$. For any value of $s$ we obtain an upper bound:</p>
-<p>$$\Big(\frac{E[e^{sX_1}]}{e^{sa}}\Big) ^n$$</p>
-<p>We are going to choose $s$ to get the most informative/powerful upper bound. First, let's solve for the expectation of the numerator. Becasue $X_1$ takes values of -1 or +1 with equal probability, the expectation is simply:</p>
-<p>$$E[e^{sX_1}] = \overbrace{\frac{1}{2}e^s}^{X_1 = 1} + \overbrace{\frac{1}{2}e^{-s}}^{X_1 = -1}$$</p>
-<p>$$E[e^{sX_1}] = \frac{1}{2}(e^s + e^{-s})$$</p>
-<p>And we can substitute that back into our earlier expression:</p>
-<p>$$\Big(\frac{\frac{1}{2}(e^s + e^{-s})}{e^{sa}}\Big) ^n$$</p>
-<p>If we can now choose $s$ so that the above quantity is less than 1, then we will have achieved our objective. It is important to keep asking yourself <em>why</em> throughout this process. Why do we want the above quantity to be less than 1? Because that means that our bound will be less than 1 and fall exponentially with $n$, ensure that the probability of our event, $P\big( X_1 + ... + X_n \geq na \big)$, falls exponentially with $n$. The question is, how exactly should we commence with choosing $s$?</p>
+$$e^{s(X_1+...+X_n)} \geq e^{sna}$$<p>Where $s$ is a fixed positive number, whose choice will remain free for now. To be clear, throughout the remainder of this derivation we are assuming:</p>
+$$s &gt; 0$$$$a &gt; 0$$<p>Because we multipied each side of our original event by $s$ and then exponentiated (a monotonic function), we can state that:</p>
+$$X_1 + ... + X_n \geq na \;\; \text{ if and only if } \;\; e^{s(X_1+...+X_n)} \geq e^{sna}$$<p>Since the events are mathematically equivalent, we will try and say something about the probability of the transformed event:</p>
+$$P \big( e^{s(X_1+...+X_n)} \geq e^{sna} \big)$$<p>We will start by utilizing the Markov Inequality! Recall, Markov's Inequality has the form:</p>
+$$P \big(Z \geq c \big) \; \leq \; \frac{E[Z]}{c}$$<p>So, we can let $Z = e^{s(X_1+...+X_n)}$ and $c = e^{sna}$:</p>
+$$P \big(e^{s(X_1+...+X_n)} \geq e^{sna} \big) \; \leq \; \frac{E[e^{s(X_1+...+X_n)}]}{e^{sna}}$$<p>On the right hand side we can factor the exponential of a sum as a product of exponentials:</p>
+$$\frac{E[e^{sX_1}\cdot...\cdot e^{sX_n}]}{e^{sna}}$$<p>And then we can use the assumption that the $X$'s are independent. We have the expectation of the product of independent random variables, which is equal to the product of the expectations:</p>
+$$\frac{E[e^{sX_1}]\cdot...\cdot E[e^{sX_1}]}{e^{sna}}$$<p>And because $X_i$ is identically distributed, all of our terms will actually look the same:</p>
+$$\frac{\Big(E[e^{sX_1}] \Big) ^n}{e^{sna}}$$<p>Which with a bit of algebra can be written more generally as:</p>
+$$\Big(\frac{E[e^{sX_1}]}{e^{sa}}\Big) ^n$$<p>We can let the inner expression be equal to some number $\rho$:</p>
+$$\rho = \frac{E[e^{sX_1}]}{e^{sa}}$$<p>And we then have:</p>
+$$\rho^n$$<p>Let's take a minute to recap where we are at and the subsequent implications. We have shown that:</p>
+$$P\big( X_1 + ... + X_n \geq na \big) = P \big(e^{s(X_1+...+X_n)} \geq e^{sna} \big) \; \leq \; \rho^n $$<p>Now, when is this bound going to be interesting? Well, it will be interesting when $\rho$ is less than one, in which case our original probability will fall off exponentially with $n$. The key at this point is that we have the freedom to choose $s$. For any value of $s$ we obtain an upper bound:</p>
+$$\Big(\frac{E[e^{sX_1}]}{e^{sa}}\Big) ^n$$<p>We are going to choose $s$ to get the most informative/powerful upper bound. First, let's solve for the expectation of the numerator. Becasue $X_1$ takes values of -1 or +1 with equal probability, the expectation is simply:</p>
+$$E[e^{sX_1}] = \overbrace{\frac{1}{2}e^s}^{X_1 = 1} + \overbrace{\frac{1}{2}e^{-s}}^{X_1 = -1}$$$$E[e^{sX_1}] = \frac{1}{2}(e^s + e^{-s})$$<p>And we can substitute that back into our earlier expression:</p>
+$$\Big(\frac{\frac{1}{2}(e^s + e^{-s})}{e^{sa}}\Big) ^n$$<p>If we can now choose $s$ so that the above quantity is less than 1, then we will have achieved our objective. It is important to keep asking yourself <em>why</em> throughout this process. Why do we want the above quantity to be less than 1? Because that means that our bound will be less than 1 and fall exponentially with $n$, ensure that the probability of our event, $P\big( X_1 + ... + X_n \geq na \big)$, falls exponentially with $n$. The question is, how exactly should we commence with choosing $s$?</p>
 <p>Let's start by plotting both the numerator and denominator of our above expression as functions of $s$:</p>
 
 </div>
@@ -1317,7 +1217,7 @@ height=366
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1327,7 +1227,7 @@ height=366
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1347,90 +1247,55 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that the numerator takes a value of 1 when $s=0$, and it has a derivator of 0 when $s=0$. The denominator, an exponential, also has a value of 1 when $s=0$, but it has a positive derivative! This tells us that at least in the vicinity of 0 the denominator is going to be larger than the numerator, and hence the fraction is going to be less than 1. This means that we will have achieved our goal of an exponentially decaying bound.</p>
 <p>So, for "small" $s$ we know that $\rho$ is less than 1. However, we want an explicit value for $\rho$, which can be done by fixing an explicit value for $s$. If we set $s = a$ then the bound that we get will be:</p>
-<p>$$\Big(\frac{\frac{1}{2}(e^s + e^{-s})}{e^{sa}}\Big) ^n \;\overbrace{ \leq \; e^{\frac{-na^2}{2}}}^\text{Hoeffding Bound!}$$</p>
-<p>Which rememeber this means that:</p>
-<p>$$P\big( X_1 + ... + X_n \geq na \big) \; \leq \; \Big(\frac{\frac{1}{2}(e^s + e^{-s})}{e^{sa}}\Big) ^n \; \leq \; e^{\frac{-na^2}{2}}$$</p>
-<p>$$P\big( X_1 + ... + X_n \geq na \big)  \; \leq \; e^{\frac{-na^2}{2}}$$</p>
-<p>Now, clearly I skipped a step; how exactly do we show that by letting $s=a$ we end up with:</p>
-<p>$$\Big(\frac{\frac{1}{2}(e^s + e^{-s})}{e^{sa}}\Big) ^n \; \leq \; e^{\frac{-na^2}{2}}$$</p>
-<p>I am going to show that momentarily! First I want to highlight a few things. Notice that even if the $X$'s had a different distribution, as long as they had zero mean, the derivation up until now would have worked! We would have a slightly different expression in place of $\Big(\frac{\frac{1}{2}(e^s + e^{-s})}{e^{sa}}\Big) ^n$, yet the expression in the numerator will always have the property of zero derivative (a consequence of our zero mean assumption), and because of that the expression will always be less than 1 when we choose $s$ to be suitably small.</p>
+$$\Big(\frac{\frac{1}{2}(e^s + e^{-s})}{e^{sa}}\Big) ^n \;\overbrace{ \leq \; e^{\frac{-na^2}{2}}}^\text{Hoeffding Bound!}$$<p>Which rememeber this means that:</p>
+$$P\big( X_1 + ... + X_n \geq na \big) \; \leq \; \Big(\frac{\frac{1}{2}(e^s + e^{-s})}{e^{sa}}\Big) ^n \; \leq \; e^{\frac{-na^2}{2}}$$$$P\big( X_1 + ... + X_n \geq na \big)  \; \leq \; e^{\frac{-na^2}{2}}$$<p>Now, clearly I skipped a step; how exactly do we show that by letting $s=a$ we end up with:</p>
+$$\Big(\frac{\frac{1}{2}(e^s + e^{-s})}{e^{sa}}\Big) ^n \; \leq \; e^{\frac{-na^2}{2}}$$<p>I am going to show that momentarily! First I want to highlight a few things. Notice that even if the $X$'s had a different distribution, as long as they had zero mean, the derivation up until now would have worked! We would have a slightly different expression in place of $\Big(\frac{\frac{1}{2}(e^s + e^{-s})}{e^{sa}}\Big) ^n$, yet the expression in the numerator will always have the property of zero derivative (a consequence of our zero mean assumption), and because of that the expression will always be less than 1 when we choose $s$ to be suitably small.</p>
 <p>This will give a result for more general distributions, known as the <a href="https://en.wikipedia.org/wiki/Chernoff_bound"><strong>Chernoff Bound</strong></a>. However, we will not develop the Chernoff Bound now, but rather continue on with Hoeffding and derive our inequality:</p>
-<p>$$\Big(\frac{\frac{1}{2}(e^s + e^{-s})}{e^{sa}}\Big) ^n \; \leq \; e^{\frac{-na^2}{2}}$$</p>
-<p>Which is equivalent to:</p>
-<p>$$P\big( X_1 + ... + X_n - n\mu \geq na \big) \; \leq \; \overbrace{\Big(\frac{\frac{1}{2}(e^s + e^{-s})}{e^{sa}}\Big) ^n}^\text{Quantity we want to bound}$$</p>
-<p>Where we are now subtracting $n \mu$ to ensure a zero mean. Looking at the numerator term, we can use a <a href="https://en.wikipedia.org/wiki/Taylor_series#Exponential_function">Taylor Series</a> for the exponential function. The Taylor series has a special case called the <strong>Maclaurin Series</strong>, where $x$ is set to be 0. It looks like:</p>
-<p>$$f(x) = f(0) + \frac{f^{(1)}(0)}{1!}x + \frac{f^{(2)}(0)}{2!}x^2 + \frac{f^{(3)}(0)}{3!}x^3 +... = \sum_{n=0}^{\infty} f^{(n)}(0) \cdot \frac{x^n}{n!}$$</p>
-<p>In the specific case of our exponential, the Taylor Series takes on the form:</p>
-<p>$$e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + ... = \sum_{n=0}^\infty \frac{x^n}{n!}$$</p>
-<p>We can then apply that to our numerator as follows:</p>
-<p>$$\frac{1}{2}(e^s + e^{-s}) = \frac{1}{2}(1 + s + \frac{s^2}{2!} + ...) + \frac{1}{2}(1 - s + \frac{s^2}{2!} - ...)$$</p>
-<p>Where the odd power terms will subsequently cancel out, leaving us with:</p>
-<p>$$\frac{1}{2}(e^s + e^{-s}) = \sum_{i=0}^{\infty} \frac{s^{2i}}{(2i)!}$$</p>
-<p>And let's try and find a bound on the term in the denominator, $(2i)!$:</p>
-<p>$$(2i)! = \overbrace{1 * 2 * 3 * ... * i}^\text{i!} * \overbrace{(i + 1) * ... * (2i)}^{\text{Each term is } \geq 2} \; \geq \;  i! \cdot 2^i$$</p>
-<p>$$(2i)! \; \geq \;  i! \cdot 2^i$$</p>
-<p>Note that we are saying on the right that each term is greater than or equal to 2, and that there are $i$ such terms. This allows us to then bound our prior taylor series expansion. Because the term $i! \cdot 2^i$ is in the denominator, the inequality is reversed:</p>
-<p>$$\sum_{i=0}^{\infty} \frac{s^{2i}}{(2i)!} \; \leq \; \sum_{i=0}^{\infty} \frac{s^{2i}}{i!\cdot 2^i} $$</p>
-<p>We can rewrite the right hand side by taking the term $2^i$ in the denominator and combining it with the term in the numerator:</p>
-<p>$$\sum_{i=0}^{\infty} \frac{s^{2i}}{i!\cdot 2^i} = \sum_{i=0}^{\infty} \frac{(\frac{s^2}{2})^i}{i!} $$</p>
-<p>Which means our inequality now has the form:</p>
-<p>$$\sum_{i=0}^{\infty} \frac{s^{2i}}{(2i)!} \; \leq \; \sum_{i=0}^{\infty} \frac{(\frac{s^2}{2})^i}{i!} $$</p>
-<p>Notice that the right side now has the same for as the exponential taylor series expansion:</p>
-<p>$$e^s = \sum_{i=0}^{\infty} \frac{s^i}{i!}$$</p>
-<p>Except that instead of $s$ we have $\frac{s^2}{2}$. Hence, we can rewrite:</p>
-<p>$$\sum_{i=0}^{\infty} \frac{(\frac{s^2}{2})^i}{i!} = e^{\frac{s^2}{2}}$$</p>
-<p>And our inequality turns into:</p>
-<p>$$\sum_{i=0}^{\infty} \frac{s^{2i}}{(2i)!} \; \leq \; e^{\frac{s^2}{2}}$$</p>
-<p>And we know the left hand side was representing our original numerator:</p>
-<p>$$\frac{1}{2}(e^s + e^{-s}) = \sum_{i=0}^{\infty} \frac{s^{2i}}{(2i)!} \; \leq \; e^{\frac{s^2}{2}}$$</p>
-<p>$$\frac{1}{2}(e^s + e^{-s}) \; \leq \; e^{\frac{s^2}{2}}$$</p>
-<p>Now we can go back to our earlier inequality:</p>
-<p>$$P\big( X_1 + ... + X_n - n\mu \geq na \big) \; \leq \; \Big(\frac{\frac{1}{2}(e^s + e^{-s})}{e^{sa}}\Big) ^n$$</p>
-<p>And we can bound the right hand side as:</p>
-<p>$$\Big(\frac{\frac{1}{2}(e^s + e^{-s})}{e^{sa}}\Big) ^n \; \leq \; \Big( \frac{e^{\frac{s^2}{2}}}{e^{sa}}\Big)^n = \big( e^{\frac{s^2}{2} - sa}\big)^n$$</p>
-<p>If we then let $s=a$:</p>
-<p>$$\Big(\frac{\frac{1}{2}(e^s + e^{-s})}{e^{sa}}\Big) ^n \; \leq \; \big( e^{\frac{a^2}{2} - a^2}\big)^n$$</p>
-<p>$$\Big(\frac{\frac{1}{2}(e^s + e^{-s})}{e^{sa}}\Big) ^n \; \leq \; e^{\frac{-na^2}{2}}$$</p>
-<p>Allowing us to reach of final conclusion:</p>
+$$\Big(\frac{\frac{1}{2}(e^s + e^{-s})}{e^{sa}}\Big) ^n \; \leq \; e^{\frac{-na^2}{2}}$$<p>Which is equivalent to:</p>
+$$P\big( X_1 + ... + X_n - n\mu \geq na \big) \; \leq \; \overbrace{\Big(\frac{\frac{1}{2}(e^s + e^{-s})}{e^{sa}}\Big) ^n}^\text{Quantity we want to bound}$$<p>Where we are now subtracting $n \mu$ to ensure a zero mean. Looking at the numerator term, we can use a <a href="https://en.wikipedia.org/wiki/Taylor_series#Exponential_function">Taylor Series</a> for the exponential function. The Taylor series has a special case called the <strong>Maclaurin Series</strong>, where $x$ is set to be 0. It looks like:</p>
+$$f(x) = f(0) + \frac{f^{(1)}(0)}{1!}x + \frac{f^{(2)}(0)}{2!}x^2 + \frac{f^{(3)}(0)}{3!}x^3 +... = \sum_{n=0}^{\infty} f^{(n)}(0) \cdot \frac{x^n}{n!}$$<p>In the specific case of our exponential, the Taylor Series takes on the form:</p>
+$$e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + ... = \sum_{n=0}^\infty \frac{x^n}{n!}$$<p>We can then apply that to our numerator as follows:</p>
+$$\frac{1}{2}(e^s + e^{-s}) = \frac{1}{2}(1 + s + \frac{s^2}{2!} + ...) + \frac{1}{2}(1 - s + \frac{s^2}{2!} - ...)$$<p>Where the odd power terms will subsequently cancel out, leaving us with:</p>
+$$\frac{1}{2}(e^s + e^{-s}) = \sum_{i=0}^{\infty} \frac{s^{2i}}{(2i)!}$$<p>And let's try and find a bound on the term in the denominator, $(2i)!$:</p>
+$$(2i)! = \overbrace{1 * 2 * 3 * ... * i}^\text{i!} * \overbrace{(i + 1) * ... * (2i)}^{\text{Each term is } \geq 2} \; \geq \;  i! \cdot 2^i$$$$(2i)! \; \geq \;  i! \cdot 2^i$$<p>Note that we are saying on the right that each term is greater than or equal to 2, and that there are $i$ such terms. This allows us to then bound our prior taylor series expansion. Because the term $i! \cdot 2^i$ is in the denominator, the inequality is reversed:</p>
+$$\sum_{i=0}^{\infty} \frac{s^{2i}}{(2i)!} \; \leq \; \sum_{i=0}^{\infty} \frac{s^{2i}}{i!\cdot 2^i} $$<p>We can rewrite the right hand side by taking the term $2^i$ in the denominator and combining it with the term in the numerator:</p>
+$$\sum_{i=0}^{\infty} \frac{s^{2i}}{i!\cdot 2^i} = \sum_{i=0}^{\infty} \frac{(\frac{s^2}{2})^i}{i!} $$<p>Which means our inequality now has the form:</p>
+$$\sum_{i=0}^{\infty} \frac{s^{2i}}{(2i)!} \; \leq \; \sum_{i=0}^{\infty} \frac{(\frac{s^2}{2})^i}{i!} $$<p>Notice that the right side now has the same for as the exponential taylor series expansion:</p>
+$$e^s = \sum_{i=0}^{\infty} \frac{s^i}{i!}$$<p>Except that instead of $s$ we have $\frac{s^2}{2}$. Hence, we can rewrite:</p>
+$$\sum_{i=0}^{\infty} \frac{(\frac{s^2}{2})^i}{i!} = e^{\frac{s^2}{2}}$$<p>And our inequality turns into:</p>
+$$\sum_{i=0}^{\infty} \frac{s^{2i}}{(2i)!} \; \leq \; e^{\frac{s^2}{2}}$$<p>And we know the left hand side was representing our original numerator:</p>
+$$\frac{1}{2}(e^s + e^{-s}) = \sum_{i=0}^{\infty} \frac{s^{2i}}{(2i)!} \; \leq \; e^{\frac{s^2}{2}}$$$$\frac{1}{2}(e^s + e^{-s}) \; \leq \; e^{\frac{s^2}{2}}$$<p>Now we can go back to our earlier inequality:</p>
+$$P\big( X_1 + ... + X_n - n\mu \geq na \big) \; \leq \; \Big(\frac{\frac{1}{2}(e^s + e^{-s})}{e^{sa}}\Big) ^n$$<p>And we can bound the right hand side as:</p>
+$$\Big(\frac{\frac{1}{2}(e^s + e^{-s})}{e^{sa}}\Big) ^n \; \leq \; \Big( \frac{e^{\frac{s^2}{2}}}{e^{sa}}\Big)^n = \big( e^{\frac{s^2}{2} - sa}\big)^n$$<p>If we then let $s=a$:</p>
+$$\Big(\frac{\frac{1}{2}(e^s + e^{-s})}{e^{sa}}\Big) ^n \; \leq \; \big( e^{\frac{a^2}{2} - a^2}\big)^n$$$$\Big(\frac{\frac{1}{2}(e^s + e^{-s})}{e^{sa}}\Big) ^n \; \leq \; e^{\frac{-na^2}{2}}$$<p>Allowing us to reach of final conclusion:</p>
 <h4 id="$$\text{Hoeffding-Inequality}-\longrightarrow-P\big(-X_1-+-...-+-X_n---n\mu-\geq-na-\big)-\;-\leq-\;-e^{\frac{-na^2}{2}}$$"><span style="color:#0000cc">$$\text{Hoeffding Inequality} \longrightarrow P\big( X_1 + ... + X_n - n\mu \geq na \big) \; \leq \; e^{\frac{-na^2}{2}}$$</span><a class="anchor-link" href="#$$\text{Hoeffding-Inequality}-\longrightarrow-P\big(-X_1-+-...-+-X_n---n\mu-\geq-na-\big)-\;-\leq-\;-e^{\frac{-na^2}{2}}$$">&#182;</a></h4><p>And with that we have gone through the derivation of Hoeffding's Inequality and hopefully shed some light on it's application in the study of the feasibility of learning.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Appendix">Appendix<a class="anchor-link" href="#Appendix">&#182;</a></h2><h3 id="A.1-Standardizing-a-Random-Variable">A.1 Standardizing a Random Variable<a class="anchor-link" href="#A.1-Standardizing-a-Random-Variable">&#182;</a></h3><p>Standardizing a random variable is rather straight forward. The goal is to end up with a normal distribution that has a mean of 0 and a variance of 1. With that goal in mind, let's assume the variable that we are trying to standardize is $X$, and it has the distribution:</p>
-<p>$$X \approx N(\mu , \sigma^2)$$</p>
-<p>To standardize it, we do the following:</p>
-<p>$$\frac{X - \mu}{\sigma}$$</p>
-<p>The question is why? Well, remember our goal: to end up with a normal distribution with mean 0 and variance 1. Let's call our standardized $X$ variable $Y$:</p>
-<p>$$Y = \frac{X - \mu}{\sigma}$$</p>
-<p>What is the expected value of $Y$? Well, that is just:</p>
-<p>$$E[Y] = E\Big[ \frac{X - \mu}{\sigma} \Big] = \frac{E[X] - \mu}{\sigma} = \frac{\mu - \mu}{\sigma} = 0$$</p>
-<p>And, what is the variance of $Y$:</p>
-<p>$$Var(Y) = E [(Y - \mu_Y)^2] = E[Y^2] = E \Big[ \Big( \frac{X - \mu}{\sigma}\Big)^2 \Big] = 
+$$X \approx N(\mu , \sigma^2)$$<p>To standardize it, we do the following:</p>
+$$\frac{X - \mu}{\sigma}$$<p>The question is why? Well, remember our goal: to end up with a normal distribution with mean 0 and variance 1. Let's call our standardized $X$ variable $Y$:</p>
+$$Y = \frac{X - \mu}{\sigma}$$<p>What is the expected value of $Y$? Well, that is just:</p>
+$$E[Y] = E\Big[ \frac{X - \mu}{\sigma} \Big] = \frac{E[X] - \mu}{\sigma} = \frac{\mu - \mu}{\sigma} = 0$$<p>And, what is the variance of $Y$:</p>
+$$Var(Y) = E [(Y - \mu_Y)^2] = E[Y^2] = E \Big[ \Big( \frac{X - \mu}{\sigma}\Big)^2 \Big] = 
 E \Big[\frac{1}{\sigma^2} (X - \mu)^2\Big]= E \Big[\frac{1}{\sigma^2}\Big] \cdot E \Big[(X - \mu)^2 \Big] 
-$$</p>
-<p>Where the right most side is equivalent to:</p>
-<p>$$\frac{1}{\sigma^2} \cdot Var(X) =  \frac{1}{\sigma^2} \cdot \sigma^2$$</p>
-<p>Leaving us with a variance for $Y$ of:</p>
-<p>$$Var(Y) = 1$$</p>
-<p>And hence we see that:</p>
-<p>$$Y \approx N(0, 1)$$</p>
-
+$$<p>Where the right most side is equivalent to:</p>
+$$\frac{1}{\sigma^2} \cdot Var(X) =  \frac{1}{\sigma^2} \cdot \sigma^2$$<p>Leaving us with a variance for $Y$ of:</p>
+$$Var(Y) = 1$$<p>And hence we see that:</p>
+$$Y \approx N(0, 1)$$
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2><ol>
 <li><a href="https://www.youtube.com/watch?v=MWcO8ZTOQQQ">Hoeffdings Inequality</a></li>
@@ -1457,6 +1322,19 @@ $$</p>
   });
 </script>
 <form action="javascript:code_toggle()"><input type="submit" id="toggleButton" value="Show Code"></form>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
 <hr>
 &copy; 2018 Nathaniel Dake
 

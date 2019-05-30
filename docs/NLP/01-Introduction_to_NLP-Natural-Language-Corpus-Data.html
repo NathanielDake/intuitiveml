@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="ipynb_website:version" content="0.9.6" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
@@ -195,14 +195,6 @@ body {
   <a href="../Mathematics.html">Mathematics</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
-<li>
-  <a href="../Book_Reviews.html">Book Reviews</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -215,8 +207,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="2.-Natural-Language-Corpus-Data">2. Natural Language Corpus Data<a class="anchor-link" href="#2.-Natural-Language-Corpus-Data">&#182;</a></h1><p>This post was inspired and based off of chapter fourteen of the book <em>Beautiful Data</em>, the chapter being written by Peter Norvig. The chapter can be found <a href="http://norvig.com/ngrams/ch14.pdf">here</a>. The exercise will examining data consisting of the plainest of speech: 1 trillion words of English, taken from publically available webpages.</p>
 <p>This data set was published by Thorsten Brants and Alex Franz of Google in 2006, and is made publically available through the Linguistic Data Consortium <a href="https://catalog.ldc.upenn.edu/LDC2006T13">here</a>.</p>
@@ -238,8 +229,7 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="1.-Word-Segmentation">1. Word Segmentation<a class="anchor-link" href="#1.-Word-Segmentation">&#182;</a></h1><p>In general, English readers do not need to perform the task of <em>word segmentation</em>, the process of deciding where word boundaries are. This is directly due to the use of spaces in the english language (as contrasted with, for example, Mandarin).</p>
@@ -268,8 +258,7 @@ the answer. Still, there is an established methodology for solving uncertain pro
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="1.1-Methodology">1.1 Methodology<a class="anchor-link" href="#1.1-Methodology">&#182;</a></h2><p><br></p>
 <h3 id="1.1.1-Define-a-probabilistic-model">1.1.1 Define a probabilistic model<a class="anchor-link" href="#1.1.1-Define-a-probabilistic-model">&#182;</a></h3><p>While we can't define all the factors (semantic, syntactic, lexical, social) that make "choose Spain" a better candidate for a domain name, but we can define a simplified model that gives approximate probabilities. For short candidates like "choose Spain" we could just look up the <em>n</em>-gram in the corpus data and use that as the probability. For longer candidates we will need some way of composing an answer from smaller parts. For words we haven't seen before, we'll have to estimate the probability of an unknown word. The point is that we define a <em>language model</em>- a probability distribution over all the strings in the language-and learn the parameters of the model from our corpus data, then use the model to define the probability of each candidate.</p>
@@ -279,8 +268,7 @@ they are both candidate segmentations, as is “in suffi cient numb ers,” but 
 possibilities—all the possibilities if we can, or else a carefully selected sample.</p>
 <h3 id="1.1.3-Choose-the-most-probable-candidate">1.1.3 Choose the most probable candidate<a class="anchor-link" href="#1.1.3-Choose-the-most-probable-candidate">&#182;</a></h3><p>Apply the language model to each candidate to get its probability, and choose the one with the highest probability.</p>
 <p>From a mathematical perspective this can be written as:</p>
-<p>$$best = argmax_{c \in candidates} P(c)$$</p>
-<p>And from a code perspective, it would be:</p>
+$$best = argmax_{c \in candidates} P(c)$$<p>And from a code perspective, it would be:</p>
 <center>
 ```
 best = max(candidates, key=P)
@@ -290,23 +278,19 @@ best = max(candidates, key=P)
 <pre><code>&gt;&gt;&gt; segment('choosespain')
 ['choose','spain']</code></pre>
 <p>Let's start with step 1, the probabilistic language model. The probability of a sequence of words is the product of the probabilities of each word, given the words context: all the preceeding words. It can be written mathematically as:</p>
-<p>$$P(W_{1:n}) = \prod_{k=1:n}P(W_k \;|\;W_{1:k-1} )$$</p>
-<p>As an example, if we were analyzing the sentence:</p>
+$$P(W_{1:n}) = \prod_{k=1:n}P(W_k \;|\;W_{1:k-1} )$$<p>As an example, if we were analyzing the sentence:</p>
 <blockquote><p>"The dog ran"</p>
 </blockquote>
 <p>It would be broken down into:</p>
-<p>$$P("the \; dog \; ran") = P(the) * P(dog \; | \; the) * P(ran \; | \; the dog)$$</p>
-<p>Now, we don’t have the data to compute this exactly, so we can approximate the equation by
+$$P("the \; dog \; ran") = P(the) * P(dog \; | \; the) * P(ran \; | \; the dog)$$<p>Now, we don’t have the data to compute this exactly, so we can approximate the equation by
 using a smaller context. Since we have data for sequences up to 5-grams, it would be
 tempting to use the 5-grams, so that the probability of an n-word sequence would be the
 product of each word given the four previous words (not all previous words).</p>
 <p>There are three difficulties with the 5-gram model. First, the 5-gram data is about 30
 gigabytes, so it can’t all fit in RAM. Second, many 5-gram counts will be 0, and we’d need
 some strategy for backing off, using shorter sequences to estimate the 5-gram probabilities. Third, the search space of candidates will be large because dependencies extend up to four words away. All three of these difficulties can be managed, with some effort. But instead, let’s first consider a much simpler language model that solves all three difficulties at once: a <strong>unigram model</strong>, in which the probability of a sequence is just the product of the probability of each word by itself. In this model, the probability of each word is independent of the other words (this is a naive bayes approach of a bayesian network):</p>
-<p>$$P(W_{1:n}) \prod_{k=1:n}P(W_k)$$</p>
-<p>Now, if we were to segment <code>wheninrome</code>, we would consider candidates such as <code>when</code> <code>in</code> <code>rome</code>, and compute:</p>
-<p>$$P(when) * P(in) * P(rome)$$</p>
-<p>If the product is higher than any other candidates product, then that is the best answer!</p>
+$$P(W_{1:n}) \prod_{k=1:n}P(W_k)$$<p>Now, if we were to segment <code>wheninrome</code>, we would consider candidates such as <code>when</code> <code>in</code> <code>rome</code>, and compute:</p>
+$$P(when) * P(in) * P(rome)$$<p>If the product is higher than any other candidates product, then that is the best answer!</p>
 <p>An <em>n</em>-character string has $2^{n-1}$ different segmentations (there are <em>n</em>-1 positions between characters, each of which can either be or not be a word boundary. Thus the string:</p>
 <p><code>wheninthecourseofhumaneventsitbecomesnecessary</code></p>
 <p>has 35 trillion segmentations. But you most definitely were able to find the right segmentation in just a few seconds; clearly, you couldn't have enumerated all the candidates. You most likely scanned "w", "wh", and "whe", and rejected them as improbable words, but accepted "when" as probable. Then you moved on to the remainder and found its best segmentation. Once we make the simplifying assumption that each word is independent of the others, it means that we don’t have to consider all combinations of words.</p>
@@ -328,14 +312,13 @@ some strategy for backing off, using shorter sequences to estimate the 5-gram pr
 <span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">log10</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we will write two support functions that will be used in our <code>segment</code> functions. Note that <code>memo</code> uses <a href="https://en.wikipedia.org/wiki/Memoization">memoization</a>, which is defined as:</p>
 <blockquote><p>An optimization technique used primarily to speed up computer programs by storing the results of expensive function calls and returning the cached result when the same inputs occur again.</p>
@@ -364,14 +347,13 @@ some strategy for backing off, using shorter sequences to estimate the 5-gram pr
     <span class="k">return</span> <span class="n">functools</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">mul</span><span class="p">,</span> <span class="n">nums</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And now we can build out <code>segment</code> and it's related functions:</p>
 
@@ -400,14 +382,13 @@ some strategy for backing off, using shorter sequences to estimate the 5-gram pr
   <span class="k">return</span> <span class="n">product</span><span class="p">(</span><span class="n">Pw</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><em>This is the entire program!</em>. We will use <code>product</code> as a utility function that multiplies together a list of numbers, <code>memo</code> is a decorator that caches the results of previous calls to a function so that they don't have to be recomputed, and <code>Pw</code> estimates the probability of a word by consulting the unigram count data.</p>
 <p>Without <code>memo</code>, a call to <code>segment</code> for an <em>n</em>-character text makes $2^n$ recursive calls to <code>segment</code>; with <code>memo</code> it makes only <em>n</em> calles-<code>memo</code> makes this a fairly efficient dynamic programming algorithm. Each of the <em>n</em> calls considers O(L) splits, and evaluates each split by multiplying O(<em>n</em>) probabilities, so the whole algorithm is O($n^2L$).</p>
@@ -454,7 +435,7 @@ we (rather arbitrarily) start at a probability of 10/<em>N</em>, and decrease by
 <span class="n">Pw</span> <span class="o">=</span> <span class="n">Pdist</span><span class="p">(</span><span class="n">datafile</span><span class="p">(</span><span class="s1">&#39;count_1w.txt&#39;</span><span class="p">),</span> <span class="n">N</span><span class="p">,</span> <span class="n">avoid_long_words</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -467,7 +448,7 @@ we (rather arbitrarily) start at a probability of 10/<em>N</em>, and decrease by
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">segment</span><span class="p">(</span><span class="s1">&#39;choosespain&#39;</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -477,7 +458,7 @@ we (rather arbitrarily) start at a probability of 10/<em>N</em>, and decrease by
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -498,7 +479,7 @@ we (rather arbitrarily) start at a probability of 10/<em>N</em>, and decrease by
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">segment</span><span class="p">(</span><span class="s1">&#39;thisisatest&#39;</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -508,7 +489,7 @@ we (rather arbitrarily) start at a probability of 10/<em>N</em>, and decrease by
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -529,7 +510,7 @@ we (rather arbitrarily) start at a probability of 10/<em>N</em>, and decrease by
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">segment</span><span class="p">(</span><span class="s1">&#39;wheninthecourseofhumaneventsitbecomesnecessary&#39;</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -539,7 +520,7 @@ we (rather arbitrarily) start at a probability of 10/<em>N</em>, and decrease by
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -560,7 +541,7 @@ we (rather arbitrarily) start at a probability of 10/<em>N</em>, and decrease by
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">segment</span><span class="p">(</span><span class="s1">&#39;speedofart&#39;</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -570,7 +551,7 @@ we (rather arbitrarily) start at a probability of 10/<em>N</em>, and decrease by
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -591,7 +572,7 @@ we (rather arbitrarily) start at a probability of 10/<em>N</em>, and decrease by
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">segment</span><span class="p">(</span><span class="s1">&#39;expertsexchange&#39;</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -601,7 +582,7 @@ we (rather arbitrarily) start at a probability of 10/<em>N</em>, and decrease by
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -622,7 +603,7 @@ we (rather arbitrarily) start at a probability of 10/<em>N</em>, and decrease by
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">segment</span><span class="p">(</span><span class="s1">&#39;itwasthebestoftimesitwastheworstoftimesitwastheageofwisdomitwastheageoffoolishness&#39;</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -632,7 +613,7 @@ we (rather arbitrarily) start at a probability of 10/<em>N</em>, and decrease by
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -653,7 +634,7 @@ we (rather arbitrarily) start at a probability of 10/<em>N</em>, and decrease by
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">segment</span><span class="p">(</span><span class="s1">&#39;inaholeinthegroundtherelivedahobbitnotanastydirtywetholefilledwiththeendsofwormsandanoozysmellnoryetadrybaresandyholewithnothinginittositdownonortoeatitwasahobbitholeandthatmeanscomfort&#39;</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -663,7 +644,7 @@ we (rather arbitrarily) start at a probability of 10/<em>N</em>, and decrease by
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -676,6 +657,13 @@ we (rather arbitrarily) start at a probability of 10/<em>N</em>, and decrease by
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
@@ -684,7 +672,7 @@ we (rather arbitrarily) start at a probability of 10/<em>N</em>, and decrease by
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">segment</span><span class="p">(</span><span class="s1">&#39;faroutintheunchartedbackwatersoftheunfashionableendofthewesternspiralarmofthegalaxyliesasmallunregardedyellowsun&#39;</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -694,7 +682,7 @@ we (rather arbitrarily) start at a probability of 10/<em>N</em>, and decrease by
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -708,8 +696,7 @@ we (rather arbitrarily) start at a probability of 10/<em>N</em>, and decrease by
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Overall the results look good, but there are two errors: 'un','regarded' should be one word, and 'sitdown' should be two. Still, that’s a word precision rate of 157/159 = 98.7%; not too bad.</p>
 <p>The first error is in part because “unregarded” does not appear in our 1/3-million-word
@@ -719,22 +706,19 @@ vocabulary. (It is in the full 13-million-word vocabulary at position 1,005,493,
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The second error happens because, although “sit” and “down” are common words (with
 probability .003% and .04%, respectively), the product of their two probabilities is just
 slightly less than the probability of “sitdown” by itself. However, the probability of the
 two-word sequence “sit down,” according to the bigram counts, is about 100 times
 greater. We can try to fix this problem by modeling bigrams; that is, considering the probability of each word, given the previous word:</p>
-<p>$$P(W_{1:n}) = \prod_{k=1:n}P(W_k \; | \; W_{k-1})$$</p>
-
+$$P(W_{1:n}) = \prod_{k=1:n}P(W_k \; | \; W_{k-1})$$
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Of course the complete bigram table won’t fit into memory. If we keep only bigrams that
 appear 100,000 or more times, that works out to a little over 250,000 entries, which does
@@ -758,14 +742,13 @@ fit. We can then estimate $P(down | sit)$ as Count(<em>sit down</em>)/Count(<em>
 <span class="n">P2w</span> <span class="o">=</span> <span class="n">Pdist</span><span class="p">(</span><span class="n">datafile</span><span class="p">(</span><span class="s1">&#39;count_2w.txt&#39;</span><span class="p">),</span> <span class="n">N</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>(You may note cPw is not a probability distribution, because the sum over all words for a
 given previous word can be greater than 1. This approach has the technical name stupid
@@ -783,7 +766,7 @@ backoff, but it works well in practice, so we won’t worry about it.) We can no
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cPw</span><span class="p">(</span><span class="s1">&#39;sit&#39;</span><span class="p">,</span> <span class="s1">&#39;to&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="n">cPw</span><span class="p">(</span><span class="s1">&#39;down&#39;</span><span class="p">,</span> <span class="s1">&#39;sit&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="n">cPw</span><span class="p">(</span><span class="s1">&#39;sitdown&#39;</span><span class="p">,</span> <span class="s1">&#39;to&#39;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -793,7 +776,7 @@ backoff, but it works well in practice, so we won’t worry about it.) We can no
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[14]:</div>
+    <div class="prompt output_prompt">Out[14]:</div>
 
 
 
@@ -809,8 +792,7 @@ backoff, but it works well in practice, so we won’t worry about it.) We can no
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Bi-gram-Model">Bi-gram Model<a class="anchor-link" href="#Bi-gram-Model">&#182;</a></h2><p>We see that “sit down” is 1,698 times more likely than “sitdown”, because “sit down” is a
 popular bigram, and because “to sit” is popular but “to sitdown” is not.</p>
@@ -849,14 +831,13 @@ popular bigram, and because “to sit” is popular but “to sitdown” is not.
   <span class="k">return</span> <span class="n">Pfirst</span> <span class="o">+</span> <span class="n">Prem</span><span class="p">,</span> <span class="p">[</span><span class="n">first</span><span class="p">]</span> <span class="o">+</span> <span class="n">rem</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>segment2</code> makes O(<em>nL</em>) recursive calls, and each one considers O(<em>L</em>) splits, so the wholealgorithm is O(<em>nL</em>$^2$). In effect this is the <strong>Viterbi</strong> algorithm, with <code>memo</code> implicitly creating the Viterbi tables.</p>
 <p><code>segment2</code> correctly segments the “sit down” example, and gets right all the examples that
@@ -873,7 +854,7 @@ the first version got right. Neither version gets the “unregarded” example r
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">segment2</span><span class="p">(</span><span class="s1">&#39;inaholeinthegroundtherelivedahobbitnotanastydirtywetholefilledwiththeendsofwormsandanoozysmellnoryetadrybaresandyholewithnothinginittositdownonortoeatitwasahobbitholeandthatmeanscomfort&#39;</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -883,7 +864,7 @@ the first version got right. Neither version gets the “unregarded” example r
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -897,8 +878,7 @@ the first version got right. Neither version gets the “unregarded” example r
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Could we improve on this performance? Probably. We could create a more accurate model
 of unknown words. We could incorporate more data, and either keep more entries from
@@ -906,6 +886,19 @@ the unigram or bigram data, or perhaps add trigram data.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake

@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="ipynb_website:version" content="0.9.4" />
+<meta name="ipynb_website:version" content="0.9.6" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
@@ -195,14 +195,6 @@ body {
   <a href="../Mathematics.html">Mathematics</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
-<li>
-  <a href="../Book_Reviews.html">Book Reviews</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -215,19 +207,15 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="2.-Bias-Variance-Regression-Demo">2. Bias-Variance Regression Demo<a class="anchor-link" href="#2.-Bias-Variance-Regression-Demo">&#182;</a></h1><p>Let's take a moment to start from the beginning. In any data generating process, we have what is a called a <strong>ground truth function</strong>, which we will call:</p>
-<p>$$f(x)$$</p>
-<p>Data generating processes tend to be noisy, meaning that we cannot predict the exact values we are going to get, and instead we are going to try and find a way to predict the response, $Y$. The response is just the <strong>ground truth function</strong> plus noise:</p>
-<p>$$Y = f(x) + \epsilon$$</p>
-<p>For this demo, we are going to say that our estimate of $f(x)$, is $\hat{f}(x)$.</p>
+$$f(x)$$<p>Data generating processes tend to be noisy, meaning that we cannot predict the exact values we are going to get, and instead we are going to try and find a way to predict the response, $Y$. The response is just the <strong>ground truth function</strong> plus noise:</p>
+$$Y = f(x) + \epsilon$$<p>For this demo, we are going to say that our estimate of $f(x)$, is $\hat{f}(x)$.</p>
 <hr>
 <p><br></p>
 <h1 id="1.-Ground-Truth-Function">1. Ground Truth Function<a class="anchor-link" href="#1.-Ground-Truth-Function">&#182;</a></h1><p>We are going to be working with a ground truth function, $f(x)$:</p>
-<p>$$f(x) = sin(x)$$</p>
-<p>Lets take a moment to define and plot that ground truth function:</p>
+$$f(x) = sin(x)$$<p>Lets take a moment to define and plot that ground truth function:</p>
 
 </div>
 </div>
@@ -250,7 +238,7 @@ body {
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -265,7 +253,7 @@ body {
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -293,7 +281,7 @@ body {
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -303,7 +291,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -321,15 +309,13 @@ body {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Awesome, as expected we have a standard <strong>sine</strong> curve that is our ground truth function.</p>
 <hr>
 <p><br></p>
 <h1 id="3.-$Y$-Response">3. $Y$ Response<a class="anchor-link" href="#3.-$Y$-Response">&#182;</a></h1><p>Now, as was mentioned earlier, this ground truth function is generating the data, but it is a <strong>noisy</strong> process! That means that a certain amount of noise will be incorporated in our response. This is our <strong>irreducible error</strong>:</p>
-<p>$$Y = f(x) + \epsilon$$</p>
-<p>Let's now plot 3 different $Y$ curves, each with different random noise (each has the same variance keep in mind), and compare to our original ground truth function.</p>
+$$Y = f(x) + \epsilon$$<p>Let's now plot 3 different $Y$ curves, each with different random noise (each has the same variance keep in mind), and compare to our original ground truth function.</p>
 
 </div>
 </div>
@@ -348,7 +334,7 @@ body {
 <span class="n">Y3</span> <span class="o">=</span> <span class="n">ground_truth_function</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="n">NOISE_VARIANCE</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -375,7 +361,7 @@ body {
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -385,7 +371,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -403,8 +389,7 @@ body {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Great! You can see the original ground truth function that is actually generating our Y responses, and we can see each of the three Y responses and how they are rather noisy, even when the variance in our noise is only 0.1.</p>
 <p>A key point to keep in mind here is that the ground truth function is what we are trying to <strong>learn</strong>. If we had it, our work would be done! In other words, the goal of our model is to entirely learn the ground truth function that generates the data, and not actually learn the noise! Mathematically, the absolute best that you can ever do is learn the ground truth function.</p>
@@ -468,7 +453,7 @@ $$\hat{f}(x) = estimate\;of\;f(x)$$</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -478,7 +463,7 @@ $$\hat{f}(x) = estimate\;of\;f(x)$$</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stderr output_text">
@@ -490,7 +475,7 @@ $$\hat{f}(x) = estimate\;of\;f(x)$$</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -508,8 +493,7 @@ $$\hat{f}(x) = estimate\;of\;f(x)$$</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The plot above shows our ground truth function, $sin(x)$, the response it generated, <strong>Y response</strong>, and the learned linear regression model. The regression model was a straight line because we only gave it an input of 1 dimension, meaning our learned function could only ever look as complex as:
 $$\hat{f}(x) = w_1x_1 + intercept $$
@@ -530,7 +514,7 @@ In other, words, the linear regression model was really only able to find one we
 <span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -540,7 +524,7 @@ In other, words, the linear regression model was really only able to find one we
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -587,8 +571,7 @@ In other, words, the linear regression model was really only able to find one we
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="4.2-2nd-Order-Polynomial">4.2 2nd Order Polynomial<a class="anchor-link" href="#4.2-2nd-Order-Polynomial">&#182;</a></h2><p>We can clearly see that the <strong>first order polynomial</strong> function that our linear regression model learned is not a very good mapping to our ground truth function. Let's now create another term, $x_2$, which will equal:
 $$x_2 = x_1^2$$</p>
@@ -642,7 +625,7 @@ $$x_2 = x_1^2$$</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -652,7 +635,7 @@ $$x_2 = x_1^2$$</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -670,8 +653,7 @@ $$x_2 = x_1^2$$</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Very interesting, our model has become more complex as we have added a 2nd dimension, $x_2$, however it did not appear to make mapping function $\hat{f}(x)$ any better. For reference, here are the coefficients that our linear regression model learned:</p>
 
@@ -690,7 +672,7 @@ $$x_2 = x_1^2$$</p>
 <span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -700,7 +682,7 @@ $$x_2 = x_1^2$$</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -751,14 +733,12 @@ $$x_2 = x_1^2$$</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="4.3-3rd-Order-Polynomial">4.3 3rd Order Polynomial<a class="anchor-link" href="#4.3-3rd-Order-Polynomial">&#182;</a></h2><p>Okay, let's create one more input dimension, $x_3$, which will equal:
 $$x_3 = x_1^3$$
 The goal is that these additional features will allow our linear regression model to become more complex and better map the ground truth function. Keep in mind, this is still a <strong>linear model</strong>. Our learned function will still be a linear combination:</p>
-<p>$$\hat{f}(x) = w_1x_1 + w_2x_2 + w_3x_3 + bias$$</p>
-<p>It just so happens that $x_2$ and $x_3$ are $x_1$ squared and cubed. Let's see if this function has a better time of approximating the ground truth $f(x)$:</p>
+$$\hat{f}(x) = w_1x_1 + w_2x_2 + w_3x_3 + bias$$<p>It just so happens that $x_2$ and $x_3$ are $x_1$ squared and cubed. Let's see if this function has a better time of approximating the ground truth $f(x)$:</p>
 
 </div>
 </div>
@@ -818,7 +798,7 @@ The goal is that these additional features will allow our linear regression mode
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -828,7 +808,7 @@ The goal is that these additional features will allow our linear regression mode
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -846,8 +826,7 @@ The goal is that these additional features will allow our linear regression mode
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Awesome! Look at that, a much better approximation than the <strong>1st</strong> and <strong>2nd</strong> order models. However, we can still see that it isn't a perfect match. This may lead you to think that if the <strong>3rd</strong> order was good, then the <strong>4th</strong> and <strong>5th</strong> order must be better! In other words, a standard hypothesis at this point is that <em>as we create more input features, our model will be able to map the ground truth function more effectively</em>. Keep in mind though, that our model is <strong>not</strong> learning from the ground truth function; it is learning from the <strong>Y response</strong>, which is inherently noisy! We are not trying to learn the <strong>Y response</strong>, only the ground truth data generating function which produces it. As our model becomes more complex, it <em>will</em> be able to better map the ground truth function, <strong>however</strong>, it will also start being able to better map the <strong>noise</strong> in the <strong>Y response</strong> which is what it is actually learning from.</p>
 <p><br></p>
@@ -922,7 +901,7 @@ The goal is that these additional features will allow our linear regression mode
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -932,7 +911,7 @@ The goal is that these additional features will allow our linear regression mode
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -950,8 +929,7 @@ The goal is that these additional features will allow our linear regression mode
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Interesting, the learned models appear to have gotten slightly better, but they still could map the ground truth function a bit more effectively.</p>
 <h2 id="4.5-12th-Order-Polynomial">4.5 12th Order Polynomial<a class="anchor-link" href="#4.5-12th-Order-Polynomial">&#182;</a></h2><p>Lets try and see how a <strong>12th</strong> order polynomial fairs.</p>
@@ -993,7 +971,7 @@ The goal is that these additional features will allow our linear regression mode
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1003,7 +981,7 @@ The goal is that these additional features will allow our linear regression mode
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1021,8 +999,7 @@ The goal is that these additional features will allow our linear regression mode
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>As mentioned, we can see that the <strong>12th</strong> order polynomial begins to start learning the <strong>noise</strong> that was in the <strong>Y response</strong>! It has begun to have irregularities, and you can almost think of it as though the model is trying too hard. However, we can still see that it <em>does</em> map this specific <strong>Y response</strong> pretty well. The question we need to answer though is, how does it peform on a different <strong>Y response</strong>? This after all is the main goal of machine learning: <strong>to learn a function that can generalize to unseen data</strong>. We remember that the absolute best that we can do is to learn to actual ground truth function. Clearly, we have no here, but we can generate a different <strong>Y response</strong> and see how our 12th order model performs.</p>
 
@@ -1055,7 +1032,7 @@ The goal is that these additional features will allow our linear regression mode
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1065,7 +1042,7 @@ The goal is that these additional features will allow our linear regression mode
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1083,8 +1060,7 @@ The goal is that these additional features will allow our linear regression mode
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Clearly, with our new <strong>Y2 Response</strong>, our learned model did not perform as well. Let's clearly go over with this was the case, because it can be confusing:</p>
 <blockquote><ol>
@@ -1138,7 +1114,7 @@ The goal is that these additional features will allow our linear regression mode
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1148,7 +1124,7 @@ The goal is that these additional features will allow our linear regression mode
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1166,8 +1142,7 @@ The goal is that these additional features will allow our linear regression mode
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can clearly see here that the <strong>learned model</strong> is too simple to learn the underlying ground truth function. Variance is best shown if we refer back to our <strong>Y response</strong> and <strong>Y2 Response</strong> from earlier. We can plot two <strong>learned models</strong>, one trained on each, and see how they differ!</p>
 
@@ -1208,7 +1183,7 @@ The goal is that these additional features will allow our linear regression mode
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1218,7 +1193,7 @@ The goal is that these additional features will allow our linear regression mode
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1236,17 +1211,14 @@ The goal is that these additional features will allow our linear regression mode
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So, variance can be thought of as the difference between the <strong>learned model based on Y</strong>, and the <strong>learned model based on Y2</strong> above. These are both <strong>12th</strong> order linear regression models, the difference arises from the fact that they were trained on different <strong>Y responses</strong>, and they began to learn the noise in addition to the ground truth function.</p>
 <p>Now, if you have gone through my Section1 Bias-Variance Trade-Off walkthrough then you know that there is a concept that as you decrease bias you increase variance, and vice versa.</p>
 <hr>
 <p><br></p>
 <h2 id="5.2-Bias-Variance-Trade-Off-Demo">5.2 Bias-Variance Trade-Off Demo<a class="anchor-link" href="#5.2-Bias-Variance-Trade-Off-Demo">&#182;</a></h2><p>The be way to demonstrate this is through a demo, so we are going to redo the demo conducted in that walk through with out current knowledge. The derivation for <strong>bias</strong> and <strong>variance</strong> can be found in that walk through, but for reference:</p>
-<p>$$err= \Big[f(x) - \bar{f}(x)\Big]^2 + E\Big[(\hat{f}(x) - \bar{f}(x))^2\Big] + E\Big[\epsilon^2\Big]$$</p>
-<p>$$err = bias^2 + variance + \sigma_\epsilon^2$$</p>
-<p>The idea of the demo is as follows:</p>
+$$err= \Big[f(x) - \bar{f}(x)\Big]^2 + E\Big[(\hat{f}(x) - \bar{f}(x))^2\Big] + E\Big[\epsilon^2\Big]$$$$err = bias^2 + variance + \sigma_\epsilon^2$$<p>The idea of the demo is as follows:</p>
 <blockquote><ol>
 <li>Create <strong>50 different Y responses</strong>, each of which is based on the <strong>ground truth function</strong> and some <strong>noise</strong>. </li>
 <li>For <strong>every Y response</strong>, we then want to train 12 different linear regression models</li>
@@ -1317,14 +1289,13 @@ $$Xpoly = x_1 + x_1^2 + x_1^3 +...+x_1^{12} = x_1 + x_2 + x_3 + ...+x_{12}$$
 <span class="n">prediction_curves</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="n">NUM_DATASETS</span><span class="p">,</span> <span class="n">MAX_POLY</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><br></p>
 <h2 id="5.2.2-Create-Y-Responses,-Train-Models,-Plot-Predictions">5.2.2 Create Y Responses, Train Models, Plot Predictions<a class="anchor-link" href="#5.2.2-Create-Y-Responses,-Train-Models,-Plot-Predictions">&#182;</a></h2><p>Now that most of the setup is out of the way we can get to the first fun part of the demo! The goal here is as follows:</p>
@@ -1412,7 +1383,7 @@ $$Xpoly = x_1 + x_1^2 + x_1^3 +...+x_1^{12} = x_1 + x_2 + x_3 + ...+x_{12}$$
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1422,7 +1393,7 @@ $$Xpoly = x_1 + x_1^2 + x_1^3 +...+x_1^{12} = x_1 + x_2 + x_3 + ...+x_{12}$$
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1437,7 +1408,7 @@ $$Xpoly = x_1 + x_1^2 + x_1^3 +...+x_1^{12} = x_1 + x_2 + x_3 + ...+x_{12}$$
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1452,7 +1423,7 @@ $$Xpoly = x_1 + x_1^2 + x_1^3 +...+x_1^{12} = x_1 + x_2 + x_3 + ...+x_{12}$$
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1467,7 +1438,7 @@ $$Xpoly = x_1 + x_1^2 + x_1^3 +...+x_1^{12} = x_1 + x_2 + x_3 + ...+x_{12}$$
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1482,7 +1453,7 @@ $$Xpoly = x_1 + x_1^2 + x_1^3 +...+x_1^{12} = x_1 + x_2 + x_3 + ...+x_{12}$$
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1497,7 +1468,7 @@ $$Xpoly = x_1 + x_1^2 + x_1^3 +...+x_1^{12} = x_1 + x_2 + x_3 + ...+x_{12}$$
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1512,7 +1483,7 @@ $$Xpoly = x_1 + x_1^2 + x_1^3 +...+x_1^{12} = x_1 + x_2 + x_3 + ...+x_{12}$$
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1527,7 +1498,7 @@ $$Xpoly = x_1 + x_1^2 + x_1^3 +...+x_1^{12} = x_1 + x_2 + x_3 + ...+x_{12}$$
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1542,7 +1513,7 @@ $$Xpoly = x_1 + x_1^2 + x_1^3 +...+x_1^{12} = x_1 + x_2 + x_3 + ...+x_{12}$$
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1557,7 +1528,7 @@ $$Xpoly = x_1 + x_1^2 + x_1^3 +...+x_1^{12} = x_1 + x_2 + x_3 + ...+x_{12}$$
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1572,7 +1543,7 @@ $$Xpoly = x_1 + x_1^2 + x_1^3 +...+x_1^{12} = x_1 + x_2 + x_3 + ...+x_{12}$$
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1587,7 +1558,7 @@ $$Xpoly = x_1 + x_1^2 + x_1^3 +...+x_1^{12} = x_1 + x_2 + x_3 + ...+x_{12}$$
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1605,8 +1576,7 @@ $$Xpoly = x_1 + x_1^2 + x_1^3 +...+x_1^{12} = x_1 + x_2 + x_3 + ...+x_{12}$$
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Excellent! We have some pretty interesting plots now to look at, and I think hopeful a better intuition for how noise can affect the models that we are able to learn. Now, the main question that you should be having is: "well which one of these models is the best one?"</p>
 <p>That is the main point of this demo! To figure that out. There are several ways that we can go about doing this, but lets think back to some of the theory we have discussed so far. We know that error in our model can be derived as:
@@ -1696,7 +1666,7 @@ $$Variance= E\Big[(\hat{f}(x) - \bar{f}(x))^2\Big]$$</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1706,7 +1676,7 @@ $$Variance= E\Big[(\hat{f}(x) - \bar{f}(x))^2\Big]$$</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1721,7 +1691,7 @@ $$Variance= E\Big[(\hat{f}(x) - \bar{f}(x))^2\Big]$$</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1739,8 +1709,7 @@ $$Variance= E\Big[(\hat{f}(x) - \bar{f}(x))^2\Big]$$</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>These plots are incredibly revealing. In the first plot we have been able to prove that the minimizing the sum of the squared bias plus variance is equivalent to minimizing error (in this case test error). We can see that as a model becomes more complex the squared bias + variance decreases at first, and then increases. This is because bias can be thought of as mainly decreasing when we increase model complexity, while variance will increase as we increase model complexity. The goal is to find a the perfect balance, and chose the complexity for which bias squared plus variance is minimized.</p>
 <p>The second plot gives us a bit of insight into what may be occuring. We can see that as a model becomes more complex, it's train and test scores both decrease to a point. However, the training score then continues to decrease, while the test score will start increasing. This is because after a certain point, as model complexity increases, the main learning that the model is doing is learning the <strong>noise</strong> in the training data. This means it will <em>not</em> generalize well. Our goal is not to learn a specific response $Y$ in the training data, because that includes <strong>noise</strong>! We want to learn the ground truth data generating function, $f(x)$, that is responsible for creating $Y$.</p>
