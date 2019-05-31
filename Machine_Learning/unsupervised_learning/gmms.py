@@ -61,7 +61,6 @@ def gmm(X, K, max_iter=20, smoothing=1e-2):
     return R
 
 
-
 def main():
     # Create 3 Gaussian distributed clusters
     D = 2
