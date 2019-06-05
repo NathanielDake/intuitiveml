@@ -86,7 +86,7 @@ def calc_pure_python(desired_width, max_iterations):
 
     return output, zs
 
-# @timefn
+
 def calculate_z_serial_purepython(maxiter, zs, cs):
     """
     Calculate output list using Julia update rule.
