@@ -24,8 +24,10 @@ The specs of the laptop that this is being run on are as follows:
 """
 import time
 
+
 # from notebooks.computer_science.high_performance_python.profiling.utils_plotting import plot_julia
 # from notebooks.computer_science.high_performance_python.profiling.utils_timing import timefn
+
 
 # Area of complex space to investigate
 x1, x2, y1, y2 = -1.8, 1.8, -1.8, 1.8
