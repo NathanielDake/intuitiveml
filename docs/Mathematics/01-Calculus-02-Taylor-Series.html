@@ -1,0 +1,363 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.6" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/readable.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Nathaniel Dake Blog</title>
+
+<style type = "text/css">
+body {
+  font-family: "sans-serif";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Nathaniel Dake Blog</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../Deep_Learning.html">Deep Learning</a>
+</li>
+        
+<li>
+  <a href="../AI.html">AI</a>
+</li>
+        
+<li>
+  <a href="../Machine_Learning.html">Machine Learning</a>
+</li>
+        
+<li>
+  <a href="../NLP.html">NLP</a>
+</li>
+        
+<li>
+  <a href="../Mathematics.html">Mathematics</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="https://github.com/NathanielDake/nathanieldake.github.io"> source </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="2.-Taylor-Series">2. Taylor Series<a class="anchor-link" href="#2.-Taylor-Series">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="n">interact</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">y_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">y_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">i</span><span class="p">)</span>
+    
+<span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">y_list</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">display_plot</span><span class="p">(</span><span class="n">ys</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_show</span><span class="p">(</span><span class="n">frame</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ys</span><span class="p">[])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">w</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">):</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">**</span><span class="n">w</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">**</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+
+<span class="n">interact</span><span class="p">(</span><span class="n">update</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+
+ 
+ 
+<div id="0a2691d7-f12c-4401-81aa-56f425eb5f0c"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#0a2691d7-f12c-4401-81aa-56f425eb5f0c');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "06060ef7e5b64cad98c24844895a82ae", "version_major": 2, "version_minor": 0}
+</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<hr>
+&copy; 2018 Nathaniel Dake
+
+</div>
+</div>
+</body>
+</html>
