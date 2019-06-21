@@ -1823,10 +1823,10 @@ Final error rate: 0.042
 
 
 
-<div id="4e283918-7a09-49b4-bb27-314c4356ba59"></div>
+<div id="dc4466f3-4780-4cc3-b6fc-3ace0b32ae3c"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#4e283918-7a09-49b4-bb27-314c4356ba59');
+var element = $('#dc4466f3-4780-4cc3-b6fc-3ace0b32ae3c');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -3642,7 +3642,6 @@ Final error rate: 0.03
 <hr>
 <p><br></p>
 <h1 id="6.-Adam-Optimizer">6. Adam Optimizer<a class="anchor-link" href="#6.-Adam-Optimizer">&#182;</a></h1><p>One of the newest and most common optimization techniques these days is known as the <strong>Adam Optimizer</strong> (link to original paper here: <a href="https://arxiv.org/pdf/1412.6980.pdf">https://arxiv.org/pdf/1412.6980.pdf</a>). It is going to be given it's own section all together, since as of 2017 it is often considered the go to optimizer for those doing deep learning. Sometimes, people will talk about <strong>Adam</strong> by saying it is like RMSprop, but <em>with</em> momentum. This can be slightly confusing though, considering that TensorFlow has RMSprop, and allows you to add momentum to it, which is <em>not</em> Adam. In other words, you can have RMSprop with momentum, but that doesn't give you Adam-it just gives you RMSprop with momentum. Adam does, in a sense, add something like momentum to RMSprop, but in a very specific way. In order to fully understand <strong>Adam</strong>, we first need to look at part of the theory that it is dependent on: <strong>Exponentially-Smoothed Averages</strong>.</p>
-<p><br></p>
 <h2 id="6.1-Exponentially-Smoothed-Averages">6.1 Exponentially Smoothed Averages<a class="anchor-link" href="#6.1-Exponentially-Smoothed-Averages">&#182;</a></h2><p>We are going to take a minute to dig into something that may seem straight forward: How to calculate an average. The first thought we all have when being asked to do this is: Why not just add all of the sample data points, and then divide by the number of data points, resulting in the sample mean:</p>
 $$\bar{X}_N = \frac{1}{N}\sum_{n=1}^NX_n$$<p>But now let's suppose that you have a large amount of data-so much so that all of your X's cannot fit into memory at the same time. Is it still possible to calculate the sample mean? Yes it is! We can read in one data point at a time, and then delete each data point after we've looked at it. It is shown below that the current sample mean can actually be expressed in terms of the previous sample mean and the current data point.</p>
 $$\bar{X}_N =  \frac{1}{N}\sum_{n=1}^NX_n = \frac{1}{N}\Big((N-1)\bar{X}_{N-1} + X_N \Big) = (1 - \frac{1}{N})\bar{X}_{N-1}+\frac{1}{N}X_N$$<p>We can then express this using simpler symbols. We can call $Y$ our output, and we can use $t$ to represent the current time step:</p>
@@ -4334,10 +4333,10 @@ Final error rate: 0.033
 
 
 
-<div id="18f8cfb8-dc4e-44ee-8d64-b217871a4471"></div>
+<div id="2685368b-2a83-4942-83fb-7db494f2e87c"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#18f8cfb8-dc4e-44ee-8d64-b217871a4471');
+var element = $('#2685368b-2a83-4942-83fb-7db494f2e87c');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
