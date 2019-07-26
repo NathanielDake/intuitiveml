@@ -261,6 +261,12 @@ $$x = input$$$$y = output$$$$f = function$$$$y = f(x)$$<p>If we let $f(x) = 5x +
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">rc</span><span class="p">,</span> <span class="n">animation</span>
 <span class="kn">from</span> <span class="nn">IPython.core.display</span> <span class="k">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
 
+<span class="kn">import</span> <span class="nn">cufflinks</span>
+<span class="kn">import</span> <span class="nn">plotly.plotly</span> <span class="k">as</span> <span class="nn">py</span>
+<span class="kn">import</span> <span class="nn">plotly</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="k">as</span> <span class="nn">go</span>
+<span class="kn">from</span> <span class="nn">plotly.offline</span> <span class="k">import</span> <span class="n">iplot</span>
+
 <span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;retina&#39;
 
@@ -270,6 +276,40 @@ $$x = input$$$$y = output$$$$f = function$$$$y = f(x)$$<p>If we let $f(x) = 5x +
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+        <script type="text/javascript">
+        window.PlotlyConfig = {MathJaxConfig: 'local'};
+        if (window.MathJax) {MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+        if (typeof require !== 'undefined') {
+        require.undef("plotly");
+        requirejs.config({
+            paths: {
+                'plotly': ['https://cdn.plot.ly/plotly-latest.min']
+            }
+        });
+        require(['plotly'], function(Plotly) {
+            window._Plotly = Plotly;
+        });
+        }
+        </script>
+        
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -971,12 +1011,12 @@ $$b^7 = b \times b \times b \times b \times b \times b \times b$$<h3 id="3.1-Abs
 </blockquote>
 <p>Put another way, you need to be able to realize (automatically), that exponentiation is simply repeated multiplication of a base. What often happens in mathematics is that the fact that this notation represents an abstraction is lost; it is treated as a fundamental, similar to addition. You may ask, why are abstractions necessary at all? Why even introduce this new notation and not simply use something such as:</p>
 $$\overbrace{b \times \dots \times b}^\text{n times}$$<p>Think of how often the concept of an exponential comes up in mathematics; a simple answer to our question is that it would be incredibly cumbersome to use the above notation to write out the concept of repeated multiplication of a base. However, there is a deeper principle behind this and that is abstraction. From the perspective of learning and cognitive science, what we have done was created a new pattern (exponentiation) that is made up of a prexisting pattern (multiplication).</p>
-<p><img src="https://intuitive-ml-images.s3-us-west-1.amazonaws.com/mathematics/functions/inverse+functions/exponentiation-abstraction.png"></p>
+<p><img src="https://intuitive-ml-images.s3-us-west-1.amazonaws.com/mathematics/functions/inverse+functions/exponentiation-abstraction.png" width="400"></p>
 <p>In reality this is how the brain is designed to work; it is structured to think in a hierarchical fashion, and specifically evolved this way because we live in a hierarchical world. Look to language (characters which make up words, which make up sentences, which make up paragraphs, which in turn make up books and thoughts), or biology (molecules make up organic compounds, which in turn make up macromolecules, which make up cells, which make up tissues and organs, which finally make up living organisms. This idea of abstracting out patterns to be composed of lower level patterns is incredibly prevelant in mathematics. My previous post on functions highlights this; the function $f(x) = 3x + 4$ can be viewed from a high level as a single function transformation, <em>or</em> from a lower level as two specific fundamental transformations, a scaling of the input domain by 3 and a shifting of the scaled input by 4.</p>
 <p>Unfortunately, this abstraction is all to frequently either forgotten, or, more commonly, never truly learned and understood in the first place. What ends up happening is the following:</p>
-<p><img src="https://intuitive-ml-images.s3-us-west-1.amazonaws.com/mathematics/functions/inverse+functions/exponentiation-abstraction-no-connection.png"></p>
+<p><img src="https://intuitive-ml-images.s3-us-west-1.amazonaws.com/mathematics/functions/inverse+functions/exponentiation-abstraction-no-connection.png" width="400"></p>
 <p>Instead of abstractions that are linked together, they are disconnected. This means that when dealing with a difficult problem where it would be valuable to relate the higher level abstraction of exponentiation back to that of the lower level multiplication, we can't. Now, this isn't to say that we cannot <em>understand</em> the relation or recall it if given a push in the right direction. We do have both concepts in our memory and can make that connection. The issue is that our associative memory will not <em>automatically</em> pull in the hierarchical chain on it's own. When trying to solve incredibly complex problems, how useful is it if all you can say is: "If only someone would tell me the steps I need to take and angle I need to view this problem from to solve it, then I could do it!". We need to actively ensure that lower level patterns are linked to the higher level abstractions or risk not being able to make the connections that allow for extraodinary problem solving skills.</p>
-<h3 id="3.2-Exponentiation-Visualization">3.2 Exponentiation Visualization<a class="anchor-link" href="#3.2-Exponentiation-Visualization">&#182;</a></h3><p>With that said, I want us to get a feel for the exponentiation process and it's subsequent visualization. To begin</p>
+<h3 id="3.2-Exponentiation-Visualization">3.2 Exponentiation Visualization<a class="anchor-link" href="#3.2-Exponentiation-Visualization">&#182;</a></h3><p>With that said, I want us to get a feel for the exponentiation process and it's subsequent visualization:</p>
 
 </div>
 </div>
@@ -1067,152 +1107,45 @@ height=340
 </div>
 
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[49]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">4</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">4</span><span class="o">**.</span><span class="mi">000001</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[49]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>64.00008872290061</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[50]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">4</span><span class="o">**.</span><span class="mi">5</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[50]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>2.0</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, I hope that there is an oddity concerning the above exponetial curve that sticks out. Clearly locations where $x$ has an integer value, $\{0, 1, 2, 3, 4, 5\}$, make intuitive sense when matched to the explanation we gave earlier about what an exponent was meant to represent. For instance, we know that our base is $2$, and if the value of the $x$ exponent is $3$:</p>
+$$2^3 = 2 \cdot 2 \cdot 2 = 8$$<p>Or when $x = 5$:</p>
+$$2^5 = 2 \cdot 2 \cdot 2 \cdot 2 \cdot 2 = 32$$<p>But what exactly does it mean to raise $2$ to the exponent $3.486$? Put another way, what does it mean to multiply $2$ by itself $3.486$ times? We must be able to account for this scenario, or else our exponentation abstraction will lose it's continuity, and subsequently it's usefulness. Let's try and gain some intuition for what this really means.</p>
+<h3 id="3.3-Raising-to-a-fraction">3.3 Raising to a fraction<a class="anchor-link" href="#3.3-Raising-to-a-fraction">&#182;</a></h3><h4 id="3.3.1-An-intuitive-perspective">3.3.1 An intuitive perspective<a class="anchor-link" href="#3.3.1-An-intuitive-perspective">&#182;</a></h4><p>Often when dealing with mathematical concepts we will encounter the idea of <em>extension</em>. For instance, there may be an intuitive situation that humans encounter where a mathematical principle fits nicely. But suddenly there are areas where the principle isn't quite as intuitive and breaks down. This is where the idea of <em>extension</em> comes into play; we extend the principle to include this new terrain.</p>
+<p>For example, consider our number system. Originally designed with a base of ten due to the fact that we have 10 fingers, it could be used to count the number of chickens one had, how many soldiers were under command, and so on. Intuitively it was not terribly difficult to wrap ones head around. If you had 5 chickens and gave 3 to a friend, you only had 2 left. But with the advent of currency, the number system required an expansion. Now say that I had a 1,000 dollars but I needed 2,000 in order to secure a new home. I may borrow the additional 1,000 from someone, meaning my net balance is -1,000. The number system needed to be expanded in order to account for this. The same thing occured when complex numbers were established. The system needed to be expanded to account for the fact that it had no value for the quantity $\sqrt{-1}$, and yet it arose in areas such as electrical engineering.</p>
+<p>This same principle applies in our present situation. While it may not be immediately intuitive, we need a way to extend our system. We will start by doing so via a logical progression. First, consider the following:</p>
+$$2^3 = 2 \cdot 2 \cdot 2 = 8$$<p>Above, we can see that we had $3$ multiplications by $2$. Now, consider:</p>
+$$2^5 = 2 \cdot 2 \cdot 2 \cdot 2 \cdot 2 = 32$$<p>Now we have $5$ multiplications by $2$. So, we can view the exponent as the number of multiplications we have by $2$ (our base). How about:</p>
+$$2^{\frac{1}{2}} = ?$$<p>Well, if we extend our thought process we will see that we now simple have <em>half a multiplication by $2$</em>. In other words, $2^{\frac{1}{2}}$ is the number that yields half a multiplication by $2$. In order to get a full multiplication by $2$, we must multiply that number twice:</p>
+$$2^{\frac{1}{2}} \cdot 2^{\frac{1}{2}} = 2^1$$<h4 id="3.3.2-A-Formal-Perspective">3.3.2 A Formal Perspective<a class="anchor-link" href="#3.3.2-A-Formal-Perspective">&#182;</a></h4><p>Now, we can also take a more formal perspective. Recall our earlier definition of an exponential:</p>
+$$b^n = \overbrace{b \times \dots \times b}^\text{n times}$$<p>We have a simple extension to allow $n$ to take on negative values. We can write:</p>
+$$b^{-n} = \frac{1}{\underbrace{b \times \dots \times b}_\text{n times}}$$<p>Where we can see via an example that this holds:</p>
+$$\frac{b^3}{b^5} = b^{-2} = \frac{1}{b^2}$$<p>And we can let $b = 2$:</p>
+$$\frac{2^3}{2^5} = \frac{8}{32} = \frac{1}{4}$$$$\frac{2^3}{2^5} = 2^{-2} = \frac{1}{2^2} = \frac{1}{4}$$<p>Now, again we ask: what if $n$ is a fraction?</p>
+$$b^{\frac{1}{n}}$$<p>Well, let's say for a moment that this value, $b^{\frac{1}{n}}$, is equal to $x$:</p>
+$$b^{\frac{1}{n}} = x$$<p>If we raise each side to the $n$:</p>
+$$\big(b^{\frac{1}{n}}\big)^n = \overbrace{ b^{\frac{1}{n}} \cdot b^{\frac{1}{n}} \dots \cdot b^{\frac{1}{n}}}^\text{n times} = b = x^n$$$$b = x^n$$<p>Keeping in mind that our goal is to find $x$, the value that $b^{\frac{1}{n}}$ is equal to, we need to do the following:</p>
+<blockquote><p>Figure out what number multiplied by itself $n$ times is equal to $x$. This value is $b^{\frac{1}{n}}$.</p>
+</blockquote>
+<h4 id="3.3.3-But-how-does-this-actually-work?">3.3.3 But how does this actually work?<a class="anchor-link" href="#3.3.3-But-how-does-this-actually-work?">&#182;</a></h4><p>Now, there may still be confusion about determing these values in practice. Sure, if you are given $8^{\frac{1}{3}}$ you may be able to see that $2 \cdot 2 \cdot 2$ yields $8$, and you have your answer. But what about the many scenarios where things are quite so simple? For instance, what about $2^{0.848}$. There are different ways of thinking about this, for instance can $0.848$ easily be written as a fraction? However, I want to take another approach right now. First, I want to point out that while this may feel uncomfortable-the fact that an answer doesn't come easily to mind is never fun-realize that it isn't that different from long division. What exactly do I mean by that?</p>
+<p>Consider the following? You undoubtably feel very comfortable with the concept of division; simply how many times can one quantity fit into another. For instance, $\frac{30}{6}$ most likely gives no pause, with the number $5$ coming to mind instantly. However, what about $\frac{839234235789}{45689458}$? I would reason that a number doesn't exactly pop into your head. Long ago you were most likely taught the long division algorithm, but hopefully haven't had to use it in years due to having a calculator on hand. The key point is that there was a particular algorithm that was used to actually solve for the correct value. In rather basic cases, the algorithm is not necessary. But the point remains that a set of steps is used to the reach a concrete conclusion (a numeric output) to an abstract problem (how many times does one quantity go into another). Not know the algorithm (long division) doesn't hinder your understanding of the actual abstraction.</p>
+<p>The above situation is very much like the one we are in now. We have a quantity that we want to determine, namely $2^{0.848}$. The basic scenario makes intuitive sense and is very easy to reason about (i.e. $2^4$ or $8^{\frac{1}{3}}$). However, it's extension is a bit harder to solve and will require a more advanced algorithm/process. The point is the same as long division, that being that this isn't essential to know in order to be productive with exponentials. The key to really keep in mind is as follows:</p>
+<blockquote><p>There is <em>some</em> number that $2^{0.848}$ evaluates to. It is pretty close to $\frac{8}{10}$th's of a multiplication by $2$. In order to solve it you most likely need an algorithm</p>
+</blockquote>
+<p>Still, I think it is worthwhile exploring for a bit! For instance, how would you actually calculate this using a computer? In order to show this I am going to change up the problem slightly (for brevity) and change our base to be $e$, and hence calculate $e^{0.848}$, but the principle remains the same in general. For instance, via python we can do <code>display(e**0.848)</code>:</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">4</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[51]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>1.5874010519681994</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">2</span> <span class="o">*</span> <span class="mi">2</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[52]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>4</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[55]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">two_times_radical_2</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">2</span><span class="o">**</span><span class="mf">0.5</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">two_times_radical_2</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="n">display</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">e</span><span class="o">**</span><span class="mf">0.848</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1228,22 +1161,57 @@ height=340
     <div class="prompt"></div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>2.8284271247461903
-</pre>
+
+
+<div class="output_text output_subarea ">
+<pre>2.3349722343978727</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now how exactly did python determine this value? If you spent any time studying calculus you most likely came across <strong>taylor series expansion</strong>. That will be covered in a whole other post, but for a quick refresher check out the link <a href="https://en.wikipedia.org/wiki/Taylor_series#Exponential_function">here</a>. The exponential function, which is simply $e$ raised the $x$ power, $e^x$, can be expanded as the following taylor series:</p>
+$$e^x = \sum_{n=0}^{\infty} \frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \dots $$<p>It is for this reason that I changed the base to $e$; the taylor series representation of another base raised to the $x$ is <a href="https://www.emathzone.com/tutorials/calculus/maclaurin-series-of-ax.html">slightly more complicated</a> (but not much). This expansion is just what we need to be able to write an algorithm that can determine $e$ raised a decimal power. The function will essentially look like:</p>
+
+<pre><code>def taylor_series_exponential(x, upper):
+    accumulator = 0
+    for n in range(0, upper):
+        accumulator += x**n / math.factorial(n)
+    return accumulator</code></pre>
+<p>Let's see how it works in practice via <code>taylor_series_exponential(0.848, 5)</code>:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">taylor_series_exponential</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">upper</span><span class="p">):</span>
+    <span class="n">accumulator</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">upper</span><span class="p">):</span>
+        <span class="n">accumulator</span> <span class="o">+=</span> <span class="n">x</span><span class="o">**</span><span class="n">n</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">accumulator</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">two_times_radical_2</span> <span class="o">*</span> <span class="mi">2</span><span class="o">**</span><span class="mf">0.5</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">taylor_series_exponential</span><span class="p">(</span><span class="mf">0.848</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -1256,13 +1224,556 @@ height=340
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[56]:</div>
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>2.330731638784</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Excellent, it is close to the value calculated by native python, and with $n$ only being equal to $5$. Let's see how it performs with $n=100$, <code>taylor_series_exponential(0.848, 100)</code>:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">taylor_series_exponential</span><span class="p">(</span><span class="mf">0.848</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>2.3349722343978723</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We now have a nearly perfect approximation. We can see how our function approaches that of native python via the plot below:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">num_n</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_n</span><span class="p">)</span>
+
+<span class="n">decimal_power</span> <span class="o">=</span> <span class="mf">0.848</span>
+
+<span class="n">built_in_python</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">e</span> <span class="o">**</span> <span class="n">decimal_power</span>
+<span class="n">built_in_python</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">num_n</span><span class="p">,</span> <span class="n">built_in_python</span><span class="p">)</span>
+<span class="n">taylor_series_exp</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>   
+    <span class="n">taylor_series_exp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">taylor_series_exponential</span><span class="p">(</span><span class="n">decimal_power</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">trace1</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">n</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">built_in_python</span><span class="p">,</span>
+    <span class="n">marker</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Built in Python&quot;</span>
+<span class="p">)</span>
+
+<span class="n">trace2</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">n</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">taylor_series_exp</span><span class="p">,</span>
+    <span class="n">marker</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Taylor Series Approximation&quot;</span>
+<span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">trace1</span><span class="p">,</span> <span class="n">trace2</span><span class="p">]</span>
+<span class="n">layout</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span>
+    <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">width</span><span class="o">=</span><span class="mi">750</span><span class="p">,</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">450</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Built in Python Exponential vs. Taylor Series Approximation&quot;</span><span class="p">,</span>
+    <span class="n">xaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;n - Upper bound of Taylor series&quot;</span><span class="p">),</span>
+    <span class="n">yaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Output&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
+
+<span class="n">plotly</span><span class="o">.</span><span class="n">offline</span><span class="o">.</span><span class="n">iplot</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="c1"># html_fig = plotly.io.to_html(fig, include_plotlyjs=True)</span>
+<span class="c1"># display(HTML(html_fig))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<div>
+        
+        
+            <div id="1c390a34-2562-4d96-8454-1e5a3f6b5451" class="plotly-graph-div" style="height:450px; width:750px;"></div>
+            <script type="text/javascript">
+                require(["plotly"], function(Plotly) {
+                    window.PLOTLYENV=window.PLOTLYENV || {};
+                    window.PLOTLYENV.BASE_URL='https://plot.ly';
+                    
+                if (document.getElementById("1c390a34-2562-4d96-8454-1e5a3f6b5451")) {
+                    Plotly.newPlot(
+                        '1c390a34-2562-4d96-8454-1e5a3f6b5451',
+                        [{"marker": {"color": "red"}, "name": "Built in Python", "type": "scatter", "uid": "1ce20db5-e096-4ca0-b98d-8c0699e0f00d", "x": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19], "y": [2.3349722343978727, 2.3349722343978727, 2.3349722343978727, 2.3349722343978727, 2.3349722343978727, 2.3349722343978727, 2.3349722343978727, 2.3349722343978727, 2.3349722343978727, 2.3349722343978727, 2.3349722343978727, 2.3349722343978727, 2.3349722343978727, 2.3349722343978727, 2.3349722343978727, 2.3349722343978727, 2.3349722343978727, 2.3349722343978727, 2.3349722343978727, 2.3349722343978727]}, {"marker": {"color": "green"}, "name": "Taylor Series Approximation", "type": "scatter", "uid": "c671b010-73c9-4b3d-8362-911748eda3f5", "x": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19], "y": [0, 1.0, 1.8479999999999999, 2.2075519999999997, 2.309185365333333, 2.330731638784, 2.334385886761233, 2.334902353808682, 2.33496492010243, 2.3349715521295673, 2.334972177013902, 2.3349722300040936, 2.3349722340891557, 2.334972234377833, 2.334972234396664, 2.3349722343978043, 2.3349722343978687, 2.3349722343978723, 2.3349722343978723, 2.3349722343978723]}],
+                        {"height": 450, "showlegend": false, "title": {"text": "Built in Python Exponential vs. Taylor Series Approximation"}, "width": 750, "xaxis": {"title": {"text": "n - Upper bound of Taylor series"}}, "yaxis": {"title": {"text": "Output"}}},
+                        {"showLink": false, "linkText": "Export to plot.ly", "plotlyServerURL": "https://plot.ly", "responsive": true}
+                    ).then(function(){
+                            
+var gd = document.getElementById('1c390a34-2562-4d96-8454-1e5a3f6b5451');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })
+                };
+                });
+            </script>
+        </div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>And we can also view this another way, by plotting the difference and see how it approaches $0$ as $n$ increases:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">trace1</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">n</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">built_in_python</span> <span class="o">-</span> <span class="n">taylor_series_exp</span><span class="p">,</span>
+    <span class="n">marker</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">trace1</span><span class="p">]</span>
+<span class="n">layout</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span>
+    <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">width</span><span class="o">=</span><span class="mi">750</span><span class="p">,</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">450</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Difference between Built in Python Exponential and Taylor Series Approximation&quot;</span><span class="p">,</span>
+    <span class="n">xaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;n (Upper bound of Taylor series)&quot;</span><span class="p">),</span>
+    <span class="n">yaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Difference&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
+
+<span class="n">plotly</span><span class="o">.</span><span class="n">offline</span><span class="o">.</span><span class="n">iplot</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="c1"># html_fig = plotly.io.to_html(fig, include_plotlyjs=True)</span>
+<span class="c1"># display(HTML(html_fig))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<div>
+        
+        
+            <div id="b896e079-30e8-4535-9587-ef429a034fc4" class="plotly-graph-div" style="height:450px; width:750px;"></div>
+            <script type="text/javascript">
+                require(["plotly"], function(Plotly) {
+                    window.PLOTLYENV=window.PLOTLYENV || {};
+                    window.PLOTLYENV.BASE_URL='https://plot.ly';
+                    
+                if (document.getElementById("b896e079-30e8-4535-9587-ef429a034fc4")) {
+                    Plotly.newPlot(
+                        'b896e079-30e8-4535-9587-ef429a034fc4',
+                        [{"marker": {"color": "red"}, "type": "scatter", "uid": "b9e51164-0094-46e2-8cc3-82c01590ae45", "x": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19], "y": [2.3349722343978727, 1.3349722343978727, 0.48697223439787285, 0.12742023439787298, 0.02578686906453953, 0.004240595613872689, 0.0005863476366396725, 6.988058919077389e-05, 7.314295442650831e-06, 6.822683054075185e-07, 5.738397090837566e-08, 4.393779118316843e-09, 3.087170519222582e-10, 2.0039525594484076e-11, 1.2088108292118704e-12, 6.838973831690964e-14, 3.9968028886505635e-15, 4.440892098500626e-16, 4.440892098500626e-16, 4.440892098500626e-16]}],
+                        {"height": 450, "showlegend": false, "title": {"text": "Difference between Built in Python Exponential and Taylor Series Approximation"}, "width": 750, "xaxis": {"title": {"text": "n (Upper bound of Taylor series)"}}, "yaxis": {"title": {"text": "Difference"}}},
+                        {"showLink": false, "linkText": "Export to plot.ly", "plotlyServerURL": "https://plot.ly", "responsive": true}
+                    ).then(function(){
+                            
+var gd = document.getElementById('b896e079-30e8-4535-9587-ef429a034fc4');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })
+                };
+                });
+            </script>
+        </div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We have created a function with relatively little effort that can match that of built in python. If you are anything like me you may still be thinking: "But <em>without</em> using a Taylor series how would we calculate $e^{0.848}$?". That type of question is not naive, but does display a slight misunderstanding/oversight. There are <em>many</em> mathematical constructs that are not easy to calculate and need a particular algorithm/process/technique in order to solve. We already talked about long division, but there is also the concept of <a href="https://en.wikipedia.org/wiki/Completing_the_square">completing the square</a>, <a href="https://en.wikibooks.org/wiki/Calculus/Newton%27s_Method">Newton's Method</a>, and many others (particularly integration).</p>
+<p>The idea is that there may be some entity that we <em>know</em> has a calculatable value-for instance the <a href="https://en.wikipedia.org/wiki/Error_function">integral of the normal distribution</a>, known as the error function. Because this integral has no closed form solution, the best that we can hope to do is give a numerical answer. This is similar in our case, although as we let $n \rightarrow \infty$ we do converge to the true value of $e^{0.848}$. The reality of the situation is that our original, intuitive concept of exponentiation simply equating to repeated multiplication must be extended in order to handle more complex scenarios (decimal powers). The point I am trying to make is that we see this all the time in mathematics! It is nothing to be uncomfortable with, rather it just requires exposure so that your brain becomes familiarized and can hold in memory the proper abstraction.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="4.-Logarithms">4. Logarithms<a class="anchor-link" href="#4.-Logarithms">&#182;</a></h2><p>Now that we have explored the depths of inverse functions and exponentiation, it is time to move on to <strong>logarithms</strong>. Now, logarithms have some wonderful properties and we will get to them all in due time. But first, it is important to build up a very intuitive understanding of <em>what they actually are</em>.</p>
+<h3 id="4.1-What-is-a-Logarithm">4.1 What is a Logarithm<a class="anchor-link" href="#4.1-What-is-a-Logarithm">&#182;</a></h3><p>To start, it is worth recalling our mathematical definition of exponentiation:</p>
+$${b}^n = \overbrace{b \times \dots \times b}^\text{n times}$$<p>We can move this to the more familiar functional notation:</p>
+$$f(x) = {b}^x = \overbrace{b \times \dots \times b}^\text{x times}$$<p>Now, for the moment we are only going to consider the behavior of $f$ when dealing with integer values of $x$. Let's calculate $f$ for $x = \{1, 2, \dots, 9\}$, when $b=2$:</p>
+<table>
+<thead><tr>
+<th>$x$</th>
+<th>$2^x$</th>
+<th>$f$ ($x$)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>$2^0$</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>$2^1$</td>
+<td>2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>$2^2$</td>
+<td>4</td>
+</tr>
+<tr>
+<td>3</td>
+<td>$2^3$</td>
+<td>8</td>
+</tr>
+<tr>
+<td>4</td>
+<td>$2^4$</td>
+<td>16</td>
+</tr>
+<tr>
+<td>5</td>
+<td>$2^5$</td>
+<td>32</td>
+</tr>
+<tr>
+<td>6</td>
+<td>$2^6$</td>
+<td>64</td>
+</tr>
+<tr>
+<td>7</td>
+<td>$2^7$</td>
+<td>128</td>
+</tr>
+<tr>
+<td>8</td>
+<td>$2^8$</td>
+<td>256</td>
+</tr>
+<tr>
+<td>9</td>
+<td>$2^9$</td>
+<td>512</td>
+</tr>
+<tr>
+<td>10</td>
+<td>$2^{10}$</td>
+<td>1024</td>
+</tr>
+</tbody>
+</table>
+<p>Thinking back to our discussion on inverse functions, I pose the following question:</p>
+<blockquote><p>If we know the output of the function how can we reverse our steps in order to find the specific input, $x$, that lead to it?</p>
+</blockquote>
+<p>Let's look at the particular example of $f(x) = y = 32$. We can see from the table that in order to get $f(x) = 32$ then $x$ must be equal to $5$. We also know that our base is $2$. What $f$ essentially did was perform the multiplication of $x$ $2$'s, where in this case $x = 5$:</p>
+$$2 \times 2 \times 2 \times 2 \times 2$$<p>So, what we really need to do is take our output, $32$, and divide by the base, $2$ until we reach out starting point (which in reality is $1$). So, that may look like:</p>
+$$\frac{\frac{\frac{\frac{\frac{32}{2}}{2}}{2}}{2}}{2} = 1$$<p>Another way of writing this that may be a bit more pleasant to the eye is:</p>
+$$32 \times \frac{1}{2} \times \frac{1}{2} \times \frac{1}{2} \times \frac{1}{2} \times \frac{1}{2} = 1$$<p>What is very important to acknowledge is the similarity between what we just did above, and the way that we found the inverse function earlier. Previously, we found the inverse function by taking the output and in reverse order performing the inverse of each operation the original function $f$ applied to the input. We are doing the same thing here! Our function, $f$, takes an input $x$, and then multiplies $1$ by the base, $b$, $x$ times. In order to reverse that we simply need to take the output and divide by the base, $b$, until we get $1$. The number of divisions that it takes in order to reach $1$ is equal to $x$.</p>
+<p>To put this a bit more formally, we can write the following:</p>
+$$f(x) = b^x = \overbrace{b \times \dots \times b}^\text{x times}$$$$f^{-1}(f(x)) = f(x) \times \overbrace{\frac{1}{b} \times \dots \times \frac{1}{b}}^\text{x times}$$<p>Where, if the input to our inverse function is $f(x)$:</p>
+$$f^{-1}\big(f(x)\big) = f(x) \times \overbrace{\frac{1}{b} \times \dots \times \frac{1}{b}}^\text{x times} = x $$<p>Something that was a bit challenging for me to fully internalize was how to represent this function in a purely mathematical way. You may have noticed that while you followed the function defintion of $f^{-1}(x)$, it actually isn't fully correct! Let's take a look again:</p>
+$$f^{-1}(x) = x \times \overbrace{\frac{1}{b} \times \dots \times \frac{1}{b}}^\text{x times}$$<p>And let $x = 32$:</p>
+$$f^{-1}(32) = 32 \times \overbrace{\frac{1}{2} \times \dots \times \frac{1}{2}}^\text{x times}$$<p>We want to know the original exponent that our base of $2$ was raised to in order to yield $32$, which in this case is $5$. However, the above function returns $1$! That is not what we wanted. We could count the number of times we divide by $2$, but representing it mathematically is slightly confusing at first. We will go through two mathematical representations, and one python implementation.</p>
+<p>First we could represent $f^{-1}(x)$ as:</p>
+$$
+\begin{equation}
+   f^{-1}(x) = \left\{
+   \begin{array}
+     _n \; \; \;\; \; \; \; \; \; \; \; \;  if \; \frac{x}{b} = 1 \\
+     f(\frac{x}{b}) \; ; \; \; \; \; \; n = n + 1\\
+   \end{array}
+   \right.
+\end{equation}
+$$<p>Where $n$ starts at $1$. This recursive definition may look a little strange at first, so we can walk through how it would work in our particular example. We would start by passing in $32$:</p>
+$$f^{-1}(32)$$<p>We would first check to see if $\frac{x}{b}$ was equal to $1$. In this case that is $\frac{32}{2} = 16$, and hence that condition is not hit. Hence, we move to the second statement, which says we call $f^{-1}$ passing in $\frac{x}{b}$, and we also increment $n$ (so it now has a value of 1). In this case that means we are passing in $\frac{32}{2} = 16$. We can evaluate $f^{-1}(16)$ the same way as we did the original: we check to see if the input, in this case $x=16$ divided by $b$ is equal to $1$. It is equal to $8$ so this is not true. We move to the next line where we increment $n$ by 1 (so it's value is now $2$), and then call $f^{-1}$ with $8$ as an input. We continue this for two more iterations. When we finally get pass in $2$, we see that $\frac{x}{b} = \frac{2}{2} = 1$, and our first condition is hit. This means that we return the value of $n$, which is currently $5$; our function works! It's recursive progression can be seen in the table below:</p>
+<table>
+<thead><tr>
+<th>$x$</th>
+<th>$\frac{x}{b}$</th>
+<th>$n$ initial</th>
+<th>$n$ updated</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>32</td>
+<td>16</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>16</td>
+<td>8</td>
+<td>2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>8</td>
+<td>4</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2</td>
+<td>4</td>
+<td>5</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>5</td>
+<td>NA</td>
+</tr>
+</tbody>
+</table>
+<p>The equation above is one way of writing the logarithm in a purely mathematical notation. It could also be written as:</p>
+$$
+\begin{equation}
+   f^{-1}(x) = \left\{
+   \begin{array}
+     _n \; \; \; \; \; \; \; \; \; \; \; \; \; \;  \; if \; \; \; \; \prod_{i=1}^{n} (b) \; \; \; = x\\
+     n = n + 1\\
+   \end{array}
+   \right.
+\end{equation}
+$$<p>Which can be worked through in a similar fashion to the first functional representation. Note that while mathematical functions are not supposed to contain a <em>state</em> (which I am doing above) an algorithmic process used to find a particular value can in fact contain a state. Consider the <a href="https://www.mathsisfun.com/long_division.html">algorithm used in long division</a>! There is a great deal of intermediate state held in this process. We are simply doing the same thing above since the traditional mathematics notation does not have a great way to represent a sequence of unknown length, whose length can be found via an iterative process.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">2</span><span class="o">**</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[24]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>4.000000000000001</pre>
+<pre>array([  1,   2,   4,   8,  16,  32,  64, 128, 256, 512])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">32</span> <span class="o">/</span> <span class="mi">2</span><span class="o">/</span> <span class="mi">2</span> <span class="o">/</span><span class="mi">2</span> <span class="o">/</span><span class="mi">2</span> <span class="o">/</span><span class="mi">2</span>  
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[28]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>1.0</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">2</span><span class="o">**</span><span class="mi">9</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[27]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>512</pre>
 </div>
 
 </div>
@@ -1284,10 +1795,37 @@ height=340
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="4.-Logarithms">4. Logarithms<a class="anchor-link" href="#4.-Logarithms">&#182;</a></h2>
+<p>The idea and purpose of logarithms is also to undo a fundamental arithmetic operation, namely raising a number to a certain power (an operation also known as exponentiation)</p>
+
 </div>
 </div>
 </div>
@@ -1573,18 +2111,18 @@ height=340
   });
 </script>
 <form action="javascript:code_toggle()"><input type="submit" id="toggleButton" value="Show Code"></form>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Appendix:-References">Appendix: References<a class="anchor-link" href="#Appendix:-References">&#182;</a></h3><ul>
+<li>How to Create a Mind, Ray Kurzweil</li>
+<li>The Organization of Complex Systems, Herbert A. Simon</li>
+<li><a href="https://www.geeksforgeeks.org/program-to-efficiently-calculate-ex/">https://www.geeksforgeeks.org/program-to-efficiently-calculate-ex/</a></li>
+<li><a href="https://www.efunda.com/math/taylor_series/exponential.cfm">https://www.efunda.com/math/taylor_series/exponential.cfm</a></li>
+</ul>
 
-    </div>
 </div>
 </div>
-
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake
