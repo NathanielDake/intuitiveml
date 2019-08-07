@@ -209,17 +209,20 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="2.-Inverse-Functions-Explored-via-the-Exponential-and-Logarithm">2. Inverse Functions Explored via the Exponential and Logarithm<a class="anchor-link" href="#2.-Inverse-Functions-Explored-via-the-Exponential-and-Logarithm">&#182;</a></h1><p>Throughout the fields of mathematics, computer science, physics, and many others, frequently you will into the concept of the <strong>exponential</strong> and the <strong>logarithm</strong>. Often you may have memorized these concepts at a years ago, committed the rules for manipulating them to memory, and then simply treated them with an axiomatic esteem; they felt to be <em>fundamental givens</em> rather than derivable from lower level principles. As with many things, this generally presents no problem. For instance, if I asked to you to simplify the following expression:</p>
-$$x^3 + x^4 = ?$$<p>Surely you would arrive at:</p>
-$$x^3 + x^4 = x^7$$<p>And if I asked someone who fancies themselves to be rather mathematically inclined, they may simplify the following:</p>
+<h1 id="2.-Inverse-Functions-Explored-via-the-Exponential-and-Logarithm">2. Inverse Functions Explored via the Exponential and Logarithm<a class="anchor-link" href="#2.-Inverse-Functions-Explored-via-the-Exponential-and-Logarithm">&#182;</a></h1><p>Throughout the fields of mathematics, computer science, physics, and many others, frequently you will into the concept of the <strong>exponential</strong> and the <strong>logarithm</strong>. Often you may have memorized these concepts years ago, committed the rules for manipulating them to memory, and then simply treated them with an axiomatic esteem; they felt to be <em>fundamental givens</em> rather than derivable from lower level principles. As with many things, this generally presents no problem. For instance, if I asked to you to simplify the following expression:</p>
+$$x^3 \cdot x^4 = ?$$<p>Surely you would arrive at:</p>
+$$x^3 \cdot x^4 = x^7$$<p>And if I asked someone who fancies themselves to be rather mathematically inclined, they may simplify the following:</p>
 $$log_{10}(100) = ?$$<p>To be:</p>
 $$log_{10}(100) = 2$$<p>If you just finished a course that deals specifically with exponentials and logarithms, you may even be able to reduce:</p>
 $$e ^{log_e(x)} = ?$$<p>To simply be:</p>
-$$e ^{log_e(x)} = x$$<p>But, most likely, you were calling upon a specific <em>mechanical process</em> that you had once memorized, and applying it to a very (relatively) familiar problem. Cognitively you were operating on a low level; shunting symbols around and follwing a set of steps (an <strong>algorithm</strong>) in order to arrive at an end result. There are several issues that can arise from having an approach that lives too much in the low level:</p>
-<h4 id="Why-are-you-doing-what-you-are-doing?">Why are you doing what you are doing?<a class="anchor-link" href="#Why-are-you-doing-what-you-are-doing?">&#182;</a></h4><p>To be clear, operating at a low level is an incredibly effective way to solve complex problems. Consider the following: You are presented with a nicely restricted problem, take a brief moment to analyze it, classify it into a bucket that is similar to a problem that you solved before, and then immediately jump into the lower level mechanical mode. Once there, you are recalling a set of steps that can be used to solve a certain problem (thinking fast and slow?), operating nearly automatically. You are not in a period of deep contemplation; rather autopilot has taken over and you are performing manipulations in order to reach your end goal. But, <strong>why</strong>? Why are you performing the steps that you are in performing, in the specific order that you are performing them in?</p>
-<h4 id="The-real-world-is-more-than-the-low-level">The real world is more than the low level<a class="anchor-link" href="#The-real-world-is-more-than-the-low-level">&#182;</a></h4><p>In a real world environment, there is much more going on than a simple, well constrained test problem conveys. By spending too much time at the low level, or by being inefficient at transitioning from the high to low level, we risk missing critical insights into problems, and potentially may not be able to solve for them at all.</p>
-<h4 id="Thinking-via-analogy-tends-to-break-down-at-the-extremes">Thinking via analogy tends to break down at the extremes<a class="anchor-link" href="#Thinking-via-analogy-tends-to-break-down-at-the-extremes">&#182;</a></h4><p>If you encounter a problem that looks similar to something that you have seen before, you will implement the same process that you used to solve the previous problem. However, they almost never have the same conditions, assumptions, edge cases, etc; by nature you apply a process to a problem that is not the same as the one that you originally solved. This requires a high level consideration of what is different, and how to handle that difference (epstein).</p>
-<p>The goal of this post is to show how essential having a high level perspective is when it comes to applying mathematics to the real world. I will do so by making use of the following concepts:</p>
+$$e ^{log_e(x)} = x$$<p>But, most likely, you called upon a specific <em>mechanical process</em> that you had once memorized, and applied it to a very (relatively) familiar problem. Cognitively you were operating on a low level; shunting symbols around and follwing a set of steps (an <strong>algorithm</strong>) in order to arrive at an end result. There are several issues that can arise from having an approach that lives too much in the low level.</p>
+<p><strong>Why are you doing what you are doing?</strong> <br>
+To be clear, operating at a low level is an incredibly effective way to solve complex problems. Consider the following: You are presented with a nicely restricted problem, take a brief moment to analyze it, classify it into a bucket that is similar to a problem that you solved before, and then immediately jump into the lower level mechanical mode. Once there, you are recalling a set of steps that can be used to solve a certain problem, operating nearly automatically. This type of automatic association is talked about at length in Daniel Kanhemans <em>Thinking, Fast and Slow</em>$^1$. You are not in a period of deep contemplation; rather autopilot has taken over and you are performing manipulations in order to reach your end goal. But, <strong>why</strong>? Why are you performing the steps that you are in performing, in the specific order that you are performing them in?</p>
+<p><strong>The real world is more than the low level</strong><br>
+In a real world environment, there is much more going on than a simple, well constrained test problem conveys. By spending too much time at the low level, or by being inefficient at transitioning from low to high level thinking, we risk missing critical insights into problems, and potentially may not be able to solve for them at all.</p>
+<p><strong>Thinking via analogy tends to break down at the extremes</strong> <br>
+If you encounter a problem that looks similar to something that you have seen before, you will implement the same process that you used to solve the previous problem. However, they almost never have the same conditions, assumptions, edge cases, etc; by nature you apply a process to a problem that is not the same as the one that you originally solved. This requires a high level consideration of what is different, and how to handle that difference.</p>
+<p>The goal of this post is to show how essential having a high level perspective is when it comes to applying mathematics to the real world. In the process I will be performing a deep dive into the following concepts:</p>
 <ul>
 <li>Exponentials</li>
 <li>Logarithms</li>
@@ -230,12 +233,17 @@ $$e ^{log_e(x)} = x$$<p>But, most likely, you were calling upon a specific <em>m
 <h3 id="1.1-Motivation">1.1 Motivation<a class="anchor-link" href="#1.1-Motivation">&#182;</a></h3><p>To begin, I want to start by offering a real world motivation from a recent experience of mine. I was working on a problem relating <strong>probabilities</strong> to <strong>plausibilities</strong>, specifically stepping through the proof of probability theory as an extension of logical reasoning. For the sake of this post the proof itself, and probability theory for that matter, is not particularly important (for those interested it can be found <a href="http://ksvanhorn.com/bayes/Papers/rcox.pdf">here</a>).</p>
 <p>What is important is the particular point that I hit a wall. For context, the entire proof was rather long, and I had been working through it over the course of several hours. My high level thinking was mainly drained, and I was relying on the automatic low level processes that I had learned over the years carry me through the proof. I finally arrived at the following:</p>
 $$p(\alpha) = \frac{1}{w(\alpha)^\frac{log(2)}{log(w(\alpha))}}$$<p>Several lines below the author casually stated that:</p>
-$$p(\alpha) = \frac{1}{2}$$<p>And I was at a bit of a loss as to how they arrived at this point. Let me be clear, this is not necessarily a complex simplification, and certainly not one that is difficult once broken down. A 10th grader who had recently worked with exponentials and logarithms would most likely have been able to handle it. The key insight to keep in mind here is that this small simplification was in the context of a very large proof (~20 pages). There was no test problem that stated: "Please simplify the following expression", immediately triggering associative memory for simplification processes related to exponentials and logarithms. No, rather this was sneakily tucked in on page 17 where the reader is most certainly going to have nearly let their high level cognitive guard down. It requires a high level stepping in order to solve, especially if the mechanical process of exponential\logarithm simplification is not fresh in ones mind.</p>
-<h3 id="1.2-Insight-into-problem-solving-via-associative-memory">1.2 Insight into problem solving via associative memory<a class="anchor-link" href="#1.2-Insight-into-problem-solving-via-associative-memory">&#182;</a></h3><ul>
-<li>TODO: Add khaneman associative memory here</li>
-<li>The first issue with this is that there is a different set of notation/symbols than one is used to seeing. Anyone who has taken a calculus course has most certainly dealt with the functions $ln(x)$ and $e^x$ rather extensively. There is a good chance that if the above simplification had been defined with that notation my associative memory would have immediately pulled in the simplification rules relating to $ln$ and $e$. However, the slight notational change caused my associative memory to be nearly useless in this scenario. It was not triggered to pull in the necessary background information. A main reason for this error was that in the past I had memorized a very specific <strong>case</strong> ($ln$ and $e$) of a more general fundamental concept. You may think that the more general is the standard exponential and logarithm (with any base). In fact I am actually referring to one level up the hierarchy, even more general, the concept of inverse functions. Instead of memorizing that:</li>
-</ul>
-$$e^{ln(x)} = ln(e^x) = x$$<p>I should have internalized the concept of a function, what it does, and what it means to actually take the inverse of a function. This would have allowed me to make the necessary connections in that moment and not stall out. This is a common issue when problem solving via analogy. TODO: bring in epstein conversation about problem solving via analogy, ceo case study.</p>
+$$p(\alpha) = \frac{1}{2}$$<p>And I was at a bit of a loss as to how they arrived at this point. Let me be clear, this is not necessarily a complex simplification, and certainly not one that is difficult once broken down. A 10th grader who had recently worked with exponentials and logarithms would most likely have been able to handle it. The key insight to keep in mind here is that this small simplification was in the context of a very large proof (~20 pages). There was no test problem that stated: "Please simplify the following expression", immediately priming my associative memory for simplification processes related to exponentials and logarithms (see <em>Thinking, Fast and Slow, Chapter 4</em>. No, rather this was sneakily tucked in on page 17 where the reader is most certainly going to have nearly let their high level cognitive guard down. It requires a high level stepping in order to solve, especially if the mechanical process of exponential/logarithm simplification is not fresh in ones mind.</p>
+<h3 id="1.2-Insight-into-problem-solving-via-Associative-Activation-and-Priming">1.2 Insight into problem solving via Associative Activation and Priming<a class="anchor-link" href="#1.2-Insight-into-problem-solving-via-Associative-Activation-and-Priming">&#182;</a></h3><p>As I have briefly alluded to, psychologist Daniel Kanheman has extensively researched and written about the idea of <em>associative activation</em>, <em>associative memory</em>, and <a href="https://en.wikipedia.org/wiki/Priming_(psychology"><em>priming</em></a>). I want to take a moment to briefly define both since I will reference them frequently in this post (and I encourage those interested to read <em>Thinking, Fast and Slow</em>).</p>
+<blockquote><p><strong>Associative Activation</strong>: Ideas that have been evoked trigger many other ideas, in a spreading cascade of activity in your brain. 
+<br>
+<strong>Associative Memory</strong>: A vast network of nodes, where each node is an idea, and each node links to many others.
+<br>
+<strong>Priming</strong>: Exposure to one stimulus influences a response to a subsequent stimulus.</p>
+</blockquote>
+<p>Now you may be asking, "if this post is about inverse functions, exponentials, and logarithms, then why are we talking about psychology"? The reason is that if you dig into these psychological concepts, you will realize that the standard mode of problem solving that most people enter is not effective. We rely on different types of priming to get activate portions of associative memory that will then help us solve a problem. What happens if this priming does not occur? Unfortunately, often all is lost.</p>
+<p>As an example, let's look back to the motivating problem of this post. The first issue with this is that there is a different set of notation/symbols than one is used to seeing. Anyone who has taken a calculus course has most certainly dealt with the functions $ln(x)$ and $e^x$ rather extensively. There is a good chance that if the above simplification had been defined with that notation a priming would have occurred in my mind, activating my associative memory, which would have immediately pulled in the simplification rules relating to $ln$ and $e$. However, the slight notational change caused my associative memory to be nearly useless in this scenario. It was not triggered to pull in the necessary background information. A main reason for this error was that in the past I had memorized a very specific <em>case</em> ($ln$ and $e$) of a more general fundamental concept. You may think that the more general is the standard exponential and logarithm (with any base). In fact I am actually referring to one level up the hierarchy; the concept of inverse functions. Instead of memorizing that:</p>
+$$e^{ln(x)} = ln(e^x) = x$$<p>I should have internalized the concept of a function, what it does, and what it means to actually take the inverse of a function. This would have allowed me to make the necessary connections in that moment and not stall out. This is a common issue when problem solving via analogy.</p>
 
 </div>
 </div>
@@ -288,26 +296,19 @@ $$x = input$$$$y = output$$$$f = function$$$$y = f(x)$$<p>If we let $f(x) = 5x +
     <div class="prompt"></div>
 
 
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ModuleNotFoundError</span>                       Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-60482facd4c5&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      6</span> <span class="ansi-green-fg">from</span> IPython<span class="ansi-blue-fg">.</span>core<span class="ansi-blue-fg">.</span>display <span class="ansi-green-fg">import</span> display<span class="ansi-blue-fg">,</span> HTML
+<span class="ansi-green-intense-fg ansi-bold">      7</span> 
+<span class="ansi-green-fg">----&gt; 8</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">import</span> cufflinks
+<span class="ansi-green-intense-fg ansi-bold">      9</span> <span class="ansi-green-fg">import</span> plotly<span class="ansi-blue-fg">.</span>plotly <span class="ansi-green-fg">as</span> py
+<span class="ansi-green-intense-fg ansi-bold">     10</span> <span class="ansi-green-fg">import</span> plotly
 
-<div class="output_html rendered_html output_subarea ">
-        <script type="text/javascript">
-        window.PlotlyConfig = {MathJaxConfig: 'local'};
-        if (window.MathJax) {MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
-        if (typeof require !== 'undefined') {
-        require.undef("plotly");
-        requirejs.config({
-            paths: {
-                'plotly': ['https://cdn.plot.ly/plotly-latest.min']
-            }
-        });
-        require(['plotly'], function(Plotly) {
-            window._Plotly = Plotly;
-        });
-        }
-        </script>
-        
+<span class="ansi-red-fg">ModuleNotFoundError</span>: No module named &#39;cufflinks&#39;</pre>
 </div>
-
 </div>
 
 </div>
@@ -936,7 +937,7 @@ height=340
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>It is clear that the inverse can be utilized in order to reverse a transformation performed on a given input via a specific function.</p>
-<h3 id="2.2-Inversion-Mechanics">2.2 Inversion Mechanics<a class="anchor-link" href="#2.2-Inversion-Mechanics">&#182;</a></h3><p>Visually this most likely makes sense, but it can be useful to break down the mechanics how this actually works. It is helpful to think of inversion as the reversal of a set of steps. Imagine for a moment that you wanted to give instructions to a friend on how to get to your house (home $A$). One way of doing this, assuming you knew where they lived (home $B$), would be to give a list of $right$, $left$ and $straight$ instructions that if followed would allow them to navigate to your location successfully. For example, a set of instructions may look like:</p>
+<h3 id="2.2-Inversion-Mechanics">2.2 Inversion Mechanics<a class="anchor-link" href="#2.2-Inversion-Mechanics">&#182;</a></h3><p>Visually this most likely makes sense, but it can be useful to break down the mechanics of how this actually works. It is helpful to think of inversion as the reversal of a set of steps. Imagine for a moment that you wanted to give instructions to a friend on how to get to your house (home $A$). One way of doing this, assuming you knew where they lived (home $B$), would be to give a list of $right$, $left$ and $straight$ instructions that if followed would allow them to navigate to your location successfully. For example, a set of instructions may look like:</p>
 <table>
 <thead><tr>
 <th>Home $B$ $\rightarrow$ Home $A$</th>
@@ -990,10 +991,10 @@ height=340
 </tr>
 </tbody>
 </table>
-<p>This process is essentially what is happening when taking a mathematical inverse (in fact, the above direction example can easily be mapped to the mathematically domain via letting $left = 180 ^{\circ}$, $right = 0 ^{\circ}$ and $straight = 90 ^{\circ}$). Consider our original example:</p>
+<p>This process is essentially what is happening when taking a mathematical inverse (in fact, the above direction example can easily be mapped to the mathematical domain via letting $left = 180 ^{\circ}$, $right = 0 ^{\circ}$ and $straight = 90 ^{\circ}$). Consider our original example:</p>
 $$f(x) = 5x + 2$$<p>In this case we have an input $x$, are performing several transformations of the input domain, mapping it effectively to the output domain. More concretely, we are taking the input domain, $x$, scaling by $5$ (multiplication), and then shifting by 2 (addition):</p>
 $$x \rightarrow \text{scale by 5} \rightarrow \text{add 2} \rightarrow \text{output domain: } f(x)$$<p>When viewing our function, $f$, not simply as a hollistic transformation, but rather a composition of smaller transformations, the inverse begins to make much more sense. In order return to the original input domain $x$, from the output domain, $f(x)$, we must reverse the transformations that occured (just as when dealing with directions). This looks like:</p>
-$$f(x) \rightarrow \text{subtract 2} \rightarrow \text{Divide by 5} \rightarrow \text{original input domain: } x$$<p>An interesting thing to note is that even in this deconstructed view we are still performing mini inversions as we reverse transformations to end up at the original input domain. We by subtracting 2 we are essentially performing the inverse of the add 2 operation. The same applies when dividing by 5, we are performing the inverse to multiplying by 5. So a way of thinking of an inverse function is that it is a composition of small inverse transformations, reversing that which was performed by the original function.</p>
+$$f(x) \rightarrow \text{subtract 2} \rightarrow \text{Divide by 5} \rightarrow \text{original input domain: } x$$<p>An interesting thing to note is that even in this deconstructed view we are still performing mini inversions as we reverse transformations to end up at the original input domain. By subtracting 2 we are essentially performing the inverse of the add 2 operation. The same applies when dividing by 5, we are performing the inverse to multiplying by 5. So a way of thinking of an inverse function is that it is a composition of small inverse transformations, reversing that which was performed by the original function.</p>
 <p>From a notational standpoint, we simply take the composition of mini inverse transformations and call it $f^{-1}(x)$:</p>
 $$f^{-1}(x) = \frac{x -2}{5}$$<p>And, for clarity, I find it helpful to have the parameter of $f^{-1}$ be $f(x)$:</p>
 $$f^{-1}(f(x)) = \frac{f(x) -2}{5}$$<p>Since that is what we are really trying to map back to the original input domain, $x$.</p>
@@ -1004,19 +1005,20 @@ $$f^{-1}(f(x)) = \frac{f(x) -2}{5}$$<p>Since that is what we are really trying t
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="3.-Exponentials">3. Exponentials<a class="anchor-link" href="#3.-Exponentials">&#182;</a></h2><p>Now that we have a solid understanding of what an inverse function is, we can move on to exponentials. Often <strong>exponentiation</strong> is viewed as a fundemantal mathematical operation, but in reality it is important to remember that it is in fact simply a way to write repeated multiplication of a specific variable. Formally, it can be written as:</p>
+<h2 id="3.-Exponentials">3. Exponentials<a class="anchor-link" href="#3.-Exponentials">&#182;</a></h2><h3 id="3.1-Repeated-Multiplication-of-a-Variable">3.1 Repeated Multiplication of a Variable<a class="anchor-link" href="#3.1-Repeated-Multiplication-of-a-Variable">&#182;</a></h3><p>Now that we have a solid understanding of what an inverse function is, we can move on to exponentials. We are going to build up our understanding one step at a time, and I really encourage you to let some of this section resonate with you over the course of a few days.</p>
+<p>Often <strong>exponentiation</strong> is viewed as a fundamental mathematical operation, but in reality it is important to remember that it originally was created as a simple way to write <em>repeated multiplication</em> of a specific variable. Formally, it can be written as:</p>
 $${base}^n = \overbrace{base \times \dots \times base}^\text{n times}$$<p>Where if we were to let $n= 7$ and the $base$ be $b$, we would have the following equivalence:</p>
-$$b^7 = b \times b \times b \times b \times b \times b \times b$$<h3 id="3.1-Abstractions-and-Hierarchical-Thinking">3.1 Abstractions and Hierarchical Thinking<a class="anchor-link" href="#3.1-Abstractions-and-Hierarchical-Thinking">&#182;</a></h3><p>Now, in a sense when we introduce a new <em>notation</em> (here the superscript representing the number of times that we perform a repeated multiplication of the base, $b$), we are in reality introducing a <strong>higher level abstraction</strong>, or put another way adding an additional level to our <strong>hierarchy</strong> of mathematical processes. This fact is something that is often not explained very well, and the cost's are immense.</p>
+$$b^7 = b \times b \times b \times b \times b \times b \times b$$<h3 id="3.2-Abstractions-and-Hierarchical-Thinking">3.2 Abstractions and Hierarchical Thinking<a class="anchor-link" href="#3.2-Abstractions-and-Hierarchical-Thinking">&#182;</a></h3><p>Now, in a sense when we introduce a new <em>notation</em> (here the superscript representing the number of times that we perform a repeated multiplication of the base, $b$), we are in reality introducing a <strong>higher level abstraction</strong>, or put another way adding an additional level to our <strong>hierarchy</strong> of mathematical processes. This fact is something that is often not explained very well, and the cost's are immense.</p>
 <blockquote><p>By not having a solid understanding of the foundational underpinnings, you have no hope that the intuitive representation you call upon from associative memory links to the necessary abstractions that you utilized.</p>
 </blockquote>
-<p>Put another way, you need to be able to realize (automatically), that exponentiation is simply repeated multiplication of a base. What often happens in mathematics is that the fact that this notation represents an abstraction is lost; it is treated as a fundamental, similar to addition. You may ask, why are abstractions necessary at all? Why even introduce this new notation and not simply use something such as:</p>
+<p>Put another way, you need to be able to realize (automatically), that exponentiation can intuitively be thought of as <em>repeated multiplication of a base</em>. What often happens in mathematics is that the fact that this notation represents an abstraction is lost; it is treated as a fundamental, similar to addition. You may ask, why are abstractions necessary at all? Why even introduce this new notation and not simply use something such as:</p>
 $$\overbrace{b \times \dots \times b}^\text{n times}$$<p>Think of how often the concept of an exponential comes up in mathematics; a simple answer to our question is that it would be incredibly cumbersome to use the above notation to write out the concept of repeated multiplication of a base. However, there is a deeper principle behind this and that is abstraction. From the perspective of learning and cognitive science, what we have done was created a new pattern (exponentiation) that is made up of a prexisting pattern (multiplication).</p>
 <p><img src="https://intuitive-ml-images.s3-us-west-1.amazonaws.com/mathematics/functions/inverse+functions/exponentiation-abstraction.png" width="400"></p>
-<p>In reality this is how the brain is designed to work; it is structured to think in a hierarchical fashion, and specifically evolved this way because we live in a hierarchical world. Look to language (characters which make up words, which make up sentences, which make up paragraphs, which in turn make up books and thoughts), or biology (molecules make up organic compounds, which in turn make up macromolecules, which make up cells, which make up tissues and organs, which finally make up living organisms. This idea of abstracting out patterns to be composed of lower level patterns is incredibly prevelant in mathematics. My previous post on functions highlights this; the function $f(x) = 3x + 4$ can be viewed from a high level as a single function transformation, <em>or</em> from a lower level as two specific fundamental transformations, a scaling of the input domain by 3 and a shifting of the scaled input by 4.</p>
+<p>In reality this is how the brain is designed to work; it is structured to think in a hierarchical fashion, and specifically evolved this way because we live in a hierarchical world$^2$. Look to language (characters which make up words, which make up sentences, which make up paragraphs, which in turn make up books and thoughts), or biology (molecules make up organic compounds, which in turn make up macromolecules, which make up cells, which make up tissues and organs, which finally make up living organisms$^{3}$. This idea of abstracting out patterns to be composed of lower level patterns is incredibly prevelant in mathematics. My previous post on functions highlights this; the function $f(x) = 3x + 4$ can be viewed from a high level as a single function transformation, <em>or</em> from a lower level as two specific fundamental transformations, a scaling of the input domain by 3 and a shifting of the scaled input by 4.</p>
 <p>Unfortunately, this abstraction is all to frequently either forgotten, or, more commonly, never truly learned and understood in the first place. What ends up happening is the following:</p>
 <p><img src="https://intuitive-ml-images.s3-us-west-1.amazonaws.com/mathematics/functions/inverse+functions/exponentiation-abstraction-no-connection.png" width="400"></p>
-<p>Instead of abstractions that are linked together, they are disconnected. This means that when dealing with a difficult problem where it would be valuable to relate the higher level abstraction of exponentiation back to that of the lower level multiplication, we can't. Now, this isn't to say that we cannot <em>understand</em> the relation or recall it if given a push in the right direction. We do have both concepts in our memory and can make that connection. The issue is that our associative memory will not <em>automatically</em> pull in the hierarchical chain on it's own. When trying to solve incredibly complex problems, how useful is it if all you can say is: "If only someone would tell me the steps I need to take and angle I need to view this problem from to solve it, then I could do it!". We need to actively ensure that lower level patterns are linked to the higher level abstractions or risk not being able to make the connections that allow for extraodinary problem solving skills.</p>
-<h3 id="3.2-Exponentiation-Visualization">3.2 Exponentiation Visualization<a class="anchor-link" href="#3.2-Exponentiation-Visualization">&#182;</a></h3><p>With that said, I want us to get a feel for the exponentiation process and it's subsequent visualization:</p>
+<p>Instead of abstractions that are linked together, they are disconnected. This means that when dealing with a difficult problem where it would be valuable to relate the higher level abstraction of exponentiation back to that of the lower level multiplication, we can't. Now, this isn't to say that we cannot <em>understand</em> the relation or recall it if given a push in the right direction. We do have both concepts in our memory and can make that connection. The issue is that our associative memory will not <em>automatically</em> pull in the hierarchical chain on it's own; it requires priming. When trying to solve incredibly complex problems, how useful is it if all you can say is: "If only someone would tell me the steps I need to take and angle I need to view this problem from to solve it, then I could do it!". We need to actively ensure that lower level patterns are linked to the higher level abstractions or risk not being able to make the connections that allow for extraodinary problem solving skills.</p>
+<h3 id="3.3-Exponentiation-Visualization">3.3 Exponentiation Visualization<a class="anchor-link" href="#3.3-Exponentiation-Visualization">&#182;</a></h3><p>With that said, I want us to get a feel for the exponentiation process and it's subsequent visualization:</p>
 
 </div>
 </div>
@@ -1110,16 +1112,114 @@ height=340
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now, I hope that there is an oddity concerning the above exponetial curve that sticks out. Clearly locations where $x$ has an integer value, $\{0, 1, 2, 3, 4, 5\}$, make intuitive sense when matched to the explanation we gave earlier about what an exponent was meant to represent. For instance, we know that our base is $2$, and if the value of the $x$ exponent is $3$:</p>
+<p>Now, I hope that there is an oddity concerning the above exponetial curve that sticks out. Clearly locations where $x$ has an integer value, $\{0, 1, 2, 3, 4, 5\}$, make intuitive sense when matched to the explanation we gave earlier about what an exponent was meant to represent; <em>repeated multiplication</em>. For instance, we know that our base is $2$, and if the value of the $x$ exponent is $3$:</p>
 $$2^3 = 2 \cdot 2 \cdot 2 = 8$$<p>Or when $x = 5$:</p>
-$$2^5 = 2 \cdot 2 \cdot 2 \cdot 2 \cdot 2 = 32$$<p>But what exactly does it mean to raise $2$ to the exponent $3.486$? Put another way, what does it mean to multiply $2$ by itself $3.486$ times? We must be able to account for this scenario, or else our exponentation abstraction will lose it's continuity, and subsequently it's usefulness. Let's try and gain some intuition for what this really means.</p>
-<h3 id="3.3-Raising-to-a-fraction">3.3 Raising to a fraction<a class="anchor-link" href="#3.3-Raising-to-a-fraction">&#182;</a></h3><h4 id="3.3.1-An-intuitive-perspective">3.3.1 An intuitive perspective<a class="anchor-link" href="#3.3.1-An-intuitive-perspective">&#182;</a></h4><p>Often when dealing with mathematical concepts we will encounter the idea of <em>extension</em>. For instance, there may be an intuitive situation that humans encounter where a mathematical principle fits nicely. But suddenly there are areas where the principle isn't quite as intuitive and breaks down. This is where the idea of <em>extension</em> comes into play; we extend the principle to include this new terrain.</p>
-<p>For example, consider our number system. Originally designed with a base of ten due to the fact that we have 10 fingers, it could be used to count the number of chickens one had, how many soldiers were under command, and so on. Intuitively it was not terribly difficult to wrap ones head around. If you had 5 chickens and gave 3 to a friend, you only had 2 left. But with the advent of currency, the number system required an expansion. Now say that I had a 1,000 dollars but I needed 2,000 in order to secure a new home. I may borrow the additional 1,000 from someone, meaning my net balance is -1,000. The number system needed to be expanded in order to account for this. The same thing occured when complex numbers were established. The system needed to be expanded to account for the fact that it had no value for the quantity $\sqrt{-1}$, and yet it arose in areas such as electrical engineering.</p>
+$$2^5 = 2 \cdot 2 \cdot 2 \cdot 2 \cdot 2 = 32$$<p>But, clearly out curve is defined at <em>non integer values</em> as well. What exactly does it mean to raise $2$ to the exponent $3.486$? Put another way, what does it mean to multiply $2$ by itself $3.486$ times? We must be able to account for this scenario, or else our exponentation abstraction will lose it's continuity, and subsequently it's usefulness. Let's try and gain some intuition for what this really means.</p>
+<h3 id="3.4-Raising-to-a-fraction">3.4 Raising to a fraction<a class="anchor-link" href="#3.4-Raising-to-a-fraction">&#182;</a></h3><h4 id="3.4.1-Can-we-extend-our-intuitive-perspective?">3.4.1 Can we extend our intuitive perspective?<a class="anchor-link" href="#3.4.1-Can-we-extend-our-intuitive-perspective?">&#182;</a></h4><p>We will start by seeing how we can extend this idea of exponentiation to repeated multiplication in the case of fractional exponents. Often when dealing with mathematical concepts we will encounter the idea of <strong>extension</strong>. For instance, there may be an intuitive situation that humans encounter where a mathematical principle fits nicely. Then, suddenly there are areas where the principle isn't quite as intuitive and breaks down. This is where the idea of <em>extension</em> comes into play; we extend the principle to include this new terrain.</p>
+<p>For example, consider our number system. Originally designed with a base of ten due to the fact that we have 10 fingers, it could be used to count the number of chickens one had, how many soldiers were under command, and so on. Intuitively it was not terribly difficult to wrap ones head around. If you had 5 chickens and gave 3 to a friend, you only had 2 left (i.e. $5 - 3 = 2$). But with the advent of currency, the number system required an expansion. Now say that I had a 1,000 dollars but I needed 2,000 in order to secure a new home. I may borrow the additional 1,000 from someone, meaning my net balance is -1,000. The number system needed to be expanded in order to account for this; enter negative numbers. The same thing occured when complex numbers were established. The system needed to be expanded to account for the fact that it had no value for the quantity $\sqrt{-1}$, and yet it arose in areas such as electrical engineering.</p>
 <p>This same principle applies in our present situation. While it may not be immediately intuitive, we need a way to extend our system. We will start by doing so via a logical progression. First, consider the following:</p>
-$$2^3 = 2 \cdot 2 \cdot 2 = 8$$<p>Above, we can see that we had $3$ multiplications by $2$. Now, consider:</p>
-$$2^5 = 2 \cdot 2 \cdot 2 \cdot 2 \cdot 2 = 32$$<p>Now we have $5$ multiplications by $2$. So, we can view the exponent as the number of multiplications we have by $2$ (our base). How about:</p>
-$$2^{\frac{1}{2}} = ?$$<p>Well, if we extend our thought process we will see that we now simple have <em>half a multiplication by $2$</em>. In other words, $2^{\frac{1}{2}}$ is the number that yields half a multiplication by $2$. In order to get a full multiplication by $2$, we must multiply that number twice:</p>
-$$2^{\frac{1}{2}} \cdot 2^{\frac{1}{2}} = 2^1$$<h4 id="3.3.2-A-Formal-Perspective">3.3.2 A Formal Perspective<a class="anchor-link" href="#3.3.2-A-Formal-Perspective">&#182;</a></h4><p>Now, we can also take a more formal perspective. Recall our earlier definition of an exponential:</p>
+$$2^3 = 2 \cdot 2 \cdot 2 = 8$$<p>Above, we can see that we had $3$ <em>repeated</em> multiplications by $2$. Now, consider:</p>
+$$2^5 = 2 \cdot 2 \cdot 2 \cdot 2 \cdot 2 = 32$$<p>Now we have $5$ <em>repeated</em> multiplications by $2$. So, we can view the exponent as the number of <strong>repeated multiplications</strong> we have by $2$ (our base). How about:</p>
+$$2^{\frac{1}{2}} = ?$$<p>Well, if we extend our thought process we may come to the conclusion that we now simply have <em>half a multiplication by $2$</em>. In other words, $2^{\frac{1}{2}}$ is the number that yields half a multiplication by $2$. In order to get a full multiplication by $2$, we must multiply that number twice:</p>
+$$2^{\frac{1}{2}} \cdot 2^{\frac{1}{2}} = 2^1$$<p>This can be shown via a simple example. Take the following equation:</p>
+$$5 \cdot 7 = 35$$<p>Now, I am going to define a variable $a$ to be equal to <em>one half of a multiplication</em> by $5$, ($a = 5^{\frac{1}{2}}$). Specifically, I am going to define $a = 2.23606797749979$. Now, based on our above reasoning, two half multiplications by $5$ should be equivalent to a single multiplication by $5$. Hence:</p>
+$$a \cdot  a \cdot 7 = 35$$<p>Let's see how that looks via python. We can see that $a \times 7$ is equal to:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="mf">2.23606797749979</span>
+<span class="n">a_times_seven</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="mi">7</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">a_times_seven</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>15.652475842498529</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we can multiply that above value, $a \times 7$, times another $a$: $a \times (a \times 7)$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a_times_a_times_seven</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">a_times_seven</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">a_times_a_times_seven</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>35.0</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>And we can see that we end up at just about 35 (numerical precision errors may arise due to my setting of $a$). However, there is something that is not quite right about this intuitive extension. Let's look at the exact verbage I used when defining $5^{\frac{1}{2}}$: <em>one half of a multiplication by $5$</em>. I hope you can see that this is incredibily ambiguous; it could just as well represent $1 \times 5 \times \frac{1}{2}$. I don't think anyone can argue that that also is a way to think about one half of a multiplication by $5$. So, our intuitive phrasing has essentially lead us to an inconsistency:</p>
+$$a \cdot a \cdot 7 \neq 2 \cdot a \cdot 7 $$<p>We know that the above terms on the left and right are in fact not equivalent, however, unless we determine a better way to extend our concept of exponentiation, and how fractional exponents are handled, this is what we will be left with; an inconsistent extension.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="3.4.2-Can-we-formally-derive-a-solution-without-thinking-outside-the-box?">3.4.2 Can we formally derive a solution without thinking outside the box?<a class="anchor-link" href="#3.4.2-Can-we-formally-derive-a-solution-without-thinking-outside-the-box?">&#182;</a></h4><p>Now, we can also take a more formal perspective. Recall our earlier definition of an exponential:</p>
 $$b^n = \overbrace{b \times \dots \times b}^\text{n times}$$<p>We have a simple extension to allow $n$ to take on negative values. We can write:</p>
 $$b^{-n} = \frac{1}{\underbrace{b \times \dots \times b}_\text{n times}}$$<p>Where we can see via an example that this holds:</p>
 $$\frac{b^3}{b^5} = b^{-2} = \frac{1}{b^2}$$<p>And we can let $b = 2$:</p>
@@ -1129,11 +1229,65 @@ $$b^{\frac{1}{n}} = x$$<p>If we raise each side to the $n$:</p>
 $$\big(b^{\frac{1}{n}}\big)^n = \overbrace{ b^{\frac{1}{n}} \cdot b^{\frac{1}{n}} \dots \cdot b^{\frac{1}{n}}}^\text{n times} = b = x^n$$$$b = x^n$$<p>Keeping in mind that our goal is to find $x$, the value that $b^{\frac{1}{n}}$ is equal to, we need to do the following:</p>
 <blockquote><p>Figure out what number multiplied by itself $n$ times is equal to $x$. This value is $b^{\frac{1}{n}}$.</p>
 </blockquote>
-<h4 id="3.3.3-But-how-does-this-actually-work?">3.3.3 But how does this actually work?<a class="anchor-link" href="#3.3.3-But-how-does-this-actually-work?">&#182;</a></h4><p>Now, there may still be confusion about determing these values in practice. Sure, if you are given $8^{\frac{1}{3}}$ you may be able to see that $2 \cdot 2 \cdot 2$ yields $8$, and you have your answer. But what about the many scenarios where things are quite so simple? For instance, what about $2^{0.848}$. There are different ways of thinking about this, for instance can $0.848$ easily be written as a fraction? However, I want to take another approach right now. First, I want to point out that while this may feel uncomfortable-the fact that an answer doesn't come easily to mind is never fun-realize that it isn't that different from long division. What exactly do I mean by that?</p>
-<p>Consider the following? You undoubtably feel very comfortable with the concept of division; simply how many times can one quantity fit into another. For instance, $\frac{30}{6}$ most likely gives no pause, with the number $5$ coming to mind instantly. However, what about $\frac{839234235789}{45689458}$? I would reason that a number doesn't exactly pop into your head. Long ago you were most likely taught the long division algorithm, but hopefully haven't had to use it in years due to having a calculator on hand. The key point is that there was a particular algorithm that was used to actually solve for the correct value. In rather basic cases, the algorithm is not necessary. But the point remains that a set of steps is used to the reach a concrete conclusion (a numeric output) to an abstract problem (how many times does one quantity go into another). Not know the algorithm (long division) doesn't hinder your understanding of the actual abstraction.</p>
-<p>The above situation is very much like the one we are in now. We have a quantity that we want to determine, namely $2^{0.848}$. The basic scenario makes intuitive sense and is very easy to reason about (i.e. $2^4$ or $8^{\frac{1}{3}}$). However, it's extension is a bit harder to solve and will require a more advanced algorithm/process. The point is the same as long division, that being that this isn't essential to know in order to be productive with exponentials. The key to really keep in mind is as follows:</p>
-<blockquote><p>There is <em>some</em> number that $2^{0.848}$ evaluates to. It is pretty close to $\frac{8}{10}$th's of a multiplication by $2$. In order to solve it you most likely need an algorithm</p>
+<h4 id="3.4.3-Did-that-actually-yield-the-intuitive-understanding-we-were-looking-for?">3.4.3 Did that actually yield the intuitive understanding we were looking for?<a class="anchor-link" href="#3.4.3-Did-that-actually-yield-the-intuitive-understanding-we-were-looking-for?">&#182;</a></h4><p>Now, there may still be confusion about determing these values in practice. Sure, if you are given $8^{\frac{1}{3}}$ you may be able to see that $2 \cdot 2 \cdot 2$ yields $8$, and you have your answer. But what about the many scenarios where things are quite so simple? For instance, what about $2^{0.848}$. There are different ways of thinking about this, for instance can $0.848$ easily be written as a fraction? However, I want to take another approach right now. First, I want to point out that while this may feel uncomfortable-the fact that an answer doesn't come easily to mind is never fun-realize that it isn't that different from long division. What exactly do I mean by that?</p>
+<p>Consider the following? You undoubtably feel very comfortable with the concept of division; simply how many times can one quantity fit into another. For instance, $\frac{30}{6}$ most likely gives no pause, with the number $5$ coming to mind instantly. However, what about $\frac{839234235789}{45689458}$? I would reason that a number doesn't exactly pop into your head. Long ago you were most likely taught the long division algorithm, but hopefully haven't had to use it in years due to having a calculator on hand. The key point is that there was a particular algorithm that was used to actually solve for the correct value. In rather basic cases, the algorithm is not necessary. But the point remains that a set of steps is used to the reach a concrete conclusion (a numeric output) to an abstract problem (how many times does one quantity go into another). Not knowing the algorithm (long division) doesn't hinder your understanding of the actual abstraction.</p>
+<p>The above situation is very much like the one we are in now. We have a quantity that we want to determine, namely $2^{0.848}$. The basic scenario makes intuitive sense and is very easy to reason about (i.e. $2^4$ or $8^{\frac{1}{3}}$). However, it's extension is a bit harder to solve and will require more advanced reasoning. The point is the same as long division, that being that this isn't essential to know in order to be productive with exponentials. The key to really keep in mind is as follows:</p>
+<blockquote><p>There is <em>some</em> number that $2^{0.848}$ evaluates to. It is somewhere between $1$ and $2$. In order to solve it you most likely need an a more advanced extension.</p>
 </blockquote>
+<p>Now, let's take a deep dive into that advanced extension!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="3.4.4-Exponentials-as-repeated-multiplication:-A-specific-case-of-a-general-function">3.4.4 Exponentials as repeated multiplication: A specific case of a general function<a class="anchor-link" href="#3.4.4-Exponentials-as-repeated-multiplication:-A-specific-case-of-a-general-function">&#182;</a></h4><p>As stated several times already, we generally think of exponentials as <em>repeated multiplication</em>:</p>
+$$2^3 = 2 \times 2 \times 2$$<p>I want to define the function $f$ to represent the concept of exponentiation:</p>
+$$f(x \mid b) = b^x = \overbrace{b \times \dots \times b}^{\text{x times}}$$<p>And, for notational purposes I will from here on out drop the $b$ as a given in the function input; but do not forget that it is indeed there. Now, as discussed earlier, a consequence of our notation is that:</p>
+$$2^{3+5} = \overbrace{2 \times 2 \times 2}^{\text{3 times}} \times 
+\overbrace{2 \times 2  \times 2  \times 2 \times 2}^{\text{5 times}}$$$$2^{3+5} = 2^3 \cdot 2^5$$<p></p>
+<p>This can generally be written as:</p>
+$$2^{x+y} = 2^x \cdot 2^y$$<p></p>
+<p>This is known as the <strong>exponential property</strong>. Now, what does this say about $f$ (our function that is representing exponentiation)? Well, $f$ clearly possesses the property:</p>
+$$f(x+y) = f(x) \cdot f(y)$$<p>Now, again, when $x$ is a negative or fractional number (i.e. $2^{\frac{1}{2}}$, $2^{-1}$), our intuitive understanding of exponentiation breaks down. What does it mean to multiply $2$ by itself half of a time?</p>
+<p>To get around this we do something that is very common throughout mathematics: We extend the original definition, which only makes sense for counting numbers, to something that applies to all sorts of numbers. However, we <em>do not</em> do this randomly!</p>
+<blockquote><p>Fractional and negative exponent definitions are entirely motivated to be sure that the exponential property, $2^{x+y} = 2^x \cdot 2^y$, holds.</p>
+</blockquote>
+<p>LEAVING OFF.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Still, I think it is worthwhile exploring for a bit! For instance, how would you actually calculate this using a computer? In order to show this I am going to change up the problem slightly (for brevity) and change our base to be $e$, and hence calculate $e^{0.848}$, but the principle remains the same in general. For instance, via python we can do <code>display(e**0.848)</code>:</p>
 
 </div>
@@ -1525,7 +1679,8 @@ if (outputEl) {{
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We have created a function with relatively little effort that can match that of built in python. If you are anything like me you may still be thinking: "But <em>without</em> using a Taylor series how would we calculate $e^{0.848}$?". That type of question is not naive, but does display a slight misunderstanding/oversight. There are <em>many</em> mathematical constructs that are not easy to calculate and need a particular algorithm/process/technique in order to solve. We already talked about long division, but there is also the concept of <a href="https://en.wikipedia.org/wiki/Completing_the_square">completing the square</a>, <a href="https://en.wikibooks.org/wiki/Calculus/Newton%27s_Method">Newton's Method</a>, and many others (particularly integration).</p>
+<p>TODO: Decide if I should keep this paragraph or not?
+We have created a function with relatively little effort that can match that of built in python. If you are anything like me you may still be thinking: "But <em>without</em> using a Taylor series how would we calculate $e^{0.848}$?". That type of question is not naive, but does display a slight misunderstanding/oversight. There are <em>many</em> mathematical constructs that are not easy to calculate and need a particular algorithm/process/technique in order to solve. We already talked about long division, but there is also the concept of <a href="https://en.wikipedia.org/wiki/Completing_the_square">completing the square</a>, <a href="https://en.wikibooks.org/wiki/Calculus/Newton%27s_Method">Newton's Method</a>, and many others (particularly integration).</p>
 <p>The idea is that there may be some entity that we <em>know</em> has a calculatable value-for instance the <a href="https://en.wikipedia.org/wiki/Error_function">integral of the normal distribution</a>, known as the error function. Because this integral has no closed form solution, the best that we can hope to do is give a numerical answer. This is similar in our case, although as we let $n \rightarrow \infty$ we do converge to the true value of $e^{0.848}$. The reality of the situation is that our original, intuitive concept of exponentiation simply equating to repeated multiplication must be extended in order to handle more complex scenarios (decimal powers). The point I am trying to make is that we see this all the time in mathematics! It is nothing to be uncomfortable with, rather it just requires exposure so that your brain becomes familiarized and can hold in memory the proper abstraction.</p>
 
 </div>
@@ -1683,101 +1838,29 @@ $$<p>Which can be worked through in a similar fashion to the first functional re
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">2</span><span class="o">**</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[24]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>array([  1,   2,   4,   8,  16,  32,  64, 128, 256, 512])</pre>
-</div>
-
-</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>LEAVING OFF:</p>
+<ul>
+<li>The idea and purpose of logarithms is also to undo a fundamental arithmetic operation, namely raising a number to a certain power (an operation also known as exponentiation)</li>
+<li>The above function can be abstracted and refered to as a logarithm!!!</li>
+</ul>
 
 </div>
 </div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">32</span> <span class="o">/</span> <span class="mi">2</span><span class="o">/</span> <span class="mi">2</span> <span class="o">/</span><span class="mi">2</span> <span class="o">/</span><span class="mi">2</span> <span class="o">/</span><span class="mi">2</span>  
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">mathforum</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">library</span><span class="o">/</span><span class="n">drmath</span><span class="o">/</span><span class="n">view</span><span class="o">/</span><span class="mf">72013.</span><span class="n">html</span>
+    
+    
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[28]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>1.0</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">2</span><span class="o">**</span><span class="mi">9</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[27]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>512</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -1797,10 +1880,158 @@ $$<p>Which can be worked through in a similar fashion to the first functional re
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+
+<span class="n">lower_bound</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">upper_bound</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">length</span> <span class="o">=</span> <span class="mi">2000</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="mf">0.4</span>
+<span class="n">e</span> <span class="o">=</span> <span class="mf">0.001</span>
+
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">lower_bound</span><span class="p">,</span> <span class="n">upper_bound</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+<span class="n">y_orig</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">e</span> <span class="o">/</span> <span class="n">p</span><span class="p">))</span> <span class="o">**</span> <span class="n">c</span>
+<span class="n">y_approx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">e</span> <span class="o">*</span> <span class="n">c</span><span class="p">)</span> <span class="o">/</span> <span class="n">p</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">y_orig</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">xkcd_rgb</span><span class="p">[</span><span class="s2">&quot;green&quot;</span><span class="p">])</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">y_approx</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">xkcd_rgb</span><span class="p">[</span><span class="s2">&quot;red&quot;</span><span class="p">])</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;Original&quot;</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s2">&quot;Approx&quot;</span><span class="p">],</span> 
+    <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">,</span>
+    <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span>
+<span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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K8gnvqiYlOL5pJctIrvsVPJS8/REOZEoUfBPYqFQiJ///OfMnj2btWvXTmjw9/f3ExenB4RMd6FgkLa6XTRXbqO9aiddVXvor6vB6vYR39BKclMH6c3dJPY6ZjDyq1chfI96a2Y8HZHr6QN52fgKCsKD5EoWMLtsETklp1GYONIrYUQkFhT8k9hLL71EXV0dzz//PBdddBHbtm1j8eLwu4zMjIcffpgnnniCPXv2sGTJEn7+858zb948AJYuXcrpp59OeXk5r7/+OiUlJTz44IODz+dfvXo1mzZt4swzz2T9+vWceeaZvPDCC2zZsoVbbrmFd955h/T0dK655hruuOMO/H4/r7zyCp/73Od48803WbhwId3d3Zx11lmsXLmS73znOzHbTxIZ9X4gMup97/t01Oyht7aKUF09gX0tzGg8QErzIdL29435hjaAQ4nG/swEOnJS6MuZTSg/h0BhIUnFc5lVGr6enl+wkNKA7lEXmWo8H/z1Ue5ezD+GtyGuXbuW5cuXc+GFF3LaaaexZs0afvKTnxy2fsOGDRQUFLBq1Souvvhitm7dit8fvg66bt06fve73/H888/zzDPP8E//9E/s2LFj8BW6mzZt4sILL6SmpoZgMEh7ezvLli3j5ptv5oUXXqCiooILL7yQhIQEVq1axbJly/jmN7/JZZddxptvvslNN91EZmYm995777juIzlcsLeblqr3aancTkf1brpqKwnWhQfIxTXuZ2ZTJ+kt3ST2uDFHvQO0pfppz5xBZ84s+nMzoCCPuMJikovnkl66iKy5H2NuZjHz9epVkWkp5q/lnQjH8lreyRr89fX1lJSU8Nxzz3HJJZfw4x//mHvuuYf6+noSExMxMx5//HGuvfZaALq6ukhPT+e1117jU5/6FEuXLqWoqIj169cPbvPcc89lxYoV3HnnnaxevZr169ezZ8+ewfVPPfUUt912G9XV1YPXW9esWcNDDz3Ezp07gfDlh2XLlrF//3727dvHu+++S07OaDEzPL2WN7wvOxqraKrYyoHqHRyqDne7h+obiNvXSmJjO7NaugYfODOW7gRjf2Y8nVkz6ckJd7378/NJKCwhpXg+GaUnk1V6KinJIz22RkSmsun4Wt4JMVYQB4Phf3QDgejuqnXr1jF79mwuuugiAK688kq+/e1v88wzz/DVr34VYPDMHSApKYmsrCxqa2sHlw1d/+H80PUlJSWHra+pqaGkpOSwQVZz586lpqZmcN7n83HzzTdz6aWXcvfddx9X6HtBb+cBmiq30rr3fTqrd9NTW8VAXR2+fc3M2NfGzOZO0lt6iT+K29gGfNCWHqA9M4nu7Fn052VCfi7xBUUkF80lrWQhmWWLKc0q1ah3ERmT54N/MgqFQqxbt44DBw5QWFg4uHxgYIA1a9YMBv/evXsH13V1ddHc3HxY+6HrP5xfsWLF4LzPd3hXblFREVVVVTjnBsO/oqKCoqKiwTZNTU3cdNNN3HjjjTz88MNcfvnlnHLKKSf6K08ZA8F+9tfspLlqOwerdtJVXUF/XS3W0EhcYytJjQdJa+kmpTOEn9FftQrQkeyjLTOBQ9kp9ObMxuVl4y8oJKmwlJTiBWTMWUR24SKKEvQUOREZHwr+SejFF1+kpqaGv/71rxQUFAwuf++997jgggvYunUrAA8//DBLly6loKCA22+/nTlz5nDWWWcNtn/++ed59dVXWbp0Kc8++yybN28+rOv/SBdeeCG33HIL3/ve91i1ahWVlZU88MAD3HDDDUD4C8mXvvQlli1bxmOPPUZ+fj6XXXYZb731FsnJUzuYnHMc2r+Ppsr3aKvaSWdVOX211YQa6vE3NJPY2E5KyyHS9vcTCI19X3p/APbPjrzAJSeVgZxMfAX5xBcWM7NoHumlJ5Ndtli3sYlI1Cn4J6E1a9ZwySWX8PGPf/yw5bm5uXzyk59kzZo1AFx33XVceumlVFRUcOaZZ/L73/9+cGAfwLXXXstDDz3EypUrKSoq4re//S1lZWUjfm5qaiovv/wy3/rWt3jwwQdJTU3l6quv5tZbbwXgO9/5DvX19Tz//PMA3HnnnWzatImvfe1ro36hiCXnHF1tTTTt3caB6p101pTTU19NqL4BX0Mz8c3hbve0lt6juoUNPhwcl8ih7JTw4Li8HAKFRSQVzSG1eAGZpadQUHASJXp/uohMQp4f3DeWWF3jH4uZ8cYbb3DuuecOu37p0qWcf/753HXXXVGu7OiMx+C+Q21NNFdto61qB501e+ipq2YgcoYe39RGcvMh0lp7SOo5umM8PDgugc6sZHpz0hnIy8KfX8CMolJSiuczu+RksktPJTl5tHN9EZHY0OA+mbK62ptp2rs9Eujl9NZWE2yox7eviYTGAyS3dJLW2ntUL20B6Ik39mfE05mZTE9OKgO5Wfjy8kjIL4wMjjuJzJJF5GYUM9enW9hEZHpT8EvUDAz0E+ztYaCvh56ONl6583IGGhrw7WsivrEtHOgtvSQfQ6C3ZcTTkZlMb3YqwdzMcKAXFJJUOIe0kpPIKjmF3MwS5ijQRUQABf+UNdYlmtdffz06hQChgSD9vd0M9PUw0NeL6+/F9fdDfxBffxBfMIQ/GMIXAiN80MXtP8gp9z837PZ646AtI4GOrCR6slIZiAR6fH74OnpayQIyi08hN7tUgS4icowU/DKiwUDv72Gg9/BAt/4g/mECfbQDyhkEA0Yo4KNvRoB3r/g4lpdHQkExSYWlpBafRFbpYnKySyjT/egiIhPCk8E/9D51r3HOMRDsI9gX7nIP9fUS6u+D/iD09+MLDgx7hj5WoA8EjIGAj1DAD3EBiIvD4uLxxSfgj08gEJ9IXFwCCWY450jcsYMVTw0/AFNERCaO54Lf7/fT399PfHx8rEsZVy4UItjfEwn0XkJ9H56d92PBIBYciJyhO8yBj/A06jYNBvyRQI/zQyAA8R8Gejz++BmDgX4sX6S6u7v1JkARkRjxXPCnpaXR2NhIQUHBR55cNxkNDAQJ9g29ft53WHe7LziAP+jwD4Sv+fsj02hCvnCghwL+/wz0uDgsPg5fXEIk0Gccc6CPxTlHd3c3dXV1etSviEiMxDT4zewXwEVAk3Nu8TDrDfgRsALoAr7qnPvbiXxmZmYmtbW1gy+dGcvAwADAYQ/GOVHOOVxogIFgP6GBflwwiBsYgMhkoRA24PCFHL6jfMyCI3yGHvIbzufD+X3g94Hfj/kD+AIBfP44fIE4fEOvnw9Ept5+oJ/wbp44cXFx5OTkMGuW3tEuIhILsT7jfwJ4BHhyhPXLgfmR6Szgp5E/j5vP56O4uPio27e2tgKQkZExZtv+vh5aanawv2YHB2vK6a7bS19DHa6hkUDTfmY0tzOztYu0/f0k9B9dovcF4MDseDoykujJnkUwezbk5BCXX0BifgmziuaSUbyQjKKFJOh57iIiMoaYBr9zbpOZlY7SZCXwpAvfu/YXM0szszznXENUCozo6mzjYH3kka91lfTUVRNsCL9pLdDcRlJzB7Nae0htD+JzkE54Gk1nko/2jAQOZSTTm51GKCcjfMtaXiHJBWWkFs8ns2QROdmllGqEu4iIjJNYn/GPpQCoGTJfG1kWteD/v3d8kYW/e5u01tYxHygTMtifHqBj9gy6slLoz07H5WYTyM1nRkExyYVzSC8+iaziReTPyozWryAiIjJosgf/UTOz64HrgWPqyh+LL3UW/QFozImnMyOJnuxUgtkZWG42cfmFJBWUMqtoHrMLTyKnaCGF8TPG7bNFRETG22QP/jqgaMh8YWTZRzjn1gJrIfySnvEq4Oxbf4T/23FkZWWN1yZFRERiZrLfz7YB+IqFnQ20R/v6flx8wpS47U9ERORoxPp2vl8DS4FMM6sF7gHiAJxzPwM2Er6Vr5zwfWZXx6ZSERGR6SHWo/qvGGO9A26KUjkiIiLTnvqwRUREPETBLyIi4iEKfhEREQ9R8IuIiHiIgl9ERMRDFPwiIiIeouAXERHxEAW/iIiIhyj4RUREPETBLyIi4iEKfhEREQ9R8IuIiHiIgl9ERMRDFPwiIiIeouAXERHxEAW/iIiIhyj4RUREPETBLyIi4iEKfhEREQ9R8IuIiHiIgl9ERMRDFPwiIiIeEvPgN7MLzGynmZWb2e3DrC82s9fM7B0z22JmK2JRp4iIyHQQ0+A3Mz/wKLAcWARcYWaLjmh2F/Csc+4M4AvAY9GtUkREZPqI9Rn/J4By51yFc64PeBpYeUQbB8yK/JwK1EexPhERkWklEOPPLwBqhszXAmcd0WY18LKZ/XcgGTg/OqWJiIhMP7E+4z8aVwBPOOcKgRXAejP7SN1mdr2ZbTazzc3NzVEvUkREZCqIdfDXAUVD5gsjy4a6FngWwDn3Z2AGkHnkhpxza51zS5xzS7KysiaoXBERkakt1sH/FjDfzMrMLJ7w4L0NR7SpBj4NYGYnEw5+ndKLiIgch5gGv3MuCNwMvAR8QHj0/nYzu8/MLo40+xfgn83sPeDXwFedcy42FYuIiExtsR7ch3NuI7DxiGV3D/n5feCcaNclIiIyHcW6q19ERESiSMEvIiLiIQp+ERERD1Hwi4iIeIiCX0RExEMU/CIiIh6i4BcREfEQBb+IiIiHKPhFREQ8RMEvIiLiIQp+ERERD1Hwi4iIeIiCX0RExENGDX4zmxmtQkRERGTijXXG/56ZfTIqlYiIiMiEGyv4i4FNZnafmfmjUZCIiIhMnLGC/1NABfA/gT+Z2byJL0lEREQmyqjB75x7CzgdWAv8HfCOmV0fjcJERERk/I05qt851+2cuxG4CDgE/NTMfm9mJ5lZ8XDThFctIiIixyVwtA2dcxvN7BTgScJfAi4aqemxbFdERESi51gD+rTIZMA+oHfcKxIREZEJc1TBb2ZxwP3ALUAQuA140DnnJrA2ERERGWdjXuOPdO+/BdwK7ADOcs79YLxC38wuMLOdZlZuZreP0OZyM3vfzLab2VPj8bkiIiJeNOoZv5ndAnwPSAB+AnzbOTdu3fuRZwM8CiwDaoG3zGyDc+79IW3mA3cA5zjn2swse7w+X0RExGvGOuN/CGgDljvnvjmeoR/xCaDcOVfhnOsDngZWHtHmn4FHnXNtAM65pnGuQURExDPGCv7/A5zqnHt5gj6/AKgZMl8bWTbUAmCBmf0/M/uLmV0wQbWIiIhMe6N29TvnPhutQkYRAOYDS4FCwo8QPtU5d2Boo8iDha4HKC7WowRERESGE+vX8tYBRUPmCyPLhqoFNjjn+p1zlcAuwl8EDuOcW+ucW+KcW5KVlTVhBYuIiExlsQ7+t4D5ZlZmZvHAF4ANR7R5nvDZPmaWSbjrvyKaRYqIiEwXMQ1+51wQuBl4CfgAeNY5tz3yNsCLI81eAlrN7H3gNWCVc641NhWLiIhMbTF/tK5zbiOw8Yhldw/52RF+hsCtUS5NRERk2ol1V7+IiIhEkYJfRETEQxT8IiIiHqLgFxER8RAFv4iIiIco+EVERDxEwS8iIuIhCn4REREPUfCLiIh4iIJfRETEQxT8IiIiHqLgFxER8RAFv4iIiIco+EVERDxEwS8iIuIhCn4REREPUfCLiIh4iIJfRETEQxT8IiIiHqLgFxER8RAFv4iIiIco+EVERDwk5sFvZheY2U4zKzez20dp91kzc2a2JJr1iYiITCcxDX4z8wOPAsuBRcAVZrZomHYpwDeBN6NboYiIyPQS6zP+TwDlzrkK51wf8DSwcph23wEeAHqiWZyIiMh0E+vgLwBqhszXRpYNMrMzgSLn3B9H25CZXW9mm81sc3Nz8/hXKiIiMg3EOvhHZWY+4CHgX8Zq65xb65xb4pxbkpWVNfHFiYiITEGxDv46oGjIfGFk2YdSgMXA62a2Fzgb2KABfiIiIscn1sH/FjDfzMrMLB74ArDhw5XOuXbnXKZzrtQ5Vwr8BbjYObc5NuWKiIhMbTENfudcELgZeAn4AHjWObfdzO4zs4tjWZuIiMh0FIh1Ac65jcDGI5bdPULbpdGoSUREZLqKdVe/iIiIRJGCX0RExEMU/CIiIh6i4BcREfEQBb+IiIiHKPhFREQ8RMEvIiLiIQp+ERERD1Hwi4iIeIiCX0RExEMU/CIiIh6i4BcREfEQBb+IiIiHKPhFREQ8RMEvIiLiIQp+ERERD1Hwi4iIeIiCX0RExEMU/CIiIh6i4BcREfEQBb+IiIiHxDz4zewCM9tpZuVmdvsw6281s/fNbIuZvWpmJbGoU0REZDqIafCbmR94FFgOLAKuMLNFRzR7B1jinDsN+A3w/ehWKSIiMn3E+oxANdfyAAAI0klEQVT/E0C5c67COdcHPA2sHNrAOfeac64rMvsXoDDKNYqIiEwbsQ7+AqBmyHxtZNlIrgVemNCKREREprFArAs4WmZ2JbAE+PsR1l8PXA9QXFwcxcpERESmjlif8dcBRUPmCyPLDmNm5wP/E7jYOdc73Iacc2udc0ucc0uysrImpFgREZGpLtbB/xYw38zKzCwe+AKwYWgDMzsDWEM49JtiUKOIiMi0EdPgd84FgZuBl4APgGedc9vN7D4zuzjS7AfATOA5M3vXzDaMsDkREREZQ8yv8TvnNgIbj1h295Cfz496USIiItNUrLv6RUREJIoU/CIiIh6i4BcREfEQBb+IiIiHKPhFREQ8RMEvIiLiIQp+ERERD1Hwi4iIeIiCX0RExEMU/CIiIh6i4BcREfEQBb+IiIiHKPhFREQ8RMEvIiLiIQp+ERERD1Hwi4iIeIiCX0RExEMU/CIiIh6i4BcREfEQBb+IiIiHKPhFREQ8RMEvIiLiITEPfjO7wMx2mlm5md0+zPoEM3smsv5NMyuNfpUiIiLTQ0yD38z8wKPAcmARcIWZLTqi2bVAm3NuHvAw8EB0qxQREZk+Yn3G/wmg3DlX4ZzrA54GVh7RZiXwy8jPvwE+bWYWxRpFRESmjUCMP78AqBkyXwucNVIb51zQzNqBDKBlpI0Gg0FaW1vHpcC2trZx2Y6IiMhkEOsz/nFjZteb2WYz26ywFhERGV6sz/jrgKIh84WRZcO1qTWzAJAKfOR03jm3FlgLsGTJEpeRkTGuhY739kRERGIh1mf8bwHzzazMzOKBLwAbjmizAbgq8vPngH93zrko1igiIjJtxPSMP3LN/mbgJcAP/MI5t93M7gM2O+c2AOuA9WZWDuwn/OVAREREjkOsu/pxzm0ENh6x7O4hP/cAl0W7LhERkeko1l39IiIiEkUKfhEREQ9R8IuIiHiIgl9ERMRDFPwiIiIeYtPxlngzawaqxnGTmYzyiGA5atqPJ0778MRpH5447cMTNxH7sMQ5lzVWo2kZ/OPNzDY755bEuo6pTvvxxGkfnjjtwxOnfXjiYrkP1dUvIiLiIQp+ERERD1HwH521sS5gmtB+PHHahydO+/DEaR+euJjtQ13jFxER8RCd8YuIiHiIgn8MZnaBme00s3Izuz3W9UwFZlZkZq+Z2ftmtt3MvhlZPtvMXjGz3ZE/02Nd62RnZn4ze8fM/hCZLzOzNyPH4zOR11nLCMwszcx+Y2Y7zOwDM/ukjsNjZ2bfivy/vM3Mfm1mM3Qsjs7MfmFmTWa2bciyYY89C/txZF9uMbMzJ7I2Bf8ozMwPPAosBxYBV5jZothWNSUEgX9xzi0CzgZuiuy324FXnXPzgVcj8zK6bwIfDJl/AHjYOTcPaAOujUlVU8ePgBedcwuBjxHelzoOj4GZFQDfAJY45xYTfoX6F9CxOJYngAuOWDbSsbccmB+Zrgd+OpGFKfhH9wmg3DlX4ZzrA54GVsa4pknPOdfgnPtb5OcOwv/YFhDed7+MNPslcElsKpwazKwQuBB4PDJvwD8Cv4k00T4chZmlAv8FWAfgnOtzzh1Ax+HxCACJZhYAkoAGdCyOyjm3Cdh/xOKRjr2VwJMu7C9AmpnlTVRtCv7RFQA1Q+ZrI8vkKJlZKXAG8CaQ45xriKzaB+TEqKyp4ofAt4FQZD4DOOCcC0bmdTyOrgxoBv41crnkcTNLRsfhMXHO1QEPAtWEA78deBsdi8djpGMvqlmj4JcJY2Yzgd8CtzjnDg5d58K3k+iWkhGY2UVAk3Pu7VjXMoUFgDOBnzrnzgAOcUS3vo7DsUWuQ68k/EUqH0jmo13Ycoxieewp+EdXBxQNmS+MLJMxmFkc4dD/lXPud5HFjR92X0X+bIpVfVPAOcDFZraX8CWmfyR8vTot0t0KOh7HUgvUOufejMz/hvAXAR2Hx+Z8oNI51+yc6wd+R/j41LF47EY69qKaNQr+0b0FzI+MXo0nPKBlQ4xrmvQi16LXAR845x4asmoDcFXk56uA30e7tqnCOXeHc67QOVdK+Lj7d+fcl4DXgM9FmmkfjsI5tw+oMbOTIos+DbyPjsNjVQ2cbWZJkf+3P9yPOhaP3UjH3gbgK5HR/WcD7UMuCYw7PcBnDGa2gvC1Vj/wC+fcd2Nc0qRnZucCbwBb+c/r03cSvs7/LFBM+O2Jlzvnjhz8Ikcws6XA/3DOXWRmcwj3AMwG3gGudM71xrK+yczMTic8ODIeqACuJnzCo+PwGJjZvcDnCd+x8w5wHeFr0DoWR2BmvwaWEn4LXyNwD/A8wxx7kS9UjxC+hNIFXO2c2zxhtSn4RUREvENd/SIiIh6i4BcREfEQBb+IiIiHKPhFREQ8RMEvIiLiIQp+ERERD1Hwi8hxMbNrzcyZ2QujtPljpM3Xo1mbiIxMwS8ix8U5t47wE8cuMLObjlxvZjcCK4AXnHOPRbs+ERmeHuAjIsfNzLKBbYRf3HKmc25nZPkCwk9z6wYWRx6fKyKTgM74ReS4OeeagH8m/I72fzOzQOTFLf8WWXa9Ql9kcgmM3UREZGTOud+b2S+Aa4C7I4v/DnhiyJsZRWSSUFe/iJwwM0sB3iP88hGAGuA051xH7KoSkeGoq19ETlgk4O8j/BZLP3CjQl9kclLwi8gJM7NE4LYhiy6LVS0iMjoFv4iMh+8DC4EfAe8C15jZf4ttSSIyHF3jF5ETYmafAV4kfFvf3wHzgc3AAcK38rXEsDwROYLO+EXkuJnZbOBfgX7gSudcr3NuG/C/gBzgp7GsT0Q+SsEvIifiZ0A+cJdzbsuQ5f8beAP4nJldGZPKRGRY6uoXkeNiZl8GngQ2Af/gnAsdsb4M2AIEgVOdc7XRr1JEjqTgF5FjZmbFhEPdCN+vXzVCu+uAnwOvAP/V6R8ckZhT8IuIiHiIrvGLiIh4iIJfRETEQxT8IiIiHqLgFxER8RAFv4iIiIco+EVERDxEwS8iIuIhCn4REREPUfCLiIh4iIJfRETEQ/4/xYHBnol461IAAAAASUVORK5CYII=
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">exp_factor</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">n_val</span><span class="p">):</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">n_val</span> <span class="o">*</span> <span class="mf">0.4</span>
+
+    <span class="n">c</span> <span class="o">=</span> <span class="n">r</span> <span class="o">/</span> <span class="mi">4</span>
+    <span class="n">c_prime</span> <span class="o">=</span> <span class="n">r</span> <span class="o">-</span> <span class="n">c</span> 
+    
+    <span class="n">w</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_val</span> <span class="o">-</span> <span class="n">r</span><span class="p">)</span>
+    <span class="n">w_prime</span> <span class="o">=</span> <span class="n">n_val</span> <span class="o">-</span> <span class="n">r</span> <span class="o">-</span> <span class="n">w</span>
+    
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">e</span> <span class="o">*</span> <span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="n">c_prime</span> <span class="o">+</span> <span class="n">w</span> <span class="o">-</span> <span class="n">w_prime</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+
+<span class="n">lower_bound</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">upper_bound</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">length</span> <span class="o">=</span> <span class="mi">2000</span>
+
+<span class="n">e</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">lower_bound</span><span class="p">,</span> <span class="n">upper_bound</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">exp_factor</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">xkcd_rgb</span><span class="p">[</span><span class="s2">&quot;green&quot;</span><span class="p">])</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>
 </pre></div>
 
     </div>
@@ -1824,7 +2055,6 @@ $$<p>Which can be worked through in a similar fashion to the first functional re
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The idea and purpose of logarithms is also to undo a fundamental arithmetic operation, namely raising a number to a certain power (an operation also known as exponentiation)</p>
 
 </div>
 </div>
@@ -2114,15 +2344,64 @@ $$<p>Which can be worked through in a similar fashion to the first functional re
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Appendix:-References">Appendix: References<a class="anchor-link" href="#Appendix:-References">&#182;</a></h3><ul>
-<li>How to Create a Mind, Ray Kurzweil</li>
-<li>The Organization of Complex Systems, Herbert A. Simon</li>
-<li><a href="https://www.geeksforgeeks.org/program-to-efficiently-calculate-ex/">https://www.geeksforgeeks.org/program-to-efficiently-calculate-ex/</a></li>
-<li><a href="https://www.efunda.com/math/taylor_series/exponential.cfm">https://www.efunda.com/math/taylor_series/exponential.cfm</a></li>
-</ul>
+<h3 id="Appendix-A:-Derivative-of-Exponential">Appendix A: Derivative of Exponential<a class="anchor-link" href="#Appendix-A:-Derivative-of-Exponential">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Appendix-B:-Group-Theory-Introduction">Appendix B: Group Theory Introduction<a class="anchor-link" href="#Appendix-B:-Group-Theory-Introduction">&#182;</a></h3><p>Much of modern mathematics is rooted in understanding how a collection of actions is organized by the relation between pairs of actions and the single action you get by composing them. This branch of math is known as <strong>Group Theory</strong>. Group Theory revolves entirely around studying the nature of symmetry. We often think of starting with some entity, say a square, and then thinking about all of the <em>actions</em> you can take on the square that leave it indistinguishable from how it started$^6$. For instance, rotating a square 90 degrees leaves it looking no different than prior to the rotation. The same goes for a 180 degree rotation, or flipping over the x-axis, and many others. All of these actions make up a <strong>group of symmetries</strong>, or just group for short.</p>
+<p>Now, groups are <em>extremely</em> general; many different ideas can be framed in terms of symmetries. The most familiar example may in fact be numbers themselves$^7$. There are two different types of ways to think of numbers as groups themselves:</p>
+<ol>
+<li>In a way that composing actions looks like addition.</li>
+<li>In a way that composing actions looks like multiplication. </li>
+</ol>
+<p>At first this may seem a little strange, since we generally don't think of numbers as actions; rather we think of numbers as counting things, but bear with me for a second.</p>
+<h4 id="Additive-Group-of-Real-Numbers">Additive Group of Real Numbers<a class="anchor-link" href="#Additive-Group-of-Real-Numbers">&#182;</a></h4><p>Think of all the different ways that you can slide a number line along itself. This collection of all sliding actions is a group! It is a group of symmetries on an infinite line. We can associate each <em>action</em> with a unique point on the thing that it is actually acting on. We simply follow where the point that starts at $0$ ends up. We can see this below:</p>
+<p><img src="https://intuitive-ml-images.s3-us-west-1.amazonaws.com/mathematics/functions/exponetiation/adder_action.png" width="400"></p>
+<p>Above we are looking at the adder 3; it represents a <strong>shifting action</strong>, taking the point 0 to 3. In the most general terms, the number 3 is associated with the action of sliding to the right by 3 units. This group of actions is known as the <strong>Additive group of real numbers</strong>. The reason that this is know as the additive group of real numbers is due to what the group operation of applying one action followed by another looks like. For instance, if we slide right by 3 units, and then follow that up by sliding right 2 units, the overall effect is the same as sliding to the right by $3 + 2 = 5$ units.</p>
+<p>The main takeaway is that this gives an alternate view into what numbers actually are- one example in a much larger category of groups; groups of symmetries acting on some object. The arithmetic of adding numbers is just one example of the arithmetic that any group of symmetries has within it.</p>
+<h4 id="Multiplicative-Group-of-Real-Numbers">Multiplicative Group of Real Numbers<a class="anchor-link" href="#Multiplicative-Group-of-Real-Numbers">&#182;</a></h4><p>Now let's consider a new group of actions on the number line: all of the different ways that you can stretch of squish it, keeping everything evenly spaced, with $0$ fixed in place. Again, this group of actions has the nice property that we can associate each action in the group with a specific point on the thing that it is acting on.</p>
+<p>In this case, there is only one <strong>stretching action</strong> that brings the point $1$ to the point $3$; stretching by a factor of 3.</p>
+<p><img src="https://intuitive-ml-images.s3-us-west-1.amazonaws.com/mathematics/functions/exponetiation/multiplier_action.png" width="400"></p>
+<p>In this way, every single positive number is associated with a unique stretching or squishing action. Now, think about what composing actions looks like in this group. If we apply a stretch by 3 action, and follow it by a stretch by 2 action, the overall effect is that of a stretch by 6 action. In other words, it is the <em>product</em> of the two original numbers. So, applying one stretching action followed by another corresponds to multiplying the numbers that they are associated with. Hence, the name of this group is the <strong>Multiplicative group of positive real numbers</strong>. So, ordinary multiplication is yet another example of a group, and the arithmetic within groups.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Appendix:-References">Appendix: References<a class="anchor-link" href="#Appendix:-References">&#182;</a></h3><ol>
+<li>Thinking Fast and Slow, Chapter 1, 3, Daniel Kahneman </li>
+<li>How to Create a Mind, Ray Kurzweil</li>
+<li>The Organization of Complex Systems, Herbert A. Simon</li>
+</ol>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/program-to-efficiently-calculate-ex/">https://www.geeksforgeeks.org/program-to-efficiently-calculate-ex/</a></li>
+<li><a href="https://www.efunda.com/math/taylor_series/exponential.cfm">https://www.efunda.com/math/taylor_series/exponential.cfm</a></li>
+</ul>
+<ol>
+<li><a href="https://www.youtube.com/watch?v=mvmuCPvRoWQ">Numbers as groups</a> </li>
+<li><a href="https://issuu.com/3blue1brown/docs/howtothinkaboutexponentials">How to think about exponentials</a></li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake
