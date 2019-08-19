@@ -8,6 +8,17 @@ docs/AI/01-Reinforcement_Learning-05-Dynamic-Programming.html
 docs/AI/01-Reinforcement_Learning-06-Monte-Carlo.html
 docs/AI/01-Reinforcement_Learning-07-Temporal-Difference-Learning.html
 docs/AI/01-Reinforcement_Learning-08-Approximation-Methods.html
+docs/Books.html
+docs/Books.tpl
+docs/Books/01-Psychology_and_Human_Cognition-Thinking_Fast_and_Slow.html
+docs/Books/02-Science_and_Mathematics-How_To_Solve_It.html
+docs/Books/02-Science_and_Mathematics-The_Book_of_Why.html
+docs/Books/02-Science_and_Mathematics-The_Model_Thinker.html
+docs/Books/02-Science_and_Mathematics-The_Unfinished_Game.html
+docs/Books/03-Economics-Naked_Economics.html
+docs/Books/04-Biographies-Benjamin_Franklin_an_American_Life.html
+docs/Books/05-Artificial_Intelligence_and_Machine_Learning-How_to_Create_a_Mind.html
+docs/Books/05-Artificial_Intelligence_and_Machine_Learning-The_Master_Algorithm.html
 docs/Deep_Learning.html
 docs/Deep_Learning.tpl
 docs/Deep_Learning/01-Neural_Networks-01-Predictions-in-Neural-Networks.html

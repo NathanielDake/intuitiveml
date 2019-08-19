@@ -214,11 +214,15 @@ $(document).ready(function () {
 </li>
         
 <li>
-  <a href="./AI.html">AI</a>
+  <a href="./Machine_Learning.html">Machine Learning</a>
 </li>
         
 <li>
-  <a href="./Machine_Learning.html">Machine Learning</a>
+  <a href="./Mathematics.html">Mathematics</a>
+</li>
+        
+<li>
+  <a href="./AI.html">AI</a>
 </li>
         
 <li>
@@ -226,7 +230,7 @@ $(document).ready(function () {
 </li>
         
 <li>
-  <a href="./Mathematics.html">Mathematics</a>
+  <a href="./Books.html">Books</a>
 </li>
         
       </ul>
