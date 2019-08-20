@@ -1258,7 +1258,23 @@ $$f(x+y) = f(x) \cdot f(y)$$<p>Now, again, when $x$ is a negative or fractional 
 <p>To get around this we do something that is very common throughout mathematics: We extend the original definition, which only makes sense for counting numbers, to something that applies to all sorts of numbers. However, we <em>do not</em> do this randomly!</p>
 <blockquote><p>Fractional and negative exponent definitions are entirely motivated to be sure that the exponential property, $2^{x+y} = 2^x \cdot 2^y$, holds.</p>
 </blockquote>
-<p>LEAVING OFF.</p>
+<p>Now, let's consider what the above property means from the perspective of group theory (see appendix B). It is saying that adding the inputs, $x$ and $y$, corresponds to multiplying the outputs of the function, $2^x$ and $2^y$. To make this more clear, recall that from a group theory perspective, addition is defined as follows:</p>
+$$addition (\overbrace{x,y}^\text{adders}) = \overbrace{x + y}^\text{adder}$$$$addition(3, 4) = 3 + 4 = 7$$<p>We see that addition takes in two adders (shifts), and outputs an adder (another shift, the sum of the two adders):</p>
+<p><img src="https://intuitive-ml-images.s3-us-west-1.amazonaws.com/mathematics/functions/exponetiation/addition_group_theory.png" width="400"></p>
+<p>Multiplication is defined as follows:</p>
+$$multiplication(\overbrace{x ,y}^\text{multipliers}) = \overbrace{x \cdot y}^\text{multiplier}$$$$multiplication(3, 4) = 3 \times 4 = 12$$<p>Where in this case multiplication takes in two multipliers (stretches) and outputs a multiplier (another stretch, the product of two multipliers):</p>
+<p><img src="https://intuitive-ml-images.s3-us-west-1.amazonaws.com/mathematics/functions/exponetiation/multiplication_group_theory.png" width="400"></p>
+<p>So, in our case of exponentiation, we can think of our inputs to $f$ not simply as numbers, but as members of the additive group of sliding actions. Likewise, we think of the outputs of the function not merely as numbers, but as members of the multiplicative group of stretching and squishing actions:</p>
+<p><img src="https://intuitive-ml-images.s3-us-west-1.amazonaws.com/mathematics/functions/exponetiation/exponentiation_group_theory.png" width="450"></p>
+<p>Hence, exponentiation is really a function that satisfies the property discussed earlier:</p>
+$$f(\overbrace{x+y}^\text{adders}) = \overbrace{f(x) \cdot f(y)}^\text{multiplier}$$<p>To be clear, our input is an adder because, as discussed in the appendix, $x+y$ is the addition of $x$ and $y$, which outputs an adder. Likewise, our output is a multiplier since it is the multiplication of $f(x)$ and $f(y)$, which is a multiplier. So, $f$ takes in an adder, $x+y$, and outputs a multiplier, $f(x) \cdot f(y)$</p>
+<p>If this is all a lot to digest, let us try to break it down as follows. I want us to treat every real number simultaneously as three things:</p>
+<ol>
+<li>A point on the infinitely extending line.</li>
+<li>An <strong>adder</strong>. This is an <em>action</em> that slides the line along itself.</li>
+<li>A <strong>multiplier</strong>. This is an action that stretches or squishes the line. </li>
+</ol>
+<p>To be clear, I am not saying that adders and multipliers are just ways to visualize what addition and multiplication do by moving around numbers on the line. Rather, we should think of numbers <em>primarily</em> as being movements of the pure unlabeled line), and associating them with points on the line is just a convenient way to the record the specific movement of each adder/multiplier). If we wanted to dig into the weeds, we could technically say that multipliers don't act on the line, rather they transform adders to adders. So, technically, we have points, functions of points (adders), and functions of functions of points (multipliers). Each number is an overloaded term referring to any one of these three things.</p>
 
 </div>
 </div>
