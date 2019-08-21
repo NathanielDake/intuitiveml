@@ -1267,7 +1267,7 @@ $$multiplication(\overbrace{x ,y}^\text{multipliers}) = \overbrace{x \cdot y}^\t
 <p>So, in our case of exponentiation, we can think of our inputs to $f$ not simply as numbers, but as members of the additive group of sliding actions. Likewise, we think of the outputs of the function not merely as numbers, but as members of the multiplicative group of stretching and squishing actions:</p>
 <p><img src="https://intuitive-ml-images.s3-us-west-1.amazonaws.com/mathematics/functions/exponetiation/exponentiation_group_theory.png" width="450"></p>
 <p>Hence, exponentiation is really a function that satisfies the property discussed earlier:</p>
-$$f(\overbrace{x+y}^\text{adders}) = \overbrace{f(x) \cdot f(y)}^\text{multiplier}$$<p>To be clear, our input is an adder because, as discussed in the appendix, $x+y$ is the addition of $x$ and $y$, which outputs an adder. Likewise, our output is a multiplier since it is the multiplication of $f(x)$ and $f(y)$, which is a multiplier. So, $f$ takes in an adder, $x+y$, and outputs a multiplier, $f(x) \cdot f(y)$</p>
+$$f(\overbrace{x+y}^\text{adders}) = \overbrace{f(x) \cdot f(y)}^\text{multiplier}$$$$exponentiation(\overbrace{x+y}^\text{adders}) = \overbrace{b^x \cdot b^y}^\text{multiplier}$$<p>To be clear, our input is an adder because, as discussed in the appendix, $x+y$ is the addition of $x$ and $y$, which outputs an adder. Likewise, our output is a multiplier since it is the multiplication of $f(x)$ and $f(y)$, which is a multiplier. So, $f$ takes in an adder, $x+y$, and outputs a multiplier, $f(x) \cdot f(y)$</p>
 <p>If this is all a lot to digest, let us try to break it down as follows. I want us to treat every real number simultaneously as three things:</p>
 <ol>
 <li>A point on the infinitely extending line.</li>
@@ -1275,22 +1275,26 @@ $$f(\overbrace{x+y}^\text{adders}) = \overbrace{f(x) \cdot f(y)}^\text{multiplie
 <li>A <strong>multiplier</strong>. This is an action that stretches or squishes the line. </li>
 </ol>
 <p>To be clear, I am not saying that adders and multipliers are just ways to visualize what addition and multiplication do by moving around numbers on the line. Rather, we should think of numbers <em>primarily</em> as being movements of the pure unlabeled line), and associating them with points on the line is just a convenient way to the record the specific movement of each adder/multiplier). If we wanted to dig into the weeds, we could technically say that multipliers don't act on the line, rather they transform adders to adders. So, technically, we have points, functions of points (adders), and functions of functions of points (multipliers). Each number is an overloaded term referring to any one of these three things.</p>
+<p>Now, for any function that satisfies our property $f(x+y) = f(x) \cdot f(y)$ (takes in an adder and outputs a multiplier), we will write it as:</p>
+$$b^x$$<p>Where:</p>
+$$b = f(1)$$<p>Now, this awful notation originates from the relationship that our function $f$ has with repeated multiplication, which originally defined exponentiation. However, as we extend the idea of exponentiation we see that repeated multiplication is simply a specific case within a more general framework. Note that the reason I describe this notation as awful is because of the priming that it triggers; it immediately causes one to think of repeated multiplication, and particularly that repeated multiplication defines exponentiation.</p>
+<blockquote><p>In reality repeated multiplication arises as a specific case of exponentiation.</p>
+</blockquote>
+<p>Note that historically we did in fact start thinking about exponentiation as repeated multiplication. So, if $x$ happens to be a counting number ($1,2,3,...$), we can write it as:</p>
+$$\overbrace{1+ \dots + 1}^\text{x times}$$<p>And hence the property $f(x+y) = f(x) \cdot f(y)$ implies:</p>
+$$f(x) = f \Big( \overbrace{1+ \dots + 1}^\text{x times} \Big) = \overbrace{ f(1) \dots f(1) }^\text{x times}$$<p>Now, one of these functions, $f$, is in some sense the most "natural", and we write it either as $exp(x)$ or $e^x$. Note, this just means that the number $e$ is the value of the special function at 1:</p>
+$$f(1) = e$$<p>In other words, using past terminology, at $f(1)$ the <em>base</em> is seen to be $e$. This particular function is defined with the following infinite sum:</p>
+$$e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \dots \frac{x^n}{n!} + \dots$$<p>Generally, this series is derived with a good deal of handwaving, and references that $e^x$ is it's own derivative (see appendix A). However, we will walk through a much more natural derivation in the next section.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="3.4.5-Constructing-the-series-for-$e^x$">3.4.5 Constructing the series for $e^x$<a class="anchor-link" href="#3.4.5-Constructing-the-series-for-$e^x$">&#182;</a></h4>
 </div>
 </div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -2364,7 +2368,12 @@ $$<p>Which can be worked through in a similar fashion to the first functional re
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Appendix-A:-Derivative-of-Exponential">Appendix A: Derivative of Exponential<a class="anchor-link" href="#Appendix-A:-Derivative-of-Exponential">&#182;</a></h3>
+<h3 id="Appendix-A:-Derivative-of-Exponential">Appendix A: Derivative of Exponential<a class="anchor-link" href="#Appendix-A:-Derivative-of-Exponential">&#182;</a></h3><p>To determine the derivative of an exponential function, I want us to start by defining a function, $M$:</p>
+$$M(t) = 2^t$$<p>We can start by trying to take it's derivative:</p>
+$$\frac{d M(t)}{dt} = \frac{2^{t+dt} - 2^t}{dt} = \frac{2^t \cdot 2^{dt} - 2^t}{dt} = 
+2^t \Big( \frac{2^{dt} - 1}{dt} \Big)$$<p>Where we specifically make use of property that $M(x+y) = M(x) \cdot M(y)$ in the 2nd and 3rd representation, i.e.:</p>
+$$2^{t+dt} = 2^t \cdot 2^{dt}$$<p>We were essentially relating an additive input to a multiplicative output. With that said, we want to think about what our final term on the right approaches as $dt \rightarrow 0$:</p>
+$$\lim_{dt \rightarrow 0} \; \; 2^t \Big( \frac{2^{dt} - 1}{dt} \Big)$$
 </div>
 </div>
 </div>
