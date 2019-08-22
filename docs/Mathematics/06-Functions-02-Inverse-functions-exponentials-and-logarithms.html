@@ -1292,7 +1292,8 @@ $$e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \dots \frac{x^n}{n!} + \dots$$
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="3.4.5-Constructing-the-series-for-$e^x$">3.4.5 Constructing the series for $e^x$<a class="anchor-link" href="#3.4.5-Constructing-the-series-for-$e^x$">&#182;</a></h4>
+<h4 id="3.4.5-Constructing-the-series-for-$e^x$">3.4.5 Constructing the series for $e^x$<a class="anchor-link" href="#3.4.5-Constructing-the-series-for-$e^x$">&#182;</a></h4><p>LEAVING OFF</p>
+
 </div>
 </div>
 </div>
@@ -2339,32 +2340,14 @@ $$<p>Which can be worked through in a similar fashion to the first functional re
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span> 
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div><script>
-  function code_toggle() {
-    if (code_shown){
-      $('div.input').hide('500');
-      $('#toggleButton').val('Show Code')
-    } else {
-      $('div.input').show('500');
-      $('#toggleButton').val('Hide Code')
-    }
-    code_shown = !code_shown
-  }
-
-  $( document ).ready(function(){
-    code_shown=false;
-    $('div.input').hide()
-  });
-</script>
-<form action="javascript:code_toggle()"><input type="submit" id="toggleButton" value="Show Code"></form>
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -2373,7 +2356,171 @@ $$M(t) = 2^t$$<p>We can start by trying to take it's derivative:</p>
 $$\frac{d M(t)}{dt} = \frac{2^{t+dt} - 2^t}{dt} = \frac{2^t \cdot 2^{dt} - 2^t}{dt} = 
 2^t \Big( \frac{2^{dt} - 1}{dt} \Big)$$<p>Where we specifically make use of property that $M(x+y) = M(x) \cdot M(y)$ in the 2nd and 3rd representation, i.e.:</p>
 $$2^{t+dt} = 2^t \cdot 2^{dt}$$<p>We were essentially relating an additive input to a multiplicative output. With that said, we want to think about what our final term on the right approaches as $dt \rightarrow 0$:</p>
-$$\lim_{dt \rightarrow 0} \; \; 2^t \Big( \frac{2^{dt} - 1}{dt} \Big)$$
+$$\lim_{dt \rightarrow 0} \; \; 2^t \Big( \frac{2^{dt} - 1}{dt} \Big)$$<p>Well, let's dig in to the term on the right:</p>
+$$\Big( \frac{2^{dt} - 1}{dt} \Big)$$<p>We can see that it holds all information relating to $dt$, and is entirely separate from the $t$ term itself. In other words, it doesn't depend on the actual time that we started!</p>
+<blockquote><p>Unlike derivatives of other functions, the derivative of $M(t) = 2^t$ has all of the stuff that depends on $dt$ separate from the value of $t$ itself.</p>
+</blockquote>
+<p>Take a moment to think about what this means. It means that we can characterize the derivative of $2^t$ as the product of itself times some constant:</p>
+$$\frac{dM(t)}{dt} = \overbrace{2^t}^\text{itself} \cdot \overbrace{\Big( \frac{2^{dt} - 1}{dt} \Big)}^\text{a constant}$$<p>We can actually evaluate that function with a bit of python, letting <code>dt = 0.000001</code>:</p>
+
+<pre><code>dt = 0.000001
+dt_constant_term = (2**dt - 1) / dt</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dt</span> <span class="o">=</span> <span class="mf">0.000001</span>
+
+<span class="n">dt_constant_term</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">dt</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">dt</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">dt_constant_term</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>0.6931474207938493</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we can rewrite the derivative as:</p>
+$$\frac{dM(t)}{dt} = 2^t \cdot (0.693\dots)$$<p>At this point you are probably wondering why exactly the constant has this odd value of $0.693\dots$. To explore this a bit, let's also take the derivative of $8^t$ as well:</p>
+
+<pre><code>dt = 0.000001
+dt_constant_term = (8**dt - 1) / dt</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dt</span> <span class="o">=</span> <span class="mf">0.000001</span>
+
+<span class="n">dt_constant_term</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="o">**</span><span class="n">dt</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">dt</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">dt_constant_term</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>2.0794437036730784</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+$$\frac{dM(t)}{dt} = 8^t \cdot (2.079\dots)$$<p>Note that this constant $2.079 \dots$ is exactly $3$ times the size as our previous constant. We can see that there is a <em>pattern</em> to these constants-they are not random. But what exactly is the pattern? In order to determine the pattern behind our constants, we must ask: where will the <strong>proportionality constant</strong> equal 1? In other words, is there a number $a$, where:</p>
+$$\frac{d(a^t)}{dt} = a^t \cdot 1$$<p>It turns out there is! Specifically, this is the case when $a$ is equal to $e = 2.71828...$.</p>
+<blockquote><p>This is actually what defines the number $e$!</p>
+</blockquote>
+<p>Let's see why; to start, I will define $M$ as:</p>
+$$M(t) = e^t$$<p>We can then proceed with our derivation:</p>
+$$\frac{d M(t)}{dt} = e^t \cdot \overbrace{ \Big( \frac{e^{dt} - 1}{dt} \Big)}^{\text{as } dt \rightarrow 0 \text{, this} \\ \text{approaches 1}} = e^t \cdot (1.0000 \dots)$$<p>Then, if we recall the chain rule:</p>
+$$F(x) = f(g(x))$$$$F'(x) = f'(g(x)) \cdot g'(x)$$<p>We can find the derivative of $e^{ct}$ as follows:</p>
+$$\frac{d(e^{ct})}{dt} = e^{ct} \cdot c$$<p>And, if we make use of a nice the nice inverse relationship between exponentiation and logarithms, we can actually write $2$ as:</p>
+$$2 = e^{ln(2)}$$<p>And hence:</p>
+$$2^t = \big( e^{ln(2)}\big)^t = e^{ln(2) \cdot t}$$<p>We can then derive $2^t$ as follows:</p>
+$$\frac{d(2^t)}{dt} = ln(2) \cdot e^{ln(2) \cdot t} = ln(2) \cdot 2^t$$<p>Where $ln(2)$ is our proportionality constant! To check, we can evaluate quickly:</p>
+
+<pre><code>from math import log, e
+ln_2 = log(2, e)</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">log</span><span class="p">,</span> <span class="n">e</span>
+<span class="n">display</span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>0.6931471805599453</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It is worth noting that throughout calculus you <em>rarely</em> see exponetials written as some base to a power $t$. You almost always see them as $e^{ct}$, just as we can write $2^t$ as $e^{ln(2) \cdot t}$.</p>
+<blockquote><p>This is why in all branches of science $e$ shows up so regularly! There are many ways to write down any particular exponential function. When you see something written as $e^{ct}$, that was <em><strong>choice</strong></em> that was made to write it that way! $e$ was by no means some "fundamental" property of the function itself.</p>
+</blockquote>
+<p><strong>Key Takeaway</strong> <br>
+All sorts of phenomena involve some rate of change that is proportional to the thing that is changing. For example, the rate of growth of a population does tend to be proportional to the size of the population itself (assuming there isn't a limited resource to slow growth). Likewise, if you invest your money, the rate which it grows is proportional to the amount of money there at any time</p>
+$$M(t) = e^{(1+r)t}$$$$\frac{dM}{dt} = (1 + r) M $$<p>Above, we <em>chose</em> to express $M$ as $e$ to the power of some constant times $t$.</p>
+
 </div>
 </div>
 </div>
@@ -2421,17 +2568,35 @@ $$\lim_{dt \rightarrow 0} \; \; 2^t \Big( \frac{2^{dt} - 1}{dt} \Big)$$
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div>
+</div><script>
+  function code_toggle() {
+    if (code_shown){
+      $('div.input').hide('500');
+      $('#toggleButton').val('Show Code')
+    } else {
+      $('div.input').show('500');
+      $('#toggleButton').val('Hide Code')
+    }
+    code_shown = !code_shown
+  }
+
+  $( document ).ready(function(){
+    code_shown=false;
+    $('div.input').hide()
+  });
+</script>
+<form action="javascript:code_toggle()"><input type="submit" id="toggleButton" value="Show Code"></form>
 <hr>
 &copy; 2018 Nathaniel Dake
 
