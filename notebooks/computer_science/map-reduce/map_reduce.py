@@ -9,7 +9,7 @@ def key_func(x):
     return x[0]
 
 
-def map_reduce(i, mapper, reducer):
+def map_reduce(input, mapper, reducer):
     """
     Map example output:
     [('the', 1),
@@ -47,7 +47,7 @@ def map_reduce(i, mapper, reducer):
 
     # Map phase
     intermediate = []
-    for (key, value) in i.items():
+    for (key, value) in input.items():
         intermediate.extend(mapper(key, value))
 
     # Intermediate Phase - groupby will return a key, group iterator pair for each word. Each iterator

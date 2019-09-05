@@ -16,11 +16,11 @@ def reducer(intermediate_key, intermediate_value_list):
 if __name__ == "__main__":
     filenames = ["text_a.txt", "text_b.txt", "text_c.txt"]
 
-    i = {}
+    input = {}
 
     for filename in filenames:
         f = open(filename)
-        i[filename] = f.read()
+        input[filename] = f.read()
         f.close()
 
-    print(map_reduce.map_reduce(i,mapper,reducer))
+    print(map_reduce.map_reduce(input, mapper, reducer))
