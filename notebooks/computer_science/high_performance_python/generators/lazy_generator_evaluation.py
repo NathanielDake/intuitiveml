@@ -24,12 +24,19 @@ def read_fake_data(filename):
     """
     for i in count():
         sigma = random() * 10
-        yield (i, normalvariate(0, sigma))
+        day = date.fromtimestamp(i)
+        value = normalvariate(0, sigma)
+        yield (day, value)
 
 def day_grouper(iterable):
-    # lambda takes in a data point of form: time, value
-    # Returns itertools groupby, which is an iterator with a next method
-    key = lambda timestamp_value: date.fromtimestamp(timestamp_value[0])
+    """
+    lambda takes in a data point of form: time, value
+    Returns itertools groupby, which is an iterator with a next method
+
+    Note: date.fromtimestamp() will return (1969, 12, 31) for any value in range [0, 25199]
+    Hence, the first 25200 pieces of read fake data will be grouped together for day (1969, 12, 31)
+    """
+    key = lambda timestamp_value: timestamp_value[0]
     return groupby(iterable, key)
 
 
@@ -39,6 +46,7 @@ def check_anomaly(day_data_tuple):
     mean/std algorithm allows us to only read through the day's data once.
 
     Note: M2 = 2nd moment, variance
+          day_data is an iterable, returned from groupby, and we request values via for loop
     """
     (day, day_data) = day_data_tuple
 
