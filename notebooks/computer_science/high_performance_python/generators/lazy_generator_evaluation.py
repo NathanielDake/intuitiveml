@@ -1,6 +1,6 @@
 from random import normalvariate, random
 from itertools import count, groupby, islice
-from datetime import date
+from datetime import date, datetime
 import math
 
 
@@ -40,6 +40,36 @@ def day_grouper(iterable):
     return groupby(iterable, key)
 
 
+def rolling_window_grouper(data, window_size=3600):
+    """
+    Groups based on a rolling window of data points (instead of grouping for individual days.
+     - cast islice to tuple to load a window_size worth of data points into memory
+     - From tuple grab first datetime as current_datetime
+     - yield the current_datetime and the window
+     - update window by removing current datetime, and gathering the next datetime
+    """
+    window = tuple(islice(data, 0, window_size))
+    while True:
+        current_datetime = window[0][0]
+        yield (current_datetime, window)
+        window = window[1:] + (data.__next__(), )
+
+
+def rolling_window_grouper(data, window_size=3600):
+    """
+    Groups based on a rolling window of data points (instead of grouping for individual days.
+     - cast islice to tuple to load a window_size worth of data points into memory
+     - From tuple grab first datetime as current_datetime
+     - yield the current_datetime and the window
+     - update window by removing current datetime, and gathering the next datetime
+    """
+    window = tuple(islice(data, 0, window_size))
+    while True:
+        current_datetime = window[0][0]
+        yield (current_datetime, window)
+        window = window[1:] + (data.__next__(), )
+
+
 def check_anomaly(day_data_tuple):
     """
     Find mean, std, and maximum values for the day. Using a single pass (online)
@@ -75,6 +105,20 @@ def main():
     data_day = day_grouper(data)
 
     anomalous_dates = filter(None, map(check_anomaly, data_day))
+
+    print("-------- Day Grouper ---------")
+    first_anomalous_date = anomalous_dates.__next__()
+    print(first_anomalous_date)
+
+    next_10_anomalous_dates = islice(anomalous_dates, 10)
+    print(list(next_10_anomalous_dates))
+
+    print("\n-------Window Grouper--------")
+    data = read_fake_data("test_filename")
+
+    data_window = rolling_window_grouper(data)
+
+    anomalous_dates = filter(None, map(check_anomaly, data_window))
 
     first_anomalous_date = anomalous_dates.__next__()
     print(first_anomalous_date)
