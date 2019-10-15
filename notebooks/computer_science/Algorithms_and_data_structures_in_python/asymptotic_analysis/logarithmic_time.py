@@ -1,8 +1,7 @@
 # We can also look at find max from another point of view; how
 # many times will biggest by updated?
 # https://pdfs.semanticscholar.org/0706/5418a63503910e72f3ec7cf97c991367f133.pdf
-# https://en.wikipedia.org/wiki/Harmonic_numbe
-
+# https://en.wikipedia.org/wiki/Harmonic_number
 
 
 import random
