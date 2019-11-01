@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,7 +211,8 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="2.-K-Means-Clustering">2. K-Means Clustering<a class="anchor-link" href="#2.-K-Means-Clustering">&#182;</a></h1><p>We know that we are going to be trying to perform <strong>K-Means Clustering</strong> on data. So let's take a moment to visualize some data that we may get.</p>
 <p><img src="https://drive.google.com/uc?id=1KcbL2So0yMoE370TJ1OsS74rV3q8IWbJ" width="500" height="500"></p>
@@ -223,9 +228,11 @@ Suppose we know that the yellow, purple, and green points are the center of some
 <p><br>
 <strong>Fundamental Truth 2</strong><br>
 Now, lets consider the second fundamental fact about clusters. Let's say that all of the points we see below belong to the same cluster. We can refer to the data points as:</p>
-$$x_1,...,x_C$$<p><img src="https://drive.google.com/uc?id=18rcXhCuCSOCkOgQa8ciyyLQTCyLW8U9d" width="500" height="500"></p>
+<p>$$x_1,...,x_C$$</p>
+<p><img src="https://drive.google.com/uc?id=18rcXhCuCSOCkOgQa8ciyyLQTCyLW8U9d" width="500" height="500"></p>
 <p>What is the center of this cluster? Of course, that is just the mean of all these data points. This is also referred to as the centroid, if you are thinking geometrically. So, as you know, the way to find the mean of a set of vectors, is to add them up, and divide by the number of vectors:</p>
-$$m = \frac{1}{C}\sum_{i=1}^Cx_i$$<h2 id="1.3-Combining-into-Clustering-Algorithm">1.3 Combining into Clustering Algorithm<a class="anchor-link" href="#1.3-Combining-into-Clustering-Algorithm">&#182;</a></h2><p>Believe it or not, the two above facts are all that you need to implement k-means clustering. It turns out that if we just initialize the set of clusters randomly, if we just repeat these two steps over and over, we will converge to an answer.</p>
+<p>$$m = \frac{1}{C}\sum_{i=1}^Cx_i$$</p>
+<h2 id="1.3-Combining-into-Clustering-Algorithm">1.3 Combining into Clustering Algorithm<a class="anchor-link" href="#1.3-Combining-into-Clustering-Algorithm">&#182;</a></h2><p>Believe it or not, the two above facts are all that you need to implement k-means clustering. It turns out that if we just initialize the set of clusters randomly, if we just repeat these two steps over and over, we will converge to an answer.</p>
 <p><br>
 <strong>Pseudocode</strong><br></p>
 
@@ -238,7 +245,8 @@ While not converged:
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -254,7 +262,8 @@ While not converged:
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -265,20 +274,27 @@ While not converged:
 <pre><code>Initialize m1...mk = random points in X
 While not converged:
     Step 1: Calculate cluster responsibilities</code></pre>
-$$r_k^{(n)} = \frac{exp\Big[-\beta d(m_k, x^{(n)})\Big]}{\sum_j exp \Big[-\beta d(m_j, x^{(n)})\Big]}$$
+<p>$$r_k^{(n)} = \frac{exp\Big[-\beta d(m_k, x^{(n)})\Big]}{\sum_j exp \Big[-\beta d(m_j, x^{(n)})\Big]}$$</p>
+
 <pre><code>    Step 2: Recalculate means</code></pre>
-$$m_k = \frac{\sum_n r_k^{(n)}x^{(n)}}{\sum_n r_k^{(n)}}$$<p>We can see that step 1 is where the biggest change occurs. We are now defining a term $r_k^{(n)}$, that will always be a fraction. In the case of hard k-means, aka regular k-means, that is where $r_k^{(n)}$ is exactly 0 or 1. We can see that in step 2 we are calculating a weighted mean. If $r_k^{(n)}$ is higher, then this $x_n$ matters more to this cluster K. This means that it has more influence on the calculation of its mean.</p>
+<p>$$m_k = \frac{\sum_n r_k^{(n)}x^{(n)}}{\sum_n r_k^{(n)}}$$</p>
+<p>We can see that step 1 is where the biggest change occurs. We are now defining a term $r_k^{(n)}$, that will always be a fraction. In the case of hard k-means, aka regular k-means, that is where $r_k^{(n)}$ is exactly 0 or 1. We can see that in step 2 we are calculating a weighted mean. If $r_k^{(n)}$ is higher, then this $x_n$ matters more to this cluster K. This means that it has more influence on the calculation of its mean.</p>
 <p>If you are familiar with deep learning, you may recognize the calculation of $r_k^{(n)}$ to be something similar to that of the softmax function.</p>
 <h2 id="3.2-Soft-K-Means-Breakdown">3.2 Soft K-Means Breakdown<a class="anchor-link" href="#3.2-Soft-K-Means-Breakdown">&#182;</a></h2><p>Let's take a minute to breakdown these two steps of soft k-means in order to understand them better. If we look at the equation for the responsibility:</p>
-$$r_k^{(n)} = \frac{exp\Big[-\beta d(m_k, x^{(n)})\Big]}{\sum_{j=1}^K exp \Big[-\beta d(m_j, x^{(n)})\Big]}$$<p>We can see that it depends on the distance between the point, and each cluster center. Why does this make sense? Well, you can imagine that if a data point is very close to one cluster center, and very far away from another, then we will get a data point close to 1. This means we will have a higher probability that the point belongs to the cluster with the center closest to it, will be the highest!</p>
+<p>$$r_k^{(n)} = \frac{exp\Big[-\beta d(m_k, x^{(n)})\Big]}{\sum_{j=1}^K exp \Big[-\beta d(m_j, x^{(n)})\Big]}$$</p>
+<p>We can see that it depends on the distance between the point, and each cluster center. Why does this make sense? Well, you can imagine that if a data point is very close to one cluster center, and very far away from another, then we will get a data point close to 1. This means we will have a higher probability that the point belongs to the cluster with the center closest to it, will be the highest!</p>
 <p><img src="https://drive.google.com/uc?id=1BKNl_YVAXDkAvgUiaq5_MOiIs7yPBGio"></p>
 <p>However, now lets say a data point is right in between two clusters. Then we should get 0.5. This makes sense because we are equally confident that this data point could belong to either of the two clusters.</p>
 <p><img src="https://drive.google.com/uc?id=1ODB8xx-CUs-dnT-hwE8fdQLRMnsdl-hW"></p>
 <p>So, this method allows us to quantify how confident we are in the cluster assignments, rather than simply assigning a data point to whichever cluster it is closest to.</p>
 <h2 id="3.3-Relationship-to-Gaussian">3.3 Relationship to Gaussian<a class="anchor-link" href="#3.3-Relationship-to-Gaussian">&#182;</a></h2><p>You may notice that the numerator in the term for the responsibility looks suspiciously like a <strong>Gaussian</strong>.</p>
-$$Numerator: \; exp\Big[-\beta d(m_k, x^{(n)})\Big]$$$$Gaussian \; PDF: \frac{1}{\sqrt{2 \pi \sigma^2}} exp \Big(\frac{1}{2\sigma^2}(x-\mu)^2\Big)$$<p>We will make this connection soon, when we discuss <strong>Gaussian Mixture Models</strong>. As you may know, the gaussian contains a variance term, which shows up in the exponent. The variance term controls how fat or skinny the PDF of the Gaussian is. And so this controls how fat or skinny the influence of each cluster is on each data point.</p>
+<p>$$Numerator: \; exp\Big[-\beta d(m_k, x^{(n)})\Big]$$</p>
+<p>$$Gaussian \; PDF: \frac{1}{\sqrt{2 \pi \sigma^2}} exp \Big(\frac{1}{2\sigma^2}(x-\mu)^2\Big)$$</p>
+<p>We will make this connection soon, when we discuss <strong>Gaussian Mixture Models</strong>. As you may know, the gaussian contains a variance term, which shows up in the exponent. The variance term controls how fat or skinny the PDF of the Gaussian is. And so this controls how fat or skinny the influence of each cluster is on each data point.</p>
 <h2 id="3.4-Calculating-the-Mean">3.4 Calculating the Mean<a class="anchor-link" href="#3.4-Calculating-the-Mean">&#182;</a></h2><p>In step 2 we had to calculate the mean, but it looked a little different than normal. This equation actually has a name, the <strong>weighted arithmetic mean</strong>. It is a generalization of the regular arithmetic mean, where you can think of each data point as having the same weight of 1.</p>
-$$Regular \; mean: m_k = \frac{1}{N}\sum_n x^{(n)} = \frac{1*x^{(1)} + 1*x^{(2)} + ...}{1 + 1 + ...}$$$$Weighted \; mean: m_k = \frac{\sum_n r_k^{(n)}x^{(n)}}{\sum_n r_k^{(n)}} = \frac{r_k^{(1)}x^{(1)} + r_k^{(2)}x^{(2)} + ...}{r_k^{(1)} + r_k^{(2)} + ...}$$<p>This also makes sense in terms of clustering, since, for example, if a data point is far away from the cluster center, then the corresponding responsibility will be close to 0, and therefore each data point shouldn't have a big influence on calculating the cluster center.</p>
+<p>$$Regular \; mean: m_k = \frac{1}{N}\sum_n x^{(n)} = \frac{1*x^{(1)} + 1*x^{(2)} + ...}{1 + 1 + ...}$$</p>
+<p>$$Weighted \; mean: m_k = \frac{\sum_n r_k^{(n)}x^{(n)}}{\sum_n r_k^{(n)}} = \frac{r_k^{(1)}x^{(1)} + r_k^{(2)}x^{(2)} + ...}{r_k^{(1)} + r_k^{(2)} + ...}$$</p>
+<p>This also makes sense in terms of clustering, since, for example, if a data point is far away from the cluster center, then the corresponding responsibility will be close to 0, and therefore each data point shouldn't have a big influence on calculating the cluster center.</p>
 <h2 id="3.5-Purpose-of-Soft-K-Means">3.5 Purpose of Soft K-Means<a class="anchor-link" href="#3.5-Purpose-of-Soft-K-Means">&#182;</a></h2><p>The purpose of Soft K-Means is that it allows us to quantify our confidence in the cluster assignment. Look at the situation below:</p>
 <p><img src="https://drive.google.com/uc?id=1i5NJqKNsJU5SNdXuEiJIPdIYysUbNBSG"></p>
 <p>We can see that this data point is still really in the middle of the two clusters and shouldn't really be assigned to the cluster on the right. It is still mainly in the center. However, this is exactly what hard k-means would do. It would say that this point belongs to the cluster on the right, and treat it the same way as all of the other points which are closer, and maybe more definitively belong to the cluster on the right.</p>
@@ -290,19 +306,22 @@ $$Regular \; mean: m_k = \frac{1}{N}\sum_n x^{(n)} = \frac{1*x^{(1)} + 1*x^{(2)}
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
 <h1 id="4.-The-K-Means-Objective-Function">4. The K-Means Objective Function<a class="anchor-link" href="#4.-The-K-Means-Objective-Function">&#182;</a></h1><p>As was the case with supervised learning, it is very important to talk about the objective functions that we are trying to maximize. Assuming that we are using euclidean distance as our distance measure, our objective function is:</p>
-$$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we will sum over all data points $n$, and then sum over all clusters $k$, the distance between each cluster and each data point, weighted by the responsibilities. So, really this is just the squared distance weighted by the responsiblities.</p>
+<p>$$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$</p>
+<p>In english this means we will sum over all data points $n$, and then sum over all clusters $k$, the distance between each cluster and each data point, weighted by the responsibilities. So, really this is just the squared distance weighted by the responsiblities.</p>
 <p>So, if $x_n$ is far away from the mean of cluster k, hopefully that responsibility has been set very low. In deep learning we will use gradient descent, but we do not use that here! In this case we actually do what is called <strong>coordinate descent</strong> This means that we are moving in the direction of a smaller J, with respect to only 1 variable at a time. We can see that this is true because we only update 1 variable at a time, either $r_k^{(n)}$, or $m_k$. There is a mathematical guarantee that each iteration will result in the objective function decreasing, and thus it will always converge. However, there is no guarantee that it will converge to a global minimum.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -411,7 +430,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -421,7 +440,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -436,7 +455,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -451,7 +470,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -466,7 +485,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -481,7 +500,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -496,7 +515,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -511,7 +530,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -610,7 +629,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -620,7 +639,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -635,7 +654,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -648,7 +667,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -663,7 +682,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -678,7 +697,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -693,7 +712,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -708,7 +727,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -723,7 +742,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -738,7 +757,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -753,7 +772,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -768,7 +787,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -783,7 +802,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -798,7 +817,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -813,7 +832,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -828,7 +847,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -846,7 +865,8 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -855,7 +875,8 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -952,7 +973,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -962,7 +983,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -977,7 +998,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -992,7 +1013,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1007,7 +1028,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1022,7 +1043,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1037,7 +1058,7 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1055,7 +1076,8 @@ $$J = \sum_n \sum_k r_k^{(n)} ||m_k - x^{(n)}||^2$$<p>In english this means we w
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -1079,7 +1101,8 @@ K-means is not able to solve the donut problem, or even ellipses. It can only lo
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -1110,18 +1133,21 @@ K-means is not able to solve the donut problem, or even ellipses. It can only lo
 </ul>
 <p><br></p>
 <h2 id="9.1-Purity">9.1 Purity<a class="anchor-link" href="#9.1-Purity">&#182;</a></h2><p>One interesting way to evaluate a clustering is called a purity.</p>
-$$Purity = \frac{1}{N} \sum_{k=1}^K max_{j=1..K}|c_k \cap t_j|$$<p>First we divide by $N$, which balances for the number of samples that we have. Next, what is $c$ and what is $t$? $c_k$ stands for the cluster center indexed by $k$. In total we have $K$ number of clusters. $t_j$ stands for the targets in class $j$. We search for the max over $j$, which means that we find the target class that this cluster most likely belongs to, because they have the biggest intersection of points. Of course we will need to modify this a bit, since cluster membership given a data point isn't exact for soft k-means; it is rather probabilistic.</p>
+<p>$$Purity = \frac{1}{N} \sum_{k=1}^K max_{j=1..K}|c_k \cap t_j|$$</p>
+<p>First we divide by $N$, which balances for the number of samples that we have. Next, what is $c$ and what is $t$? $c_k$ stands for the cluster center indexed by $k$. In total we have $K$ number of clusters. $t_j$ stands for the targets in class $j$. We search for the max over $j$, which means that we find the target class that this cluster most likely belongs to, because they have the biggest intersection of points. Of course we will need to modify this a bit, since cluster membership given a data point isn't exact for soft k-means; it is rather probabilistic.</p>
 <p>For an example, suppose we are looking at the MNIST data set, where each of the classes is a digit between 0 and 9. We have 10 cluster centers but we have no idea what they mean. To determine what they mean, we look at each of the target classes. If we find that the best intersection of data points, is with data representing the digit 5, then that means that this cluster probably represents the digit 5. Because of this, the best purity we can get is 1. That means that for each cluster, the points that are assigned to it all correspond to the same true label.</p>
 <p>However, this exposes 1 big disadvantage of the purity measure. <strong>It requires targets, which is generally just the case for supervised learning</strong>. And if you have targets, why not just use supervised learning? Many other measures also require targets, such as the <em>Rand Measure</em>, <em>F-measure</em>, <em>Jaccard Index</em>, <em>Normalized Mutual Information</em>. These methods that require the use of a true label are called <strong>external validation</strong> methods.</p>
 <p><br></p>
 <h2 id="9.2-Davies-Bouldin-Index">9.2 Davies-Bouldin Index<a class="anchor-link" href="#9.2-Davies-Bouldin-Index">&#182;</a></h2><p>In a more realistic scenario, when we are doing unsupervised learning we most likely do not have labels. However, we still want to be able to test whether or not this is a good clustering. There are internal validation methods that do not require the use of a true label. One example is the <strong>Davies-Bouldin Index</strong>.</p>
-$$DBI = \frac{1}{K} \sum_{k=1}^K max_{j \neq k} \Big[\frac{\sigma_k + \sigma_j}{d(c_k, c_j)}\Big]$$<p>It has similarities in appearance the equation for purity we just discussed. Given $k$, we take the maximum over $j$ of some measure. In this equation, the $\sigma_k$ represents the average distance from each data point in a cluster to it's center. You can see why $\sigma$ is appropriate, since it is kind of like the standard deviation. $\sigma_j$ is the same thing except for cluster $j$. Note that because we are using soft k-means we will need to calculate the sigmas correctly using the responsibilities, which are probabilistic. Next, $d(c_k, c_j)$ represents the distance between the cluster center $k$ and the cluster center $j$. Ideally, we want the numerator to be small and the denominator to be large. This is because we want everything within a cluster to be closer together, and we want each cluster to be far apart from other clusters. This, the lower the <strong>DBI</strong> the better!</p>
+<p>$$DBI = \frac{1}{K} \sum_{k=1}^K max_{j \neq k} \Big[\frac{\sigma_k + \sigma_j}{d(c_k, c_j)}\Big]$$</p>
+<p>It has similarities in appearance the equation for purity we just discussed. Given $k$, we take the maximum over $j$ of some measure. In this equation, the $\sigma_k$ represents the average distance from each data point in a cluster to it's center. You can see why $\sigma$ is appropriate, since it is kind of like the standard deviation. $\sigma_j$ is the same thing except for cluster $j$. Note that because we are using soft k-means we will need to calculate the sigmas correctly using the responsibilities, which are probabilistic. Next, $d(c_k, c_j)$ represents the distance between the cluster center $k$ and the cluster center $j$. Ideally, we want the numerator to be small and the denominator to be large. This is because we want everything within a cluster to be closer together, and we want each cluster to be far apart from other clusters. This, the lower the <strong>DBI</strong> the better!</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -1148,7 +1174,7 @@ $$DBI = \frac{1}{K} \sum_{k=1}^K max_{j \neq k} \Big[\frac{\sigma_k + \sigma_j}{
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1243,7 +1269,7 @@ $$DBI = \frac{1}{K} \sum_{k=1}^K max_{j \neq k} \Big[\frac{\sigma_k + \sigma_j}{
   <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1253,7 +1279,7 @@ $$DBI = \frac{1}{K} \sum_{k=1}^K max_{j \neq k} \Big[\frac{\sigma_k + \sigma_j}{
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1266,7 +1292,7 @@ Number of data points: 10000
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1281,7 +1307,7 @@ Number of data points: 10000
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1296,7 +1322,7 @@ Number of data points: 10000
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1308,7 +1334,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1323,7 +1349,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1338,7 +1364,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1353,7 +1379,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1368,7 +1394,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1383,7 +1409,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1398,7 +1424,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1413,7 +1439,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1428,7 +1454,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1443,7 +1469,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1458,7 +1484,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1473,7 +1499,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1488,7 +1514,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1503,7 +1529,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1518,7 +1544,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1533,7 +1559,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1548,7 +1574,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1563,7 +1589,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1578,7 +1604,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1593,7 +1619,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1611,7 +1637,8 @@ DBI: 1.1873093601254083
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -1656,7 +1683,7 @@ DBI: 1.1873093601254083
   <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1666,7 +1693,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1681,7 +1708,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1699,7 +1726,8 @@ DBI: 1.1873093601254083
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -1912,7 +1940,7 @@ DBI: 1.1873093601254083
 <span class="n">plot_k_means</span><span class="p">(</span><span class="n">Z</span><span class="p">[:,:</span><span class="mi">2</span><span class="p">],</span> <span class="n">current_index</span><span class="o">//</span><span class="mi">10</span><span class="p">,</span> <span class="n">index_word_map</span><span class="p">,</span> <span class="n">show_plots</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1922,7 +1950,7 @@ DBI: 1.1873093601254083
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2127,7 +2155,7 @@ cluster 25 -&gt; [&#39;manner&#39;, &#39;photograph&#39;, &#39;tina&#39;, &#39;b
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[3]:</div>
+<div class="prompt output_prompt">Out[3]:</div>
 
 
 
@@ -2359,7 +2387,7 @@ cluster 25 -&gt; [&#39;manner&#39;, &#39;photograph&#39;, &#39;tina&#39;, &#39;b
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stderr output_text">

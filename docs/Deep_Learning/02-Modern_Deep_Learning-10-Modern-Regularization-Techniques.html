@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,12 +211,14 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="17.-Modern-Regularization-Techniques">17. Modern Regularization Techniques<a class="anchor-link" href="#17.-Modern-Regularization-Techniques">&#182;</a></h1><p>We are now going to look at modern regularization techniques such as drop out. Dropout is a technique developed by Geoff Hinton and team. Up until we have worked with the following types of regularization:</p>
 <p><br></p>
 <h2 id="1.1-L1-and-L2-Regularization">1.1 L1 and L2 Regularization<a class="anchor-link" href="#1.1-L1-and-L2-Regularization">&#182;</a></h2><p><strong>L1 regularization</strong> encourages weights to be sparse, aka most weights being equal to 0. <strong>L2 regularization</strong> encourages most weights to be small, aka approximately equal to 0.</p>
-$$L_{regularized} = L_{likelihood} + \lambda|\theta|^p$$<p><br></p>
+<p>$$L_{regularized} = L_{likelihood} + \lambda|\theta|^p$$</p>
+<p><br></p>
 <h2 id="1.2-Dropout">1.2 Dropout<a class="anchor-link" href="#1.2-Dropout">&#182;</a></h2><p>In contrast to L1 and L2 regularization, <strong>Dropout</strong> does not add any penalty term to the cost. Instead, it works in a totally different way. Specifically, dropout works by dropping random nodes in the neural network during training. This has the effect of making it so that any hidden layer unit cannot just rely on 1 input feature, because at any time that node could be dropped.</p>
 <p><img src="https://drive.google.com/uc?id=171gI21cZhPRGgA2q67nszI6gdx15Ikn3" width="500"></p>
 <p>We will see that dropout emulates an ensemble of neural networks. What exactly is meant by ensemble? Well, remember how we mentioned we would be dropping some nodes in the neural network. We can imagine that instead of just randomly dropped nodes during training, we could actually create several instances of neural networks with these different structures and train them all. Then, to calculate the final prediction, we could average the predictions of each individual neural network.</p>
@@ -229,7 +235,8 @@ finalPrediction = mean(prediction1, prediction2, prediction3)</code></pre>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -264,9 +271,12 @@ Y = softmax(Z_drop.dot(V) + c)
 # This shrinks the value. L2 regularization also encourages weights to be small,
 # Leading to shrunken values</code></pre>
 <p>Let's think about what this ensemble represents. If we have in total $N$ nodes in the neural network, that is just:</p>
-$$N = number \; input \; nodes + number \; hidden \; nodes$$<p>Each of these nodes can have 2 states: <strong>On</strong> or <strong>Off</strong>, <strong>Drop</strong> or <strong>Keep</strong>. So, that means in total we have:</p>
-$$possible \; neural \; networks = 2^N$$<p>Therefore, we are approximating an ensemble of $2^N$ different neural networks. Now, imagine the case where you were not doing an approximation. Let's take a very small neural network, only 100 nodes (N = 100). Keep in mind that is a very small neural net. For comparison, MNIST would have ~1000 nodes total; 700 for the input and 300 for the hidden layer. Anyways, if we only had 100 nodes, we would still have:</p>
-$$2^{100} \approx 1.3 * 10^{30}$$<p>Imagine training that many neural nets? It would clearly be infeasible. So, we can't actually do that ensemble, however, mutliplying by $p(keep)$ allows us to approximate it.</p>
+<p>$$N = number \; input \; nodes + number \; hidden \; nodes$$</p>
+<p>Each of these nodes can have 2 states: <strong>On</strong> or <strong>Off</strong>, <strong>Drop</strong> or <strong>Keep</strong>. So, that means in total we have:</p>
+<p>$$possible \; neural \; networks = 2^N$$</p>
+<p>Therefore, we are approximating an ensemble of $2^N$ different neural networks. Now, imagine the case where you were not doing an approximation. Let's take a very small neural network, only 100 nodes (N = 100). Keep in mind that is a very small neural net. For comparison, MNIST would have ~1000 nodes total; 700 for the input and 300 for the hidden layer. Anyways, if we only had 100 nodes, we would still have:</p>
+<p>$$2^{100} \approx 1.3 * 10^{30}$$</p>
+<p>Imagine training that many neural nets? It would clearly be infeasible. So, we can't actually do that ensemble, however, mutliplying by $p(keep)$ allows us to approximate it.</p>
 <hr>
 <p><br></p>
 <h2 id="2.2-Dropout---Implementation-Theano">2.2 Dropout - Implementation Theano<a class="anchor-link" href="#2.2-Dropout---Implementation-Theano">&#182;</a></h2><p>The basic approach in theano to implement dropout, instead of actually dropping nodes out of the neural network, which would result in a different computational graph which theano wouldn't be able to handle, we are instead just going to multiply by 0. This has the same effect as dropping a node, because anything that comes after it will be mutliplied by 0 which is still 0. Since at each layer we are going to have an $N x D$ matrix, where N is equal to the batch size, we need to create an $N x D$ matrix of 0s and 1s to multiply that layer by. We call this matrix a <strong>mask</strong>.</p>
@@ -484,7 +494,7 @@ X_drop = mask * X</code></pre>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -494,7 +504,7 @@ X_drop = mask * X</code></pre>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -673,7 +683,7 @@ i: 7 j: 400 nb: 410 cost: 0.11230588489006148 error rate: 0.03
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -689,7 +699,8 @@ i: 7 j: 400 nb: 410 cost: 0.11230588489006148 error rate: 0.03
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -854,7 +865,7 @@ i: 7 j: 400 nb: 410 cost: 0.11230588489006148 error rate: 0.03
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -864,7 +875,7 @@ i: 7 j: 400 nb: 410 cost: 0.11230588489006148 error rate: 0.03
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1205,7 +1216,7 @@ i: 14 j: 400 nb: 410 cost: 0.09419788 error rate: 0.029
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1223,17 +1234,20 @@ i: 14 j: 400 nb: 410 cost: 0.09419788 error rate: 0.029
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="4.-Dropout-Intuition">4. Dropout Intuition<a class="anchor-link" href="#4.-Dropout-Intuition">&#182;</a></h1><p>We may ask the question at some point: "How does multiply by $p(keep)$ emulate an ensemble of neural networks where the probability of dropping a node is $1 - p(keep)$?"</p>
 <p><br>
 Well, lets consider a portion of a neural network where there are 3 nodes on the left feeding into 1 node on the right. In other words we have 3 inputs and 1 output. Let's say that $p(keep)$ is 2/3 and all of the weights are 1. We will also say that all of the value sat the input are 1 as well, ($x_1 = x_2 = x_3 = 1$).</p>
 <p><img src="https://drive.google.com/uc?id=1VC1nRR7NxkTVh0nWuX9O2Zvl94oJwSIT" width="300"></p>
 <p>The question is, how many possible configurations are there? Well, we have 3 nodes, each with a possible state of being kept or being dropped, hence have 8 different possible combinations:</p>
-$$2^3 = 8$$<p>We can see these possibilities below (the green means on and the white means off).</p>
+<p>$$2^3 = 8$$</p>
+<p>We can see these possibilities below (the green means on and the white means off).</p>
 <p><img src="https://drive.google.com/uc?id=1svJk9d_JcqpJ1G6WEUk7oRyNwoghOf61" width="700"></p>
 <p>What is important to realize here is that the probability of each of these configurations is not equivalent. In other words, each state does not have a probability of 1/8 of occuring. The probability of a node being on is 2/3, so the probability of a node being off is 1/3.</p>
-$$p(drop) = 1 - p(keep) = \frac{1}{3}$$<p>Therefore, if you have a configuration where all nodes are off, then it is:</p>
+<p>$$p(drop) = 1 - p(keep) = \frac{1}{3}$$</p>
+<p>Therefore, if you have a configuration where all nodes are off, then it is:</p>
 <p><br>
 $$p(drop)p(drop)p(drop) = \frac{1}{3}*\frac{1}{3}*\frac{1}{3} =  \Big(\frac{1}{3}\Big)^3 = \frac{1}{27}$$</p>
 <p>If you have a configuration where 1 node is on and 2 nodes are off:</p>
@@ -1242,21 +1256,29 @@ $$p(drop)p(keep)p(drop) = \frac{1}{3}*\frac{2}{3}*\frac{1}{3} = \frac{2}{27}$$</
 <p>We can see each combinations probability below:</p>
 <p><img src="https://drive.google.com/uc?id=17lWuvNAjTJ6M1rnyETOfJelpsSX2k_ai" width="700"></p>
 <p>Now, for each of these configurations, it is easy to calculate the output value. Since we have assumed all of the inputs and weights are 1:</p>
-$$0 \; nodes \; are \; on: 0$$$$1 \; node \; is \; on: 1 * 1 = 1$$$$2 \; nodes \; are \; on: 1 * 1 + 1*1 = 2$$$$3 \; nodes \; are \; on: 1 * 1 + 1*1 + 1*1 = 3$$<p><br></p>
+<p>$$0 \; nodes \; are \; on: 0$$
+$$1 \; node \; is \; on: 1 * 1 = 1$$
+$$2 \; nodes \; are \; on: 1 * 1 + 1*1 = 2$$
+$$3 \; nodes \; are \; on: 1 * 1 + 1*1 + 1*1 = 3$$</p>
+<p><br></p>
 <h3 id="4.1-Calculating-Ensemble-Output">4.1 Calculating Ensemble Output<a class="anchor-link" href="#4.1-Calculating-Ensemble-Output">&#182;</a></h3><p>We now have all that we need to calculate the ensemble output. Let's "pretend" that we used 27 base models in our ensemble, and each configuration showed up the expected number of times. For example, since the probability of all 3 nodes being on is 8/27, then 8 of our 27 base models had all three nodes on. So, the final model is just the average of all the base model outputs:</p>
-$$Output = \frac{\Big(0*1 + 1*2 + 1*2 + 1*2 +2*4 + 2*4 + 2*4 + 3*8\Big)}{27} = 2$$<p>However, keep in mind that this would require us to actually enumerate all 27 different configurations and get the output from each of them. The only reason it seemed simple here is because we used 1 for all of the different values.</p>
+<p>$$Output = \frac{\Big(0*1 + 1*2 + 1*2 + 1*2 +2*4 + 2*4 + 2*4 + 3*8\Big)}{27} = 2$$</p>
+<p>However, keep in mind that this would require us to actually enumerate all 27 different configurations and get the output from each of them. The only reason it seemed simple here is because we used 1 for all of the different values.</p>
 <p><br></p>
 <h3 id="4.2-Expected-Value">4.2 Expected Value<a class="anchor-link" href="#4.2-Expected-Value">&#182;</a></h3><p>BUT, we can of course compute this as an expected value as well! We can do this by using the number of occurences divided by 27. Recall, the expected value of a random variable X is:</p>
-$$E(X) = \sum x*p(x)$$<p>In other words we are summing over all possible values of x, and multiplying each possible value by its corresponding probability of occuring. So, in the case of our <strong>expected ensemble output</strong>:
+<p>$$E(X) = \sum x*p(x)$$</p>
+<p>In other words we are summing over all possible values of x, and multiplying each possible value by its corresponding probability of occuring. So, in the case of our <strong>expected ensemble output</strong>:
 $$0*\frac{1}{27} + 1*\frac{2}{27} +1*\frac{2}{27} +1*\frac{2}{27} +2*\frac{4}{27}+2*\frac{4}{27}+2*\frac{4}{27}+3*\frac{8}{27} = 2 $$</p>
 <p>Now, this was a very long process. But imagine if you had just multiplied the inputs by $p(keep)$.</p>
-$$Output = (\frac{2}{3} * 1)*1 + (\frac{2}{3} * 1)*1 + (\frac{2}{3} * 1)*1 = 2$$<p>We can clearly see here that multiplying by p(keep) at the input and using all the weights, gives us the same answer as determining all of the possible configurations, calculating all of the possible outputs, and then finding their expected average.</p>
+<p>$$Output = (\frac{2}{3} * 1)*1 + (\frac{2}{3} * 1)*1 + (\frac{2}{3} * 1)*1 = 2$$</p>
+<p>We can clearly see here that multiplying by p(keep) at the input and using all the weights, gives us the same answer as determining all of the possible configurations, calculating all of the possible outputs, and then finding their expected average.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -1290,19 +1312,6 @@ train(X + noise, Y)</code></pre>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake

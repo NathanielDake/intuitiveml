@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,7 +211,8 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="5.-Hidden-Markov-Model-Calculations">5. Hidden Markov Model Calculations<a class="anchor-link" href="#5.-Hidden-Markov-Model-Calculations">&#182;</a></h1><p>This appendix serves as an accompaniment to hidden markov models, discrete observations. We will go over calculations concerning:</p>
 <ol>
@@ -221,25 +226,36 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="0.-General-Definitions">0. General Definitions<a class="anchor-link" href="#0.-General-Definitions">&#182;</a></h1><p>We will start by restating common variables that will be used throughout our calculations.</p>
 <h4 id="0.1-Hidden-States-and-Observations">0.1 Hidden States and Observations<a class="anchor-link" href="#0.1-Hidden-States-and-Observations">&#182;</a></h4><p>We will let the number of hidden states be $M$:</p>
-$$\text{Number of hidden states} = M$$<p>And the length of our sequence of observations be $T$:</p>
-$$\text{Length of sequence of observations} = T$$<h4 id="0.2-Joint-Distribution">0.2 Joint Distribution<a class="anchor-link" href="#0.2-Joint-Distribution">&#182;</a></h4><p>We know that the joint distribution containing both our observed symbols and hidden states is:</p>
-$$p(x,z)$$<p>Where both $x$ and $z$ are vectors:</p>
-$$x = \big[x(1), x(2), ..., x(T)\big]$$$$z = \big[z(1), z(2), ..., z(T)\big]$$<h4 id="0.3-Marginalized-Distribution">0.3 Marginalized Distribution<a class="anchor-link" href="#0.3-Marginalized-Distribution">&#182;</a></h4><p>And we want to find the distribution for the sequence of observed symbols:</p>
-$$p\big(x(1), x(2),...,x(T)\big)$$<p>This is done by <em>marginalizing</em> out $z$.</p>
+<p>$$\text{Number of hidden states} = M$$</p>
+<p>And the length of our sequence of observations be $T$:</p>
+<p>$$\text{Length of sequence of observations} = T$$</p>
+<h4 id="0.2-Joint-Distribution">0.2 Joint Distribution<a class="anchor-link" href="#0.2-Joint-Distribution">&#182;</a></h4><p>We know that the joint distribution containing both our observed symbols and hidden states is:</p>
+<p>$$p(x,z)$$</p>
+<p>Where both $x$ and $z$ are vectors:</p>
+<p>$$x = \big[x(1), x(2), ..., x(T)\big]$$</p>
+<p>$$z = \big[z(1), z(2), ..., z(T)\big]$$</p>
+<h4 id="0.3-Marginalized-Distribution">0.3 Marginalized Distribution<a class="anchor-link" href="#0.3-Marginalized-Distribution">&#182;</a></h4><p>And we want to find the distribution for the sequence of observed symbols:</p>
+<p>$$p\big(x(1), x(2),...,x(T)\big)$$</p>
+<p>This is done by <em>marginalizing</em> out $z$.</p>
 <h4 id="0.4-Initial-State-Distribution-$\pi$">0.4 Initial State Distribution $\pi$<a class="anchor-link" href="#0.4-Initial-State-Distribution-$\pi$">&#182;</a></h4><p>We have our <em>initial state distribution</em>, $\pi$, the probability of being in a hidden state when the sequence begins:</p>
-$$\pi$$<h4 id="0.5-State-Transition-Matrix-$A$">0.5 State Transition Matrix $A$<a class="anchor-link" href="#0.5-State-Transition-Matrix-$A$">&#182;</a></h4><p>Then there is our <em>state transition matrix</em>, $A$, which represents the probability of going from state $i$ to state $j$:</p>
-$$A(i, j) = \text{probability of going from state i to state j}$$<h4 id="0.6-Observation-Matrix-$B$">0.6 Observation Matrix $B$<a class="anchor-link" href="#0.6-Observation-Matrix-$B$">&#182;</a></h4><p>Finally, we have our <em>observation matrix</em>, $B$, which represents the probability of observing symbol $k$ while in state $j$:</p>
-$$B(j,k) = \text{probability of observing symbol k while you are in state j}$$
+<p>$$\pi$$</p>
+<h4 id="0.5-State-Transition-Matrix-$A$">0.5 State Transition Matrix $A$<a class="anchor-link" href="#0.5-State-Transition-Matrix-$A$">&#182;</a></h4><p>Then there is our <em>state transition matrix</em>, $A$, which represents the probability of going from state $i$ to state $j$:</p>
+<p>$$A(i, j) = \text{probability of going from state i to state j}$$</p>
+<h4 id="0.6-Observation-Matrix-$B$">0.6 Observation Matrix $B$<a class="anchor-link" href="#0.6-Observation-Matrix-$B$">&#182;</a></h4><p>Finally, we have our <em>observation matrix</em>, $B$, which represents the probability of observing symbol $k$ while in state $j$:</p>
+<p>$$B(j,k) = \text{probability of observing symbol k while you are in state j}$$</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="1.-Probability-of-a-Sequence">1. Probability of a Sequence<a class="anchor-link" href="#1.-Probability-of-a-Sequence">&#182;</a></h1><p>We have gone over the equations utilized in determining the probability of a sequence, but we will now solidify that with an actual example. Here is the problem statement:</p>
@@ -259,10 +275,16 @@ Finally, the coin 1 is biased towards heads and has a 0.7 probability of being h
 <br></p>
 <p>We now have all of the information needed to find the probability of the sequence $H,H,T$. Intuitively, we can think about it as follows: We must first take into account the probability that we start in specific state, and from that state we observed heads. We then must account for the probability that from that state we transition to another hidden state and observe heads. And finally, we must take into the account that from the second hidden state we transition to <em>another</em> hidden state and observe tails. Let's look at each part separately.</p>
 <h4 id="1.1-The-probability-of-the-Initial-State">1.1 The probability of the Initial State<a class="anchor-link" href="#1.1-The-probability-of-the-Initial-State">&#182;</a></h4><p>We can write the probability of the initial state and observing heads as:</p>
-$$\pi\big(z(1)\big)p\big(x(1)=1|z(1)\big)$$<h4 id="1.2-The-probability-of-transitioning-from-state-1-to-state-2">1.2 The probability of transitioning from state 1 to state 2<a class="anchor-link" href="#1.2-The-probability-of-transitioning-from-state-1-to-state-2">&#182;</a></h4>$$p\big(z(2)|z(1)\big) = A\big(z(1),z(2)\big)$$<h4 id="1.3-The-probability-of-observing-heads-from-state-2">1.3 The probability of observing heads from state 2<a class="anchor-link" href="#1.3-The-probability-of-observing-heads-from-state-2">&#182;</a></h4>$$p\big(x(2)=1|z(2)\big) = B\big(z(2),x(2)=1\big)$$<p>Now, if we repeated this process for transitioning from state 2 to 3, we would end up with the following equation:</p>
-$$p\big(x,z \big) = \pi\big(z(1)\big)p\big(x(1)=1|z(1)\big) * p\big(z(2)|z(1)\big) * p\big(x(2)=1|z(2)\big) * p\big(z(3)|z(2)\big) * p\big(x(3)=0|z(3)\big)$$<p>Which we can then update by utilizing our matrices $A$ and $B$:</p>
-$$p\big(x,z \big) = \pi\big(z(1)\big)B\big(z(2),x(2)=1\big) * A\big(z(1),z(2)\big) * B\big(z(2),x(2)=1\big) * A\big(z(2),z(3)\big) * B\big(z(3),x(3)=0\big)$$<p>Now, at this point we can see that there are multiple values that $z$ can take on, and that in order to find $p(x)$ we must marginalize out $z$, like so:</p>
-$$\sum_{z_1 = 1..M,..,z_3=1..M}\pi\big(z(1)\big)B\big(z(2),x(2)=1\big) * A\big(z(1),z(2)\big) * B\big(z(2),x(2)=1\big) * A\big(z(2),z(3)\big) * B\big(z(3),x(3)=0\big)$$<p>We can see that since $M$ is 2, and we have $T =3$ observations, there are going to be $2^3$ different operations (separate summations) that need to be performed in order to marginalize out $z$. That would be very messy to write out, be we will calculate it in code below:</p>
+<p>$$\pi\big(z(1)\big)p\big(x(1)=1|z(1)\big)$$</p>
+<h4 id="1.2-The-probability-of-transitioning-from-state-1-to-state-2">1.2 The probability of transitioning from state 1 to state 2<a class="anchor-link" href="#1.2-The-probability-of-transitioning-from-state-1-to-state-2">&#182;</a></h4><p>$$p\big(z(2)|z(1)\big) = A\big(z(1),z(2)\big)$$</p>
+<h4 id="1.3-The-probability-of-observing-heads-from-state-2">1.3 The probability of observing heads from state 2<a class="anchor-link" href="#1.3-The-probability-of-observing-heads-from-state-2">&#182;</a></h4><p>$$p\big(x(2)=1|z(2)\big) = B\big(z(2),x(2)=1\big)$$</p>
+<p>Now, if we repeated this process for transitioning from state 2 to 3, we would end up with the following equation:</p>
+<p>$$p\big(x,z \big) = \pi\big(z(1)\big)p\big(x(1)=1|z(1)\big) * p\big(z(2)|z(1)\big) * p\big(x(2)=1|z(2)\big) * p\big(z(3)|z(2)\big) * p\big(x(3)=0|z(3)\big)$$</p>
+<p>Which we can then update by utilizing our matrices $A$ and $B$:</p>
+<p>$$p\big(x,z \big) = \pi\big(z(1)\big)B\big(z(2),x(2)=1\big) * A\big(z(1),z(2)\big) * B\big(z(2),x(2)=1\big) * A\big(z(2),z(3)\big) * B\big(z(3),x(3)=0\big)$$</p>
+<p>Now, at this point we can see that there are multiple values that $z$ can take on, and that in order to find $p(x)$ we must marginalize out $z$, like so:</p>
+<p>$$\sum_{z_1 = 1..M,..,z_3=1..M}\pi\big(z(1)\big)B\big(z(2),x(2)=1\big) * A\big(z(1),z(2)\big) * B\big(z(2),x(2)=1\big) * A\big(z(2),z(3)\big) * B\big(z(3),x(3)=0\big)$$</p>
+<p>We can see that since $M$ is 2, and we have $T =3$ observations, there are going to be $2^3$ different operations (separate summations) that need to be performed in order to marginalize out $z$. That would be very messy to write out, be we will calculate it in code below:</p>
 
 </div>
 </div>
@@ -301,7 +323,7 @@ $$\sum_{z_1 = 1..M,..,z_3=1..M}\pi\big(z(1)\big)B\big(z(2),x(2)=1\big) * A\big(z
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total Operations: &#39;</span><span class="p">,</span> <span class="n">iterations</span> <span class="o">*</span> <span class="n">operations_per_iteration</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -311,7 +333,7 @@ $$\sum_{z_1 = 1..M,..,z_3=1..M}\pi\big(z(1)\big)B\big(z(2),x(2)=1\big) * A\big(z
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -326,64 +348,91 @@ Total Operations:  40
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And we finally arrive at our sequence probability:</p>
-$$p(H,H,T) = 0.11$$<h4 id="1.4-Complexity">1.4 Complexity<a class="anchor-link" href="#1.4-Complexity">&#182;</a></h4><p>Note that in order to achieve this we needed to take the summation of 8 different calculations, consisting of $2T-1$ operations. From this, we know that the time complexity of this algorithm is $O(TM^T)$. Visually, this can be seen clearly below:</p>
+<p>$$p(H,H,T) = 0.11$$</p>
+<h4 id="1.4-Complexity">1.4 Complexity<a class="anchor-link" href="#1.4-Complexity">&#182;</a></h4><p>Note that in order to achieve this we needed to take the summation of 8 different calculations, consisting of $2T-1$ operations. From this, we know that the time complexity of this algorithm is $O(TM^T)$. Visually, this can be seen clearly below:</p>
 <p><img src="https://drive.google.com/uc?id=1eM-n-qtk2-GlWusX83cbc5OolW1Y3Mqu" width="750"></p>
 <p>We can see via simply counting operations in the above visualization, that there are 5 internal operations that must be performed. In our case, $T=3$, and hence:</p>
-$$2T-1 = 5$$<p>The summation goes through all of our states at each time step, and since $M=2$, we have:</p>
-$$M^T = 2 ^ 3 = 2*2*2 = 8$$<p></p>
+<p>$$2T-1 = 5$$</p>
+<p>The summation goes through all of our states at each time step, and since $M=2$, we have:</p>
+<p>$$M^T = 2 ^ 3 = 2*2*2 = 8$$</p>
 <p>Hence, our total number of operations for our example is:</p>
-$$2T-1*M^T = 5 * 8 = 40$$
+<p>$$2T-1*M^T = 5 * 8 = 40$$</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="2.-Forward-Backward-Algorithm">2. Forward-Backward Algorithm<a class="anchor-link" href="#2.-Forward-Backward-Algorithm">&#182;</a></h1><p>At this point we are ready to move on to an algorithm that will help reduce the exponential complexity that we are dealing with above. This algorithm, <em><strong>the Forward-Backward</strong></em> algorithm, works by defining a variable called $\alpha$, that represents:</p>
 <blockquote><p>The joint probability of seeing the sequence you have observed up until now and being in a specific state at that time.</p>
 </blockquote>
 <p>Mathematically, it is written as:</p>
-$$\alpha(t,i) = p \big(x(1),...,x(t),z(t)=i\big)$$<p>We can see that $\alpha$ is indexed by both time and $i$, the state.</p>
+<p>$$\alpha(t,i) = p \big(x(1),...,x(t),z(t)=i\big)$$</p>
+<p>We can see that $\alpha$ is indexed by both time and $i$, the state.</p>
 <h4 id="2.1.1-Step-1-$\rightarrow$-Initial-Value-of-$\alpha$">2.1.1 Step 1 $\rightarrow$ Initial Value of $\alpha$<a class="anchor-link" href="#2.1.1-Step-1-$\rightarrow$-Initial-Value-of-$\alpha$">&#182;</a></h4><p>The first step of the forward backward algorithm is to calculate the initial value of $\alpha$ at $t=1$:</p>
-$$\alpha(1, i) = p \big(x(1), z(1)=i\big)$$$$\alpha(1, i) =  p\big(z(1) = i \big) p\big(x(1) \mid z(1)= i\big)$$<p>Where, we know that:</p>
-$$\pi_i = p\big(z(1) = i \big)$$<p>And also that:</p>
-$$p\big(x(1) \mid z(1)= i\big) = B\big(i, x(1)\big)$$<p>So, we can rewrite our equation for $\alpha(1,i)$ as:</p>
-$$\alpha(1,i) = \pi_iB\big(i, x(1)\big)$$<p>Now, in terms of our example, we know that we have $M=2$ states. Hence, we need to find $\alpha$ for each starting state (coin 1 and coin 2):</p>
-$$\alpha(1,1) = \alpha(1, \text{coin 1}) = \pi_1B\big(z(1)=1, x(1)\big)$$$$\alpha(1,2) = \alpha(1, \text{coin 2})= \pi_2B\big(z(1)=2, x(1)\big)$$<h4 id="2.1.2-Key-Points">2.1.2 Key Points<a class="anchor-link" href="#2.1.2-Key-Points">&#182;</a></h4><p>The first thing that I want you to take note of, is that that variable, $\alpha$, will only be updated for <em>specific values</em>. Currently it only has <em>two values</em>; that for $t=1$ and coin 1, and $t=1$ with coin 2. From an implementation standpoint, $\alpha$ will be a 2 dimensional matrix:</p>
+<p>$$\alpha(1, i) = p \big(x(1), z(1)=i\big)$$</p>
+<p>$$\alpha(1, i) =  p\big(z(1) = i \big) p\big(x(1) \mid z(1)= i\big)$$</p>
+<p>Where, we know that:</p>
+<p>$$\pi_i = p\big(z(1) = i \big)$$</p>
+<p>And also that:</p>
+<p>$$p\big(x(1) \mid z(1)= i\big) = B\big(i, x(1)\big)$$</p>
+<p>So, we can rewrite our equation for $\alpha(1,i)$ as:</p>
+<p>$$\alpha(1,i) = \pi_iB\big(i, x(1)\big)$$</p>
+<p>Now, in terms of our example, we know that we have $M=2$ states. Hence, we need to find $\alpha$ for each starting state (coin 1 and coin 2):</p>
+<p>$$\alpha(1,1) = \alpha(1, \text{coin 1}) = \pi_1B\big(z(1)=1, x(1)\big)$$</p>
+<p>$$\alpha(1,2) = \alpha(1, \text{coin 2})= \pi_2B\big(z(1)=2, x(1)\big)$$</p>
+<h4 id="2.1.2-Key-Points">2.1.2 Key Points<a class="anchor-link" href="#2.1.2-Key-Points">&#182;</a></h4><p>The first thing that I want you to take note of, is that that variable, $\alpha$, will only be updated for <em>specific values</em>. Currently it only has <em>two values</em>; that for $t=1$ and coin 1, and $t=1$ with coin 2. From an implementation standpoint, $\alpha$ will be a 2 dimensional matrix:</p>
 
 <pre><code>alpha = np.zeros((T, self.M))</code></pre>
 <p>The second key point is that the entire goal of this process is to find $p\big(x(1)\big)$. That may not be clear, or you may wonder why we have introduced this new variable $\alpha$. To answer that, let's first write the equation for $p\big(x(1)\big)$:</p>
-$$p\big(x(1)\big) = p\big(z(1)=1\big) p\big(x(1) \mid z(1) =1 \big) +...+p\big(z(1)=M\big) p\big(x(1) \mid z(1) =M \big)$$$$p\big(x(1)\big) = \pi_1 B \big(1, x(1) \big) + \pi_2 B \big(2, x(1) \big)+ ... +\pi_M B \big(M, x(1) \big)$$<p>But wait! We can see that this is our definition for $\alpha(1,i)$! If we sum $\alpha$ over the state $i$ when $t=1$, we end up with $p\big(x(1)\big)$. This leads us to the critical intuition:</p>
+<p>$$p\big(x(1)\big) = p\big(z(1)=1\big) p\big(x(1) \mid z(1) =1 \big) +...+p\big(z(1)=M\big) p\big(x(1) \mid z(1) =M \big)$$</p>
+<p>$$p\big(x(1)\big) = \pi_1 B \big(1, x(1) \big) + \pi_2 B \big(2, x(1) \big)+ ... +\pi_M B \big(M, x(1) \big)$$</p>
+<p>But wait! We can see that this is our definition for $\alpha(1,i)$! If we sum $\alpha$ over the state $i$ when $t=1$, we end up with $p\big(x(1)\big)$. This leads us to the critical intuition:</p>
 <blockquote><p>$\alpha$ is a way to successively keep track of the probability of a sequence.</p>
 </blockquote>
 <p>By creating $\alpha$, we can keep track of the probability of a sequence up to a current point in time, while also taking advantage of certain properties of probability that allow us to reduce the total number of operations we need to perform (aka, we can reduce the time complexity).</p>
 <h4 id="2.1.3-Step-2-$\rightarrow$-The-Induction-Step">2.1.3 Step 2 $\rightarrow$ The Induction Step<a class="anchor-link" href="#2.1.3-Step-2-$\rightarrow$-The-Induction-Step">&#182;</a></h4><p>At that point, we come to the <em>induction step</em>. We are trying to find $p\big(x(1), x(2)\big)$ now. We know that the induction step is an updating of $\alpha$ defined as:</p>
-$$\alpha(t+1, j) = \sum_{i=1}^M \alpha(t,i) A(i,j)B(j, x(t+1))$$<p>Note, if we wanted to find $\alpha(t+1, j)$ for <em>all values</em> that $j$ can take on, we would simply take the summation with $j$ as the index. With that said, inuitively we can think of the induction step as follows (in relation to our magician example): At $t=1$ the magician in holding one of the coins-we are not sure which-and we observe him flip a heads. We then go to $t=2$, he shuffles the coins behind his back, and then flips one of the coins where we again observe a heads. What we want to know is, what is the probability of that happening?</p>
+<p>$$\alpha(t+1, j) = \sum_{i=1}^M \alpha(t,i) A(i,j)B(j, x(t+1))$$</p>
+<p>Note, if we wanted to find $\alpha(t+1, j)$ for <em>all values</em> that $j$ can take on, we would simply take the summation with $j$ as the index. With that said, inuitively we can think of the induction step as follows (in relation to our magician example): At $t=1$ the magician in holding one of the coins-we are not sure which-and we observe him flip a heads. We then go to $t=2$, he shuffles the coins behind his back, and then flips one of the coins where we again observe a heads. What we want to know is, what is the probability of that happening?</p>
 <p>In order to determine that we must consider that the magician could transition from coin 1 or 2 at $t=1$, to coin 1 or 2 at $t=2$, where we then must determine the probability of observing $x(2)=heads$. This can be written as:</p>
-$$\pi_1A(1,1)B(1, x(2)=heads)+ \pi_2A(2,1)B(1, x(2)=heads)+\pi_1A(1,2)B(2, x(2)=heads)+ \pi_2A(2,2)B(2, x(2)=heads)$$<p>We can include $B$ for $t=1$ as well:</p>
+<p>$$\pi_1A(1,1)B(1, x(2)=heads)+ \pi_2A(2,1)B(1, x(2)=heads)+\pi_1A(1,2)B(2, x(2)=heads)+ \pi_2A(2,2)B(2, x(2)=heads)$$</p>
+<p>We can include $B$ for $t=1$ as well:</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-$$\pi_1B(1, x(1)=heads)A(1,1)B(1, x(2)=heads)+ \pi_2B(2, x(1)=heads)A(2,1)B(1, x(2)=heads)+\pi_1B(1, x(1)=heads)A(1,2)B(2, x(2)=heads)+ \pi_2B(2, x(1)=heads)A(2,2)B(2, x(2)=heads)$$
+<p>$$\pi_1B(1, x(1)=heads)A(1,1)B(1, x(2)=heads)+ \pi_2B(2, x(1)=heads)A(2,1)B(1, x(2)=heads)+\pi_1B(1, x(1)=heads)A(1,2)B(2, x(2)=heads)+ \pi_2B(2, x(1)=heads)A(2,2)B(2, x(2)=heads)$$</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Ahah! This is just $\alpha$ at time $t=2$! Note, this is technically the <em>sum</em> of $\alpha$ at $t=2$, over $j$ states. We can represent $\alpha$ at $t=2$ for each individual state below:</p>
-$$\alpha(t=2, j) = \sum_{i=1}^M \alpha(t,i) A(i,j)B(j, x(t+1))$$$$\alpha(t=2, j=1) = \sum_{i=1}^M \alpha(t,i) A(i,j=1)B(j=1, x(t+1))$$$$\alpha(t=2, j=1) = \pi_1B(1, x(1)=heads)A(1,1)B(1, x(2)=heads)+ \pi_2B(2, x(1)=heads)A(2,1)B(1, x(2)=heads)$$$$\alpha(t=2, j=2) = \sum_{i=1}^M \alpha(t,i) A(i,j=2)B(j=2, x(t+1))$$$$\alpha(t=2, j=2) = \pi_1B(1, x(1)=heads)A(1,2)B(2, x(2)=heads)+ \pi_2B(2, x(1)=heads)A(2,2)B(2, x(2)=heads)$$<p>Again, in order to find the total probability of the sequence $p\big(x(1), x(2)\big)$, we would want to marginalize out the hidden state, in this case indexed by $j$:</p>
-$$p\big(x(1), x(2)\big) = \sum_{j=1..M} \alpha(t=2, j)$$<p>However, we do not need to perform that step just yet, since we still have one more observed symbol to consider.</p>
+<p>$$\alpha(t=2, j) = \sum_{i=1}^M \alpha(t,i) A(i,j)B(j, x(t+1))$$</p>
+<p>$$\alpha(t=2, j=1) = \sum_{i=1}^M \alpha(t,i) A(i,j=1)B(j=1, x(t+1))$$</p>
+<p>$$\alpha(t=2, j=1) = \pi_1B(1, x(1)=heads)A(1,1)B(1, x(2)=heads)+ \pi_2B(2, x(1)=heads)A(2,1)B(1, x(2)=heads)$$</p>
+<p>$$\alpha(t=2, j=2) = \sum_{i=1}^M \alpha(t,i) A(i,j=2)B(j=2, x(t+1))$$</p>
+<p>$$\alpha(t=2, j=2) = \pi_1B(1, x(1)=heads)A(1,2)B(2, x(2)=heads)+ \pi_2B(2, x(1)=heads)A(2,2)B(2, x(2)=heads)$$</p>
+<p>Again, in order to find the total probability of the sequence $p\big(x(1), x(2)\big)$, we would want to marginalize out the hidden state, in this case indexed by $j$:</p>
+<p>$$p\big(x(1), x(2)\big) = \sum_{j=1..M} \alpha(t=2, j)$$</p>
+<p>However, we do not need to perform that step just yet, since we still have one more observed symbol to consider.</p>
 <h4 id="2.1.4-Step-2-$\rightarrow$-The-Termination-Step">2.1.4 Step 2 $\rightarrow$ The Termination Step<a class="anchor-link" href="#2.1.4-Step-2-$\rightarrow$-The-Termination-Step">&#182;</a></h4><p>We finally reach the point where we are trying to calculate $p\big(x(1), x(2), x(3)\big)$. Now, in order to do this we must perform the exact same set of steps that we just performed above, where we calculates $\alpha(t=3, j)$, for each hidden state $j$. The only difference is that now we must take the summation over $\alpha(t=3, j)$, for all $j$. This gives us our final sequence probability:</p>
-$$p\big(x(1), x(2), x(3)\big) = \sum_{j=1..M} \alpha(t=3, j)$$
+<p>$$p\big(x(1), x(2), x(3)\big) = \sum_{j=1..M} \alpha(t=3, j)$$</p>
+
 </div>
 </div>
 </div>
@@ -417,7 +466,7 @@ $$p\big(x(1), x(2), x(3)\big) = \sum_{j=1..M} \alpha(t=3, j)$$
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total Operations: &#39;</span><span class="p">,</span> <span class="n">iterations</span> <span class="o">*</span> <span class="n">operations_per_iteration</span> <span class="o">+</span> <span class="n">operations_initial</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -427,7 +476,7 @@ $$p\big(x(1), x(2), x(3)\big) = \sum_{j=1..M} \alpha(t=3, j)$$
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -442,7 +491,8 @@ Total Operations:  19
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can then vectorize the above process as follows; first, let's get rid of the inner loop over $i$:</p>
 
@@ -468,7 +518,7 @@ Total Operations:  19
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sequence Probability: &#39;</span><span class="p">,</span> <span class="n">sequence_probability</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -478,7 +528,7 @@ Total Operations:  19
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -492,7 +542,8 @@ Total Operations:  19
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And we can then vectorize out the loop over $j$:</p>
 
@@ -520,7 +571,7 @@ Total Operations:  19
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sequence Probability: &#39;</span><span class="p">,</span> <span class="n">sequence_probability</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -530,7 +581,7 @@ Total Operations:  19
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -544,20 +595,24 @@ Total Operations:  19
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="2.1.5-Complexity">2.1.5 Complexity<a class="anchor-link" href="#2.1.5-Complexity">&#182;</a></h4><p>Let's quickly determine our overall number of operations for the forward algorithm in our example. In order to find $\alpha(t=1, 1)$ we need to perform 1 multiplication, and the same goes for $\alpha(t=1, 2)$. So our initial value step requires two operations.</p>
 <p>Then, we have our induction step. Here we are trying to find $\alpha(t=2, 1)$ and $\alpha(t=2, 2)$. Each requires 4 operations, so a total of 8.</p>
 <p>We then hit our termination step, which will again require 8 operations, plus an additional operation to take the summation of $\alpha$ at $t=3$ over $j$. So that is 9 operations.</p>
 <p>We end up with a total of:</p>
-$$2 + 8 + 9 = 19 \text{ operations}$$<p>This matches what we found above in via code. From a big O standpoint, the initial 2 operations are a constant, as is the final 1 summation. That means that we are dealing with the induction steps complexity of $M^2$ at each time step (except the first); so $T-1$ time steps. Again, the $-1$ is a constant and we will be removed, leaving us with a complexity of $O(M^2T)$. Note, following this we would have expected to get $2^2*3 = 12 \text{ operations}$, yet we came up with 19, why? This is because we were factoring in the number of operations inside of each summation, which is a constant $2$ operations. In other words, no matter how $T$ or $M$ change, it will always be $2$ operations:</p>
-$$\alpha(t,i) A(i,j)B(j, x(t+1))$$<p>Where the first is $\alpha*A$ and the second is $(\alpha*A) * B$. Because these $2$ operations are a constant, they are dropped from the computational complexity.</p>
+<p>$$2 + 8 + 9 = 19 \text{ operations}$$</p>
+<p>This matches what we found above in via code. From a big O standpoint, the initial 2 operations are a constant, as is the final 1 summation. That means that we are dealing with the induction steps complexity of $M^2$ at each time step (except the first); so $T-1$ time steps. Again, the $-1$ is a constant and we will be removed, leaving us with a complexity of $O(M^2T)$. Note, following this we would have expected to get $2^2*3 = 12 \text{ operations}$, yet we came up with 19, why? This is because we were factoring in the number of operations inside of each summation, which is a constant $2$ operations. In other words, no matter how $T$ or $M$ change, it will always be $2$ operations:</p>
+<p>$$\alpha(t,i) A(i,j)B(j, x(t+1))$$</p>
+<p>Where the first is $\alpha*A$ and the second is $(\alpha*A) * B$. Because these $2$ operations are a constant, they are dropped from the computational complexity.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="3.-Viterbi-Algorithm">3. Viterbi Algorithm<a class="anchor-link" href="#3.-Viterbi-Algorithm">&#182;</a></h1><p>So far, the question that we have been asking is: <em>Given a sequence of observed symbols, what is the sequence's probability?</em> Another question that we are likely to want to ask is:</p>
@@ -565,17 +620,27 @@ $$\alpha(t,i) A(i,j)B(j, x(t+1))$$<p>Where the first is $\alpha*A$ and the secon
 </blockquote>
 <p>This is where the <em><strong>Viterbi Algorithm</strong></em> comes in; it calculates the most probable hidden states sequence, given the observed sequence, under the current model. Now, we will be sure to highlight that the viterbi algorithm works in a very similar manner to the forward algorithm. Whereas in the Forward Algorithm for each induction step we would take the sum of the current row of $\alpha$ (in effect marginalizing over all states of $z$), we are now going to take the <em>max</em> of the row.</p>
 <p>To do this, we will create two new variables:</p>
-$$\delta(t,i) = max \Big \{p\big(z(1), z(t)=i, x(1),...,x(t) \big) \Big \}$$$$\psi(t,i)$$<ul>
+<p>$$\delta(t,i) = max \Big \{p\big(z(1), z(t)=i, x(1),...,x(t) \big) \Big \}$$</p>
+<p>$$\psi(t,i)$$</p>
+<ul>
 <li>$\delta(t,i)$, is indexed by time and state. This will represent the maximum probability of ending up in state $i$ at time $t$, which is a joint probability distribution over the state sequence and observed sequence.</li>
 <li>$\psi(t,i)$, which is also indexed by time and state. This will keep track of the actual state sequences that end up at time $t$ and in state $i$.</li>
 </ul>
 <h4 id="3.3.1-Step-1-$\rightarrow$-Initialization">3.3.1 Step 1 $\rightarrow$ Initialization<a class="anchor-link" href="#3.3.1-Step-1-$\rightarrow$-Initialization">&#182;</a></h4><p>As with the forward algorithm, the first step that we will take is to find the initial values of our new variables.</p>
-$$\delta(t,i) = \pi_i B\big(i, x(1)\big)$$$$\psi(1,i) = 0$$<p>Note that the initialization of $\delta$ is identical to that of $\alpha$. In our magician example, we would again have $M=2$ states, so we need to find $\delta(1, i = 1)$ and $\delta(1, i = 1)$.</p>
-$$\delta(1,i=1) = \pi_1 B\big(1, x(1)\big)$$$$\delta(1,i=2) = \pi_2 B\big(2, x(1)\big)$$$$\psi(1,i = 1) = 0$$$$\psi(1,i = 2) = 0$$<p>Visually this can be seen below:</p>
+<p>$$\delta(t,i) = \pi_i B\big(i, x(1)\big)$$
+$$\psi(1,i) = 0$$</p>
+<p>Note that the initialization of $\delta$ is identical to that of $\alpha$. In our magician example, we would again have $M=2$ states, so we need to find $\delta(1, i = 1)$ and $\delta(1, i = 1)$.</p>
+<p>$$\delta(1,i=1) = \pi_1 B\big(1, x(1)\big)$$</p>
+<p>$$\delta(1,i=2) = \pi_2 B\big(2, x(1)\big)$$</p>
+<p>$$\psi(1,i = 1) = 0$$</p>
+<p>$$\psi(1,i = 2) = 0$$</p>
+<p>Visually this can be seen below:</p>
 <p><img src="https://drive.google.com/uc?id=1iJHBiuyTAuey1F-qU0X03mdLACfArDnc" width="350"></p>
 <p>We can see that there are two paths that can be followed (in yellow and purple). The first represents the probability of starting with coin 1 and then observing heads ($\delta(1,i=1)$), while the second represents the probability of starting with coin 2 and observing heads ($\delta(1,i=2)$). Note that we do not need to take the maximum since there is only one potential option for each state $i$.</p>
 <h4 id="3.3.2-Step-2-$\rightarrow$-Recursively-Update">3.3.2 Step 2 $\rightarrow$ Recursively Update<a class="anchor-link" href="#3.3.2-Step-2-$\rightarrow$-Recursively-Update">&#182;</a></h4><p>We now have the <em>recursion</em> step where we update our variables for all times and states:</p>
-$$\delta(t, j) = max_{1 \leq i \leq M} \big \{ \delta(t-1, i) A(i,j)\big \} B\big(j, x(t) \big)$$$$\psi(t,j) = argmax_{1 \leq i \leq M} \big \{ \delta(t-1, i) A(i,j)\big \}$$<p>In our case, we would first consider time step $t=2$. Visually, we can see the scenario below:</p>
+<p>$$\delta(t, j) = max_{1 \leq i \leq M} \big \{ \delta(t-1, i) A(i,j)\big \} B\big(j, x(t) \big)$$</p>
+<p>$$\psi(t,j) = argmax_{1 \leq i \leq M} \big \{ \delta(t-1, i) A(i,j)\big \}$$</p>
+<p>In our case, we would first consider time step $t=2$. Visually, we can see the scenario below:</p>
 <p><img src="https://drive.google.com/uc?id=1ss3Wtgy8Zenm6ckmyuGUAw5rvnTG4cZB" width="350"></p>
 <p>We can see that for $z(2) = 1$, in other words for the second time step when the state is coin 1, there are <em>two ways we can get there</em>. We can come from the coin 1 ($\delta(1,1)$), or from coin 2 ($\delta(1,2)$). These paths are represented by the yellow arrows. The goal of this step is to determine which incoming path (yellow arrow) has a higher probability. In order to determine that we need to:</p>
 <ol>
@@ -588,15 +653,19 @@ $$\delta(t, j) = max_{1 \leq i \leq M} \big \{ \delta(t-1, i) A(i,j)\big \} B\bi
 <blockquote><p>For each state in the current time step, find the incoming state, $i$, that maximizes $\delta(t-1, i) A(i,j)$.</p>
 </blockquote>
 <p>We can go through this for $t=2$ and state $j = 1$. In order to find $\delta(2,1)$, we can perform the following calculation:</p>
-$$\delta(2,1) = max \Big \{ \big(\delta(1, 1) A(1,1)\big), \big(\delta(1, 2) A(2,1)\big) \Big \} B \big(1, x(2) = heads\big)$$<p>And in order to find $\psi(t, j)$:</p>
-$$\psi(2, 1) = argmax_i \Big \{ \big(\delta(1, i=1) A(i=1,1)\big), \big(\delta(1, i=2) A(i=2,1)\big) \Big \}$$<p>A way to intuitively think of $\psi$ is as follows. Let's say for a second that we have $\psi(t=2, j =1)$ and $\psi(t=2, j =2)$.</p>
+<p>$$\delta(2,1) = max \Big \{ \big(\delta(1, 1) A(1,1)\big), \big(\delta(1, 2) A(2,1)\big) \Big \} B \big(1, x(2) = heads\big)$$</p>
+<p>And in order to find $\psi(t, j)$:</p>
+<p>$$\psi(2, 1) = argmax_i \Big \{ \big(\delta(1, i=1) A(i=1,1)\big), \big(\delta(1, i=2) A(i=2,1)\big) \Big \}$$</p>
+<p>A way to intuitively think of $\psi$ is as follows. Let's say for a second that we have $\psi(t=2, j =1)$ and $\psi(t=2, j =2)$.</p>
 <ul>
 <li>$\psi(t=2, j =1)$ is representing the coin that was most likely transitioned <em>from</em> in order to get to coin 1.</li>
 <li>$\psi(t=2, j =2)$ is representing the coin that was most likely transitioned <em>from</em> in order to get to coin 2.</li>
 </ul>
 <h4 id="3.3.3-Step-3-$\rightarrow$-Termination-Step">3.3.3 Step 3 $\rightarrow$ Termination Step<a class="anchor-link" href="#3.3.3-Step-3-$\rightarrow$-Termination-Step">&#182;</a></h4><p>For the best state sequence, in the final best state, we can perform the following calculation:</p>
-$$z(T)^* = argmax_{1 \leq i \leq M} \delta(T, i)$$<p>To determine the rest of the best state sequence, we just need to back track using $\psi$. This is done for time equals $T-1$ all the way down to 1:</p>
-$$z(t)^* = \psi (t+1, z(t+1)^*)$$<p>The idea behind this is that we know that taking the argmax over our $\delta$ with respect to $i$ will give us the final state. Once we know that, recall that our variable $\psi$ is designed to keep track of what coin we most likely came from in order to get the current one. In other words, once we know our last state (by taking the argmax of $\delta$), we can use $\psi$ in order to find what coin we most likely transitioned from to get there. That will be our coin for the previous time step, at which point we can use $\psi$ again! This is what is meant by <em>back tracking</em>.</p>
+<p>$$z(T)^* = argmax_{1 \leq i \leq M} \delta(T, i)$$</p>
+<p>To determine the rest of the best state sequence, we just need to back track using $\psi$. This is done for time equals $T-1$ all the way down to 1:</p>
+<p>$$z(t)^* = \psi (t+1, z(t+1)^*)$$</p>
+<p>The idea behind this is that we know that taking the argmax over our $\delta$ with respect to $i$ will give us the final state. Once we know that, recall that our variable $\psi$ is designed to keep track of what coin we most likely came from in order to get the current one. In other words, once we know our last state (by taking the argmax of $\delta$), we can use $\psi$ in order to find what coin we most likely transitioned from to get there. That will be our coin for the previous time step, at which point we can use $\psi$ again! This is what is meant by <em>back tracking</em>.</p>
 
 </div>
 </div>
@@ -642,7 +711,7 @@ $$z(t)^* = \psi (t+1, z(t+1)^*)$$<p>The idea behind this is that we know that ta
      <span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -652,7 +721,7 @@ $$z(t)^* = \psi (t+1, z(t+1)^*)$$<p>The idea behind this is that we know that ta
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -678,7 +747,8 @@ Hidden State Sequence (by coin label):  [&#39;coin 1&#39;, &#39;coin 2&#39;, &#3
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="4.-Baum-Welch-Algorithm">4. Baum-Welch Algorithm<a class="anchor-link" href="#4.-Baum-Welch-Algorithm">&#182;</a></h1><p>Of the 3 previous techniques we have gone through so far, the Baum-Welch Algorithm is by far the most challenging. It used to help us find our <em>transition matrix</em>, $A$, and <em>emission matrix</em>, $B$, when they are not known. We will need to be very careful and ensure to aggresively question our intuitions and what is actually going on under the hood. It begins by performing the forward-backward algorithm.</p>
@@ -686,8 +756,11 @@ Hidden State Sequence (by coin label):  [&#39;coin 1&#39;, &#39;coin 2&#39;, &#3
 <blockquote><p>Given you are currently in state  $i$ , what is the the probability that the rest of the sequence you had observed plays out?</p>
 </blockquote>
 <p>It has two main steps, an <em>initialization step</em>:</p>
-$$\beta(T, i) = 1 $$$$\beta(t, i) = p\big(x(t+1), ... x(T) \mid z(t)=i\big)$$<p>And, an <em>induction step</em> that is carried out to time t=1 (or zero based on indexing):</p>
-$$\beta(t, i) = \sum_{j=1}^M A(i,j)B\big(j, x(t+1)\big) \beta(t+1, j)$$<h3 id="4.1-Calculate-Forward-and-Backward-Variables">4.1 Calculate Forward and Backward Variables<a class="anchor-link" href="#4.1-Calculate-Forward-and-Backward-Variables">&#182;</a></h3><h4 id="Calculate-$\alpha$">Calculate $\alpha$<a class="anchor-link" href="#Calculate-$\alpha$">&#182;</a></h4><p>We can begin by calculating our forward variable, $\alpha$, for our magician example:</p>
+<p>$$\beta(T, i) = 1 $$</p>
+<p>$$\beta(t, i) = p\big(x(t+1), ... x(T) \mid z(t)=i\big)$$</p>
+<p>And, an <em>induction step</em> that is carried out to time t=1 (or zero based on indexing):</p>
+<p>$$\beta(t, i) = \sum_{j=1}^M A(i,j)B\big(j, x(t+1)\big) \beta(t+1, j)$$</p>
+<h3 id="4.1-Calculate-Forward-and-Backward-Variables">4.1 Calculate Forward and Backward Variables<a class="anchor-link" href="#4.1-Calculate-Forward-and-Backward-Variables">&#182;</a></h3><h4 id="Calculate-$\alpha$">Calculate $\alpha$<a class="anchor-link" href="#Calculate-$\alpha$">&#182;</a></h4><p>We can begin by calculating our forward variable, $\alpha$, for our magician example:</p>
 
 </div>
 </div>
@@ -709,7 +782,7 @@ $$\beta(t, i) = \sum_{j=1}^M A(i,j)B\big(j, x(t+1)\big) \beta(t+1, j)$$<h3 id="4
 <span class="n">beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">T</span><span class="p">,</span> <span class="n">M</span><span class="p">))</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -736,13 +809,14 @@ $$\beta(t, i) = \sum_{j=1}^M A(i,j)B\big(j, x(t+1)\big) \beta(t+1, j)$$<h3 id="4
       <span class="n">iterations</span> <span class="o">+=</span> <span class="mi">1</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="Calculate-$\beta$">Calculate $\beta$<a class="anchor-link" href="#Calculate-$\beta$">&#182;</a></h4><p>And then we can calculate the backward variable $\beta$.</p>
 <p>In our scenario regarding the magician, $\beta(t=2, 1)$ can be thought of as: Given the magician is holding coin 1 at time $t=2$, what is the probability of observing the remainder of our sequence (in this case just $tails$ at time $t=3$).</p>
@@ -768,7 +842,7 @@ $$\beta(t, i) = \sum_{j=1}^M A(i,j)B\big(j, x(t+1)\big) \beta(t+1, j)$$<h3 id="4
       <span class="n">beta</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span> <span class="o">*</span> <span class="n">beta</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -782,7 +856,7 @@ $$\beta(t, i) = \sum_{j=1}^M A(i,j)B\big(j, x(t+1)\big) \beta(t+1, j)$$<h3 id="4
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Value of Beta after Backward algorithm: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -792,7 +866,7 @@ $$\beta(t, i) = \sum_{j=1}^M A(i,j)B\big(j, x(t+1)\big) \beta(t+1, j)$$<h3 id="4
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -814,18 +888,22 @@ Value of Beta after Backward algorithm:
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Calculate-$\phi$">Calculate $\phi$<a class="anchor-link" href="#Calculate-$\phi$">&#182;</a></h3><p>Okay, we have now solved for our forward and backward variables, meaning it is time to introduce $\phi$. This is where things can become a bit confusing, so we will trod carefully. $\phi$ is defined as:</p>
 <blockquote><p>Probability of being in the state $i$ at time $t$, transitioning to state $j$ at time $t + 1$, given the observation sequence.</p>
 </blockquote>
 <p>It's exact probality is defined as:</p>
-$$\phi(t, i ,j) = p\big(z(t)=i, z(t+1)=j \mid x\big)$$<p>Why would this help us? Well, recall that the goal of our algorithm is to find $A$ and $B$ when they are not known. $\phi$, by definition has to do with the probability of being in a state and transitioning to another state, given an observation sequence. Intuitively we should have an inkling that that sounds useful in finding $A$ and $B$, whose definitions directly deal with probabilities of transitioning from one state to another, and observing certain symbols in the process.</p>
+<p>$$\phi(t, i ,j) = p\big(z(t)=i, z(t+1)=j \mid x\big)$$</p>
+<p>Why would this help us? Well, recall that the goal of our algorithm is to find $A$ and $B$ when they are not known. $\phi$, by definition has to do with the probability of being in a state and transitioning to another state, given an observation sequence. Intuitively we should have an inkling that that sounds useful in finding $A$ and $B$, whose definitions directly deal with probabilities of transitioning from one state to another, and observing certain symbols in the process.</p>
 <p>If we look at the exact probability for a moment, it is important to keep in mind why there is a dependency on $x$. Well, for $z(t)=i$, we can think about our magician example. Let's say that we wanted to know the probability of our magician holding coin 1 at time $t=2$; that is clearly dependent on what lead up to time $t=2$! For instance, if at time $t=1$ we were at coin 1, it is less likely to also be there at time $t=2$ (based on the figity nature of the magician). So, if at time $t=1$ we observed heads, which we know is more probable from coin 1, we would be less likely to think the magician was holding coin 1 at time $t=2$ (since he most likely switched to coin 1).</p>
 <p>Now, mathematically $\phi$ is defined as:</p>
-$$\phi(t, i ,j) = \frac{\alpha(t,i)A(i,j)B\big(j, x(t+1)\big)\beta(t+1, j)}{\sum_{i=1}^M \sum_{j=1}^M \alpha(t,i)A(i,j)B\big(j, x(t+1)\big)\beta(t+1, j)}$$<p>It may seem a bit overwhelming to go from the simple english definition from earlier, to that mathematical conglomeration, composed of 4 different variables, states, symbols, etc. To help with this, first notice that the numerator and denominator are the same, expect for the summations in the denominator. These serve as a normalizer to ensure that we have a valid probability.</p>
+<p>$$\phi(t, i ,j) = \frac{\alpha(t,i)A(i,j)B\big(j, x(t+1)\big)\beta(t+1, j)}{\sum_{i=1}^M \sum_{j=1}^M \alpha(t,i)A(i,j)B\big(j, x(t+1)\big)\beta(t+1, j)}$$</p>
+<p>It may seem a bit overwhelming to go from the simple english definition from earlier, to that mathematical conglomeration, composed of 4 different variables, states, symbols, etc. To help with this, first notice that the numerator and denominator are the same, expect for the summations in the denominator. These serve as a normalizer to ensure that we have a valid probability.</p>
 <p>Let's dissect the numerator:</p>
-$$\alpha(t,i)A(i,j)B\big(j, x(t+1)\big)\beta(t+1, j)$$<p>There are 4 distinct terms, as seen here:</p>
+<p>$$\alpha(t,i)A(i,j)B\big(j, x(t+1)\big)\beta(t+1, j)$$</p>
+<p>There are 4 distinct terms, as seen here:</p>
 <center>
 <span style="color:#0000cc">$\alpha($</span>
 <span style="color:#800080">$t,i)$</span>
@@ -873,7 +951,7 @@ $\beta(t+1, j)$
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Unormalized Probability in Numerator (solved manually): &#39;</span><span class="p">,</span> <span class="n">numerator</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -883,7 +961,7 @@ $\beta(t+1, j)$
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -897,7 +975,8 @@ $\beta(t+1, j)$
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's now solve for the numerator using $\alpha$:</p>
 
@@ -917,7 +996,7 @@ $\beta(t+1, j)$
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Unormalized Probability in Numerator (solved via alpha): &#39;</span><span class="p">,</span> <span class="n">numerator</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -927,7 +1006,7 @@ $\beta(t+1, j)$
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -941,7 +1020,8 @@ $\beta(t+1, j)$
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And we can find the denominator which we will use to normalize our above probability:</p>
 
@@ -961,7 +1041,7 @@ $\beta(t+1, j)$
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Normalizing denominator: &#39;</span><span class="p">,</span> <span class="n">normalizing_denominator</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -971,7 +1051,7 @@ $\beta(t+1, j)$
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -985,7 +1065,8 @@ $\beta(t+1, j)$
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And finally, we can find $\phi$:</p>
 
@@ -1001,7 +1082,7 @@ $\beta(t+1, j)$
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Phi at time t = 2, i = 1, j = 2: &#39;</span><span class="p">,</span> <span class="n">phi_t2_i1_j2</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1011,7 +1092,7 @@ $\beta(t+1, j)$
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1025,7 +1106,8 @@ $\beta(t+1, j)$
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Alright, now we just found <em>one</em> entry for $\phi$ at a specific $i$ and $j$ transition, at a certain $t$. The next step is to determine all values of $\phi$ for our given sequence (remember, we have been dealing with a specific sequence of observed symbols thus far: Heads, Heads, Tails).</p>
 
@@ -1047,7 +1129,7 @@ $\beta(t+1, j)$
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;phi based on our single Heads, Heads, Tails sequence: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>      
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1057,7 +1139,7 @@ $\beta(t+1, j)$
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1079,11 +1161,14 @@ $\beta(t+1, j)$
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Calculate-$\gamma$">Calculate $\gamma$<a class="anchor-link" href="#Calculate-$\gamma$">&#182;</a></h3><p>Great, we have found $\phi$ for all values of $t$, $i$, and $j$. This is a good time to introduce the next new variable: $\gamma$. It is defined as:</p>
-$$\gamma(t,i) = \sum_{j=1}^M \phi(t,i,j)$$<p>So, $\gamma$ is just the $\phi$ probability, marginalized over $j$. In other words:</p>
-$$\gamma(t,i) = p \big(z(t) = i \mid x\big)$$<p>What is very important to realize is that $\gamma$ is a representation of transitions from state $i$, across all times $t$. Meanwhile, $\phi$ is a representation of the transitions from state $i$ to $j$, across all times $t$.</p>
+<p>$$\gamma(t,i) = \sum_{j=1}^M \phi(t,i,j)$$</p>
+<p>So, $\gamma$ is just the $\phi$ probability, marginalized over $j$. In other words:</p>
+<p>$$\gamma(t,i) = p \big(z(t) = i \mid x\big)$$</p>
+<p>What is very important to realize is that $\gamma$ is a representation of transitions from state $i$, across all times $t$. Meanwhile, $\phi$ is a representation of the transitions from state $i$ to $j$, across all times $t$.</p>
 <p>Let us solve for $\gamma$ now:</p>
 
 </div>
@@ -1102,7 +1187,7 @@ $$\gamma(t,i) = p \big(z(t) = i \mid x\big)$$<p>What is very important to realiz
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;gamma based on our single Heads, Heads, Tails sequence: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>      
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1112,7 +1197,7 @@ $$\gamma(t,i) = p \big(z(t) = i \mid x\big)$$<p>What is very important to realiz
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1129,11 +1214,14 @@ $$\gamma(t,i) = p \big(z(t) = i \mid x\big)$$<p>What is very important to realiz
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We now have our variables $\phi$ and $\gamma$, and are ready for a big "Ahah!" moment. The key to performing the steps up to this point lies in the fact that when we take the sum of $\phi$ and $\gamma$ over time (marginalize out time), $\phi$ represents the expected number of transitions from state $i$ to $j$:</p>
-$$\sum_{t=1}^{T-1}\phi(t,i,j) = E\big( \text{number of transitions from state i to state j}\big)$$<p>And $\gamma$ represents the expected number of transitions from state $i$:</p>
-$$\sum_{t=1}^{T-1}\gamma(t,i) = E\big( \text{number of transitions from state i}\big)$$<p>Once we have the number of expected transitions from $i$ to $j$, and the expected number of transitions from $i$, we can us that to find an updated $A$!</p>
+<p>$$\sum_{t=1}^{T-1}\phi(t,i,j) = E\big( \text{number of transitions from state i to state j}\big)$$</p>
+<p>And $\gamma$ represents the expected number of transitions from state $i$:</p>
+<p>$$\sum_{t=1}^{T-1}\gamma(t,i) = E\big( \text{number of transitions from state i}\big)$$</p>
+<p>Once we have the number of expected transitions from $i$ to $j$, and the expected number of transitions from $i$, we can us that to find an updated $A$!</p>
 <p>So, first let us marginalize our $\phi$ and $\gamma$ over $t$:</p>
 
 </div>
@@ -1153,7 +1241,7 @@ $$\sum_{t=1}^{T-1}\gamma(t,i) = E\big( \text{number of transitions from state i}
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;phi after marginalizing over t: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">phi_marginalized</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1163,7 +1251,7 @@ $$\sum_{t=1}^{T-1}\gamma(t,i) = E\big( \text{number of transitions from state i}
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1191,7 +1279,7 @@ $$\sum_{t=1}^{T-1}\gamma(t,i) = E\big( \text{number of transitions from state i}
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;gamma after marginalizing over t: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">gamma_marginalized</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1201,7 +1289,7 @@ $$\sum_{t=1}^{T-1}\gamma(t,i) = E\big( \text{number of transitions from state i}
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1216,25 +1304,29 @@ $$\sum_{t=1}^{T-1}\gamma(t,i) = E\big( \text{number of transitions from state i}
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, to be totally clear about what the above marginalized matrices represent, let's quickly look at the annotated version below:</p>
-$$\text{marginalized }\phi(i, j) = \text{state i}\left\{ 
+<p>$$\text{marginalized }\phi(i, j) = \text{state i}\left\{ 
 \overbrace{
 \begin{bmatrix}
     0.21 &amp; 0.96\\
     0.708 &amp; 0.112 
 \end{bmatrix}}^\text{state j}
 \right.
-$$$$\text{marginalized }\gamma(i) =  
+$$</p>
+<p>$$\text{marginalized }\gamma(i) =  
 \overbrace{
 \begin{bmatrix}
    1.179 &amp; 0.82
 \end{bmatrix}}^\text{state i}
-$$<p>We can see above that the marginalized $\phi$ has rows corresponding to $i$, and columns to $j$, where the entry $i,j$ represents a transition from state $i$ to state $j$.</p>
+$$</p>
+<p>We can see above that the marginalized $\phi$ has rows corresponding to $i$, and columns to $j$, where the entry $i,j$ represents a transition from state $i$ to state $j$.</p>
 <p>For $\gamma$, it is a one dimensional array, where the first entry corresponds to transitioning from state $i = 1$ (coin 1), and the second transitioning from state $i=2$ (coin 2).</p>
 <h3 id="Update-$A$">Update $A$<a class="anchor-link" href="#Update-$A$">&#182;</a></h3><p>What we can do next is perform our update equation for $A$, which is defined as the expected number of transitions from $i$ to $j$, divided by the number of transitions from $i$:</p>
-$$A(i,j) = \frac{\sum_{t=1}^{T-1} \phi(t,i,j)}{\sum_{t=1}^{T-1}\gamma(t,i)}$$<p>In other words, we want to divide the first row of marginalized $\phi$ (representing transtions from $i = \text{coin 1}$  to $j$, by the first entry in $\gamma$ (representing transitions from $i$). We then repeat the same thing for the second row of marginalized $\phi$, dividing it by the second entry of marginalized $\gamma$. This leaves us with an updated $A$:</p>
+<p>$$A(i,j) = \frac{\sum_{t=1}^{T-1} \phi(t,i,j)}{\sum_{t=1}^{T-1}\gamma(t,i)}$$</p>
+<p>In other words, we want to divide the first row of marginalized $\phi$ (representing transtions from $i = \text{coin 1}$  to $j$, by the first entry in $\gamma$ (representing transitions from $i$). We then repeat the same thing for the second row of marginalized $\phi$, dividing it by the second entry of marginalized $\gamma$. This leaves us with an updated $A$:</p>
 
 </div>
 </div>
@@ -1250,7 +1342,7 @@ $$A(i,j) = \frac{\sum_{t=1}^{T-1} \phi(t,i,j)}{\sum_{t=1}^{T-1}\gamma(t,i)}$$<p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Updated Transition matrix A: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">A_update</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1260,7 +1352,7 @@ $$A(i,j) = \frac{\sum_{t=1}^{T-1} \phi(t,i,j)}{\sum_{t=1}^{T-1}\gamma(t,i)}$$<p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1276,18 +1368,22 @@ $$A(i,j) = \frac{\sum_{t=1}^{T-1} \phi(t,i,j)}{\sum_{t=1}^{T-1}\gamma(t,i)}$$<p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can be confident that this is a valid distribution, as each row sums to 1. Notice, that it is similar to our original matrix (the ground truth $A$ that we started with). However, it is not the same; why is that? Well, this updated $A$ above was learned from <em>one sequence</em> (heads, heads, tails), that only consisted of 3 coin flips. That is a very small amount of data to learn from. The next steps would be to account for many <em>sequences</em>, ideally of slightly greater length.</p>
 <h3 id="Update-$B$">Update $B$<a class="anchor-link" href="#Update-$B$">&#182;</a></h3><p>The last step remaining is the complete the update for $B$. $B(i,k)$ is just all the $\gamma$'s if $x(t) = k$, divided by all the $\gamma$'s:</p>
-$$B(i,k) = \frac{\sum_{t=1}^{T-1} \gamma(t,i) \; if \; x(t)=k, \; else \; 0}{\sum_{t=1}^{T-1}\gamma(t,i)}$$<p>In case this is not clear, remember that:</p>
-$$\gamma(t,i) = p \big(z(t) = i \mid x\big)$$<p>And $B$ is representing:</p>
-$$B(i,k) = p\big(x(t)=k|z(t)=i\big)$$<p>So, since we have $\gamma$ we want to marginalize out the $t$, and incorporate the observed symbol $k$ in order to get an updated $B$. The most effective way to incorporate the observed symbol $k$ is, during the marginalization of $t$ in $\gamma$, essentially perform a count where the value of $\gamma(t,i)$ is only considered if $k \neq 0$ for that $t$.</p>
+<p>$$B(i,k) = \frac{\sum_{t=1}^{T-1} \gamma(t,i) \; if \; x(t)=k, \; else \; 0}{\sum_{t=1}^{T-1}\gamma(t,i)}$$</p>
+<p>In case this is not clear, remember that:</p>
+<p>$$\gamma(t,i) = p \big(z(t) = i \mid x\big)$$</p>
+<p>And $B$ is representing:</p>
+<p>$$B(i,k) = p\big(x(t)=k|z(t)=i\big)$$</p>
+<p>So, since we have $\gamma$ we want to marginalize out the $t$, and incorporate the observed symbol $k$ in order to get an updated $B$. The most effective way to incorporate the observed symbol $k$ is, during the marginalization of $t$ in $\gamma$, essentially perform a count where the value of $\gamma(t,i)$ is only considered if $k \neq 0$ for that $t$.</p>
 <p>Remember, $\gamma$ is based on our <em>entire observation sequence</em>, while $B$ is utilized for a <em>specific observation</em>. So, we need a way to marginalize out all of the observations in <em>time</em>, and end up with a specific probability of observing each symbol, given the <em>state</em>. Again, this is the definition of $B$! So, what we are saying is:</p>
 <blockquote><p>At each state $i$ in $\gamma$ (each column of $\gamma$), marginalize out the time; however, only include that specific time entry (the row/index of the state column of $\gamma$ we are looking at), if for that time $t$, the $k$ (symbol) that we are currently calculating $B$ for, was observed at the time $t$.</p>
 </blockquote>
 <p>In our case, where $\gamma$ has been solved to be:</p>
-$$\gamma(t, i) = \text{time}\left\{ 
+<p>$$\gamma(t, i) = \text{time}\left\{ 
 \overbrace{
 \begin{bmatrix}
     0.74 &amp; 0.25\\
@@ -1295,11 +1391,14 @@ $$\gamma(t, i) = \text{time}\left\{
     0 &amp; 0 
 \end{bmatrix}}^\text{state i}
 \right.
-$$<p>If we were solving for $B(i = 1, k = 1)$ (in other words coin 1 and heads), then then numerator of our update equation would be:</p>
-$$\gamma(1,1) + \gamma(2,1) = 0.74 + 0.43 = 1.17$$<p>Both $\gamma$'s are included in the calculation, because for each time $t$ that iterated through in the summation in the numerator ($t=1$ and $t=2$), the observation was $heads$, $k=1$.</p>
+$$</p>
+<p>If we were solving for $B(i = 1, k = 1)$ (in other words coin 1 and heads), then then numerator of our update equation would be:</p>
+<p>$$\gamma(1,1) + \gamma(2,1) = 0.74 + 0.43 = 1.17$$</p>
+<p>Both $\gamma$'s are included in the calculation, because for each time $t$ that iterated through in the summation in the numerator ($t=1$ and $t=2$), the observation was $heads$, $k=1$.</p>
 <p>However, if we had been solving for $B(i = 1, k = 2)$, we would have been summing 0 for both time steps, because the observation, heads ($k=1$) would not equal the value of the symbol index, $k = 2$.</p>
-$$\gamma(1,1) + \gamma(2,1) = 0 + 0 = 0$$<p>This is a way to perform maximum likelihood estimation in a sense. We are counting the situations where we observe a particular symbol from a particular state, and then dividing by how many times we are in that particular state (to ensure we end up with a valid probability). In other words we are finding:</p>
-$$
+<p>$$\gamma(1,1) + \gamma(2,1) = 0 + 0 = 0$$</p>
+<p>This is a way to perform maximum likelihood estimation in a sense. We are counting the situations where we observe a particular symbol from a particular state, and then dividing by how many times we are in that particular state (to ensure we end up with a valid probability). In other words we are finding:</p>
+<p>$$
 \begin{pmatrix}
     \text{The probability of} \\
     \text{observing symbol $k$} \\
@@ -1318,7 +1417,8 @@ $$
     \text{we are in state $i$} \\
   \end{pmatrix}
 }
-$$<p>In code we can calculate this as follows:</p>
+$$</p>
+<p>In code we can calculate this as follows:</p>
 
 </div>
 </div>
@@ -1341,7 +1441,7 @@ $$<p>In code we can calculate this as follows:</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Non-normalized update of B emission matrix: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">B_update_numerator</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1351,7 +1451,7 @@ $$<p>In code we can calculate this as follows:</p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1378,7 +1478,7 @@ $$<p>In code we can calculate this as follows:</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Updated Emission matrix B: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">B_update</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1388,7 +1488,7 @@ $$<p>In code we can calculate this as follows:</p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1404,25 +1504,13 @@ $$<p>In code we can calculate this as follows:</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>What may seem slightly pecular at first is that fact that we received an emission matrix where the probability of heads is 100%, and the probability of observing tails is 0%. Surely that must be wrong, considering our original $B$ matrix had non zero probabilities for for heads and tails? Yet, on closer inspection it makes a lot of sense. Based on our one, simple/small training sequence, heads was observed twice, and tails was observed on the last time step, which is <em>not</em> factored into the udpate of $B$ (we sum up to $T-1$). Hence, as far as our update equations were concerned, they <em>have never seen a tails emission</em> and the probability must then be 0. Now, this is of course a shortcoming of our example, but never the less we can see how sparsity may come into play if we aren't careful; in other words, zero probabilities being assigned to situations which certainly can occur, due to lack of training data.</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake

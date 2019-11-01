@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,7 +211,8 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="8.-Approximation-Methods">8. Approximation Methods<a class="anchor-link" href="#8.-Approximation-Methods">&#182;</a></h1><p>We are now going to look at approximation methods. Recall that in the last section, we discussed a major disadvantage to all of the methods we have studied so far. That is, they all require us to estimate the value function for each state, and in the case of the action-value function, we have to estimate it for each state and action pair. We learned early on that the state space can grow very large, very quickly. This makes <em>all</em> of the methods we have studied impractical.</p>
 <blockquote><ul>
@@ -219,8 +224,10 @@ body {
 <p>The solution to this is <em><strong>approximation</strong></em>.</p>
 <h2 id="1.1-Approximation-Theory">1.1 Approximation Theory<a class="anchor-link" href="#1.1-Approximation-Theory">&#182;</a></h2><p>Recall from our earlier work concerning deep learning, that neural networks are universal function approximators. That means that given the right architecture, a neural network can approximate any function to an arbitrary degree of accuracy. In practice, they do not perform perfectly, but they do perform very well.</p>
 <p>Mathematically, what we are trying to do is first do a feature extraction: so from the state $s$ we can extract a feature vector $x$:</p>
-$$x = \varphi (s)$$<p>Our goal is to then find a <em>function</em> that takes in a feature vector $x$, and a set of parameters $\theta$, that faithfully approximates the value function $V(s)$:</p>
-$$\hat{f}(x, \theta) \approx V(s)$$<h2 id="1.2-Linear-Approximation">1.2 Linear Approximation<a class="anchor-link" href="#1.2-Linear-Approximation">&#182;</a></h2><p>In this section, we are going to focus specifically on linear methods. We will see that function approximation methods require us to use models that are <em>differentiable</em>, hence we wouldn't be able to use something like a decision-tree or k-nearest neighbor. In the next set of notebooks (RL with deep learning) we will look at using deep learning methods, which are also differentiable. Unlike linear models, we won't need to do feature engineering before hand, although we could. Models like convolutional neural networks will allow us to use raw pixel data as the state, and the neural network will do its own automatic feature extraction and selection. However, those are harder to implement and take away from the fundamentals of RL, so we will hold off on them for now. For now, all we will need to know are linear regression and gradient descent.</p>
+<p>$$x = \varphi (s)$$</p>
+<p>Our goal is to then find a <em>function</em> that takes in a feature vector $x$, and a set of parameters $\theta$, that faithfully approximates the value function $V(s)$:</p>
+<p>$$\hat{f}(x, \theta) \approx V(s)$$</p>
+<h2 id="1.2-Linear-Approximation">1.2 Linear Approximation<a class="anchor-link" href="#1.2-Linear-Approximation">&#182;</a></h2><p>In this section, we are going to focus specifically on linear methods. We will see that function approximation methods require us to use models that are <em>differentiable</em>, hence we wouldn't be able to use something like a decision-tree or k-nearest neighbor. In the next set of notebooks (RL with deep learning) we will look at using deep learning methods, which are also differentiable. Unlike linear models, we won't need to do feature engineering before hand, although we could. Models like convolutional neural networks will allow us to use raw pixel data as the state, and the neural network will do its own automatic feature extraction and selection. However, those are harder to implement and take away from the fundamentals of RL, so we will hold off on them for now. For now, all we will need to know are linear regression and gradient descent.</p>
 <h2 id="1.3-Section-8-Outline">1.3 Section 8 Outline<a class="anchor-link" href="#1.3-Section-8-Outline">&#182;</a></h2><p>We are going to proceed with the following outline for this section:</p>
 <blockquote><ul>
 <li>We are first going to apply approximation methods to Monte Carlo Prediction. That means we will be estimating the value function given a fixed policy. But instead of representing the value function as a dictionary indexed by state, we will use a linear function approximator. Recall that MC methods require us to play the entire episodes and calculate the returns before doing any updates. So next we will...</li>
@@ -234,31 +241,47 @@ $$\hat{f}(x, \theta) \approx V(s)$$<h2 id="1.2-Linear-Approximation">1.2 Linear 
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="2.-Linear-Models-for-RL">2. Linear Models for RL<a class="anchor-link" href="#2.-Linear-Models-for-RL">&#182;</a></h1><p>What we are going to do now is apply supervised learning to reinforcement learning. Recall that supervised learning basically amounts to function approximation. We are trying to find a parameterized function that closely approximates the true function. In this case, that true function is the value function that we use to solve MDPs.</p>
 <p>Earlier in the course, we talked about the fact that rewards have to be real numbers. Since returns are sums of rewards, they also have to be real numbers. And since values are expected values of returns, they are also real numbers. So, thinking about the supervised learning techniques we have at our disposal-classification and regression-it should be clear that what we want to do here is regression.</p>
 <h2 id="2.2-Error">2.2 Error<a class="anchor-link" href="#2.2-Error">&#182;</a></h2><p>In particular, we want our estimate, $\hat{V}$, to be close to the true $V$. As we know, for all supervised learning methods we need a cost function, and the appropriate cost function for linear regression is <em>squared error</em>. We can represent it as follows:</p>
-$$Error = \big[V(s) - \hat{V}(s)\big]^2$$<p>Now that we have our basic error function, we can replace $V$ with is definition:</p>
-$$Error = \big[E[G(t) \mid S_t = s] - \hat{V}(s)\big]^2$$<p>However, since we do not know this expected value, we need to replace it with something else. In particular, we can take what we learned from Monte Carlo, and we can replace it with the <em>sample mean</em> of the actual returns:</p>
-$$Error = \big[\frac{1}{N}\sum_{i=1}^N G_{i,s}- \hat{V}(s)\big]^2$$<p>An alternative way of looking at this is that we treat each state and return pair as a training sample. In this way, we will try to minimize the individual squared differences between $G$ and $\hat{V}$ simultaneously. This will look just like linear regression, as expected:</p>
-$$Error = \sum_{i=1}^N \big[G_{i,s} - \hat{V}(s) \big]^2$$$$Error = \sum_{i=1}^N \big(y_i - \hat{y}_i \big)^2$$<h2 id="2.3-Stochastic-Gradient-Descent">2.3 Stochastic Gradient Descent<a class="anchor-link" href="#2.3-Stochastic-Gradient-Descent">&#182;</a></h2><p>The advantage of representing the error in this way, is that it allows us to do <em>stochastic gradient descent</em>. This is where we take a small step in the direction of the gradient, with respect to the cost of only one sample at a time. This is perfect for our needs, because at every iteration of the game, we only have one sample (state and return pair) to look at.</p>
+<p>$$Error = \big[V(s) - \hat{V}(s)\big]^2$$</p>
+<p>Now that we have our basic error function, we can replace $V$ with is definition:</p>
+<p>$$Error = \big[E[G(t) \mid S_t = s] - \hat{V}(s)\big]^2$$</p>
+<p>However, since we do not know this expected value, we need to replace it with something else. In particular, we can take what we learned from Monte Carlo, and we can replace it with the <em>sample mean</em> of the actual returns:</p>
+<p>$$Error = \big[\frac{1}{N}\sum_{i=1}^N G_{i,s}- \hat{V}(s)\big]^2$$</p>
+<p>An alternative way of looking at this is that we treat each state and return pair as a training sample. In this way, we will try to minimize the individual squared differences between $G$ and $\hat{V}$ simultaneously. This will look just like linear regression, as expected:</p>
+<p>$$Error = \sum_{i=1}^N \big[G_{i,s} - \hat{V}(s) \big]^2$$</p>
+<p>$$Error = \sum_{i=1}^N \big(y_i - \hat{y}_i \big)^2$$</p>
+<h2 id="2.3-Stochastic-Gradient-Descent">2.3 Stochastic Gradient Descent<a class="anchor-link" href="#2.3-Stochastic-Gradient-Descent">&#182;</a></h2><p>The advantage of representing the error in this way, is that it allows us to do <em>stochastic gradient descent</em>. This is where we take a small step in the direction of the gradient, with respect to the cost of only one sample at a time. This is perfect for our needs, because at every iteration of the game, we only have one sample (state and return pair) to look at.</p>
 <h2 id="2.4-Gradient-Descent">2.4 Gradient Descent<a class="anchor-link" href="#2.4-Gradient-Descent">&#182;</a></h2><p>We can recall, that in linear regression our function approximator is parameterized by a set of weights (generally either refered to as $w$ of $\theta$). Here, we can let $\hat{V}$ be parameterized by $\theta$. In other words, what we are trying to find is the $\theta$ that allows $\hat{V}$ to be the best approximation. To achieve this, we want to do gradient descent with respect to $\theta$, and minimize the error we derived earlier.</p>
-$$\theta = \theta - \alpha \frac{\partial E}{\partial \theta}$$<p>For clarity, recall that $\frac{\partial E}{\partial \theta}$ is just representing how the squared error changes with respect to a change in $\theta$. And once again, $\alpha$ represents the learning rate. We can take this a step further, and replace the error with the squared difference we just derived earlier:</p>
-$$\frac{\partial E}{\partial \theta} = \frac{\big[G_{i,s}- \hat{V}(s, \theta)\big]^2}{\partial \theta}$$$$\theta = \theta + \alpha \Big( G - \hat{V}(s, \theta)\Big) \frac{\partial \hat{V}(s,\theta)}{\partial \theta}$$<p>Note: above the 2 from the exponent is drop after the derivative is taken. Remember, this is stochastic gradient descent, so we are only looking at one sample of $G$ at a time.</p>
+<p>$$\theta = \theta - \alpha \frac{\partial E}{\partial \theta}$$</p>
+<p>For clarity, recall that $\frac{\partial E}{\partial \theta}$ is just representing how the squared error changes with respect to a change in $\theta$. And once again, $\alpha$ represents the learning rate. We can take this a step further, and replace the error with the squared difference we just derived earlier:</p>
+<p>$$\frac{\partial E}{\partial \theta} = \frac{\big[G_{i,s}- \hat{V}(s, \theta)\big]^2}{\partial \theta}$$</p>
+<p>$$\theta = \theta + \alpha \Big( G - \hat{V}(s, \theta)\Big) \frac{\partial \hat{V}(s,\theta)}{\partial \theta}$$</p>
+<p>Note: above the 2 from the exponent is drop after the derivative is taken. Remember, this is stochastic gradient descent, so we are only looking at one sample of $G$ at a time.</p>
 <h2 id="2.5-Gradient-Descent-for-Linear-Models">2.5 Gradient Descent for Linear Models<a class="anchor-link" href="#2.5-Gradient-Descent-for-Linear-Models">&#182;</a></h2><p>Recall that we are only looking at linear models in this class, so $\hat{V}$ is the dot product of the feature vector $x$ and $\theta$.</p>
-$$\hat{V}(s, \theta) = \theta^T \varphi(s) = \theta^T x$$<p>This dot product is just a linear combination, which can be expanded into the more familiar form:</p>
-$$\hat{V}(s, \theta) = \theta_1 x_1 + \theta_2 x_2 + ... + \theta_n x_n $$<p>In other words, the derivative of $V$ with respect to $\theta$ is $x$:</p>
-$$\frac{\partial \hat{V} (s, \theta)}{\partial \theta} = x$$<p>So we can formulate our new update rule as follows:</p>
-$$\theta = \theta + \alpha \Big( G - \hat{V}(s, \theta)\Big) x$$<h2 id="2.6-Relationship-to-Monte-Carlo">2.6 Relationship to Monte Carlo<a class="anchor-link" href="#2.6-Relationship-to-Monte-Carlo">&#182;</a></h2><p>Something interesting happens when we think back to our Monte Carlo methods; in other words, when we were not parameterizing $V$. Instead, $\hat{V}$ itself was the parameter we were trying to find, and we were trying to find it for all states $s$. If $\hat{V}$ itself is the parameter, then we get this update equation:</p>
-$$\hat{V}(s) = \hat{V}(s) + \alpha \big(G_s - \hat{V}(s)\big) \frac{\partial \hat{V}(s)}{\partial \hat{V}(s)}$$$$\hat{V}(s) = \hat{V}(s) + \alpha \big(G_s - \hat{V}(s)\big)$$<p>But we can recall that this is the exact same equation that we had before for updating the mean! So, we can see what we were doing before to find $V$ was actually an instance of gradient descent.</p>
+<p>$$\hat{V}(s, \theta) = \theta^T \varphi(s) = \theta^T x$$</p>
+<p>This dot product is just a linear combination, which can be expanded into the more familiar form:</p>
+<p>$$\hat{V}(s, \theta) = \theta_1 x_1 + \theta_2 x_2 + ... + \theta_n x_n $$</p>
+<p>In other words, the derivative of $V$ with respect to $\theta$ is $x$:</p>
+<p>$$\frac{\partial \hat{V} (s, \theta)}{\partial \theta} = x$$</p>
+<p>So we can formulate our new update rule as follows:</p>
+<p>$$\theta = \theta + \alpha \Big( G - \hat{V}(s, \theta)\Big) x$$</p>
+<h2 id="2.6-Relationship-to-Monte-Carlo">2.6 Relationship to Monte Carlo<a class="anchor-link" href="#2.6-Relationship-to-Monte-Carlo">&#182;</a></h2><p>Something interesting happens when we think back to our Monte Carlo methods; in other words, when we were not parameterizing $V$. Instead, $\hat{V}$ itself was the parameter we were trying to find, and we were trying to find it for all states $s$. If $\hat{V}$ itself is the parameter, then we get this update equation:</p>
+<p>$$\hat{V}(s) = \hat{V}(s) + \alpha \big(G_s - \hat{V}(s)\big) \frac{\partial \hat{V}(s)}{\partial \hat{V}(s)}$$</p>
+<p>$$\hat{V}(s) = \hat{V}(s) + \alpha \big(G_s - \hat{V}(s)\big)$$</p>
+<p>But we can recall that this is the exact same equation that we had before for updating the mean! So, we can see what we were doing before to find $V$ was actually an instance of gradient descent.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="3.-Feature-Engineering">3. Feature Engineering<a class="anchor-link" href="#3.-Feature-Engineering">&#182;</a></h1><p>We are now going to look at how feature engineering can be applied in the case of RL. Recall, Neural Networks can in some sense automatically find good nonlinear transformations/features of the raw data. But, we are only looking at linear methods for now, which means we will need to come up with features on our own.</p>
@@ -270,20 +293,28 @@ $$\hat{V}(s) = \hat{V}(s) + \alpha \big(G_s - \hat{V}(s)\big) \frac{\partial \ha
 </ul>
 </blockquote>
 <p>How do we treat categorical variables? We do so via the technique <em><strong>one-hot encoding</strong></em>. So, what is do one-hot encoding? Well, we have $S$ states, so the dimensionality of $x$, which we will call $D$, is:</p>
-$$D = \mid S \mid$$<p></p>
+<p>$$D = \mid S \mid$$</p>
 <p>This means that we have a long feature vector of size $\mid S \mid$. Then for each of the states, we set one of the values in $x$ to 1:</p>
-$$s = (0,0) \rightarrow x = [1,0,0,...]$$$$s = (0,1) \rightarrow x = [0,1,0,...]$$<p>The problem with this is that it doesn't allow us to compress the amount of space it takes to store the value function! It requires the same number of parameters as measuring $V(s)$ directly. Remember, compressing the amount of space is the whole reason we are doing this in the first place. If we store $V$ as a dictionary, it will have $\mid S \mid $ keys, and $\mid S \mid$ values. Hence, we make no improvement if we do one hot encoding. In fact, it is equivalent to what we were doing before, since each $\theta$ would represent the value for the corresponding state:</p>
-$$V(s=0) = \theta^T [1,0,0,...] = \theta_0$$<h2 id="3.2-One-Hot-Encoding">3.2 One-Hot Encoding<a class="anchor-link" href="#3.2-One-Hot-Encoding">&#182;</a></h2><p>There is, however, one positive aspect to using one-hot encoding for your feature transformation. Let's suppose your algorithm isn't working, and $\hat{V}$ isn't representing the true $V$ very well. One reason your $\hat{V}$ may not be good, is because your features may be bad! So, your code may be fine and free of bugs, but still yield poor results because the features are bad. In that case, you could change your feature transformer to use one-hot encoding, where you could predict each $V(s)$ individually. If you do this and your code works, that tells your that your features are bad (since it's the same as a non-approximation method).</p>
+<p>$$s = (0,0) \rightarrow x = [1,0,0,...]$$</p>
+<p>$$s = (0,1) \rightarrow x = [0,1,0,...]$$</p>
+<p>The problem with this is that it doesn't allow us to compress the amount of space it takes to store the value function! It requires the same number of parameters as measuring $V(s)$ directly. Remember, compressing the amount of space is the whole reason we are doing this in the first place. If we store $V$ as a dictionary, it will have $\mid S \mid $ keys, and $\mid S \mid$ values. Hence, we make no improvement if we do one hot encoding. In fact, it is equivalent to what we were doing before, since each $\theta$ would represent the value for the corresponding state:</p>
+<p>$$V(s=0) = \theta^T [1,0,0,...] = \theta_0$$</p>
+<h2 id="3.2-One-Hot-Encoding">3.2 One-Hot Encoding<a class="anchor-link" href="#3.2-One-Hot-Encoding">&#182;</a></h2><p>There is, however, one positive aspect to using one-hot encoding for your feature transformation. Let's suppose your algorithm isn't working, and $\hat{V}$ isn't representing the true $V$ very well. One reason your $\hat{V}$ may not be good, is because your features may be bad! So, your code may be fine and free of bugs, but still yield poor results because the features are bad. In that case, you could change your feature transformer to use one-hot encoding, where you could predict each $V(s)$ individually. If you do this and your code works, that tells your that your features are bad (since it's the same as a non-approximation method).</p>
 <h2 id="3.3-Alternative-to-One-Hot-Encoding">3.3 Alternative to One-Hot Encoding<a class="anchor-link" href="#3.3-Alternative-to-One-Hot-Encoding">&#182;</a></h2><p>So, if we know that one-hot encoding is bad, then what is good? Well, in the case of grid world, consider that each (i,j) represents a position in 2-d space. Therefore, it is more like a real number than a category. So, we can represent the $x$ vector as simply (i,j) itself. You may want to scale it so that its mean is 0 and variance is 1. We would consider this feature vector to simply be the raw data, without any feature engineering:</p>
-$$(x_1, x_2) = (i,j)$$<p>So, what is the problem with just setting $x$ to be the location of the agent? Well, remember that our model is linear. Let's say $j$ is fixed-that means $V$ can only change linearly with respect to $i$. That means $V$ can only be a line with respect to this x coordinate. So, it is always increasing, or always decreasing-this is <em>not</em> very expressive.</p>
+<p>$$(x_1, x_2) = (i,j)$$</p>
+<p>So, what is the problem with just setting $x$ to be the location of the agent? Well, remember that our model is linear. Let's say $j$ is fixed-that means $V$ can only change linearly with respect to $i$. That means $V$ can only be a line with respect to this x coordinate. So, it is always increasing, or always decreasing-this is <em>not</em> very expressive.</p>
 <h2 id="3.4-Polynomials">3.4 Polynomials<a class="anchor-link" href="#3.4-Polynomials">&#182;</a></h2><p>Recall, that one easy way to make new features is by creating polynomials. In calculus, it is shown that an infinite Taylor Expansion can approximate any function. So, if we start with $x_1$ and $x_2$ we can create the terms:</p>
-$$x_2^2$$$$x_2^2$$$$x_1 x_2$$<p>We can also create higher order polynomials, but we must be careful of overfitting. This is the method we will use from here on out.</p>
+<p>$$x_2^2$$</p>
+<p>$$x_2^2$$</p>
+<p>$$x_1 x_2$$</p>
+<p>We can also create higher order polynomials, but we must be careful of overfitting. This is the method we will use from here on out.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="4.-Monte-Carlo-Prediction-with-Approximation">4. Monte Carlo Prediction with Approximation<a class="anchor-link" href="#4.-Monte-Carlo-Prediction-with-Approximation">&#182;</a></h1><p>We can now start applying approximation methods to the prediction problem and control problem. We are going to start with the prediction problem! We are going to use Monte Carlo estimation but replace the value function dictionary with our linear model of the value function.</p>
@@ -331,7 +362,8 @@ $</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="5.-MC-Prediction-with-Approximation-in-Code">5. MC Prediction with Approximation in Code<a class="anchor-link" href="#5.-MC-Prediction-with-Approximation-in-Code">&#182;</a></h1>
@@ -349,7 +381,7 @@ $</p>
 <span class="kn">from</span> <span class="nn">common</span> <span class="k">import</span> <span class="n">random_action</span><span class="p">,</span> <span class="n">play_game</span><span class="p">,</span> <span class="n">SMALL_ENOUGH</span><span class="p">,</span> <span class="n">GAMMA</span><span class="p">,</span> <span class="n">ALL_POSSIBLE_ACTIONS</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -456,7 +488,7 @@ $</p>
     
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -466,7 +498,7 @@ $</p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -483,7 +515,7 @@ $</p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -498,7 +530,7 @@ $</p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -525,13 +557,18 @@ policy:
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="6.-TD(0)-Semi-Gradient-Prediction">6. <code>TD(0)</code> Semi-Gradient Prediction<a class="anchor-link" href="#6.-TD(0)-Semi-Gradient-Prediction">&#182;</a></h1><p>We now ask: Can we apply approximation's to TD learning, in addition to Monte Carlo? The answer is that yes we can, but there is one caveat. Let's start by looking at the algorithm.</p>
 <p>Recall that the main difference between Monte Carlo and Temporal Difference Learning, is that with TD we don't use the actual return. We instead estimate the return based on the reward and the value function for the next state, i.e. instead of using $G$ we use:</p>
-$$r + \gamma V(s')$$<p>If we then look at how this transforms our algorithm:</p>
-$$\theta = \theta + \alpha \big(G - \hat{V}(s, \theta) \big)x$$$$\theta = \theta + \alpha \big(r + \gamma \hat{V}(s', \theta) - \hat{V}(s, \theta) \big)\frac{\partial \hat{V}(s,\theta)}{\partial \theta}$$$$\theta = \theta + \alpha \big(target - prediction \big)\frac{\partial prediction}{\partial \theta}$$<p>We can quickly see that we run into a problem! Our target is not a real target, because it requires a prediction that the model makes; in particular, $\hat{V}(s',\theta)$. So, in a sense we are using the model output as a target to fix the model parameters, which seems strange. However, at the same time it works, so we do it anyways.</p>
+<p>$$r + \gamma V(s')$$</p>
+<p>If we then look at how this transforms our algorithm:</p>
+<p>$$\theta = \theta + \alpha \big(G - \hat{V}(s, \theta) \big)x$$</p>
+<p>$$\theta = \theta + \alpha \big(r + \gamma \hat{V}(s', \theta) - \hat{V}(s, \theta) \big)\frac{\partial \hat{V}(s,\theta)}{\partial \theta}$$</p>
+<p>$$\theta = \theta + \alpha \big(target - prediction \big)\frac{\partial prediction}{\partial \theta}$$</p>
+<p>We can quickly see that we run into a problem! Our target is not a real target, because it requires a prediction that the model makes; in particular, $\hat{V}(s',\theta)$. So, in a sense we are using the model output as a target to fix the model parameters, which seems strange. However, at the same time it works, so we do it anyways.</p>
 <p>We call this a <em><strong>semi-gradient</strong></em> method because since the target we are using is not a true target, the gradient we are using is not a true gradient.</p>
 <h2 id="6.1-TD(0)-Semi-Gradient-Prediction-in-Code">6.1 <code>TD(0)</code> Semi-Gradient Prediction in Code<a class="anchor-link" href="#6.1-TD(0)-Semi-Gradient-Prediction-in-Code">&#182;</a></h2><p>Remeber, there is a main differences between this and Monte Carlo:</p>
 <blockquote><ol>
@@ -553,7 +590,7 @@ $$\theta = \theta + \alpha \big(G - \hat{V}(s, \theta) \big)x$$$$\theta = \theta
 <span class="kn">from</span> <span class="nn">common</span> <span class="k">import</span> <span class="n">random_action</span><span class="p">,</span> <span class="n">play_game_td</span><span class="p">,</span> <span class="n">SMALL_ENOUGH</span><span class="p">,</span> <span class="n">GAMMA</span><span class="p">,</span> <span class="n">ALL_POSSIBLE_ACTIONS</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -658,7 +695,7 @@ $$\theta = \theta + \alpha \big(G - \hat{V}(s, \theta) \big)x$$$$\theta = \theta
   <span class="n">print_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -668,7 +705,7 @@ $$\theta = \theta + \alpha \big(G - \hat{V}(s, \theta) \big)x$$$$\theta = \theta
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -685,7 +722,7 @@ $$\theta = \theta + \alpha \big(G - \hat{V}(s, \theta) \big)x$$$$\theta = \theta
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -700,7 +737,7 @@ $$\theta = \theta + \alpha \big(G - \hat{V}(s, \theta) \big)x$$$$\theta = \theta
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -727,15 +764,21 @@ policy:
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="7.-Semi-Gradient-SARSA">7. Semi-Gradient SARSA<a class="anchor-link" href="#7.-Semi-Gradient-SARSA">&#182;</a></h1><p>We are now going to move onto the control problem (choosing the optimal policy). However, instead of using $Q$, we are going to create a parameterized model to approximate $Q$. Note, this is going to be more difficult than approximating $V$, since instead of approximating $\mid S \mid$ values, we now have to approximate $\mid S \mid x \mid A \mid$ values. However, the basic idea is the same. Recall that our target is:</p>
-$$target = r  +\gamma \hat{Q}(s',a')$$<p>And our prediction is:</p>
-$$prediction = \hat{Q}(s,a)$$<p>Since $\hat{Q}$ is an approximation and it appears in both the target and the prediction, this is also not a true gradient, so this is also a semi-gradient method:</p>
-$$\theta = \theta + \alpha \big [r  +\gamma \hat{Q}(s',a') - \hat{Q}(s,a)\big] \frac{\partial \hat{Q}(s,a)}{\partial \theta}$$<h2 id="7.1-Features">7.1 Features<a class="anchor-link" href="#7.1-Features">&#182;</a></h2><p>Since $Q$ is indexed by both $s$ and $a$, we need to find a way to combine them into a feature vector $x$:</p>
-$$(s,a) \rightarrow x$$<p>One simple method, would be to take what we had before for $V$ ($row, column, row*column$), and just one hot encode the actions. So, in effect we would have:</p>
-$$x = (row, column, row*column, U, D, L, R, 1)$$<p>However, if you do this, you will find that it is not quite expressive enough. In other words, a linear model given these features can't accurately approximate $Q$.</p>
+<p>$$target = r  +\gamma \hat{Q}(s',a')$$</p>
+<p>And our prediction is:</p>
+<p>$$prediction = \hat{Q}(s,a)$$</p>
+<p>Since $\hat{Q}$ is an approximation and it appears in both the target and the prediction, this is also not a true gradient, so this is also a semi-gradient method:</p>
+<p>$$\theta = \theta + \alpha \big [r  +\gamma \hat{Q}(s',a') - \hat{Q}(s,a)\big] \frac{\partial \hat{Q}(s,a)}{\partial \theta}$$</p>
+<h2 id="7.1-Features">7.1 Features<a class="anchor-link" href="#7.1-Features">&#182;</a></h2><p>Since $Q$ is indexed by both $s$ and $a$, we need to find a way to combine them into a feature vector $x$:</p>
+<p>$$(s,a) \rightarrow x$$</p>
+<p>One simple method, would be to take what we had before for $V$ ($row, column, row*column$), and just one hot encode the actions. So, in effect we would have:</p>
+<p>$$x = (row, column, row*column, U, D, L, R, 1)$$</p>
+<p>However, if you do this, you will find that it is not quite expressive enough. In other words, a linear model given these features can't accurately approximate $Q$.</p>
 <p>What does seem to work better is to add squared terms, and have a separate set of features for each action. So, for each action, we now have features that look like:</p>
 
 <pre><code>x = [
@@ -749,8 +792,10 @@ $$x = (row, column, row*column, U, D, L, R, 1)$$<p>However, if you do this, you 
   ...
 ]</code></pre>
 <p>The 1 represents the one hot encoded action (not really a bias). You may wonder, given so many features does this still compress $Q$? Well, we have:</p>
-$$(6 \; per \; action) * (4 \; actions) + 1 \; bias = 25 \; features$$<p>Whereas our tabular method (storing $Q$ as a table) had:</p>
-$$9 \; states * 4 \; actions = 36$$<h2 id="7.2-Semi-Gradient-SARSA-in-Code">7.2 Semi-Gradient SARSA in Code<a class="anchor-link" href="#7.2-Semi-Gradient-SARSA-in-Code">&#182;</a></h2><p>We are now going to implement semi-gradient SARSA in code to find the optimal policy (and solve the control problem)!</p>
+<p>$$(6 \; per \; action) * (4 \; actions) + 1 \; bias = 25 \; features$$</p>
+<p>Whereas our tabular method (storing $Q$ as a table) had:</p>
+<p>$$9 \; states * 4 \; actions = 36$$</p>
+<h2 id="7.2-Semi-Gradient-SARSA-in-Code">7.2 Semi-Gradient SARSA in Code<a class="anchor-link" href="#7.2-Semi-Gradient-SARSA-in-Code">&#182;</a></h2><p>We are now going to implement semi-gradient SARSA in code to find the optimal policy (and solve the control problem)!</p>
 
 </div>
 </div>
@@ -767,7 +812,7 @@ $$9 \; states * 4 \; actions = 36$$<h2 id="7.2-Semi-Gradient-SARSA-in-Code">7.2 
 <span class="kn">from</span> <span class="nn">common</span> <span class="k">import</span> <span class="n">max_dict</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -931,7 +976,7 @@ $$9 \; states * 4 \; actions = 36$$<h2 id="7.2-Semi-Gradient-SARSA-in-Code">7.2 
   <span class="n">print_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -941,7 +986,7 @@ $$9 \; states * 4 \; actions = 36$$<h2 id="7.2-Semi-Gradient-SARSA-in-Code">7.2 
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -978,7 +1023,7 @@ it: 19000
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -993,7 +1038,7 @@ it: 19000
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1020,7 +1065,8 @@ policy:
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="8.-Summary">8. Summary<a class="anchor-link" href="#8.-Summary">&#182;</a></h1><p>This section was all about approximation methods. We learned eariler in our discussions of RL that the state space of an MDP can quickly grow too large to enumerate. Hence, trying to store a value function for every state that needs to be defined in the state space can be infeasible. Approximation methods allow us to parameterize the value function, so that effectively we need a smaller number of parameters than the size of the state space.</p>

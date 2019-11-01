@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,7 +211,8 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="4.-From-Markov-Models-to-Hidden-Markov-Models">4. From Markov Models to Hidden Markov Models<a class="anchor-link" href="#4.-From-Markov-Models-to-Hidden-Markov-Models">&#182;</a></h1><p>We are now going to extend the basic idea of markov models to hidden markov models. We have talked about latent variables before, and they will be a very important concept as we move forward. They show up in <strong>K-means clustering</strong>, <strong>Gaussian Mixture Models</strong>, <strong>principle components analysis</strong>, and many other areas. With hidden markov models, it even shows up in the name, so you know that hidden (latent) variables are central to this model.</p>
 <p>The basic idea behind a latent variable is that there is something going on beyond what we can observe/measure. What we observe is generally stochastic/random, since if it were deterministic we could predict it without doing any machine learning at all. The assumption that we make when we assume there are latent or hidden variables is that there is some cause behind the scenes that is leading to the observations that we see. In hidden markov models, the hidden cause itself is stochastic-it is a random process, the markov chain.</p>
@@ -222,9 +227,11 @@ body {
 <blockquote><p><strong>$\pi$, A, B</strong></p>
 </blockquote>
 <p>(Note that this is opposed to the regular markov model which just has $\pi$ and $A$). $\pi$ is the <strong>initial state distribution</strong>, or the probability of being in a state when the sequence begins. In our coin example, say the magician really likes coin 1, so the probability that he starts with coin 1 is 0.9.</p>
-$$\pi_i = 0.9$$<p>$A$ is the state transition matrix, which tells us the probability of going from one state to another.</p>
-$$A(i,j) = probability \; of \; going \; to \; state \; j \; from \; state \; i$$<p>In hidden markov models, the states themselves are hidden, so $A$ corresponds from transitioning from one hidden state to another hidden state. In the coin example, suppose the magician is very figity, and the probability of transitioning from coin 1 to coin 2 is 0.9, and the probability of transitioning from 2 to 1 is 0.9. Then, the probability of staying with the same coin for either coin is 0.1.</p>
-$$A = \begin{bmatrix}
+<p>$$\pi_i = 0.9$$</p>
+<p>$A$ is the state transition matrix, which tells us the probability of going from one state to another.</p>
+<p>$$A(i,j) = probability \; of \; going \; to \; state \; j \; from \; state \; i$$</p>
+<p>In hidden markov models, the states themselves are hidden, so $A$ corresponds from transitioning from one hidden state to another hidden state. In the coin example, suppose the magician is very figity, and the probability of transitioning from coin 1 to coin 2 is 0.9, and the probability of transitioning from 2 to 1 is 0.9. Then, the probability of staying with the same coin for either coin is 0.1.</p>
+<p>$$A = \begin{bmatrix}
     A_{11} &amp; A_{12}\\
     A_{21} &amp; A_{22} 
 \end{bmatrix}
@@ -232,8 +239,10 @@ $$A = \begin{bmatrix}
     0.1 &amp; 0.9\\
     0.9 &amp; 0.1 
 \end{bmatrix}
-$$<p>The new variable here of course is $B$. This is the probability of observing some symbol given what state you are in. Note this also a matrix because it has two inputs. What state you are in, which is $j$, and what you observe, which is $k$.</p>
-$$B(j,k) = probability \; of \;observing \;symbol\;k\;while\;you\;are\;in\;state\;j$$<h3 id="1.3-Indepence-Assumptions">1.3 Indepence Assumptions<a class="anchor-link" href="#1.3-Indepence-Assumptions">&#182;</a></h3><p>In the HMM we are making more independence assumptions than just the markov assumption. Remember, the markov assumption is that the current state only depends on the previous state, but is independent of any state before the previous state. Now that we have both observed and hidden variables in our model, we have another independence assumption:</p>
+$$</p>
+<p>The new variable here of course is $B$. This is the probability of observing some symbol given what state you are in. Note this also a matrix because it has two inputs. What state you are in, which is $j$, and what you observe, which is $k$.</p>
+<p>$$B(j,k) = probability \; of \;observing \;symbol\;k\;while\;you\;are\;in\;state\;j$$</p>
+<h3 id="1.3-Indepence-Assumptions">1.3 Indepence Assumptions<a class="anchor-link" href="#1.3-Indepence-Assumptions">&#182;</a></h3><p>In the HMM we are making more independence assumptions than just the markov assumption. Remember, the markov assumption is that the current state only depends on the previous state, but is independent of any state before the previous state. Now that we have both observed and hidden variables in our model, we have another independence assumption:</p>
 <blockquote><p>"What we observe is only dependent on the current state"</p>
 </blockquote>
 <p>So, the observation at time $t$, depends only on the state at time $t$, but not at any other time, state, or observation.</p>
@@ -250,7 +259,8 @@ $$B(j,k) = probability \; of \;observing \;symbol\;k\;while\;you\;are\;in\;state
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.-HMM's-are-Doubly-Embedded">2. HMM's are Doubly Embedded<a class="anchor-link" href="#2.-HMM's-are-Doubly-Embedded">&#182;</a></h2><p>Let's now discuss how HMM's are doubly embedded stochastic processes. Why do we say that they are doubly embedded? Well, think of the inner most layer. This is already a markov model, which is a specific type of stochastic process. With regular markov models, that is all we need-you know the state, end of story. With hidden markov models, once we hit a state there is yet another random sample that must be drawn. Think about our magician example: once the magician chooses the coin (1 or 2) he still has to flip the coin. So, we pick a state and then we have another random variable whose value has to be observed.</p>
 <p>We can think of this as two layers:</p>
@@ -264,7 +274,8 @@ $$B(j,k) = probability \; of \;observing \;symbol\;k\;while\;you\;are\;in\;state
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="3.-How-can-we-chose-the-number-of-hidden-states?">3. How can we chose the number of hidden states?<a class="anchor-link" href="#3.-How-can-we-chose-the-number-of-hidden-states?">&#182;</a></h2><p>The number of hidden states is a <strong>hyperparameter</strong>. In order to chose the number of hidden states, in general we would use <em>cross validation</em>. Well, if you think about, say we have $N$ training samples, and we then create a model with $N$ parameters. We could easily train this model to achieve 100% classication accuracy, however, this does not say anything about how the model will generalize to <em>unseen data</em>. Our goal will always be to fit to the trend, and not to the noise. If we can capture the real underlying trend, we should be able to make good predictions on new data. So, we will chose the number of hidden states that gives us the highest validation accuracy. We can use K-folds cross-validation.</p>
 <p>Generally that is all we would need to do when talking about hyperparameters. However, HMM's are a bit different. A lot of the time, the number of states in an HMM can reflect a real physical situation, or what we know about the situation we are trying to model-aka <em>priori knowledge</em>. For instance, in the magician example, we know the magician only has two coins, so we would use two states. When we are doing speech to text, we know the number of words in our vocabulary. In addition, we can separately train the hidden state transitions on pure text to give us a good initialization on the transition probabilities. Another example is biology-a codon is sequence of 3 DNA or RNA nucleotides, and these are responsible for creating amino acids which are then turned into proteins. A simple HMM may then have 3 physical states. So, we can use our knowledge of the physical system to help us determine the number of hidden states.</p>
@@ -273,50 +284,80 @@ $$B(j,k) = probability \; of \;observing \;symbol\;k\;while\;you\;are\;in\;state
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="4.-The-Forward-Backward-Algorithm">4. The Forward-Backward Algorithm<a class="anchor-link" href="#4.-The-Forward-Backward-Algorithm">&#182;</a></h2><p>The first question that we can ask of our HMM is the simplest one:</p>
 <blockquote><p>"What is the probability of a sequence?"</p>
 </blockquote>
 <p>Suppose we have $M$ hidden states, and our sequence of observations is of length $T$. The idea is that we want to <em>marginalize</em> the joint probability over all possible values of the hidden states.</p>
 <p>So, we start with:</p>
-$$p(x,z)$$<p>Where both $x$ and $z$ are vectors:</p>
-$$x = \big[x(1), x(2), ..., x(T)\big]$$$$z = \big[z(1), z(2), ..., z(T)\big]$$<p>However, we want to be able to marginalize out $z$ and find:</p>
-$$p\big(x(1), x(2),...,x(T)\big)$$<p>The final equation we end up with is:</p>
-$$p\big(x(1), x(2),...,x(T)\big) = \sum_{z(1)=1..M,...,z(T)=1..M}\pi\big(z(1)\big)p\big(x(1)|z(1)\big)\prod_{t=2}^Tp\big(z(t)|z(t-1)\big)p\big(x(t)|z(t)\big)$$<p><br>
+<p>$$p(x,z)$$</p>
+<p>Where both $x$ and $z$ are vectors:</p>
+<p>$$x = \big[x(1), x(2), ..., x(T)\big]$$</p>
+<p>$$z = \big[z(1), z(2), ..., z(T)\big]$$</p>
+<p>However, we want to be able to marginalize out $z$ and find:</p>
+<p>$$p\big(x(1), x(2),...,x(T)\big)$$</p>
+<p>The final equation we end up with is:</p>
+<p>$$p\big(x(1), x(2),...,x(T)\big) = \sum_{z(1)=1..M,...,z(T)=1..M}\pi\big(z(1)\big)p\big(x(1)|z(1)\big)\prod_{t=2}^Tp\big(z(t)|z(t-1)\big)p\big(x(t)|z(t)\big)$$</p>
+<p><br>
 Which when we break it down we see that we have <strong>the probability of the initial state</strong>:</p>
-$$\pi\big(z(1)\big)p\big(x(1)|z(1)\big)$$<p>We have <strong>A, the probability of going to state j from state i</strong>:</p>
-$$p\big(z(t)|z(t-1)\big)$$$$A(i,j) = p\big(z(t)=j|z(t-1)=i\big)$$<p>And we have <strong>B, the probability of seeing symbol k from state j</strong>:</p>
-$$p\big(x(t)|z(t)\big)$$$$B(j,k) = p\big(x(t)=k|z(t)=j\big)$$<p>By performing our marginalization:</p>
-$$\sum_{z(1)=1..M,...,z(T)=1..M}$$<p>We are essentially saying:</p>
+<p>$$\pi\big(z(1)\big)p\big(x(1)|z(1)\big)$$</p>
+<p>We have <strong>A, the probability of going to state j from state i</strong>:</p>
+<p>$$p\big(z(t)|z(t-1)\big)$$</p>
+<p>$$A(i,j) = p\big(z(t)=j|z(t-1)=i\big)$$</p>
+<p>And we have <strong>B, the probability of seeing symbol k from state j</strong>:</p>
+<p>$$p\big(x(t)|z(t)\big)$$</p>
+<p>$$B(j,k) = p\big(x(t)=k|z(t)=j\big)$$</p>
+<p>By performing our marginalization:</p>
+<p>$$\sum_{z(1)=1..M,...,z(T)=1..M}$$</p>
+<p>We are essentially saying:</p>
 <blockquote><p>For the hidden variable at state 1, we want to look at <em>each potential value</em> of z. So in the case of the magician, at state 1, we would perform the calculation if coin 1 was used, z(1) and then add that the calculation if coin two was used, z(2). We would then perform this again from state 2, and all the way up through state $T$. This process of marginalization is based on the product rule of probability.</p>
 </blockquote>
 <p>Note, that when performing this marginalization we do <em>not</em> need to do it for all values of $x(1)$, $x(2)$, and so on (see the notebook on marginalization). Why is that? Well, in our scenario $x(1)$, $x(2)$ and so on, will have been <em>observed</em>. This means that they are known quantities and the realm of probability and uncertainty no longer applies. So, when looking at our equation above:</p>
-$$x = \big[x(1), x(2), ..., x(T)\big]$$<p>We will know the values that $x(1)$, $x(2)$, and so on, took on during that sequence! For example, if $x$ represented heads or tails in a coin flip, we may see:</p>
-$$x = \big[x(1)=1, x(2)=0, ..., x(T)=1\big]$$<p>So, that means we are dealing with the marginalization case where we have a fixed variable(s) (in this case $x$) and are iterating over another variable ($Y$) that we wish to marginalize out:</p>
-$$P(X=x) = \sum_{y}p(X=x, Y=y)$$<p>With that said, the question is, how long will this take to calculate?  Well, in the inner part we have a product which is $2T - 1$, which can be seen based on the first product:</p>
-$$\prod_{t=2}^Tp\big(z(t)|z(t-1)\big)p\big(x(t)|z(t)\big)$$<p>Which is multipled by:</p>
-$$\pi\big(z(1)\big)p\big(x(1)|z(1)\big)$$<p>Given us the second product. This occurs for a total of $T$ times, hence $2T$ products. We then subtract 1 from this based on where $T$ is initialized, leaving us with $2T -1$ products. How many times do we need to compute this product? This is equal to the number of possible state sequences, which is $M^T$. So in total that leaves us with $O(TM^T)$. This is exponential growth which is pretty bad, so we don't want to do this. A better way of doing this would be the forward backward algorithm. The main issue that is causing us so many problems is that we have a product inside of a sum. Normally, we can't simplify a product inside of a sum, but in this case we can factor the expression using the properties of probability to reduce the number of calculations we have to do.</p>
+<p>$$x = \big[x(1), x(2), ..., x(T)\big]$$</p>
+<p>We will know the values that $x(1)$, $x(2)$, and so on, took on during that sequence! For example, if $x$ represented heads or tails in a coin flip, we may see:</p>
+<p>$$x = \big[x(1)=1, x(2)=0, ..., x(T)=1\big]$$</p>
+<p>So, that means we are dealing with the marginalization case where we have a fixed variable(s) (in this case $x$) and are iterating over another variable ($Y$) that we wish to marginalize out:</p>
+<p>$$P(X=x) = \sum_{y}p(X=x, Y=y)$$</p>
+<p>With that said, the question is, how long will this take to calculate?  Well, in the inner part we have a product which is $2T - 1$, which can be seen based on the first product:</p>
+<p>$$\prod_{t=2}^Tp\big(z(t)|z(t-1)\big)p\big(x(t)|z(t)\big)$$</p>
+<p>Which is multipled by:</p>
+<p>$$\pi\big(z(1)\big)p\big(x(1)|z(1)\big)$$</p>
+<p>Given us the second product. This occurs for a total of $T$ times, hence $2T$ products. We then subtract 1 from this based on where $T$ is initialized, leaving us with $2T -1$ products. How many times do we need to compute this product? This is equal to the number of possible state sequences, which is $M^T$. So in total that leaves us with $O(TM^T)$. This is exponential growth which is pretty bad, so we don't want to do this. A better way of doing this would be the forward backward algorithm. The main issue that is causing us so many problems is that we have a product inside of a sum. Normally, we can't simplify a product inside of a sum, but in this case we can factor the expression using the properties of probability to reduce the number of calculations we have to do.</p>
 <p>As a note, if you would like to see an example of the above calculation and the subsequent Forward-Backward algorithm, it can be found in the Appendix - HMM Calculations.</p>
 <h3 id="4.1-Forward-Backword-Algorithm-Process">4.1 Forward-Backword Algorithm Process<a class="anchor-link" href="#4.1-Forward-Backword-Algorithm-Process">&#182;</a></h3><p>So, how does the forward backward algorithm actually work? It utilizes <em>dynamic programming</em> in order to reduce the computational complexity of our task. We need to define a variable called $\alpha$:</p>
 <blockquote><p><em>This is the forward variable, and it represents the joint probability of seeing the sequence you have observed up until now and being in a specific state at that time.</em></p>
 </blockquote>
-$$\alpha(t,i) = p\big(x(1),...,x(t), z(t)=i\big)$$<p>We can see that there are two index's to $\alpha$: time and $i$, which index's the state.</p>
+<p>$$\alpha(t,i) = p\big(x(1),...,x(t), z(t)=i\big)$$</p>
+<p>We can see that there are two index's to $\alpha$: time and $i$, which index's the state.</p>
 <h4 id="4.1.1-Step-1">4.1.1 Step 1<a class="anchor-link" href="#4.1.1-Step-1">&#182;</a></h4><p>So, our first step is to calculate the initial value of $\alpha$ (t = 1):</p>
-$$\alpha(1, i) = p \big(x(1), z(1)=i\big)$$<p>Where if we recall the <em>Kolmogorov definition</em> of conditional probability:</p>
-$$P( A \cap B ) = P(A \mid B) P(B)$$<p>We can extend that to our scenario:</p>
-$$\alpha(1, i) =  p\big(z(1) = i \big) p\big(x(1) \mid z(1)= i\big)$$<p>And we know that:</p>
-$$p\big(x(1) \mid z(1)= i\big) = B\big(i, x(1)\big)$$<p>And that:</p>
-$$p\big(z(1) = i \big) = \pi_i$$<p>Meaning we end up with:</p>
-$$\alpha(t,i) = \pi_iB\big(i, x(t)\big)$$$$\alpha(1,i) = \pi_iB\big(i, x(1)\big)$$<h4 id="4.1.2-Step-2">4.1.2 Step 2<a class="anchor-link" href="#4.1.2-Step-2">&#182;</a></h4><p>The second step is called the <strong>induction step</strong>. This will be done for every state and every time up until $T$.</p>
-$$\alpha(t+1, j) = \sum_{i=1}^M \alpha(t,i) A(i,j)B(j, x(t+1))$$<p>What this is doing is allowing us to update our forward variable, $\alpha$. In other words, we continually update the joint probability of seeing the sequence you have observed up until now and being in a specific state at that time.</p>
+<p>$$\alpha(1, i) = p \big(x(1), z(1)=i\big)$$</p>
+<p>Where if we recall the <em>Kolmogorov definition</em> of conditional probability:</p>
+<p>$$P( A \cap B ) = P(A \mid B) P(B)$$</p>
+<p>We can extend that to our scenario:</p>
+<p>$$\alpha(1, i) =  p\big(z(1) = i \big) p\big(x(1) \mid z(1)= i\big)$$</p>
+<p>And we know that:</p>
+<p>$$p\big(x(1) \mid z(1)= i\big) = B\big(i, x(1)\big)$$</p>
+<p>And that:</p>
+<p>$$p\big(z(1) = i \big) = \pi_i$$</p>
+<p>Meaning we end up with:</p>
+<p>$$\alpha(t,i) = \pi_iB\big(i, x(t)\big)$$</p>
+<p>$$\alpha(1,i) = \pi_iB\big(i, x(1)\big)$$</p>
+<h4 id="4.1.2-Step-2">4.1.2 Step 2<a class="anchor-link" href="#4.1.2-Step-2">&#182;</a></h4><p>The second step is called the <strong>induction step</strong>. This will be done for every state and every time up until $T$.</p>
+<p>$$\alpha(t+1, j) = \sum_{i=1}^M \alpha(t,i) A(i,j)B(j, x(t+1))$$</p>
+<p>What this is doing is allowing us to update our forward variable, $\alpha$. In other words, we continually update the joint probability of seeing the sequence you have observed up until now and being in a specific state at that time.</p>
 <h4 id="4.1.3-Step-3">4.1.3 Step 3<a class="anchor-link" href="#4.1.3-Step-3">&#182;</a></h4><p>The final step is the termination step, where we marginalize over the hidden states at time $T$.</p>
-$$p(x) = \sum_{i=1}^M\alpha(T,i) = \sum_{i=1}^M p\big(x(1),...,x(T),z(t)=i\big)$$<p>Notice that we already have our answer. We already know the probability of the sequence after only having done the forward step of the forward-backward algorithm. We can also show that the time complexity of this algorithm is $O(M^2T)$.</p>
+<p>$$p(x) = \sum_{i=1}^M\alpha(T,i) = \sum_{i=1}^M p\big(x(1),...,x(T),z(t)=i\big)$$</p>
+<p>Notice that we already have our answer. We already know the probability of the sequence after only having done the forward step of the forward-backward algorithm. We can also show that the time complexity of this algorithm is $O(M^2T)$.</p>
 <h2 id="4.2-Backward">4.2 Backward<a class="anchor-link" href="#4.2-Backward">&#182;</a></h2><p>Now, at this point we do not need the backward algorithm (it is not needed to solve for $p(x)$, but we are going to use it later! It has two main steps, and it essentially just the reverse of the forward algorithm.</p>
 <p>To perform the backward algorithm, we will define a variable called $\beta$, which is also indexed by time and the state.</p>
 <h4 id="Initialization-Step">Initialization Step<a class="anchor-link" href="#Initialization-Step">&#182;</a></h4><p>The initialization step is to define $\beta$, at time $T$, to be 1 for every state:</p>
-$$\beta(T, i) = 1 $$$$\beta(t, i) = p\big(x(t+1), ... x(T) \mid z(t)=i\big)$$<h4 id="Induction-Step">Induction Step<a class="anchor-link" href="#Induction-Step">&#182;</a></h4><p>The induction step is to then calculate the previous $\beta$ for every state, similar to what we did with the forward algorithm:</p>
-$$\beta(t, i) = \sum_{j=1}^M A(i,j)B\big(j, x(t+1)\big) \beta(t+1, j)$$<p>Again, we want to do this for all times down to 1 or 0, depending on how you index, and for every state at each time.</p>
+<p>$$\beta(T, i) = 1 $$</p>
+<p>$$\beta(t, i) = p\big(x(t+1), ... x(T) \mid z(t)=i\big)$$</p>
+<h4 id="Induction-Step">Induction Step<a class="anchor-link" href="#Induction-Step">&#182;</a></h4><p>The induction step is to then calculate the previous $\beta$ for every state, similar to what we did with the forward algorithm:</p>
+<p>$$\beta(t, i) = \sum_{j=1}^M A(i,j)B\big(j, x(t+1)\big) \beta(t+1, j)$$</p>
+<p>Again, we want to do this for all times down to 1 or 0, depending on how you index, and for every state at each time.</p>
 <h3 id="4.3-Pseudocode">4.3 Pseudocode<a class="anchor-link" href="#4.3-Pseudocode">&#182;</a></h3>
 <pre><code>alpha = np.zeros((T, self.M))
 alpha[0] = self.pi * self.B[:, x[0]]
@@ -334,7 +375,8 @@ for t in range(T-2, -1, -1):
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="4.4-Forward-Algorithm-Explanation">4.4 Forward Algorithm Explanation<a class="anchor-link" href="#4.4-Forward-Algorithm-Explanation">&#182;</a></h3><p>The key idea behind the forward algorithm is that we are going to unroll the HMM in time.</p>
 <h3 id="4.4.1-Sequence-of-Length-1">4.4.1 Sequence of Length 1<a class="anchor-link" href="#4.4.1-Sequence-of-Length-1">&#182;</a></h3><p>First we can discuss what we do with a sequence of length 1. Remember, the goal is to determine the probability of the sequence. Well, that is just a simple probability problem.</p>
@@ -345,8 +387,11 @@ for t in range(T-2, -1, -1):
 </ul>
 </blockquote>
 <p>And we want to find:</p>
-$$p\big(x(1)\big)$$<p>So, we just marginalize over the states, $z$:</p>
-$$p\big(x(1)\big) = p\big(z(1)=1\big) p\big(x(1) \mid z(1) =1 \big) +...+p\big(z(1)=M\big) p\big(x(1) \mid z(1) =M \big)$$$$p\big(x(1)\big) = \pi_1 B \big(1, x(1) \big) + \pi_2 B \big(2, x(1) \big)+ ... +\pi_M B \big(M, x(1) \big)$$<p>Visually, this looks like:</p>
+<p>$$p\big(x(1)\big)$$</p>
+<p>So, we just marginalize over the states, $z$:</p>
+<p>$$p\big(x(1)\big) = p\big(z(1)=1\big) p\big(x(1) \mid z(1) =1 \big) +...+p\big(z(1)=M\big) p\big(x(1) \mid z(1) =M \big)$$</p>
+<p>$$p\big(x(1)\big) = \pi_1 B \big(1, x(1) \big) + \pi_2 B \big(2, x(1) \big)+ ... +\pi_M B \big(M, x(1) \big)$$</p>
+<p>Visually, this looks like:</p>
 <p><img src="https://drive.google.com/uc?id=1fobPF0X0ud6boBSGufMhEqSMFlrW_h2W" width="350"></p>
 <blockquote><ul>
 <li>We go from the null, or <em>start</em> position, to one of the states. That is $\pi$. For this example, we will assume that the number of states, $M$, is 3.</li>
@@ -355,15 +400,20 @@ $\pi$ times $B$ for the 3 states. </li>
 </ul>
 </blockquote>
 <p>This is our definition for the initial value of $\alpha$:</p>
-$$\alpha(1, i) = p \big(x(1), z(1)=i\big)$$<p>And we can define $\alpha$ at rows 1, 2, and 3 respectively as:</p>
-$$\alpha(t=1, i=1) = p \big(x(1), z(1)=1\big) = \pi_1 B \big(1, x(1) \big)$$$$\alpha(t=1, i=2) = p \big(x(1), z(1)=2\big) = \pi_2 B \big(2, x(1) \big)$$$$\alpha(t=1, i=3) = p \big(x(1), z(1)=3\big) = \pi_3 B \big(3, x(1) \big)$$<h3 id="4.4.2-Sequence-of-Length-2-$\rightarrow$-Induction-Step">4.4.2 Sequence of Length 2 $\rightarrow$ Induction Step<a class="anchor-link" href="#4.4.2-Sequence-of-Length-2-$\rightarrow$-Induction-Step">&#182;</a></h3><p>Now let's think about what we can do for a sequence of length 2. How would we find $p\big( x(1), x(2)\big)$, given we already have $p\big(x(1)\big)$? Remember, the observations are not directly dependent, and that each observation at a certain time, depends only on the state at that time. The states are Markov, so we can use the Markov assumption here. Let's try and find the probability of the second observation, $x(2)$, if the state is 1.</p>
+<p>$$\alpha(1, i) = p \big(x(1), z(1)=i\big)$$</p>
+<p>And we can define $\alpha$ at rows 1, 2, and 3 respectively as:</p>
+<p>$$\alpha(t=1, i=1) = p \big(x(1), z(1)=1\big) = \pi_1 B \big(1, x(1) \big)$$</p>
+<p>$$\alpha(t=1, i=2) = p \big(x(1), z(1)=2\big) = \pi_2 B \big(2, x(1) \big)$$</p>
+<p>$$\alpha(t=1, i=3) = p \big(x(1), z(1)=3\big) = \pi_3 B \big(3, x(1) \big)$$</p>
+<h3 id="4.4.2-Sequence-of-Length-2-$\rightarrow$-Induction-Step">4.4.2 Sequence of Length 2 $\rightarrow$ Induction Step<a class="anchor-link" href="#4.4.2-Sequence-of-Length-2-$\rightarrow$-Induction-Step">&#182;</a></h3><p>Now let's think about what we can do for a sequence of length 2. How would we find $p\big( x(1), x(2)\big)$, given we already have $p\big(x(1)\big)$? Remember, the observations are not directly dependent, and that each observation at a certain time, depends only on the state at that time. The states are Markov, so we can use the Markov assumption here. Let's try and find the probability of the second observation, $x(2)$, if the state is 1.</p>
 <p>The question we want to ask here is:</p>
 <blockquote><p>How can we get to state 1 at time t=2, seeing symbol $x(2)$?</p>
 </blockquote>
 <p>The answer is that we can come from any possible previous state! Visually, that looks like:</p>
 <p><img src="https://drive.google.com/uc?id=1xa5_zvkhWwDP48J5mBymgB1m_50tsI6R" width="350"></p>
 <p>Since each of those transitions are independent, we can sum each of those distinct possibilities:</p>
-$$\pi_1A(1,1)B(1, x(2))+ \pi_2A(2,1)B(1, x(2))+\pi_3A(3,1)B(1, x(2))$$<p>Where:</p>
+<p>$$\pi_1A(1,1)B(1, x(2))+ \pi_2A(2,1)B(1, x(2))+\pi_3A(3,1)B(1, x(2))$$</p>
+<p>Where:</p>
 <blockquote><ul>
 <li>$\pi_1$ is the probability we start at state 1</li>
 <li>$A(1,1)$ is the probabilty of transitioning from state 1 to state 1 </li>
@@ -372,24 +422,36 @@ $$\pi_1A(1,1)B(1, x(2))+ \pi_2A(2,1)B(1, x(2))+\pi_3A(3,1)B(1, x(2))$$<p>Where:<
 </ul>
 </blockquote>
 <p>Notice, if we include the $B$ for $t=1$, $B(i, x(1))$, this just gives us $\alpha$:</p>
-$$\pi_1B \big(1, x(1) \big)A(1,1)B(1, x(2))+ \pi_2B \big(2, x(1) \big)A(2,1)B(1, x(2))+\pi_3B \big(3, x(1) \big)A(3,1)B(1, x(2))$$<p>Hence, we can write the previous probability in terms of the previous $\alpha$:</p>
-$$\alpha(t=0, i=1)A(1,1)B(1, x(2))+ \alpha(t=0, i=2)A(2,1)B(1, x(2))+\alpha(t=0, i=3)A(3,1)B(1, x(2))$$<p>But wait-this is just the next $\alpha$ at time $t=2$!</p>
-$$\alpha(t=2, i=1)$$<p>That particular $\alpha$, at time $t=2$ and state = 1, is the probability of observing $x(1)$ and observing $x(2)$ and being in the state 1 at time = 2:</p>
-$$\alpha(t=2, i=1) = p \big(x(1), x(2), z(2)=1 \big)$$<p>So, we can see that $\alpha$ is defined recursively! This particular $\alpha$ we are showing for $t=2$ and state = 1, is the probability of observing $x(1)$ and $x(2)$, and being the state $z(2) = 1$ at $t=2$.</p>
+<p>$$\pi_1B \big(1, x(1) \big)A(1,1)B(1, x(2))+ \pi_2B \big(2, x(1) \big)A(2,1)B(1, x(2))+\pi_3B \big(3, x(1) \big)A(3,1)B(1, x(2))$$</p>
+<p>Hence, we can write the previous probability in terms of the previous $\alpha$:</p>
+<p>$$\alpha(t=0, i=1)A(1,1)B(1, x(2))+ \alpha(t=0, i=2)A(2,1)B(1, x(2))+\alpha(t=0, i=3)A(3,1)B(1, x(2))$$</p>
+<p>But wait-this is just the next $\alpha$ at time $t=2$!</p>
+<p>$$\alpha(t=2, i=1)$$</p>
+<p>That particular $\alpha$, at time $t=2$ and state = 1, is the probability of observing $x(1)$ and observing $x(2)$ and being in the state 1 at time = 2:</p>
+<p>$$\alpha(t=2, i=1) = p \big(x(1), x(2), z(2)=1 \big)$$</p>
+<p>So, we can see that $\alpha$ is defined recursively! This particular $\alpha$ we are showing for $t=2$ and state = 1, is the probability of observing $x(1)$ and $x(2)$, and being the state $z(2) = 1$ at $t=2$.</p>
 <p>Realize that this induction can be used for any subsequent time step. In other words, the next $\alpha$ can always be defined in terms of the current alpha. The probability that this gives us is the probability of the observed sequence so far, and ending up in a particular state:</p>
-$$\alpha(t+1,i=1) = p \big(x(1),...,x(t+1), z(t+1)=1\big)$$<h3 id="4.4.3-Termination-Step">4.4.3 Termination Step<a class="anchor-link" href="#4.4.3-Termination-Step">&#182;</a></h3><p>If we keep doing this process, eventually we will end up with $\alpha(T,i)$, which is the probability of the entire sequence, and ending up in state $i$:</p>
-$$\alpha(T,i) = p \big(x(1),...,x(T), z(T)=i\big)$$<p>Remember, our goal is to find just the probability of the sequence, so how can we do that? We can do the same thing that we did initially, it is just another probability problem. We marginalize over $z$, or in other words, sum the last $\alpha$ over all $i$:</p>
-$$p \big(x(1),...,x(T)\big) = \sum_{i=1..M}\alpha(T,i)$$<h3 id="4.5-Backward-Algorithm-Explanation">4.5 Backward Algorithm Explanation<a class="anchor-link" href="#4.5-Backward-Algorithm-Explanation">&#182;</a></h3><p>In many ways the backward algorithm is just the forward algorithm in reverse. We again use a data structure, $\beta$, indexed by $t$ and $j$ (time and hidden state) in order to keep track of a probability; only this time the probability is:</p>
-$$\beta(t, i) = p \big(x(t+1),...,x(T) \mid z(t)=i\big)$$<p>In english, the probability of observing the rest of the sequence that you did, given you are currently in hidden state $i$. Continuing with our previous example, we can examine how to find $\beta(2,1)$. To start, recall that $\beta(3, i)$ will be set to be 1 for all $i$:</p>
-$$\beta(3,1) = \beta(3,2) = 1$$<p>Then if we are looking for $\beta(2,1)$ we can think about what it is representing as follows: Given you are in state $z=1$ at time $t=2$, what is the probability of observing the remainder of the sequence (in this case just tails)? Well, there are two ways that that could happen: we could transition from the current state 1 to state 1, or from state 1 to 2, and then subsequently observe tails. Mathematically that looks like:</p>
-$$\beta(2,1) = \overbrace{A(2,1)B(1, x(3)=tails)\beta(3,1) + A(2,2)B(2, x(3)=tails)\beta(3,2)}^\text{Probability of the remainder of the sequence}$$<p>Now in this case our backward variable may not have seemed incredibly useful, considering that both $\beta(3,1)$ and $\beta(3,2)$ we equal to 1. However, when we end up trying to solve for $\beta(1,0)$, the following happens:</p>
-$$\beta(1,0) = A(1,1)B(1, x(2)=heads)\overbrace{\beta(2,1)}^\text{from above} + A(1,2)B(2, x(2)=heads)\beta(2,2)$$<p>We can clearly see that $\beta(1,0)$ is based upon $\beta(2,1)$. By tracking $\beta$ we prevent the need to perform unecessary and redundant calculations; this is the beauty of dynamic programming.</p>
+<p>$$\alpha(t+1,i=1) = p \big(x(1),...,x(t+1), z(t+1)=1\big)$$</p>
+<h3 id="4.4.3-Termination-Step">4.4.3 Termination Step<a class="anchor-link" href="#4.4.3-Termination-Step">&#182;</a></h3><p>If we keep doing this process, eventually we will end up with $\alpha(T,i)$, which is the probability of the entire sequence, and ending up in state $i$:</p>
+<p>$$\alpha(T,i) = p \big(x(1),...,x(T), z(T)=i\big)$$</p>
+<p>Remember, our goal is to find just the probability of the sequence, so how can we do that? We can do the same thing that we did initially, it is just another probability problem. We marginalize over $z$, or in other words, sum the last $\alpha$ over all $i$:</p>
+<p>$$p \big(x(1),...,x(T)\big) = \sum_{i=1..M}\alpha(T,i)$$</p>
+<h3 id="4.5-Backward-Algorithm-Explanation">4.5 Backward Algorithm Explanation<a class="anchor-link" href="#4.5-Backward-Algorithm-Explanation">&#182;</a></h3><p>In many ways the backward algorithm is just the forward algorithm in reverse. We again use a data structure, $\beta$, indexed by $t$ and $j$ (time and hidden state) in order to keep track of a probability; only this time the probability is:</p>
+<p>$$\beta(t, i) = p \big(x(t+1),...,x(T) \mid z(t)=i\big)$$</p>
+<p>In english, the probability of observing the rest of the sequence that you did, given you are currently in hidden state $i$. Continuing with our previous example, we can examine how to find $\beta(2,1)$. To start, recall that $\beta(3, i)$ will be set to be 1 for all $i$:</p>
+<p>$$\beta(3,1) = \beta(3,2) = 1$$</p>
+<p>Then if we are looking for $\beta(2,1)$ we can think about what it is representing as follows: Given you are in state $z=1$ at time $t=2$, what is the probability of observing the remainder of the sequence (in this case just tails)? Well, there are two ways that that could happen: we could transition from the current state 1 to state 1, or from state 1 to 2, and then subsequently observe tails. Mathematically that looks like:</p>
+<p>$$\beta(2,1) = \overbrace{A(2,1)B(1, x(3)=tails)\beta(3,1) + A(2,2)B(2, x(3)=tails)\beta(3,2)}^\text{Probability of the remainder of the sequence}$$</p>
+<p>Now in this case our backward variable may not have seemed incredibly useful, considering that both $\beta(3,1)$ and $\beta(3,2)$ we equal to 1. However, when we end up trying to solve for $\beta(1,0)$, the following happens:</p>
+<p>$$\beta(1,0) = A(1,1)B(1, x(2)=heads)\overbrace{\beta(2,1)}^\text{from above} + A(1,2)B(2, x(2)=heads)\beta(2,2)$$</p>
+<p>We can clearly see that $\beta(1,0)$ is based upon $\beta(2,1)$. By tracking $\beta$ we prevent the need to perform unecessary and redundant calculations; this is the beauty of dynamic programming.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="5.-Viterbi-Algorithm">5. Viterbi Algorithm<a class="anchor-link" href="#5.-Viterbi-Algorithm">&#182;</a></h2><p>One question that we may have for our HMM, especially if our hidden states are modeled on some physical reality or an actual system, rather than just being arbitrary latent variables, is:</p>
 <blockquote><p>What is the sequence of hidden states, given the observation?</p>
@@ -409,11 +471,18 @@ $$\psi(t,i)$$</li>
 </ul>
 </blockquote>
 <h3 id="5.1.1-Step-1---Initialization">5.1.1 Step 1 - Initialization<a class="anchor-link" href="#5.1.1-Step-1---Initialization">&#182;</a></h3><p>We again will have 3 steps, the first of which is initialization. It looks very much like the forward algorithm:</p>
-$$\delta(t,i) = \pi_i B\big(i, x(1)\big)$$$$\psi(1,i) = 0$$<h3 id="5.1.2-Step-2---Recursion">5.1.2 Step 2 - Recursion<a class="anchor-link" href="#5.1.2-Step-2---Recursion">&#182;</a></h3><p>We then have the recursion step, which we will calculate for all times and all states, filling up the values in $\delta$ and $\psi$:</p>
-$$\delta(t, j) = max_{1 \leq i \leq M} \big \{ \delta(t-1, i) A(i,j)\big \} B\big(j, x(t) \big)$$$$\psi(t,j) = argmax_{1 \leq i \leq M} \big \{ \delta(t-1, i) A(i,j)\big \}$$<h3 id="5.1.3-Step-3---Termination-Step">5.1.3 Step 3 - Termination Step<a class="anchor-link" href="#5.1.3-Step-3---Termination-Step">&#182;</a></h3><p>Finally, we have the termination step, where we find the maximum probability:</p>
-$$p^* = max_{1 \leq i \leq M} \delta(T,i)$$<p>For the best state sequence, in the final best state:</p>
-$$z(T)^* = argmax_{1 \leq i \leq M} \delta(T, i)$$<p>To determine the rest of the best state sequence, we just need to back track using $\psi$. This is done for time equals $T-1$ all the way down to 1:</p>
-$$z(T)^* = \psi (t+1, z(t+1)^*)$$<h3 id="5.1.4-Pseudocode">5.1.4 Pseudocode<a class="anchor-link" href="#5.1.4-Pseudocode">&#182;</a></h3><p>In pseudocode, it may look like:</p>
+<p>$$\delta(t,i) = \pi_i B\big(i, x(1)\big)$$
+$$\psi(1,i) = 0$$</p>
+<h3 id="5.1.2-Step-2---Recursion">5.1.2 Step 2 - Recursion<a class="anchor-link" href="#5.1.2-Step-2---Recursion">&#182;</a></h3><p>We then have the recursion step, which we will calculate for all times and all states, filling up the values in $\delta$ and $\psi$:</p>
+<p>$$\delta(t, j) = max_{1 \leq i \leq M} \big \{ \delta(t-1, i) A(i,j)\big \} B\big(j, x(t) \big)$$</p>
+<p>$$\psi(t,j) = argmax_{1 \leq i \leq M} \big \{ \delta(t-1, i) A(i,j)\big \}$$</p>
+<h3 id="5.1.3-Step-3---Termination-Step">5.1.3 Step 3 - Termination Step<a class="anchor-link" href="#5.1.3-Step-3---Termination-Step">&#182;</a></h3><p>Finally, we have the termination step, where we find the maximum probability:</p>
+<p>$$p^* = max_{1 \leq i \leq M} \delta(T,i)$$</p>
+<p>For the best state sequence, in the final best state:</p>
+<p>$$z(T)^* = argmax_{1 \leq i \leq M} \delta(T, i)$$</p>
+<p>To determine the rest of the best state sequence, we just need to back track using $\psi$. This is done for time equals $T-1$ all the way down to 1:</p>
+<p>$$z(T)^* = \psi (t+1, z(t+1)^*)$$</p>
+<h3 id="5.1.4-Pseudocode">5.1.4 Pseudocode<a class="anchor-link" href="#5.1.4-Pseudocode">&#182;</a></h3><p>In pseudocode, it may look like:</p>
 
 <pre><code>delta = np.zeros((T, self.M))
 psi = np.zeros((T, self.M))
@@ -434,41 +503,53 @@ return states</code></pre>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="6.-Viterbi-Visualization">6. Viterbi Visualization<a class="anchor-link" href="#6.-Viterbi-Visualization">&#182;</a></h2><p>The main difference between the viterbi algorithm and the forward algorithm, is that instead of taking the sum over all of the previous states that could have lead to the current one, we want to take the <em>max</em>. This is because we want to find the sequence that gives us the highest <em>observation probability</em>.</p>
 <h3 id="6.1-First-Step-Visualization">6.1 First Step Visualization<a class="anchor-link" href="#6.1-First-Step-Visualization">&#182;</a></h3><p>The first step is to consider just one observation, $x(1)$.</p>
 <p><img src="https://drive.google.com/uc?id=1fobPF0X0ud6boBSGufMhEqSMFlrW_h2W" width="350"></p>
 <p>Since just one observation corresponds to just one state, then we just want to find the most probable single state. This is just the maximum of $\pi$ times $B$:</p>
-$$max\Big(\pi_1B\big(1, x(1)\big), \pi_2B\big(2, x(1)\big), \pi_3B\big(3, x(1)\big) \Big)$$<p>This is just the probability of going to a state, and then observing what we observed from that state. Remember, we defined $\pi B$ as $\delta$, which is indexed by time and state; this allows us to make the following substitution:</p>
-$$max \Big(\delta(t=1, 1), \delta(t=1, 2), \delta(t=1, 3)\Big)$$<h3 id="6.2-Two-Step-Sequence-$\rightarrow$-Induction-Step">6.2 Two Step Sequence $\rightarrow$ Induction Step<a class="anchor-link" href="#6.2-Two-Step-Sequence-$\rightarrow$-Induction-Step">&#182;</a></h3><p>Let's now look at a two step sequence to get a better intuition for how our induction step works. We have the following visualization:</p>
+<p>$$max\Big(\pi_1B\big(1, x(1)\big), \pi_2B\big(2, x(1)\big), \pi_3B\big(3, x(1)\big) \Big)$$</p>
+<p>This is just the probability of going to a state, and then observing what we observed from that state. Remember, we defined $\pi B$ as $\delta$, which is indexed by time and state; this allows us to make the following substitution:</p>
+<p>$$max \Big(\delta(t=1, 1), \delta(t=1, 2), \delta(t=1, 3)\Big)$$</p>
+<h3 id="6.2-Two-Step-Sequence-$\rightarrow$-Induction-Step">6.2 Two Step Sequence $\rightarrow$ Induction Step<a class="anchor-link" href="#6.2-Two-Step-Sequence-$\rightarrow$-Induction-Step">&#182;</a></h3><p>Let's now look at a two step sequence to get a better intuition for how our induction step works. We have the following visualization:</p>
 <p><img src="https://drive.google.com/uc?id=1BFQUEiASvSw_B88xaddwrmj1RCd9guul" width="350"></p>
 <p>We will consider the following: a two step sequence, which we observe $x(1)$ and $x(2)$. Note, in our visualization $x(1)$ is not shown to allow things to stay more compact. Instead, $\delta$ is utilized in the place of the $\pi \rightarrow x$ observations from the previous diagram. We can ask: how can we get to state 1 (the state at the top, $z_2 = 1$) at time $t=2$ from $t=1$?</p>
 <p>The answer is that we can get there from any other state! This can be seen clearly below:</p>
 <p><img src="https://drive.google.com/uc?id=1xHg9PBHYoGIeqUJfdosfFdcCk_3HzcRQ" width="350"></p>
 <p>So the main idea is that we want to pick the one that gives us the maximum probability so far. How can we get that probability? That is the previous $\delta$, which if we recall is $\pi B$ at time $t=1$:</p>
-$$\delta(1,i)$$<p>And then transitioning from that state to the current state (which we are currently assuming is 1):</p>
-$$A(i,1)$$<p>And then multiplying by the observation probability from this state:</p>
-$$B\big( 1, x(2)\big)$$<p>The <em>best</em> path is whatever gives us:</p>
-$$max \Big(\delta(1,i)A(i,1)B\big( 1, x(2)\big) \Big)$$$$max \Big( 
+<p>$$\delta(1,i)$$</p>
+<p>And then transitioning from that state to the current state (which we are currently assuming is 1):</p>
+<p>$$A(i,1)$$</p>
+<p>And then multiplying by the observation probability from this state:</p>
+<p>$$B\big( 1, x(2)\big)$$</p>
+<p>The <em>best</em> path is whatever gives us:</p>
+<p>$$max \Big(\delta(1,i)A(i,1)B\big( 1, x(2)\big) \Big)$$</p>
+<p>$$max \Big( 
 \overbrace{ \delta(1,1)A(1,1)B\big( 1, x(2)\big)}^\text{Transitioning from 1 to 1}, 
 \overbrace{ \delta(1,2)A(2,1)B\big( 1, x(2)\big)}^\text{Transitioning from 2 to 1}, 
 \overbrace{ \delta(1,3)A(3,1)B\big( 1, x(2)\big)}^\text{Transitioning from 3 to 1}, 
-\Big)$$<p>That max is clearly dependent on the previous state, $i$, so we are taking the max with respect to $i$. Note, the above equation is just the definition of the next $\delta$!</p>
-$$\delta(2,1) = max \Big(\delta(1,i)A(i,1)B\big( 1, x(2)\big) \Big)$$<p>Hence, $\delta$ is also defined recursively in terms of its previous value. Keep in mind that we just found $\delta(2,1)$, but there are two more entries that we must find still: $\delta(2,2)$ and $\delta(2,3)$. This represent the max of going from all states to state 2, and from all states to state 3, respectively (shown below).</p>
+\Big)$$</p>
+<p>That max is clearly dependent on the previous state, $i$, so we are taking the max with respect to $i$. Note, the above equation is just the definition of the next $\delta$!</p>
+<p>$$\delta(2,1) = max \Big(\delta(1,i)A(i,1)B\big( 1, x(2)\big) \Big)$$</p>
+<p>Hence, $\delta$ is also defined recursively in terms of its previous value. Keep in mind that we just found $\delta(2,1)$, but there are two more entries that we must find still: $\delta(2,2)$ and $\delta(2,3)$. This represent the max of going from all states to state 2, and from all states to state 3, respectively (shown below).</p>
 <p><img src="https://drive.google.com/uc?id=1Ji1z8_MlWz46zEqJJuT4_lUYJdcHwgEo" width="650"></p>
 <p>In the end, what we are looking for is the best state sequence, considering all the observed variables as a whole. So that means that looking at only the first observation, perhaps being in state 1 gives us the best total probability. But, if we are considering both observations, being in state 2 and then transitioning to state 1 might give us the best total probability for the entire sequence. In that case, we should say that the state at time $t=1$ is 2, $z_1 = 2$.</p>
 <p>Because we can only determine the best sequence at the very last $\delta(T,i)$, we need to keep track of all possible state transitions that we encounter. Thus, we want to keep track of <em>ALL</em> possible state transitions that we encountered. That is not exponential, because it doesn't consider all possible state transitions in total, just the ones that were giving us the best probabilities along the way.</p>
 <p><img src="https://drive.google.com/uc?id=1ALIbniOfAGr9d9JwmDFJvDwUaAnF1bYj" width="350"></p>
 <h3 id="6.3-Termination-Step">6.3 Termination Step<a class="anchor-link" href="#6.3-Termination-Step">&#182;</a></h3><p>Since $\delta(T,i)$ is the best probability for observing the whole sequence $x(1), ..., x(T)$ and ending up in state $i$, then the max of that will give us the best probability overall:</p>
-$$max_i \big \{ \delta(T, i)\big \} $$<p>Furthermore, the argmax will give us the best last state!</p>
-$$z(T)^* = argmax_i \big \{ \delta(T,i)\big \}$$<p>And since we were keeping track of all of the transitions, we know we got to the last state, $z(T)^*$, from the second last state, $z(T-1)^*$, and we know the third last state and so on.</p>
+<p>$$max_i \big \{ \delta(T, i)\big \} $$</p>
+<p>Furthermore, the argmax will give us the best last state!</p>
+<p>$$z(T)^* = argmax_i \big \{ \delta(T,i)\big \}$$</p>
+<p>And since we were keeping track of all of the transitions, we know we got to the last state, $z(T)^*$, from the second last state, $z(T-1)^*$, and we know the third last state and so on.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="7.-Baum-Welch-Algorithm">7. Baum-Welch Algorithm<a class="anchor-link" href="#7.-Baum-Welch-Algorithm">&#182;</a></h2><p>We are now going to discuss the last of the three tasks that we can perform on an HMM, and it is the most critical:</p>
 <blockquote><p>How do we train an HMM?</p>
@@ -476,11 +557,13 @@ $$z(T)^* = argmax_i \big \{ \delta(T,i)\big \}$$<p>And since we were keeping tra
 <p>Similar to when we studied Gaussian Mixture Models, we have a latent variable where all of the possibilities need to be summed over, so we can't easily find the maximum likelihood solution. We need to use the expectation maximization algorithm, which is an iterative algorithm.</p>
 <p>The <em><strong>Baum-Welch</strong></em> algorithm is named after the mathematicians who invented it, and it relies on the forward-backward algorithm that we learned about earlier. In fact, the first step to completing the Baum-Welch update, is to first compute the forward and backward variables, $\alpha$ and $\beta$.</p>
 <h3 id="7.1-New-Variable-$\rightarrow-\phi$">7.1 New Variable $\rightarrow \phi$<a class="anchor-link" href="#7.1-New-Variable-$\rightarrow-\phi$">&#182;</a></h3><p>Once we have those variables, we can compute a new quantity called $\phi$. It has three indices, $t,i,j$:</p>
-$$\phi(t, i ,j) = p\big(z(t)=i, z(t+1)=j \mid x\big)$$<blockquote><p>Which simply represents the  <em>probability of being in the state $i$ at time $t$, transitioning to state $j$ at time $t + 1$, given the observation sequence</em>. This can be seen visually below:</p>
+<p>$$\phi(t, i ,j) = p\big(z(t)=i, z(t+1)=j \mid x\big)$$</p>
+<blockquote><p>Which simply represents the  <em>probability of being in the state $i$ at time $t$, transitioning to state $j$ at time $t + 1$, given the observation sequence</em>. This can be seen visually below:</p>
 </blockquote>
 <p><img src="https://drive.google.com/uc?id=1wlFzujos5h8KHtZit2QldjY2iOl2NtWN" width="350"></p>
 <p>The full definition of $\phi$ is as follows:</p>
-$$\phi(t, i ,j) = \frac{\alpha(t,i)A(i,j)B\big(j, x(t+1)\big)\beta(t+1, j)}{\sum_{i=1}^M \sum_{j=1}^M \alpha(t,i)A(i,j)B\big(j, x(t+1)\big)\beta(t+1, j)}$$<p>Now, at this point we have introduced yet another new variable, and our equation is dependent upon several others, in addition to states, symbols, and time steps. To help clarify all of this, the following summary has been created:</p>
+<p>$$\phi(t, i ,j) = \frac{\alpha(t,i)A(i,j)B\big(j, x(t+1)\big)\beta(t+1, j)}{\sum_{i=1}^M \sum_{j=1}^M \alpha(t,i)A(i,j)B\big(j, x(t+1)\big)\beta(t+1, j)}$$</p>
+<p>Now, at this point we have introduced yet another new variable, and our equation is dependent upon several others, in addition to states, symbols, and time steps. To help clarify all of this, the following summary has been created:</p>
 <h4 id="Forward-Variable:-$\alpha$">Forward Variable: $\alpha$<a class="anchor-link" href="#Forward-Variable:-$\alpha$">&#182;</a></h4><blockquote><ul>
 <li><strong>Description</strong>: It represents the joint probability of seeing the sequence you have observed up until now and being in a specific state at that time.</li>
 <li><strong>Probability Representation</strong>: $$\alpha(t,i) = p\big(x(1),...,x(t), z(t)=i\big)$$</li>
@@ -536,19 +619,27 @@ This is then divided by the exact same probability, but normalized so that all p
 </ul>
 </blockquote>
 <h3 id="7.2-Another-New-Variable-$\rightarrow-\gamma$">7.2 Another New Variable $\rightarrow \gamma$<a class="anchor-link" href="#7.2-Another-New-Variable-$\rightarrow-\gamma$">&#182;</a></h3><p>Once we have $\phi$ we can define another variable, $\gamma$, which depends only on $t$ and $i$, and sum over $j$ which is all of the states:</p>
-$$\gamma(t,i) = \sum_{j=1}^M \phi(t,i,j)$$<p>So, $\gamma$ is just the $\phi$ probability, marginalized over $j$. In other words:</p>
-$$\gamma(t,i) = p \big(z(t) = i \mid x\big)$$<h3 id="7.3-Sum-over-time">7.3 Sum over time<a class="anchor-link" href="#7.3-Sum-over-time">&#182;</a></h3><p>The key here is that when we sum these variables over all time, $\gamma$ represents the expected number of transitions from state $i$:</p>
-$$\sum_{t=1}^{T-1}\gamma(t,i) = E\big( \text{number of transitions from state i}\big)$$<p>And $\phi$ represents the expected number of transitions from state $i$ to state $j$:</p>
-$$\sum_{t=1}^{T-1}\phi(t,i,j) = E\big( \text{number of transitions from state i to state j}\big)$$<h3 id="7.4-Update-Equations">7.4 Update Equations<a class="anchor-link" href="#7.4-Update-Equations">&#182;</a></h3><p>So, we can define our update equations as follows; $\pi$ is just:</p>
-$$\pi = \gamma(1, i)$$<p>$A(i,j)$ is just the expected number of transitions from $i$ to $j$, divided by the number of transitions from $i$:</p>
-$$A(i,j) = \frac{\sum_{t=1}^{T-1} \phi(t,i,j)}{\sum_{t=1}^{T-1}\gamma(t,i)}$$<p>And $B(i,k)$ is just all the $\gamma$'s if $x(t) = k$, divided by all the $\gamma$'s:</p>
-$$B(i,k) = \frac{\sum_{t=1}^{T-1} \gamma(t,i) \; if \; x(t)=k, \; else \; 0}{\sum_{t=1}^{T-1}\gamma(t,i)}$$<p>Keep in mind we are only considering one sequence at this point. Of course, we want to fit our model to all training sequences. We will discuss how to do that in the next section.</p>
+<p>$$\gamma(t,i) = \sum_{j=1}^M \phi(t,i,j)$$</p>
+<p>So, $\gamma$ is just the $\phi$ probability, marginalized over $j$. In other words:</p>
+<p>$$\gamma(t,i) = p \big(z(t) = i \mid x\big)$$</p>
+<h3 id="7.3-Sum-over-time">7.3 Sum over time<a class="anchor-link" href="#7.3-Sum-over-time">&#182;</a></h3><p>The key here is that when we sum these variables over all time, $\gamma$ represents the expected number of transitions from state $i$:</p>
+<p>$$\sum_{t=1}^{T-1}\gamma(t,i) = E\big( \text{number of transitions from state i}\big)$$</p>
+<p>And $\phi$ represents the expected number of transitions from state $i$ to state $j$:</p>
+<p>$$\sum_{t=1}^{T-1}\phi(t,i,j) = E\big( \text{number of transitions from state i to state j}\big)$$</p>
+<h3 id="7.4-Update-Equations">7.4 Update Equations<a class="anchor-link" href="#7.4-Update-Equations">&#182;</a></h3><p>So, we can define our update equations as follows; $\pi$ is just:</p>
+<p>$$\pi = \gamma(1, i)$$</p>
+<p>$A(i,j)$ is just the expected number of transitions from $i$ to $j$, divided by the number of transitions from $i$:</p>
+<p>$$A(i,j) = \frac{\sum_{t=1}^{T-1} \phi(t,i,j)}{\sum_{t=1}^{T-1}\gamma(t,i)}$$</p>
+<p>And $B(i,k)$ is just all the $\gamma$'s if $x(t) = k$, divided by all the $\gamma$'s:</p>
+<p>$$B(i,k) = \frac{\sum_{t=1}^{T-1} \gamma(t,i) \; if \; x(t)=k, \; else \; 0}{\sum_{t=1}^{T-1}\gamma(t,i)}$$</p>
+<p>Keep in mind we are only considering one sequence at this point. Of course, we want to fit our model to all training sequences. We will discuss how to do that in the next section.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="8.-Baum-Welch-Explanation-and-Intuition">8. Baum-Welch Explanation and Intuition<a class="anchor-link" href="#8.-Baum-Welch-Explanation-and-Intuition">&#182;</a></h2><p>Let's now take a minute to dig into the mechanics of the Baum-Welch Algorithm. It can come across as rather confusing at first, but we can break it down into multiple steps so that it is easier to process.</p>
 <ol>
@@ -566,8 +657,10 @@ $$B(i,k) = \frac{\sum_{t=1}^{T-1} \gamma(t,i) \; if \; x(t)=k, \; else \; 0}{\su
 </ol>
 <p>It may be helpful to first consider what would happen if the hidden states in the HMM were <em>not</em> hidden. One example of this is parts of speech tagging in natural language processing. In parts of speech tagging you train on a dataset that contains sentences made up of sequences of words, and corresponding sequences of parts of speech tags. POS tags tell us the role of a word in a sentence. For example, noun, verb, adjective, and so on. You can see that based on the structure of the english language, there is a markovian probability model underlying the sequence of POS tags. When we make predictions, we would be given a new sentence with no POS tags, and then we would find the most likely hidden state sequence, and that would be the sequence of POS tags we predict. That is the Viterbi Algorithm!</p>
 <p>What is interesting about this problem, is that in the training problem the hidden states are not actually hidden. We know exactly what they are. Therefore, we can use maximum likelihood in closed form to determine all the state transitions, $A(i,j)$. For example, the probability of transitioning from noun to verb is the number of times we transition from noun to verb, divided by the number of times we had a noun:</p>
-$$p(VERB \mid NOUN) = \frac{count(NOUN \rightarrow VERB)}{count(NOUN)}$$<p>We could similarly find observational probabilities. For example, the word "milk" can be a noun or a verb. To find the probability of the word <em>milk</em> given NOUN, or the probability of the word <em>milk</em> given VERB is easy, since we already have all that data in the training set.</p>
-$$p(milk \mid NOUN) = \frac{count(milk \; is \; NOUN)}{count(NOUN)}$$<h3 id="8.1-HMM's-in-General">8.1 HMM's in General<a class="anchor-link" href="#8.1-HMM's-in-General">&#182;</a></h3><p>Now the problem with HMM's in general is that the hidden states are <em>not</em> known. Simply put, we don't know which hidden state the data point (our observed $x$) came from. We need to define it in terms of probabilities. That is what our emission matrix, $B$, is used for. For each hidden observation (heads or tails in this case) we have the probability that it came from coin 1 or 2. Viewed from another angle, each coin (state) has it's own emission distribution. We do not know this distribution, and it is the job of expectation maximization to find it.</p>
+<p>$$p(VERB \mid NOUN) = \frac{count(NOUN \rightarrow VERB)}{count(NOUN)}$$</p>
+<p>We could similarly find observational probabilities. For example, the word "milk" can be a noun or a verb. To find the probability of the word <em>milk</em> given NOUN, or the probability of the word <em>milk</em> given VERB is easy, since we already have all that data in the training set.</p>
+<p>$$p(milk \mid NOUN) = \frac{count(milk \; is \; NOUN)}{count(NOUN)}$$</p>
+<h3 id="8.1-HMM's-in-General">8.1 HMM's in General<a class="anchor-link" href="#8.1-HMM's-in-General">&#182;</a></h3><p>Now the problem with HMM's in general is that the hidden states are <em>not</em> known. Simply put, we don't know which hidden state the data point (our observed $x$) came from. We need to define it in terms of probabilities. That is what our emission matrix, $B$, is used for. For each hidden observation (heads or tails in this case) we have the probability that it came from coin 1 or 2. Viewed from another angle, each coin (state) has it's own emission distribution. We do not know this distribution, and it is the job of expectation maximization to find it.</p>
 <h4 id="Two-Random-Gaussians">Two Random Gaussians<a class="anchor-link" href="#Two-Random-Gaussians">&#182;</a></h4><p>A great example of expectation maximization in the case of two gaussian generative distributions can be seen <a href="https://www.youtube.com/watch?v=REypj2sy_5U">here</a>. The main idea is as follows:</p>
 <ol>
 <li>You start with two gaussians, $A$ and $B$, parameterized with random mean and variance.</li>
@@ -577,7 +670,9 @@ $$p(milk \mid NOUN) = \frac{count(milk \; is \; NOUN)}{count(NOUN)}$$<h3 id="8.1
 <li>This process is repeated until convergence. </li>
 </ol>
 <h4 id="Hidden-Markov-Models-Expectation-Maximization">Hidden Markov Models Expectation Maximization<a class="anchor-link" href="#Hidden-Markov-Models-Expectation-Maximization">&#182;</a></h4><p>Hidden Markov Models are the same! Since we don't know "which" hidden states are the correct states, we define possible hidden states probabilistically. That is the <em><strong>expectation step</strong></em>.</p>
-$$\phi(t, i ,j) = p\big(z(t)=i, z(t+1)=j \mid x\big)$$$$\gamma(t,i) = p \big(z(t) = i \mid x\big)$$<p>The <em><strong>maximization step</strong></em> is then finding the best $\pi$, $A$, and $B$ given those probabilistically defined hidden states.</p>
+<p>$$\phi(t, i ,j) = p\big(z(t)=i, z(t+1)=j \mid x\big)$$</p>
+<p>$$\gamma(t,i) = p \big(z(t) = i \mid x\big)$$</p>
+<p>The <em><strong>maximization step</strong></em> is then finding the best $\pi$, $A$, and $B$ given those probabilistically defined hidden states.</p>
 <p>For more detail, we can break it down as follows:</p>
 <ol>
 <li>We have a bunch of observed sequences (data, $X$) and we know that they are based on state transitions, $A$, and emission/observation probabilities, $B$. We randomly initialize $A$, $B$, and $\pi$.</li>
@@ -590,7 +685,8 @@ $$\phi(t, i ,j) = p\big(z(t)=i, z(t+1)=j \mid x\big)$$$$\gamma(t,i) = p \big(z(t
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="9.-Multiple-Observations">9. Multiple Observations<a class="anchor-link" href="#9.-Multiple-Observations">&#182;</a></h2><p>We are now going to discuss how to train an HMM when we have multiple observation sequences. Our training data isn't going to just be one sample, and we will want our model to accurately fit to all our training data as a whole. Usually, when we have $N$ samples of dimensionality $D$ we can put them in an $NxD$ numpy array or matrix. Now, when we are talking about sequences this becomes a problem.</p>
 <p>This can be seen by the following example; suppose we are looking at voice samples. A sample of someone saying:</p>
@@ -601,9 +697,12 @@ $$\phi(t, i ,j) = p\big(z(t)=i, z(t+1)=j \mid x\big)$$$$\gamma(t,i) = p \big(z(t
 </blockquote>
 <p>The simplest way is to store each individual sample as an element in a python list. Inside the python list (of length $N$) we can have individual numpy arrays of any length. So, for now we can just call that $T(n)$, where $n=1..N$. Each of the $N$ sequences is going to have its own version of all the updating variables ($\alpha, \beta$, etc) that we have talked about earlier. So, we will have $p(n)$ to represent the probability of the sequence, and we will have $\alpha(n)$ which will be the forward variable, and we will have $\beta(n)$ which will represent the backward variable. At this point, it is actually more convenient to express our updates in terms of $\alpha$ and $\beta$, so we will forget about $\phi$ and $\gamma$ for now.</p>
 <h3 id="9.1-Update-Equations">9.1 Update Equations<a class="anchor-link" href="#9.1-Update-Equations">&#182;</a></h3><p>So, our update for $\pi$ is just:</p>
-$$\pi_i = \frac{1}{N} \sum_{n=1}^N \frac{\alpha_n(1,i)\beta_n(1,i)}{P(n)}$$<p>And for $A(i,j)$:</p>
-$$A(i,j) = \frac{\sum_{n=1}^N \frac{1}{P(n)} \sum_{t=1}^{T(n)-1} \alpha_n(t,i)A(i,j)B\big(j, x_n(t+1)\big) \beta_n(t+1, j)}{\sum_{n=1}^N \frac{1}{P(n)} \sum_{t=1}^{T(n)-1} \alpha_n(t,i) \beta_n(t,i)}$$<p>And the update for $B(j,k)$ is as follows:</p>
-$$B(j,k) = \frac{\sum_{n=1}^N \frac{1}{P(n)} \sum_{t=1}^{T(n)} \alpha_n(t,j) \beta_n( t,j) \; if \; x_n(t) = k, \; else \; 0}{\sum_{n=1}^N \frac{1}{P(n)} \sum_{t=1}^{T(n)} \alpha_n(t,j) \beta_n( t,j)}$$<p>What is interesting about these equations is that each of the inner sums gets multiplied by the inverse of the probability of the observation. This tells us that under the current model, if some observation you would like to model is very improbable then we will give the updates based on that observation more weight.</p>
+<p>$$\pi_i = \frac{1}{N} \sum_{n=1}^N \frac{\alpha_n(1,i)\beta_n(1,i)}{P(n)}$$</p>
+<p>And for $A(i,j)$:</p>
+<p>$$A(i,j) = \frac{\sum_{n=1}^N \frac{1}{P(n)} \sum_{t=1}^{T(n)-1} \alpha_n(t,i)A(i,j)B\big(j, x_n(t+1)\big) \beta_n(t+1, j)}{\sum_{n=1}^N \frac{1}{P(n)} \sum_{t=1}^{T(n)-1} \alpha_n(t,i) \beta_n(t,i)}$$</p>
+<p>And the update for $B(j,k)$ is as follows:</p>
+<p>$$B(j,k) = \frac{\sum_{n=1}^N \frac{1}{P(n)} \sum_{t=1}^{T(n)} \alpha_n(t,j) \beta_n( t,j) \; if \; x_n(t) = k, \; else \; 0}{\sum_{n=1}^N \frac{1}{P(n)} \sum_{t=1}^{T(n)} \alpha_n(t,j) \beta_n( t,j)}$$</p>
+<p>What is interesting about these equations is that each of the inner sums gets multiplied by the inverse of the probability of the observation. This tells us that under the current model, if some observation you would like to model is very improbable then we will give the updates based on that observation more weight.</p>
 <h3 id="9.1.1-Pseudocode">9.1.1 Pseudocode<a class="anchor-link" href="#9.1.1-Pseudocode">&#182;</a></h3><p><strong>$\pi$ Update</strong></p>
 
 <pre><code>self.pi = np.sum((alphas[n][0] * betas[n][0]) / P[n] for n in range(N)) / N</code></pre>
@@ -675,7 +774,8 @@ def generate_sequence(N):
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="10.-Discrete-Hidden-Markov-Models-in-Code">10. Discrete Hidden Markov Models in Code<a class="anchor-link" href="#10.-Discrete-Hidden-Markov-Models-in-Code">&#182;</a></h2>
 </div>
@@ -698,7 +798,7 @@ def generate_sequence(N):
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -870,7 +970,7 @@ def generate_sequence(N):
         <span class="k">return</span> <span class="n">states</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -912,7 +1012,7 @@ def generate_sequence(N):
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">hmm</span><span class="o">.</span><span class="n">get_state_sequence</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -927,7 +1027,7 @@ def generate_sequence(N):
     <span class="n">fit_coin</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -937,7 +1037,7 @@ def generate_sequence(N):
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -961,7 +1061,7 @@ pi learned from training:
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -978,7 +1078,7 @@ height=284
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -996,7 +1096,8 @@ Best state sequence:
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="11.-Underflow-Problem">11. Underflow Problem<a class="anchor-link" href="#11.-Underflow-Problem">&#182;</a></h2><p>Now that we have worked through implementing the training of an HMM in code, it is time to touch on some technical details. The biggest thing that we must worry about is <strong>underflow</strong>. Imagine that we are dealing with a very long sequence. Well, the forward algorithm says that we should just keep multiplying alpha until the end of the sequence. But, issues arise when we keep multiplying small numbers together-the number continually gets smaller and smaller. For instance, if we try and perform:</p>
 
@@ -1014,7 +1115,7 @@ Best state sequence:
 <div class=" highlight hl-ipython3"><pre><span></span><span class="mf">0.1</span><span class="o">**</span><span class="mi">323</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1024,7 +1125,7 @@ Best state sequence:
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[20]:</div>
+<div class="prompt output_prompt">Out[20]:</div>
 
 
 
@@ -1040,7 +1141,8 @@ Best state sequence:
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And after that it drops off to 0:</p>
 
@@ -1055,7 +1157,7 @@ Best state sequence:
 <div class=" highlight hl-ipython3"><pre><span></span><span class="mf">0.1</span><span class="o">**</span><span class="mi">324</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1065,7 +1167,7 @@ Best state sequence:
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[21]:</div>
+<div class="prompt output_prompt">Out[21]:</div>
 
 
 
@@ -1081,64 +1183,105 @@ Best state sequence:
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, think about an audio signal. Audio signals are sampled at 44100 Hz-or 44100 samples per second. Well, clearly our HMM will not be very useful if we can only represent a few seconds of data. So how do we solve this problem?</p>
 <h3 id="11.1-Viterbi-Case">11.1 Viterbi Case<a class="anchor-link" href="#11.1-Viterbi-Case">&#182;</a></h3><p>In the case of viterbi is a bit easier since it only involves multiplication!</p>
-$$log(AB) = log(A) + log(B)$$<p>We know that we can use the log probability instead of the actually probability, since the logarithm is monotonically increasing. So, in the case of Viterbi, it is solved!</p>
+<p>$$log(AB) = log(A) + log(B)$$</p>
+<p>We know that we can use the log probability instead of the actually probability, since the logarithm is monotonically increasing. So, in the case of Viterbi, it is solved!</p>
 <h3 id="11.2-Forward-Backward-Case">11.2 Forward-Backward Case<a class="anchor-link" href="#11.2-Forward-Backward-Case">&#182;</a></h3><p>Now, the forward-backward algorithm is a bit trickier to deal with, since it involves summations. This is going be be much harder, but what we will do is introduce the concept of scaling. To accomplish proper scaling, we are going to introduce a scale factor, which we can call $c(t)$. Just like $\alpha$ and $\beta$, it is going to be of length $T$. With the scale factor, we can restate the 3 steps of the forward algorithm:</p>
 <h4 id="Step-1:-Initialization">Step 1: Initialization<a class="anchor-link" href="#Step-1:-Initialization">&#182;</a></h4><p>We begin by defining our initial $\alpha$ as $\alpha^\prime$:</p>
-$$\alpha^\prime(1, i) = \pi_i B\big(j, x(1)\big) = \alpha(1, i)$$<p>We then use the prime variable to define the <em>scale</em>:</p>
-$$c(t) = \sum_{i=1}^M \alpha^\prime(t, i)$$<p>Finally, we define $\hat{\alpha}$ to be:</p>
-$$\hat{\alpha}(t,i) = \frac{\alpha^\prime(t,i)}{c(t)}$$$$\hat{\alpha}(1,i) = \frac{\pi_i B\big(j, x(1)\big)}{c(1)}$$<h4 id="Step-2:-Induction">Step 2: Induction<a class="anchor-link" href="#Step-2:-Induction">&#182;</a></h4><p>We can then define our induction step as the next prime variable, in terms of the old $\hat{\alpha}$:</p>
-$$\alpha^\prime(t,i) = \sum_{i=1}^M \hat{\alpha}(t-1, i)A(i,j)B\big(j, x(t)\big)$$<p>This is the same expression that we had had before, except now on the left we have $\hat{\alpha}$, and on the right $\alpha^\prime$. We then scale as we had before:</p>
-$$c(t) = \sum_{i=1}^M \alpha^\prime(t, i)$$$$\hat{\alpha}(t,i) = \frac{\alpha^\prime(t,i)}{c(t)}$$<h4 id="Step-3:-Termination">Step 3: Termination<a class="anchor-link" href="#Step-3:-Termination">&#182;</a></h4><p>Finally, we can calculate the product of the entire sequence a follows:</p>
-$$p(x) = \prod_{t=1}^T c(t)$$<p>And this <em>can</em> be logged, since it only involves multiplication!</p>
+<p>$$\alpha^\prime(1, i) = \pi_i B\big(j, x(1)\big) = \alpha(1, i)$$</p>
+<p>We then use the prime variable to define the <em>scale</em>:</p>
+<p>$$c(t) = \sum_{i=1}^M \alpha^\prime(t, i)$$</p>
+<p>Finally, we define $\hat{\alpha}$ to be:</p>
+<p>$$\hat{\alpha}(t,i) = \frac{\alpha^\prime(t,i)}{c(t)}$$</p>
+<p>$$\hat{\alpha}(1,i) = \frac{\pi_i B\big(j, x(1)\big)}{c(1)}$$</p>
+<h4 id="Step-2:-Induction">Step 2: Induction<a class="anchor-link" href="#Step-2:-Induction">&#182;</a></h4><p>We can then define our induction step as the next prime variable, in terms of the old $\hat{\alpha}$:</p>
+<p>$$\alpha^\prime(t,i) = \sum_{i=1}^M \hat{\alpha}(t-1, i)A(i,j)B\big(j, x(t)\big)$$</p>
+<p>This is the same expression that we had had before, except now on the left we have $\hat{\alpha}$, and on the right $\alpha^\prime$. We then scale as we had before:</p>
+<p>$$c(t) = \sum_{i=1}^M \alpha^\prime(t, i)$$</p>
+<p>$$\hat{\alpha}(t,i) = \frac{\alpha^\prime(t,i)}{c(t)}$$</p>
+<h4 id="Step-3:-Termination">Step 3: Termination<a class="anchor-link" href="#Step-3:-Termination">&#182;</a></h4><p>Finally, we can calculate the product of the entire sequence a follows:</p>
+<p>$$p(x) = \prod_{t=1}^T c(t)$$</p>
+<p>And this <em>can</em> be logged, since it only involves multiplication!</p>
 <h3 id="11.2.1-Prove-that-scaling-works-(Forward)">11.2.1 Prove that scaling works (Forward)<a class="anchor-link" href="#11.2.1-Prove-that-scaling-works-(Forward)">&#182;</a></h3><p>Now, at first glance it may be slightly unclear as to <em>why</em> taking the product of all of the $c(t)$'s will yield the probability of the sequence. Let's walk through in detail to determine why this is so. We can start from our end result:</p>
-$$p(x) = \prod_{t=1}^T c(t)$$<p>This is essentially saying the following:</p>
-$$p(x_1, x_2, x_3,...x_n) = \prod_{t=1}^T c(t)$$<p>And, if we recall the <strong>independence assumption</strong> that we made earlier, we know that each observation is <em>only</em> dependent on the <em>current state</em>, hence:</p>
-$$p(x_1) * p(x_2) * p(x_3) * p(x_n) = \prod_{t=1}^T c(t)$$<p>So, we should immediately be thinking that each $c(t)$ is meant to represent the probability of the corresponding $x(t)$. Now, if we go back the start of our process, the initialization, we can see that:</p>
-$$\alpha^\prime(1,i) = \alpha(1, i)$$<p>And, recall from our initial walkthrough of the forward algorithm, that that is equivalent to:</p>
-$$\alpha(1, i) = p\big(x(1), z(1) = i\big)$$<p>So, we know that:</p>
-$$\alpha^\prime(1,i) = p\big(x(1), z(1) = i\big)$$<p>Now, for $t=1$, we defined $c$ as:</p>
-$$c(t=1) = \sum_i^M \alpha^\prime(1,i) = \sum_i^M p\big(x(1), z(1) = i\big)$$<p>And by taking the summation over $i$, we are marginalizing out $z$, leaving us with:</p>
-$$c(t=1) = p\big(x(1)\big)$$<p>Which is exactly what we should be looking for, based on the argument I put forward above. So, we know that the scaling term at $t=1$ is equal to the probability of observation $x$ at $t=1$. Let's quickly calculate our $\hat{\alpha}$:</p>
-$$\hat{\alpha}(1,i) = \frac{\alpha^\prime(1,i)}{c(1)}$$<p>Note, that since we know what $c(1)$ really represents, we can rewrite the above as:</p>
-$$\hat{\alpha}(1,i) = \frac{\alpha^\prime(1,i)}{p\big(x(1)\big)}$$<p>Now we are ready to move on to our induction step. By the definition we worked out earlier:</p>
-$$\alpha^\prime(2,j) = \sum_i^M \hat{\alpha}(1,i)A(i,j)B\big( j, x(2)\big)$$<p>And we can plug in what we had defined to be $\hat{\alpha}(1,i)$:</p>
-$$\alpha^\prime(2,j) = \sum_i^M \frac{\alpha^\prime(1,i)A(i,j)B\big( j, x(2)\big)}{c(1)}$$<p>Which, since we are just dividing by a constant, we can actually pull $c(1)$ out of the summation:</p>
-$$\alpha^\prime(2,j) = \frac{\sum_i^M \alpha^\prime(1,i)A(i,j)B\big( j, x(2)\big)}{c(1)}$$<p>And, we can then substitute in $p\big(x(1)\big)$ for $c(1)$!</p>
-$$\alpha^\prime(2,j) = \frac{\sum_i^M \alpha^\prime(1,i)A(i,j)B\big( j, x(2)\big)}{p\big(x(1)\big)}$$<p>And remember, that $\alpha^\prime(1,i)$ was equivalent to $\alpha(1,i)$, so we can update the above to be:</p>
-$$\alpha^\prime(2,j) = \frac{\sum_i^M \alpha(1,i)A(i,j)B\big( j, x(2)\big)}{p\big(x(1)\big)}$$<p>This is the big moment! If we just look at our numerator, it is just representative of:</p>
-$$\sum_i^M  \alpha(1,i)A(i,j)B\big( j, x(2)\big) = p\big(x(1), x(2), z(2) = i\big)$$<p>And then if reinclude our denominator, we will then divide out $p\big(x(1)\big)$!</p>
-$$\frac{\sum_i^M  \alpha(1,i)A(i,j)B\big( j, x(2)\big)}{p\big(x(1)\big)} = \frac{p\big(x(1), x(2), z(2) = i\big)}{p\big(x(1)\big)}$$<p>From our independence assumption, we know that the right side can technically be written as two independent probabilities multiplied together(probability of $x(1)$ is not depedent on probability of $x(2)$, and probability of $x(2)$ is only dependent on the hidden state at $t=2$), meaning the $p\big(x(1)\big)$ will cancel out:</p>
-$$\frac{\sum_i^M  \alpha(1,i)A(i,j)B\big( j, x(2)\big)}{p\big(x(1)\big)} = \frac{p\big(x(1) \big) p\big( x(2), z(2) = i\big)}{p\big(x(1)\big)}$$$$\frac{\sum_i^M  \alpha(1,i)A(i,j)B\big( j, x(2)\big)}{p\big(x(1)\big)} = p\big( x(2), z(2) = i\big)$$<p>And, if we want we can replug $c(1)$ on the left hand side:</p>
-$$\frac{\sum_i^M  \alpha(1,i)A(i,j)B\big( j, x(2)\big)}{c(1)} = p\big( x(2), z(2) = i\big)$$<p>Remember, this entire process was meant to solve for $\alpha^\prime(2,j)$:</p>
-$$\alpha^\prime(2,j) = \frac{\sum_i^M  \alpha(1,i)A(i,j)B\big( j, x(2)\big)}{c(1)} = p\big( x(2), z(2) = i\big)$$<p>And, based on the way we defined the scaling factor, we can solved for $c(2)$ as follows:</p>
-$$c(2) = \sum_i^M \alpha^\prime(2,j) = \sum_i^M \frac{\sum_i^M  \alpha(1,i)A(i,j)B\big( j, x(2)\big)}{c(1)} = \sum_i^M p\big( x(2), z(2) = i\big)$$<p>We can clearly see from the far right side of the above equation, that we will end up $z$ being marginalized out, and $c(2)$ being:</p>
-$$c(2) = p\big( x(2) \big)$$<p>Ahah! We have proven that by following this iterative process, our scaling term will represent the probability of observing $x$ at time $t$, and since they are independent of each other we can multiply them all together via:</p>
-$$p(x) = \prod_{t=1}^T c(t)$$<p>And, since this is now only multiplication, as I mentioned earlier we can now take the logarithm of the entire thing! Because this is in the form a product, we are able to calculate the log probabilities as our cost function. Even with multiple observations, we can remove the probability of the sequence from the update equations entirely.</p>
+<p>$$p(x) = \prod_{t=1}^T c(t)$$</p>
+<p>This is essentially saying the following:</p>
+<p>$$p(x_1, x_2, x_3,...x_n) = \prod_{t=1}^T c(t)$$</p>
+<p>And, if we recall the <strong>independence assumption</strong> that we made earlier, we know that each observation is <em>only</em> dependent on the <em>current state</em>, hence:</p>
+<p>$$p(x_1) * p(x_2) * p(x_3) * p(x_n) = \prod_{t=1}^T c(t)$$</p>
+<p>So, we should immediately be thinking that each $c(t)$ is meant to represent the probability of the corresponding $x(t)$. Now, if we go back the start of our process, the initialization, we can see that:</p>
+<p>$$\alpha^\prime(1,i) = \alpha(1, i)$$</p>
+<p>And, recall from our initial walkthrough of the forward algorithm, that that is equivalent to:</p>
+<p>$$\alpha(1, i) = p\big(x(1), z(1) = i\big)$$</p>
+<p>So, we know that:</p>
+<p>$$\alpha^\prime(1,i) = p\big(x(1), z(1) = i\big)$$</p>
+<p>Now, for $t=1$, we defined $c$ as:</p>
+<p>$$c(t=1) = \sum_i^M \alpha^\prime(1,i) = \sum_i^M p\big(x(1), z(1) = i\big)$$</p>
+<p>And by taking the summation over $i$, we are marginalizing out $z$, leaving us with:</p>
+<p>$$c(t=1) = p\big(x(1)\big)$$</p>
+<p>Which is exactly what we should be looking for, based on the argument I put forward above. So, we know that the scaling term at $t=1$ is equal to the probability of observation $x$ at $t=1$. Let's quickly calculate our $\hat{\alpha}$:</p>
+<p>$$\hat{\alpha}(1,i) = \frac{\alpha^\prime(1,i)}{c(1)}$$</p>
+<p>Note, that since we know what $c(1)$ really represents, we can rewrite the above as:</p>
+<p>$$\hat{\alpha}(1,i) = \frac{\alpha^\prime(1,i)}{p\big(x(1)\big)}$$</p>
+<p>Now we are ready to move on to our induction step. By the definition we worked out earlier:</p>
+<p>$$\alpha^\prime(2,j) = \sum_i^M \hat{\alpha}(1,i)A(i,j)B\big( j, x(2)\big)$$</p>
+<p>And we can plug in what we had defined to be $\hat{\alpha}(1,i)$:</p>
+<p>$$\alpha^\prime(2,j) = \sum_i^M \frac{\alpha^\prime(1,i)A(i,j)B\big( j, x(2)\big)}{c(1)}$$</p>
+<p>Which, since we are just dividing by a constant, we can actually pull $c(1)$ out of the summation:</p>
+<p>$$\alpha^\prime(2,j) = \frac{\sum_i^M \alpha^\prime(1,i)A(i,j)B\big( j, x(2)\big)}{c(1)}$$</p>
+<p>And, we can then substitute in $p\big(x(1)\big)$ for $c(1)$!</p>
+<p>$$\alpha^\prime(2,j) = \frac{\sum_i^M \alpha^\prime(1,i)A(i,j)B\big( j, x(2)\big)}{p\big(x(1)\big)}$$</p>
+<p>And remember, that $\alpha^\prime(1,i)$ was equivalent to $\alpha(1,i)$, so we can update the above to be:</p>
+<p>$$\alpha^\prime(2,j) = \frac{\sum_i^M \alpha(1,i)A(i,j)B\big( j, x(2)\big)}{p\big(x(1)\big)}$$</p>
+<p>This is the big moment! If we just look at our numerator, it is just representative of:</p>
+<p>$$\sum_i^M  \alpha(1,i)A(i,j)B\big( j, x(2)\big) = p\big(x(1), x(2), z(2) = i\big)$$</p>
+<p>And then if reinclude our denominator, we will then divide out $p\big(x(1)\big)$!</p>
+<p>$$\frac{\sum_i^M  \alpha(1,i)A(i,j)B\big( j, x(2)\big)}{p\big(x(1)\big)} = \frac{p\big(x(1), x(2), z(2) = i\big)}{p\big(x(1)\big)}$$</p>
+<p>From our independence assumption, we know that the right side can technically be written as two independent probabilities multiplied together(probability of $x(1)$ is not depedent on probability of $x(2)$, and probability of $x(2)$ is only dependent on the hidden state at $t=2$), meaning the $p\big(x(1)\big)$ will cancel out:</p>
+<p>$$\frac{\sum_i^M  \alpha(1,i)A(i,j)B\big( j, x(2)\big)}{p\big(x(1)\big)} = \frac{p\big(x(1) \big) p\big( x(2), z(2) = i\big)}{p\big(x(1)\big)}$$</p>
+<p>$$\frac{\sum_i^M  \alpha(1,i)A(i,j)B\big( j, x(2)\big)}{p\big(x(1)\big)} = p\big( x(2), z(2) = i\big)$$</p>
+<p>And, if we want we can replug $c(1)$ on the left hand side:</p>
+<p>$$\frac{\sum_i^M  \alpha(1,i)A(i,j)B\big( j, x(2)\big)}{c(1)} = p\big( x(2), z(2) = i\big)$$</p>
+<p>Remember, this entire process was meant to solve for $\alpha^\prime(2,j)$:</p>
+<p>$$\alpha^\prime(2,j) = \frac{\sum_i^M  \alpha(1,i)A(i,j)B\big( j, x(2)\big)}{c(1)} = p\big( x(2), z(2) = i\big)$$</p>
+<p>And, based on the way we defined the scaling factor, we can solved for $c(2)$ as follows:</p>
+<p>$$c(2) = \sum_i^M \alpha^\prime(2,j) = \sum_i^M \frac{\sum_i^M  \alpha(1,i)A(i,j)B\big( j, x(2)\big)}{c(1)} = \sum_i^M p\big( x(2), z(2) = i\big)$$</p>
+<p>We can clearly see from the far right side of the above equation, that we will end up $z$ being marginalized out, and $c(2)$ being:</p>
+<p>$$c(2) = p\big( x(2) \big)$$</p>
+<p>Ahah! We have proven that by following this iterative process, our scaling term will represent the probability of observing $x$ at time $t$, and since they are independent of each other we can multiply them all together via:</p>
+<p>$$p(x) = \prod_{t=1}^T c(t)$$</p>
+<p>And, since this is now only multiplication, as I mentioned earlier we can now take the logarithm of the entire thing! Because this is in the form a product, we are able to calculate the log probabilities as our cost function. Even with multiple observations, we can remove the probability of the sequence from the update equations entirely.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="11.2.2-Scaling-Backward">11.2.2 Scaling Backward<a class="anchor-link" href="#11.2.2-Scaling-Backward">&#182;</a></h3><p>Now we can talk about our $\beta$ update; for this we do not have to calculate a new scale factor, we can just use the same one as before. So, again we have our steps:</p>
 <h4 id="Step-1:-Initialization">Step 1: Initialization<a class="anchor-link" href="#Step-1:-Initialization">&#182;</a></h4><p>We have the same initialization as before:</p>
-$$\hat{\beta}(T, i) = 1$$<h4 id="Step-2:-Induction-Step">Step 2: Induction Step<a class="anchor-link" href="#Step-2:-Induction-Step">&#182;</a></h4><p>The induction step is defined as follows:</p>
-$$\hat{\beta}(t,i) = \frac{\sum_{j=1}^N A(i,j)B\big(j, x(t+1)\big)\hat{\beta}(t+1, j)}{c(t+1)}$$<p>So, this is basically the old induction step, scaled by $c(t+1)$.</p>
+<p>$$\hat{\beta}(T, i) = 1$$</p>
+<h4 id="Step-2:-Induction-Step">Step 2: Induction Step<a class="anchor-link" href="#Step-2:-Induction-Step">&#182;</a></h4><p>The induction step is defined as follows:</p>
+<p>$$\hat{\beta}(t,i) = \frac{\sum_{j=1}^N A(i,j)B\big(j, x(t+1)\big)\hat{\beta}(t+1, j)}{c(t+1)}$$</p>
+<p>So, this is basically the old induction step, scaled by $c(t+1)$.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="11.2.3-Updates">11.2.3 Updates<a class="anchor-link" href="#11.2.3-Updates">&#182;</a></h3><p>Now we are finally at the point where we can derive out new update equations. In order to do so, however, it is useful to first define several identities.</p>
 <h4 id="11.2.3.1-Identities">11.2.3.1 Identities<a class="anchor-link" href="#11.2.3.1-Identities">&#182;</a></h4><p>The identities are as follows:</p>
-<h4 id="Identity-1">Identity 1<a class="anchor-link" href="#Identity-1">&#182;</a></h4>$$\Big(\prod_{\tau = 1}^t c(\tau)\Big) \hat{\alpha}(t,i) = \alpha(t,i)$$<h4 id="Identity-2">Identity 2<a class="anchor-link" href="#Identity-2">&#182;</a></h4>$$\hat{\alpha}(t,i)\hat{\beta}(t,i)p(x) = \alpha(t,i) \beta(t,i)$$<h4 id="Identity-3">Identity 3<a class="anchor-link" href="#Identity-3">&#182;</a></h4>$$\alpha(t,i)\beta(t+1, j) = \frac{p(x)\hat{\alpha}(t,i)\hat{\beta}(t+1, j)}{c(t+1)}$$<p>I highly recommend before continuing that you try and workout the derivations for each of the 3 identities above. With that said, we will go through the derivations below. In order to do so we must recall the following equations and equivalences (which have all been proven throughout this post):</p>
+<h4 id="Identity-1">Identity 1<a class="anchor-link" href="#Identity-1">&#182;</a></h4><p>$$\Big(\prod_{\tau = 1}^t c(\tau)\Big) \hat{\alpha}(t,i) = \alpha(t,i)$$</p>
+<h4 id="Identity-2">Identity 2<a class="anchor-link" href="#Identity-2">&#182;</a></h4><p>$$\hat{\alpha}(t,i)\hat{\beta}(t,i)p(x) = \alpha(t,i) \beta(t,i)$$</p>
+<h4 id="Identity-3">Identity 3<a class="anchor-link" href="#Identity-3">&#182;</a></h4><p>$$\alpha(t,i)\beta(t+1, j) = \frac{p(x)\hat{\alpha}(t,i)\hat{\beta}(t+1, j)}{c(t+1)}$$</p>
+<p>I highly recommend before continuing that you try and workout the derivations for each of the 3 identities above. With that said, we will go through the derivations below. In order to do so we must recall the following equations and equivalences (which have all been proven throughout this post):</p>
 <h4 id="Equation-1-$\rightarrow-\alpha$">Equation 1 $\rightarrow \alpha$<a class="anchor-link" href="#Equation-1-$\rightarrow-\alpha$">&#182;</a></h4><p><span style="color:#0000cc">
 $$\alpha(t,i) = p\big(x(1), x(2),...,x(t),z(t)=i\big)$$
 </span></p>
@@ -1158,7 +1301,8 @@ $$\prod_{t=1}^T c(t) = p(x)$$
 $$c(t) = p\big(x(t)\big)$$
 </span></p>
 <p>Alright, now that we have the above reference the actual derivations of the identities should be rather straightforward. We can start with the first identity:</p>
-<h4 id="Identity-1-Proof">Identity 1 Proof<a class="anchor-link" href="#Identity-1-Proof">&#182;</a></h4>$$\Big(\prod_{\tau = 1}^t c(\tau)\Big) \hat{\alpha}(t,i) = \alpha(t,i)$$<p><br></p>
+<h4 id="Identity-1-Proof">Identity 1 Proof<a class="anchor-link" href="#Identity-1-Proof">&#182;</a></h4><p>$$\Big(\prod_{\tau = 1}^t c(\tau)\Big) \hat{\alpha}(t,i) = \alpha(t,i)$$
+<br></p>
 <center>
 <span style="color:#ff8000">
 $p\big(x(1)\big) * p\big(x(2)\big) * ...* p\big(x(t)\big)$
@@ -1171,7 +1315,8 @@ $ p\big(x(1), x(2),...,x(t),z(t)=i\big)$
 </span>
 </center><p>Because the probabilities inside of the joint distribution are held to the independence assumption, by definition the left and right hand side are equivalent.</p>
 <h4 id="Identity-2-Proof">Identity 2 Proof<a class="anchor-link" href="#Identity-2-Proof">&#182;</a></h4><p>The proof surrounding the second identity is a bit more involved, but never the less straightforward.</p>
-$$\hat{\alpha}(t,i)\hat{\beta}(t,i)p(x) = \alpha(t,i) \beta(t,i)$$<p><br></p>
+<p>$$\hat{\alpha}(t,i)\hat{\beta}(t,i)p(x) = \alpha(t,i) \beta(t,i)$$</p>
+<p><br></p>
 <center>
 <span style="color:#008000">
 $\scriptsize p\big(z(t)=i\big)$
@@ -1187,9 +1332,11 @@ $\scriptsize =p\big(x(1), x(2),...,x(t),z(t)=i\big)$
 $\scriptsize p\big(x(t+1),...,x(T) \mid z(t)=i\big)$
 </span>
 </center><p>On the left hand side we can cancel matching terms that occur in the denominator and numerator, leaving us with the following equivalence:</p>
-$$\scriptsize p\big(z(t)=i\big) * p\big(x(1)\big)*...*p\big(x(t)\big)* p\big(x(t+1),...,x(T) \mid z(t)=i\big) = p\big(x(1), x(2),...,x(t),z(t)=i\big) * p\big(x(t+1),...,x(T) \mid z(t)=i\big)$$<p>Where again, the equivalence occurs due to our independence assumption.</p>
+<p>$$\scriptsize p\big(z(t)=i\big) * p\big(x(1)\big)*...*p\big(x(t)\big)* p\big(x(t+1),...,x(T) \mid z(t)=i\big) = p\big(x(1), x(2),...,x(t),z(t)=i\big) * p\big(x(t+1),...,x(T) \mid z(t)=i\big)$$</p>
+<p>Where again, the equivalence occurs due to our independence assumption.</p>
 <h4 id="Identity-3-Proof">Identity 3 Proof<a class="anchor-link" href="#Identity-3-Proof">&#182;</a></h4><p>Finally, we can prove the third identity:</p>
-$$\alpha(t,i)\beta(t+1, j) = \frac{p(x)\hat{\alpha}(t,i)\hat{\beta}(t+1, j)}{c(t+1)}$$<p><br></p>
+<p>$$\alpha(t,i)\beta(t+1, j) = \frac{p(x)\hat{\alpha}(t,i)\hat{\beta}(t+1, j)}{c(t+1)}$$</p>
+<p><br></p>
 <center>
 <span style="color:#0000cc">
 $\scriptsize p\big(x(1),...,x(t),z(t)=i\big)$
@@ -1208,22 +1355,32 @@ $\frac{p\big(x(t+2),...,x(T) \mid z(t+1)=i\big)}{p\big(x(t+2)\big)*...*p\big(x(T
 $\frac{1}{p\big(x(t+1)\big)}$
 </span>
 </center><p>Which, after canceling terms leaves us with the following equivalence:</p>
-$$\scriptsize p\big(x(1),...,x(t),z(t)=i\big) p\big(x(t+2),...,x(T) \mid z(t+1)=i\big)= p\big(x(1)\big) *...* p\big(x(t)\big) * p\big(z(t)=i\big) * p\big(x(t+2),...,x(T) \mid z(t+1)=i\big)$$<h4 id="11.2.3.2-New-(Scaled)-Updates">11.2.3.2 New (Scaled) Updates<a class="anchor-link" href="#11.2.3.2-New-(Scaled)-Updates">&#182;</a></h4><p>Alright, with our identities now in hand, we can define our new updates.</p>
+<p>$$\scriptsize p\big(x(1),...,x(t),z(t)=i\big) p\big(x(t+2),...,x(T) \mid z(t+1)=i\big)= p\big(x(1)\big) *...* p\big(x(t)\big) * p\big(z(t)=i\big) * p\big(x(t+2),...,x(T) \mid z(t+1)=i\big)$$</p>
+<h4 id="11.2.3.2-New-(Scaled)-Updates">11.2.3.2 New (Scaled) Updates<a class="anchor-link" href="#11.2.3.2-New-(Scaled)-Updates">&#182;</a></h4><p>Alright, with our identities now in hand, we can define our new updates.</p>
 <h4 id="$\pi$-update">$\pi$ update<a class="anchor-link" href="#$\pi$-update">&#182;</a></h4><p>The original $\pi$ update was:</p>
-$$\pi_i = \frac{1}{N} \sum_{n=1}^N \frac{\alpha_n(1,i)\beta_n(1,i)}{P(n)}$$<p>We can make use of identity 2 as follows:</p>
-$$\hat{\alpha}(t,i)\hat{\beta}(t,i) = \frac{\alpha(t,i) \beta(t,i)}{p(x)}$$<p>At which point we can substitute in our hatted versions of $\alpha$ and $\beta$; hence, $\pi_i$ is the same as before, but the probability term in the denominator goes away:</p>
-$$\pi_i = \frac{1}{N} \sum_{n=1}^N \hat{\alpha}_n(1,i) \hat{\beta}_n(1,i)$$<h4 id="$A$-update">$A$ update<a class="anchor-link" href="#$A$-update">&#182;</a></h4><p>For $A$ the original update was</p>
-$$A(i,j) = \frac{\sum_{n=1}^N \frac{1}{P(n)} \sum_{t=1}^{T(n)-1} \alpha_n(t,i)A(i,j)B\big(j, x_n(t+1)\big) \beta_n(t+1, j)}{\sum_{n=1}^N \frac{1}{P(n)} \sum_{t=1}^{T(n)-1} \alpha_n(t,i) \beta_n(t,i)}$$<p>If we make use of identity 3::</p>
-$$\alpha(t,i)\beta(t+1, j) = \frac{p(x)\hat{\alpha}(t,i)\hat{\beta}(t+1, j)}{c(t+1)}$$<p>In the numerator (and identity 2 in the denominator), then we can see that $A(i,j)$ is also very similar to before, and the probability has also gone away. The probability was just absorbed into the new terms ($\hat{\alpha}, \hat{\beta}, c$):</p>
-$$A(i,j) = \frac{\sum_{n=1}^N \sum_{t=1}^{T(n)-1} \frac{\hat{\alpha}_n(t,i)\hat{\beta}_n(t+1, j)}{c(t+1)}A(i,j)B\big(j, x_n(t+1)\big) }{\sum_{n=1}^N  \sum_{t=1}^{T(n)-1} \hat{\alpha}_n(t,i) \hat{\beta}_n(t,i)}$$<h4 id="$B$-update">$B$ update<a class="anchor-link" href="#$B$-update">&#182;</a></h4><p>Finally, the original the update for $B(j,k)$ was as follows:</p>
-$$B(j,k) = \frac{\sum_{n=1}^N \frac{1}{P(n)} \sum_{t=1}^{T(n)} \alpha_n(t,j) \beta_n( t,j) \; if \; x_n(t) = k, \; else \; 0}{\sum_{n=1}^N \frac{1}{P(n)} \sum_{t=1}^{T(n)} \alpha_n(t,j) \beta_n( t,j)}$$<p>Again we can use identity 3 in the numerator and 2 in the denominator, yielding a similar expression for the $B(j,k)$ variable:</p>
-$$B(j,k) = \frac{\sum_{n=1}^N \sum_{t=1}^{T(n)} \hat{\alpha}_n(t,j) \hat{\beta}_n( t,j) \; if \; x_n(t) = k, \; else \; 0}{\sum_{n=1}^N \sum_{t=1}^{T(n)} \hat{\alpha}_n(t,j) \hat{\beta}_n( t,j)}$$<p>Again, notice how we were able to eliminate the probability of observation, since it is implicitly included in the hatted variables.</p>
+<p>$$\pi_i = \frac{1}{N} \sum_{n=1}^N \frac{\alpha_n(1,i)\beta_n(1,i)}{P(n)}$$</p>
+<p>We can make use of identity 2 as follows:</p>
+<p>$$\hat{\alpha}(t,i)\hat{\beta}(t,i) = \frac{\alpha(t,i) \beta(t,i)}{p(x)}$$</p>
+<p>At which point we can substitute in our hatted versions of $\alpha$ and $\beta$; hence, $\pi_i$ is the same as before, but the probability term in the denominator goes away:</p>
+<p>$$\pi_i = \frac{1}{N} \sum_{n=1}^N \hat{\alpha}_n(1,i) \hat{\beta}_n(1,i)$$</p>
+<h4 id="$A$-update">$A$ update<a class="anchor-link" href="#$A$-update">&#182;</a></h4><p>For $A$ the original update was</p>
+<p>$$A(i,j) = \frac{\sum_{n=1}^N \frac{1}{P(n)} \sum_{t=1}^{T(n)-1} \alpha_n(t,i)A(i,j)B\big(j, x_n(t+1)\big) \beta_n(t+1, j)}{\sum_{n=1}^N \frac{1}{P(n)} \sum_{t=1}^{T(n)-1} \alpha_n(t,i) \beta_n(t,i)}$$</p>
+<p>If we make use of identity 3::</p>
+<p>$$\alpha(t,i)\beta(t+1, j) = \frac{p(x)\hat{\alpha}(t,i)\hat{\beta}(t+1, j)}{c(t+1)}$$</p>
+<p>In the numerator (and identity 2 in the denominator), then we can see that $A(i,j)$ is also very similar to before, and the probability has also gone away. The probability was just absorbed into the new terms ($\hat{\alpha}, \hat{\beta}, c$):</p>
+<p>$$A(i,j) = \frac{\sum_{n=1}^N \sum_{t=1}^{T(n)-1} \frac{\hat{\alpha}_n(t,i)\hat{\beta}_n(t+1, j)}{c(t+1)}A(i,j)B\big(j, x_n(t+1)\big) }{\sum_{n=1}^N  \sum_{t=1}^{T(n)-1} \hat{\alpha}_n(t,i) \hat{\beta}_n(t,i)}$$</p>
+<h4 id="$B$-update">$B$ update<a class="anchor-link" href="#$B$-update">&#182;</a></h4><p>Finally, the original the update for $B(j,k)$ was as follows:</p>
+<p>$$B(j,k) = \frac{\sum_{n=1}^N \frac{1}{P(n)} \sum_{t=1}^{T(n)} \alpha_n(t,j) \beta_n( t,j) \; if \; x_n(t) = k, \; else \; 0}{\sum_{n=1}^N \frac{1}{P(n)} \sum_{t=1}^{T(n)} \alpha_n(t,j) \beta_n( t,j)}$$</p>
+<p>Again we can use identity 3 in the numerator and 2 in the denominator, yielding a similar expression for the $B(j,k)$ variable:</p>
+<p>$$B(j,k) = \frac{\sum_{n=1}^N \sum_{t=1}^{T(n)} \hat{\alpha}_n(t,j) \hat{\beta}_n( t,j) \; if \; x_n(t) = k, \; else \; 0}{\sum_{n=1}^N \sum_{t=1}^{T(n)} \hat{\alpha}_n(t,j) \hat{\beta}_n( t,j)}$$</p>
+<p>Again, notice how we were able to eliminate the probability of observation, since it is implicitly included in the hatted variables.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="12.-Discrete-HMM-with-Scaling-in-Code">12. Discrete HMM with Scaling in Code<a class="anchor-link" href="#12.-Discrete-HMM-with-Scaling-in-Code">&#182;</a></h2><p>This will have a good deal of similarity to the previous non scaled implementation, so we will be starting with some code from there.</p>
 
@@ -1401,7 +1558,7 @@ $$B(j,k) = \frac{\sum_{n=1}^N \sum_{t=1}^{T(n)} \hat{\alpha}_n(t,j) \hat{\beta}_
         <span class="k">return</span> <span class="n">states</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1443,7 +1600,7 @@ $$B(j,k) = \frac{\sum_{n=1}^N \sum_{t=1}^{T(n)} \hat{\alpha}_n(t,j) \hat{\beta}_
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">hmm</span><span class="o">.</span><span class="n">get_state_sequence</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1457,7 +1614,7 @@ $$B(j,k) = \frac{\sum_{n=1}^N \sum_{t=1}^{T(n)} \hat{\alpha}_n(t,j) \hat{\beta}_
 <span class="n">fit_coin</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1467,7 +1624,7 @@ $$B(j,k) = \frac{\sum_{n=1}^N \sum_{t=1}^{T(n)} \hat{\alpha}_n(t,j) \hat{\beta}_
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1483,7 +1640,7 @@ Initial B:
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stderr output_text">
@@ -1494,7 +1651,7 @@ Initial B:
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1512,7 +1669,7 @@ pi learned from training:
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1529,7 +1686,7 @@ height=284
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1542,19 +1699,6 @@ Best state sequence:
 </div>
 </div>
 
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
 </div>
 </div>
 

@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,25 +211,32 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="4.-Random-Forest-Algorithm">4. Random Forest Algorithm<a class="anchor-link" href="#4.-Random-Forest-Algorithm">&#182;</a></h1><p>We are now going to touch on the <strong>random forest</strong> algorithm, which touches on earlier concepts we have gone over.</p>
 <p>Recall, if we have $B$ <strong>independent</strong> and <strong>identically</strong> distributed variables, each with a variance $\sigma^2$, then the sum (or equivalently the sample mean) of the random variables has a variance:</p>
-$$var(\bar{\theta}_B) = \frac{1}{B}\sigma^2$$<p>However, recall that this is not the case when the $B$ random variables are only <strong>identically distributed</strong>, and <strong>not independent</strong>. In this case there may be a correlation between two random variables, which we will call $\rho$; the variance of the <strong>sum</strong> or <strong>sample mean</strong> is given by this equation:</p>
-$$var(\bar{\theta}_B) = \frac{1- \rho}{B}\sigma^2  + \rho \sigma^2$$<p>The main goal of random forest is to try and <strong>reduce this correlation</strong>. In other words, it tries to build a set of trees that are decorrelated from eachother.</p>
+<p>$$var(\bar{\theta}_B) = \frac{1}{B}\sigma^2$$</p>
+<p>However, recall that this is not the case when the $B$ random variables are only <strong>identically distributed</strong>, and <strong>not independent</strong>. In this case there may be a correlation between two random variables, which we will call $\rho$; the variance of the <strong>sum</strong> or <strong>sample mean</strong> is given by this equation:</p>
+<p>$$var(\bar{\theta}_B) = \frac{1- \rho}{B}\sigma^2  + \rho \sigma^2$$</p>
+<p>The main goal of random forest is to try and <strong>reduce this correlation</strong>. In other words, it tries to build a set of trees that are decorrelated from eachother.</p>
 <p>Recall that the idea behind <em>bagging</em> was to average the results from high variance/low bias models. Trees are perfect for that because they can go arbitrarily deep, and capture complex interactions. Much of the time, they can achieve 100% accuracy on the training set, and hence have 0 bias. We want this because then $\rho$ will be 0! At the same time, this results in them having a high variance. But due to the previous equation for the variance of an ensemble, we can achieve a much lower combined variance by finding trees that are not correlated with eachother.</p>
 <p>A good question to ask at this point is: "is there anything more deliberate we can do to make sure each tree is decorrelated from the others, rather than just assuming that trees grown to maximum depth on different bootstrap samples will be very different?" We will see how to do that soon!</p>
 <hr>
 <p><br></p>
 <h2 id="1.1-Random-Forest---Bias">1.1 Random Forest - Bias<a class="anchor-link" href="#1.1-Random-Forest---Bias">&#182;</a></h2><p>We know that we can achieve low bias easily with trees because the more nodes we add, the more it will overfit. So, let's suppose that each tree has zero bias. Since each tree has the same expected value, then the expected value of an ensemble of trees is the same, and thus the bias remains the same too. This can be seen in the equation below - all estimates of $f$, $\hat{f}$, are going to have the same expected value:</p>
-$$\bar{f}(x) = E\Big[\hat{f}(x)\Big]$$<p>(This can be seen in the previous section <strong>1.5.1 Mean Derivation</strong>).</p>
+<p>$$\bar{f}(x) = E\Big[\hat{f}(x)\Big]$$</p>
+<p>(This can be seen in the previous section <strong>1.5.1 Mean Derivation</strong>).</p>
 <p>And we can see that $bias^2$ is simply the ground truth function $f$ (which doesn't change) minus the expected value of the estimate, $\bar{f}$.</p>
-$$bias^2 = \Big[f(x) - \bar{f}(x)\Big]^2$$<p>We will see later with <strong>boosting</strong> another way of combining trees with high bias.</p>
+<p>$$bias^2 = \Big[f(x) - \bar{f}(x)\Big]^2$$</p>
+<p>We will see later with <strong>boosting</strong> another way of combining trees with high bias.</p>
 <hr>
 <p><br></p>
 <h2 id="1.2-Random-Forest---Decorrelation">1.2 Random Forest - Decorrelation<a class="anchor-link" href="#1.2-Random-Forest---Decorrelation">&#182;</a></h2><p>So, how does Random Forest try to decorrelate it's trees? In the same way that we can select which samples to train on, we can also <strong>randomly select which features to train</strong> on too! So, if you think of the data matrix $X$, one way to get different trees is to sample different rows, which we have done already. Another way is to sample different columns, which is equivalent to training a tree on only a subset of features.</p>
 <p>We usually choose a dimensionality $d &lt;&lt; D$, assuming that $X$ is an <strong>(N x D)</strong> matrix. The inventors of random forest recommend the following settings for $d$:</p>
-$$Classification: d = floor(\sqrt{D})$$$$Regression: d = floor(\frac{D}{3})$$<p>For classification note that it can be set as low as 1. For regression it can be set as low as 5. As always, by using a method like cross validation you can see what works best for your specific dataset.</p>
+<p>$$Classification: d = floor(\sqrt{D})$$
+$$Regression: d = floor(\frac{D}{3})$$</p>
+<p>For classification note that it can be set as low as 1. For regression it can be set as low as 5. As always, by using a method like cross validation you can see what works best for your specific dataset.</p>
 <hr>
 <p><br></p>
 <h2 id="1.3-Random-Forest---Algorithm">1.3 Random Forest - Algorithm<a class="anchor-link" href="#1.3-Random-Forest---Algorithm">&#182;</a></h2><p>The algorithm for random forest training is as follows:</p>
@@ -272,7 +283,8 @@ $$Classification: d = floor(\sqrt{D})$$$$Regression: d = floor(\frac{D}{3})$$<p>
 <hr>
 <p><br></p>
 <h2 id="1.6-Random-Forest---Problems">1.6 Random Forest - Problems<a class="anchor-link" href="#1.6-Random-Forest---Problems">&#182;</a></h2><p>A big question that comes up in machine learing is what is a lot of the predictors/input features are irrelevant and just noise? If most of the features are just noise, what happens to random forest if when it randomly chooses input features it chooses only noise. And, what if it does this for a large proportion of trees. For example, if we have <strong>3 relevant variables</strong> and <strong>100 irrelevant variables</strong>, and we have d equal $floor(\sqrt{103}) = 10$, then what is the probability that we chose at least one relevant variable?</p>
-$$1 - \frac{100}{103} * \frac{99}{102} * ...* \frac{91}{94} = 0.266$$<p>26% actually is not terrible, considering we only had 3 relevant variables. If we had 6 relevant variables, the probability would go up to 46%. It is, however, still a a problem if the number of relevant variables is small. Soon we will talk about an algorithm called <strong>boosting</strong> which fixes this problem.</p>
+<p>$$1 - \frac{100}{103} * \frac{99}{102} * ...* \frac{91}{94} = 0.266$$</p>
+<p>26% actually is not terrible, considering we only had 3 relevant variables. If we had 6 relevant variables, the probability would go up to 46%. It is, however, still a a problem if the number of relevant variables is small. Soon we will talk about an algorithm called <strong>boosting</strong> which fixes this problem.</p>
 <hr>
 <p><br></p>
 <h2 id="1.7-Random-Forest---Advantages">1.7 Random Forest - Advantages<a class="anchor-link" href="#1.7-Random-Forest---Advantages">&#182;</a></h2><p>One big advantage of <strong>random forests</strong> is that they require very little tuning. Research has show that you can let all of the trees have arbitrary depth without incurring very much penalty. They perform well, and they are fast, making them ideal for many situations. This is why it is often recommended vs. deep learning for more basic and broad use cases. Neural networks can yield very different results based on the selected hyperparameters, and on top of that there are many more options. Hence, random forests are the way to go if you are looking for a plug and play solution.</p>
@@ -281,7 +293,8 @@ $$1 - \frac{100}{103} * \frac{99}{102} * ...* \frac{91}{94} = 0.266$$<p>26% actu
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -316,13 +329,14 @@ $$1 - \frac{100}{103} * \frac{99}{102} * ...* \frac{91}{94} = 0.266$$<p>26% actu
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Next we can define constants for our column names:</p>
 
@@ -352,13 +366,14 @@ $$1 - \frac{100}{103} * \frac{99}{102} * ...* \frac{91}{94} = 0.266$$<p>26% actu
 <span class="n">NO_TRANSFORM</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;river&#39;</span><span class="p">]</span>      <span class="c1"># Do not want to transform river, since it is already 0 or 1 </span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Define our <code>DataTransformer</code> class. This works like Scikit learns scaler classes (normalizes by subtracting mean and dividing by std or variance), which have the functions <code>fit</code>, <code>transform</code>, and <code>fit_transform</code>. This transforms data from dataframe to numerical matrix. We want to use the scales found in training when transforming the test set, so we only call <code>fit()</code> once, and call <code>transform()</code> for any subsequent data.</p>
 <p>We want to be able to transform without fitting, because when we find the mean and variance of a feature, we only want to use the train set for that. When we transform the test set we want to use only the means and variances that we have already found.</p>
@@ -400,13 +415,14 @@ $$1 - \frac{100}{103} * \frac{99}{102} * ...* \frac{91}{94} = 0.266$$<p>26% actu
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we can write our function to get the data. The dataset is similar to a CSV, but each value is separated by an arbitrary number of spaces.</p>
 
@@ -463,13 +479,14 @@ $$1 - \frac{100}{103} * \frac{99}{102} * ...* \frac{91}{94} = 0.266$$<p>26% actu
   <span class="k">return</span> <span class="n">Xtrain</span><span class="p">,</span> <span class="n">Ytrain</span><span class="p">,</span> <span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can now enter our main loop:</p>
 
@@ -529,7 +546,7 @@ $$1 - \frac{100}{103} * \frac{99}{102} * ...* \frac{91}{94} = 0.266$$<p>26% actu
 <span class="n">run_experiment</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -539,7 +556,7 @@ $$1 - \frac{100}{103} * \frac{99}{102} * ...* \frac{91}{94} = 0.266$$<p>26% actu
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stderr output_text">
@@ -555,7 +572,7 @@ $$1 - \frac{100}{103} * \frac{99}{102} * ...* \frac{91}{94} = 0.266$$<p>26% actu
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -566,7 +583,7 @@ $$1 - \frac{100}{103} * \frac{99}{102} * ...* \frac{91}{94} = 0.266$$<p>26% actu
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -581,7 +598,7 @@ $$1 - \frac{100}{103} * \frac{99}{102} * ...* \frac{91}{94} = 0.266$$<p>26% actu
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -596,7 +613,7 @@ $$1 - \frac{100}{103} * \frac{99}{102} * ...* \frac{91}{94} = 0.266$$<p>26% actu
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -615,7 +632,8 @@ test score forest: 0.8192645918177106
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see here that the single tree performs the worst, then the baseline, and the random forest significantly outperforms the others.</p>
 
@@ -623,7 +641,8 @@ test score forest: 0.8192645918177106
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -650,13 +669,14 @@ test score forest: 0.8192645918177106
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">cross_val_score</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We have no numerical columns, and all categorical columns. Recall that there is no header row in the data file, so pandas will just number them as 1, 2, 3, and so on. Since the targets column name is 0, the first feature will have the name 1 and the last feature will have the column name 22. We can create an array of these numbers quickly by using numpy's <code>arange</code> function and adding 1.</p>
 
@@ -672,13 +692,14 @@ test score forest: 0.8192645918177106
 <span class="n">CATEGORICAL_COLS</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">22</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="c1"># 1..22 inclusive</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We then have our data transformer class, which is very similar to the previous data transformer, except now we have code to transform categorical columns. Ideally we would put all of the code into one data transformer class and put all of the code into that one class.</p>
 <p>For our numerical columns we will use SciKit Learn StandardScaler, and for categorical columns we will use SciKit Learns LabelEncoder. LabelEncoder will number the labels from 0 to k - 1, which allows us to use them as index's later on.</p>
@@ -744,13 +765,14 @@ test score forest: 0.8192645918177106
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We then have our <code>get_data</code> function. Once we load the file, we convert all of the e's and p's in the first column to 0s and 1s. We then tranform the data using DataTransformer and then return X and Y.</p>
 
@@ -777,13 +799,14 @@ test score forest: 0.8192645918177106
   <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The last step is the main section, where we get the data, and then run cross validation on our three models: The base case is logistic regression, and then we have the single tree and the random forest.</p>
 
@@ -810,7 +833,7 @@ test score forest: 0.8192645918177106
   <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CV forest:&quot;</span><span class="p">,</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -820,7 +843,7 @@ test score forest: 0.8192645918177106
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -837,7 +860,8 @@ CV forest: 0.9511391625615764
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see again that the random forest performs the best!</p>
 
@@ -845,7 +869,8 @@ CV forest: 0.9511391625615764
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -873,13 +898,14 @@ CV forest: 0.9511391625615764
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We now need to get the data. The first data set is a synthetic dataset. It just the sum of all the features squared plus some gaussian noise. You can comment that out and instead use the classification data, or the house price data.</p>
 
@@ -912,13 +938,14 @@ CV forest: 0.9511391625615764
 <span class="c1"># Xtrain, Ytrain, Xtest, Ytest = get_data()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We now can enter into our main loop. We set <strong>T</strong> to 300, so we are going to test ensembles of trees up to 300 trees. We create 2 arrays to store the test errors at each iteration. In the main loop we first check if num_trees is 0, and if so we skip it since there is not such thing as an ensemble with 0 trees. Next, we train our models and test them on the test data.</p>
 
@@ -958,7 +985,7 @@ CV forest: 0.9511391625615764
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -968,7 +995,7 @@ CV forest: 0.9511391625615764
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1008,7 +1035,7 @@ num_trees: 290
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1026,7 +1053,8 @@ num_trees: 290
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Notice how the random forest eventually does better than the bagged trees! Note the lack of overfitting in all cases. We converge to an asymptotic test error which does not go up as we add more trees. It is for this reason that people say <strong>random forest does not overfit</strong>. We will observe this behavior with <strong>boosting</strong> as well. Technically, we do still need to worry about overfitting, but not to the same extent as ensemble models.</p>
 
@@ -1034,7 +1062,8 @@ num_trees: 290
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -1059,13 +1088,14 @@ num_trees: 290
 <span class="kn">from</span> <span class="nn">util</span> <span class="k">import</span> <span class="n">BaggedTreeRegressor</span><span class="p">,</span> <span class="n">BaggedTreeClassifier</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>For this example we are going to be using the classification dataset, so we can import it and get our training and test sets to start.</p>
 
@@ -1083,7 +1113,7 @@ num_trees: 290
 <span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">Ntrain</span><span class="p">:],</span> <span class="n">Y</span><span class="p">[</span><span class="n">Ntrain</span><span class="p">:]</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1093,7 +1123,7 @@ num_trees: 290
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1107,7 +1137,8 @@ num_trees: 290
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Next we can define our <code>NotAsRandomForest</code> class, which is random but not quite as random as a true random forest. It still only takes in the number of base models and the constructor.</p>
 <p>The big difference is in the <code>fit</code> and <code>predict</code> functions. The <code>fit</code> function is a lot like the bagged tree model, expect that it also requires us to save which features we used in the fit function, so that we know which model goes with which features. This will be necessary to know when we do prediction. The <code>fit</code> function takes in an additional parameter <code>M</code>, which tells us how many features to subsample.</p>
@@ -1162,13 +1193,14 @@ num_trees: 290
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">P</span> <span class="o">==</span> <span class="n">Y</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The main loop is the same as the random forest vs. bagging example above, except we now have another array of errors to store the scores. The variable is named error, but it is actually accuracy.</p>
 
@@ -1213,7 +1245,7 @@ num_trees: 290
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1223,7 +1255,7 @@ num_trees: 290
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1283,7 +1315,7 @@ num_trees: 490
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1301,7 +1333,8 @@ num_trees: 490
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -1314,19 +1347,6 @@ num_trees: 490
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake

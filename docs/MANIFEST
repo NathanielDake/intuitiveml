@@ -53,7 +53,8 @@ docs/Machine_Learning/06-Ensemble_methods-03-Bootstrap-Estimates-and-Bagging.htm
 docs/Machine_Learning/06-Ensemble_methods-04-Random-Forest.html
 docs/Machine_Learning/06-Ensemble_methods-05-AdaBoost.html
 docs/Machine_Learning/06-Ensemble_methods-06-Summary-of-Concepts.html
-docs/Machine_Learning/07-Dimensionality_Reduction-PCA.html
+docs/Machine_Learning/07-Dimensionality_Reduction-01-PCA.html
+docs/Machine_Learning/07-Dimensionality_Reduction-01-SVD.html
 docs/Machine_Learning/08-Bayesian_Machine_Learning-01-Bayesian-Inference.html
 docs/Machine_Learning/08-Bayesian_Machine_Learning-02-Bayesian-AB-Testing.html
 docs/Machine_Learning/08-Bayesian_Machine_Learning-03-Bayes-Classifiers.html
@@ -74,12 +75,15 @@ docs/Mathematics/04-Statistics-03-statistical-inference.html
 docs/Mathematics/05-Information_Theory-01-Cross-Entropy-and-MLE-walkthrough.html
 docs/Mathematics/06-Functions-01-Composition-of-functions.html
 docs/Mathematics/06-Functions-02-Inverse-functions-exponentials-and-logarithms.html
+docs/Mathematics/07-Probability_Theory,_The_Logic_of_Science-01-Chapter-1.html
 docs/NLP.html
 docs/NLP.tpl
 docs/NLP/01-Introduction_to_NLP-01-Introduction.html
 docs/NLP/01-Introduction_to_NLP-Natural-Language-Corpus-Data.html
 docs/NLP/02-NLP_with_Deep_Learning-01-working-with-word-vectors.html
 docs/NLP/02-NLP_with_Deep_Learning-02-language-modeling-and-neural-networks.html
+docs/Projects.html
+docs/Projects.tpl
 docs/index.html
 docs/index.tpl
 docs/js/docs.js

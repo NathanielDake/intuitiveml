@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,7 +211,8 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="10.-Momentum-and-Adaptive-Learning-Rates">10. Momentum and Adaptive Learning Rates<a class="anchor-link" href="#10.-Momentum-and-Adaptive-Learning-Rates">&#182;</a></h1><p>We will now take a look at one of the most effective methods at improving plain gradient descent, called <strong>momentum</strong>. This can be thought of as the 80% factor to improve your learning procedure.</p>
 <p>A way to think of this is as follows: Gradient descent without momentum requires a <em>force</em> or <em>push</em> each time we want to get the weights to move. In other words, each time we want to move, there has to a be a gradient so that we can move in the direction of the gradient. If we had <strong>momentum</strong>, we can imagine that our update could keep moving, even without the gradient being present.</p>
@@ -219,9 +224,12 @@ body {
 $$\theta_t \leftarrow \theta_{t-1} - \eta g_{t-1}$$
 This says that $\theta_t$ is equal to the previous value of $theta$, minus the learning rate, times the gradient $g_t$. From this we can see that if the gradient is 0, nothing will happen to $\theta_t$. It just gets updated to it's old value and doesn't change.</p>
 <h2 id="1.2-Gradient-Descent,-with-Momentum">1.2 Gradient Descent, <em>with</em> Momentum<a class="anchor-link" href="#1.2-Gradient-Descent,-with-Momentum">&#182;</a></h2><p>Now let's say that we add in <strong>momentum</strong>. Note that the term momentum is used very loosely here, since it has nothing to do with actual physical momentum. What we do is create a new variable, $v$, which stands for the velocity. It is equal to $\mu$ (the momentum term) times its old velocity, minus the learning rate times the gradient. Notice that now, the gradient only directly influences the velocity, which in turn has an effect on the position (our weight vector), $\theta$.</p>
-$$v_t \leftarrow \mu v_{t-1} - \eta g_{t-1}$$<p>This new term, $\mu v_{t-1}$, gives us the ability to "slide on ice" if you will. In other words, it allows us to continue to move in the same direction that we were going before. Now, we talked about how if a box is sliding on ice, it will still stop eventually. That means that we are going to want our updated $v$ to be a fraction of the prior $v$, and hence $\mu$ should be a fraction. Typical values of $\mu$ are 0.9, 0.95, 0.99, etc. This means that without any $g$, the equation will still eventually "slow down". Our update rule for $\theta_t$ then becomes:</p>
-$$\theta_t \leftarrow \theta_{t-1} + v_t$$<p>Now, if we combine these two equations we can see that our total update rule is:</p>
-$$\theta_t \leftarrow \theta_{t-1} + \mu v_{t-1} -\eta g_{t-1} $$<p>And we can see that if we set the momentum term, $\mu$, equal to zero, we end up with the same update rule we originally had for gradient descent.</p>
+<p>$$v_t \leftarrow \mu v_{t-1} - \eta g_{t-1}$$</p>
+<p>This new term, $\mu v_{t-1}$, gives us the ability to "slide on ice" if you will. In other words, it allows us to continue to move in the same direction that we were going before. Now, we talked about how if a box is sliding on ice, it will still stop eventually. That means that we are going to want our updated $v$ to be a fraction of the prior $v$, and hence $\mu$ should be a fraction. Typical values of $\mu$ are 0.9, 0.95, 0.99, etc. This means that without any $g$, the equation will still eventually "slow down". Our update rule for $\theta_t$ then becomes:</p>
+<p>$$\theta_t \leftarrow \theta_{t-1} + v_t$$</p>
+<p>Now, if we combine these two equations we can see that our total update rule is:</p>
+<p>$$\theta_t \leftarrow \theta_{t-1} + \mu v_{t-1} -\eta g_{t-1} $$</p>
+<p>And we can see that if we set the momentum term, $\mu$, equal to zero, we end up with the same update rule we originally had for gradient descent.</p>
 <h2 id="1.3-The-Effect-of-Momentum">1.3 The Effect of Momentum<a class="anchor-link" href="#1.3-The-Effect-of-Momentum">&#182;</a></h2><p>You may be wondering, what is the effect of using momentum? Well we can see below that by using momentum, the cost converges to its minimum value much faster. This significantly speeds up training!</p>
 <p><img src="https://drive.google.com/uc?id=1-poOdEvq6lpTJjcOAV0-9MNbQ54ofBHt" width="500"></p>
 <p>From another perspective, we can think of a situation where we have unequal gradients in different directions. In the image below, we have a very large gradient that creates the valley (each side is very steep), and then in the other direction (the stream flowing down), it is a very small gradient.</p>
@@ -234,7 +242,8 @@ $$\theta_t \leftarrow \theta_{t-1} + \mu v_{t-1} -\eta g_{t-1} $$<p>And we can s
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></br></p>
@@ -259,30 +268,48 @@ $$\theta_t \leftarrow \theta_{t-1} + \mu v_{t-1} -\eta g_{t-1} $$<p>And we can s
 <p><img src="https://drive.google.com/uc?id=1YmBMpV5vWFwIfLDt-G5_prqSD8ha_pGp" width="250"></p>
 <p>Now, we have this jump ahead, which we can call $w'_{t-1}$. We can also think of it as just our previous weight position, plus the momentum step. It is in the same direction of our previous velocity vector (because remember, the first part of updating $v_t$ was the term $\mu v_{t-1}$, but it is slightly smaller since the jump is scaled by $\mu$:</p>
 <p><img src="https://drive.google.com/uc?id=1fJUGXjdcE6NC1W83c0xLE2g1ihxtmgfP" width="350"></p>
-$$look \; ahead\; value: \; w'_{t-1} = w_{t-1} +\mu v_{t-1}$$$$look \; ahead\; value: \; w'_{t-1} = v_{t-1} +\mu v_{t-1}$$<p>The above equations are equivalent because both $w_{t-1}$ and $v_{t-1}$ both have the same position (head each vector). Also, note that as seen in the image above, the jump ahead is just the previous value of the velocity (or previous weight position, $w_{t-1}$), plus the momentum term multiplied by the previous velocity. Next, we calculate the gradient at this jump ahead point, and then use that to update $v$:</p>
+<p>$$look \; ahead\; value: \; w'_{t-1} = w_{t-1} +\mu v_{t-1}$$
+$$look \; ahead\; value: \; w'_{t-1} = v_{t-1} +\mu v_{t-1}$$</p>
+<p>The above equations are equivalent because both $w_{t-1}$ and $v_{t-1}$ both have the same position (head each vector). Also, note that as seen in the image above, the jump ahead is just the previous value of the velocity (or previous weight position, $w_{t-1}$), plus the momentum term multiplied by the previous velocity. Next, we calculate the gradient at this jump ahead point, and then use that to update $v$:</p>
 <p><img src="https://drive.google.com/uc?id=19igElK8e3DBAle_jYMx17be38ADdL5d0" width="350"></p>
 <p><img src="https://drive.google.com/uc?id=1aRcNTcrqDAPA51g5tOaqvzD9cScrYPiw" width="350"></p>
-$$v_t \leftarrow \mu v_{t-1} - \eta \nabla J(w'_{t-1})$$<p>Which is equal to:</p>
-$$v_t \leftarrow \mu v_{t-1} - \eta \nabla J(w_{t-1} +\mu v_{t-1})$$<p>And then the last step is to update $w_t$, the accumulated gradient, which is the same as it was for standard momentum:</p>
+<p>$$v_t \leftarrow \mu v_{t-1} - \eta \nabla J(w'_{t-1})$$</p>
+<p>Which is equal to:</p>
+<p>$$v_t \leftarrow \mu v_{t-1} - \eta \nabla J(w_{t-1} +\mu v_{t-1})$$</p>
+<p>And then the last step is to update $w_t$, the accumulated gradient, which is the same as it was for standard momentum:</p>
 <p><img src="https://drive.google.com/uc?id=1XQ6Q-veJkvf3EWLD23OnkBvxt867iV2E" width="350"></p>
-$$w_t \leftarrow w_{t-1} + v_t$$<p>The main difference to note is that in the standard method we are taking the gradient from the current position of $w$, and also making our momentum step from the current position of $w$, whereas in the Nesterov method we first take our momentum step from the current position of $w$, then correct by taking the gradient from that position. For a great link that goes over this topic in more detail, checkout out the follow: <a href="http://cs231n.github.io/neural-networks-3/">http://cs231n.github.io/neural-networks-3/</a></p>
+<p>$$w_t \leftarrow w_{t-1} + v_t$$</p>
+<p>The main difference to note is that in the standard method we are taking the gradient from the current position of $w$, and also making our momentum step from the current position of $w$, whereas in the Nesterov method we first take our momentum step from the current position of $w$, then correct by taking the gradient from that position. For a great link that goes over this topic in more detail, checkout out the follow: <a href="http://cs231n.github.io/neural-networks-3/">http://cs231n.github.io/neural-networks-3/</a></p>
 <hr>
 <p><br></br></p>
 <h2 id="2.3-Reformulation">2.3 Reformulation<a class="anchor-link" href="#2.3-Reformulation">&#182;</a></h2><p>However, in practice, this is not how nesterov momentum is usually implemented. Instead, we will reformulate the equations. Let's try and express everything only in terms of $w'$, our lookahead value of $w$, and it is where we want to calculate the gradient from. So, we can define $w'_t$ and $w'_{t-1}$ using the same definition:</p>
-<h3 id="2.3.1-Redefine-in-terms-of-$w'$">2.3.1 Redefine in terms of $w'$<a class="anchor-link" href="#2.3.1-Redefine-in-terms-of-$w'$">&#182;</a></h3>$$w'_t = w_t + \mu v_t$$$$w'_{t-1} = w_{t-1} + \mu v_{t-1}$$<p>In other words, these are the lookahead values of $w$ at two consecutive steps. The second equation is seen in the below:</p>
+<h3 id="2.3.1-Redefine-in-terms-of-$w'$">2.3.1 Redefine in terms of $w'$<a class="anchor-link" href="#2.3.1-Redefine-in-terms-of-$w'$">&#182;</a></h3><p>$$w'_t = w_t + \mu v_t$$
+$$w'_{t-1} = w_{t-1} + \mu v_{t-1}$$</p>
+<p>In other words, these are the lookahead values of $w$ at two consecutive steps. The second equation is seen in the below:</p>
 <p><img src="https://drive.google.com/uc?id=1U4RFAtJD5YFOqPxHtDWe3CyYrbyHfhvt" width="350"></p>
 <p>So, remember, the look ahead value can just be thought of as the step in the direction of the previous velocity, from the current weight vector postion. Next lets recall our updates for $v$ and $w$.</p>
-<h3 id="2.3.2-Recall-updates-for-$v$-and-$w$">2.3.2 Recall updates for $v$ and $w$<a class="anchor-link" href="#2.3.2-Recall-updates-for-$v$-and-$w$">&#182;</a></h3>$$v_t = \mu v_{t-1} - \eta \nabla J(w'_{t-1})$$$$w_t = w_{t-1} + v_t$$<p>From here we can substitute $w'$ for $w$</p>
-<h3 id="2.3.3-Substitute-$w'$-for-$w$">2.3.3 Substitute $w'$ for $w$<a class="anchor-link" href="#2.3.3-Substitute-$w'$-for-$w$">&#182;</a></h3>$$w'_t - \mu v_t = w'_{t-1} - \mu v_{t-1} + v_t$$<h3 id="2.3.4-Combine-like-terms-on-the-right">2.3.4 Combine like terms on the right<a class="anchor-link" href="#2.3.4-Combine-like-terms-on-the-right">&#182;</a></h3>$$w'_t = w'_{t-1} -\mu v_{t-1} + (1 + \mu)v_t$$<h3 id="2.3.5-Get-rid-of-$v_t$-term">2.3.5 Get rid of $v_t$ term<a class="anchor-link" href="#2.3.5-Get-rid-of-$v_t$-term">&#182;</a></h3><p>We can get ride of the $v_t$ term on the right by replacing it with an expression in terms of $v_{t-1}$. 
+<h3 id="2.3.2-Recall-updates-for-$v$-and-$w$">2.3.2 Recall updates for $v$ and $w$<a class="anchor-link" href="#2.3.2-Recall-updates-for-$v$-and-$w$">&#182;</a></h3><p>$$v_t = \mu v_{t-1} - \eta \nabla J(w'_{t-1})$$
+$$w_t = w_{t-1} + v_t$$</p>
+<p>From here we can substitute $w'$ for $w$</p>
+<h3 id="2.3.3-Substitute-$w'$-for-$w$">2.3.3 Substitute $w'$ for $w$<a class="anchor-link" href="#2.3.3-Substitute-$w'$-for-$w$">&#182;</a></h3><p>$$w'_t - \mu v_t = w'_{t-1} - \mu v_{t-1} + v_t$$</p>
+<h3 id="2.3.4-Combine-like-terms-on-the-right">2.3.4 Combine like terms on the right<a class="anchor-link" href="#2.3.4-Combine-like-terms-on-the-right">&#182;</a></h3><p>$$w'_t = w'_{t-1} -\mu v_{t-1} + (1 + \mu)v_t$$</p>
+<h3 id="2.3.5-Get-rid-of-$v_t$-term">2.3.5 Get rid of $v_t$ term<a class="anchor-link" href="#2.3.5-Get-rid-of-$v_t$-term">&#182;</a></h3><p>We can get ride of the $v_t$ term on the right by replacing it with an expression in terms of $v_{t-1}$. 
 $$w'_t = w'_{t-1} - \mu v_{t-1} + (1+\mu) \Big[\mu v_{t-1} - \eta \nabla J (w'_{t-1})\Big]$$</p>
-<h3 id="2.3.6-Combine-like-terms,-arrive-at-Nesterov-momentum-update">2.3.6 Combine like terms, arrive at Nesterov momentum update<a class="anchor-link" href="#2.3.6-Combine-like-terms,-arrive-at-Nesterov-momentum-update">&#182;</a></h3>$$w'_t = w'_{t-1} + \mu^2 v_{t-1} - (1+\mu)\eta \nabla J (w'_{t-1})$$<p>This equation is the one that you will most often see when people are discussing nesterov momentum.</p>
+<h3 id="2.3.6-Combine-like-terms,-arrive-at-Nesterov-momentum-update">2.3.6 Combine like terms, arrive at Nesterov momentum update<a class="anchor-link" href="#2.3.6-Combine-like-terms,-arrive-at-Nesterov-momentum-update">&#182;</a></h3><p>$$w'_t = w'_{t-1} + \mu^2 v_{t-1} - (1+\mu)\eta \nabla J (w'_{t-1})$$
+This equation is the one that you will most often see when people are discussing nesterov momentum.</p>
 <hr>
 <p><br></br></p>
 <h2 id="2.4-Regular-vs.-Nesterov-Momentum">2.4 Regular vs. Nesterov Momentum<a class="anchor-link" href="#2.4-Regular-vs.-Nesterov-Momentum">&#182;</a></h2><p>So, to quickly recap, the equation for <strong>regular momentum</strong> is:</p>
-$$w_t = w_{t-1} + \mu v_{t-1} - \eta \nabla J (w_{t-1})$$<p>And <strong>Nesterov Momentum</strong> is defined as:</p>
-$$w'_t = w'_{t-1} + \mu^2 v_{t-1} - (1+ \mu) \eta \nabla (w'_{t-1})$$<p>We can see that they each have a similar form. There is a previous $w$ term, a previous velocity term, and a previous gradient term. And if we take the nesterov equation, and plug phrase our $w'_t$ update in terms of $v_t$, we can see that the equations have an even greater resemblance:</p>
-$$v_t = \mu v_{t-1} - \eta \nabla J (w'_{t-1})$$$$w'_t = w'_{t-1} + \mu v_t - \eta \nabla J (w'_{t-1})$$<p>The question may arise, why is this useful? What is the point of all of this algebraic manuipulation? Well, we have expressed the nesterov momentum update entirely in terms of all the look ahead $w'$s, so the actual non look ahead $w$s are never needed. We can just treat $w$, whatever it may be, as if they were the lookahead values. In other words, lets just drop the prime symbols!</p>
-$$v_t = \mu v_{t-1} - \eta \nabla J (w_{t-1})$$$$w_t = w_{t-1} + \mu v_t - \eta \nabla J (w_{t-1})$$<p>So we can see that similar to regular momentum, we just proceed in two steps.</p>
+<p>$$w_t = w_{t-1} + \mu v_{t-1} - \eta \nabla J (w_{t-1})$$</p>
+<p>And <strong>Nesterov Momentum</strong> is defined as:</p>
+<p>$$w'_t = w'_{t-1} + \mu^2 v_{t-1} - (1+ \mu) \eta \nabla (w'_{t-1})$$</p>
+<p>We can see that they each have a similar form. There is a previous $w$ term, a previous velocity term, and a previous gradient term. And if we take the nesterov equation, and plug phrase our $w'_t$ update in terms of $v_t$, we can see that the equations have an even greater resemblance:</p>
+<p>$$v_t = \mu v_{t-1} - \eta \nabla J (w'_{t-1})$$
+$$w'_t = w'_{t-1} + \mu v_t - \eta \nabla J (w'_{t-1})$$</p>
+<p>The question may arise, why is this useful? What is the point of all of this algebraic manuipulation? Well, we have expressed the nesterov momentum update entirely in terms of all the look ahead $w'$s, so the actual non look ahead $w$s are never needed. We can just treat $w$, whatever it may be, as if they were the lookahead values. In other words, lets just drop the prime symbols!</p>
+<p>$$v_t = \mu v_{t-1} - \eta \nabla J (w_{t-1})$$
+$$w_t = w_{t-1} + \mu v_t - \eta \nabla J (w_{t-1})$$</p>
+<p>So we can see that similar to regular momentum, we just proceed in two steps.</p>
 <ol>
 <li>First we calculate the new $v$ from the old $v$ and the gradient</li>
 <li>Then we update $w$ using the new $v$</li>
@@ -301,7 +328,8 @@ $$w_t = w_{t-1} + \mu v_t - \eta \nabla J (w_{t-1})$$</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></br></p>
@@ -328,13 +356,14 @@ $$w_t = w_{t-1} + \mu v_t - \eta \nabla J (w_{t-1})$$</p>
 <span class="kn">from</span> <span class="nn">util</span> <span class="k">import</span> <span class="n">get_normalized_data</span><span class="p">,</span> <span class="n">error_rate</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">y2indicator</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And now lets quickly define our <code>forward</code> and derivative functions. Note that I have commented out the sigmoid code, but they can be performed with the sigmoid instead of the ReLU.</p>
 
@@ -374,13 +403,14 @@ $$w_t = w_{t-1} + \mu v_t - \eta \nabla J (w_{t-1})$$</p>
     <span class="k">return</span> <span class="p">((</span> <span class="n">Y</span><span class="o">-</span><span class="n">T</span> <span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W2</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Z</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># for relu</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>For this example we have imported <code>get_normalized_data</code>, which means that we will be using the full 784 dimensionality data set. Now lets define our setup function, where the goal is to prep our data for the 3 scenarios discussed above:</p>
 
@@ -427,7 +457,7 @@ $$w_t = w_{t-1} + \mu v_t - \eta \nabla J (w_{t-1})$$</p>
 <span class="n">b2_0</span> <span class="o">=</span> <span class="n">b2</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>    
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -437,7 +467,7 @@ $$w_t = w_{t-1} + \mu v_t - \eta \nabla J (w_{t-1})$$</p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -451,7 +481,8 @@ $$w_t = w_{t-1} + \mu v_t - \eta \nabla J (w_{t-1})$$</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="1.-Batch-Gradient-Descent,-no-Momentum">1. Batch Gradient Descent, no Momentum<a class="anchor-link" href="#1.-Batch-Gradient-Descent,-no-Momentum">&#182;</a></h3>
 </div>
@@ -496,7 +527,7 @@ $$w_t = w_{t-1} + \mu v_t - \eta \nabla J (w_{t-1})$$</p>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------------------------&quot;</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -506,7 +537,7 @@ $$w_t = w_{t-1} + \mu v_t - \eta \nabla J (w_{t-1})$$</p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -881,7 +912,8 @@ Final error rate: 0.076
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="2.-Batch-Gradient-Descent,-Regular-Momentum">2. Batch Gradient Descent, Regular Momentum<a class="anchor-link" href="#2.-Batch-Gradient-Descent,-Regular-Momentum">&#182;</a></h3>
 </div>
@@ -949,7 +981,7 @@ Final error rate: 0.076
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------------------------&quot;</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -959,7 +991,7 @@ Final error rate: 0.076
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1334,7 +1366,8 @@ Final error rate: 0.043
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="3.-Batch-Gradient-Descent,-Nesterov-Momentum">3. Batch Gradient Descent, Nesterov Momentum<a class="anchor-link" href="#3.-Batch-Gradient-Descent,-Nesterov-Momentum">&#182;</a></h3>
 </div>
@@ -1403,7 +1436,7 @@ Final error rate: 0.043
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------------------------&quot;</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1413,7 +1446,7 @@ Final error rate: 0.043
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1788,7 +1821,8 @@ Final error rate: 0.042
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="4.-Plot-all-likelihoods">4. Plot all likelihoods<a class="anchor-link" href="#4.-Plot-all-likelihoods">&#182;</a></h3>
 </div>
@@ -1807,7 +1841,7 @@ Final error rate: 0.042
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1817,16 +1851,16 @@ Final error rate: 0.042
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
 
 
-<div id="8b4e1af0-de02-410f-be9c-99185c658a0d"></div>
+<div id="e076c68f-e5b0-487d-8b77-dbbc03c3ec3f"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#8b4e1af0-de02-410f-be9c-99185c658a0d');
+var element = $('#e076c68f-e5b0-487d-8b77-dbbc03c3ec3f');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -2601,7 +2635,7 @@ if (IPython.notebook.kernel != null) {
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -2616,7 +2650,8 @@ if (IPython.notebook.kernel != null) {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></br></p>
@@ -2625,7 +2660,8 @@ if (IPython.notebook.kernel != null) {
 <h2 id="4.1-Variable-Learning-Rates">4.1 Variable Learning Rates<a class="anchor-link" href="#4.1-Variable-Learning-Rates">&#182;</a></h2><p>The first new learning rate we will look at is a <strong>variable learning rate</strong>, e.g. a learning rate that is a function of time, $\eta(t)$. This is sometimes referred to as "Learning rate scheduling". The first one worth mentioning is:</p>
 <h3 id="4.1.1-Step-Decay">4.1.1 Step Decay<a class="anchor-link" href="#4.1.1-Step-Decay">&#182;</a></h3><p>Periodically, say ever 100 iterations, we will reduce the learning rate by a constant factor. For example, if we constantly divide by 2, we will half it each time. <br></p>
 <h3 id="4.1.2-Exponential-Decay">4.1.2 Exponential Decay<a class="anchor-link" href="#4.1.2-Exponential-Decay">&#182;</a></h3><p>In this method the learning rate follows and exponential curve:</p>
-$$\eta(t) = A * e^{-kt}$$<p><img src="https://drive.google.com/uc?id=1-8lpPA4qhPejHlLpAMZ9nyfLSwvY9QqX"></p>
+<p>$$\eta(t) = A * e^{-kt}$$</p>
+<p><img src="https://drive.google.com/uc?id=1-8lpPA4qhPejHlLpAMZ9nyfLSwvY9QqX"></p>
 <h3 id="4.1.3-$\frac{1}{t}$-decay">4.1.3 $\frac{1}{t}$ decay<a class="anchor-link" href="#4.1.3-$\frac{1}{t}$-decay">&#182;</a></h3><p>Here the learning rate will decay proportionally to $\frac{1}{t}$:
 $$\eta(t) = \frac{A}{kt + 1 }$$
 In this case the dropoff is slower than exponential decay.</p>
@@ -2639,20 +2675,25 @@ In this case the dropoff is slower than exponential decay.</p>
 <p><br></p>
 <h3 id="4.2.1-AdaGrad">4.2.1 AdaGrad<a class="anchor-link" href="#4.2.1-AdaGrad">&#182;</a></h3><p>The first adaptive learning technique we will go over is <strong>AdaGrad</strong>. The main idea behind it is this: we cannot expect the dependence of the cost on each of the parameters to be the same. In other words, in one direction the gradient may be very steep, but in another direction the gradient may be very flat. So, perhaps it may be beneficial to adapt the learning rate for each parameter individually, based on how much it has changed in the past.</p>
 <p>So, in AdaGrad what we do is introduce a variable called the <strong>cache</strong>.</p>
-$$cache = cache + gradient^2$$$$w \leftarrow w - \eta \frac{\nabla J}{\sqrt{cache + \epsilon }}$$<p>Each parameter of the neural network has its own cache, so for example if you have one weight matrix of size (3 x 4), you will also have a cache matrix of size (3 x 4). The same thing applies to the bias vectors.</p>
+<p>$$cache = cache + gradient^2$$</p>
+<p>$$w \leftarrow w - \eta \frac{\nabla J}{\sqrt{cache + \epsilon }}$$</p>
+<p>Each parameter of the neural network has its own cache, so for example if you have one weight matrix of size (3 x 4), you will also have a cache matrix of size (3 x 4). The same thing applies to the bias vectors.</p>
 <p>The idea behind the cache is that it is going to accumulate the squared gradients. Because we are squaring the gradients, the cache is always going to be positive. And because each parameter has its own cache, then if one parameter has had a lot of large gradients in the past, then its cache will be very large, and its effective learning rate will be very small, and it will change more slowly in the future. On the other hand, if a parameter has had a lot of small gradients in the past then it's cache will be small, so its respective learning rate will remain large, and it will have more opportunity to change in the future.</p>
 <p>One small thing to keep in mind is that we usually add a small number $\epsilon$ to the denominator in order to prevent dividing by 0. This is generally set to $10^{-8}$ or $10^{-10}$.</p>
 <p>One important thing to stress about AdaGrad is that everything we are doing is an element-wise operation. In other words, each scalar parameter and its learning rate is effectively updated independently of the others. So you can look at the rules that we presented as scalar updates that apply to all of the parameters, or you can think of one huge parameter vector that contains all of the neural network parameters, and that each of the operations is an element wise operation.</p>
 <h3 id="4.2.2-RMSProp">4.2.2 RMSProp<a class="anchor-link" href="#4.2.2-RMSProp">&#182;</a></h3><p>This next technique builds on the fact that researchers have found that AdaGrad decreases the learning rate too aggresively. In this case, the learning rate would approach 0 too quickly, when in fact there was still learning to be done. The method introduced to fix this is called <strong>RMSProp</strong>, and it was introduced by Geoff Hinton and team. It works as follows:</p>
 <p>The reason that AdaGrad decrease the learning rate too quickly is because the cache is growing too fast. So in order to make the cache grow more slowly, we actually decrease it each time we update it. This is done by taking a weighted average of the old cache and the new squared gradient. We call this weight the decay weight, and we can see that the two weights add up to 1.</p>
-$$cache = decay*cache +(1 - decay)*gradient^2$$<p>Typical values for the decay are 0.99, 0.999, etc. The intuition for these choices will be discussed in later lectures. By doing this, we say that we are making the cache "leaky". The reasoning it is leaking is because we can imagine that if we had 0 gradient for a long time, eventually the cache would shrink back down to 0, because it would be decreased by the decay rate on each round</p>
+<p>$$cache = decay*cache +(1 - decay)*gradient^2$$</p>
+<p>Typical values for the decay are 0.99, 0.999, etc. The intuition for these choices will be discussed in later lectures. By doing this, we say that we are making the cache "leaky". The reasoning it is leaking is because we can imagine that if we had 0 gradient for a long time, eventually the cache would shrink back down to 0, because it would be decreased by the decay rate on each round</p>
 <p>Note that there is some ambiguity in the RMSProp and AdaGrad algorithms. Specifically, this can be seen in the context of RMSProp. The ambiguity arises from the initial value of the cache. You may automatically assume that 0 is a good value, but this actually has a very strange effect. We can let:
 $$decay = 0.99$$ 
 And that means our initial update for the cache is:</p>
-$$0.001g^2$$<p>And hence our initial update is (ignoring epsilon): 
+<p>$$0.001g^2$$
+And hence our initial update is (ignoring epsilon): 
 $$\frac{\eta g}{\sqrt{0.001g^2}}$$
 Which ends up being very large, because the denominator is very small. What you would have to do is compensate by making you initial learning rate smaller than usual. One solution to this however, is just to set the cache to 1 instead. By manipulating the RMSProp update, we can show that this is what we would get if we were not doing RMSProp at all:</p>
-$$\nabla w = \eta \frac{g}{\sqrt{1 + 0.001 g^2}} \approx \eta g$$<p>You may still be wondering which way is the correct way to go about things? Well, in <strong>TensorFlow</strong> the cache is initialized to 1. In <strong>Keras</strong> the cache is initialized to 0.</p>
+<p>$$\nabla w = \eta \frac{g}{\sqrt{1 + 0.001 g^2}} \approx \eta g$$</p>
+<p>You may still be wondering which way is the correct way to go about things? Well, in <strong>TensorFlow</strong> the cache is initialized to 1. In <strong>Keras</strong> the cache is initialized to 0.</p>
 <h2 id="4.3-Summary-Pseudocode">4.3 Summary Pseudocode<a class="anchor-link" href="#4.3-Summary-Pseudocode">&#182;</a></h2><p><strong>AdaGrad</strong></p>
 
 <pre><code># at every batch
@@ -2670,7 +2711,8 @@ Epsilon is generally 10e-8, 10e-9, 10e-10, and decay is generally 0.9, 0.99, 0.9
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -2706,13 +2748,14 @@ Epsilon is generally 10e-8, 10e-9, 10e-10, and decay is generally 0.9, 0.99, 0.9
     
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And now for our imports.</p>
 
@@ -2731,13 +2774,14 @@ Epsilon is generally 10e-8, 10e-9, 10e-10, and decay is generally 0.9, 0.99, 0.9
 <span class="kn">from</span> <span class="nn">util</span> <span class="k">import</span> <span class="n">get_normalized_data</span><span class="p">,</span> <span class="n">error_rate</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">y2indicator</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we can start our main function:</p>
 
@@ -2874,7 +2918,7 @@ Epsilon is generally 10e-8, 10e-9, 10e-10, and decay is generally 0.9, 0.99, 0.9
 <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -2884,7 +2928,7 @@ Epsilon is generally 10e-8, 10e-9, 10e-10, and decay is generally 0.9, 0.99, 0.9
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3619,7 +3663,7 @@ Final error rate: 0.03
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -3637,36 +3681,53 @@ Final error rate: 0.03
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
 <h1 id="6.-Adam-Optimizer">6. Adam Optimizer<a class="anchor-link" href="#6.-Adam-Optimizer">&#182;</a></h1><p>One of the newest and most common optimization techniques these days is known as the <strong>Adam Optimizer</strong> (link to original paper here: <a href="https://arxiv.org/pdf/1412.6980.pdf">https://arxiv.org/pdf/1412.6980.pdf</a>). It is going to be given it's own section all together, since as of 2017 it is often considered the go to optimizer for those doing deep learning. Sometimes, people will talk about <strong>Adam</strong> by saying it is like RMSprop, but <em>with</em> momentum. This can be slightly confusing though, considering that TensorFlow has RMSprop, and allows you to add momentum to it, which is <em>not</em> Adam. In other words, you can have RMSprop with momentum, but that doesn't give you Adam-it just gives you RMSprop with momentum. Adam does, in a sense, add something like momentum to RMSprop, but in a very specific way. In order to fully understand <strong>Adam</strong>, we first need to look at part of the theory that it is dependent on: <strong>Exponentially-Smoothed Averages</strong>.</p>
 <h2 id="6.1-Exponentially-Smoothed-Averages">6.1 Exponentially Smoothed Averages<a class="anchor-link" href="#6.1-Exponentially-Smoothed-Averages">&#182;</a></h2><p>We are going to take a minute to dig into something that may seem straight forward: How to calculate an average. The first thought we all have when being asked to do this is: Why not just add all of the sample data points, and then divide by the number of data points, resulting in the sample mean:</p>
-$$\bar{X}_N = \frac{1}{N}\sum_{n=1}^NX_n$$<p>But now let's suppose that you have a large amount of data-so much so that all of your X's cannot fit into memory at the same time. Is it still possible to calculate the sample mean? Yes it is! We can read in one data point at a time, and then delete each data point after we've looked at it. It is shown below that the current sample mean can actually be expressed in terms of the previous sample mean and the current data point.</p>
-$$\bar{X}_N =  \frac{1}{N}\sum_{n=1}^NX_n = \frac{1}{N}\Big((N-1)\bar{X}_{N-1} + X_N \Big) = (1 - \frac{1}{N})\bar{X}_{N-1}+\frac{1}{N}X_N$$<p>We can then express this using simpler symbols. We can call $Y$ our output, and we can use $t$ to represent the current time step:</p>
-$$Y_t = (1 - \frac{1}{t})Y_{t-1} + \frac{1}{t}X_t$$<p>Great, so we have solved our problem of how to calculate the sample mean when we can't fit all of the data into memory, but we can see that there is this $\frac{1}{t}$ term. This says that as $t$ grows larger, the current sample has less and less of an effect on the total mean. Clearly this makes sense, because as $t$ grows that means the total number of $X$'s we've seen has grown. We also decrease the influence of the previous $Y$ by $1 - \frac{1}{t}$. This means that each new $Y$ is just part of the old $Y$, plus part of the newest $X$. But in the end, it balances out to give us exactly the sample mean of $X$.</p>
+<p>$$\bar{X}_N = \frac{1}{N}\sum_{n=1}^NX_n$$</p>
+<p>But now let's suppose that you have a large amount of data-so much so that all of your X's cannot fit into memory at the same time. Is it still possible to calculate the sample mean? Yes it is! We can read in one data point at a time, and then delete each data point after we've looked at it. It is shown below that the current sample mean can actually be expressed in terms of the previous sample mean and the current data point.</p>
+<p>$$\bar{X}_N =  \frac{1}{N}\sum_{n=1}^NX_n = \frac{1}{N}\Big((N-1)\bar{X}_{N-1} + X_N \Big) = (1 - \frac{1}{N})\bar{X}_{N-1}+\frac{1}{N}X_N$$</p>
+<p>We can then express this using simpler symbols. We can call $Y$ our output, and we can use $t$ to represent the current time step:</p>
+<p>$$Y_t = (1 - \frac{1}{t})Y_{t-1} + \frac{1}{t}X_t$$</p>
+<p>Great, so we have solved our problem of how to calculate the sample mean when we can't fit all of the data into memory, but we can see that there is this $\frac{1}{t}$ term. This says that as $t$ grows larger, the current sample has less and less of an effect on the total mean. Clearly this makes sense, because as $t$ grows that means the total number of $X$'s we've seen has grown. We also decrease the influence of the previous $Y$ by $1 - \frac{1}{t}$. This means that each new $Y$ is just part of the old $Y$, plus part of the newest $X$. But in the end, it balances out to give us exactly the sample mean of $X$.</p>
 <p>For convenience we can call this $\frac{1}{t}$ term $\alpha_t$. What if we were to say that we did not want $\alpha$ to be $\frac{1}{t}$? What if we said that we wanted each data point to matter equally at the time that we see it, so that we can set alpha to be a constant? Of course, $\alpha$ needs to be less than 1 so that we don't end up negating the previous mean.</p>
-$$0 &lt; \alpha_t = constant &lt; 1 $$$$Y_t = (1 - \alpha)Y_{t-1} + \alpha X_t$$<p>So what does this give us?</p>
+<p>$$0 &lt; \alpha_t = constant &lt; 1 $$
+$$Y_t = (1 - \alpha)Y_{t-1} + \alpha X_t$$</p>
+<p>So what does this give us?</p>
 <h3 id="6.1.1-The-Exponentially-smoothed-average">6.1.1 The Exponentially-smoothed average<a class="anchor-link" href="#6.1.1-The-Exponentially-smoothed-average">&#182;</a></h3><p>This gives us what is called the exponentially smoothed average! We can see why it is called exponential when we express it in terms of only $X$'s.</p>
-$$Y_t = (1 - \alpha)^tY_0 + \alpha \sum_{\tau = 0}^{t - 1}(1- \alpha)^\tau X(t- \tau)$$<p>If the equation above is not clear, the expansion below should clear up where everything is coming from and <em>why</em> this is called exponential. Let's say we are looking at $Y_{100}$:</p>
-$$Y_{100} = (1-\alpha)^{100}Y_0 + \alpha * X_{100} + \alpha * (1 - \alpha)^1*X_{99} + \alpha * (1 - \alpha)^2 * X_{98}+ ...$$<p>We can see the exponential term start to accumulate along the $(1 - alpha)$! Now, does this still give us the mean, aka the expected value of $X$? Well, if you take the expected value of everything, we can see that we arrive at the expected value of $X$:</p>
-$$(1 - \alpha)E[y(t-1)] + \alpha E[X(t)] = (1-\alpha)E(X) + \alpha E(X) = E(X)$$<p>We do arrive at the expected value of $X$, so we can see that the math does checkout! Of course, this is assuming that the distribution of $X$ does not change over time. Note that if you have come from a signal processing background, you may recognize this as a <strong>low-pass filter</strong>. Another way to think about this is that you are saying <em>current values matter more</em>, and <em>past values matter less</em> in an exponentially decreasing way. So, if $X$ is not stationary (meaning it's distribution changes over time), then this is actually a better way to estimate the mean (average) then weighting all data points equally over all time.</p>
+<p>$$Y_t = (1 - \alpha)^tY_0 + \alpha \sum_{\tau = 0}^{t - 1}(1- \alpha)^\tau X(t- \tau)$$</p>
+<p>If the equation above is not clear, the expansion below should clear up where everything is coming from and <em>why</em> this is called exponential. Let's say we are looking at $Y_{100}$:</p>
+<p>$$Y_{100} = (1-\alpha)^{100}Y_0 + \alpha * X_{100} + \alpha * (1 - \alpha)^1*X_{99} + \alpha * (1 - \alpha)^2 * X_{98}+ ...$$</p>
+<p>We can see the exponential term start to accumulate along the $(1 - alpha)$! Now, does this still give us the mean, aka the expected value of $X$? Well, if you take the expected value of everything, we can see that we arrive at the expected value of $X$:</p>
+<p>$$(1 - \alpha)E[y(t-1)] + \alpha E[X(t)] = (1-\alpha)E(X) + \alpha E(X) = E(X)$$</p>
+<p>We do arrive at the expected value of $X$, so we can see that the math does checkout! Of course, this is assuming that the distribution of $X$ does not change over time. Note that if you have come from a signal processing background, you may recognize this as a <strong>low-pass filter</strong>. Another way to think about this is that you are saying <em>current values matter more</em>, and <em>past values matter less</em> in an exponentially decreasing way. So, if $X$ is not stationary (meaning it's distribution changes over time), then this is actually a better way to estimate the mean (average) then weighting all data points equally over all time.</p>
 <h2 id="6.2-Exponentially-Smoothed-Average's-and-Adam">6.2 Exponentially Smoothed Average's and Adam<a class="anchor-link" href="#6.2-Exponentially-Smoothed-Average's-and-Adam">&#182;</a></h2><p>Now, how does this apply to the <strong>Adam Optimizer</strong>? Well, if we call the sample mean of $T$ samples, $M_T$, we write $M_T$ as:
 $$M_T = \frac{1}{T} \sum_{t=1}^TX_t = \frac{1}{T}\sum_{t=1}^{T-1}X_t+\frac{1}{T}X_T = (1 - \frac{1}{T})M_{T-1}+\frac{1}{T}X_T$$</p>
 <p>Where $X_T$ is the new sample, and $M_{T-1}$ is the previous mean. This means that instead of needing to store all of the $X$'s, all we need to store is the current $X$ and the previous $M$, and then we calculate the current $M$.</p>
 <p>Now, you may notice that there is this $\frac{1}{T}$ term that occurs in the equation. It is reasonable to ask: "What is we set this term to be a constant?" Then, we get back <strong>precisely</strong> what looks like the <strong>cache update</strong> from <strong>RMSProp</strong>!</p>
-$$M_T = decay*M_{T-1} + (1 - decay)X_T$$<h2 id="6.3-What-is-the-cache-of-RMSProp-estimating?">6.3 What is the cache of RMSProp estimating?<a class="anchor-link" href="#6.3-What-is-the-cache-of-RMSProp-estimating?">&#182;</a></h2><p>At this point, it is a very reasonable thing to ask: "What is the cache of RMSProp really estimating?" Well, it is really estimating the mean of the square of the gradient!</p>
+<p>$$M_T = decay*M_{T-1} + (1 - decay)X_T$$</p>
+<h2 id="6.3-What-is-the-cache-of-RMSProp-estimating?">6.3 What is the cache of RMSProp estimating?<a class="anchor-link" href="#6.3-What-is-the-cache-of-RMSProp-estimating?">&#182;</a></h2><p>At this point, it is a very reasonable thing to ask: "What is the cache of RMSProp really estimating?" Well, it is really estimating the mean of the square of the gradient!</p>
 <p><img src="https://drive.google.com/uc?id=16P1WvLt-U6g4ywRjHcFZM-z1ir3IQWYs"></p>
 <p><img src="https://drive.google.com/uc?id=1ECbBAnRz0tU9FARYdFlcTBb_YgP13CMo"></p>
-$$v_t = decay * v_{t-1} + (1 - decay)*g^2 \approx mean(g^2)$$<p>And because we eventually take the square root of the cache, now you can see where RMSProp gets its name (RMS= "root mean square").</p>
+<p>$$v_t = decay * v_{t-1} + (1 - decay)*g^2 \approx mean(g^2)$$</p>
+<p>And because we eventually take the square root of the cache, now you can see where RMSProp gets its name (RMS= "root mean square").</p>
 <h2 id="6.4-Second-Moment">6.4 Second Moment<a class="anchor-link" href="#6.4-Second-Moment">&#182;</a></h2><p>Also, it is worth remembering that the <strong>mean</strong> of a <strong>random variable</strong> can also be phrased as an <strong>expected value</strong>, aka: $mean(X) = E(X)$. In particular, when we take the expected value of the square of a random variable, we get the <strong>second moment</strong>:
 $$E(X^2) = 2nd \;moment\;of\;X$$</p>
 <p>So, $E(g^2)$ is the second moment of the gradient, and we calculate it using this exponentially smoothed average. We are going to refer to it as $v$ from now on, since the <strong>2nd central moment</strong> of a random variable is the definition of variance.</p>
-$$v \approx E(g^2)$$$$M_T = (1 - \frac{1}{T})M_{T-1}+\frac{1}{T}X_T$$$$v_t = decay * v_{t-1} + (1 - decay)*g^2$$<h2 id="6.5-First-Moment">6.5 First Moment<a class="anchor-link" href="#6.5-First-Moment">&#182;</a></h2><p>Now, since there is a second moment, it is reasonable to ask: is there a <strong>first moment</strong>? Yes there is! It is just the expected value of $g$.</p>
-$$m_t = \mu m_{t-1} + (1 - \mu)g_t$$$$m \approx E(g)$$<p>We will call this $m$ because the first moment of a random variable is the definition of the <strong>mean</strong>. Because the <strong>Adam Update</strong> makes use of the 1st and 2nd moments of $g$ using exponentially smoothed estimates, this also explains the name of the algorithm: <strong>Adaptive Moment Estimation</strong>.</p>
+<p>$$v \approx E(g^2)$$</p>
+<p>$$M_T = (1 - \frac{1}{T})M_{T-1}+\frac{1}{T}X_T$$</p>
+<p>$$v_t = decay * v_{t-1} + (1 - decay)*g^2$$</p>
+<h2 id="6.5-First-Moment">6.5 First Moment<a class="anchor-link" href="#6.5-First-Moment">&#182;</a></h2><p>Now, since there is a second moment, it is reasonable to ask: is there a <strong>first moment</strong>? Yes there is! It is just the expected value of $g$.</p>
+<p>$$m_t = \mu m_{t-1} + (1 - \mu)g_t$$
+$$m \approx E(g)$$</p>
+<p>We will call this $m$ because the first moment of a random variable is the definition of the <strong>mean</strong>. Because the <strong>Adam Update</strong> makes use of the 1st and 2nd moments of $g$ using exponentially smoothed estimates, this also explains the name of the algorithm: <strong>Adaptive Moment Estimation</strong>.</p>
 <p>Also, note that the update for $m$ looks a lot like momentum! Hence, why some people refer to this as <strong>RMSProp</strong> with momentum. Usually momentum is just implemented by adding a momentum parameter to the velocity rather than doing this weighted average, as a reminder it usually looks like:</p>
-$$m_t = \mu m_{t-1} + g_t$$<h2 id="6.6-One-final-problem">6.6 One final problem<a class="anchor-link" href="#6.6-One-final-problem">&#182;</a></h2><p>So to get to our final destination, which is the <strong>Adam Update</strong>, we are going to combine these two pieces: the first and second moments of $g$, or as we have been calling them, $m$ and $v$ (mean and variance). However, before we do that, there is one last important concept to discuss. The exponentially smoothed average acts very much like a smoothing function, ignoring much of the variation. It will ignore the rapid very random spikes, but it will follow the main trend of the signal, the original sine wave. In the field of signal processing this is known as a low pass filter, because the high frequency changes are being filtered out.</p>
+<p>$$m_t = \mu m_{t-1} + g_t$$</p>
+<h2 id="6.6-One-final-problem">6.6 One final problem<a class="anchor-link" href="#6.6-One-final-problem">&#182;</a></h2><p>So to get to our final destination, which is the <strong>Adam Update</strong>, we are going to combine these two pieces: the first and second moments of $g$, or as we have been calling them, $m$ and $v$ (mean and variance). However, before we do that, there is one last important concept to discuss. The exponentially smoothed average acts very much like a smoothing function, ignoring much of the variation. It will ignore the rapid very random spikes, but it will follow the main trend of the signal, the original sine wave. In the field of signal processing this is known as a low pass filter, because the high frequency changes are being filtered out.</p>
 <p><br>
 <img src="https://drive.google.com/uc?id=1PdWjYmhekt8kLsowXJLxGt_4iSnVnBFp" width="500"></p>
 <p>The problem with exponential smoothing is just like RMSProp, what is the initial value? The output is supposed to depend on the current value of the input plus the last value of the output. But since there is no last value of the output for $t = 0 $, we typically just set that to 0. But in doing so, we make the first value of the output small:
@@ -3675,28 +3736,45 @@ $$Y(1) = 0.99 * Y(0) + 0.01*X(1) = 0.01*X(1)$$</p>
 <p>This means that initially your output will be biased towards 0!</p>
 <p><img src="https://drive.google.com/uc?id=1DzymN4mLDVCJiqxZAGmA5bDvmjbTeMma" width="400"></p>
 <h2 id="6.7-Bias-Correction">6.7 Bias Correction<a class="anchor-link" href="#6.7-Bias-Correction">&#182;</a></h2><p>Is there anything that we can do about the issue presented above? Well, there is a technique, <strong>bias correction</strong>, that makes up for this.</p>
-$$\hat{Y}(t) = \frac{Y(t)}{1 - decay^t}$$<p>We divide by $(1 - decay)^t$. As you can see, when $t$ is small we are dividing by a very small number, which makes the initial value bigger. This is good because the initial value was too small.</p>
+<p>$$\hat{Y}(t) = \frac{Y(t)}{1 - decay^t}$$</p>
+<p>We divide by $(1 - decay)^t$. As you can see, when $t$ is small we are dividing by a very small number, which makes the initial value bigger. This is good because the initial value was too small.</p>
 <p>Let's go through an example to make things very clear. Given a decay of 0.99, our original output would be:</p>
-$$Y(1) = 0.01*X(1)$$<p>And $Y(2)$ would be:</p>
-$$Y(2) = 0.0099*X(1) + 0.01*X(2)$$<p>But, if we correct it, then we have:</p>
-$$\hat{Y}(1) = \frac{0.01}{1 - 0.99^1}*X(1) = X(1)$$<p>And our corrected $\hat{Y}(2)$:</p>
-$$\hat{Y}(2) = \frac{Y(2)}{0.0199} = 0.497*X(1) + 0.503*X(2)$$<p>This also makes sense because it is about half of $X(1)$ plus about half of $X(2)$, with a bit more weight on the current value. We can also see that as $t$ approaches infinity, the bias correction term approaches 1, meaning that we quickly converge to the standard exponentially smooth average. The important part is that our output now has the correct range of values when compared with the input, for all values of the input, including the initial ones.</p>
+<p>$$Y(1) = 0.01*X(1)$$</p>
+<p>And $Y(2)$ would be:</p>
+<p>$$Y(2) = 0.0099*X(1) + 0.01*X(2)$$</p>
+<p>But, if we correct it, then we have:</p>
+<p>$$\hat{Y}(1) = \frac{0.01}{1 - 0.99^1}*X(1) = X(1)$$</p>
+<p>And our corrected $\hat{Y}(2)$:</p>
+<p>$$\hat{Y}(2) = \frac{Y(2)}{0.0199} = 0.497*X(1) + 0.503*X(2)$$</p>
+<p>This also makes sense because it is about half of $X(1)$ plus about half of $X(2)$, with a bit more weight on the current value. We can also see that as $t$ approaches infinity, the bias correction term approaches 1, meaning that we quickly converge to the standard exponentially smooth average. The important part is that our output now has the correct range of values when compared with the input, for all values of the input, including the initial ones.</p>
 <h2 id="6.8-Back-to-Adam">6.8 Back to Adam<a class="anchor-link" href="#6.8-Back-to-Adam">&#182;</a></h2><p>Now that we have discussed bias correction for exponentially smoothed averages, you might guess that we are going to apply it to the exponentially smoothed averages that we have been talking about, in particular $m$ and $v$. So, if we call $\hat{m}$ the bias corrected version of $m$, and $\hat{v}$ the bias corrected version of $v$, then we can formulate our <strong>Adam Update</strong>.</p>
-$$\hat{m}_t = \frac{m_t}{1 - \beta_1^t}$$$$\hat{v}_t = \frac{v_t}{1 - \beta_2^t}$$<p>Note, there are two different decay rates for $m$ and $v$, which we call $\beta_1$ and $\beta_2$. Typical values are in the range of 0.9 to 0.99. $\epsilon$ again has values in the range of $10^{-8}$ to $10^{-10}$. Our final update for $w$ is:</p>
-$$w_{t+1} \leftarrow w_t - \eta \frac{\hat{m}_t}{\sqrt{\hat{v}_t+\epsilon}}$$<h2 id="6.9-Recap">6.9 Recap<a class="anchor-link" href="#6.9-Recap">&#182;</a></h2><p>Now that was a ton of stuff, so lets recap! <strong>Adam</strong> is a new, modern adaptive learning rate technique that is the default go to for many deep learning practioners. It combines 2 proven techniques:</p>
+<p>$$\hat{m}_t = \frac{m_t}{1 - \beta_1^t}$$</p>
+<p>$$\hat{v}_t = \frac{v_t}{1 - \beta_2^t}$$</p>
+<p>Note, there are two different decay rates for $m$ and $v$, which we call $\beta_1$ and $\beta_2$. Typical values are in the range of 0.9 to 0.99. $\epsilon$ again has values in the range of $10^{-8}$ to $10^{-10}$. Our final update for $w$ is:</p>
+<p>$$w_{t+1} \leftarrow w_t - \eta \frac{\hat{m}_t}{\sqrt{\hat{v}_t+\epsilon}}$$</p>
+<h2 id="6.9-Recap">6.9 Recap<a class="anchor-link" href="#6.9-Recap">&#182;</a></h2><p>Now that was a ton of stuff, so lets recap! <strong>Adam</strong> is a new, modern adaptive learning rate technique that is the default go to for many deep learning practioners. It combines 2 proven techniques:</p>
 <blockquote><ol>
 <li><strong>RMSProp</strong> which is a <strong>cache mechanism</strong> (leaky cache)</li>
 <li><strong>Momentum</strong> which speeds up training just by continuing to go in the same direction it was going before (keeping track of old gradients) </li>
 </ol>
 </blockquote>
 <p>We saw that these two methods can be generalized, by observing that they estimate the first and second moments of the gradient. <strong>Adam</strong> also adds bias correction, which makes up for the fact that the exponentially smoothed average starts at zero, and hence the initial estimates are biased towards 0.</p>
-$$\hat{m}_t = \frac{m_t}{1 - \beta_1^t}$$$$\hat{v}_t = \frac{v_t}{1 - \beta_2^t}$$$$w_{t+1} \leftarrow w_t - \eta \frac{\hat{m}_t}{\sqrt{\hat{v}_t+\epsilon}}$$<h2 id="6.10-Summary-Pseudocode">6.10 Summary Pseudocode<a class="anchor-link" href="#6.10-Summary-Pseudocode">&#182;</a></h2><p>At every batch (typical $\beta_1 = 0.9$, $\beta_2 = 0.999$, $\epsilon = 10^{-8}$):</p>
-$$m_t = \beta_1 m_{t-1} + (1 - \beta_1)g_t$$$$v_t = \beta_2 v_{t-1} + (1 - \beta_2)g_t^2$$$$\hat{m}_t = \frac{m_t}{1 - \beta_1^t}$$$$\hat{v}_t = \frac{v_t}{1 - \beta_2^t}$$$$w_{t+1} \leftarrow w_t - \eta \frac{\hat{m}_t}{\sqrt{\hat{v}_t+\epsilon}}$$
+<p>$$\hat{m}_t = \frac{m_t}{1 - \beta_1^t}$$</p>
+<p>$$\hat{v}_t = \frac{v_t}{1 - \beta_2^t}$$
+$$w_{t+1} \leftarrow w_t - \eta \frac{\hat{m}_t}{\sqrt{\hat{v}_t+\epsilon}}$$</p>
+<h2 id="6.10-Summary-Pseudocode">6.10 Summary Pseudocode<a class="anchor-link" href="#6.10-Summary-Pseudocode">&#182;</a></h2><p>At every batch (typical $\beta_1 = 0.9$, $\beta_2 = 0.999$, $\epsilon = 10^{-8}$):</p>
+<p>$$m_t = \beta_1 m_{t-1} + (1 - \beta_1)g_t$$
+$$v_t = \beta_2 v_{t-1} + (1 - \beta_2)g_t^2$$
+$$\hat{m}_t = \frac{m_t}{1 - \beta_1^t}$$
+$$\hat{v}_t = \frac{v_t}{1 - \beta_2^t}$$
+$$w_{t+1} \leftarrow w_t - \eta \frac{\hat{m}_t}{\sqrt{\hat{v}_t+\epsilon}}$$</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -3723,13 +3801,14 @@ param = param - learning_rate * gradient / sqrt(cache + epsilon)</code></pre>
 <span class="kn">from</span> <span class="nn">util</span> <span class="k">import</span> <span class="n">get_normalized_data</span><span class="p">,</span> <span class="n">error_rate</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">y2indicator</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And now let's start our main method:</p>
 
@@ -3943,7 +4022,7 @@ param = param - learning_rate * gradient / sqrt(cache + epsilon)</code></pre>
 <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -3953,7 +4032,7 @@ param = param - learning_rate * gradient / sqrt(cache + epsilon)</code></pre>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -4327,16 +4406,16 @@ Final error rate: 0.033
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
 
 
-<div id="ed741d39-efa9-46e0-91f1-8126e8077d9a"></div>
+<div id="72cd0925-5b34-42a1-bef4-0013817c8ee8"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#ed741d39-efa9-46e0-91f1-8126e8077d9a');
+var element = $('#72cd0925-5b34-42a1-bef4-0013817c8ee8');
 /* Put everything inside the global mpl namespace */
 window.mpl = {};
 
@@ -5111,7 +5190,7 @@ if (IPython.notebook.kernel != null) {
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -5126,25 +5205,13 @@ if (IPython.notebook.kernel != null) {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So we can see that RMSProp with momentum and Adam actually end up very close to one another. This makes sense because Adam is basically RMSProp with momentum added to it. The big difference is that Adam adds the bias correction step. We can see that this makes a big difference at the very beginning, but that this bias quickly goes away. You observe the same effect if you run just a low pass filter on a random signal. You can see that the output is initially biased towards zero, but that the bias goes away pretty quickly.</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake

@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,7 +211,8 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="1.-Linear-Algebra-Introduction">1. Linear Algebra Introduction<a class="anchor-link" href="#1.-Linear-Algebra-Introduction">&#182;</a></h1><p>Linear algebra is frequently utilized in the implementation of machine learning algorithms, so it is very important to have an intuitive understanding of what it represents and how it is used. I recommend looking at this along side of my numpy walkthrough in the math appendix. 
 This overview is going to consist of three main parts:</p>
@@ -225,7 +230,8 @@ This overview is going to consist of three main parts:</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></br></p>
@@ -239,14 +245,21 @@ This overview is going to consist of three main parts:</p>
 <p><strong>2: Composing of Linear Operations</strong>
 It is true that the technical definition of matrix multiplication that it results in the composition of the original functions. However, it again leaves you feeling slightly empty when it comes time to perform matrix multiplication in code. Let's look at a different intuition that is particularly useful in the context of machine learning.</p>
 <h2 id="Matrix-Multiplication-is-about-information-flow">Matrix Multiplication is about information flow<a class="anchor-link" href="#Matrix-Multiplication-is-about-information-flow">&#182;</a></h2><p>Before we can dig into this example, it is import to touch on the notation involved in matrix multiplication. In scalar multiplication, the order the numbers does not matter; this is the <strong>communicative property</strong>:</p>
-$$a * b = b * a$$<p>However, when we get to matrix multiplication, it is often confusing that this is not longer the case. Order <em>does</em> matter:</p>
-$$A * B\neq B *A $$<p>Why is this the case? Well the easiest way to explain this is that matrix multiplication utilizes the same notation that we do when writing functions. For example, if were to write that $f$ is a function of $x$ it would look like:</p>
-$$f(x)$$<p>In this case $f$ is a certain variable that depends on the value of $x$. Order in this case clearly matters:</p>
-$$f(x) \neq x(f)$$<p>So, that is the first the to always remember: when writing out matrix multiplication, the matrix on the left is the composition of functions, and the one on the right is the input.</p>
+<p>$$a * b = b * a$$</p>
+<p>However, when we get to matrix multiplication, it is often confusing that this is not longer the case. Order <em>does</em> matter:</p>
+<p>$$A * B\neq B *A $$</p>
+<p>Why is this the case? Well the easiest way to explain this is that matrix multiplication utilizes the same notation that we do when writing functions. For example, if were to write that $f$ is a function of $x$ it would look like:</p>
+<p>$$f(x)$$</p>
+<p>In this case $f$ is a certain variable that depends on the value of $x$. Order in this case clearly matters:</p>
+<p>$$f(x) \neq x(f)$$</p>
+<p>So, that is the first the to always remember: when writing out matrix multiplication, the matrix on the left is the composition of functions, and the one on the right is the input.</p>
 <p>With that said, the next piece of notation to consider is how matrices that represent functions are written. For instance, say we are dealing with a linear transformation that is representing the following:</p>
-$$F(x,y,z) = 3x +4y +5z$$<p>Where in this case $x , y , z $ are just variables or the dimensions we are transforming, and the coefficients are the amount each dimension is being scaled by. Keep in mind in machine learning we often have hundreds or thousands of dimensions, and they are usually represented as $x_1, x_2, x_3...$, meaning our linear transformation could look like:</p>
-$$F(x_1,x_2,x_3) = 3x_1 +4x_2 +5x_3$$<p>Say that we then had $x_1 = 3$, $x_2 = 2$, and $x_3 = 7$, our linear transformation would result in:</p>
-$$F(x_1,x_2,x_3) = F(3,2,7)=  3*3 +4*2 +5*7 =52$$<p>The convention in linear algebra is to place operations (our linear transformation $F$ in this case) in <strong>rows</strong>, and our data (our inputs $x_1, x_2, x_3$) in columns. This can be visualized below. $F$, which is a linear transformation, can be thought of as an <strong>operation</strong> (remember, it is a essentially a function):</p>
+<p>$$F(x,y,z) = 3x +4y +5z$$</p>
+<p>Where in this case $x , y , z $ are just variables or the dimensions we are transforming, and the coefficients are the amount each dimension is being scaled by. Keep in mind in machine learning we often have hundreds or thousands of dimensions, and they are usually represented as $x_1, x_2, x_3...$, meaning our linear transformation could look like:</p>
+<p>$$F(x_1,x_2,x_3) = 3x_1 +4x_2 +5x_3$$</p>
+<p>Say that we then had $x_1 = 3$, $x_2 = 2$, and $x_3 = 7$, our linear transformation would result in:</p>
+<p>$$F(x_1,x_2,x_3) = F(3,2,7)=  3*3 +4*2 +5*7 =52$$</p>
+<p>The convention in linear algebra is to place operations (our linear transformation $F$ in this case) in <strong>rows</strong>, and our data (our inputs $x_1, x_2, x_3$) in columns. This can be visualized below. $F$, which is a linear transformation, can be thought of as an <strong>operation</strong> (remember, it is a essentially a function):</p>
 <p><img src="https://drive.google.com/uc?id=1fJ8D7W5vo9L9gI57mgc1jmP8Y-IECf7A" width="300"></p>
 <p>Which in this specific case takes the form:</p>
 <p><img src="https://drive.google.com/uc?id=1Fv4pZNkjXy8rA6Y-McCTp_Zvuyn34Lk_" width="400"></p>
@@ -258,7 +271,8 @@ $$F(x_1,x_2,x_3) = F(3,2,7)=  3*3 +4*2 +5*7 =52$$<p>The convention in linear alg
 <p>This column vector is of shape <strong>(3 x 1)</strong>, which can be read as <strong>1 column</strong> and <strong>3 rows</strong>. Again, we do not need to try and incorporate the $x_1, x_2, x_3$ variables since the values and their index give us all we need to know.</p>
 <p>If we wanted to access the value of $x_2$ in this case we would write $X_{21}$, which means the second row and first column. Linear algebra follows a notation <strong>(R x C)</strong>, which stands for row x column. So whenever you see an index or are given the shape of a matrix, the first number represents the numbers of rows, the second the number of columns.</p>
 <p>When we then want to apply the linear transformation $F$ to the input $X$, we perform what is known as <strong>matrix multiplication</strong>. Mathematically, that looks like:</p>
-$$F*X$$<p>A visualization is essential here; we can imagine taking our column vector, and placing it on its side as the linear transformation is applied:</p>
+<p>$$F*X$$</p>
+<p>A visualization is essential here; we can imagine taking our column vector, and placing it on its side as the linear transformation is applied:</p>
 <p><img src="https://drive.google.com/uc?id=1DdPB1eb2AVzCpOVW1KzWM8ZRdiJnO4mc" width="400"></p>
 <p>And we end up with our resulting output, a <strong>(1 x 1)</strong> matrix, aka a scalar:</p>
 <p><img src="https://drive.google.com/uc?id=11j_zIY4dpYfTE3wnMi_Wn-istChKMndT" width="400"></p>
@@ -272,11 +286,12 @@ $$F*X$$<p>A visualization is essential here; we can imagine taking our column ve
 <p><br></br>
 <img src="https://drive.google.com/uc?id=11pvCWpYbKGDPFtzwfZtIfW--f7sBV_Ur" width="400"></p>
 <p>A matrix is shorthand for the diagrams we have been making. We can think of it as single variable that represents a spreadsheet of inputs or operations.</p>
-$$Inputs = A = [input_1 \; input_2]  = \begin{bmatrix}
+<p>$$Inputs = A = [input_1 \; input_2]  = \begin{bmatrix}
     a      &amp; x \\
     b       &amp; y \\
     c       &amp; z
-\end{bmatrix}$$$$Operations = M = 
+\end{bmatrix}$$</p>
+<p>$$Operations = M = 
 \begin{bmatrix}
     operation 1\\
     operation 2
@@ -285,9 +300,11 @@ $$Inputs = A = [input_1 \; input_2]  = \begin{bmatrix}
     3 &amp; 4 &amp; 5 \\
     3 &amp; 0 &amp; 0
 \end{bmatrix}
-$$<p><br></br></p>
+$$</p>
+<p><br></br></p>
 <h3 id="Potential-Confusion">Potential Confusion<a class="anchor-link" href="#Potential-Confusion">&#182;</a></h3><p>Now there are several places we may be tripped up. The first is the order in which we read this. We have already gone over that we use function notation. All this means to recap is that instead of writing: input =&gt; matrix =&gt; output we would write the operations matrix first, followed by the input data matrix. We generally will write a matrix with a capital letter, in our case earlier $F$, and a single input with a lowercase, earlier it would have been $x$. Because we have several inputs and outputs, they are each matrices as well.</p>
-$$MA = B$$$$\begin{bmatrix}
+<p>$$MA = B$$
+$$\begin{bmatrix}
     3 &amp; 4 &amp; 5 \\
     3 &amp; 0 &amp; 0
 \end{bmatrix} 
@@ -300,14 +317,16 @@ $$MA = B$$$$\begin{bmatrix}
     3a+4b+5c &amp; 3x+4y+5c \\
     3a &amp; 3x 
 \end{bmatrix} 
-$$<p>The second potentially confusing aspect of all of this is the numbering, which we have also briefly talked about. Our matrix size is going to be measure as <strong>row x column</strong>, or <strong>(R x C)</strong>. However, standard notation is to refer to it as <strong>m x n</strong>. Items in the matrix are going to be referenced in the same way: $a_{ij}$ is the ith row in the jth column.</p>
+$$</p>
+<p>The second potentially confusing aspect of all of this is the numbering, which we have also briefly talked about. Our matrix size is going to be measure as <strong>row x column</strong>, or <strong>(R x C)</strong>. However, standard notation is to refer to it as <strong>m x n</strong>. Items in the matrix are going to be referenced in the same way: $a_{ij}$ is the ith row in the jth column.</p>
 <p>The third potenial source of confusion is that often when we have more than one column data vector, we start placing the data vectors as rows in a matrix. This is seen very frequently in machine learning contexts. It is something that we definitely want to be aware of. From a visual perspective, we can imagine having one data vector, $x$:</p>
-$$x = \begin{bmatrix}
+<p>$$x = \begin{bmatrix}
     x_1 \\
     x_2 \\
     x_3
-\end{bmatrix}$$<p>Above it is still a column, however, once we have more than one data vector, we generally start placing them in rows. For instance, say we have 3 data vectors:</p>
-$$x^1 = \begin{bmatrix}
+\end{bmatrix}$$</p>
+<p>Above it is still a column, however, once we have more than one data vector, we generally start placing them in rows. For instance, say we have 3 data vectors:</p>
+<p>$$x^1 = \begin{bmatrix}
     x_1^1 \\
     x_2^1 \\
     x_3^1
@@ -321,22 +340,26 @@ x^3 = \begin{bmatrix}
     x_1^3 \\
     x_2^3 \\
     x_3^3
-\end{bmatrix}$$<p>Note here we are using superscripts because the subscript has already been utilized. It is not refering to exponentiation. In practice, instead of combining all of these column vectors and leaving them as columns, we would make them row vectors like so:</p>
-$$X = \begin{bmatrix}
+\end{bmatrix}$$</p>
+<p>Note here we are using superscripts because the subscript has already been utilized. It is not refering to exponentiation. In practice, instead of combining all of these column vectors and leaving them as columns, we would make them row vectors like so:</p>
+<p>$$X = \begin{bmatrix}
     x_1^1 &amp; x_2^1 &amp; x_3^1 \\
     x_1^2 &amp; x_2^2 &amp; x_3^2 \\
     x_1^3 &amp; x_2^3 &amp; x_3^3 
-\end{bmatrix}$$<p>And generally the superscript notation is not used, and instead we have two subscripts, the first representing the row, the second the column:</p>
-$$X = \begin{bmatrix}
+\end{bmatrix}$$</p>
+<p>And generally the superscript notation is not used, and instead we have two subscripts, the first representing the row, the second the column:</p>
+<p>$$X = \begin{bmatrix}
     x_{11} &amp; x_{12} &amp; x_{13} \\
     x_{23} &amp; x_{22} &amp; x_{23} \\
     x_{31} &amp; x_{32} &amp; x_{33} 
-\end{bmatrix}$$
+\end{bmatrix}$$</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></br></p>
@@ -346,28 +369,34 @@ $$X = \begin{bmatrix}
 <p><img src="https://drive.google.com/uc?id=12lujjw25M6Dk-Tkvj3qTRtuk4wZ7nSWm" width="450"></p>
 <p>The row containing a horizontal function could really be three data points (each containing a single element), and the vertical column of data could really be three distinct functions, each taking a single parameter. This is the critical thing to understand-depending on what we want the outcome to be, we can combine data and code in a different order.</p>
 <h3 id="Matrix-Transpose">Matrix Transpose<a class="anchor-link" href="#Matrix-Transpose">&#182;</a></h3><p>By definition, the matrix transpose swaps rows and columns. What that means is say we have a column vector with 3 entries:</p>
-$$x = \begin{bmatrix}
+<p>$$x = \begin{bmatrix}
     3 \\
     4 \\
     5
-\end{bmatrix}$$<p>The transpose of $x$, $x^T$, would then be:</p>
-$$x^T = \begin{bmatrix}
+\end{bmatrix}$$</p>
+<p>The transpose of $x$, $x^T$, would then be:</p>
+<p>$$x^T = \begin{bmatrix}
     3 &amp; 4 &amp; 5\\
-\end{bmatrix}$$<p>At which point it is either <strong>a function taking 3 arguments</strong>, <em>or</em> a data vector, but now it is 3 separate entities, since the transpose split it up.</p>
+\end{bmatrix}$$</p>
+<p>At which point it is either <strong>a function taking 3 arguments</strong>, <em>or</em> a data vector, but now it is 3 separate entities, since the transpose split it up.</p>
 <p>Similarly, if we had a row vector:</p>
-$$f = \begin{bmatrix}
+<p>$$f = \begin{bmatrix}
     3 &amp; 4 &amp; 5\\
-\end{bmatrix}$$<p>Then its transpose, $f^T$:</p>
-$$f^T = \begin{bmatrix}
+\end{bmatrix}$$</p>
+<p>Then its transpose, $f^T$:</p>
+<p>$$f^T = \begin{bmatrix}
     3 \\
     4 \\
     5
-\end{bmatrix}$$<p>Can either be a single data vector in a vertical column, <em>or</em> three separate functions, each taking a single input. Let's look at this in practice. Say we have the following equation:</p>
-$$x^T* x$$<p>In this case we mean $x^T$ (as a single function) is working on $x$ a single vector. The result is the <strong>dot product</strong>. In this case, we have applied the data to itself.</p>
+\end{bmatrix}$$</p>
+<p>Can either be a single data vector in a vertical column, <em>or</em> three separate functions, each taking a single input. Let's look at this in practice. Say we have the following equation:</p>
+<p>$$x^T* x$$</p>
+<p>In this case we mean $x^T$ (as a single function) is working on $x$ a single vector. The result is the <strong>dot product</strong>. In this case, we have applied the data to itself.</p>
 <p><br></br></p>
 <p><img src="https://drive.google.com/uc?id=1zf17ZomPUGdLnOneItHkhdI2g-2q35eI" width="450"></p>
 <p>Now what about if we see it reversed?</p>
-$$x * x^T$$<p>Here we mean that $x$, now as a set of functions, is working on $x^T$, a set of individual data points. The result is a grid where we've applied each function to each data point.</p>
+<p>$$x * x^T$$</p>
+<p>Here we mean that $x$, now as a set of functions, is working on $x^T$, a set of individual data points. The result is a grid where we've applied each function to each data point.</p>
 <p><br></br>
 <img src="https://drive.google.com/uc?id=1oUzr8TpqvaLM_0_pt4qiyXSmt4vsOBDh" width="450"></p>
 
@@ -375,7 +404,8 @@ $$x * x^T$$<p>Here we mean that $x$, now as a set of functions, is working on $x
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></br></p>
@@ -394,7 +424,8 @@ $$x * x^T$$<p>Here we mean that $x$, now as a set of functions, is working on $x
 <p><img src="https://drive.google.com/uc?id=1aX9QOkIVw1W8dCB2rma7Bwr_pFpX35FE" width="650"></p>
 <p><img src="https://drive.google.com/uc?id=1k7PbjR0yKB7q52X0wPPyPQ010Elggckv" width="650"></p>
 <p>Now, we can think about it as follows, the columns in the weight matrices represent the vector that is applied to the input vector, via the dot product. For instance, output node 1 is equal to:</p>
-$$x_1*W_{11}+x_2*W_{21}+x_3*W_{31}$$<p>And output node 2 is equal to:
+<p>$$x_1*W_{11}+x_2*W_{21}+x_3*W_{31}$$</p>
+<p>And output node 2 is equal to:
 $$x_1*W_{12}+x_2*W_{22}+x_3*W_{32}$$</p>
 <p>And output node 3 is equal to:
 $$x_1*W_{13}+x_2*W_{23}+x_3*W_{33}$$</p>
@@ -403,19 +434,6 @@ $$x_1*W_{13}+x_2*W_{23}+x_3*W_{33}$$</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake

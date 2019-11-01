@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,7 +211,8 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="1.-Bias-Variance-Trade-Off">1. Bias-Variance Trade-Off<a class="anchor-link" href="#1.-Bias-Variance-Trade-Off">&#182;</a></h1><p>As we get started with ensemble methods, we will being by looking at the <strong>bias-variance trade-off</strong>. There are three key terms in particular that we are going to look at:</p>
 <blockquote><ol>
@@ -220,23 +225,29 @@ body {
 <hr>
 <p><br></br></p>
 <h1 id="1.1-Irreducible-Error">1.1 Irreducible Error<a class="anchor-link" href="#1.1-Irreducible-Error">&#182;</a></h1><p>When we say the term irreducible error, what exactly do we mean? Well, this term comes from the fact that data generating processes are <strong>noisy</strong>. By definition, noise is <em>random</em> (aka not deterministic). This in turn mean that we cannot predict the exact values that we are going to get, but rather it's statistics, like <strong>mean</strong> and <strong>variance</strong>. This can be best illustrated with an equation. Say we know that the <em>true function</em> that is generating our response data, $Y$ is $f(x)$. Well, the full equation for $Y$ would look like:</p>
-$$Y = f(X) + \epsilon$$<p>Where $\epsilon$ is the <strong>irreducible error</strong> term, which can be thought of as <strong>noise</strong>. Visually this can be seen below:</p>
+<p>$$Y = f(X) + \epsilon$$</p>
+<p>Where $\epsilon$ is the <strong>irreducible error</strong> term, which can be thought of as <strong>noise</strong>. Visually this can be seen below:</p>
 <p><img src="https://drive.google.com/uc?id=1M8VyCkBma-OM2wPIPj1oQzQ38liKRM3r"></p>
 <p><img src="https://drive.google.com/uc?id=1SagGML-1QBb-Ppn1l71T83guNEFBTuM-" width="400"></p>
 <p>The black line in the 2d plot, and the blue surface in the 3d plot represent our <strong>true target function</strong>, $f(x)$. This is the function that is actually used to generate all of the red points. However, we can see that the red points don't perfectly map to $f(x)$. This is due to the irreducible error, or the inherent noise in the system that we cannot get rid of.</p>
 <p>From a machine learning perspective, let's say that we are in charge of the data-generating process, and our exact function is:</p>
-$$f(x) = 2x + 1$$<p>We are performing linear regression in this case. Now if a machine learning researcher was working with the data and we gave him this exact function, his work would already be done! Because he has the <strong>true function</strong> there is nothing more he can do to make things more accurate. However, again we cannot forget about the irreducible error, which makes our equation look like:</p>
-$$f(x) = ax + b + \epsilon$$<p>We know that the noise is random, and we generally assume that is is <strong>gaussian distributed</strong> with 0 mean. 
+<p>$$f(x) = 2x + 1$$</p>
+<p>We are performing linear regression in this case. Now if a machine learning researcher was working with the data and we gave him this exact function, his work would already be done! Because he has the <strong>true function</strong> there is nothing more he can do to make things more accurate. However, again we cannot forget about the irreducible error, which makes our equation look like:</p>
+<p>$$f(x) = ax + b + \epsilon$$</p>
+<p>We know that the noise is random, and we generally assume that is is <strong>gaussian distributed</strong> with 0 mean. 
 $$\epsilon \approx N(0, \sigma^2) $$</p>
 <p>In other words, we are starting with a fixed pattern this is based on some underlying function, and then we add noise to it (this noise is the irreducible error):</p>
 <p><img src="https://drive.google.com/uc?id=1mbVS68xZHJuhO4yVC2ONlfggM3oxvCl6" width="300"></p>
 <p><img src="https://drive.google.com/uc?id=1UMbVFZjAp7LLyHi3NdXCJT0Jc9Tgabkp" width="300"></p>
 <p>So, even when <em>we</em> are responsible for the data generating process, we cannot predict what the noise will be! So even though we know the <em>exact</em> function that the data came from, our own predictions won't be perfect, because there is noise. This is irreducible error.</p>
-$$\hat{f}(x) = 2x + 1 $$<p>Will not achieve 0 error on:</p>
-$$f(x) = y = 2x + 1 + \epsilon$$<hr>
+<p>$$\hat{f}(x) = 2x + 1 $$</p>
+<p>Will not achieve 0 error on:</p>
+<p>$$f(x) = y = 2x + 1 + \epsilon$$</p>
+<hr>
 <p><br></br></p>
 <h1 id="1.2-Bias">1.2 Bias<a class="anchor-link" href="#1.2-Bias">&#182;</a></h1><p>Now let's talk about the <strong>bias</strong>. This is a slightly weird term since we also use the term bias when talking about the intercept in linear transformations. That is not the bias that we are talking about here. The bias we are discussing actually refers to the error in your model. In other words, it is <strong>how far off your prediction is from the target</strong>.</p>
-$$bias = E\Big[f(x) - \hat{f}(x)\Big]$$<p>We can think of it as the error that is introduced by approximating a real-life problem, which may be extremely complicated, by a much simpler model. Below, we can see an example of this in regression:</p>
+<p>$$bias = E\Big[f(x) - \hat{f}(x)\Big]$$</p>
+<p>We can think of it as the error that is introduced by approximating a real-life problem, which may be extremely complicated, by a much simpler model. Below, we can see an example of this in regression:</p>
 <p><img src="https://drive.google.com/uc?id=1e90BnGr-soDCXSSNGs758RbIxgO5ubxT" width="300"></p>
 <p>The fitted function clearly does not represent the pattern in the data, so bias tells us how far off we are from the target. In this case we tried to approximate a convex function (complex) with a linear function (simple), and there was a bias error introduced. And below we can see a picture with small bias, however, you may get the feeling that we are overfitting (since it fits the data perfectly, but it is not following the main trend):</p>
 <p><img src="https://drive.google.com/uc?id=1cI70Xv7Z4FMMqorJizhQL-tm1ggnj5j7" width="250"></p>
@@ -265,7 +276,8 @@ $$bias = E\Big[f(x) - \hat{f}(x)\Big]$$<p>We can think of it as the error that i
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></br></p>
@@ -290,7 +302,8 @@ $$bias = E\Big[f(x) - \hat{f}(x)\Big]$$<p>We can think of it as the error that i
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></br></p>
@@ -304,7 +317,8 @@ $$\hat{f}(x) = estimate \;of\;f(x)$$
 And we will say that the expected error is the mean squared error between $y$ and $\hat{f}$:
 $$err = E\Big[(y - \hat{f}(x))^2\Big]$$</p>
 <hr>
-<h3 id="3.2-Decompose-$y$-into-ground-truth-function-and-noise">3.2 Decompose $y$ into ground truth function and noise<a class="anchor-link" href="#3.2-Decompose-$y$-into-ground-truth-function-and-noise">&#182;</a></h3>$$err = E\Big[(f(x) + \epsilon - \hat{f}(x))^2\Big]$$<hr>
+<h3 id="3.2-Decompose-$y$-into-ground-truth-function-and-noise">3.2 Decompose $y$ into ground truth function and noise<a class="anchor-link" href="#3.2-Decompose-$y$-into-ground-truth-function-and-noise">&#182;</a></h3><p>$$err = E\Big[(f(x) + \epsilon - \hat{f}(x))^2\Big]$$</p>
+<hr>
 <h3 id="3.3-Introduce-new-variable,-$\bar{f}$">3.3 Introduce new variable, $\bar{f}$<a class="anchor-link" href="#3.3-Introduce-new-variable,-$\bar{f}$">&#182;</a></h3><p>This new variable is equal to the mean of $\hat{f}$:
 $$\bar{f}(x) = E\Big[\hat{f}(x)\Big]$$
 We can then add and subtract this to the inside term, so that it mathematically remains the same:
@@ -314,7 +328,9 @@ $$err = E\Big[(f(x) + \epsilon - \hat{f}(x) + \bar{f}(x) - \bar{f}(x))^2\Big]$$<
 $$err = E\Big[\Big( (f(x)  - \bar{f}(x)) -  (\hat{f}(x) - \bar{f}(x)) + \epsilon \Big)^2\Big]$$</p>
 <hr>
 <h3 id="3.4-Multiply-out-terms">3.4 Multiply out terms<a class="anchor-link" href="#3.4-Multiply-out-terms">&#182;</a></h3><p>We now multiply out all of the terms, but be sure to keep $f - \bar{f}$ together, as well as $\hat{f} - \bar{f}$ together:</p>
-$$err = E\Big[(f(x) - \bar{f}(x))^2\Big] + E\Big[(f(x) - \bar{f}(x))(\epsilon - (\hat{f}(x) - \bar{f}(x)))\Big] + E\Big[(\hat{f}(x) - \bar{f}(x))^2\Big] - E\Big[(\hat{f}(x) - \bar{f}(x))(f(x) - \bar{f}(x) + \epsilon) \Big] + E\Big[ \epsilon^2 \Big]$$$$+  E\Big[\epsilon (f(x) = \bar{f}(x) - (\hat{f}(x) - \bar{f}(x)))\Big] $$<hr>
+<p>$$err = E\Big[(f(x) - \bar{f}(x))^2\Big] + E\Big[(f(x) - \bar{f}(x))(\epsilon - (\hat{f}(x) - \bar{f}(x)))\Big] + E\Big[(\hat{f}(x) - \bar{f}(x))^2\Big] - E\Big[(\hat{f}(x) - \bar{f}(x))(f(x) - \bar{f}(x) + \epsilon) \Big] + E\Big[ \epsilon^2 \Big]$$
+$$+  E\Big[\epsilon (f(x) = \bar{f}(x) - (\hat{f}(x) - \bar{f}(x)))\Big] $$</p>
+<hr>
 <h3 id="3.5-Useful-Identities">3.5 Useful Identities<a class="anchor-link" href="#3.5-Useful-Identities">&#182;</a></h3><p>Next, we can use some properties that follow from how we define these variables, to simplify this equation. First, the mean of $\epsilon$ is 0, since the average value of the noise is 0:
 $$E\Big[\epsilon\Big] = 0$$
 $$E\Big[\epsilon^2\Big] = \sigma_\epsilon^2 + (E\Big[\epsilon\Big])^2 = \sigma_\epsilon^2$$</p>
@@ -326,7 +342,8 @@ $$E\Big[\hat{f}(x) - \bar{f}(x)\Big] = E\Big[\hat{f}(x)\Big] - E\Big[\hat{f}(x)\
 <h3 id="3.6-Decompose-again">3.6 Decompose again<a class="anchor-link" href="#3.6-Decompose-again">&#182;</a></h3><p>So, after plugging in the identities discussed above, we are left with 3 terms; one for the <strong>bias</strong>, one for the <strong>variance</strong>, and one for the <strong>irreducible error</strong>:
 $$err = E\Big[(f(x) - \bar{f}(x))^2 \Big] + E\Big[(\hat{f}(x) - \bar{f}(x))^2\Big] + E\Big[\epsilon^2\Big]$$</p>
 <p>Becuase $f(x)$ is not random and it is the ground truth, the expected value of it is just equal to $f(x)$, so the first term can be reduced:</p>
-$$err= \Big[f(x) - \bar{f}(x)\Big]^2 + E\Big[(\hat{f}(x) - \bar{f}(x))^2\Big] + E\Big[\epsilon^2\Big]$$<p>Which has brought us to our final bias-variance decomposition:
+<p>$$err= \Big[f(x) - \bar{f}(x)\Big]^2 + E\Big[(\hat{f}(x) - \bar{f}(x))^2\Big] + E\Big[\epsilon^2\Big]$$</p>
+<p>Which has brought us to our final bias-variance decomposition:
 $$err = bias^2 + variance + \sigma_\epsilon^2$$</p>
 <hr>
 <h3 id="3.7-Key-points">3.7 Key points<a class="anchor-link" href="#3.7-Key-points">&#182;</a></h3><p>We have seen that the <strong>bias</strong> is the <strong>ground truth</strong> minus the <strong>average estimator</strong>, the <strong>variance</strong> is the <strong>variance of the estimator</strong>, and the <strong>irreducible error</strong> is the <strong>variance of the data noise</strong>.</p>
@@ -343,7 +360,8 @@ $$err = bias^2 + variance + \sigma_\epsilon^2$$</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="4.-Polynomial-Regression">4. Polynomial Regression<a class="anchor-link" href="#4.-Polynomial-Regression">&#182;</a></h1><p>In this portion of the walk through we are going to go through a demo utilizing <strong>polynomial regression</strong> in order to show that <strong>bias decreases</strong> as we increase the degree of the polynomial, whille <strong>variance increases</strong>. We will also plot the <strong>test error</strong> in order to show that it coincides with the sum of the squared bias and variance. This is an abbreviated version in case you really just want to see the code; for a more in depth walk through please look in the appendix <strong>Bias-Variance Regression Demo</strong>.</p>
@@ -371,13 +389,14 @@ $$err = bias^2 + variance + \sigma_\epsilon^2$$</p>
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we have some constants that we want to define:</p>
 <ul>
@@ -403,13 +422,14 @@ $$err = bias^2 + variance + \sigma_\epsilon^2$$</p>
 <span class="n">Ntrain</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.9</span> <span class="o">*</span> <span class="n">N</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We will set a seed for <strong>random number generation</strong> for debugging purposes.</p>
 
@@ -424,13 +444,14 @@ $$err = bias^2 + variance + \sigma_\epsilon^2$$</p>
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And now lets write a function for generating a polynomial from X. We will also quickly define a function <strong>f(x)</strong>.</p>
 
@@ -464,13 +485,14 @@ $$err = bias^2 + variance + \sigma_\epsilon^2$$</p>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Our next step is to define some axis data for plotting.</p>
 
@@ -486,13 +508,14 @@ $$err = bias^2 + variance + \sigma_\epsilon^2$$</p>
 <span class="n">ground_truth_function</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x_axis</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we can define our actual dataset X, as well as create of f(x) values.</p>
 
@@ -509,13 +532,14 @@ $$err = bias^2 + variance + \sigma_\epsilon^2$$</p>
 <span class="n">f_X</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>                             <span class="c1"># ground truth function</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And then let's create a polynomial out of X.</p>
 
@@ -530,13 +554,14 @@ $$err = bias^2 + variance + \sigma_\epsilon^2$$</p>
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">Xpoly</span> <span class="o">=</span> <span class="n">make_poly</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">MAX_POLY</span><span class="p">)</span>     <span class="c1"># shape (25 x 13)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Create some empty arrays to hold our data as we loop through our experiment:</p>
 
@@ -554,13 +579,14 @@ $$err = bias^2 + variance + \sigma_\epsilon^2$$</p>
 <span class="n">prediction_curves</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="n">NUM_DATASETS</span><span class="p">,</span> <span class="n">MAX_POLY</span><span class="p">))</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>With all of that out of the way, we can talk about the actual experiment. We are going to run through our experiment <code>NUM_DATASETS</code> times (50 times), randomly generate training data from our <strong>ground truth function</strong>, to the specific instance of training data, and then we are going to average those to find the bias and variance.</p>
 <p>So, in other words we are going to:</p>
@@ -649,7 +675,7 @@ Only now our $\epsilon$ is centered at <code>NOISE_VARIANCE</code> and not 0. Ou
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -659,7 +685,7 @@ Only now our $\epsilon$ is centered at <code>NOISE_VARIANCE</code> and not 0. Ou
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -674,7 +700,7 @@ Only now our $\epsilon$ is centered at <code>NOISE_VARIANCE</code> and not 0. Ou
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -689,7 +715,7 @@ Only now our $\epsilon$ is centered at <code>NOISE_VARIANCE</code> and not 0. Ou
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -704,7 +730,7 @@ Only now our $\epsilon$ is centered at <code>NOISE_VARIANCE</code> and not 0. Ou
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -719,7 +745,7 @@ Only now our $\epsilon$ is centered at <code>NOISE_VARIANCE</code> and not 0. Ou
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -734,7 +760,7 @@ Only now our $\epsilon$ is centered at <code>NOISE_VARIANCE</code> and not 0. Ou
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -749,7 +775,7 @@ Only now our $\epsilon$ is centered at <code>NOISE_VARIANCE</code> and not 0. Ou
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -764,7 +790,7 @@ Only now our $\epsilon$ is centered at <code>NOISE_VARIANCE</code> and not 0. Ou
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -779,7 +805,7 @@ Only now our $\epsilon$ is centered at <code>NOISE_VARIANCE</code> and not 0. Ou
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -794,7 +820,7 @@ Only now our $\epsilon$ is centered at <code>NOISE_VARIANCE</code> and not 0. Ou
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -809,7 +835,7 @@ Only now our $\epsilon$ is centered at <code>NOISE_VARIANCE</code> and not 0. Ou
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -824,7 +850,7 @@ Only now our $\epsilon$ is centered at <code>NOISE_VARIANCE</code> and not 0. Ou
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -897,7 +923,7 @@ Only now our $\epsilon$ is centered at <code>NOISE_VARIANCE</code> and not 0. Ou
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -907,7 +933,7 @@ Only now our $\epsilon$ is centered at <code>NOISE_VARIANCE</code> and not 0. Ou
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -922,7 +948,7 @@ Only now our $\epsilon$ is centered at <code>NOISE_VARIANCE</code> and not 0. Ou
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -940,7 +966,8 @@ Only now our $\epsilon$ is centered at <code>NOISE_VARIANCE</code> and not 0. Ou
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -961,7 +988,7 @@ Only now our $\epsilon$ is centered at <code>NOISE_VARIANCE</code> and not 0. Ou
 <span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="k">import</span> <span class="n">shuffle</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -984,13 +1011,14 @@ Only now our $\epsilon$ is centered at <code>NOISE_VARIANCE</code> and not 0. Ou
 <span class="n">Ytrain</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[:</span><span class="n">Ntrain</span><span class="p">]</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="5.1-Regression">5.1 Regression<a class="anchor-link" href="#5.1-Regression">&#182;</a></h2><h3 id="5.1.1-Decision-tree---Low-Bias,-High-Variance">5.1.1 Decision tree - Low Bias, High Variance<a class="anchor-link" href="#5.1.1-Decision-tree---Low-Bias,-High-Variance">&#182;</a></h3><p>We are going to utilize a maximum depth decision tree in order to see what the best it can do is.</p>
 
@@ -1020,7 +1048,7 @@ Only now our $\epsilon$ is centered at <code>NOISE_VARIANCE</code> and not 0. Ou
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1030,7 +1058,7 @@ Only now our $\epsilon$ is centered at <code>NOISE_VARIANCE</code> and not 0. Ou
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1048,7 +1076,8 @@ Only now our $\epsilon$ is centered at <code>NOISE_VARIANCE</code> and not 0. Ou
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that our decision tree fit perfectly to the training data, but the training data wasn't really representative of the full training set. Just to really break this down in case it isn't clear I want to walk through what is being plotted step by step. First we have our $Y$ response (based on our true function): 
 $$Y = sin(3x)$$
@@ -1073,13 +1102,14 @@ That function can be seen here:</p>
 <span class="n">plot_y_response</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Okay great, now the thing to remember is that we don't actually have access to all of that $Y$ response data. There are 50 data points that go into making the plot above. However, we only have <strong>12</strong> training points. So we are trying to essnetially find a function that approximates the sin curve above, but only having 12 training responses and inputs to go off of. Let's plot those now.</p>
 
@@ -1097,7 +1127,7 @@ That function can be seen here:</p>
 <span class="n">plot_training_data</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1107,7 +1137,7 @@ That function can be seen here:</p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1125,7 +1155,8 @@ That function can be seen here:</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So you can start to see that our training data doesn't really cover a ton of the input space, meaning that our decision tree has its work cut out for it. Now, lets train our model with the blue training data above, and then we can plot the predictions $\hat{Y}$ that our model makes on the training data. As a referrence, we want our predictions to match the blue dots, but not overfit!</p>
 
@@ -1149,7 +1180,7 @@ That function can be seen here:</p>
 <span class="n">train_model_plot_training_predictions</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1159,7 +1190,7 @@ That function can be seen here:</p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1177,7 +1208,8 @@ That function can be seen here:</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Okay great, now we have a plot (red points above) that shows our model predictions for the 12 training inputs (remember, we have 12 x values that we are using to train our model, and then we want it to be able to generalize and make accurate predictions for any x input value).</p>
 <p>We can plot our observed training responses $Y$ and our model predictions $\hat{Y}$ on the same graph to see how they compare.</p>
@@ -1199,7 +1231,7 @@ That function can be seen here:</p>
 <span class="n">plot_observed_response_and_predictions</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1209,7 +1241,7 @@ That function can be seen here:</p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1227,7 +1259,8 @@ That function can be seen here:</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Awesome! The alpha value of the points was set to 0.5 so that they are partially transparent. So we can see that our predictions were <strong>perfect</strong>, because the blue and red points overlap completely, leaving us with the purple points shown above.</p>
 <p>The next step is to overlay the original observed response $Y$ for the 50 data points. Remember, this required 50 data points but our model was only able to be trained on 12. We will include the training points and prediction points as well.</p>
@@ -1254,7 +1287,7 @@ That function can be seen here:</p>
 <span class="n">plot_full_response_train_and_prediction</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1264,7 +1297,7 @@ That function can be seen here:</p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1282,7 +1315,8 @@ That function can be seen here:</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Cool, so we can see that our predictions on the training points fall nicely on the full $Y$ response curve. However, let's finally pull in our last step and plot our predictions for 50 x inputs (the same number of inputs that have gone into making the blue curve).</p>
 
@@ -1311,7 +1345,7 @@ That function can be seen here:</p>
 <span class="n">plot_full_model_prediction_curve</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1321,7 +1355,7 @@ That function can be seen here:</p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1339,7 +1373,8 @@ That function can be seen here:</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And finally we have gotten to our original branching off point. What we can now see is the entire function that our model has learned, seen in yellow. We see that it <strong>does</strong> correctly predict all of the training data, but at the same time we can see that the training data wasn't really representative of the full data set.</p>
 
@@ -1347,7 +1382,8 @@ That function can be seen here:</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="5.1.2-Decision-tree-regressor---High-Bias,-Low-Variance">5.1.2 Decision tree regressor - High Bias, Low Variance<a class="anchor-link" href="#5.1.2-Decision-tree-regressor---High-Bias,-Low-Variance">&#182;</a></h3><p>Okay now we are ready to move on to a decision tree that has high bias and low variance.</p>
 
@@ -1371,7 +1407,7 @@ That function can be seen here:</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1381,7 +1417,7 @@ That function can be seen here:</p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1399,7 +1435,8 @@ That function can be seen here:</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Wow, we can see now how all of our predictions are <strong>very</strong> off. The red dots are the predictions, and the blue dots are the training data. Hence, we can see that high bias means a very simple model.</p>
 
@@ -1407,7 +1444,8 @@ That function can be seen here:</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="5.1.3-KNN---Low-Bias,-High-Variance">5.1.3 KNN - Low Bias, High Variance<a class="anchor-link" href="#5.1.3-KNN---Low-Bias,-High-Variance">&#182;</a></h3><p>Now we can look at KNN with low bias and high variance.</p>
 
@@ -1431,7 +1469,7 @@ That function can be seen here:</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1441,7 +1479,7 @@ That function can be seen here:</p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1459,7 +1497,8 @@ That function can be seen here:</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We end up with nearly the same pattern as the decision tree.</p>
 
@@ -1467,7 +1506,8 @@ That function can be seen here:</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="5.1.4-KNN---High-Bias,-Low-Variance">5.1.4 KNN - High Bias, Low Variance<a class="anchor-link" href="#5.1.4-KNN---High-Bias,-Low-Variance">&#182;</a></h3><p>Now we can look at KNN with high bias and low variance.</p>
 
@@ -1491,7 +1531,7 @@ That function can be seen here:</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1501,7 +1541,7 @@ That function can be seen here:</p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1519,7 +1559,8 @@ That function can be seen here:</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This is a similar situation to a decision tree where it is essentially just a flat line across. In both cases shown here, it looks like high complexity was the best option.</p>
 
@@ -1527,7 +1568,8 @@ That function can be seen here:</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="5.2---Classification">5.2 - Classification<a class="anchor-link" href="#5.2---Classification">&#182;</a></h2><p>Let's now look at classification. We will generate a data set of 2 gaussian clouds with a variance of 1.</p>
 
@@ -1571,7 +1613,7 @@ That function can be seen here:</p>
   <span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Paired</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1581,7 +1623,7 @@ That function can be seen here:</p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1599,7 +1641,8 @@ That function can be seen here:</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="5.2.1-Decision-Tree---Low-Bias,-High-Variance">5.2.1 Decision Tree - Low Bias, High Variance<a class="anchor-link" href="#5.2.1-Decision-Tree---Low-Bias,-High-Variance">&#182;</a></h3>
 </div>
@@ -1620,7 +1663,7 @@ That function can be seen here:</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1630,7 +1673,7 @@ That function can be seen here:</p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1648,7 +1691,8 @@ That function can be seen here:</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that the boundary is most likely more complex than it needs to be.</p>
 
@@ -1656,7 +1700,8 @@ That function can be seen here:</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="5.2.2-Decision-Tree---High-Bias,-Low-Variance">5.2.2 Decision Tree - High Bias, Low Variance<a class="anchor-link" href="#5.2.2-Decision-Tree---High-Bias,-Low-Variance">&#182;</a></h3>
 </div>
@@ -1677,7 +1722,7 @@ That function can be seen here:</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1687,7 +1732,7 @@ That function can be seen here:</p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1705,7 +1750,8 @@ That function can be seen here:</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Clearly the high bias option was better in this case as far preventing overfitting is concerned.</p>
 
@@ -1713,7 +1759,8 @@ That function can be seen here:</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="5.2.3-KNN---Low-Bias,-High-Variance">5.2.3 KNN - Low Bias, High Variance<a class="anchor-link" href="#5.2.3-KNN---Low-Bias,-High-Variance">&#182;</a></h3>
 </div>
@@ -1734,7 +1781,7 @@ That function can be seen here:</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1744,7 +1791,7 @@ That function can be seen here:</p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1762,7 +1809,8 @@ That function can be seen here:</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Again, clearly the decision boundary is too complex.</p>
 
@@ -1770,7 +1818,8 @@ That function can be seen here:</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="5.2.4-KNN---High-Bias,-Low-Variance">5.2.4 KNN - High Bias, Low Variance<a class="anchor-link" href="#5.2.4-KNN---High-Bias,-Low-Variance">&#182;</a></h3>
 </div>
@@ -1791,7 +1840,7 @@ That function can be seen here:</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1801,7 +1850,7 @@ That function can be seen here:</p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1819,7 +1868,8 @@ That function can be seen here:</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that this is a much better fit and provides a much better decision boundary.</p>
 
@@ -1827,7 +1877,8 @@ That function can be seen here:</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -1882,19 +1933,6 @@ scores = cross_validation.cross_val_score(model, X, Y, cv=K)</code></pre>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake

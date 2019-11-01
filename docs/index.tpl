@@ -229,6 +229,10 @@ $(document).ready(function () {
   <a href="./NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="./Projects.html">Projects</a>
+</li>
+        
       </ul>
     
 <ul class="nav navbar-nav navbar-right">

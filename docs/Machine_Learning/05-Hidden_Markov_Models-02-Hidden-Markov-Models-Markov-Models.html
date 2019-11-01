@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,40 +211,57 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="2.-Markov-Models-and-The-Markov-Property">2. Markov Models and The Markov Property<a class="anchor-link" href="#2.-Markov-Models-and-The-Markov-Property">&#182;</a></h1><p>What is the markov property?</p>
 <blockquote><p>The <strong>markov property</strong> is when tomorrow's weather only depends on todays weather, but not yesterdays weather. It is when the next word in the sentence only depends on the previous word in a sentence, but not on any other words. It is when tomorrows stock price only depends on today's stock price.</p>
 </blockquote>
 <p>The markov property is also called the markov assumption, and we can clearly see that this is a strong assumption! We are essentially throwing away all historical data, except for the most recent.</p>
 <p>In more general terms, what we have been referring to as <code>weather</code>, or <code>stock price</code>, can be thought of as a <strong>state</strong>. We say that the markov assumption is that the current state only depends on the previous state, or that the next state only depends on the current state. Another way of saying this is that the distribution of the state at time $t$, only depends on the distribution of the state at time $t-1$:</p>
-$$State \; at \; time \; t \rightarrow s(t)$$$$p\Big(s(t) \; | \; s(t-1), s(t-2),...,s(0)\Big) = p\Big(s(t) \; | \; s(t-1) \Big)$$<p>Why do we want to do this? Well, the goal here is to model the joint probability; in other words <em>the probability of seeing an entire specific sequence</em>.</p>
+<p>$$State \; at \; time \; t \rightarrow s(t)$$</p>
+<p>$$p\Big(s(t) \; | \; s(t-1), s(t-2),...,s(0)\Big) = p\Big(s(t) \; | \; s(t-1) \Big)$$</p>
+<p>Why do we want to do this? Well, the goal here is to model the joint probability; in other words <em>the probability of seeing an entire specific sequence</em>.</p>
 <p>In other words, if we had 4 states, then without the markov property our joint probability would look like:</p>
-$$p(s4, s3, s2, s1) = p(s4 \;|\; s3, s2, s1)p(s3, s2, s1)$$$$p(s4, s3, s2, s1) = p(s4 \;|\; s3, s2, s1)p(s3\;|\; s2, s1)p(s2, s1)$$$$p(s4, s3, s2, s1) = p(s4 \;|\; s3, s2, s1)p(s3\;|\; s2, s1)p(s2\;|\; s1)p(s1)$$<p>On the other hand, if we do use the markov property, it looks like:</p>
-$$p(s4, s3, s2, s1) = p(s4 \;|\; s3)p(s3 \;|\; s2)p(s2 \;|\;s1)p(s1)$$<p>Think about the sequence: $s1, s2, s3$. How often does that occur? If it doesn't happen that often, how can we accurately measure $p(s4 \;|\; s3, s2, s1)$? It is this simplifying assumption that allows us create value even when dealing with sparse data.</p>
+<p>$$p(s4, s3, s2, s1) = p(s4 \;|\; s3, s2, s1)p(s3, s2, s1)$$</p>
+<p>$$p(s4, s3, s2, s1) = p(s4 \;|\; s3, s2, s1)p(s3\;|\; s2, s1)p(s2, s1)$$</p>
+<p>$$p(s4, s3, s2, s1) = p(s4 \;|\; s3, s2, s1)p(s3\;|\; s2, s1)p(s2\;|\; s1)p(s1)$$</p>
+<p>On the other hand, if we do use the markov property, it looks like:</p>
+<p>$$p(s4, s3, s2, s1) = p(s4 \;|\; s3)p(s3 \;|\; s2)p(s2 \;|\;s1)p(s1)$$</p>
+<p>Think about the sequence: $s1, s2, s3$. How often does that occur? If it doesn't happen that often, how can we accurately measure $p(s4 \;|\; s3, s2, s1)$? It is this simplifying assumption that allows us create value even when dealing with sparse data.</p>
 <h3 id="Concrete-Example">Concrete Example<a class="anchor-link" href="#Concrete-Example">&#182;</a></h3><p>Notice, that if we were to take the most general form, where the state at time $t$ depends on all of the previous states, it would be really hard to measure these probability distributions. For example, think of a wikipedia article where we try to predict the next word. Let's say it is a 1000 word wikipedia article. Now, we have to get the distribution of the 1000th word given the last 999 words:</p>
-$$p(w_{1000} \; | \; w_{999}, ...,w_1)$$<p>However, we can imagine that this is the only wikipedia article with that exact same sequence of 999 words. So our probability measure is 1 out of 1. That is a 1 sample measurement and not a great language model.</p>
+<p>$$p(w_{1000} \; | \; w_{999}, ...,w_1)$$</p>
+<p>However, we can imagine that this is the only wikipedia article with that exact same sequence of 999 words. So our probability measure is 1 out of 1. That is a 1 sample measurement and not a great language model.</p>
 <p>Conversely, if you are thinking of the begining of the article, and you only have 1 previous word, say that the word is "the", then you have an enormous number of possible next words. So, you may want to do something like train on only sequences of 3 or 4 words. In this case, your current word would depend only on the two or 3 previous words.</p>
-$$p(w(t) \; | \; w(t-1), w(t-2))$$<h3 id="Generalize">Generalize<a class="anchor-link" href="#Generalize">&#182;</a></h3><p>To generalize the above concept, we have:</p>
-$$First \; order \; Markov \rightarrow p\Big(s(t) \; | \; s(t-1)\Big)$$$$Second \; order \; Markov \rightarrow p\Big(s(t) \; | \; s(t-1), s(t-2)\Big)$$$$Third \; order \; Markov \rightarrow p\Big(s(t) \; | \; s(t-1), s(t-2), s(t-3)\Big)$$
+<p>$$p(w(t) \; | \; w(t-1), w(t-2))$$</p>
+<h3 id="Generalize">Generalize<a class="anchor-link" href="#Generalize">&#182;</a></h3><p>To generalize the above concept, we have:</p>
+<p>$$First \; order \; Markov \rightarrow p\Big(s(t) \; | \; s(t-1)\Big)$$</p>
+<p>$$Second \; order \; Markov \rightarrow p\Big(s(t) \; | \; s(t-1), s(t-2)\Big)$$</p>
+<p>$$Third \; order \; Markov \rightarrow p\Big(s(t) \; | \; s(t-1), s(t-2), s(t-3)\Big)$$</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.--Markov-Models">2.  Markov Models<a class="anchor-link" href="#2.--Markov-Models">&#182;</a></h2><p><img src="https://drive.google.com/uc?id=1SV4hkVg4msKKoeEmfDrlQKQ4OVgCOR9S"></p>
 <p>We can now return to our weather example. Let's say that we are trying to model the three states: rain, sun, and cloud. We can represent this model as a graph, where each node is a state, and each edge is the probability of going from one state to the next state. You can already see that this is a first order markov model, because the weights only depend on the current state, and it only effects the next state. Once we go to the next state, that becomes the current state, and the state after that only depends on the current state. Notice, that it is possible for the next state to be the same as the current state; i.e. we can have two rainy days in a row.</p>
 <p>So, this means that we have 3 weights for each of the 3 states. How many weights are there in total for M states? Well, since each state can go to each state (including itself), there are always $M^2$ weights. These weights are generally stored in an $M x M$ matrix called $A$, which is called the state transition matrix, or simply the transition probabilities.</p>
 <p>Any element $A(i, j)$ represents the probability of going from state $i$ to state $j$:</p>
-$$A(i, j) = p \Big(s(t)=j \; \big\vert \; s(t-1)=i\Big)$$<p>So, what constraints does this place on $A$? Well, since whenever we are in state $i$ we must go to one of the three states, and there are no other possibilities. Therefore, the sum of row $A(i, :)$ must sum to 1. This applies for $i = 1..M$.</p>
+<p>$$A(i, j) = p \Big(s(t)=j \; \big\vert \; s(t-1)=i\Big)$$</p>
+<p>So, what constraints does this place on $A$? Well, since whenever we are in state $i$ we must go to one of the three states, and there are no other possibilities. Therefore, the sum of row $A(i, :)$ must sum to 1. This applies for $i = 1..M$.</p>
 <h3 id="Starting-Position">Starting Position<a class="anchor-link" href="#Starting-Position">&#182;</a></h3><p>Another important thing to keep in mind for markov models is where do you start? For example, we are trying to model the first word of a sentence, or how much money you can buy a house for. We must know how to model $p \Big( s(0)\Big)$ This is what is called the <strong>initial state distribution</strong>. It is represented by an $M$ dimensional vector called $\pi$, and we usually represent it by a $1 x M$ dimensional row vector (unlike what we usually are working with, column vectors). Of course, all of the values must sum to one, since it is the probability that we start in each of the $M$ states.</p>
 <h3 id="Simple-Examples">Simple Examples<a class="anchor-link" href="#Simple-Examples">&#182;</a></h3><p>With these concepts in hand, we are ready to start using the model. We can ask questions like "<em>what is the probability of this sequence</em>"?:</p>
 <blockquote><p>"Sun, sun, rain, cloud"</p>
 </blockquote>
 <p>So, the probability of that is just equal to:</p>
-$$p(sun, sun, rain, cloud) = p(cloud \; | \; rain)p(rain \; | \; sun)p(sun \; | \; sun)p(sun)$$$$p(sun, sun, rain, cloud) = 0.2 * 0.05 * 0.8 * p(sun)$$<p>Note that $p(sun)$ is not given in the diagram. In general this looks like:</p>
-$$p\big(s(0),...,s(T)\big) = \pi\big(s(0)\big))\prod_{t=1..T}p\big(s(t) \; | \; s(t-1)\big)$$<p>Which in english just means the probability of state 0, times the product of the rest of the state transition probabilities. This allows us to ask questions like:</p>
+<p>$$p(sun, sun, rain, cloud) = p(cloud \; | \; rain)p(rain \; | \; sun)p(sun \; | \; sun)p(sun)$$</p>
+<p>$$p(sun, sun, rain, cloud) = 0.2 * 0.05 * 0.8 * p(sun)$$</p>
+<p>Note that $p(sun)$ is not given in the diagram. In general this looks like:</p>
+<p>$$p\big(s(0),...,s(T)\big) = \pi\big(s(0)\big))\prod_{t=1..T}p\big(s(t) \; | \; s(t-1)\big)$$</p>
+<p>Which in english just means the probability of state 0, times the product of the rest of the state transition probabilities. This allows us to ask questions like:</p>
 <blockquote><p>"Which sequence is more probable in this model?"</p>
 </blockquote>
 <p>Meaning, if we are given two sequences, we can determine which one is more likely to happen.</p>
@@ -258,44 +279,61 @@ $$p\big(s(0),...,s(T)\big) = \pi\big(s(0)\big))\prod_{t=1..T}p\big(s(t) \; | \; 
 "5 = kangaroos"<br></p>
 </blockquote>
 <p>We can give these each indexes in a vector, so they take the numbers 0-5 inclusive. If we use maximum likelihood, then our initial state distribution is just 100% probability for starting with the word "I", since all sentences start with "I". This means $\pi$ is:</p>
-$$\pi = [1, 0, 0, 0, 0, 0]$$$$\pi("I") = 1$$<p>Next, if the current word is "I" then there are two possibilities for the second word: "like" and "love". So:</p>
-$$p\big(like \; | \; I\big) = \frac{2}{3}$$$$p\big(love \; | \; I\big) = \frac{1}{3}$$<p>Finally, we have:</p>
-$$p\big(dogs \; | \; like\big) = \big(cats \; | \; like\big) = \frac{1}{2}$$$$p\big(kangaroos \; | \; love\big) = 1$$<p>All other state transition probabilities are 0.</p>
+<p>$$\pi = [1, 0, 0, 0, 0, 0]$$</p>
+<p>$$\pi("I") = 1$$</p>
+<p>Next, if the current word is "I" then there are two possibilities for the second word: "like" and "love". So:</p>
+<p>$$p\big(like \; | \; I\big) = \frac{2}{3}$$</p>
+<p>$$p\big(love \; | \; I\big) = \frac{1}{3}$$</p>
+<p>Finally, we have:</p>
+<p>$$p\big(dogs \; | \; like\big) = \big(cats \; | \; like\big) = \frac{1}{2}$$</p>
+<p>$$p\big(kangaroos \; | \; love\big) = 1$$</p>
+<p>All other state transition probabilities are 0.</p>
 <h3 id="Smoothing">Smoothing<a class="anchor-link" href="#Smoothing">&#182;</a></h3><p>Realize that in the english language we have over 1 million words. So, that is going to be a very large vocabulary. Even with lots of data, we may not be able to capture every possible sentence. This means that some things will have a probability of 0 that should have a chance of occuring. So, sometimes instead of maximum likelihood we use <strong>smoothed estimates</strong>.</p>
 <p>Our non-smoothed scenario would look like:</p>
-$$A(i, j) = \frac{count(i \rightarrow j)}{count(i)}$$<p>In the case of <strong>epsilon smoothing</strong>, we have:</p>
-$$A(i, j) = \frac{c(i \rightarrow j) + \epsilon}{c(i) + \epsilon V}$$<p>In the above, V is the vocabulary size. When epsilon is 1, we called this <strong>add 1 smoothing</strong>.</p>
+<p>$$A(i, j) = \frac{count(i \rightarrow j)}{count(i)}$$</p>
+<p>In the case of <strong>epsilon smoothing</strong>, we have:</p>
+<p>$$A(i, j) = \frac{c(i \rightarrow j) + \epsilon}{c(i) + \epsilon V}$$</p>
+<p>In the above, V is the vocabulary size. When epsilon is 1, we called this <strong>add 1 smoothing</strong>.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="3.-The-Math-of-Markov-Chains">3. The Math of Markov Chains<a class="anchor-link" href="#3.-The-Math-of-Markov-Chains">&#182;</a></h2><p>We are now going to look at markov chains, which are really just markov models. When we are talking about markov chains, we are generally just talking about a <strong>discrete time stochastic process</strong>.</p>
 <p>Think about the following question:</p>
 <blockquote><p>"<em>What is the probability of a sunny day 5 days from now?</em>"</p>
 </blockquote>
 <p>Well, we can calculate this simply using the probabilities. First, we can consider the probability of it being sunny tomorrow. That is just $p(sun(1))$, or p(sun) at time t = 1. This is simply the marginalization of $p(sun(1))$ (the top represents the collapsing of the $sun(1)$ rows, and the bottom represents dividing by the marginalization of the other cases to ensure a valid probability distribution:</p>
-$$p(sun(1)) = \frac{p(sun(1), sun(0)) + p(sun(1), rain(0)) + p(sun(1), cloud(0))}
-{\sum_{weather \in {sun, rain, cloud}} p(weather(1), sun(0)) + p(weather(1), rain(0)) + p(weather(1), cloud(0))}$$<p>We can then use <strong>Bayes rule</strong> which would give us the probability in terms of the conditionals, and the initial state distribution. This is just the transition matrix $A$ and $\pi$ which defines the markov model.</p>
-$$p(sun(1)) = \frac{p(sun(1) | sun(0))\pi(sun) + p(sun(1) | rain(0))\pi(rain) + p(sun(1) | cloud(0))\pi(cloud)}{marginalizer}$$<p>In general, you multiply $\pi$ by the matrix $A$, giving you another row vector, with the new state distribution at time $t=1$.</p>
-$$p(s(1)) = \pi A$$<p>Next you multiply by the new state distribution at time $t=2$:</p>
-$$p(s(2)) = \pi AA = \pi A^2$$<p>And so on:</p>
-$$p(s(t)) = \pi A^t$$<h3 id="Additional-Detail">Additional Detail<a class="anchor-link" href="#Additional-Detail">&#182;</a></h3><p>For those interested, we can expand the above calculation as follows; First we can write the transition matrix $A$ out fully:</p>
-$$A = 
+<p>$$p(sun(1)) = \frac{p(sun(1), sun(0)) + p(sun(1), rain(0)) + p(sun(1), cloud(0))}
+{\sum_{weather \in {sun, rain, cloud}} p(weather(1), sun(0)) + p(weather(1), rain(0)) + p(weather(1), cloud(0))}$$</p>
+<p>We can then use <strong>Bayes rule</strong> which would give us the probability in terms of the conditionals, and the initial state distribution. This is just the transition matrix $A$ and $\pi$ which defines the markov model.</p>
+<p>$$p(sun(1)) = \frac{p(sun(1) | sun(0))\pi(sun) + p(sun(1) | rain(0))\pi(rain) + p(sun(1) | cloud(0))\pi(cloud)}{marginalizer}$$</p>
+<p>In general, you multiply $\pi$ by the matrix $A$, giving you another row vector, with the new state distribution at time $t=1$.</p>
+<p>$$p(s(1)) = \pi A$$</p>
+<p>Next you multiply by the new state distribution at time $t=2$:</p>
+<p>$$p(s(2)) = \pi AA = \pi A^2$$</p>
+<p>And so on:</p>
+<p>$$p(s(t)) = \pi A^t$$</p>
+<h3 id="Additional-Detail">Additional Detail<a class="anchor-link" href="#Additional-Detail">&#182;</a></h3><p>For those interested, we can expand the above calculation as follows; First we can write the transition matrix $A$ out fully:</p>
+<p>$$A = 
 \begin{bmatrix}
     (sun,sun) &amp; (sun, cloud) &amp; (sun, rain) \\
     (cloud, sun) &amp; (cloud, cloud) &amp; (cloud, rain) \\
     (rain, sun) &amp; (rain, cloud) &amp; (rain, rain) 
 \end{bmatrix}
-$$<p>Where each matrix entry consists of an $(i, j)$ pair, in which the transition is occuring from state $i$ to state $j$. Now, our initial state distribution $\pi$ has the form:</p>
-$$\pi =
+$$</p>
+<p>Where each matrix entry consists of an $(i, j)$ pair, in which the transition is occuring from state $i$ to state $j$. Now, our initial state distribution $\pi$ has the form:</p>
+<p>$$\pi =
 \begin{bmatrix}
     sun &amp; cloud &amp; rain \\
-\end{bmatrix}$$<p>So when we multiply them together, we have the form:</p>
-$$\pi A$$<p><br></p>
-$$
+\end{bmatrix}$$</p>
+<p>So when we multiply them together, we have the form:</p>
+<p>$$\pi A$$</p>
+<p><br></p>
+<p>$$
 \begin{bmatrix}
     sun &amp; cloud &amp; rain \\
 \end{bmatrix}
@@ -304,9 +342,10 @@ $$
     (cloud, sun) &amp; (cloud, cloud) &amp; (cloud, rain) \\
     (rain, sun) &amp; (rain, cloud) &amp; (rain, rain) 
 \end{bmatrix}
-$$<p><br></p>
+$$</p>
+<p><br></p>
 <p>And as matrix multiplication is defined, we take the first column of $A$, and dot it with the row vector $\pi$:</p>
-$$
+<p>$$
 \begin{bmatrix}
     sun &amp; cloud &amp; rain \\
 \end{bmatrix}
@@ -315,26 +354,33 @@ $$
     (cloud, sun) \\
     (rain, sun) 
 \end{bmatrix}
-$$<p><br></p>
-$$= p(sun)p(sun(1), sun(0)) + p(cloud)p(sun(1), cloud(0)) + p(rain)p(sun(1), p(rain(0))$$<p><br>
+$$</p>
+<p><br></p>
+<p>$$= p(sun)p(sun(1), sun(0)) + p(cloud)p(sun(1), cloud(0)) + p(rain)p(sun(1), p(rain(0))$$</p>
+<p><br>
 Note that this is exactly what we had defined eariler!</p>
 <p><br></p>
-$$p(sun(1)) = p(sun)p(sun(1), sun(0)) + p(cloud)p(sun(1), cloud(0)) + p(rain)p(sun(1), p(rain(0))$$<p><br></p>
+<p>$$p(sun(1)) = p(sun)p(sun(1), sun(0)) + p(cloud)p(sun(1), cloud(0)) + p(rain)p(sun(1), p(rain(0))$$</p>
+<p><br></p>
 <p>This yields a single number, that will take the first entry of the output vector. We repeat this for the next two columns of $A$, resulting in a (1x3) output vector that we can view as an updated $\pi$! Keep in mind, this output vector may have a shape that looks like:</p>
-$$
+<p>$$
 \begin{bmatrix}
     0.9 &amp; 1.2 &amp; 3.1 \\
 \end{bmatrix}
-$$<p>Which is not a valid distribution. We must remember to complete the final step of the marginalization and normalize the output vector, ensuring it is a valid probability distribution (divide each entry by the sum of the row):</p>
-$$
+$$</p>
+<p>Which is not a valid distribution. We must remember to complete the final step of the marginalization and normalize the output vector, ensuring it is a valid probability distribution (divide each entry by the sum of the row):</p>
+<p>$$
 \begin{bmatrix}
     0.17 &amp; 0.23 &amp; 0.57 \\
 \end{bmatrix}
-$$<p>At this point, the single number that we just calculated above, that represented $p(sun(1))$, is literally representing the probability of sun in the updated state distribution.</p>
+$$</p>
+<p>At this point, the single number that we just calculated above, that represented $p(sun(1))$, is literally representing the probability of sun in the updated state distribution.</p>
 <p>So, if we wanted to know the probability of it being sunny 5 days from now, we would simply calculate:</p>
-$$\pi A^5$$<p>And then take the first entry of that row vector, since it would represent the probability of sun.</p>
+<p>$$\pi A^5$$</p>
+<p>And then take the first entry of that row vector, since it would represent the probability of sun.</p>
 <h3 id="Stationary-Distribution">Stationary Distribution<a class="anchor-link" href="#Stationary-Distribution">&#182;</a></h3><p>Suppose we start off in the state distribution of $\pi$, and then multiply by $A$ and still end up with a state distribution of $\pi$:</p>
-$$\pi = A \pi$$<p>This is known as a stationary distribution because no matter how many times we transition from this state distribution, we still end up with the same state distribution.</p>
+<p>$$\pi = A \pi$$</p>
+<p>This is known as a stationary distribution because no matter how many times we transition from this state distribution, we still end up with the same state distribution.</p>
 <h4 id="Geometry-of-Stationary-Distribution-and-Transition-Matrix">Geometry of Stationary Distribution and Transition Matrix<a class="anchor-link" href="#Geometry-of-Stationary-Distribution-and-Transition-Matrix">&#182;</a></h4><p>Before we try and find the stationary distribution, it is worth discussing a bit of geometrical intuition behind $\pi$ and $A$. In our current configuration, $\pi$ is a 1x3 linear transformation, and it is taking $A$, a 3x3 matrix of <em>vectors</em> as an input. If we think about our standard 3-dimensional coordinate system, we can say that our 3 dimensions (generally $x, y, z$) are now $sun, cloud, rain$. We can define our basis vectors to be $\hat{i}$, $\hat{j}$, and $\hat{k}$, and we can interpret our matrix multiplication as follows; $A$ is holding 3 column vectors (each representing a set of transitions to a specific state), and the rows holding the basis vectors corresponding to each initial state:</p>
 <p><img src="https://drive.google.com/uc?id=1xiL-F9YbgftqZsKod7zkADIOQNJ1C6vy" width="500"></p>
 <p>We know that our linear transformation $\pi$ is going to take each column $A$, perform the dot product, and have that single number be an entry in the new 1x3 matrix, where each entry represents the probability of a state on the next day! Therefore, we can think think about this as a dot product similarity measure between an initial distribution row vector and each specific column vector of A.</p>
@@ -345,36 +391,32 @@ $$\pi = A \pi$$<p>This is known as a stationary distribution because no matter h
 </blockquote>
 <p>This can then be repeated for the second and third columns of $A$. Now, the distinction that $A$ is <em>not</em> a linear transformation in this current configuration, but rather a matrix of column vectors that are being transformed by $\pi$, is hopefully clear at this point.</p>
 <h4 id="Finding-the-Stationary-Distribution">Finding the Stationary Distribution<a class="anchor-link" href="#Finding-the-Stationary-Distribution">&#182;</a></h4><p>We have now set ourselves up for success in finding the stationary distribution. If you have dealt with linear algebra in the past extensively, you may remember that when a linear transformation transforms a vector, and that vector <em>remains on it's span</em>, it is an eigenvector of the transformation:</p>
-$$A\vec{v} = \lambda \vec{v}$$<p>Where $\vec{v}$ is the vector being transformed, and $\lambda$ is a scalar. Now, in this case $\vec{v}$ is a column vector. In many disciplines, this is the case (vectors are represented as matrices with a single column), and as such this is the standard way in which eigenvectors are viewed. However, by definition this is technically a <em>right eigenvector</em>, more of which can be read about <a href="https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors#Left_and_right_eigenvectors">here</a>.</p>
+<p>$$A\vec{v} = \lambda \vec{v}$$</p>
+<p>Where $\vec{v}$ is the vector being transformed, and $\lambda$ is a scalar. Now, in this case $\vec{v}$ is a column vector. In many disciplines, this is the case (vectors are represented as matrices with a single column), and as such this is the standard way in which eigenvectors are viewed. However, by definition this is technically a <em>right eigenvector</em>, more of which can be read about <a href="https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors#Left_and_right_eigenvectors">here</a>.</p>
 <p>There is also a <em>left eigenvector</em>, which is the case where we have a <em>row vector</em> that left multiplies a matrix (in other words, the row vector is acting as the transformation):</p>
-$$u A = k u$$<p>Where here $u$ is our row vector, and $k$ is a scalar. This is what is occuring in our scenario, specifically:</p>
-$$\pi A = \pi $$<p>We should note that in our scenario the eigenvalue is clearly 1. Now, the most straightforward way to find our left eigenvector $\pi$ in this case is to take the transpose of each side of the equation (using the <a href="https://en.wikipedia.org/wiki/Transpose#Properties">multiplicative property</a> of the matrix transpose):</p>
-$$(\pi A)^T = \pi^T$$$$A^T \pi^T = \pi^T$$<p>We can now see that the left eigenvector of $A$ is going to be the same as the transpose of the right eigenvector of $A^T$! We now have a situation where $\pi^T$ is being transformed by the matrix $A^T$. $\pi^T$ is a 3 dimensional column vector, and is an eigenvector of $A^T$, meaning it will <em>not</em> be knocked off of its span after being transformed via $A^T$.</p>
+<p>$$u A = k u$$</p>
+<p>Where here $u$ is our row vector, and $k$ is a scalar. This is what is occuring in our scenario, specifically:</p>
+<p>$$\pi A = \pi $$</p>
+<p>We should note that in our scenario the eigenvalue is clearly 1. Now, the most straightforward way to find our left eigenvector $\pi$ in this case is to take the transpose of each side of the equation (using the <a href="https://en.wikipedia.org/wiki/Transpose#Properties">multiplicative property</a> of the matrix transpose):</p>
+<p>$$(\pi A)^T = \pi^T$$</p>
+<p>$$A^T \pi^T = \pi^T$$</p>
+<p>We can now see that the left eigenvector of $A$ is going to be the same as the transpose of the right eigenvector of $A^T$! We now have a situation where $\pi^T$ is being transformed by the matrix $A^T$. $\pi^T$ is a 3 dimensional column vector, and is an eigenvector of $A^T$, meaning it will <em>not</em> be knocked off of its span after being transformed via $A^T$.</p>
 <p>We can solve for this eigenvector as you normally would, and in our case <a href="https://docs.scipy.org/doc/numpy-1.15.1/reference/generated/numpy.linalg.eig.html">software will take care of that</a>. The intuition is far more important!</p>
 <h3 id="Limiting-Distribution">Limiting Distribution<a class="anchor-link" href="#Limiting-Distribution">&#182;</a></h3><p>Another thing we can ask is:</p>
 <blockquote><p>"<em>What state do we expect to end up in?</em>"</p>
 </blockquote>
 <p>We can think of this as the final state distribution, or the state distribution at time $t= \infty$:</p>
-$$\pi_{\infty} = \pi A^{\infty}$$<p>This is essentially just taking $\pi$ and multiplying it by $A$ an infinite number of times. Another way of thinking of this is that no matter how many times I transition after this point, I still expect to have the same state probability distribution, known as the <strong>equilibrium distribution</strong> or <strong>limiting distribution</strong>, because it is the state distribution that you settle into after a very long time.</p>
-$$A^{\infty}A = A^{\infty}$$$$\pi_{\infty} = \pi_{\infty}A$$<p>By definition, if we take the equilibrium distribution, multiple by $A$ and get the same distribution, then it is a <strong>stationary distribution</strong>. So, all equilibrium distributions are stationary distributions. However, it should be known that all stationary distributions are not equilibrium distributions.</p>
+<p>$$\pi_{\infty} = \pi A^{\infty}$$</p>
+<p>This is essentially just taking $\pi$ and multiplying it by $A$ an infinite number of times. Another way of thinking of this is that no matter how many times I transition after this point, I still expect to have the same state probability distribution, known as the <strong>equilibrium distribution</strong> or <strong>limiting distribution</strong>, because it is the state distribution that you settle into after a very long time.</p>
+<p>$$A^{\infty}A = A^{\infty}$$
+$$\pi_{\infty} = \pi_{\infty}A$$</p>
+<p>By definition, if we take the equilibrium distribution, multiple by $A$ and get the same distribution, then it is a <strong>stationary distribution</strong>. So, all equilibrium distributions are stationary distributions. However, it should be known that all stationary distributions are not equilibrium distributions.</p>
 <p>So, what does the equilibrium distribution tell us? Suppose we have:</p>
-$$\pi_{\infty}(sun, rain, cloud) = (\frac{5}{10}, \frac{1}{10}, \frac{4}{10})$$<p>This means that in the long run, if we measured 1000 days, we would expect 500 to be sunny, 100 to be rainy, and 400 to be cloudy. This allows us to gather statistics over time, even though a random process is time variant. This could not be done with stock prices!</p>
+<p>$$\pi_{\infty}(sun, rain, cloud) = (\frac{5}{10}, \frac{1}{10}, \frac{4}{10})$$</p>
+<p>This means that in the long run, if we measured 1000 days, we would expect 500 to be sunny, 100 to be rainy, and 400 to be cloudy. This allows us to gather statistics over time, even though a random process is time variant. This could not be done with stock prices!</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake

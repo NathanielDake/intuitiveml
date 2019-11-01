@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,7 +211,8 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="1.-Cross-Entropy-and-Maximum-Likelihood-Estimation">1. Cross Entropy and Maximum Likelihood Estimation<a class="anchor-link" href="#1.-Cross-Entropy-and-Maximum-Likelihood-Estimation">&#182;</a></h1><p>If you have gone through any of my other walkthroughs on machine learning, particularly those on <strong>Logistic Regression</strong>, <strong>Neural Networks</strong>, <strong>Decision Trees</strong>, or <strong>Bayesian machine learning</strong> you have definitely come across the concept of <strong>Cross Entropy</strong> and <strong>Maximum Likelihood Estimation</strong>. Now, when discussed separately, these are relatively simple concepts to understand. However, during the creation of these notebooks, particularly the sections on logisitic regression and neural networks (and the cost functions involved), I felt as though it was not clear why they were related in certain cases.</p>
 <p>This notebook is meant to do three things:</p>
@@ -222,70 +227,99 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="1.1.-Cross-Entropy">1.1. Cross Entropy<a class="anchor-link" href="#1.1.-Cross-Entropy">&#182;</a></h1><p>When we develop a model for probabilistic classification, we are trying to figure out how to map the models <strong>inputs</strong> to <strong>probabilistic predictions</strong>, with the goal that these are very close to the <strong>ground-truth probabilities</strong>. The <strong>training</strong> process is done by iteratively adjusting the model's parameters so that our predictions get closer and closer to the ground-truth.</p>
 <p>Say we are trying to build a model that can determine whether an image contains a dog, a cat, or a fish. If, for instance, we input an image that contains a fish, we are hoping that the output is:</p>
-$$y = \begin{bmatrix}
+<p>$$y = \begin{bmatrix}
     0 \\
     0 \\
     1
-\end{bmatrix}$$<p>Since that vector represents the <strong>ground-truth class probabilities</strong>- in this case 0 for dog, 0 for cat, and 1 for fish. If our model ended up predicting a different probability distribution, for instance:</p>
-$$\hat{y}= \begin{bmatrix}
+\end{bmatrix}$$</p>
+<p>Since that vector represents the <strong>ground-truth class probabilities</strong>- in this case 0 for dog, 0 for cat, and 1 for fish. If our model ended up predicting a different probability distribution, for instance:</p>
+<p>$$\hat{y}= \begin{bmatrix}
     0.3 \\
     0.2 \\
     0.5
-\end{bmatrix}$$<p>Then we would want to adjust our parameters so that $\hat{y}$ gets closer to $y$. The question is: What exactly do we mean when we say "get's closer to"? How should we measure the difference between $\hat{y}$ and $y$? One possible measure is <strong>cross entropy</strong>.</p>
+\end{bmatrix}$$</p>
+<p>Then we would want to adjust our parameters so that $\hat{y}$ gets closer to $y$. The question is: What exactly do we mean when we say "get's closer to"? How should we measure the difference between $\hat{y}$ and $y$? One possible measure is <strong>cross entropy</strong>.</p>
 <h2 id="1.2-Entropy">1.2 Entropy<a class="anchor-link" href="#1.2-Entropy">&#182;</a></h2><p>In the context of <strong>information theory</strong>, what is <strong>entropy</strong>? Let's look at an example first. Say you are standing along a road, and you want to communicate each car model that you see pass to a friend. The only means that you have to communicate with your friend is a binary channel where you can only send 0 or 1, and each particular bit costs 10 cents. To do this, you will need bit sequences, one to represent each car model.</p>
 <p>Lets assume you are trying to minimize the amount of money you have to spend. How would you decide to assign bit sequences to car models? Would you use the same number of bits for a Toyota Camry as you would for a corvette? No, you wouldn't! Clearly you know that the camry is far more common, and you will be communicating to your friend that you saw a camry far more often, so you want to assign it a smaller sequence of bits. In other words, you are exploiting your knowledge about the distribution over car models to reduce the number of bits that you need to send on average.</p>
 <p>Well, it turns out that if you have access to the underlying distribution of cars on the road, $y$, then if you want to use the smallest number of bits on average, you should assign $log(\frac{1}{y_i})$ bits to the $i$th symbol. (Remember, $y_i$ is the probability of the $i$th symbol).</p>
 <p>For example, if we assume that seeing a Camry is 128 times as likely as seeing a corvette, then we'd give the Camry 7 less bits than the Tesla symbol:</p>
-$$b_{camry} = log\frac{1}{128p_{corvette}} = log\frac{1}{p_{corvette}} + log\frac{1}{128} = b_{corvette}-7$$<p>If we fully exploit the known distribution of cars, $y$, in this way, we can achieve an optimal number of bits per transmission. The optimal number of bits is known as <strong>entropy</strong>. Mathematically, it's just the expected number of bits under this optimal encoding.</p>
-$$H(y) = \sum_iy_ilog\frac{1}{y_i} = -\sum_iy_ilog(y_i)$$<p>Where again, $y_i$ is the probability of seeing the $i$-th symbol, i.e. a corvette, and $log\frac{1}{y_i}$ is the number of bits we have assigned to it. So this equation just means that we take the probability of seeing each car, and multiply that by the number of bits we have assigned to it, and that is the total number of bits we would be expecting to transmit.</p>
+<p>$$b_{camry} = log\frac{1}{128p_{corvette}} = log\frac{1}{p_{corvette}} + log\frac{1}{128} = b_{corvette}-7$$</p>
+<p>If we fully exploit the known distribution of cars, $y$, in this way, we can achieve an optimal number of bits per transmission. The optimal number of bits is known as <strong>entropy</strong>. Mathematically, it's just the expected number of bits under this optimal encoding.</p>
+<p>$$H(y) = \sum_iy_ilog\frac{1}{y_i} = -\sum_iy_ilog(y_i)$$</p>
+<p>Where again, $y_i$ is the probability of seeing the $i$-th symbol, i.e. a corvette, and $log\frac{1}{y_i}$ is the number of bits we have assigned to it. So this equation just means that we take the probability of seeing each car, and multiply that by the number of bits we have assigned to it, and that is the total number of bits we would be expecting to transmit.</p>
 <h2 id="1.3-Information">1.3 Information<a class="anchor-link" href="#1.3-Information">&#182;</a></h2><p>Now, you may very well be wondering: why are we taking the logarithm of the above inverse probability $\frac{1}{y_i}$? I mentioned that it "turns out" that with the underlying distribution, then this is the number of bits you should assign to the $i$th symbol; but why?</p>
 <p>In order to fully grasp that, the concept of <strong>information</strong> must be introduced. A full post will be dedicated to it in the future, but for now we will focus in on a specific type of information known as <strong>Shannon Information</strong> (named after the founder of information theory, Claude Shannon), and define it as follows:</p>
 <blockquote><p><strong>Shannon Information</strong> is a measure of <em>surprise</em>.</p>
 </blockquote>
 <p>Now what exactly do I mean when referencing "surprise"? Well, take our car example again. When a camry passes us we experience little surprise, since it is very common. On the other hand, when the rare Tesla passes by we experience a good deal of surprise; we were not expecting it! Well, as Claude Shannon was considering how to define information he realized that this concept of "surprise" was absolutely crucial.</p>
 <p>A simple was to mathematically define surprise would be:</p>
-$$information = surprise = \frac{1}{\text{probability of event}}$$<p>In the above definition, if the probability of our event was 0.01 (a rare event), then our $surpise$ would be $100$. However, for a very common event with a probability of 0.9, our $surprise$ would be $1.11$.</p>
+<p>$$information = surprise = \frac{1}{\text{probability of event}}$$</p>
+<p>In the above definition, if the probability of our event was 0.01 (a rare event), then our $surpise$ would be $100$. However, for a very common event with a probability of 0.9, our $surprise$ would be $1.11$.</p>
 <p>This definition on first glance seems to quantify surprise very well! However, as Shannon was trying to create his official definition of information, he realized that in order for it be useful it would have to be <em>additive</em>. This simply means that the information associated with a set of outcomes should be equal to the sum of the information associated with each individual outcome. Shannon showed that in order to satisfy this <em>additive</em> condition, we are better off defining information as as:</p>
-$$information = surprise = log(\frac{1}{\text{probability of event}})$$<p>The definition above is that of <strong>Shannon Information</strong>. Now, how Shannon proved that will be saved for another post, but the important thing to remember is that it was <em>chosen for a reason</em>, not simply plucked out of thin air.</p>
+<p>$$information = surprise = log(\frac{1}{\text{probability of event}})$$</p>
+<p>The definition above is that of <strong>Shannon Information</strong>. Now, how Shannon proved that will be saved for another post, but the important thing to remember is that it was <em>chosen for a reason</em>, not simply plucked out of thin air.</p>
 <p>One final thing to keep in mind is that another way of viewing <em>Entropy</em>, is as the <em>average shannon information</em>. In other words, it is the <em>expected value of the shannon information</em>. Recall, the definition of expected value is:</p>
-$$E \big[ X \big] = \sum_{i}^k x_ip_i = x_1p_1 + x_2p_2 + ... + x_kp_k$$<p>Which, we can apply to shannon information:</p>
-$$Entropy = E \big[\text{Shannon Information} \big] = \sum_{i}^k \text{Probability of event $i$}*log\Big(\frac{1}{\text{probability of event $i$}}\Big)$$<p>And this is exactly what we found in section 1.2! A succicint definition of Entropy may sometimes take the form:</p>
-$$Entropy = H(X) = E \Big[ log(\frac{1}{p(x)})\Big]$$<h2 id="1.4-Cross-Entropy">1.4 Cross Entropy<a class="anchor-link" href="#1.4-Cross-Entropy">&#182;</a></h2><p>Now, if we think of a distribution as the tool we use to encode symbols, then entropy measures the number of bits we'll need if we use the <em>correct</em> tool, $y$, the <strong>ground-truth probability distribution</strong>. This is optimal, in that we can't encode the symbols using fewer bits on average.</p>
+<p>$$E \big[ X \big] = \sum_{i}^k x_ip_i = x_1p_1 + x_2p_2 + ... + x_kp_k$$</p>
+<p>Which, we can apply to shannon information:</p>
+<p>$$Entropy = E \big[\text{Shannon Information} \big] = \sum_{i}^k \text{Probability of event $i$}*log\Big(\frac{1}{\text{probability of event $i$}}\Big)$$</p>
+<p>And this is exactly what we found in section 1.2! A succicint definition of Entropy may sometimes take the form:</p>
+<p>$$Entropy = H(X) = E \Big[ log(\frac{1}{p(x)})\Big]$$</p>
+<h2 id="1.4-Cross-Entropy">1.4 Cross Entropy<a class="anchor-link" href="#1.4-Cross-Entropy">&#182;</a></h2><p>Now, if we think of a distribution as the tool we use to encode symbols, then entropy measures the number of bits we'll need if we use the <em>correct</em> tool, $y$, the <strong>ground-truth probability distribution</strong>. This is optimal, in that we can't encode the symbols using fewer bits on average.</p>
 <p><strong>However</strong>, <strong>cross entropy</strong> represents the number of bits we will need if we encode symbols from $y$ using the <em>wrong</em> tool $\hat{y}$. In other words, if the probabilty distribution that our model learns, $\hat{y}$, is not the same as $y$ (which it almost never will be), then <strong>cross entropy</strong> represents the number of bits used in the encoding. We would have encoded the $i$th symbol with $log\frac{1}{\hat{y_i}}$ bits, instead of $log\frac{1}{y_i}$ bits.</p>
 <p>We of course will still be utilizing the value of the true distribution $y$, since that is the distribution we will actually encounter (if this is unclear, all it means is that you create the encoding scheme <em>before</em> you actually see the number of cars, meaning you use a distribution you are hoping is close the the correct one. We call this distribution $\hat{y}$. However, when actually determining how many bits you use, that is based on <em>actual</em> cars that pass you, which is the true distribution, $y$.). Mathematically this looks like:</p>
-$$H(y, \hat{y}) = \sum_iy_ilog\frac{1}{\hat{y_i}} = -\sum_iy_ilog\frac{1}{\hat{y_i}}$$<p><strong>Cross entropy</strong> is <em>always</em> larger than <strong>entropy</strong>. Encoding symbols according to the wrong distribution $\hat{y}$ will always make us use more bits. The only exception is in the trivial case where $y$ and $\hat{y}$ are equal, and in this case entropy and cross entropy are equal.</p>
+<p>$$H(y, \hat{y}) = \sum_iy_ilog\frac{1}{\hat{y_i}} = -\sum_iy_ilog\frac{1}{\hat{y_i}}$$</p>
+<p><strong>Cross entropy</strong> is <em>always</em> larger than <strong>entropy</strong>. Encoding symbols according to the wrong distribution $\hat{y}$ will always make us use more bits. The only exception is in the trivial case where $y$ and $\hat{y}$ are equal, and in this case entropy and cross entropy are equal.</p>
 <h3 id="1.4.1-Cross-Entropy-Applied">1.4.1 Cross Entropy Applied<a class="anchor-link" href="#1.4.1-Cross-Entropy-Applied">&#182;</a></h3><p>In order to make the notion of cross entropy more concrete, I want to go through how it applies in a scenario such as logistic regression, and <em>why</em> it is the perfect choice for a cost function. We are going to start with the above definition of cross entropy:</p>
-$$H(y, \hat{y}) = \sum_iy_ilog\frac{1}{\hat{y}_i}$$<p>Remember, the entire reason we that we have been delving into entropy is that we wanted to find a way to determine how "different" our <em>predicted distribution</em> is from the <em>target distribution</em>. For clarity, I am going to let our target distribution be represented as $t$, and the predicted distribution will remain $\hat{y}$.</p>
-$$H(t, \hat{y}) = \sum_i t_i log\frac{1}{\hat{y}_i}$$<p>In the case of machine learning (think logistic regression), we have a set of <em>labels</em> which corresponds to our <em>target distribution</em>, $t$. Again, it will often have the form:</p>
-$$t = \begin{bmatrix}
+<p>$$H(y, \hat{y}) = \sum_iy_ilog\frac{1}{\hat{y}_i}$$</p>
+<p>Remember, the entire reason we that we have been delving into entropy is that we wanted to find a way to determine how "different" our <em>predicted distribution</em> is from the <em>target distribution</em>. For clarity, I am going to let our target distribution be represented as $t$, and the predicted distribution will remain $\hat{y}$.</p>
+<p>$$H(t, \hat{y}) = \sum_i t_i log\frac{1}{\hat{y}_i}$$</p>
+<p>In the case of machine learning (think logistic regression), we have a set of <em>labels</em> which corresponds to our <em>target distribution</em>, $t$. Again, it will often have the form:</p>
+<p>$$t = \begin{bmatrix}
     0 \\
     0 \\
     1
-\end{bmatrix}$$<p>The entire idea is that we want to <em>learn</em> this distribution, which is represented by $\hat{y}$. It may look like:</p>
-$$\hat{y}= \begin{bmatrix}
+\end{bmatrix}$$</p>
+<p>The entire idea is that we want to <em>learn</em> this distribution, which is represented by $\hat{y}$. It may look like:</p>
+<p>$$\hat{y}= \begin{bmatrix}
     0.3 \\
     0.2 \\
     0.5
-\end{bmatrix}$$<p>For one specific training example, we want to learn the distribution, and hope that it is very close the target distribution. We can determine <em>how far away</em> from the target distribution it is via the <em>cross entropy</em>. Now, let's say we are in a binary classification scenario, with classes $a$ and $b$. Our cross entropy would look like:</p>
-$$H(t, \hat{y}) = t_a log(\frac{1}{\hat{y}_a}) + t_b log(\frac{1}{\hat{y}_b})$$<p>And recall, that in binary classification:</p>
-$$t_b = 1 - t_a$$$$\hat{y}_b = 1 - \hat{y}_a$$<p>Hence, if we substitute those values in:</p>
-$$H(t, \hat{y}) = t_a log \big(\frac{1}{\hat{y}_a}\big) + \big(1 - t_a\big) log \big(\frac{1}{1 - \hat{y}_a} \big)$$<p>And we can utilize the properties of logarithms to reduce our equation to:</p>
-$$H(t, \hat{y}) = -\Big[ t_a log \big(\hat{y}_a\big) + \big(1 - t_a\big) log \big(1 - \hat{y}_a \big) \Big]$$<p>And, if we let $t_a$ just be represented as $t$, and $\hat{y}_a$ represented as $\hat{y}$:</p>
-$$H(t, \hat{y}) = -\Big[ t log \big(\hat{y}\big) + \big(1 - t\big) log \big(1 - \hat{y} \big) \Big]$$<p>And that is the exact definition of the cross entropy cost function that we have encountered numerous times, specifically with logistic regression. Now, keep in mind that the above Cross entropy will only yield an output for <em>one training example</em>. We generally will have <em>many training examples</em>, and want to learn distributions for <em>all of them</em>. In that case, if we have $n$ training examples, we can determine the <em>total cross entropy</em> via:</p>
-$$\text{Total Cross Entropy $\forall$ examples} = - \sum_n^N \Big[ t_n log \big(\hat{y}_n\big) + \big(1 - t_n\big) log \big(1 - \hat{y}_n \big) \Big]$$<p>We can quickly see why this is such a good cost function, specifically in the case of binary classification, with the following examples:</p>
-$$\text{Cross Entropy}(t=1, y=1) \rightarrow = 0$$$$\text{Cross Entropy}(t=0, y=0) \rightarrow = 0$$$$\text{Cross Entropy}(t=1, y=0.9) \rightarrow = 0.11$$$$\text{Cross Entropy}(t=1, y=0.5) \rightarrow = 0.69$$$$\text{Cross Entropy}(t=1, y=0.1) \rightarrow = 2.3$$<p>We can see that the cross entropy is zero when there is no error, and that the more incorrect our prediction is, the larger the cross entropy becomes.</p>
+\end{bmatrix}$$</p>
+<p>For one specific training example, we want to learn the distribution, and hope that it is very close the target distribution. We can determine <em>how far away</em> from the target distribution it is via the <em>cross entropy</em>. Now, let's say we are in a binary classification scenario, with classes $a$ and $b$. Our cross entropy would look like:</p>
+<p>$$H(t, \hat{y}) = t_a log(\frac{1}{\hat{y}_a}) + t_b log(\frac{1}{\hat{y}_b})$$</p>
+<p>And recall, that in binary classification:</p>
+<p>$$t_b = 1 - t_a$$</p>
+<p>$$\hat{y}_b = 1 - \hat{y}_a$$</p>
+<p>Hence, if we substitute those values in:</p>
+<p>$$H(t, \hat{y}) = t_a log \big(\frac{1}{\hat{y}_a}\big) + \big(1 - t_a\big) log \big(\frac{1}{1 - \hat{y}_a} \big)$$</p>
+<p>And we can utilize the properties of logarithms to reduce our equation to:</p>
+<p>$$H(t, \hat{y}) = -\Big[ t_a log \big(\hat{y}_a\big) + \big(1 - t_a\big) log \big(1 - \hat{y}_a \big) \Big]$$</p>
+<p>And, if we let $t_a$ just be represented as $t$, and $\hat{y}_a$ represented as $\hat{y}$:</p>
+<p>$$H(t, \hat{y}) = -\Big[ t log \big(\hat{y}\big) + \big(1 - t\big) log \big(1 - \hat{y} \big) \Big]$$</p>
+<p>And that is the exact definition of the cross entropy cost function that we have encountered numerous times, specifically with logistic regression. Now, keep in mind that the above Cross entropy will only yield an output for <em>one training example</em>. We generally will have <em>many training examples</em>, and want to learn distributions for <em>all of them</em>. In that case, if we have $n$ training examples, we can determine the <em>total cross entropy</em> via:</p>
+<p>$$\text{Total Cross Entropy $\forall$ examples} = - \sum_n^N \Big[ t_n log \big(\hat{y}_n\big) + \big(1 - t_n\big) log \big(1 - \hat{y}_n \big) \Big]$$</p>
+<p>We can quickly see why this is such a good cost function, specifically in the case of binary classification, with the following examples:</p>
+<p>$$\text{Cross Entropy}(t=1, y=1) \rightarrow = 0$$</p>
+<p>$$\text{Cross Entropy}(t=0, y=0) \rightarrow = 0$$</p>
+<p>$$\text{Cross Entropy}(t=1, y=0.9) \rightarrow = 0.11$$</p>
+<p>$$\text{Cross Entropy}(t=1, y=0.5) \rightarrow = 0.69$$</p>
+<p>$$\text{Cross Entropy}(t=1, y=0.1) \rightarrow = 2.3$$</p>
+<p>We can see that the cross entropy is zero when there is no error, and that the more incorrect our prediction is, the larger the cross entropy becomes.</p>
 <h2 id="1.5-KL-Divergence">1.5 KL Divergence<a class="anchor-link" href="#1.5-KL-Divergence">&#182;</a></h2><p>The <strong>KL Divergence</strong> from $\hat{y}$ to $y$ is simply the <strong>difference</strong> between <strong>cross entropy</strong> and <strong>entropy</strong>:</p>
-$$KL(y \;||\; \hat{y}) = \sum_iy_ilog\frac{1}{\hat{y_i}} - \sum_iy_ilog\frac{1}{y_i} = \sum_iy_ilog\frac{y_i}{\hat{y_i}}$$<p>It measures the extra bits we'll need on average if we encode symbols from $y$ according to $\hat{y}$. It is never negative, and it is only 0 if $y$ and $\hat{y}$ are the same. Note that minimizing the <strong>cross entropy</strong> and minimizing the <strong>KL divergence</strong> from $y$ to $\hat{y}$ are the same thing.</p>
+<p>$$KL(y \;||\; \hat{y}) = \sum_iy_ilog\frac{1}{\hat{y_i}} - \sum_iy_ilog\frac{1}{y_i} = \sum_iy_ilog\frac{y_i}{\hat{y_i}}$$</p>
+<p>It measures the extra bits we'll need on average if we encode symbols from $y$ according to $\hat{y}$. It is never negative, and it is only 0 if $y$ and $\hat{y}$ are the same. Note that minimizing the <strong>cross entropy</strong> and minimizing the <strong>KL divergence</strong> from $y$ to $\hat{y}$ are the same thing.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="2.-Maximum-Likelihood">2. Maximum Likelihood<a class="anchor-link" href="#2.-Maximum-Likelihood">&#182;</a></h1><h2 id="2.1-Introduction">2.1 Introduction<a class="anchor-link" href="#2.1-Introduction">&#182;</a></h2><p>One thing that we try and do during machine learning is maximize the likelihood of our data, given our particular model. This really means that we are trying to say: "How likely is it that we received these outputs, given our model is true". As an example, say we have trained a model to predict whether an image is of a cat or a dog. Now lets say we run predictions on 3 images of dogs, but our model predicts they are all cats. In that case our data was 3 images of dogs, and our model got all predictions wrong. So we could say that, if our model was in fact correct, the likelihood of our input data really being 3 dogs is very low. Our goal is to find a model that <strong>maximizes the likelihood of our data</strong>. So we would want a model that predicts all 3 images are dogs.</p>
 <p><br></br></p>
@@ -294,9 +328,12 @@ $$p(H) = p$$
 In this case, $p$ is a parameter. The probability of tails (since this is a bernoulli trial), is:
 $$p(T) = 1 - p$$
 Now we are going to run an experiment to help us determine $p$. We flip a coin 10 times and we get 7 heads and 3 tails. We want to know how we would write the total likelihood, which is the probability of receiving the data (result) that we saw. The general form equation for the likelihood in a binomial experiment is:</p>
-$$L(X\;|\;p) = p^k(1-p)^{N-k}$$<p>In this case $k$ is the total number of success's and $N$ is the total number of trials. In our example, we had 7 heads, so 7 success's, and 3 tails, so 3 failures, with 10 trials total. Our likelihood function then looks like:</p>
-$$L(X\;|\;p) = p^7(1-p)^3$$<p>Note that we are able to do this because each coin toss is independent. Therefore we can multiply each probability! In other words the above equation came from multiplying each probability of each result together:</p>
-$$p*p*p*p*p*p*p*(1-p)*(1-p)*(1-p)$$<p>Also, the likelihood can look just like a conditional probability. This is because the likelihood is used when our data, in this case $X$, has already been observed.</p>
+<p>$$L(X\;|\;p) = p^k(1-p)^{N-k}$$</p>
+<p>In this case $k$ is the total number of success's and $N$ is the total number of trials. In our example, we had 7 heads, so 7 success's, and 3 tails, so 3 failures, with 10 trials total. Our likelihood function then looks like:</p>
+<p>$$L(X\;|\;p) = p^7(1-p)^3$$</p>
+<p>Note that we are able to do this because each coin toss is independent. Therefore we can multiply each probability! In other words the above equation came from multiplying each probability of each result together:</p>
+<p>$$p*p*p*p*p*p*p*(1-p)*(1-p)*(1-p)$$</p>
+<p>Also, the likelihood can look just like a conditional probability. This is because the likelihood is used when our data, in this case $X$, has already been observed.</p>
 <p>Now, we want to <strong>maximize the likelihood</strong>. In other words, we want to maximize $L$ with respect to $p$, our parameter. This means we want to choose a $p$ that maximizes $L$. This can be done using basic calculus. Note that in most of these problems we take the log and maximize the likelihood. This is acceptable because the log function is monotonically increasing.</p>
 <p>Before we perform the maximizing of our likelihood, lets get a quick idea of what our Likelihood function actually looks like:</p>
 
@@ -318,7 +355,7 @@ $$p*p*p*p*p*p*p*(1-p)*(1-p)*(1-p)$$<p>Also, the likelihood can look just like a 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -328,7 +365,7 @@ $$p*p*p*p*p*p*p*(1-p)*(1-p)*(1-p)$$<p>Also, the likelihood can look just like a 
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -346,7 +383,8 @@ $$p*p*p*p*p*p*p*(1-p)*(1-p)*(1-p)$$<p>Also, the likelihood can look just like a 
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Okay great, we can see that from a visual perspective we should be expecting a value of ~0.7 to be the value of $p$ that maximizes the likelihood of observing our data!</p>
 <p>Lets now go through the derivation. First we will take the log of the likelihood:
@@ -371,24 +409,29 @@ This is what we would expect (visually it agrees)! If this is still slightly abs
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><br></br></p>
 <h2 id="2.-Predictive-Power">2. Predictive Power<a class="anchor-link" href="#2.-Predictive-Power">&#182;</a></h2><p>At this point, you may be happy to just use the cross entropy to measure the difference between two distributions, $y$ and $\hat{y}$, and then using the total cross entropy over all training examples as our loss function. In particular, if we let $n$ index our training examples, the overal loss would be:</p>
-$$H(\{y^{(n)}\}, \{\hat{y}^{(n)}\}) = \sum_nH(y^{(n)}, \hat{y}^{(n)})$$<p>But let's look at another approach. What if we want our objective function to be a direct measure of our model's predictive power (at least with respect to our training data)? One common approach is to tune our parameters so that the <strong>likelihood</strong> of our data under the model is <strong>maximized</strong>. When performing <strong>classification</strong> we are often using a <em>discriminative model</em>, our "data" often just consists of the labels we are trying to predict. We can reason that a model that often predicts the ground-truth labels given the inputs might be useful, while a model that fails to predict the ground-truth labels is not useful.</p>
+<p>$$H(\{y^{(n)}\}, \{\hat{y}^{(n)}\}) = \sum_nH(y^{(n)}, \hat{y}^{(n)})$$</p>
+<p>But let's look at another approach. What if we want our objective function to be a direct measure of our model's predictive power (at least with respect to our training data)? One common approach is to tune our parameters so that the <strong>likelihood</strong> of our data under the model is <strong>maximized</strong>. When performing <strong>classification</strong> we are often using a <em>discriminative model</em>, our "data" often just consists of the labels we are trying to predict. We can reason that a model that often predicts the ground-truth labels given the inputs might be useful, while a model that fails to predict the ground-truth labels is not useful.</p>
 <p>Because we generally assume that our samples are <strong>independent and identically distributed</strong>, the likelihood over all of our examples decomposes into a product over the likelihoods of individual examples:</p>
-$$L(\{y^{(n)}\}, \{\hat{y}^{(n)}\}) = \prod_nL(y^{(n)}, \hat{y}^{(n)})$$<p>And what is the likelihood of the $n$th example? It is just the particular entropy of $\hat{y}^{(n)}$ that corresponds to the ground truth label specified by $y^{(n)}$!</p>
+<p>$$L(\{y^{(n)}\}, \{\hat{y}^{(n)}\}) = \prod_nL(y^{(n)}, \hat{y}^{(n)})$$</p>
+<p>And what is the likelihood of the $n$th example? It is just the particular entropy of $\hat{y}^{(n)}$ that corresponds to the ground truth label specified by $y^{(n)}$!</p>
 <p>If we go back to our original example, if the first training image is of a fish, then:</p>
-$$y^{(1)} = \begin{bmatrix}
+<p>$$y^{(1)} = \begin{bmatrix}
     0 \\
     0 \\
     1
-\end{bmatrix}$$<p>This tells us that the likelihood $L(y^{(1)}, \hat{y}^{(1)})$ is just the last entry of:</p>
-$$\hat{y}= \begin{bmatrix}
+\end{bmatrix}$$</p>
+<p>This tells us that the likelihood $L(y^{(1)}, \hat{y}^{(1)})$ is just the last entry of:</p>
+<p>$$\hat{y}= \begin{bmatrix}
     0.3 \\
     0.2 \\
     0.5
-\end{bmatrix}$$<p>Which is $\hat{y}^{(1)} = 0.5$. Now lets that we have 4 training images labeled: <em>fish, cat, dog, cat</em>. This gives us our ground truth distribution: 
+\end{bmatrix}$$</p>
+<p>Which is $\hat{y}^{(1)} = 0.5$. Now lets that we have 4 training images labeled: <em>fish, cat, dog, cat</em>. This gives us our ground truth distribution: 
 $$y^{(1)} = \begin{bmatrix}
     0 \\
     0 \\
@@ -410,25 +453,33 @@ $$y^{(4)} = \begin{bmatrix}
     0
 \end{bmatrix}$$</p>
 <p>Our model would predict 4 other distributions:</p>
-$$\hat{y}^{(1)},\hat{y}^{(2)},\hat{y}^{(3)},\hat{y}^{(4)}$$<p>And our overall likelihood would just be:</p>
-$$L(\{ y^{(1)},y^{(2)},y^{(3)},y^{(4)}\}, \{\hat{y}^{(1)},\hat{y}^{(2)},\hat{y}^{(3)},\hat{y}^{(4)} \}) = \hat{y}^{(1)}\hat{y}^{(2)}\hat{y}^{(3)}\hat{y}^{(4)}$$<p>Maybe we would have been previously happy with just minimizing the cross entropy during training, but after seeing this, are we still happy? Why shouldn't we instead maximize the likelihood of our data?</p>
+<p>$$\hat{y}^{(1)},\hat{y}^{(2)},\hat{y}^{(3)},\hat{y}^{(4)}$$</p>
+<p>And our overall likelihood would just be:</p>
+<p>$$L(\{ y^{(1)},y^{(2)},y^{(3)},y^{(4)}\}, \{\hat{y}^{(1)},\hat{y}^{(2)},\hat{y}^{(3)},\hat{y}^{(4)} \}) = \hat{y}^{(1)}\hat{y}^{(2)}\hat{y}^{(3)}\hat{y}^{(4)}$$</p>
+<p>Maybe we would have been previously happy with just minimizing the cross entropy during training, but after seeing this, are we still happy? Why shouldn't we instead maximize the likelihood of our data?</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="3.-Unified-Loss-Function">3. Unified Loss Function<a class="anchor-link" href="#3.-Unified-Loss-Function">&#182;</a></h1><p>Let's take a minute to play with the expression above. Because a logarithm is monotonic, we know that maximizing the likelihood is equivalent to maximizing the <strong>log likelihood</strong>, which is in turn equivalent to <em>minimizing</em> the <strong>negative log likelihood</strong>.</p>
-$$-log\Big(L(\{y^{(n)}\}, \{\hat{y}^{(n)}\})\Big)= - \sum_nlog\Big(L(y^{(n)}, \hat{y}^{(n)})\Big)$$<p>But, from the work we did earlier, we also know that the log likelihood of $y^{(n)}$ is just the log of a particular entry of $\hat{y}^{(n)}$. In fact, its the entry $i$ that satisfies $y_i^{(n)} = 1$. We can therefore rewrite the log likelihood for the nth training example in the following way:</p>
-$$ \log L(y^{(n)}, \hat{y}^{(n)}) = \sum_i y^{(n)}_i \log \hat{y}^{(n)}_i $$<p>Which in turn gives us an overall negative log likelihood of:</p>
-$$ - \log L(\{y^{(n)}\}, \{\hat{y}^{(n)}\}) = -\sum_n \sum_i y^{(n)}_i \log \hat{y}^{(n)}_i $$<p>Does this look familiar? This is exactly the <strong>cross entropy</strong>, summed over all training examples:</p>
-$$ -\log L(\{y^{(n)}\}, \{\hat{y}^{(n)}\}) = \sum_n \big[-\sum_i y_i \log \hat{y}^{(n)}_i\big] = \sum_n H(y^{(n)}, \hat{y}^{(n)})$$
+<p>$$-log\Big(L(\{y^{(n)}\}, \{\hat{y}^{(n)}\})\Big)= - \sum_nlog\Big(L(y^{(n)}, \hat{y}^{(n)})\Big)$$</p>
+<p>But, from the work we did earlier, we also know that the log likelihood of $y^{(n)}$ is just the log of a particular entry of $\hat{y}^{(n)}$. In fact, its the entry $i$ that satisfies $y_i^{(n)} = 1$. We can therefore rewrite the log likelihood for the nth training example in the following way:</p>
+<p>$$ \log L(y^{(n)}, \hat{y}^{(n)}) = \sum_i y^{(n)}_i \log \hat{y}^{(n)}_i $$</p>
+<p>Which in turn gives us an overall negative log likelihood of:</p>
+<p>$$ - \log L(\{y^{(n)}\}, \{\hat{y}^{(n)}\}) = -\sum_n \sum_i y^{(n)}_i \log \hat{y}^{(n)}_i $$</p>
+<p>Does this look familiar? This is exactly the <strong>cross entropy</strong>, summed over all training examples:</p>
+<p>$$ -\log L(\{y^{(n)}\}, \{\hat{y}^{(n)}\}) = \sum_n \big[-\sum_i y_i \log \hat{y}^{(n)}_i\big] = \sum_n H(y^{(n)}, \hat{y}^{(n)})$$</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="4.-Conclusions">4. Conclusions<a class="anchor-link" href="#4.-Conclusions">&#182;</a></h1><p>When we develop a probabilistic model over mutually exclusive classes, we need a way to measure the difference between predicted probabilities $\hat{y}$ and ground-truth probabilities $y$, and during training we try to tune parameters so that this difference is minimized.In this post we saw that cross entropy is a reasonable choice.</p>
 <p>From one perspective, minimizing cross entropy lets us find a $\hat{y}$ that requires as few extra bits as possible when we try to encode symbols from $y$ using $\hat{y}$.</p>
@@ -436,19 +487,6 @@ $$ -\log L(\{y^{(n)}\}, \{\hat{y}^{(n)}\}) = \sum_n \big[-\sum_i y_i \log \hat{y
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake

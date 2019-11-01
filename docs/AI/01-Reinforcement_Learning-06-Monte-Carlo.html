@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,7 +211,8 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="6.-Monte-Carlo-Intro">6. Monte Carlo Intro<a class="anchor-link" href="#6.-Monte-Carlo-Intro">&#182;</a></h1><p>In this section we are going to be discussing another technique for solving MDP's, known as <strong>Monte Carlo</strong>. In the last section, you may have noticed something a bit odd; we have talked about how RL is all about learning from experience and playing games. Yet, in none of our dynamic programming algorithms did we actually play the game. We had a full model of the environment, which included all of the state transition probabilities. You may wonder: is it reasonable to assume that we would have that type of information in a real life environment? For board games, perhaps. But, what about self driving cars?</p>
 <p>The way that we manipulated our dynamic programming algorithms required us to put an agent into a state. That may not always be possible, especially when talking about self driving cars, or even video games. A video game starts in the state that it decides-you can't choose any state you want. This is another instance of having god mode capabilities, so it is not always realistic to assume that that is always possible. In this section, we will be playing the game and learning purely from experience.</p>
@@ -219,14 +224,18 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="2.0-Monte-Carlo-Policy-Evaluation">2.0 Monte Carlo Policy Evaluation<a class="anchor-link" href="#2.0-Monte-Carlo-Policy-Evaluation">&#182;</a></h1><p>We are now going to solve the prediction problem using Monte Carlo Estimation. Recall that the definition of the value function is that it is the expected value of the future return, given that the current state is $s$:</p>
-$$V_\pi(s) = E \big[G(t) \mid S_t = s\big]$$<p>We know that we can estimate any expected value simply by adding up samples and dividing by the total number of samples:</p>
-$$\bar{V}_\pi(s) = \frac{1}{N} \sum_{i =1}^N G_{i,s}$$<p>Where above, $i$ is indexing the episode, and $s$ is indexing the state. The question now, is how do we get these sample returns.</p>
+<p>$$V_\pi(s) = E \big[G(t) \mid S_t = s\big]$$</p>
+<p>We know that we can estimate any expected value simply by adding up samples and dividing by the total number of samples:</p>
+<p>$$\bar{V}_\pi(s) = \frac{1}{N} \sum_{i =1}^N G_{i,s}$$</p>
+<p>Where above, $i$ is indexing the episode, and $s$ is indexing the state. The question now, is how do we get these sample returns.</p>
 <h2 id="2.1-How-do-we-generate-$G$?">2.1 How do we generate $G$?<a class="anchor-link" href="#2.1-How-do-we-generate-$G$?">&#182;</a></h2><p>In order to get these sample returns, we need to play many episodes to generate them! For every episode that we play, we will have a sequence of states and rewards. And from the rewards, we can calculate the returns by definition, which is just the sum of all future rewards:</p>
-$$G(t) = r(t+1) + \gamma * G(t+1)$$<p>Notice how, to actually implement this in code, it would be very useful to loop through the states in reverse order, since $G$ depends only on future values. Once we have done this for many episodes, we will have multiple lists of $s$'s and $G$'s. We can then take the sample mean.</p>
+<p>$$G(t) = r(t+1) + \gamma * G(t+1)$$</p>
+<p>Notice how, to actually implement this in code, it would be very useful to loop through the states in reverse order, since $G$ depends only on future values. Once we have done this for many episodes, we will have multiple lists of $s$'s and $G$'s. We can then take the sample mean.</p>
 <h2 id="2.2-Mutliple-Visits-to-$s$">2.2 Mutliple Visits to $s$<a class="anchor-link" href="#2.2-Mutliple-Visits-to-$s$">&#182;</a></h2><p>One interesting question that comes up is, what if you see the same state more than once in an episode? For instance if you see state $s$ at $t=1$ and $t=3$? What is the return for state $s$? Should we use $G(1)$ or $G(3)$? There are two answers to this question, and surprisingly they both lead to the same answer.</p>
 <p><strong>First Visit Monte Carlo</strong><br>
 The first method is called <em>first visit monte carlo</em>. That means that you would only count the return for time $t=1$.</p>
@@ -258,7 +267,8 @@ The second method is called <em>every visit monte carlo</em>. That means that yo
 </blockquote>
 <h2 id="2.4-Sample-Mean">2.4 Sample Mean<a class="anchor-link" href="#2.4-Sample-Mean">&#182;</a></h2><p>One thing that you may have noticed for the pseudocode, is that it requires us to store all of the returns that we get for each state so that the sample mean can be calculated. But, if you recall from our section on the multi armed bandit, there are more efficient ways to calculate the mean, such as calculating it from the previous mean. There are also techniques for nonstationary problems, like using a moving average. So, all of the techniques we have learned already still apply here.</p>
 <p>Another thing that we should notice about the MCM, is that because we are calculating the sample mean, all of the same rules of probability apply. That means that the confidence interval is approximately Gaussian, and the variance if the original variance of the data, divided by the number of samples collected:</p>
-$$\text{Variance of Estimate} = \frac{\text{variance of RV}}{N}$$<p>Therefore, we are going to more confident in data that has more samples, but it grows slowly with respect to the number of samples.</p>
+<p>$$\text{Variance of Estimate} = \frac{\text{variance of RV}}{N}$$</p>
+<p>Therefore, we are going to more confident in data that has more samples, but it grows slowly with respect to the number of samples.</p>
 <h2 id="2.5-Calculating-Returns-from-Rewards">2.5 Calculating Returns from Rewards<a class="anchor-link" href="#2.5-Calculating-Returns-from-Rewards">&#182;</a></h2><p>For full clarity, we will also quickly go over how to calculate the returns from the rewards in pseudocode.</p>
 
 <pre><code># Calculating State and Reward Sequences 
@@ -289,7 +299,8 @@ states_and_returns.reverse()</code></pre>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="3.0-Monte-Carlo-Policy-Evaluation-in-Code">3.0 Monte Carlo Policy Evaluation in Code<a class="anchor-link" href="#3.0-Monte-Carlo-Policy-Evaluation-in-Code">&#182;</a></h1><p>We are now going to implement Monte Carlo for finding the State-Value function in code.</p>
@@ -408,7 +419,7 @@ states_and_returns.reverse()</code></pre>
   <span class="n">print_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -418,7 +429,7 @@ states_and_returns.reverse()</code></pre>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -452,7 +463,8 @@ policy:
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="4.0-Policy-Evaluation-in-Windy-Grid-World">4.0 Policy Evaluation in Windy Grid World<a class="anchor-link" href="#4.0-Policy-Evaluation-in-Windy-Grid-World">&#182;</a></h1><p>We are now going to use MC predicton algorithm to find $V$, but this time we will be in windy gridworld and will be using a slightly different policy. One thing that you may have noticed with the last script is that MC wasn't really needed since the returns were deterministic. This was because the two probability distributions that we are interested in- $\pi(a \mid s)$ and $p(s,a \mid s',r)$- were both <em>deterministic</em>.</p>
@@ -598,7 +610,7 @@ policy:
   <span class="n">print_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -608,7 +620,7 @@ policy:
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -642,7 +654,8 @@ policy:
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="5.0-Monte-Carlo-Control">5.0 Monte Carlo Control<a class="anchor-link" href="#5.0-Monte-Carlo-Control">&#182;</a></h1><p>If you recall, the pattern that we are generally trying to follow is:</p>
@@ -650,12 +663,15 @@ policy:
 </blockquote>
 <p>We are now going to go about finding the optimal policy using MC.</p>
 <h2 id="5.1-MC-for-Control-Problem">5.1 MC for Control Problem<a class="anchor-link" href="#5.1-MC-for-Control-Problem">&#182;</a></h2><p>When we first try and do this, you will see that we come across a big problem. That is, we only have $V(s)$ for a given policy, but we don't know what actions will lead to a better $V(s)$ because we can't do a look ahead search. With MC, all we are able to do is play an episode straight through and use the returns as samples. The key to using MC for the control problem then, is to find $Q(s,a)$, since $Q$ is indexed by both $s$ and $a$, and we can choose the argmax over $a$ to find the best policy:</p>
-$$argmax_a\big( Q(s,a)\big)$$<h2 id="5.2-MC-for-$Q(s,a)$">5.2 MC for $Q(s,a)$<a class="anchor-link" href="#5.2-MC-for-$Q(s,a)$">&#182;</a></h2><p>So, how exactly do we use MC to find $Q$? The process is nearly the same as we used to find $V$, except that instead of just returning tuples of states and returns, (s, G), we will return triples of states, actions, and returns, (s, a, G).</p>
+<p>$$argmax_a\big( Q(s,a)\big)$$</p>
+<h2 id="5.2-MC-for-$Q(s,a)$">5.2 MC for $Q(s,a)$<a class="anchor-link" href="#5.2-MC-for-$Q(s,a)$">&#182;</a></h2><p>So, how exactly do we use MC to find $Q$? The process is nearly the same as we used to find $V$, except that instead of just returning tuples of states and returns, (s, G), we will return triples of states, actions, and returns, (s, a, G).</p>
 <p>We can quickly see how this may be problematic. Recall that the number of values we need to store grows quadratically with the state set size and action set size. With $V(s)$ we only need $\mid S \mid$ different estimates. With $Q(s,a)$ we need $\mid S \mid * \mid A \mid$ different estimates. That means that we have a lot more values to approximate, and we need to do many more steps of MC in order to get a good answer.</p>
 <p>There is another problem with trying to estimate $Q$, which goes back to our explore/exploit dilemma. If we have a fixed policy, then every $Q(s,a)$ will only have samples for <em>one</em> action. That means, out of the total $\mid S \mid * \mid A \mid$ values we need to fill in, we will only be able to fill in $\frac{1}{\mid A \mid}$ of those values.</p>
 <p>The way to fix this, as we discussed earlier, is using the exploring starts method. In this case, we now randomly choose an initial state and an initial action. Thereafter we follow the policy. So, the answer that we get is $Q_\pi(s,a)$. This is consistent with our defintion of $Q$:</p>
-$$Q_\pi(s,a) = E_\pi \big[G(t) \mid S_t = s, A_t=a\big]$$<h2 id="5.3-Back-to-Control-Problem">5.3 Back to Control Problem<a class="anchor-link" href="#5.3-Back-to-Control-Problem">&#182;</a></h2><p>Let's now return to the control problem. If you think carefully, you'll realize that we already know the answer to this problem. We discussed earlier how the method that we always used to find an optimal policy is generalized policy iteration, where we alternate between policy evaluation and policy improvement. For policy evaulation, we just discussed it-we will simply use MC to get an estimate for $Q$. The policy improvement step is the same as always, we just take the argmax over the actions from $Q$:</p>
-$$\pi(s) = argmax_a Q(s,a)$$<h2 id="5.4-Problem-with-MC">5.4 Problem with MC<a class="anchor-link" href="#5.4-Problem-with-MC">&#182;</a></h2><p>One issue with this as we have already discussed, is that because we need to find $Q$ over all states and all actions, this can take a very long time using sampling. We again have a problem where there is an iterative algorithm inside an iterative algorithm.</p>
+<p>$$Q_\pi(s,a) = E_\pi \big[G(t) \mid S_t = s, A_t=a\big]$$</p>
+<h2 id="5.3-Back-to-Control-Problem">5.3 Back to Control Problem<a class="anchor-link" href="#5.3-Back-to-Control-Problem">&#182;</a></h2><p>Let's now return to the control problem. If you think carefully, you'll realize that we already know the answer to this problem. We discussed earlier how the method that we always used to find an optimal policy is generalized policy iteration, where we alternate between policy evaluation and policy improvement. For policy evaulation, we just discussed it-we will simply use MC to get an estimate for $Q$. The policy improvement step is the same as always, we just take the argmax over the actions from $Q$:</p>
+<p>$$\pi(s) = argmax_a Q(s,a)$$</p>
+<h2 id="5.4-Problem-with-MC">5.4 Problem with MC<a class="anchor-link" href="#5.4-Problem-with-MC">&#182;</a></h2><p>One issue with this as we have already discussed, is that because we need to find $Q$ over all states and all actions, this can take a very long time using sampling. We again have a problem where there is an iterative algorithm inside an iterative algorithm.</p>
 <p>The solution to this is to take the same approach that we do with value iteration. Instead of doing a fresh MC policy evaluation on each round, where it would take a long time to collect samples, we instead update the same $Q$ and do policy improvement after every single episode. This means that on every iteration of the outer loop we generate only one episode, use that episode to improve our estimate of $Q$, and then immediately do the policy improvement step.</p>
 <h2 id="5.5-Pseudocode">5.5 Pseudocode<a class="anchor-link" href="#5.5-Pseudocode">&#182;</a></h2><p>We can now look at this in pseudocode to solidify this idea:</p>
 
@@ -685,7 +701,8 @@ while True:
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="6.-Monte-Carlo-Control-in-Code">6. Monte Carlo Control in Code<a class="anchor-link" href="#6.-Monte-Carlo-Control-in-Code">&#182;</a></h1><p>We are now going to use Monte Carlo exploring starts to solve the control problem, aka find the optimal policy and the optimal value function.</p>
@@ -843,7 +860,7 @@ while True:
   <span class="n">print_values</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -853,7 +870,7 @@ while True:
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -890,7 +907,7 @@ while True:
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -905,7 +922,7 @@ while True:
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -932,7 +949,8 @@ final values:
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="7.-Monte-Carlo-Control-without-Exploring-Starts">7. Monte Carlo Control <em>without</em> Exploring Starts<a class="anchor-link" href="#7.-Monte-Carlo-Control-without-Exploring-Starts">&#182;</a></h1><p>Recall that one of the disadvantages of the method we just looked at, is that we need to use exploring starts. We talked about how that may be infeasible for any game we are not playing in "God-mode". For example, think of a self driving car; it wouldn't be possible to enumerate all of the possible edge cases that the car may find itself in. And even if you could, it would take a lot of work to put the car in those exact states. So, we will now look at how we could use MC for control, <em>without</em> using exploring starts.</p>
@@ -941,17 +959,22 @@ final values:
 <h2 id="7.2-Epsilon-Soft">7.2 Epsilon-Soft<a class="anchor-link" href="#7.2-Epsilon-Soft">&#182;</a></h2><p>Note, in some sources you will see an algorithm called epsilon-soft. This looks a little bit different, but essentially does the same thing. The idea is that epsilon is used to ensure that every action has the possibility of being selected. We state this as:</p>
 <blockquote><p>The probability of $a$ given $s$ is greater than or equal to $\epsilon$ divided by the number of possible actions.</p>
 </blockquote>
-$$\pi(a \mid s) \geq \frac{\epsilon}{\mid A(s)\mid} , \forall a \in A(s)$$<p>But, we also use epsilon to decide whether or not we are going to explore. So, we can write this in total as:</p>
-$$a^* = argmax_aQ(s,a)$$$$\pi(s \mid a) = 1 - \epsilon + \frac{\epsilon}{\mid A(s)\mid} \; if \; a = a^*$$$$\pi(s \mid a) = \frac{\epsilon}{\mid A(s)\mid} \; if \; a \neq a^*$$<p>From now on we will just refer to this as epsilon greedy.</p>
+<p>$$\pi(a \mid s) \geq \frac{\epsilon}{\mid A(s)\mid} , \forall a \in A(s)$$</p>
+<p>But, we also use epsilon to decide whether or not we are going to explore. So, we can write this in total as:</p>
+<p>$$a^* = argmax_aQ(s,a)$$
+$$\pi(s \mid a) = 1 - \epsilon + \frac{\epsilon}{\mid A(s)\mid} \; if \; a = a^*$$
+$$\pi(s \mid a) = \frac{\epsilon}{\mid A(s)\mid} \; if \; a \neq a^*$$</p>
+<p>From now on we will just refer to this as epsilon greedy.</p>
 <h2 id="7.3-How-often-will-we-reach-off-policy-states?">7.3 How often will we reach off-policy states?<a class="anchor-link" href="#7.3-How-often-will-we-reach-off-policy-states?">&#182;</a></h2><p>It is interesting to think about how often we will reach off-policy states. For a state that is $K$ steps away from the start state, we would need to be in exploration mode on each step, and chose the necessary states to get to the target state. So in total, that is:</p>
-$$p \geq \Big(\frac{\epsilon}{\mid A(s)\mid}\Big)^K$$<p></p>
+<p>$$p \geq \Big(\frac{\epsilon}{\mid A(s)\mid}\Big)^K$$</p>
 <p>You can imagine that this is a very small number, so for states that are very far off from the policies trajectory, you will need to do many iterations of MC for the value to be accurate for those states.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="8.-MC-Control-without-Exploring-Starts-in-code">8. MC Control <em>without</em> Exploring Starts in code<a class="anchor-link" href="#8.-MC-Control-without-Exploring-Starts-in-code">&#182;</a></h1>
@@ -1095,7 +1118,7 @@ $$p \geq \Big(\frac{\epsilon}{\mid A(s)\mid}\Big)^K$$<p></p>
   <span class="n">print_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1105,7 +1128,7 @@ $$p \geq \Big(\frac{\epsilon}{\mid A(s)\mid}\Big)^K$$<p></p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1127,7 +1150,7 @@ $$p \geq \Big(\frac{\epsilon}{\mid A(s)\mid}\Big)^K$$<p></p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1142,7 +1165,7 @@ $$p \geq \Big(\frac{\epsilon}{\mid A(s)\mid}\Big)^K$$<p></p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1169,13 +1192,16 @@ final policy:
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="9.-Summary">9. Summary<a class="anchor-link" href="#9.-Summary">&#182;</a></h1><p>Let's take a brief moment to summarize everything we have learned about in this section. This section was all about MC methods. In the last section on Dynamic programming, we made a rather weird assumption that we <em>knew</em> all of the state transition probabilities and never actually played the game. Hence, we were never able to learn from experience, as you would expect a reinforcement learning agent to do.</p>
 <p>We followed our usual pattern of first looking at the prediction problem and then looking a the control problem. The main technique that we used with Monte Carlo is that the Value function is the expected return given a state:</p>
-$$V_\pi(s) = \Big[G(t) \mid S_t=s\Big]$$<p>We know from probability theory that the expected value of something can be approximated by its sample mean:</p>
-$$\bar{V}_\pi(s) = \frac{1}{N} \sum_{i=1}^N G_{i,s}$$<p>In order to use Monte Carlo, we needed to generate episodes, and calculate the returns for each episode. This gave a list of pairs of states and returns. We then average these returns to find the value for each state.</p>
+<p>$$V_\pi(s) = \Big[G(t) \mid S_t=s\Big]$$</p>
+<p>We know from probability theory that the expected value of something can be approximated by its sample mean:</p>
+<p>$$\bar{V}_\pi(s) = \frac{1}{N} \sum_{i=1}^N G_{i,s}$$</p>
+<p>In order to use Monte Carlo, we needed to generate episodes, and calculate the returns for each episode. This gave a list of pairs of states and returns. We then average these returns to find the value for each state.</p>
 <p>Recall, there are two methods for average the returns: <strong>first visit</strong> and <strong>every visit</strong>. While these have both been proven to converge to the same result, we use first visit because it is simpler.</p>
 <h2 id="9.1-MC-vs.-DP">9.1 MC vs. DP<a class="anchor-link" href="#9.1-MC-vs.-DP">&#182;</a></h2><p>We saw that MC can be more efficient than DP because we don't need to loop through the entire state space. Because of this, we may never get the full value function, however it may not matter if many of those states may never be reached, or only be reached very rarely. In other words, the more we visit a state, the more accurate the value will be for that state. Since the MC method results in each state being visited a different number of times depending on the policy, we used the exploring starts technique in order to make sure we had adequate data for each state.</p>
 <h2 id="9.2-MC-Control">9.2 MC Control<a class="anchor-link" href="#9.2-MC-Control">&#182;</a></h2><p>We then looked at the control problem. The difference with MC is that we now need to use $Q$ instead of $V$, so that we can take the argmax of $Q$ over all of the actions. This is required since we can't do the same kind of look ahead search with MC, as we did with DP. We then saw that we can continue to use the idea of policy iteration that we had used in the DP section. Recall, this is where we alternate between policy evaluation and policy improvement. We talked about the fact that MC has one major disadvantage here: it needs many samples in order to be accurate, and it has to be inside of a loop, which makes it very inefficient. We ended up taking the same approach here as we did with value iteration; we only did one update for evaluation per iteration. What is surprising is that it converges even though the samples are not all for the same policy! Note, it never has been formally proven to converge.</p>
@@ -1183,19 +1209,6 @@ $$\bar{V}_\pi(s) = \frac{1}{N} \sum_{i=1}^N G_{i,s}$$<p>In order to use Monte Ca
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake

@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,12 +211,14 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="6.-Summary">6. Summary<a class="anchor-link" href="#6.-Summary">&#182;</a></h1><p>We started off this series talking about the bias-variance trade-off. We showed that the error of any classification or regression model is a combination of <strong>bias</strong>, <strong>variance</strong>, and <strong>irreducible error</strong>. We then demonstrated that irreducible error can't be reduced, by bias and variance can! In the ideal situation both bias and variance are <strong>low</strong>. The main dilemma we saw was that as we decrease one, the other tends to increase. So, the idea that we found was that we want to find a happy medium where we are optimizing the test error. We learned than ensemble methods are a way to make the tradeoff, less of a tradeoff (i.e. attain low bias and low variance)!</p>
 <p><br></p>
 <h2 id="1.1-Bootstrap">1.1 Bootstrap<a class="anchor-link" href="#1.1-Bootstrap">&#182;</a></h2><p>We began our discussion of ensemble methods with the <strong>bootstrap technique</strong>. We showed that by using the bootstrap we can not only estimate confidence intervals, but we can actually reduce the variance of whatever we are trying to estimate; just by estimating it over and over again with resampled data sets. The key equation below, showed us that the variance of the bootstrap estimate was a function of the original variance, the correlation between each bootstrap sample, and the number of bootstrap samples.</p>
-$$var(\bar{\theta}_B) = \frac{1 - \rho}{B}\sigma^2 + \rho \sigma^2$$<p>This equation showed us that when the correlation between each bootstrap sample is 1, we do not get any reduction in variance. But, when the correlation between each bootstrap sample is 0, then we get the maximum reduction in variance, which is a $\frac{1}{B}$ decrease.</p>
+<p>$$var(\bar{\theta}_B) = \frac{1 - \rho}{B}\sigma^2 + \rho \sigma^2$$</p>
+<p>This equation showed us that when the correlation between each bootstrap sample is 1, we do not get any reduction in variance. But, when the correlation between each bootstrap sample is 0, then we get the maximum reduction in variance, which is a $\frac{1}{B}$ decrease.</p>
 <p><br></p>
 <h2 id="1.2-Bagging">1.2 Bagging<a class="anchor-link" href="#1.2-Bagging">&#182;</a></h2><p>The bootstrap technique motivated the idea of <strong>bagging</strong>. This is where we would create an ensemble of models by training them on bootstrapped samples of the training data. We deduced that by using trees, which have very low bias and very high variance, we could achieve the desired decorrelation effect. We then combined the trees to lower the variance.</p>
 <p><br></p>
@@ -221,24 +227,14 @@ $$var(\bar{\theta}_B) = \frac{1 - \rho}{B}\sigma^2 + \rho \sigma^2$$<p>This equa
 <h2 id="1.4-AdaBoost">1.4 AdaBoost<a class="anchor-link" href="#1.4-AdaBoost">&#182;</a></h2><p>Next we looked at AdaBoost, which unlike bagged trees and random forest, did not aim to use low bias, high variance models. Instead, the idea behind boosting was that many individual weak learners could be combined to be a strong learner if weighted properly. We demonstrated that this is true, by showing that AdaBoost achieve the best error rate on our data.</p>
 <p><br></p>
 <h2 id="1.4-Mixture-of-Experts">1.4 Mixture of Experts<a class="anchor-link" href="#1.4-Mixture-of-Experts">&#182;</a></h2><p>An interesting idea is how you may even go past boosting. First, we know that a bagging classifier just outputs the sum of all of its base learner predictions (assuming we are using -1 and +1 as targets).</p>
-$$\textbf{Bagging} \rightarrow F(x) = \sum_{m=1}^Mf_m(x)$$<p>Boosting extends this by adding weights to each base learner. These weights, however, are not dependent on the input. Thus, each weight has the same value no matter what x is.</p>
-$$\textbf{Boosting} \rightarrow F(x) = \sum_{m=1}^M \alpha_mf_m(x)$$<p>One idea is that you can extend that by making each base learner an expert at something different. In other words, the model weight will also depend on x, and that will tell us how good the model is at classifying that x. This is known as mixture of experts.</p>
-$$\textbf{Mixture of Experts} \rightarrow F(x) = \sum_{m=1}^M \alpha_m(x)f_m(x)$$
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
+<p>$$\textbf{Bagging} \rightarrow F(x) = \sum_{m=1}^Mf_m(x)$$</p>
+<p>Boosting extends this by adding weights to each base learner. These weights, however, are not dependent on the input. Thus, each weight has the same value no matter what x is.</p>
+<p>$$\textbf{Boosting} \rightarrow F(x) = \sum_{m=1}^M \alpha_mf_m(x)$$</p>
+<p>One idea is that you can extend that by making each base learner an expert at something different. In other words, the model weight will also depend on x, and that will tell us how good the model is at classifying that x. This is known as mixture of experts.</p>
+<p>$$\textbf{Mixture of Experts} \rightarrow F(x) = \sum_{m=1}^M \alpha_m(x)f_m(x)$$</p>
 
-    </div>
 </div>
 </div>
-
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake

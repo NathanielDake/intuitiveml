@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,7 +211,8 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="3.-Hierarchical-Clustering">3. Hierarchical Clustering<a class="anchor-link" href="#3.-Hierarchical-Clustering">&#182;</a></h1><p>We are now going to talk about a different technique for building clustering known as: <strong>Agglomerative Clustering</strong>. If you have ever studied algorithms, you will recognize this as a greedy algorithm. We are going to be purposefully short sighted, and make what appears to be the best decision at the time.</p>
 <p>The basic idea looks something like this:</p>
@@ -262,7 +267,8 @@ for p1 in cluster1:
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="2.-Hierarchical-Clustering-in-Code">2. Hierarchical Clustering in Code<a class="anchor-link" href="#2.-Hierarchical-Clustering-in-Code">&#182;</a></h1><p>We are now going to look at hierarchical clustering in code. We won't be writing the code ourselves, but instead will be using a library and exploring what it can do.</p>
 
@@ -334,7 +340,7 @@ for p1 in cluster1:
   <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -344,7 +350,7 @@ for p1 in cluster1:
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stderr output_text">
@@ -356,7 +362,7 @@ for p1 in cluster1:
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -367,7 +373,7 @@ for p1 in cluster1:
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -382,7 +388,7 @@ for p1 in cluster1:
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -397,7 +403,7 @@ for p1 in cluster1:
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -415,7 +421,8 @@ for p1 in cluster1:
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can clearly see that there are 3 natural clusters occuring! We have the chaining effect happening in the <strong>single linkage</strong> scenario. Clearly, <strong>ward linkage</strong> was the most effective.</p>
 
@@ -423,7 +430,8 @@ for p1 in cluster1:
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -468,7 +476,7 @@ ATCG
 <span class="o">%</span><span class="k">matplotlib</span> inline
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -582,7 +590,7 @@ ATCG
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -592,7 +600,7 @@ ATCG
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -701,7 +709,7 @@ Finished creating generation 100 / 100, size = 1000
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -716,7 +724,7 @@ Finished creating generation 100 / 100, size = 1000
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -731,7 +739,7 @@ Finished creating generation 100 / 100, size = 1000
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -749,7 +757,8 @@ Finished creating generation 100 / 100, size = 1000
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -825,7 +834,7 @@ fit_transform(text)
 <span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="k">import</span> <span class="n">TfidfVectorizer</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -984,7 +993,7 @@ fit_transform(text)
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">h_sorted</span><span class="p">[:</span><span class="mi">10</span><span class="p">]))</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -994,7 +1003,7 @@ fit_transform(text)
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1006,7 +1015,7 @@ proportion @HillaryClinton 0.504
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1021,7 +1030,7 @@ proportion @HillaryClinton 0.504
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">

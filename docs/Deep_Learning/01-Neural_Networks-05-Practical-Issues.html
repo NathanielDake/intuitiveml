@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,7 +211,8 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="5.-Practical-Issues">5. Practical Issues<a class="anchor-link" href="#5.-Practical-Issues">&#182;</a></h1><p>Up until this point we have focused mainly on theory and the two main functions of a neural networks:</p>
 <ol>
@@ -225,7 +230,8 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></br></p>
@@ -243,13 +249,14 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And now our forward function. Note, since this is only <strong>binary classification</strong> we are basically just doing two sigmoids in a row.</p>
 
@@ -268,13 +275,14 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
     <span class="k">return</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Our predict function will no longer be using <code>argmax</code>, since we are not using the <code>softmax</code>, instead it will just use <code>round</code> (anything less than 0.5 is classified as 0, anything great than 0.5 is classified as 1).</p>
 
@@ -291,13 +299,14 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The derivatives are mostly the same. Note that <code>Z</code> is an <strong>(N x M)</strong> matrix.</p>
 
@@ -324,13 +333,14 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
     <span class="k">return</span> <span class="n">dZ</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Also note, regarding the derivative for $W_1$ and $b_1$, we utilize the <code>np.outer</code> function instead of the <code>np.dot</code> that we had been using in section 3. This may at first seem unexpected, but remember that in reality with our given configuration we are really just doing two sigmoids in a row. Let's look at our data for the XOR problem and this will make more sense. In the process we will make it a little more clear the architecture that we are working with.</p>
 <p>We can see that our <strong>X</strong> has dimensions (4 x 2), meaning that we have 4 training examples, and each example has 2 dimenions. So our neural network is going to have an input layer containing <strong>2 nodes</strong>.</p>
@@ -347,7 +357,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 <span class="n">X</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -357,7 +367,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[71]:</div>
+<div class="prompt output_prompt">Out[71]:</div>
 
 
 
@@ -376,7 +386,8 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Our <strong>Y</strong> output has dimensions (4 x 1), meaning our output layer has <strong>1 node</strong>, containing our prediction value.</p>
 
@@ -392,7 +403,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 <span class="n">Y</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -402,7 +413,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[72]:</div>
+<div class="prompt output_prompt">Out[72]:</div>
 
 
 
@@ -418,7 +429,8 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Our <strong>W1</strong> matrix has the shape (2 x 5), where each row holds the weights that map from a specific node in the input layer, to all of the nodes in the output layer. The appendix of section 3 training a neural network has a good visualization of this. Keep in mind, the shape of the <strong>W1</strong> tells us that we have <strong>5 nodes</strong> in our hidden layer, and hence the shape of <strong>Z</strong> should be (4 x 5).</p>
 
@@ -434,7 +446,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 <span class="n">W1</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -444,7 +456,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[73]:</div>
+<div class="prompt output_prompt">Out[73]:</div>
 
 
 
@@ -461,7 +473,8 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Our <strong>W2</strong> matrix has shape (5 x 1), which is a column vector. This is because we need <strong>W2</strong> to be a size that brings us back to <strong>1 node</strong> for the output layer. It should be kept in mind that our final network architecture is 2 input nodes, 5 hidden layer nodes, and 1 output node.</p>
 
@@ -477,7 +490,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 <span class="n">W2</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -487,7 +500,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[74]:</div>
+<div class="prompt output_prompt">Out[74]:</div>
 
 
 
@@ -503,7 +516,8 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's calculate <strong>Z</strong> via the dot product to ensure that it is in fact (4 x 5).</p>
 
@@ -518,7 +532,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">X</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -528,7 +542,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[75]:</div>
+<div class="prompt output_prompt">Out[75]:</div>
 
 
 
@@ -554,7 +568,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">W1</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -564,7 +578,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[76]:</div>
+<div class="prompt output_prompt">Out[76]:</div>
 
 
 
@@ -589,7 +603,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 <span class="n">Z</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -599,7 +613,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[77]:</div>
+<div class="prompt output_prompt">Out[77]:</div>
 
 
 
@@ -618,7 +632,8 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Great, <strong>Z</strong> is (4 x 5) and each row represents the values of the nodes (5 nodes total) at <strong>Z</strong> for a given training example (4 training examples total). Remember: the first column of <strong>X</strong> holds the value for <strong>input node 1</strong> at a specific training example, and the second column holds the value for <strong>input node 2</strong>. When we perform the dot product, we start by taking the 1st column of <strong>W2</strong>, which holds the weight mapping from <strong>input node 1</strong> to <strong>hidden node 1</strong>, and the weight mapping from <strong>input node 2</strong> to <strong>hidden node 1</strong>, and applying it to <strong>X</strong>. The result is the dot product, and the first column of our <strong>Z</strong> matrix is the result.</p>
 <p>Now, with that said lets move on to the calculation of our prediction <strong>pY</strong>. We should be expecting a shape of (4 x 1), since we want it to match our targets, <strong>Y</strong>, since we want to have 1 prediction for each of the 4 examples. We will apply the column vector <strong>W2</strong> to each row of <strong>Z</strong>, performing the dot product and ending up with a (4 x 1) matrix.</p>
@@ -634,7 +649,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">W2</span>              <span class="c1"># quickly visualizing W2</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -644,7 +659,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[78]:</div>
+<div class="prompt output_prompt">Out[78]:</div>
 
 
 
@@ -668,7 +683,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 <span class="n">pY</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -678,7 +693,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[79]:</div>
+<div class="prompt output_prompt">Out[79]:</div>
 
 
 
@@ -694,7 +709,8 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now that we have gone through the <strong>forward prediction</strong> step (keep in mind that no activation was applied since this was just to demonstrate the shapes of the matrices and element wise operations would not affect that, so we didn't worry about them for now), the question still remains: why was the <code>np.outer</code> function used instead of <code>np.dot</code> in our derivative for <strong>W2</strong>? Well, lets look at the shape of (Y - pY) and W2 again:</p>
 
@@ -709,7 +725,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">Y</span> <span class="o">-</span> <span class="n">pY</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -719,7 +735,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[80]:</div>
+<div class="prompt output_prompt">Out[80]:</div>
 
 
 
@@ -742,7 +758,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">W2</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -752,7 +768,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[81]:</div>
+<div class="prompt output_prompt">Out[81]:</div>
 
 
 
@@ -768,7 +784,8 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So (Y - pY) has a shape (4 x 1), and W2 has a shape (5 x 1). Now, we need to end up with a shape that matches <strong>Z</strong>, (4 x 5). If you look at the numpy tutorial, you can see that if you have two vectors, the first a column vector and the second a row vector, if they have the same size you can perform the dot product. However, because these dimensions do not match up, the outer product allows us to apply the term representing our error (Y - pY) to each weight value in W2.</p>
 
@@ -784,7 +801,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 <span class="n">dZ</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -794,7 +811,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[82]:</div>
+<div class="prompt output_prompt">Out[82]:</div>
 
 
 
@@ -820,7 +837,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">dZ</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -830,7 +847,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[83]:</div>
+<div class="prompt output_prompt">Out[83]:</div>
 
 
 
@@ -846,7 +863,8 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Excellent, our shape is (4 x 5) which matches <strong>Z</strong>. Now lets get back to the remaining functions that we needed to define. The <strong>cost function</strong> is next on our list. In this case we are using the <strong>cross entropy</strong>, which is equivalent to the <strong>negative log likelihood</strong>.</p>
 
@@ -862,13 +880,14 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">T</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">T</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Y</span><span class="p">))</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we can write a function to actually test the XOR problem.</p>
 
@@ -915,7 +934,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>        
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -928,7 +947,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_xor</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -938,7 +957,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -979,7 +998,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -997,7 +1016,8 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now let's write out the code that will run through the donut problem. Some things to note are that we explicitly define 8 hidden units and use that to define the size of our weight matrices.</p>
 
@@ -1101,7 +1121,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1114,7 +1134,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_donut</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1124,7 +1144,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1144,7 +1164,7 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1162,7 +1182,8 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></br></p>
@@ -1184,7 +1205,8 @@ The question may arise, in practice, what else do we need to focus on? Well, we 
 <hr>
 <p><br></br></p>
 <h2 id="2.5-The-Problem">2.5 The Problem<a class="anchor-link" href="#2.5-The-Problem">&#182;</a></h2><p>So because we have already derived the equations for our neural net before, we won't be repeating them here. However, lets get a look at the data set that we are going to use, and then we will go through the code to fit to this data set. Note that this data set has 3 dimensions, because we want to be able to visualize our data. Working with 100, or 1000 dimensions is great, but since you can't see them that makes it feel more abstract. We are going to use our neural network to perform regression on a curve that you can see. Our curve is just going to be a saddle, based off of the equation:</p>
-$$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and we will be trying to make our predictions that minimize the squared error between the prediction and $Y$. In the process we want to find a curve that closely follows the saddle shape of $Y$, without overfitting. Keep in mind, the standard linear regression in this case would only be able to generate a linear plane, which clearly would not be a good fit at all. Our goal is to use a neural network to do better. Let's get a visualization of $Y$ now:</p>
+<p>$$y = x_1x_2$$</p>
+<p>Note that in this problem, $Y$ is going to be the target, and we will be trying to make our predictions that minimize the squared error between the prediction and $Y$. In the process we want to find a curve that closely follows the saddle shape of $Y$, without overfitting. Keep in mind, the standard linear regression in this case would only be able to generate a linear plane, which clearly would not be a good fit at all. Our goal is to use a neural network to do better. Let's get a visualization of $Y$ now:</p>
 
 </div>
 </div>
@@ -1212,7 +1234,7 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1222,7 +1244,7 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1240,7 +1262,8 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Great, now that we know the shape of the curve that we are trying to predict we can get started in building our neural network. We are going to have 2 input dimensions, $x_1, x_2$, 100 hidden units, and 1 output unit that yields a continuous number.</p>
 
@@ -1265,13 +1288,14 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
 <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we can write out function that will be used in calculating the output. Note that we don't pass in our weights and biases, because they are going to be considered global variables. Also, we utilize the <strong>relu</strong> activation function in place of the sigmoid or tanh here. The relu causes any input to a node that is less than 0, to be set to 0. And input to a node that is greater than 0 keeps its value.</p>
 
@@ -1290,13 +1314,14 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
     <span class="k">return</span> <span class="n">Z</span><span class="p">,</span> <span class="n">Yhat</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>At this point we can write our functions to calculate our derivatives and perform the gradient descent update. We can start with the derivative for $V$. Remember, $V$ has a shape of <strong>(1 x 100)</strong>, so we want to make sure that is the shape that our derivative returns, since we need an update for each value of the V weight matrix. The difference between our target and prediction, <strong>(Y - Yhat)</strong>, has a shape of <strong>(1 x 500)</strong>. The shape of <strong>Z</strong> is <strong>(500 x 100)</strong>. So the dot product between those two should give us the expected shape of <strong>(1 x 100)</strong>.</p>
 
@@ -1312,7 +1337,7 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
     <span class="k">return</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">Yhat</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>         <span class="c1"># (target value - prediction).dot(Z)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1326,13 +1351,14 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
     <span class="k">return</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">Yhat</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>          <span class="c1"># will return a scalar value</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>As for the derivative of $W$, keep in mind that it has a shape of <strong>(2 x 100)</strong>, so that is the shape that this function should return. We also know that we have a <strong>relu</strong> activation function at our hidden layer, so we need to utilize its derivative instead of the derivative of the sigmoid or tanh. If we quickly check our shapes, we know that <strong>(Y - Yhat)</strong>, has a shape of <strong>(1 x 500)</strong>, and that <strong>V</strong> has a shape of <strong>(1 x 100)</strong>. If we take the outer product, apply each row of  <strong>(Y - Yhat)</strong> to each column of <strong>V</strong> (think column x row dot product), we will get <strong>(500 x 100)</strong> matrix. We then want to multiply that by the derivative of the <strong>relu</strong>, and then we need to take <strong>X</strong>, shape <strong>(500 x 2)</strong>, tranpose it, and perform the dot product with the matrix above. Our result is an update matrix of shape <strong>(2 x 100)</strong>.</p>
 
@@ -1350,7 +1376,7 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
     <span class="k">return</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">dz</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1366,13 +1392,14 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
     <span class="k">return</span> <span class="n">dz</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>With the derivatives out of the way, we can write an update function. This utilizes our derivative functions to calculate the gradients for $V, c, W, b$, and then updates each respective matrix.</p>
 
@@ -1398,13 +1425,14 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
     <span class="k">return</span> <span class="n">W</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">c</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And lets write a function to get the cost. We will be using the <strong>mean squared error</strong>.</p>
 
@@ -1420,13 +1448,14 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
     <span class="k">return</span> <span class="p">((</span><span class="n">Y</span> <span class="o">-</span> <span class="n">Yhat</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now lets write our loop to implement the training of our network. This will perform the updates and keep track of our costs.</p>
 
@@ -1451,7 +1480,7 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1461,7 +1490,7 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1479,7 +1508,7 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1497,7 +1526,8 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Great! We see that our cost does in fact converge. Now, we want to plot the function that our neural network has learned, and compare it against our data. To start, we will repeat the code we saw originally that created the 3d scatter plot of our data. Then we will create 20 evenly spaced points on the $x_1, x_2$ axis. We can do this using <code>meshgrid</code>, which should return every coordinate in that box. We then can flatten the two returned arrays, and then stack them together, which should give an <strong>(N x D)</strong> matrix, which can be passed into the neural network. We really are just trying to capture every point in the $x_1, x_2$ plane, and then make a prediction for its $y$ value. We can use <code>plot_trisurf</code> in order to plot all of the new predictions from the neural net.</p>
 
@@ -1522,7 +1552,7 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1532,7 +1562,7 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1550,7 +1580,8 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Awesome, we can see that our neural network mapped the saddle function pretty well. However, we can see that it is slightly off in the corners, and the closer we get to the corners, the worse the neural nets prediction is.</p>
 <p>One idea is that we can just plot the magnitude of the residuals at each point on the $x_1, x_2$ grid.</p>
@@ -1571,7 +1602,7 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1581,7 +1612,7 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1599,7 +1630,8 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In this case the lighter color yellow means that our prediction was not very good (large error) and the darker color means that our prediction was good (small error).</p>
 <p>We can also try and do a 3-d plot of the residuals, to see where we have the greatest error. (the vertical axis in this case represents the amount of error, hence, where the error is blue is where it is greatest).</p>
@@ -1618,7 +1650,7 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1628,7 +1660,7 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1646,7 +1678,8 @@ $$y = x_1x_2$$<p>Note that in this problem, $Y$ is going to be the target, and w
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></br></p>
@@ -1672,7 +1705,8 @@ If x is less than 0</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></br></p>
@@ -1687,7 +1721,8 @@ If x is less than 0</p>
 <h3 id="tanh">tanh<a class="anchor-link" href="#tanh">&#182;</a></h3><p>Next we have <strong>tanh</strong>, which solves the problem we just talked about. When you place 0 into the <strong>tanh</strong> it returns 0! However, the ends of tanh are still flat, so our training very slow when the data is off to the edges. In general, the tanh is typically better than the sigmoid, so if you have to choose between the two, go with tanh.</p>
 <p>Now, researchers were stuck on this <strong>s-shaped</strong> curve for a very long time. It is clearly nonlinear, and we need nonlinearities in order to create a nonlinear function approximator. And that's where the <strong>Relu</strong> comes in...</p>
 <h3 id="ReLU">ReLU<a class="anchor-link" href="#ReLU">&#182;</a></h3><p>Nowadays we have the <strong>ReLU</strong>. The ReLU is a pretty ugly function, which may have something to do with why neural network researchers were stuck on the s-shape for so long. It is defined as:</p>
-$$ReLU(x) = max(0, X)$$<p>For one thing it contains a <strong>max</strong> which looks weird, and it also looks like a broken stick. Because of that, the derivative is not defined at 0! That may bother something who is too theoretically inclined. However, in practice, the chances of the input being exactly 0 are infintesimally small!</p>
+<p>$$ReLU(x) = max(0, X)$$</p>
+<p>For one thing it contains a <strong>max</strong> which looks weird, and it also looks like a broken stick. Because of that, the derivative is not defined at 0! That may bother something who is too theoretically inclined. However, in practice, the chances of the input being exactly 0 are infintesimally small!</p>
 <p>So, how does the ReLU compare to the tanh and sigmoid? Well, it trains rather easily! Soon we will use the tensorflow playground to look at the decision boundary that is found by the neural network as it learns. We will be able to see that the ReLU has these jagged decision boundaries, which can be seen to mean that it allows the neural network to contort itself into more interesting shapes. The ReLU also trains faster.</p>
 <p>You may think that because half of the ReLU is flat, there is this whole region of space where the ReLU cannot learn. However, there is still the whole region of space on the right side where the ReLU is steep. In fact, the area where the ReLU is zero is a known problem in deep learning, and it leads to what are called <strong>dead neurons</strong>. Essentially what happens is that the activations go down to 0, and because the derivative is 0, the weights behind it don't get updated ever again. And so those neurons are always just computing zeros, hence the name dead neurons.</p>
 <p>One solution to the dead neuron problem is to just add more hidden units, and hope that not too many of them go down to zero. Generally this is fine and we can still outperform the tanh and sigmoid.</p>
@@ -1700,7 +1735,8 @@ $$ReLU(x) = max(0, X)$$<p>For one thing it contains a <strong>max</strong> which
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></br></p>
@@ -1739,13 +1775,14 @@ $$ReLU(x) = max(0, X)$$<p>For one thing it contains a <strong>max</strong> which
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></br></p>
@@ -1755,7 +1792,8 @@ $$ReLU(x) = max(0, X)$$<p>For one thing it contains a <strong>max</strong> which
 <p>If it is too high you will see that your cost goes to infinity/NaN. The strange thing is that your Neural Network will keep multiply NaN's as though they are numbers, so you will need to stop your code manually. On the other hand, if your error/cost is converging to slowly, then your learning rate is probably too low. Try turning it up by a factor of 10 so that it learns faster.</p>
 <p>A good technique to try if things are working right is to turn off all modifications except for regular gradient descent (no regularization or anything else you've learned). Then keep lowering the learning rate to see if things improve.</p>
 <h2 id="Normalizing-Cost-and-Regularization-Penalty">Normalizing Cost and Regularization Penalty<a class="anchor-link" href="#Normalizing-Cost-and-Regularization-Penalty">&#182;</a></h2><p>It is possible to train a neural network using batches of training data. When the data you are training on varies in size, the learning rate can become sensitive to it. That is because the cost function is the sum of all the individual errors, so if you have a lot of data points then the cost will be larger. To normalize this, we just divide the cost by <strong>N</strong>, the number of training samples being used at the time:</p>
-$$J = \frac{1}{N}\sum_n\sum_kt_{nk}log(y_{nk})$$<p>We can also make the regularization penalty independent of the number of parameters. Just divide the sum of squares of all parameters, by the number of parameters. These normalizations are not always necessary, but they can be helpful to try if things don't work right away.</p>
+<p>$$J = \frac{1}{N}\sum_n\sum_kt_{nk}log(y_{nk})$$</p>
+<p>We can also make the regularization penalty independent of the number of parameters. Just divide the sum of squares of all parameters, by the number of parameters. These normalizations are not always necessary, but they can be helpful to try if things don't work right away.</p>
 
 </div>
 </div>

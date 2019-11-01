@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,7 +211,8 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="3.-Components-of-an-RL-System">3. Components of an RL System<a class="anchor-link" href="#3.-Components-of-an-RL-System">&#182;</a></h1><p>Let's quickly recall what we had discussed earlier concerning the components of an RL system. We talked about the following:</p>
 <p><img src="https://drive.google.com/uc?id=1XXGA6HFfuDJlP_qzZsa691xNANY567Q-" width="500"></p>
@@ -228,8 +233,10 @@ body {
 </ul>
 </blockquote>
 <h2 id="1.1-Notation">1.1 Notation<a class="anchor-link" href="#1.1-Notation">&#182;</a></h2><p>We know that being in a state, $S(t)$, and taking an action $A(t)$, will lead us to the reward $R(t+1)$ and the state $S(t+1)$:</p>
-$$S(t), A(t) \rightarrow R(t+1), S(t+1)$$<p>However, when we drop the time index's, we represent this as the 4-tuple:</p>
-$$(s,a,r,s')$$<p>The $r$ is not given a prime as you would expect, but it is standard notation. So, the prime symbol doesn't strictly mean "at time t + 1"</p>
+<p>$$S(t), A(t) \rightarrow R(t+1), S(t+1)$$</p>
+<p>However, when we drop the time index's, we represent this as the 4-tuple:</p>
+<p>$$(s,a,r,s')$$</p>
+<p>The $r$ is not given a prime as you would expect, but it is standard notation. So, the prime symbol doesn't strictly mean "at time t + 1"</p>
 <h2 id="1.2-New-Terms">1.2 New Terms<a class="anchor-link" href="#1.2-New-Terms">&#182;</a></h2><p>The first new term we want to discuss is <strong>Episode</strong>. This represents one run of the game. For example, we will start a game of tic tac toe with an empty board, and as soon as one player gets 3 pieces in a row, that's the end of the episode. As you may imagine, our RL agent will learn across many episodes. For example, after playin 1000, 10000, or 100000 episodes, we can possibly have trained an intelligent agent. The number of episodes we will use is a hyper parameter and will depend on the game being played, the number of states, how random the game is, etc.</p>
 <p>Playing the game tic-tac-toe is an <strong>episodic task</strong> because you can play it again and again. This is different from a <strong>continuous task</strong> which never ends. We will not be looking at continuous tasks in this course.</p>
 <p>Now, the next question we ask is: when is the end of an episode? Well, there are certain states in the state space that tell us when the episode is over. These are states from which no more action can be taken. They are referred to as <strong>terminal states</strong>. For tic-tac-toe these are when one player gets 3 in a row, or when the board is full (a draw).</p>
@@ -247,7 +254,8 @@ $$(s,a,r,s')$$<p>The $r$ is not given a prime as you would expect, but it is sta
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="3.-The-Value-Function">3. The Value Function<a class="anchor-link" href="#3.-The-Value-Function">&#182;</a></h1><p>Take a moment to consider the following scenario. You have an exam tomorow. You would like to hang out with your friends. You know if you hangout with you friends you will most likely have a dopamine hit and feel happy. On the other hand if you study for your exam you will feel tired and potentially bored. So why study? Well, this is the idea of <strong>planning</strong>.</p>
@@ -262,10 +270,12 @@ $$(s,a,r,s')$$<p>The $r$ is not given a prime as you would expect, but it is sta
 <p>The idea of delayed rewards tells us that an AI must have the ability of foresight, or planning.</p>
 <h2 id="3.1-Example-Scenario">3.1 Example Scenario<a class="anchor-link" href="#3.1-Example-Scenario">&#182;</a></h2><p><img src="https://drive.google.com/uc?id=1Tz6Wpq2yN7CvHPL5MUfFRlft66MjTITH" width="300"></p>
 <p>Imagine the following: you are in state A, which is the second last state in a game. There are only two possible next states, both of which are terminal states. B gives you a reward of 1, and C gives you a reward of 0. You have a 50% probability of going to either state; perhaps your agent doesn't know which one is best. We can think of the value of state B as 1, and the value of state C as 0. So, what is the value of state A? We can think of it as 0.5, since it is the expected value of your final reward, given that you have a 50% chance of ending up in either state:</p>
-$$Value(A) = 0.5*1 + 0.5*0 = 0.5$$<p>Now, lets say that you are in state A, and state A can only lead to state B, and there is no other possible next state:</p>
+<p>$$Value(A) = 0.5*1 + 0.5*0 = 0.5$$</p>
+<p>Now, lets say that you are in state A, and state A can only lead to state B, and there is no other possible next state:</p>
 <p><img src="https://drive.google.com/uc?id=1EgUR7WWe4KhhES6RL-hIfyWSof4nxHUt" width="300"></p>
 <p>If B gives you a reward of 1, then perhaps A's value should also be 1, since the only possible final scenario is to have a final reward of 1, once you reach A:</p>
-$$Value(A) = 1 * 1 = 1$$<p>Thus, the value tells us about the "future goodness" of a state. We can make this a little more formal; we actually call this value, the value function.</p>
+<p>$$Value(A) = 1 * 1 = 1$$</p>
+<p>Thus, the value tells us about the "future goodness" of a state. We can make this a little more formal; we actually call this value, the value function.</p>
 <h2 id="3.2-Value-Function">3.2 Value Function<a class="anchor-link" href="#3.2-Value-Function">&#182;</a></h2><p>The value function is a measure of the future rewards that we may get:</p>
 <blockquote><p><strong>V(s)</strong> = the value (taking into account the probability of all possible future rewards) of a state</p>
 </blockquote>
@@ -275,7 +285,8 @@ $$Value(A) = 1 * 1 = 1$$<p>Thus, the value tells us about the "future goodness" 
 <h3 id="3.2.2-Efficiency">3.2.2 Efficiency<a class="anchor-link" href="#3.2.2-Efficiency">&#182;</a></h3><p>One way to think about the value function, is that it is a fast and efficient way to determine how good it is to be in a state, without needing to search the rest of the game tree. You could try to enumerate every possible state transition, and their probabilities of occuring; however, you can guess that this would be a computationally inefficient task. In fact, tic tac toe is easy since it is only a 3x3 board, so the number of states is approximately 3^(3x3) = 19683. However, that will grow exponentially with the size of the board! For example, if you have a connect 4 board, then you get 3^(4x4) = 43 million! As we know, exponential growth is never good, and hence searching the state space is only possible in the simplest of cases. Hence, a value function that can tell you how good you will do in the future, given only your current state, is <em>extremely</em> helpful. This means that $V(s)$ gives an answer instantly, in only $O(1)$ time! The only question is, is it even possible to find a value function...</p>
 <h3 id="3.2.3-Value-Functions-in-RL">3.2.3 Value Functions in RL<a class="anchor-link" href="#3.2.3-Value-Functions-in-RL">&#182;</a></h3><p>Estimating the value function is a central task in RL, but it should be noted that not all RL algorithms require it. For instance, a genetic algorithm simply spawns offspring that have random genetic mutations, and the ones who survive the longest will go on to spawn offspring in the next generation. So, by pure evolution and natural selection, we can breed better and better agents that get iteratively better at the game! However, this is not the type of algorithm that we are interested in for RL, most of the time.</p>
 <h3 id="3.2.4-Value-Function:-Math">3.2.4 Value Function: Math<a class="anchor-link" href="#3.2.4-Value-Function:-Math">&#182;</a></h3><p>So, we can dig into the math and notation surrounding the value function now. The value function takes in one parameter, the state, so we can denote it $V(s)$. It is the expected value of all future rewards, given that the current state is $s$:</p>
-$$V(s) = E[all \; future \; rewards \; | \; S(t) = s]$$<p>In other words, this is the average value of all possible future rewards, given that the current state is $s$.</p>
+<p>$$V(s) = E[all \; future \; rewards \; | \; S(t) = s]$$</p>
+<p>In other words, this is the average value of all possible future rewards, given that the current state is $s$.</p>
 <h3 id="3.2.5-Finding-$V(s)$">3.2.5 Finding $V(s)$<a class="anchor-link" href="#3.2.5-Finding-$V(s)$">&#182;</a></h3><p>Let's now look at a generic algorithm that we can use to find the value function. For now, we are going to introduce some unrealistic constraints, to show that the problem can actually be solved. However, later on it will be clear that we don't need to do this. The algorithm we will use is an iterative one, and each time we run the loop we will get closer and closer to the true value function.</p>
 <p>So, the first thing that we do is <strong>initialize the value function</strong>:</p>
 <blockquote><ul>
@@ -290,7 +301,8 @@ $$V(s) = E[all \; future \; rewards \; | \; S(t) = s]$$<p>In other words, this i
 <p>When we study the "real" algorithms soon, we will not need to focus on such careful initialization. For this game, $V(s)$ can be interpreted as probability of winning after arriving in s (for this game only).</p>
 <p><strong>Update Function</strong><br>
 The update function looks simple, but there are some hidden details. It kind of looks like gradient descent:</p>
-$$V(s) \leftarrow V(s) + \alpha * (V(s') - V(s))$$<p>We take the value function at a state, $V(s)$, and we update it by adding the learning rate times $V(s')$ minus $V(s)$; here, $s$ is the current state, and $s'$ is the next state.</p>
+<p>$$V(s) \leftarrow V(s) + \alpha * (V(s') - V(s))$$</p>
+<p>We take the value function at a state, $V(s)$, and we update it by adding the learning rate times $V(s')$ minus $V(s)$; here, $s$ is the current state, and $s'$ is the next state.</p>
 <h3 id="3.2.6-Detail-1">3.2.6 Detail 1<a class="anchor-link" href="#3.2.6-Detail-1">&#182;</a></h3><p>The first detail here is that $s$ represents every state that we encounter in an episode. That means that for each iteration of the loop, we actually need to play the game and remember all of the states that we were in. We then loop through each of the states in the state history, and then update the value using the above equation. Notice that a terminal state value will never be updated, because to update a state you need the next state value, which does not exist if we are in a terminal state.</p>
 <p>In Pseudocode it may look like:</p>
 
@@ -312,12 +324,14 @@ perform action maxA</code></pre>
 <p>However, in order to win, we need to take the action that yields the maximum value. So, we will be using the epsilon-greedy strategy to be making a tradeoff between exploration and exploitation.</p>
 <h3 id="3.2.9-Intuition">3.2.9 Intuition<a class="anchor-link" href="#3.2.9-Intuition">&#182;</a></h3><p>Let's take a moment to gain some intuition about why this iterative update works. First, you should recognize this iterative update equation from before. It is reminiscent of the low-pass filter and average-value-finding equation we saw earlier, as well as gradient descent. V(s') is like the target value, and we want to move $V(s)$ towards that value. However, with RL there are multiple possible next states, so there are multiple s'. So, by doing this update equation multiple times, we are pulling V(s) in multiple different directions all at once. The idea is that, by playing infinitely many episodes, the proportion of time we spend in s' will approach the true next state probabilities.</p>
 <h3 id="3.2.10-Extremely-Important-Detail">3.2.10 Extremely Important Detail<a class="anchor-link" href="#3.2.10-Extremely-Important-Detail">&#182;</a></h3><p>One incredibly important detail that is somewhat difficult to discern given only the update formula, is the order in which you have to update the values for any given state. We know that for any particular episode, we are only going to be updating the values for the states that were in that episode. But, the key of this equation is that we are moving $V(s)$ closer to $V(s')$. That mean that we are doing this update under the assumption that $V(s')$ is more accurate than $V(s)$. For the terminal state this is true, since that is always going to be 0 or 1, and will never change. But, if $V(s)$ and $V(s')$ are of the same accuracy, aka they are both not accurate at all, then making one closer to the other won't make anything better. So, the idea is we want to <strong>move backwards</strong> through the state history, because the current state value is always updated using the next state value. And we want the next state value to be more accurate, so we should update the state values in reverse order. This is also consistent with the terminal state being precisely accurate with a value of 0 or 1 that never changes.</p>
-$$V(terminal) = 0 \; or \; 1$$
+<p>$$V(terminal) = 0 \; or \; 1$$</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="4.-Tic-Tac-Toe-Implementation">4. Tic-Tac-Toe Implementation<a class="anchor-link" href="#4.-Tic-Tac-Toe-Implementation">&#182;</a></h1><p>Typically in ML we're implementing <em>procedural</em> algorithms. However, in RL we have multiple objects interacting, and we take an OOP approach.</p>
@@ -368,13 +382,14 @@ $$V(terminal) = 0 \; or \; 1$$
   <span class="n">p2</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>  
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that above we have created a partial API for some instance methods that our objects will need.</p>
 <ul>
@@ -388,8 +403,10 @@ $$V(terminal) = 0 \; or \; 1$$
 <p><strong>Mapping state to a number</strong>:
 We talked earlier about how to calculate the upper limit on the number of states earlier. We calculated it to be 3^9 = 19683, which is not too big of an array to store in memory. Notice, this also encodes impossible states, such as an x in all 9 board locations, when in fact you only need 3 in a row to win.</p>
 <p>The idea of having 9 locations, and 3 possible values per location should feel similar to the idea of binary numbers. $N$ bits can store $2^N$ different integers, and we can enumerate all of those possibilities by finding all of the permutations of a string of length $N$, where each location can only contain 0 or 1. The equation to convert a binary number to a decimal number is:</p>
-$$D = 2^{N-1}b_{N-1} + ... + 2^1 b_1 + 2^0 b_0$$<p>And in our case it is:</p>
-$$D = 3^{N-1}b_{N-1} + ... + 3^1 b_1 + 3^0 b_0$$<p>In pseudocode we may end up with something like this:</p>
+<p>$$D = 2^{N-1}b_{N-1} + ... + 2^1 b_1 + 2^0 b_0$$</p>
+<p>And in our case it is:</p>
+<p>$$D = 3^{N-1}b_{N-1} + ... + 3^1 b_1 + 3^0 b_0$$</p>
+<p>In pseudocode we may end up with something like this:</p>
 
 <pre><code>k = 0 
 h = 0
@@ -406,7 +423,8 @@ for i in range(LENGTH):
 return h</code></pre>
 <p>Keep in mind the following: The entire reason for creating a the above function/pseudocode is to be able to take what was a 3x3 board (array) and map it to a single number. Note, this number represents the board perfectly and contains all of the information necessary to rebuilt the board.</p>
 <h3 id="Initialize-the-value-function">Initialize the value function<a class="anchor-link" href="#Initialize-the-value-function">&#182;</a></h3><p>We can now talk about how we will be initializing the value function properly. So, the initialization that we need is:</p>
-<blockquote>$$\text{1 if s == winning terminal state}$$<p>$$\text{0 if s == losing or draw terminal state}$$ 
+<blockquote><p>$$\text{1 if s == winning terminal state}$$
+  $$\text{0 if s == losing or draw terminal state}$$ 
   $$\text{0.5 otherwise}$$</p>
 </blockquote>
 <p>In order to do this, we need to enumerate every possible state, and assign them values. Here is a question to think about; is it better to create a game tree, where you enumerate every possible sequence of moves, or is it better to permute all possible settings of all possible positions on the board, even though some of those represent impossible game states?</p>
@@ -457,13 +475,14 @@ return h</code></pre>
   <span class="k">return</span> <span class="n">results</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We should also recognize that the value function for the two players won't be equivalent. One player has to be x and the other player has to be o. So, if the value function is 1 for x, it is going to be 0 for o, and vice versa. However, in the case of the draw both players do get 0. So, we will have two functions which are almost the reverse of eachother;= <code>initialV_x</code> and <code>initialV_o</code>. Note, these functions could most definitely be composed in a more efficient way, but we will leave them separate for clarity purposes.</p>
 
@@ -510,13 +529,14 @@ return h</code></pre>
   <span class="k">return</span> <span class="n">V</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Recap">Recap<a class="anchor-link" href="#Recap">&#182;</a></h3><p>So, above, we just went over the following:</p>
 <ul>
@@ -532,7 +552,8 @@ return h</code></pre>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="The-Environment-Class">The Environment Class<a class="anchor-link" href="#The-Environment-Class">&#182;</a></h1><p>Recall that the environment is the thing that our agents are going to interact with. Lets take a look at the methods that we were going to look at.</p>
 <blockquote><ul>
@@ -654,13 +675,14 @@ return h</code></pre>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------&quot;</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="The-Agent-Class">The Agent Class<a class="anchor-link" href="#The-Agent-Class">&#182;</a></h1><p>The next major class in our tic tac toe game will be the agent. So far, we know that this is the AI, or the thing that contains the AI. This is different from regular machine learning, because in this situation we are not just feeding it data. Instead, our agent needs to interact with the environment. A one-line update for $V(s)$ is a very small part of our agent, and yet it is responsible for 100% of its intelligence.</p>
 <p>We can begin by looking at an overview of our instance methods:</p>
@@ -785,13 +807,14 @@ return h</code></pre>
     <span class="bp">self</span><span class="o">.</span><span class="n">reset_history</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Remaining-functionality">Remaining functionality<a class="anchor-link" href="#Remaining-functionality">&#182;</a></h1>
 </div>
@@ -830,7 +853,7 @@ return h</code></pre>
     <span class="k">pass</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -885,13 +908,14 @@ return h</code></pre>
       <span class="k">break</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Notes-on-Learning/Value-Function">Notes on Learning/Value Function<a class="anchor-link" href="#Notes-on-Learning/Value-Function">&#182;</a></h1><p>At this point you should have a good high level overview of the reinforcement learning process used in order to train our agent to perform optimally at tic tac toe. However, there may still be some haze surrounding the exact process-this is okay, considering there was a lot going on above that didn't even have to do with our agent. The actual AI portion was kept to only a few lines of code, with the rest being the equivalent of a first year CS coding assignment (using object oriented programming in order to build an environment, human, agent, etc).</p>
 <p>Let's walk through the diagram below to ensure that we have a complete understanding of how our agent is learning over time.</p>
@@ -901,7 +925,8 @@ return h</code></pre>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Above we can see that the process essentially works as follows:</p>
 <blockquote><ol>
@@ -929,7 +954,8 @@ $$V(s) \leftarrow 0.5 + 0.5 * (0.75 - 0.5) = 0.625$$
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="RL-vs.-Supervised-Learning">RL vs. Supervised Learning<a class="anchor-link" href="#RL-vs.-Supervised-Learning">&#182;</a></h1><p>A common question that comes up is why not use a supervised learning model that maps states to actions directly? Well first and foremost, how would we come up with labels? The state space would grow quickly and become too large to enumerate; tic-tac-toe/connect-4 is probably the limit. Now imagine we are playing a video game with 60 FPS, where there are millions of pixels, and hundreds of values per pixel; the number of states in a game like this is so large it is hard to conceptualize. There is also the fact that labels only tell us if we are right or wrong; a reward is more flexible and gives us information because it tells us how right or how wrong. Rewards tell us how good we are doing. Rewards are delayed, but the value function has this information built in.</p>

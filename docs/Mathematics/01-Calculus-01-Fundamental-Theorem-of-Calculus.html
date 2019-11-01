@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,7 +211,8 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="1.-The-Fundamental-Theorem-of-Calculus">1. The Fundamental Theorem of Calculus<a class="anchor-link" href="#1.-The-Fundamental-Theorem-of-Calculus">&#182;</a></h1><p>All across the field of Machine Learning calculus is utilized. In the world of Deep Learning, optimization via backpropagation reigns supreme, and it is often easy to end up either letting the computer handle all of the derivation and integration for you, or to forget the underlying intuition of what the equations mean in english.</p>
 <p><br>
@@ -225,13 +230,17 @@ Before we begin, however, I want you to try and do the following two things:</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="1.0-Prerequisite:-Input-vs.-Response">1.0 Prerequisite: Input vs. Response<a class="anchor-link" href="#1.0-Prerequisite:-Input-vs.-Response">&#182;</a></h2><p>Before we can begin we need to quickly review what exactly a function is. Forget $x$s and $y$s for the moment, forget equations that have been rotely memorized. What is a function, and why would we even need one?</p>
 <p>Well let's consider the real world scenario where you are trying to buy a car. Let's say you know that the car was made in 2010 and it has 100,000 miles on it. Intuitively, and without even realizing it, you create a function that maps those features of the car, to what you feel it is worth. Maybe you think that car is worth 4,000 dollars. That means that in some way you decided in your head that there is a function, which we can call $Car \;Price \;Estimator$:</p>
-$$Function = Car \; Price \; Estimator $$<p>And it takes two inputs, the year it was made and the number of miles on it:</p>
-$$Car \; Price \; Estimator (Year \; made, number \; of \; miles)$$<p>And that yielded an output, of 4,000 dollars:</p>
-$$Car \; Price \; Estimator (2010, 100000 \;miles) = 4000 \; dollars$$<p>This can be seen visually as well:</p>
+<p>$$Function = Car \; Price \; Estimator $$</p>
+<p>And it takes two inputs, the year it was made and the number of miles on it:</p>
+<p>$$Car \; Price \; Estimator (Year \; made, number \; of \; miles)$$</p>
+<p>And that yielded an output, of 4,000 dollars:</p>
+<p>$$Car \; Price \; Estimator (2010, 100000 \;miles) = 4000 \; dollars$$</p>
+<p>This can be seen visually as well:</p>
 <p><br>
 <img src="https://drive.google.com/uc?id=1nzWv2dubxT8dLgOcF_fR07uUqiyM74X4">
 <br></p>
@@ -248,11 +257,12 @@ $$Car \; Price \; Estimator (2010, 100000 \;miles) = 4000 \; dollars$$<p>This ca
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h2 id="1.1-Distance">1.1 Distance<a class="anchor-link" href="#1.1-Distance">&#182;</a></h2><p>With our prerequisites out of the way, let's start by thinking about the concept of <strong>distance</strong>. The units (meters, miles, kilometers, inches, etc) do not particularly matter and in reality can just get in the way, so we will leave them unitless for now. For now we can just think about distance as how far you travel as a function of <strong>time</strong>. We will define our distance function for this walkthrough to be:</p>
-$$Distance = s(t) = 4t^2 - \frac{1}{3}t^3$$<p></p>
+<p>$$Distance = s(t) = 4t^2 - \frac{1}{3}t^3$$</p>
 <p>Note that the reason I am using the variable $s$ to represent the distance function is to prevent confusion with derivative notation that will be introduced shortly. With that said, let's get a visualization of this function.</p>
 
 </div>
@@ -284,7 +294,7 @@ $$Distance = s(t) = 4t^2 - \frac{1}{3}t^3$$<p></p>
 <span class="n">length</span> <span class="o">=</span> <span class="mi">2000</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -299,7 +309,7 @@ $$Distance = s(t) = 4t^2 - \frac{1}{3}t^3$$<p></p>
   <span class="k">return</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -321,7 +331,7 @@ $$Distance = s(t) = 4t^2 - \frac{1}{3}t^3$$<p></p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -331,7 +341,7 @@ $$Distance = s(t) = 4t^2 - \frac{1}{3}t^3$$<p></p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -349,7 +359,8 @@ $$Distance = s(t) = 4t^2 - \frac{1}{3}t^3$$<p></p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Awesome. So we can see that the curve representing $s(t)$ is steepest when time is equal to 4, and at the ends (0 and 8) it becomes flat. Of course the steepness that we are talking about is known as <strong>slope</strong>, or <strong>rate of change</strong>. When time is equal to 4 the rate of change is high, meanwhile when time is equal to 0 or 8 the rate of change is low.</p>
 <p>Now before we bring in the concept of a derivative, let's look at an animation of this curve being created. What we want to focus on is what happens to our <strong>distance</strong> at time $t$ when we change $t$ slightly?</p>
@@ -397,13 +408,14 @@ $$Distance = s(t) = 4t^2 - \frac{1}{3}t^3$$<p></p>
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span> <span class="c1"># To prevent it from displaying in notebook</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=1IcmFYPI0AsrEBHzdwarprlPWechinnCi" width="400"></p>
 
@@ -411,21 +423,25 @@ $$Distance = s(t) = 4t^2 - \frac{1}{3}t^3$$<p></p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see two animations of the same curve above. They are each plotting distance as a function of time, as described by our original equation. The second animation has simply broken the plot down into intervals of 2 seconds.</p>
 <p>Now, watch as as the $s(t)$ curve is drawn and play close attention specifically to how $s(t)$ responds to changes in $t$ over intervals of 2 seconds. To make this more concrete, let's break this down into intervals.</p>
 <p><br>
 <strong>Interval 1: $[time =0, time =2]$</strong> <br>
 Take the slider that controls the animation and move it from 0 to 2 seconds manually. We can define our interval as:</p>
-$$interval_1 = t_2 - t_0 = 2 \; seconds $$<p>How much of a change in distance is there during that 2 second interval? Well, we go from a distance of 0 to a distance of approximately 16.</p>
-$$change \; in \; distance \; during \; interval_1 = 16 - 0 = 16$$<p>(Note that I have not calculated the specific change in distance here purposefully; I am simply using the plot in order to keep this understanding visual, mechanical calculations will come soon enough).</p>
+<p>$$interval_1 = t_2 - t_0 = 2 \; seconds $$</p>
+<p>How much of a change in distance is there during that 2 second interval? Well, we go from a distance of 0 to a distance of approximately 16.</p>
+<p>$$change \; in \; distance \; during \; interval_1 = 16 - 0 = 16$$</p>
+<p>(Note that I have not calculated the specific change in distance here purposefully; I am simply using the plot in order to keep this understanding visual, mechanical calculations will come soon enough).</p>
 <p>So, for $interval_1$ we can say that our change in $t$ of 2 seconds, caused a response in the distance of 16.</p>
 <p><br>
 <strong>Interval 2: $[time =2, time =4]$</strong> <br>
 If we then look at the next interval, from $t = 2$ to $t =4$:</p>
-$$interval_2 = t_4 - t_2 = 2 \; seconds $$<p>We can see that our increase is:</p>
-$$s(t =4) - s(t = 2) = 41 - 16 = 25  $$<p></p>
+<p>$$interval_2 = t_4 - t_2 = 2 \; seconds $$</p>
+<p>We can see that our increase is:</p>
+<p>$$s(t =4) - s(t = 2) = 41 - 16 = 25  $$</p>
 <p>So, in this 2 second interval, $s(t)$ increased by approximately 25.</p>
 <hr>
 <p><br></p>
@@ -439,7 +455,7 @@ $$slope = \frac{rise}{run} = \frac{change \; in \; distance}{change \; in \; tim
 <hr>
 <p><br></p>
 <h3 id="1.1.2-The-Derivative-of-Distance:-Part-1">1.1.2 The Derivative of Distance: Part 1<a class="anchor-link" href="#1.1.2-The-Derivative-of-Distance:-Part-1">&#182;</a></h3><p>Let's recap where we are at so far. At this point we have looked at how <strong>distance</strong> changes as a function of <strong>time</strong>, based on our defined function:</p>
-$$Distance = s(t) = 4x^2 - \frac{1}{3}x^3$$<p></p>
+<p>$$Distance = s(t) = 4x^2 - \frac{1}{3}x^3$$</p>
 <p>We then discovered that the slope of our <strong>distance</strong> function is actually <strong>velocity</strong>. We came upon the concept of a function's <strong>sensitivity</strong> to a change in its input, and how depending on where the change is made a greater response will be seen. This is the base for which we will frame our next concept, the <strong>derivative</strong>.</p>
 <p>We saw how the plot was drawn in the animation above, and we also determined that over different intervals of time $t$, a change in $t$ of 2 seconds would cause a <strong>greater</strong> or <strong>smaller</strong> change in the output, our distance.</p>
 <p>Now, let's take that last idea one step further. What if we looked at how our distance function changed over smaller intervals of $t$. Let's try this out with 1 second intervals, and 0.5 second intervals.</p>
@@ -490,13 +506,14 @@ $$Distance = s(t) = 4x^2 - \frac{1}{3}x^3$$<p></p>
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span> <span class="c1"># To prevent it from displaying in notebook</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=1ELng868pvIlt9ckWTrzz9szc5Jow_KJ5" width="400"></p>
 
@@ -504,7 +521,8 @@ $$Distance = s(t) = 4x^2 - \frac{1}{3}x^3$$<p></p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that as we make the interval's of $t$ smaller and smaller, the segment of $s(t)$ (our distance function) inside of the interval becomes a closer approximation of a straight line. Now, let's get ready for the big jump! In the 1 animation above, we could say that over 1 interval (which is 1s in the upper plot), our slope has the equation:</p>
 <p><br>
@@ -559,13 +577,14 @@ $$slope = \frac{change \; in \; distance}{change \; in \; time} = \frac{change \
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span> <span class="c1"># To prevent it from displaying in notebook</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=18lLTt6fCzdEyCaYQNFQivNH7dGSON-fr" width="400"></p>
 
@@ -573,27 +592,36 @@ $$slope = \frac{change \; in \; distance}{change \; in \; time} = \frac{change \
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that as the interval size that we are observing our distance function decreases, the slope begins to approximate that of a straight line. Now, let's make a small mental leap here and instead of working with intervals of $t$ such as 0.1, 0.5, and so on, let's just call the tiny interval that we are observing the distance over, $dt$. We can just think of $dt$ as a very very small change in time:</p>
-$$dt = very \; small \; change \; in \;time$$<p>And likewise, we can call the amount that our distance, $s(t)$, changes over that very small time interval $dt$:</p>
-$$ds(t) = change \; in \;distance \; over \; interval\; dt$$<p>So if we put this all together, we can go back to our equation for slope</p>
+<p>$$dt = very \; small \; change \; in \;time$$</p>
+<p>And likewise, we can call the amount that our distance, $s(t)$, changes over that very small time interval $dt$:</p>
+<p>$$ds(t) = change \; in \;distance \; over \; interval\; dt$$</p>
+<p>So if we put this all together, we can go back to our equation for slope</p>
 <p><br>
 $$slope = \frac{change \; in \; distance}{change \; in \; time} = \frac{ds(t)}{dt}$$</p>
 <p>So, over this very very small interval $dt$, we have the equation for our slope, which, in this example is velocity!</p>
-$$\frac{ds(t)}{dt} = velocity$$<p>Now, we are going to take this a step further to ensure an even deeper understanding. Let's write out exactly what $\frac{ds(t)}{dt}$ represents. We know that $ds(t)$ is just the change in distance that occurs from $s(t)$ to $s(t + dt)$, and we know that our interval is $dt$. So we can rewrite our equation as:</p>
-$$\frac{ds(t)}{dt} = \frac{s(t + dt) - s(t)}{dt}$$
+<p>$$\frac{ds(t)}{dt} = velocity$$</p>
+<p>Now, we are going to take this a step further to ensure an even deeper understanding. Let's write out exactly what $\frac{ds(t)}{dt}$ represents. We know that $ds(t)$ is just the change in distance that occurs from $s(t)$ to $s(t + dt)$, and we know that our interval is $dt$. So we can rewrite our equation as:</p>
+<p>$$\frac{ds(t)}{dt} = \frac{s(t + dt) - s(t)}{dt}$$</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
 <h3 id="1.1.2-The-Derivative-of-Distance:-Part-2">1.1.2 The Derivative of Distance: Part 2<a class="anchor-link" href="#1.1.2-The-Derivative-of-Distance:-Part-2">&#182;</a></h3><p>Now, this tiny change in the distance $ds(t)$ divided by the tiny change in the input, $dt$, that caused it - that is <em>almost</em> what a derivative is. We need to make one more jump! So far we have been considering $dt$ to be a very small interval, say $dt = 0.000001$. However, the derivative is actually whatever that ratio approaches, as $dt$ approaches 0.</p>
 <p>We can get a better sense for this from the equation:</p>
-$$\frac{ds(t)}{0.00001} = \frac{s(t + 0.00001) - s(t)}{0.00001}$$$$\frac{ds(t)}{0.0000001} = \frac{s(t + 0.0000001) - s(t)}{0.0000001}$$$$\frac{ds(t)}{0.000000001} = \frac{s(t + 0.000000001) - s(t)}{0.000000001}$$<p>As the value of $dt$ <em>approaches</em> 0, the slope approaches the line that is tangent to the curve at that point! By convention, using the letter $d$ followed by a variable in calculus means that we are referring the variable approaching 0. In other words, $dt$ represents the value of $t$ as it approaches 0. We can see what it means for $t$ to approach zero and the slope to become tangent in the following animation:</p>
+<p>$$\frac{ds(t)}{0.00001} = \frac{s(t + 0.00001) - s(t)}{0.00001}$$
+$$\frac{ds(t)}{0.0000001} = \frac{s(t + 0.0000001) - s(t)}{0.0000001}$$
+$$\frac{ds(t)}{0.000000001} = \frac{s(t + 0.000000001) - s(t)}{0.000000001}$$</p>
+<p>As the value of $dt$ <em>approaches</em> 0, the slope approaches the line that is tangent to the curve at that point! By convention, using the letter $d$ followed by a variable in calculus means that we are referring the variable approaching 0. In other words, $dt$ represents the value of $t$ as it approaches 0. We can see what it means for $t$ to approach zero and the slope to become tangent in the following animation:</p>
 
 </div>
 </div>
@@ -646,13 +674,14 @@ $$\frac{ds(t)}{0.00001} = \frac{s(t + 0.00001) - s(t)}{0.00001}$$$$\frac{ds(t)}{
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span> <span class="c1"># To prevent it from displaying in notebook</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=1c4p4MIoo6CvHMj0VVrTfO9wMXNJ9nQnQ" width="400"></p>
 
@@ -660,7 +689,8 @@ $$\frac{ds(t)}{0.00001} = \frac{s(t + 0.00001) - s(t)}{0.00001}$$$$\frac{ds(t)}{
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>I encourage you again to play around with the animation slider. As you drag it, you are changing the interval of $t$. The smaller the interval, the closer the red markers get to eachother. And, as $t$ approaches 0, the slope approaches the line tangent to the distance curve at that point $t$.</p>
 <p><strong>Derivative of Distance</strong>
@@ -668,27 +698,35 @@ We finally arrive at the big moment of truth! How do we find the derivative of o
 <p><br>
 $$\frac{ds(t)}{dt} = \frac{s(t + dt) - s(t)}{dt}$$</p>
 <p>And we know that the equation we have been working with all along for distance is:</p>
-$$Distance = s(t) = 4t^2 - \frac{1}{3}t^3$$<p></p>
+<p>$$Distance = s(t) = 4t^2 - \frac{1}{3}t^3$$</p>
 <p>So, we can plug in our equation for $s(t)$ into the first equation:</p>
-$$\frac{ds(t)}{dt} = \frac{\Big(4(t + dt)^2 - \frac{1}{3}(t + dt)^3\Big) - \Big(4t^2 - \frac{1}{3}t^3\Big)}{dt}$$<p>And then we can expand the above equations:
+<p>$$\frac{ds(t)}{dt} = \frac{\Big(4(t + dt)^2 - \frac{1}{3}(t + dt)^3\Big) - \Big(4t^2 - \frac{1}{3}t^3\Big)}{dt}$$</p>
+<p>And then we can expand the above equations:
 $$\frac{ds(t)}{dt} = \frac{\Big(4t^2 +8t*dt + 4dt^2 - \frac{1}{3}t^3 - t^2dt - tdt^2 - \frac{1}{3}dt^3 \Big) - \Big(4t^2 - \frac{1}{3}t^3\Big)}{dt}$$</p>
 <p>We can simplify where possible:
 $$\frac{ds(t)}{dt} = \frac{8t*dt + 4dt^2 - t^2dt - tdt^2 - \frac{1}{3}dt^3 }{dt}$$</p>
 <p>And then factor out the $dt$ on the top and bottom:</p>
-$$\frac{ds(t)}{dt} = 8t + 4dt - t^2 - tdt - \frac{1}{3}dt$$<p>At this point this may look like an absolute mess, but we are about to see the beauty of the having $dt$ approach 0. Because $dt$ is said to approach 0, we can plug in 0 where we see $dt$:</p>
-$$\frac{ds(t)}{dt} = 8t + 4*0 - t^2 - t*0 - \frac{1}{3}*0$$$$\frac{ds(t)}{dt} = 8t - t^2$$$$Velocity \; at\;any\;point\;t  = 8t - t^2$$<p>Pretty rad stuff, we now have an equation that allows us to determine the <strong>velocity</strong> at a given time $t$.</p>
+<p>$$\frac{ds(t)}{dt} = 8t + 4dt - t^2 - tdt - \frac{1}{3}dt$$</p>
+<p>At this point this may look like an absolute mess, but we are about to see the beauty of the having $dt$ approach 0. Because $dt$ is said to approach 0, we can plug in 0 where we see $dt$:</p>
+<p>$$\frac{ds(t)}{dt} = 8t + 4*0 - t^2 - t*0 - \frac{1}{3}*0$$
+$$\frac{ds(t)}{dt} = 8t - t^2$$
+$$Velocity \; at\;any\;point\;t  = 8t - t^2$$</p>
+<p>Pretty rad stuff, we now have an equation that allows us to determine the <strong>velocity</strong> at a given time $t$.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
 <h2 id="1.2-Velocity">1.2 Velocity<a class="anchor-link" href="#1.2-Velocity">&#182;</a></h2><p>Okay, we now have an equation that shows our velocity at a given time, $t$:</p>
-$$Velocity = \frac{ds(t)}{dt} = 8t - t^2$$<p>Which we can simply write as:</p>
-$$v(t) = 8t - t^2$$<p>Let's take a minute to look at the plot of velocity vs time:</p>
+<p>$$Velocity = \frac{ds(t)}{dt} = 8t - t^2$$</p>
+<p>Which we can simply write as:</p>
+<p>$$v(t) = 8t - t^2$$</p>
+<p>Let's take a minute to look at the plot of velocity vs time:</p>
 
 </div>
 </div>
@@ -703,7 +741,7 @@ $$v(t) = 8t - t^2$$<p>Let's take a minute to look at the plot of velocity vs tim
   <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -724,7 +762,7 @@ $$v(t) = 8t - t^2$$<p>Let's take a minute to look at the plot of velocity vs tim
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -734,7 +772,7 @@ $$v(t) = 8t - t^2$$<p>Let's take a minute to look at the plot of velocity vs tim
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -752,7 +790,8 @@ $$v(t) = 8t - t^2$$<p>Let's take a minute to look at the plot of velocity vs tim
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Sweet. So we can see that the curve representing $v(t)$ has a maximum when time is equal to 4. What does a time equal to 4 correspond to on the distance plot? Well, we can plot these side by side to make it very clear:</p>
 
@@ -797,13 +836,14 @@ $$v(t) = 8t - t^2$$<p>Let's take a minute to look at the plot of velocity vs tim
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span> <span class="c1"># To prevent it from displaying in notebook</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=1vpYNmDdr9PZgdTCwskFnd0g6lfOpdM2p" width="400"></p>
 
@@ -811,7 +851,8 @@ $$v(t) = 8t - t^2$$<p>Let's take a minute to look at the plot of velocity vs tim
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The velocity plot experiences a maximum at $t = 4$! This clearly corresponds to the point at which the distance plot has its maximum slope! We can also see that as the slope of the distance plot flattens out and gets closer to 0, the value of the velocity plot heads towards 0!</p>
 <p>I encourage you to move the animation slider slowly and play around with the time $t$, so you can see how the velocity and distance relate.</p>
@@ -820,15 +861,18 @@ $$v(t) = 8t - t^2$$<p>Let's take a minute to look at the plot of velocity vs tim
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
 <h2 id="1.2.1-How-do-we-go-from-Velocity-to-Distance?">1.2.1 How do we go from Velocity to Distance?<a class="anchor-link" href="#1.2.1-How-do-we-go-from-Velocity-to-Distance?">&#182;</a></h2><p>At this point we have gone through, in great detail, how we can take a function that represents distance, and determine the velocity at any any given time $t$. Now, let's pretend for a moment that you did not know the distance function. Say you only knew the function that represented velocity:</p>
-$$v(t) = 8t - t^2$$<p>Now, what if I asked you to tell me how far we traveled in that period of time? How would you do it?</p>
+<p>$$v(t) = 8t - t^2$$</p>
+<p>Now, what if I asked you to tell me how far we traveled in that period of time? How would you do it?</p>
 <p><br></p>
 <h3 id="1.2.1.1-A-simple-example">1.2.1.1 A simple example<a class="anchor-link" href="#1.2.1.1-A-simple-example">&#182;</a></h3><p>Let's say I told you you that I was traveling 4 meters per second for 8 seconds. Intuitively, it makes sense that:</p>
-$$distance = velocity * time = 4 \frac{m}{s} * 8 \; seconds = 32 \;meters $$<p>Now if we look at the plot of that exact scenario, how may you go about it from a geometric perspective?</p>
+<p>$$distance = velocity * time = 4 \frac{m}{s} * 8 \; seconds = 32 \;meters $$</p>
+<p>Now if we look at the plot of that exact scenario, how may you go about it from a geometric perspective?</p>
 
 </div>
 </div>
@@ -852,7 +896,7 @@ $$distance = velocity * time = 4 \frac{m}{s} * 8 \; seconds = 32 \;meters $$<p>N
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -862,7 +906,7 @@ $$distance = velocity * time = 4 \frac{m}{s} * 8 \; seconds = 32 \;meters $$<p>N
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -880,7 +924,8 @@ $$distance = velocity * time = 4 \frac{m}{s} * 8 \; seconds = 32 \;meters $$<p>N
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So we can see in plot above that we have a flat velocity curve that stays at 4 meters per second, over an interval of 8 seconds. Well, if we think about our intuitive calculation from above, we can again multiply the velocity times the time interval. Only now, velocity can be interpreted as a height and the time interval a width, making up a rectangle. This is better seen with a visualization:</p>
 
@@ -907,7 +952,7 @@ $$distance = velocity * time = 4 \frac{m}{s} * 8 \; seconds = 32 \;meters $$<p>N
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -917,7 +962,7 @@ $$distance = velocity * time = 4 \frac{m}{s} * 8 \; seconds = 32 \;meters $$<p>N
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -935,14 +980,19 @@ $$distance = velocity * time = 4 \frac{m}{s} * 8 \; seconds = 32 \;meters $$<p>N
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So, we can see above that the shaded green rectangle has a height of 4 meters per second, and a width of 8 seconds. If we recall the formula for area of a rectangle:</p>
-$$Height * width = Area$$<p>And if we now substitute our values from earlier:</p>
-$$velocity * time = distance$$<p>We find that:</p>
-$$velocity * time = distance = area \; under\;the\;curve$$<p>Now that still may seem rather contrived; why bother going through the work of finding the area under the curve when we can just use our initial method that seemed like much less work? Well, ponder this: we just looked at a situation where velocity was constant and did not change. How would we handle a situation where the velocity did change?</p>
+<p>$$Height * width = Area$$</p>
+<p>And if we now substitute our values from earlier:</p>
+<p>$$velocity * time = distance$$</p>
+<p>We find that:</p>
+<p>$$velocity * time = distance = area \; under\;the\;curve$$</p>
+<p>Now that still may seem rather contrived; why bother going through the work of finding the area under the curve when we can just use our initial method that seemed like much less work? Well, ponder this: we just looked at a situation where velocity was constant and did not change. How would we handle a situation where the velocity did change?</p>
 <p>If the change was <strong>discrete</strong>, meaning that it was not <strong>continuous</strong> and we could just jump from one velocity to the next, we would actually still be okay with out initial method. For example, say that I now tell you we travel 4 m/s for 3 seconds, then we immediately jump to 7 m/s and travel at the velocity for 3 second, and then instantaneously jump again to 2 m/s and stay there for 2 second. With our original method we can see:</p>
-$$4 \frac{m}{s} * 3s +7 \frac{m}{s} * 3s+2 \frac{m}{s} * 2s = 37 \; meters $$<p>Again, we can plot this situation and look at the area under the curve:</p>
+<p>$$4 \frac{m}{s} * 3s +7 \frac{m}{s} * 3s+2 \frac{m}{s} * 2s = 37 \; meters $$</p>
+<p>Again, we can plot this situation and look at the area under the curve:</p>
 
 </div>
 </div>
@@ -975,7 +1025,7 @@ $$4 \frac{m}{s} * 3s +7 \frac{m}{s} * 3s+2 \frac{m}{s} * 2s = 37 \; meters $$<p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -985,7 +1035,7 @@ $$4 \frac{m}{s} * 3s +7 \frac{m}{s} * 3s+2 \frac{m}{s} * 2s = 37 \; meters $$<p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1003,7 +1053,8 @@ $$4 \frac{m}{s} * 3s +7 \frac{m}{s} * 3s+2 \frac{m}{s} * 2s = 37 \; meters $$<p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>If we again determine the area under the curve of the 3 above rectangles that will allow use to compute the total distance traveled, 37 meters! So, we still have not seen a reason for why we are going over all of this talk regarding area of rectangles and such.</p>
 <p>However, consider the following, our original velocity curve:</p>
@@ -1028,7 +1079,7 @@ $$4 \frac{m}{s} * 3s +7 \frac{m}{s} * 3s+2 \frac{m}{s} * 2s = 37 \; meters $$<p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1038,7 +1089,7 @@ $$4 \frac{m}{s} * 3s +7 \frac{m}{s} * 3s+2 \frac{m}{s} * 2s = 37 \; meters $$<p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1056,7 +1107,8 @@ $$4 \frac{m}{s} * 3s +7 \frac{m}{s} * 3s+2 \frac{m}{s} * 2s = 37 \; meters $$<p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>If I now asked you to tell me how far we traveled over this 8 second interval, how would you go about that? And that is where the concept of <strong>area under the curve</strong> that we have been discussing comes in. When our velocity function changes <strong>nonlinearly</strong> with its input, $t$, we can't simply calculate the the distance with our original method anymore; we need to determine a different way.</p>
 <p>Based on our earlier argument, we know that the total area under the velocity curve represents the distance traveled. So, we need to figure out how we find the area below the curve:</p>
@@ -1082,7 +1134,7 @@ $$4 \frac{m}{s} * 3s +7 \frac{m}{s} * 3s+2 \frac{m}{s} * 2s = 37 \; meters $$<p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1092,7 +1144,7 @@ $$4 \frac{m}{s} * 3s +7 \frac{m}{s} * 3s+2 \frac{m}{s} * 2s = 37 \; meters $$<p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1110,7 +1162,8 @@ $$4 \frac{m}{s} * 3s +7 \frac{m}{s} * 3s+2 \frac{m}{s} * 2s = 37 \; meters $$<p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Determining the area under this velocity curve brings us back to our current idea:</p>
 <blockquote><p>We know how to go from distance to velocity via a derivative. <strong>How do we go from velocity back to distance?</strong></p>
@@ -1119,7 +1172,8 @@ $$4 \frac{m}{s} * 3s +7 \frac{m}{s} * 3s+2 \frac{m}{s} * 2s = 37 \; meters $$<p>
 <p><br></p>
 <h3 id="1.2.1.2-The-Integral">1.2.1.2 The Integral<a class="anchor-link" href="#1.2.1.2-The-Integral">&#182;</a></h3><p>I want to preface by saying that often times this is the harder part for people to grasp, so don't worry if it doesn't click at first. Really let this concept sink in and try to understand the intuition behind what is happening. Too often do people try and start learning rules and rotely memorizing a process for a set of specific situations. Our goal is to build a rock solid understanding of the underlying phenomenon, and let that generalize to any new situation we may encounter!</p>
 <p>Okay, with that out of the way, let's start with the first big idea here: The area under the velocity curve is <strong>distance</strong>:</p>
-$$distance = area \; under \; velocity \; curve$$<p>Now remember, we are pretending that we do not know the formula for distance at this point. So, how do we determine the total distance traveled based on the curve above? Well, we can start by saying that a decent approximation would be to break the area down into smaller and smaller rectangles, like so:</p>
+<p>$$distance = area \; under \; velocity \; curve$$</p>
+<p>Now remember, we are pretending that we do not know the formula for distance at this point. So, how do we determine the total distance traveled based on the curve above? Well, we can start by saying that a decent approximation would be to break the area down into smaller and smaller rectangles, like so:</p>
 
 </div>
 </div>
@@ -1162,7 +1216,7 @@ $$distance = area \; under \; velocity \; curve$$<p>Now remember, we are pretend
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1172,7 +1226,7 @@ $$distance = area \; under \; velocity \; curve$$<p>Now remember, we are pretend
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1190,11 +1244,14 @@ $$distance = area \; under \; velocity \; curve$$<p>Now remember, we are pretend
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And as we continue to break down the area into smaller and smaller intervals, which we can treat as rectangles, we can then sum up all of the rectangles to get an approximation of the total area under the curve, our distance. In the form of an equation that looks like:</p>
-$$ Approximate \; area \; under\;velocity\;curve = distance= \sum_0^8 area\;of\;each\;rectangle  $$<p>Now, just as we did when going from the distance to velocity, I want us to again imagine shrinking the size of that interval $t$ until it begins to approach 0. We would be summing up all of those tiny rectangles, as the width of each rectangle approaches 0. There is a special symbol for this, and you can just think of it as a <strong>continuous summation</strong>:</p>
-$$distance = s(t)= \int_0^8 v(t)$$<p>You may be thinking "Okay, great. How exactly is this going to help us determine what our distance is?"</p>
+<p>$$ Approximate \; area \; under\;velocity\;curve = distance= \sum_0^8 area\;of\;each\;rectangle  $$</p>
+<p>Now, just as we did when going from the distance to velocity, I want us to again imagine shrinking the size of that interval $t$ until it begins to approach 0. We would be summing up all of those tiny rectangles, as the width of each rectangle approaches 0. There is a special symbol for this, and you can just think of it as a <strong>continuous summation</strong>:</p>
+<p>$$distance = s(t)= \int_0^8 v(t)$$</p>
+<p>You may be thinking "Okay, great. How exactly is this going to help us determine what our distance is?"</p>
 <p>Well, I want to convince you by using an analogy to our example regarding the derivative of distance. When we were looking at our distance function, we were able to say that the slope at any given time would be equal to the velocity at that time, $t$. Now, we have the velocity function and we have said that the area under the curve is equal to distance. If we look at <strong>how the area under the velocity curve changes as a function of time</strong>, we are looking at how distance changes as a function of time. We know that distance changing as a function of time is equal to velocity, which means that the rate at which the area under the curve changes is velocity! An animation may help make this more concrete:</p>
 
 </div>
@@ -1241,13 +1298,14 @@ $$distance = s(t)= \int_0^8 v(t)$$<p>You may be thinking "Okay, great. How exact
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span> <span class="c1"># To prevent it from displaying in notebook</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=1UI0419afQUEB-AVXejqeMpqCUc1lVJuu" width="400"></p>
 
@@ -1255,15 +1313,18 @@ $$distance = s(t)= \int_0^8 v(t)$$<p>You may be thinking "Okay, great. How exact
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>As I always, mess around with the slider in order to see how the area under the velocity curve changes at different values of $t$. When $t = 0.5$ we can see that if we nudge it to $t = 0.6$ we little additional area is added. However, when $t = 3.9$ a nudge to $t = 4.0$ leads to a much greater increase in area, aka <strong>distance</strong>.</p>
 <p>As you move the slider, the amount of area shaded in green represents the total distance the car has traveled after $t$ seconds. This area is a function of $t$, meaning that as we move the slider the area (green shaded region) will change based on it's value. If we were to frame this as an equation:</p>
-$$distance = s(t) = \int_0^t v(t)dt$$<p>Now, this is the big mental leap we need. I want you to ask yourself:</p>
+<p>$$distance = s(t) = \int_0^t v(t)dt$$</p>
+<p>Now, this is the big mental leap we need. I want you to ask yourself:</p>
 <blockquote><p>"What is the derivative of that function? "</p>
 </blockquote>
 <p>It may seem initially confusing since we aren't quite sure how to take the derivative of an integral yet. However, forget about the right hand side of the equation for a moment. We are asking: What is the derivative of a function that represents distance? Well, intuitively we know that that is velocity! If we think about how the area changes as we increase $t$, we know that a small nudge in $t$, $dt$, would cause the area under the curve to increase by $ds(t)$, a tiny additional sliver of area. The height of that sliver would be $v(t)$. So we know that the area of that sliver would be $dt$ times $v(t)$!</p>
-$$ds(t) = v(t)dt$$<p>Let's get a deeper look an hopefully clear things up with a visualization.</p>
+<p>$$ds(t) = v(t)dt$$</p>
+<p>Let's get a deeper look an hopefully clear things up with a visualization.</p>
 
 </div>
 </div>
@@ -1294,7 +1355,7 @@ $$ds(t) = v(t)dt$$<p>Let's get a deeper look an hopefully clear things up with a
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1304,7 +1365,7 @@ $$ds(t) = v(t)dt$$<p>Let's get a deeper look an hopefully clear things up with a
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1322,10 +1383,12 @@ $$ds(t) = v(t)dt$$<p>Let's get a deeper look an hopefully clear things up with a
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In the above plot, we can see that the green area represents the total distance traveled up to time $t = 5$. We then nudge our value for $t$ slightly to the right - we can call this change in time $dt$. This small nudge $dt$ caused our area under the curve (distance!) to increase by an amount $ds(t)$, which is the shaded blue region. As $dt$ approaches 0, the blue region (our change in area/distnace) can be approximated as a rectangle, and the height of that rectangle is...$v(t)$! So, an area of a rectangle is simply width times height, meaning we can determine:</p>
-$$ds(t) = v(t)dt$$<p>Before we move on to the last step, we can quickly look at a visual to see how this area really correponds to distance:</p>
+<p>$$ds(t) = v(t)dt$$</p>
+<p>Before we move on to the last step, we can quickly look at a visual to see how this area really correponds to distance:</p>
 
 </div>
 </div>
@@ -1366,7 +1429,7 @@ $$ds(t) = v(t)dt$$<p>Before we move on to the last step, we can quickly look at 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1376,7 +1439,7 @@ $$ds(t) = v(t)dt$$<p>Before we move on to the last step, we can quickly look at 
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1394,33 +1457,44 @@ $$ds(t) = v(t)dt$$<p>Before we move on to the last step, we can quickly look at 
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The area under the velocity curve shaded in green corresponds to the green curve in the distance plot. The sliver of added area in under the velocity curve corresponds to the blue portion of the curve in the distance plot.</p>
 <p>Now we can finally move on to the next step! We can quickly recap what we just determined. The area under the velocity curve at a certain time $t$ is defined as:</p>
-$$Area \; under \; velocity \; curve= distance  = s(t) = \int_0^t v(t)dt$$<p>We then asked what is the derivative of that function? This means we are asking "how does the area under the velocity curve change as we change the value of $t$"? We determined that a small change in area under the curve, $ds(t)$ is equivalent to $v(t)$ times $dt$:</p>
-$$ds(t) = v(t)dt$$<p>We can also say that the derivative of the area under the curve function (never forget that is representing distance!) is equal to the value of the velocity function at whatever time we started on:</p>
-$$\frac{ds(t)}{dt} = v(t)$$<p>This a general principle that is applied to many functions! So, if our velocity function is:</p>
-$$v(t) = 8t - t^2$$<p></p>
+<p>$$Area \; under \; velocity \; curve= distance  = s(t) = \int_0^t v(t)dt$$</p>
+<p>We then asked what is the derivative of that function? This means we are asking "how does the area under the velocity curve change as we change the value of $t$"? We determined that a small change in area under the curve, $ds(t)$ is equivalent to $v(t)$ times $dt$:</p>
+<p>$$ds(t) = v(t)dt$$</p>
+<p>We can also say that the derivative of the area under the curve function (never forget that is representing distance!) is equal to the value of the velocity function at whatever time we started on:</p>
+<p>$$\frac{ds(t)}{dt} = v(t)$$</p>
+<p>This a general principle that is applied to many functions! So, if our velocity function is:</p>
+<p>$$v(t) = 8t - t^2$$</p>
 <p>What should $s(t)$, our distance be:</p>
-$$\frac{d(???)}{dt} = v(t)= 8t - t^2 $$<p>In other words, we are asking what function has a derivative that is equivalent to:</p>
-$$8t - t^2 $$<p>This is where the concept of the <strong>antiderivative</strong> comes into play!</p>
+<p>$$\frac{d(???)}{dt} = v(t)= 8t - t^2 $$</p>
+<p>In other words, we are asking what function has a derivative that is equivalent to:</p>
+<p>$$8t - t^2 $$</p>
+<p>This is where the concept of the <strong>antiderivative</strong> comes into play!</p>
 <hr>
 <p><br></p>
 <h3 id="1.2.1.3-The-Antiderivative">1.2.1.3 The Antiderivative<a class="anchor-link" href="#1.2.1.3-The-Antiderivative">&#182;</a></h3><p>We are now trying to find a function, $s(t)$, that when derived yields:</p>
-$$\frac{ds(t)}{dt} = 8t - t^2 $$<p>Well, we know that when derived $4t^2$ would yield $8t$, and $- \frac{1}{3}t^3$ would yield $-t^2$. This means that the antiderivative of our function is:</p>
-$$antiderivative \; of \; velocity = 4t^2 - \frac{1}{3}t^3$$<p></p>
+<p>$$\frac{ds(t)}{dt} = 8t - t^2 $$</p>
+<p>Well, we know that when derived $4t^2$ would yield $8t$, and $- \frac{1}{3}t^3$ would yield $-t^2$. This means that the antiderivative of our function is:</p>
+<p>$$antiderivative \; of \; velocity = 4t^2 - \frac{1}{3}t^3$$</p>
 <p>Notice that I did not say that the antiderivative of velocity was equal to distance in the above equation. This is because there is one thing missing before we can say that the above equation is equal to distance, $s(t)$. We could technically add any constant to the above function, and its derivative will still be $8t - t^2$. This is because the derivative of a constant always just goes to 0. This is because the constant will simply move the graph up and down, while not effecting it's slope at all. This means that in reality there are actually infinitely many anti derivative functions, and everyone of them has the form:</p>
-$$4t^2 - \frac{1}{3}t^3 + C$$<p>So how do we find the original function $s(t)$ if there are infinitely many antiderivatives? Well, there is one piece of information we have not made use of yet. The <strong>lower bound of the integral</strong>.</p>
+<p>$$4t^2 - \frac{1}{3}t^3 + C$$</p>
+<p>So how do we find the original function $s(t)$ if there are infinitely many antiderivatives? Well, there is one piece of information we have not made use of yet. The <strong>lower bound of the integral</strong>.</p>
 <p>Think about this for a second and look back at out animation representing the area under the velocity curve. When $t$ is equal to 0, the shaded green region drops to 0 as well. This means that when $t$ is 0:</p>
-$$\int_0^0 (8t - t^2)dt = 0$$<p>So in order to chose what function to add to our antiderivative expression, you subtract off the value of the antiderivative at the lower bound, in this case 0.</p>
-$$\int_0^t(8t - t^2)dt = (4t^2 - \frac{1}{3}t^3) - (4*0^2 - \frac{1}{3}*0^3)$$<p>Keep in mind that the constant we are really trying to find is just the intercept of the distance function. In this case the intercept of the distance function is 0, which is in line with our math above since the antiderivative evalued at 0 is 0.</p>
+<p>$$\int_0^0 (8t - t^2)dt = 0$$</p>
+<p>So in order to chose what function to add to our antiderivative expression, you subtract off the value of the antiderivative at the lower bound, in this case 0.</p>
+<p>$$\int_0^t(8t - t^2)dt = (4t^2 - \frac{1}{3}t^3) - (4*0^2 - \frac{1}{3}*0^3)$$</p>
+<p>Keep in mind that the constant we are really trying to find is just the intercept of the distance function. In this case the intercept of the distance function is 0, which is in line with our math above since the antiderivative evalued at 0 is 0.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -1456,7 +1530,7 @@ $$\int_0^t(8t - t^2)dt = (4t^2 - \frac{1}{3}t^3) - (4*0^2 - \frac{1}{3}*0^3)$$<p
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1466,7 +1540,7 @@ $$\int_0^t(8t - t^2)dt = (4t^2 - \frac{1}{3}t^3) - (4*0^2 - \frac{1}{3}*0^3)$$<p
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1484,15 +1558,19 @@ $$\int_0^t(8t - t^2)dt = (4t^2 - \frac{1}{3}t^3) - (4*0^2 - \frac{1}{3}*0^3)$$<p
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So, in the plot above the green shaded area represents the distance traveled between 1 second and 7 seconds. So, in this case you would evaluate the antiderivative that we found at the top bound (which represents the distnace function at time $t = 7 \; seconds$ plus some constant, and subtract the antiderivative evaluated at the lower bound (which represents the distance function at time $t = 1 \; second$):</p>
-$$\int_1^7 (8t - t^2)dt = \Big(4(7)^2 - \frac{1}{3}(7)^3\Big) - \Big(4(1)^2 - \frac{1}{3}(1)^3\Big)$$<p>The nice thing in this situation is that even if the antiderivative had a constant $C$ associated with it, it would be the same for both the upper and lower bound evalutation and hence cancel, so we don't need to worry about it in this case.</p>
+<p>$$\int_1^7 (8t - t^2)dt = \Big(4(7)^2 - \frac{1}{3}(7)^3\Big) - \Big(4(1)^2 - \frac{1}{3}(1)^3\Big)$$</p>
+<p>The nice thing in this situation is that even if the antiderivative had a constant $C$ associated with it, it would be the same for both the upper and lower bound evalutation and hence cancel, so we don't need to worry about it in this case.</p>
 <p>So, if we now try and generalize this we can say that any time you want to integrate some function $f(x)$:</p>
-$$\int_a^b f(x)dx$$<p></p>
+<p>$$\int_a^b f(x)dx$$</p>
 <p>Which we can think of as adding up value of $f(x)$ times $dx$ for inputs in a certain range, and asking "what does that sum approach as dx approaches 0"? The first step to evaluating that integral is to find an <strong>antiderivative</strong>, which is some other function $F(x)$, whose derivative is the function we are trying to integrate:</p>
-$$\frac{dF(x)}{dx} = f(x)$$<p>Then, this integral is equal to the antiderivative evaluated at the upper bound minus the antiderivative evaluated at the lower bound.</p>
-$$\int_a^b f(x)dx = F(b) - F(a)$$<p>This fact that we just described is the <strong>Fundamental Theorem of Calculus</strong>. Pretty cool right? Now, something that may seem a little crazy is that when all is said and done we only need to use two inputs, the upper and lower bound, to determine the total area under the curve. Well, if you think about it in terms of our original example, area under the velocity curve was distance. If we integrate and find the function that represents distance, if we want to know the distance traveled from $t = 1$ second to $t = 7$ seconds we simply need to plug 7 in to the distance function, and subtract the value of 1 plugged in to the distance function. That is because in our original example $f(x)$ was analogous to $v(t)$, and $F(x)$ was analogous to $s(t)$, our distance.</p>
+<p>$$\frac{dF(x)}{dx} = f(x)$$</p>
+<p>Then, this integral is equal to the antiderivative evaluated at the upper bound minus the antiderivative evaluated at the lower bound.</p>
+<p>$$\int_a^b f(x)dx = F(b) - F(a)$$</p>
+<p>This fact that we just described is the <strong>Fundamental Theorem of Calculus</strong>. Pretty cool right? Now, something that may seem a little crazy is that when all is said and done we only need to use two inputs, the upper and lower bound, to determine the total area under the curve. Well, if you think about it in terms of our original example, area under the velocity curve was distance. If we integrate and find the function that represents distance, if we want to know the distance traveled from $t = 1$ second to $t = 7$ seconds we simply need to plug 7 in to the distance function, and subtract the value of 1 plugged in to the distance function. That is because in our original example $f(x)$ was analogous to $v(t)$, and $F(x)$ was analogous to $s(t)$, our distance.</p>
 
 </div>
 </div>
@@ -1514,19 +1592,6 @@ $$\int_a^b f(x)dx = F(b) - F(a)$$<p>This fact that we just described is the <str
   });
 </script>
 <form action="javascript:code_toggle()"><input type="submit" id="toggleButton" value="Show Code"></form>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
 <hr>
 &copy; 2018 Nathaniel Dake
 

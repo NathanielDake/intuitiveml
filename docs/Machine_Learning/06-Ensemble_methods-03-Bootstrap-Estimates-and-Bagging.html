@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,7 +211,8 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="3.-Bootstrap-Estimation">3. Bootstrap Estimation<a class="anchor-link" href="#3.-Bootstrap-Estimation">&#182;</a></h1><p>We previously looked at the bias-variance tradeoff and if you were thinking critically you may have wondered: "Could it be possible in some way to lower bias and variance simultaneously?"</p>
 <p>In this section, we are going to take our first look into <strong>model averaging</strong>. The key tool that we need to do this is called <strong>bootstrapping</strong>, aka <strong>resampling</strong>. The fascinating result of this is that even though we are using the same data, we can get a better result. This should seem odd at first, since if we create a model from a set of samples, how can that be any different than taking the averages of different models trained on different subsets of those same samples again and again-it is the same set of samples after all.</p>
@@ -224,7 +229,8 @@ Calculate mean and variance of {sample_mean[1],...,sample_mean[B]}</code></pre>
 <p>As an example, lets just say that $X$ has a size N = 5 with the following values: 
 $$X = 1,2,3,4,5$$</p>
 <p>Let's say that we decide to make $B = 4$, in order words we are going to have 4 iterations of sampling. The first time we sample (with replacement) we may end up with:</p>
-$$X_{b1} = 1,2,5,5,2$$<p>We have sampled five values from our original $X$. If we perform that 3 more times, we may end up with:
+<p>$$X_{b1} = 1,2,5,5,2$$
+We have sampled five values from our original $X$. If we perform that 3 more times, we may end up with:
 $$X_{b2} = 4,3,3,1,5$$
 $$X_{b3} = 2,4,1,5,4$$
 $$X_{b4} = 3,1,3,2,4$$</p>
@@ -234,26 +240,31 @@ $$\mu_{B2} = \frac{16}{5} = 3.2$$
 $$\mu_{B3} = \frac{16}{5} = 3.2$$
 $$\mu_{B4} = \frac{13}{5} = 2.6$$</p>
 <p>We now have $B$ different estimates of the mean of our samples, which were taken from $X$. What we may want to do is now try and find the <strong>mean</strong> of these means. In other words, we can try and find the parameters that describe this set of sampled data:</p>
-$$mean(\mu_{B1},\mu_{B2},\mu_{B3},\mu_{B4}) = \frac{\mu_{B1} + \mu_{B2}+\mu_{B3}+\mu_{B4}}{B}$$<p>And the variance which can tell us how accurate our estimate is:
+<p>$$mean(\mu_{B1},\mu_{B2},\mu_{B3},\mu_{B4}) = \frac{\mu_{B1} + \mu_{B2}+\mu_{B3}+\mu_{B4}}{B}$$</p>
+<p>And the variance which can tell us how accurate our estimate is:
 $$var(\mu_{B1},\mu_{B2},\mu_{B3},\mu_{B4})$$</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
 <h2 id="1.2-Sampling-with-Replacement">1.2 Sampling with Replacement<a class="anchor-link" href="#1.2-Sampling-with-Replacement">&#182;</a></h2><p>In case you have not come across sampling with replacement, let's quickly touch on it now. Suppose we have a dataset with the points 1,2,3,4,5.</p>
-$$X = 1,2,3,4,5$$<p>Suppose we then draw a sample and get 5. Sampling with replacements means that if we draw another sample, we can get 5 again. In fact, we could draw a sample with all 5s!</p>
-$$sample = 5,5,5,5,5$$<p>This is because we replace the sample after we take it from the dataset. This is the opposite of sampling without replacement. If we were to sample without replacement and we drew a number of samples equal to the dataset size, we would just draw the dataset itself. Hence, sampling with replacement is important to this process.</p>
+<p>$$X = 1,2,3,4,5$$</p>
+<p>Suppose we then draw a sample and get 5. Sampling with replacements means that if we draw another sample, we can get 5 again. In fact, we could draw a sample with all 5s!</p>
+<p>$$sample = 5,5,5,5,5$$</p>
+<p>This is because we replace the sample after we take it from the dataset. This is the opposite of sampling without replacement. If we were to sample without replacement and we drew a number of samples equal to the dataset size, we would just draw the dataset itself. Hence, sampling with replacement is important to this process.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -261,29 +272,36 @@ $$sample = 5,5,5,5,5$$<p>This is because we replace the sample after we take it 
 <p><br>
 <strong>Mean</strong><br>
 The mean of the bootstrap estimate is equal to the parameter itself:</p>
-$$E(\bar{\theta_B}) = mean(\bar{\theta_B}) = \theta$$<p>And, as an example, if our parameter had been the mean, then what we find is that mean of our bootstrap estimate of $\mu$, is equal to the actual value of $\mu$. In other words, the mean of our bootstrap sampled means, is the actual mean of the original data.</p>
-$$E(\bar{\mu_B}) = \mu$$<p>Or in the case of our example earlier:
+<p>$$E(\bar{\theta_B}) = mean(\bar{\theta_B}) = \theta$$</p>
+<p>And, as an example, if our parameter had been the mean, then what we find is that mean of our bootstrap estimate of $\mu$, is equal to the actual value of $\mu$. In other words, the mean of our bootstrap sampled means, is the actual mean of the original data.</p>
+<p>$$E(\bar{\mu_B}) = \mu$$</p>
+<p>Or in the case of our example earlier:
 $$E(\frac{\mu_{B1}+\mu_{B2}+\mu_{B3}+\mu_{B4}}{B}) = \mu_X$$</p>
 <p><strong>Variance</strong><br>
 The variance is a bit more complicated. Let's suppose the correlation coefficient between two different estimates of the parameter, $\hat{\theta}_i, \hat{\theta}_j$ is $\rho$, and the variance of each $\hat{\theta}$ is $\sigma^2$:</p>
-$$\rho = corr(\hat{\theta}_i, \hat{\theta}_j), var(\hat{\theta}) = \sigma^2$$<p>Then, it can be derived that the variance of the bootstrap estimate is:</p>
-$$var(\bar{\theta}_B) = \frac{1 - \rho}{B}\sigma^2 + \rho \sigma^2$$<p>Notice that if each bootstrap estimate is completely uncorrelated from the others, the variance would be the original variance divided by $B$. This means that for every bootstrap sample we take, we reduce the variance of our estimate. That is remarkable! Unfortunately, there will probably be correlation.</p>
+<p>$$\rho = corr(\hat{\theta}_i, \hat{\theta}_j), var(\hat{\theta}) = \sigma^2$$</p>
+<p>Then, it can be derived that the variance of the bootstrap estimate is:</p>
+<p>$$var(\bar{\theta}_B) = \frac{1 - \rho}{B}\sigma^2 + \rho \sigma^2$$</p>
+<p>Notice that if each bootstrap estimate is completely uncorrelated from the others, the variance would be the original variance divided by $B$. This means that for every bootstrap sample we take, we reduce the variance of our estimate. That is remarkable! Unfortunately, there will probably be correlation.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
 <h2 id="1.4-Confidence-Interval">1.4 Confidence Interval<a class="anchor-link" href="#1.4-Confidence-Interval">&#182;</a></h2><p>One application of bootstrap estimation, is that we can also estimate the confidence interval of our estimate. We assume a gaussian approximation, so let's say we want a 95% confidence interval. That means that we want the lower and upper bound of $\theta$ that covers 95% of the area under the probability distribution. This is approximately equal to the sample mean of the bootstrap $\theta$, plus or minus 1.96 times the standard deviation of the bootstrap $\theta$:</p>
-$$95\% CI \approx \bar{\theta}_B \;\pm\; 1.96 std(\hat{\theta}_B)$$
+<p>$$95\% CI \approx \bar{\theta}_B \;\pm\; 1.96 std(\hat{\theta}_B)$$</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -299,75 +317,107 @@ Let's start with the mean. We want to be able to show that the mean value of our
 </ul>
 </blockquote>
 <p>Okay, now we can start with looking at the expected value of our resampled sample means:</p>
-$$E(\bar{\theta}_B)$$<p>We can expand $\bar{\theta}_B$ based on its definition:</p>
-$$E(\bar{\theta}_B) = E \Big[ \frac{1}{B} \sum_{i=1}^B \hat{\theta}_i \Big] = E\Big[\frac{1}{B}(\hat{\theta}_1 + ...+\hat{\theta}_B)\Big]$$<p>Because $\frac{1}{B}$ is a constant, and the expected value of constant is just itself, we can pull it out:</p>
-$$E(\bar{\theta}_B) = \frac{1}{B}*E\Big[(\hat{\theta}_1 + ...+\hat{\theta}_B)\Big]$$<p>And then we know the expected value of any $\hat{\theta}_i$ is going to be $\theta$, the actual parameter. We also know that there are $B$ total $\hat{\theta}$s, so we can pull that out and end up with the final equation:</p>
-$$E(\bar{\theta}_B) =  \frac{1}{B}BE(\hat{\theta}) = \theta$$<p>We can see that the expected value of the bootstrap estimate of the parameter, is equal to the parameter, which is exactly what we were looking for.</p>
+<p>$$E(\bar{\theta}_B)$$</p>
+<p>We can expand $\bar{\theta}_B$ based on its definition:</p>
+<p>$$E(\bar{\theta}_B) = E \Big[ \frac{1}{B} \sum_{i=1}^B \hat{\theta}_i \Big] = E\Big[\frac{1}{B}(\hat{\theta}_1 + ...+\hat{\theta}_B)\Big]$$</p>
+<p>Because $\frac{1}{B}$ is a constant, and the expected value of constant is just itself, we can pull it out:</p>
+<p>$$E(\bar{\theta}_B) = \frac{1}{B}*E\Big[(\hat{\theta}_1 + ...+\hat{\theta}_B)\Big]$$</p>
+<p>And then we know the expected value of any $\hat{\theta}_i$ is going to be $\theta$, the actual parameter. We also know that there are $B$ total $\hat{\theta}$s, so we can pull that out and end up with the final equation:</p>
+<p>$$E(\bar{\theta}_B) =  \frac{1}{B}BE(\hat{\theta}) = \theta$$</p>
+<p>We can see that the expected value of the bootstrap estimate of the parameter, is equal to the parameter, which is exactly what we were looking for.</p>
 <p><br></p>
 <h3 id="1.5.2-Variance-Derivation">1.5.2 Variance Derivation<a class="anchor-link" href="#1.5.2-Variance-Derivation">&#182;</a></h3><p><br>
 <br></p>
 <h3 id="1.5.2.1-Variance-Derivation---Definitions">1.5.2.1 Variance Derivation - Definitions<a class="anchor-link" href="#1.5.2.1-Variance-Derivation---Definitions">&#182;</a></h3><p>Next, let's look at the variance. We can start with some definitions. Let's suppose that the expected value of $\hat{\theta}$ (aka the expected value of the parameter that we calculate after resampling) is equal to $\mu$.</p>
-$$E(\hat{\theta}) = \mu$$<p>This is not necessarily equal to the original mean of data $X$. It is the mean of whatever parameter we are trying to estimate. For instance, say that the parameter we are trying to estimate is the mean (as in our simple example from earlier). We are stating that the expected value of any of the means we have sampled ($\mu_{B1},\mu_{B2}$, etc) is just equal to $\mu$. So in this case $\mu_{B1}$ and so on would be represented as $\hat{\theta}$ (the parameter we are trying to find, and $\mu$ is the mean/expected value of that parameter.</p>
+<p>$$E(\hat{\theta}) = \mu$$</p>
+<p>This is not necessarily equal to the original mean of data $X$. It is the mean of whatever parameter we are trying to estimate. For instance, say that the parameter we are trying to estimate is the mean (as in our simple example from earlier). We are stating that the expected value of any of the means we have sampled ($\mu_{B1},\mu_{B2}$, etc) is just equal to $\mu$. So in this case $\mu_{B1}$ and so on would be represented as $\hat{\theta}$ (the parameter we are trying to find, and $\mu$ is the mean/expected value of that parameter.</p>
 <p>Let's also define the variance of $\hat{\theta}$ to be $\sigma^2$:</p>
-$$var(\hat{\theta}) = E \Big[(\hat{\theta} - \mu)^2\Big] = \sigma^2$$<p>We can next define the correlation between two different $\hat{\theta}$s to be $\rho$:
+<p>$$var(\hat{\theta}) = E \Big[(\hat{\theta} - \mu)^2\Big] = \sigma^2$$</p>
+<p>We can next define the correlation between two different $\hat{\theta}$s to be $\rho$:
 $$\rho = \frac{E \Big[(\hat{\theta}_i - \mu)(\hat{\theta}_j - \mu) \Big]}{\sigma^2}$$</p>
 <p>Note that correlation is scaled by standard deviation, so it always $[-1, 1]$. We then define the sum of all $\hat{\theta}$ to be $S_B$:
 $$S_B = \sum_{i=1}^B \hat{\theta}_i$$</p>
 <p>And therefore the sample mean of the bootstrap estimates is:</p>
-$$\bar{\theta}_B = \frac{1}{B}S_B$$<p><br></p>
+<p>$$\bar{\theta}_B = \frac{1}{B}S_B$$</p>
+<p><br></p>
 <h3 id="1.5.2.2-Variance-Derivation---Write-out-definition">1.5.2.2 Variance Derivation - Write out definition<a class="anchor-link" href="#1.5.2.2-Variance-Derivation---Write-out-definition">&#182;</a></h3><p>Let's start by writing out the definiton for variance of $\bar{\theta}_B$:</p>
-$$var(\bar{\theta}_B) = E \Big[(\bar{\theta}_B - \mu)^2\Big]= E \Big[(\frac{1}{B}S_B - \mu)^2\Big]$$<p>Then we can perform several algebraic operations to the right side of the equation:
+<p>$$var(\bar{\theta}_B) = E \Big[(\bar{\theta}_B - \mu)^2\Big]= E \Big[(\frac{1}{B}S_B - \mu)^2\Big]$$</p>
+<p>Then we can perform several algebraic operations to the right side of the equation:
 $$E \Big[(\frac{1}{B}S_B - \frac{1}{B} B\mu)^2\Big]$$
 $$E \Big[\Big((\frac{1}{B})(S_B - B\mu)\Big)^2\Big]$$
 $$E \Big[\frac{1}{B^2}(S_B - \mu)^2\Big]$$
 $$\frac{1}{B^2}E \Big[(S_B - \mu)^2\Big]$$
 $$\frac{1}{B^2}E \Big[S_B^2 - 2\mu BS_B + \mu^2 B^2\Big]$$</p>
 <p>Now, if we look specifically at the term $- 2\mu BS_B$, we can see that 2, $\mu$, and $B$ are constant, so we can pull them outside of the expected value:</p>
-$$E\Big[-2 \mu B S_B\Big] = -2 \mu B *E\Big[S_B\Big] $$<p>We know that the expected value of $S_B$, based on its definition, can be rewritten as:</p>
-$$-2 \mu B *E\Big[S_B\Big] = -2 \mu B *E\Big[B\hat{\theta}\Big] $$<p>And since $B$ is constant, it can be pulled outside of the expected value, and we have defined the expected value of $\hat{\theta}$ to be $\mu$:</p>
-$$-2 \mu B^2 *E\Big[\hat{\theta}\Big] = -2 \mu^2 B^2 $$<p>Now, back to the equation we branched off from:</p>
-$$\frac{1}{B^2}E \Big[S_B^2 - 2\mu BS_B + \mu^2 B^2\Big]$$<p>We can replace the middle term with that which we just found above, and end up with:</p>
-$$var(\bar{\theta}_B) = \frac{1}{B^2}E \Big[S_B^2 - \mu^2 B^2\Big]$$<p>At this point, we can note that $\mu$ and $B$ are <strong>both constant</strong>, so they can be pulled out of the expected value:</p>
-$$var(\bar{\theta}_B) = \frac{1}{B^2}\Big(E \Big[S_B^2\Big]  - \mu^2 B^2\Big)$$<p>Which if we then multiply the fraction through, we end up with:</p>
-$$var(\bar{\theta}_B) = \frac{1}{B^2}E \Big[S_B^2\Big]  - \mu^2$$<p>Our main focus now is to find $E\Big[S_B^2\Big]$.
+<p>$$E\Big[-2 \mu B S_B\Big] = -2 \mu B *E\Big[S_B\Big] $$</p>
+<p>We know that the expected value of $S_B$, based on its definition, can be rewritten as:</p>
+<p>$$-2 \mu B *E\Big[S_B\Big] = -2 \mu B *E\Big[B\hat{\theta}\Big] $$</p>
+<p>And since $B$ is constant, it can be pulled outside of the expected value, and we have defined the expected value of $\hat{\theta}$ to be $\mu$:</p>
+<p>$$-2 \mu B^2 *E\Big[\hat{\theta}\Big] = -2 \mu^2 B^2 $$</p>
+<p>Now, back to the equation we branched off from:</p>
+<p>$$\frac{1}{B^2}E \Big[S_B^2 - 2\mu BS_B + \mu^2 B^2\Big]$$</p>
+<p>We can replace the middle term with that which we just found above, and end up with:</p>
+<p>$$var(\bar{\theta}_B) = \frac{1}{B^2}E \Big[S_B^2 - \mu^2 B^2\Big]$$</p>
+<p>At this point, we can note that $\mu$ and $B$ are <strong>both constant</strong>, so they can be pulled out of the expected value:</p>
+<p>$$var(\bar{\theta}_B) = \frac{1}{B^2}\Big(E \Big[S_B^2\Big]  - \mu^2 B^2\Big)$$</p>
+<p>Which if we then multiply the fraction through, we end up with:</p>
+<p>$$var(\bar{\theta}_B) = \frac{1}{B^2}E \Big[S_B^2\Big]  - \mu^2$$</p>
+<p>Our main focus now is to find $E\Big[S_B^2\Big]$.
 <br></p>
 <h3 id="1.5.2.3-Variance-Derivation---Find-$E\Big[S_B^2\Big]$">1.5.2.3 Variance Derivation - Find $E\Big[S_B^2\Big]$<a class="anchor-link" href="#1.5.2.3-Variance-Derivation---Find-$E\Big[S_B^2\Big]$">&#182;</a></h3><p>We can start by using the definition of $S_B$, which is just the sum of the individual sample $\hat{\theta}$s:</p>
-$$E\Big[S_B^2\Big] = E\Big[(\hat{\theta}_1+\hat{\theta}_2+...+\hat{\theta}_B)(\hat{\theta}_1+\hat{\theta}_2+...+\hat{\theta}_B)\Big]$$<p>The important point to notice here is that we will end up with two types of terms here when we multiply this out. There will be the type where it is $\hat{\theta}_i*\hat{\theta}_i$ (aka the subscript is the same for both $\hat{\theta}$s in the expected value, it will look like $(\hat{\theta}_1*\hat{\theta}_1 +\hat{\theta}_2*\hat{\theta}_2)$ and so on). There will be $B$ of these terms.</p>
+<p>$$E\Big[S_B^2\Big] = E\Big[(\hat{\theta}_1+\hat{\theta}_2+...+\hat{\theta}_B)(\hat{\theta}_1+\hat{\theta}_2+...+\hat{\theta}_B)\Big]$$</p>
+<p>The important point to notice here is that we will end up with two types of terms here when we multiply this out. There will be the type where it is $\hat{\theta}_i*\hat{\theta}_i$ (aka the subscript is the same for both $\hat{\theta}$s in the expected value, it will look like $(\hat{\theta}_1*\hat{\theta}_1 +\hat{\theta}_2*\hat{\theta}_2)$ and so on). There will be $B$ of these terms.</p>
 <p>The other type of term that we will get is $\hat{\theta}_i*\hat{\theta}_j$, where $i \neq j$. Since there will be $B^2$ terms in total, and there will be $B$ where $i = j$, then there will be $B(B-1)$ terms where $i \neq j$. Both of these terms will be non zero.</p>
-$$E\Big[S_B^2\Big] = BE\Big[\hat{\theta}_i^2\Big] + B(B-1)E_{i \neq j}\Big[\hat{\theta}_i\hat{\theta}_j\Big]$$<p>We can find these two expected values using our previous definitions!</p>
+<p>$$E\Big[S_B^2\Big] = BE\Big[\hat{\theta}_i^2\Big] + B(B-1)E_{i \neq j}\Big[\hat{\theta}_i\hat{\theta}_j\Big]$$</p>
+<p>We can find these two expected values using our previous definitions!</p>
 <h3 id="1.5.2.3-Variance-Derivation---Rearange-equation-for-Variance-and-Correlation">1.5.2.3 Variance Derivation - Rearange equation for Variance and Correlation<a class="anchor-link" href="#1.5.2.3-Variance-Derivation---Rearange-equation-for-Variance-and-Correlation">&#182;</a></h3><p>If we rearange our equation for the variance and correlation of $\hat{\theta}$, we can find these two expected values. We can start with the variance and begin looking for $E\Big[\hat{\theta}_i^2\Big]$:</p>
-$$var(\hat{\theta}_i) = \sigma^2 = E\Big[ (\hat{\theta}_i - \mu)^2 \Big]$$<p></p>
+<p>$$var(\hat{\theta}_i) = \sigma^2 = E\Big[ (\hat{\theta}_i - \mu)^2 \Big]$$</p>
 <p>And we can expand out the inside:</p>
-$$E\Big[ (\hat{\theta}_i - \mu)^2 \Big] = E\Big[ (\hat{\theta}_i^2 - 2\mu \hat{\theta}_i+ \mu^2) \Big]$$<p></p>
+<p>$$E\Big[ (\hat{\theta}_i - \mu)^2 \Big] = E\Big[ (\hat{\theta}_i^2 - 2\mu \hat{\theta}_i+ \mu^2) \Big]$$</p>
 <p>Take the expected value of each term:</p>
-$$E\Big[\hat{\theta}_i^2\Big] - E\Big[ 2\mu \hat{\theta}_i \Big] + \mu^2 $$<p></p>
+<p>$$E\Big[\hat{\theta}_i^2\Big] - E\Big[ 2\mu \hat{\theta}_i \Big] + \mu^2 $$</p>
 <p>Focusing on the middle term (as we did earlier), we can see that the 2 and $\mu$ just have an expected value of themselves, so they can be pulled out:</p>
-$$E\Big[\hat{\theta}_i^2\Big] -  2\mu E\Big[\hat{\theta}_i \Big] + \mu^2 $$<p></p>
+<p>$$E\Big[\hat{\theta}_i^2\Big] -  2\mu E\Big[\hat{\theta}_i \Big] + \mu^2 $$</p>
 <p>And the expected value of $\hat{\theta}_i$ is just $\mu$ (by definition!). So we end up with:</p>
-$$\sigma^2 = E\Big[\hat{\theta}_i^2\Big] - \mu^2 $$<p>
+<p>$$\sigma^2 = E\Big[\hat{\theta}_i^2\Big] - \mu^2 $$ 
 $$E\Big[\hat{\theta}_i^2\Big] = \sigma^2 + \mu^2 $$</p>
 <p>Great! Now we can look at $\rho$ and begin solving for $E_{i \neq j}\Big[\hat{\theta}_i\hat{\theta}_j\Big]$. Let's start with the definition of $\rho$:</p>
-$$\rho = \frac{E \Big[(\hat{\theta}_i - \mu)(\hat{\theta}_j - \mu) \Big]}{\sigma^2}$$<p>We can expand the top:</p>
-$$\rho = \frac{E \Big[(\hat{\theta}_i\hat{\theta}_j - \mu \hat{\theta}_i - \mu \hat{\theta}_j  +\mu^2) \Big]}{\sigma^2}$$<p>And again if we look at the middle terms, we can simplify them by taking out the $\mu$, and knowing the the expected value of $\hat{\theta}$ is just $\mu$. This allows us to simplify our equation to:</p>
-$$\rho = \frac{E \Big[\hat{\theta}_i\hat{\theta}_j\Big] - \mu^2}{\sigma^2}$$<p>And we can rearange that to find:</p>
-$$E \Big[\hat{\theta}_i\hat{\theta}_j\Big] = \rho\sigma^2 + \mu^2$$<h3 id="1.5.2.4-Variance-Derivation---Plug-in-values-to-find-$E\Big[S_B^2\Big]$">1.5.2.4 Variance Derivation - Plug in values to find $E\Big[S_B^2\Big]$<a class="anchor-link" href="#1.5.2.4-Variance-Derivation---Plug-in-values-to-find-$E\Big[S_B^2\Big]$">&#182;</a></h3><p>Now if we go back to the equation we branched off from:</p>
-$$E\Big[S_B^2\Big] = BE\Big[\hat{\theta}_i^2\Big] + B(B-1)E_{i \neq j}\Big[\hat{\theta}_i\hat{\theta}_j\Big]$$<p>We can being solving for $E\Big[S_B^2\Big]$. So let's plug in our recently determined expected values:</p>
-$$ E\Big[S_B^2\Big] = \sigma^2 + \mu^2 + B(B-1)(\rho\sigma^2 + \mu^2)$$<p>And then we can simplify to:</p>
-$$ E\Big[S_B^2\Big] = B \sigma^2  + B(B-1)\rho\sigma^2 + \mu^2B^2$$<p>Great, now we have our value for $E\Big[S_B^2\Big]$! Let's now return to the equation for variance that we had branched off from:</p>
-$$var(\bar{\theta}_B) = \frac{1}{B^2}E \Big[S_B^2\Big]  - \mu^2$$<p>And plug in the expected value of $S_B$ we just solved for:</p>
-$$var(\bar{\theta}_B) = \frac{1}{B^2} \Big[B \sigma^2  + B(B-1)\rho\sigma^2 + \mu^2B^2 \Big]  - \mu^2$$<p>And finally let's simplify the above equation:</p>
-$$ \Big[\frac{1}{B} \sigma^2  + \frac{(B-1)}{B}\rho\sigma^2 + \mu^2\Big]  - \mu^2$$$$ \frac{\sigma^2}{B}   + \frac{(B-1)}{B}\rho\sigma^2 $$$$ \frac{\sigma^2}{B}   + \frac{B\rho\sigma^2}{B} - \frac{\rho\sigma^2}{B} $$$$ \frac{\sigma^2- \rho \sigma^2}{B}  + \rho \sigma^2$$$$var(\bar{\theta}_B) = \frac{1- \rho}{B}\sigma^2  + \rho \sigma^2$$<p>We have arrived at the final solution for variance of $\bar{\theta}_B$!</p>
+<p>$$\rho = \frac{E \Big[(\hat{\theta}_i - \mu)(\hat{\theta}_j - \mu) \Big]}{\sigma^2}$$</p>
+<p>We can expand the top:</p>
+<p>$$\rho = \frac{E \Big[(\hat{\theta}_i\hat{\theta}_j - \mu \hat{\theta}_i - \mu \hat{\theta}_j  +\mu^2) \Big]}{\sigma^2}$$</p>
+<p>And again if we look at the middle terms, we can simplify them by taking out the $\mu$, and knowing the the expected value of $\hat{\theta}$ is just $\mu$. This allows us to simplify our equation to:</p>
+<p>$$\rho = \frac{E \Big[\hat{\theta}_i\hat{\theta}_j\Big] - \mu^2}{\sigma^2}$$</p>
+<p>And we can rearange that to find:</p>
+<p>$$E \Big[\hat{\theta}_i\hat{\theta}_j\Big] = \rho\sigma^2 + \mu^2$$</p>
+<h3 id="1.5.2.4-Variance-Derivation---Plug-in-values-to-find-$E\Big[S_B^2\Big]$">1.5.2.4 Variance Derivation - Plug in values to find $E\Big[S_B^2\Big]$<a class="anchor-link" href="#1.5.2.4-Variance-Derivation---Plug-in-values-to-find-$E\Big[S_B^2\Big]$">&#182;</a></h3><p>Now if we go back to the equation we branched off from:</p>
+<p>$$E\Big[S_B^2\Big] = BE\Big[\hat{\theta}_i^2\Big] + B(B-1)E_{i \neq j}\Big[\hat{\theta}_i\hat{\theta}_j\Big]$$</p>
+<p>We can being solving for $E\Big[S_B^2\Big]$. So let's plug in our recently determined expected values:</p>
+<p>$$ E\Big[S_B^2\Big] = \sigma^2 + \mu^2 + B(B-1)(\rho\sigma^2 + \mu^2)$$</p>
+<p>And then we can simplify to:</p>
+<p>$$ E\Big[S_B^2\Big] = B \sigma^2  + B(B-1)\rho\sigma^2 + \mu^2B^2$$</p>
+<p>Great, now we have our value for $E\Big[S_B^2\Big]$! Let's now return to the equation for variance that we had branched off from:</p>
+<p>$$var(\bar{\theta}_B) = \frac{1}{B^2}E \Big[S_B^2\Big]  - \mu^2$$</p>
+<p>And plug in the expected value of $S_B$ we just solved for:</p>
+<p>$$var(\bar{\theta}_B) = \frac{1}{B^2} \Big[B \sigma^2  + B(B-1)\rho\sigma^2 + \mu^2B^2 \Big]  - \mu^2$$</p>
+<p>And finally let's simplify the above equation:</p>
+<p>$$ \Big[\frac{1}{B} \sigma^2  + \frac{(B-1)}{B}\rho\sigma^2 + \mu^2\Big]  - \mu^2$$</p>
+<p>$$ \frac{\sigma^2}{B}   + \frac{(B-1)}{B}\rho\sigma^2 $$</p>
+<p>$$ \frac{\sigma^2}{B}   + \frac{B\rho\sigma^2}{B} - \frac{\rho\sigma^2}{B} $$</p>
+<p>$$ \frac{\sigma^2- \rho \sigma^2}{B}  + \rho \sigma^2$$</p>
+<p>$$var(\bar{\theta}_B) = \frac{1- \rho}{B}\sigma^2  + \rho \sigma^2$$</p>
+<p>We have arrived at the final solution for variance of $\bar{\theta}_B$!</p>
 <p><br></p>
 <h3 id="1.5.3-Variance-Analysis">1.5.3 Variance Analysis<a class="anchor-link" href="#1.5.3-Variance-Analysis">&#182;</a></h3><p>One interesting question to ask now that we have arrived at the solution for variance, is what will the variance of the bootstrap estimate be, if the correlation is maximum (recalling that the maximum correlation coefficient, $\rho$, is 1, meaning that the 2 variables are perfectly correlated with eachother)? Well, if $\rho$ is 1 then we see that the $\frac{1}{B}$ term goes away and we are just left with $\sigma^2$. This makes sense, because if each individual estimate is correlated with eachother, then the variance of the bootstrap estimate will not go down at all. However, if $\rho$ is 0, then we can get the best possible decrease in variance, which is $\frac{1}{B}$.</p>
 <p>It is import to note that using the bootstrap estimate of the mean, or using bootstrap for any linear model, does not greatly improve the variance of the model. For linear statistics, for which the sample mean is an example:</p>
-$$\rho = \frac{N}{2N - 1} \approx 0.5$$<p></p>
+<p>$$\rho = \frac{N}{2N - 1} \approx 0.5$$</p>
 <p>The biggest advantage of bootstrapping occurs when you use highly nonlinear models like <strong>decision trees</strong>. On different data sets they will produce highly irregular decision boundaries that will <strong>not correlate</strong> with each other that much, so $\rho$ will be small. In other words, we will reduce the variance more by combing non linear models that are less likely to be correlated!</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -392,7 +442,7 @@ $$\rho = \frac{N}{2N - 1} \approx 0.5$$<p></p>
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -407,13 +457,14 @@ $$\rho = \frac{N}{2N - 1} \approx 0.5$$<p></p>
 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>         <span class="c1"># X is a standard normal distribution with N points</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Note that the <code>numpy.random.randn</code> function creates a <strong>univariate/normal distribution</strong>, hence we are looking for a $\mu$ of 0, and a variance, $\sigma^2$ of 1.</p>
 <p>This can be seen here in the docs: <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.randn.html">https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.randn.html</a></p>
@@ -441,7 +492,7 @@ $$\rho = \frac{N}{2N - 1} \approx 0.5$$<p></p>
 <span class="n">bstd</span> <span class="o">=</span> <span class="n">individual_estimates</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>                  <span class="c1"># Standard Deviation of all individual est</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -451,7 +502,7 @@ $$\rho = \frac{N}{2N - 1} \approx 0.5$$<p></p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -465,7 +516,8 @@ $$\rho = \frac{N}{2N - 1} \approx 0.5$$<p></p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we can calculate the confidence interval! Remember, the confidence interval is used in finding the range of values that are most likely to contain the true mean, $\mu$. It can visualized as:</p>
 <p><img src="https://drive.google.com/uc?id=1Izm-V1po5v2c9LJg-YLP_UyJEMzySPLU" width="350"></p>
@@ -485,7 +537,7 @@ $$\rho = \frac{N}{2N - 1} \approx 0.5$$<p></p>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bootstrap mean of X: &quot;</span><span class="p">,</span> <span class="n">bmean</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -495,7 +547,7 @@ $$\rho = \frac{N}{2N - 1} \approx 0.5$$<p></p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -509,7 +561,8 @@ $$\rho = \frac{N}{2N - 1} \approx 0.5$$<p></p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And let's find the confidence interval the traditional way:</p>
 
@@ -526,13 +579,14 @@ $$\rho = \frac{N}{2N - 1} \approx 0.5$$<p></p>
 <span class="n">upper2</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">+</span> <span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.975</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we are going to want to plot this.</p>
 
@@ -554,7 +608,7 @@ $$\rho = \frac{N}{2N - 1} \approx 0.5$$<p></p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -564,7 +618,7 @@ $$\rho = \frac{N}{2N - 1} \approx 0.5$$<p></p>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -582,7 +636,8 @@ $$\rho = \frac{N}{2N - 1} \approx 0.5$$<p></p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -645,7 +700,8 @@ def predict(X):
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -671,13 +727,14 @@ def predict(X):
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Our first step is to create the data.</p>
 
@@ -695,13 +752,14 @@ def predict(X):
 <span class="n">y_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x_axis</span><span class="p">)</span>                         <span class="c1"># sin(x) is ground truth function</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we need to actually get the training data.</p>
 
@@ -725,13 +783,14 @@ def predict(X):
 <span class="n">Ytrain</span> <span class="o">=</span> <span class="n">y_axis</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now what we want to do is try a <strong>lone decision tree</strong>, so that we can compare the ensemble to the first result.</p>
 
@@ -751,7 +810,7 @@ def predict(X):
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Score for 1 tree:&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_axis</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">y_axis</span><span class="p">))</span>    <span class="c1"># Print R^2 score</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -761,7 +820,7 @@ def predict(X):
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -775,7 +834,8 @@ def predict(X):
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And let's plot the predictions our decision tree made vs. the actual curve.</p>
 
@@ -794,7 +854,7 @@ def predict(X):
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -804,7 +864,7 @@ def predict(X):
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -822,7 +882,8 @@ def predict(X):
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Awesome, now that we have created everything for our lone decision tree, we can move on to our bagged regressor!</p>
 
@@ -867,13 +928,14 @@ def predict(X):
         <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">unexplained_var</span> <span class="o">/</span> <span class="n">total_var</span><span class="p">)</span>   
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And now we can put our class into use.</p>
 
@@ -897,7 +959,7 @@ def predict(X):
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -907,7 +969,7 @@ def predict(X):
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -918,7 +980,7 @@ def predict(X):
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -936,7 +998,8 @@ def predict(X):
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -974,13 +1037,14 @@ def predict(X):
     <span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Paired</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And let's set our seed.</p>
 
@@ -995,13 +1059,14 @@ def predict(X):
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we can create our data.</p>
 
@@ -1026,13 +1091,14 @@ def predict(X):
 <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">125</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">125</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">125</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">125</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And let's plot it to see what it looks like:</p>
 
@@ -1050,7 +1116,7 @@ def predict(X):
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1060,7 +1126,7 @@ def predict(X):
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1078,7 +1144,8 @@ def predict(X):
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we can see how a lone decision tree performs.</p>
 
@@ -1096,7 +1163,7 @@ def predict(X):
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Score for 1 tree:&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">))</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1106,7 +1173,7 @@ def predict(X):
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1120,7 +1187,8 @@ def predict(X):
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And plot the lone decision tree decision boundary:</p>
 
@@ -1139,7 +1207,7 @@ def predict(X):
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1149,7 +1217,7 @@ def predict(X):
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1167,7 +1235,8 @@ def predict(X):
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can clearly see that the decision boundary that our lone decision tree came up with is <strong>very</strong> noisy. At the same time the score is 1 because we are overfitting. Let's continue and create our bagged model.</p>
 
@@ -1210,13 +1279,14 @@ def predict(X):
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Y</span> <span class="o">==</span> <span class="n">P</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we can test our model out!</p>
 
@@ -1240,7 +1310,7 @@ def predict(X):
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1250,7 +1320,7 @@ def predict(X):
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1261,7 +1331,7 @@ def predict(X):
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1279,7 +1349,8 @@ def predict(X):
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that the score is lower because we are not overfitting! The boundary for our 200 decision trees is <strong>much</strong> smoother!</p>
 
@@ -1287,22 +1358,30 @@ def predict(X):
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
 <h1 id="5.-Stacking">5. Stacking<a class="anchor-link" href="#5.-Stacking">&#182;</a></h1><p>We are now going to talk about a special method of combining models called <strong>stacking</strong>. So far, we have been assuming that each models influence on the output should be equal. This means that every vote has the same power, and when we take the average each of the models contributes equally. But what if we were to <strong>weight</strong> each model? Now we can have better models have a greater influence on the final model, and inaccurate models have less influence on the final model. Mathematically that just looks like:</p>
-$$f(x) = \sum_{m=1}^M w_mf_m(x)$$<p>The big question is, <strong>how do we find these weights?</strong> There are several ways to do this, the first of which is <strong>stacking</strong>.</p>
+<p>$$f(x) = \sum_{m=1}^M w_mf_m(x)$$</p>
+<p>The big question is, <strong>how do we find these weights?</strong> There are several ways to do this, the first of which is <strong>stacking</strong>.</p>
 <p><br></p>
 <h2 id="5.1-Stacking-in-detail">5.1 Stacking in detail<a class="anchor-link" href="#5.1-Stacking-in-detail">&#182;</a></h2><p>We start by thinking about what our object function might be. We will go with <strong>mean squared error</strong> since it makes the example easy to follow. As with linear regression, we again want to minimize the mean squared error. We can generalize that to be <em>not</em> the sample mean, but the <em>expected value</em> of the squared error.</p>
-$$\hat{w} = argmin_wE_{POP}\Big[(Y - f(X))^2\Big]$$$$\hat{w} = argmin_wE_{POP}\Big[(Y - \sum_{m=1}^M w_mf_m(X))^2\Big]$$<p>What is interesting about this is that it looks exactly like linear regression! So maybe we could solve this by using the solution to linear regression? The problem though is that we don't know the actualy population distribution and therefore can't calculate this expected value.</p>
+<p>$$\hat{w} = argmin_wE_{POP}\Big[(Y - f(X))^2\Big]$$
+$$\hat{w} = argmin_wE_{POP}\Big[(Y - \sum_{m=1}^M w_mf_m(X))^2\Big]$$</p>
+<p>What is interesting about this is that it looks exactly like linear regression! So maybe we could solve this by using the solution to linear regression? The problem though is that we don't know the actualy population distribution and therefore can't calculate this expected value.</p>
 <p>You may be tempted to substitute the training data for the true population, but there is at least one example where that would fail. Recall from linear regression that the more columns you have, the better your $R^2$ value is. So if we said that $f_m(X)$ is a linear model with $m$ inputs, then the last $f(X)$, $f_M(x)$, the one with the most inputs would be the best model in all cases. So in that situation $w_M$ would equal 1, and all other $w$s would be 0, since we would only want to use the linear model with the most inputs.</p>
 <h2 id="5.2-Stacking:-Correct-way-to-estimate-expected-value">5.2 Stacking: Correct way to estimate expected value<a class="anchor-link" href="#5.2-Stacking:-Correct-way-to-estimate-expected-value">&#182;</a></h2><p>There is a good way to estimate the expected value, and it is as follows: We turn the expected value into a sum over all $N$ data points, indexed by $i$. When we compute $f_m$ for the input $x_i$, we use the model $f_m$ on all points except $x_i$. In the equation below that is what is meant by the superscript $-i$ on the term $f_m^{-i}$.</p>
-$$\hat{w}_{stack} = argmin_w\sum_{i=1}^N\Big[(y_i - \sum_{m=1}^M w_mf_m^{-i}(x_i))^2\Big]$$<p>The next obvious question is "how do you solve this equation?". Well, what you can do is limit all of the $w_m$ to be greater than 0 and set a contstraint that they must sum to one. Mathematically that looks like:</p>
-$$minimize: \sum_{i=1}^N\Big[(y_i - \sum_{m=1}^M w_mf_m^{-i}(x_i))^2\Big]$$$$subject \; to: w_m \geq 0 \; \forall m, \sum_{m=1}^M w_m = 1$$<p>These constraints help in the case where $f(x)$ outputs a class probability. This type of 
+<p>$$\hat{w}_{stack} = argmin_w\sum_{i=1}^N\Big[(y_i - \sum_{m=1}^M w_mf_m^{-i}(x_i))^2\Big]$$</p>
+<p>The next obvious question is "how do you solve this equation?". Well, what you can do is limit all of the $w_m$ to be greater than 0 and set a contstraint that they must sum to one. Mathematically that looks like:</p>
+<p>$$minimize: \sum_{i=1}^N\Big[(y_i - \sum_{m=1}^M w_mf_m^{-i}(x_i))^2\Big]$$</p>
+<p>$$subject \; to: w_m \geq 0 \; \forall m, \sum_{m=1}^M w_m = 1$$</p>
+<p>These constraints help in the case where $f(x)$ outputs a class probability. This type of 
 problem, where you want to optimize a quadratic function subject to inequality and equality constraints is known as a quadratic programming problem. This shows up a few times in machine learning, another example being support vector machines. We won't go too much further with quadratic programming since it is very in depth, but a library can take care of this for us.</p>
 <h2 id="5.3-Leave-One-Out-Cross-Validation">5.3 Leave-One-Out-Cross-Validation<a class="anchor-link" href="#5.3-Leave-One-Out-Cross-Validation">&#182;</a></h2><p>You may recognize that this method looks a lot like leave one out cross validation. Recall that LOO-CV always trains on every point except one, and tests on the last point, and it does that on the entire data set. Usually when we are doing cross validation we are interested in picking the best model with the best hyper parameters, rather than combining models. By choosing the best model, that is equivalent to setting one of the $w_m$ to 1, and the rest to 0. In other words, if the best model according cross validation is $m^*$, then we set $w_{m^*}$ to 1, and the rest to 0.</p>
-$$w_{m^*} = 1, w_m = 0 \; \forall m \neq m^*$$
+<p>$$w_{m^*} = 1, w_m = 0 \; \forall m \neq m^*$$</p>
+
 </div>
 </div>
 </div>

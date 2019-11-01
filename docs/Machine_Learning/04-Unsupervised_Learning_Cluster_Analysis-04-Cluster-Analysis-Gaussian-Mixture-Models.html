@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,7 +211,8 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="4.-Gaussian-Mixture-Models">4. Gaussian Mixture Models<a class="anchor-link" href="#4.-Gaussian-Mixture-Models">&#182;</a></h1><p>Gaussian Mixture Models are a form of <strong>density estimation</strong>. They give us an approximation of the probability distribution of our data. We want to use gaussian mixture models when we notice that our data is multimodal (meaning there are multiple modes or bumps). From probability, we can recall that the <strong>mode</strong> is just the most common value. For instance, a multi modal distribution can be seen below:</p>
 
@@ -232,7 +237,7 @@ body {
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -251,7 +256,7 @@ body {
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -261,7 +266,7 @@ body {
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -281,7 +286,8 @@ height=277
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Multi modal gaussians can be viewed as a <strong>linear combination</strong> of individual gaussians:</p>
 
@@ -332,7 +338,7 @@ height=277
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -342,7 +348,7 @@ height=277
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -362,7 +368,8 @@ height=257
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>A very important thing to note is that GMM's are a type of model known as a <strong>generative model</strong>. What that means is that if you were to be presented with a set of observations, $x$, that was generated from the gaussian mixture distribution, it would be generated as follows:</p>
 
@@ -418,7 +425,7 @@ height=257
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -428,7 +435,7 @@ height=257
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -448,11 +455,13 @@ height=427
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We have our data generation process encapsulated in the function <code>generate_x</code>, and we can see that was we draw more samples we approximate the shape closer and closer. Let's now take a moment to hone in on the mathematics at work here.</p>
 <p>As I stated earlier, a Gaussian mixture is just the sum of weighted gaussians. To represent these weights we will introduce a new symbol called $\pi$. $\pi_k$ is the probability that $x$ belongs to the $k$th Gaussian.</p>
-$$P(x) = \pi_1 N(x \mid \mu_1, \Sigma_1) + \pi_2 N(x \mid \mu_2, \Sigma_2) + \pi_3 N(x \mid \mu_3, \Sigma_3)$$<p>$\pi$ can be thought of as a <strong>prior</strong>, specifically the prior probability of a data point being generated from a particular gaussian. To get an intuitive sense of for why this is necessary, consider the following situation. We have a list of 100 heights, but we do not know whether they the gender corresponding to each particular height:</p>
+<p>$$P(x) = \pi_1 N(x \mid \mu_1, \Sigma_1) + \pi_2 N(x \mid \mu_2, \Sigma_2) + \pi_3 N(x \mid \mu_3, \Sigma_3)$$</p>
+<p>$\pi$ can be thought of as a <strong>prior</strong>, specifically the prior probability of a data point being generated from a particular gaussian. To get an intuitive sense of for why this is necessary, consider the following situation. We have a list of 100 heights, but we do not know whether they the gender corresponding to each particular height:</p>
 <table>
 <thead><tr>
 <th>idx</th>
@@ -509,7 +518,7 @@ $$P(x) = \pi_1 N(x \mid \mu_1, \Sigma_1) + \pi_2 N(x \mid \mu_2, \Sigma_2) + \pi
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -519,7 +528,7 @@ $$P(x) = \pi_1 N(x \mid \mu_1, \Sigma_1) + \pi_2 N(x \mid \mu_2, \Sigma_2) + \pi
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -539,7 +548,8 @@ height=339
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So, we know that our list of heights came from the two distributions above, but what if we knew that the list contained only 10 heights that were male, and 90 that were female? If we then were given a point that 5'8" we may be far more likely to classify it is as male (especially if we already had 10 other heights in our list that were greater than 6 feet. This concept of the base probability that a height comes from a given gaussian is encapsulated via the our term $\pi$, and can be seen below when we view the mixture distribution:</p>
 
@@ -590,7 +600,7 @@ height=339
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -600,7 +610,7 @@ height=339
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -620,20 +630,27 @@ height=262
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Mathematically, we can describe the above as follows; we had information about the prior probabilities of men and women:</p>
-$$P(men) = \frac{10}{100}$$$$P(women) = \frac{90}{100}$$<p>Our generative process must clearly account for this, and we do so by introducing the <strong>prior</strong>, or <strong>base</strong> probability, $\pi$. For those familiar with the Bayesian paradigm, that is where the term <em>prior</em> often comes from. The prior is the original probability that you update based on new information/data. Note, if we didn't know what the prior probabilities were, but we deemed both men and women to be equally like (as in the real world), we would choose a <strong>uniform prior</strong>, where $P(men) = 0.5$ and $P(women) = 0.5$.</p>
+<p>$$P(men) = \frac{10}{100}$$</p>
+<p>$$P(women) = \frac{90}{100}$$</p>
+<p>Our generative process must clearly account for this, and we do so by introducing the <strong>prior</strong>, or <strong>base</strong> probability, $\pi$. For those familiar with the Bayesian paradigm, that is where the term <em>prior</em> often comes from. The prior is the original probability that you update based on new information/data. Note, if we didn't know what the prior probabilities were, but we deemed both men and women to be equally like (as in the real world), we would choose a <strong>uniform prior</strong>, where $P(men) = 0.5$ and $P(women) = 0.5$.</p>
 <p>We can highlight our original equation of $P(x)$ with:</p>
-$$P(x) = \overbrace{\pi_1}^\text{prior} \overbrace{N(x \mid \mu_1, \Sigma_1)}^\text{likelihood} + \pi_2 N(x \mid \mu_2, \Sigma_2) + \pi_3 N(x \mid \mu_3, \Sigma_3)$$
+<p>$$P(x) = \overbrace{\pi_1}^\text{prior} \overbrace{N(x \mid \mu_1, \Sigma_1)}^\text{likelihood} + \pi_2 N(x \mid \mu_2, \Sigma_2) + \pi_3 N(x \mid \mu_3, \Sigma_3)$$</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Also, we must notice that there is a constraint here that all of the $\pi$'s have to sum to 1:</p>
-$$1 = \int p(x)dx = \int \pi_1 N(x | \mu_1, \Sigma_1)dx + \pi_2 N(x | \mu_2, \Sigma_2)dx$$$$\pi_1 1 + \pi_2 1$$<p>This is because $\pi$ is a distribution over all of the gaussians themselves, which actually brings us to a new viewpoint. Not only can we view $\pi_k$ as the probability prior probability of belonging to (aka being generated by) gaussian $k$, but we can also think of these gaussians as <strong>hidden states</strong>, and $\pi_k$ is the probability of being in a specific hidden state (a specific gaussian). Now, the minute that the word hidden appears you should immediately be thinking of <strong>latent variables</strong>, or variables are not observed. In this case, we don't actually get to see which gaussian (men or women) generated a specific point; we merely have a list of 100 unlabeled points, each holding a specific height. The actual gaussian that each point came from is <em>hidden</em>, or <em>latent</em>. From a tabular standpoint, it looks like:</p>
+<p>$$1 = \int p(x)dx = \int \pi_1 N(x | \mu_1, \Sigma_1)dx + \pi_2 N(x | \mu_2, \Sigma_2)dx$$
+$$\pi_1 1 + \pi_2 1$$</p>
+<p>This is because $\pi$ is a distribution over all of the gaussians themselves, which actually brings us to a new viewpoint. Not only can we view $\pi_k$ as the probability prior probability of belonging to (aka being generated by) gaussian $k$, but we can also think of these gaussians as <strong>hidden states</strong>, and $\pi_k$ is the probability of being in a specific hidden state (a specific gaussian). Now, the minute that the word hidden appears you should immediately be thinking of <strong>latent variables</strong>, or variables are not observed. In this case, we don't actually get to see which gaussian (men or women) generated a specific point; we merely have a list of 100 unlabeled points, each holding a specific height. The actual gaussian that each point came from is <em>hidden</em>, or <em>latent</em>. From a tabular standpoint, it looks like:</p>
 <table>
 <thead><tr>
 <th>idx</th>
@@ -675,8 +692,12 @@ $$1 = \int p(x)dx = \int \pi_1 N(x | \mu_1, \Sigma_1)dx + \pi_2 N(x | \mu_2, \Si
 </tbody>
 </table>
 <p>So, in this case our latent variable (the gaussian that generated each point) is <em>gender</em>. Another way of thinking of this is that we introduced a new random variable called $Z$. $Z$ represents which gaussian the data came from. So, we can say that:</p>
-$$\pi_k = P(Z = k)$$<p>Or in english the above can be rewritten as:</p>
-$$k = \{ men, women\}$$$$\pi_{men} = P(Z = men)$$$$\pi_{women} = P(Z = women)$$<p>What we are saying is that there is some hidden cause called $Z$ that we can't measure; in this case the hidden cause is gender (from a causal standpoint we can confidently state that gender effects height):</p>
+<p>$$\pi_k = P(Z = k)$$</p>
+<p>Or in english the above can be rewritten as:</p>
+<p>$$k = \{ men, women\}$$</p>
+<p>$$\pi_{men} = P(Z = men)$$</p>
+<p>$$\pi_{women} = P(Z = women)$$</p>
+<p>What we are saying is that there is some hidden cause called $Z$ that we can't measure; in this case the hidden cause is gender (from a causal standpoint we can confidently state that gender effects height):</p>
 <p><img src="https://drive.google.com/uc?id=1eTak1mkXE33OvACQ2DEjKeo7K8qzr_e9" width="300"></p>
 <p>Each of these $Z$'s (gender) is causing a corresponding gaussian to be generated (the male gaussian or the female gaussian), and all we can see in our list of 100 heights is the combined effects of those individual $Z$'s (the mixture). This is rather important because it puts GMM's into the framework of <strong>expectation maximization</strong>.</p>
 <h3 id="Training-a-GMM">Training a GMM<a class="anchor-link" href="#Training-a-GMM">&#182;</a></h3><p>When it comes to training a GMM, it is very much like the k-means algorithm. There are two steps that mirror what we saw with k-means.</p>
@@ -686,18 +707,22 @@ Each gaussian will be partially responsible for each point. $\gamma_k^{(n)}$ is 
 $$\gamma_k^{(n)} = p(z^{(n)}|x) = \frac{\overbrace{\pi_k N (x^{(n)} | \mu_k, \Sigma_k) }^\text{Responsibility of k}}{\underbrace{\sum_{j=1}^K \pi_j N (x^{(n)} | \mu_j, \Sigma_j)}_\text{Total responsibility, normalizer}}$$</li>
 </ol>
 <p>For example, let's say that we were looking at the 27th point, with a height of 5'9", and we are trying to figure out the responsbility for the male gaussian:</p>
-$$\gamma^{27}_{male} = P(Z^{27} \mid X = 5'9") = 
-\frac{\pi_{male} N (x^{(27)} | \mu_{male}, \Sigma_{male})}{\sum_{j=1}^K \pi_j N (x^{(27)} | \mu_j, \Sigma_j)}$$<p>Where again, $\gamma^{27}_{male}$ is the probability that the 27th data point was generated via the male gaussian, given that the data point, $x$ was 5'9". Again, we can think of the responsibilities as a form of <em>assignment</em>.</p>
+<p>$$\gamma^{27}_{male} = P(Z^{27} \mid X = 5'9") = 
+\frac{\pi_{male} N (x^{(27)} | \mu_{male}, \Sigma_{male})}{\sum_{j=1}^K \pi_j N (x^{(27)} | \mu_j, \Sigma_j)}$$</p>
+<p>Where again, $\gamma^{27}_{male}$ is the probability that the 27th data point was generated via the male gaussian, given that the data point, $x$ was 5'9". Again, we can think of the responsibilities as a form of <em>assignment</em>.</p>
 <ol>
 <li><strong>Calculate model parameters of the gaussians</strong>
 Now that we have just updated our responsibilities (assignments), we want to recalculate our model parameters, $\mu$, $\Sigma$, and $\pi$. The way that this is done is also similar to k-means, where we weight each samples influence on the parameter, by the responsibility. If that responsibility is small, then that $x$ matters less in the total calculation. We first calculate the total responsibility: </li>
 </ol>
-$$N_k = \sum_{n=1}^N \gamma_k^{(n)}$$<p>And then we can find $\mu_k$ by multiplying each point times it's responsibility from gaussian $k$, and finally dividing by the total responsibility.</p>
-$$\mu_k = \frac{1}{N_k}\sum_{n=1}^N \gamma_k^{(n)} x^{(n)}$$<p>$\Sigma_k$ is calculated in a similar fashion:</p>
-$$\Sigma_k = \frac{1}{N_k} \sum_{n=1}^N \gamma_k^{(n)} (x^{(n)} - \mu_k)(x^{(n)} - \mu_k)^T$$<p></p>
+<p>$$N_k = \sum_{n=1}^N \gamma_k^{(n)}$$</p>
+<p>And then we can find $\mu_k$ by multiplying each point times it's responsibility from gaussian $k$, and finally dividing by the total responsibility.</p>
+<p>$$\mu_k = \frac{1}{N_k}\sum_{n=1}^N \gamma_k^{(n)} x^{(n)}$$</p>
+<p>$\Sigma_k$ is calculated in a similar fashion:</p>
+<p>$$\Sigma_k = \frac{1}{N_k} \sum_{n=1}^N \gamma_k^{(n)} (x^{(n)} - \mu_k)(x^{(n)} - \mu_k)^T$$</p>
 <p>Finally, $\pi$ is updated to simply be the total responsibility of the $k$th gaussian, divided by the total responsibility:</p>
-$$\pi_k = \frac{N_k}{N}$$<p>It is worth noting that we do not technically need both the variable $\pi$ and $\gamma$; I define each so as to allow for clarity. However, $\gamma$ is an $NxK$ matrix, and we see that $\pi$ is entirely dependent upon the column sum of $\gamma$, divided by the total number of points $N$. Specifically, if $\gamma$ were to be:</p>
-$$ 
+<p>$$\pi_k = \frac{N_k}{N}$$</p>
+<p>It is worth noting that we do not technically need both the variable $\pi$ and $\gamma$; I define each so as to allow for clarity. However, $\gamma$ is an $NxK$ matrix, and we see that $\pi$ is entirely dependent upon the column sum of $\gamma$, divided by the total number of points $N$. Specifically, if $\gamma$ were to be:</p>
+<p>$$ 
 \gamma = 
 \begin{bmatrix}
     0.6 &amp; 0.4 \\
@@ -706,18 +731,21 @@ $$
     0.1 &amp; 0.9 \\
     0.9 &amp; 0.1 \\
 \end{bmatrix}
-$$<p>Then $\pi$ would simply be the column sum, divided by the number of rows:</p>
-$$
+$$</p>
+<p>Then $\pi$ would simply be the column sum, divided by the number of rows:</p>
+<p>$$
 \pi =
 \begin{bmatrix}
 0.138  0.28
 \end{bmatrix}
-$$
+$$</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="2.-GMM-vs-Soft-K-Means">2. GMM vs Soft K-Means<a class="anchor-link" href="#2.-GMM-vs-Soft-K-Means">&#182;</a></h1><p>Lets look at both <strong>soft k-means</strong> and <strong>gmm's</strong> side by side. Recall that for k-means the algorithm looked like:</p>
 <p><strong>Pseudocode</strong><br></p>
@@ -725,9 +753,11 @@ $$
 <pre><code>Initialize m1...mk = random points in X
 While not converged:
     Step 1: Calculate cluster responsibilities</code></pre>
-$$r_k^{(n)} = \frac{exp\Big[-\beta d(m_k, x^{(n)})\Big]}{\sum_j exp \Big[-\beta d(m_j, x^{(n)})\Big]}$$
+<p>$$r_k^{(n)} = \frac{exp\Big[-\beta d(m_k, x^{(n)})\Big]}{\sum_j exp \Big[-\beta d(m_j, x^{(n)})\Big]}$$</p>
+
 <pre><code>    Step 2: Recalculate means</code></pre>
-$$m_k = \frac{\sum_n r_k^{(n)}x^{(n)}}{\sum_n r_k^{(n)}}$$<h2 id="2.1-Compare-Steps">2.1 Compare Steps<a class="anchor-link" href="#2.1-Compare-Steps">&#182;</a></h2><p>Let's now compare the two steps of each training algorithm.</p>
+<p>$$m_k = \frac{\sum_n r_k^{(n)}x^{(n)}}{\sum_n r_k^{(n)}}$$</p>
+<h2 id="2.1-Compare-Steps">2.1 Compare Steps<a class="anchor-link" href="#2.1-Compare-Steps">&#182;</a></h2><p>Let's now compare the two steps of each training algorithm.</p>
 <blockquote><ol>
 <li>We can see that the first step in both is to calculate the responsibilities.</li>
 <li>The second step in both is to calculate the model parameters. </li>
@@ -741,7 +771,8 @@ $$m_k = \frac{\sum_n r_k^{(n)}x^{(n)}}{\sum_n r_k^{(n)}}$$<h2 id="2.1-Compare-St
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="3.-Gaussian-Mixture-Model-in-Code">3. Gaussian Mixture Model in Code<a class="anchor-link" href="#3.-Gaussian-Mixture-Model-in-Code">&#182;</a></h1><p>Notes:</p>
@@ -774,7 +805,7 @@ $$m_k = \frac{\sum_n r_k^{(n)}x^{(n)}}{\sum_n r_k^{(n)}}$$<h2 id="2.1-Compare-St
 <span class="o">%</span><span class="k">matplotlib</span> inline
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -883,7 +914,7 @@ $$m_k = \frac{\sum_n r_k^{(n)}x^{(n)}}{\sum_n r_k^{(n)}}$$<h2 id="2.1-Compare-St
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -893,7 +924,7 @@ $$m_k = \frac{\sum_n r_k^{(n)}x^{(n)}}{\sum_n r_k^{(n)}}$$<h2 id="2.1-Compare-St
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -910,7 +941,7 @@ height=334
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -927,7 +958,7 @@ height=333
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -944,7 +975,7 @@ height=333
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -972,7 +1003,8 @@ Learned covariances:
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="4.-Singular-Covariance-Problem">4. Singular Covariance Problem<a class="anchor-link" href="#4.-Singular-Covariance-Problem">&#182;</a></h1><p>To get a better idea for why this may be a problem, lets think about a one dimensional gaussian for a second. Imagine that all of the points are close together, so that they variance is almost 0. Or, consider what happens if you are trying to find the variance of just 1 point. In the gaussian formula, we divide by the variance. This means that if the variance is 0, then we are dividing by 0, which results in a singularity.</p>
 <p>You can think of inverting the matrix as taking 1 over it, since something times 1 over itself will be 1, or our identity. 
@@ -981,7 +1013,8 @@ $$A * \frac{1}{A} = Identity$$</p>
 <h2 id="4.1-Diagonal-Covariance">4.1 Diagonal Covariance<a class="anchor-link" href="#4.1-Diagonal-Covariance">&#182;</a></h2><p>One solution to fix this problem is to use what is called a diagonal covariance. Diagonal covariance matrices are very useful, not only for avoiding the singularity problem, but also for speeding up our computation. When you have a diagonal covariance, it is very easy to take the inverse. You just take every element that is not 0, which will be along the diagonal, and you then invert it; i.e. you take 1 over that element.</p>
 <p><img src="https://drive.google.com/uc?id=1g2JKWHMsdOk-q6O5IUM0PyBbFnNxWpxk"></p>
 <p>The assumption that you are making when using a diagonal covariance is that each of your dimensions is independent.</p>
-$$\Sigma_{ij} = E\Big[(x_i - \mu_i)(x_j - \mu_j)\Big]$$<p>And we can then write (because $x_i$ and $x_j$ are independent we can split the expectations):
+<p>$$\Sigma_{ij} = E\Big[(x_i - \mu_i)(x_j - \mu_j)\Big]$$
+And we can then write (because $x_i$ and $x_j$ are independent we can split the expectations):
 $$\Sigma_{ij} = E\Big[(x_i - \mu_i)\Big]E\Big[(x_j - \mu_j)\Big]$$
 $$\Sigma_{ij} = \Big(E(x_i) - \mu_i\Big)\Big(E(x_j) - \mu_j\Big)$$
 $$\Sigma_{ij} = (\mu_i - \mu_i)(\mu_j - \mu_j)$$
@@ -993,34 +1026,41 @@ $$\Sigma_{ij} = 0$$</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
 <h1 id="5.-Kernel-Density-Estimation">5. Kernel Density Estimation<a class="anchor-link" href="#5.-Kernel-Density-Estimation">&#182;</a></h1><p>Kernel Density Estimation is just the fitting of a probability distribution with kernels. Before we really dive into this, let's first just talk about what the easiest solution to this problem is. the simplest solution is to just take the frequency estimate-a <strong>histogram</strong>! This would work perfectly for discrete probabilities and would be the maximum likelihood estimate.</p>
 <p>However, if our data was continuous (as the data we have been working with so far has been), then the easiest way it to use a <strong>gaussian mixture model</strong>! In fact, using a gaussian mixture model we are inherently doing kernel density estimation, where the gaussian is the kernel. However, we will have the problem that we can only have gaussian looking shapes in your distribution. This is the same problem we have with k-means, in we have to determine the correct number of components to use. One strategy would be to look at the distribution of the data, and to look at the number of peaks seen in the histogram.</p>
 <p>Another method is to use gaussians with all the same variance, set the number of gaussians equal to the number of points, and use the GMM algorithm on that.</p>
-$$P(x) = \frac{1}{N}\sum_{i=1}^N \frac{1}{(2\pi h^2)^\frac{D}{2}} exp\Big(-\frac{||x - x_n||^2}{2h^2}\Big)$$<p>Here we call <strong>h</strong> the window size, and you would need to play with h in order to find the ideal size for your distribution.</p>
+<p>$$P(x) = \frac{1}{N}\sum_{i=1}^N \frac{1}{(2\pi h^2)^\frac{D}{2}} exp\Big(-\frac{||x - x_n||^2}{2h^2}\Big)$$</p>
+<p>Here we call <strong>h</strong> the window size, and you would need to play with h in order to find the ideal size for your distribution.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
 <h1 id="6.--Expectation-Maximization">6.  Expectation Maximization<a class="anchor-link" href="#6.--Expectation-Maximization">&#182;</a></h1><p>We are now going to take an abstract look at the Gaussian Mixture Model, and create a framework called <strong>Expectation Maximization</strong>, aka the <strong>E-M Algorithm</strong>. This algorithm generalizes some important concepts that we have talked about, such as latent variables, coordinate descent, and increasing our likelihood guarantee.</p>
 <h3 id="6.1-Maximum-Likelihood">6.1 Maximum Likelihood<a class="anchor-link" href="#6.1-Maximum-Likelihood">&#182;</a></h3><p>The first important thing that we should realize is that we still start off trying to do maximum likehood. We have some data $X$ and some model $\theta$, and we are trying to maximize the probability of observing our data, $X$, given $\theta$, which generally defines are gaussian distribution.</p>
-$$Maximize \rightarrow \; P(X | \theta) \; or \; log P(X | \theta) = L(\theta)$$<p>By introducing hidden variables called $Z$, we can imagine that $P(X | \theta)$ is actually a marginalized distribution over $P(X, Z | \theta)$:</p>
-$$P(X | \theta) = \sum_Z P(X, Z | \theta)$$<p>We can expand that to get:</p>
-$$P(X | \theta) = \sum_Z P(X, Z | \theta) = \sum_Z P(X | Z, \theta)P(Z|\theta)$$<h3 id="6.2-EM-Algorithm:-2-steps">6.2 EM Algorithm: 2 steps<a class="anchor-link" href="#6.2-EM-Algorithm:-2-steps">&#182;</a></h3><p>As we know, in the EM algorithm there are two main steps; one where we adjust $Z$ and one where we adjust $\theta$.</p>
+<p>$$Maximize \rightarrow \; P(X | \theta) \; or \; log P(X | \theta) = L(\theta)$$</p>
+<p>By introducing hidden variables called $Z$, we can imagine that $P(X | \theta)$ is actually a marginalized distribution over $P(X, Z | \theta)$:</p>
+<p>$$P(X | \theta) = \sum_Z P(X, Z | \theta)$$</p>
+<p>We can expand that to get:</p>
+<p>$$P(X | \theta) = \sum_Z P(X, Z | \theta) = \sum_Z P(X | Z, \theta)P(Z|\theta)$$</p>
+<h3 id="6.2-EM-Algorithm:-2-steps">6.2 EM Algorithm: 2 steps<a class="anchor-link" href="#6.2-EM-Algorithm:-2-steps">&#182;</a></h3><p>As we know, in the EM algorithm there are two main steps; one where we adjust $Z$ and one where we adjust $\theta$.</p>
 <h4 id="E-step:">E-step:<a class="anchor-link" href="#E-step:">&#182;</a></h4><blockquote><p>We can think of the E-step as finding the distribution of Z given X and the current setting of theta:</p>
 </blockquote>
-$$P(Z | X, \theta_n)$$<p></p>
+<p>$$P(Z | X, \theta_n)$$</p>
 <h4 id="M-step:">M-step:<a class="anchor-link" href="#M-step:">&#182;</a></h4><blockquote><p>Then you can think of the M-step as finding the best $\theta$ that maximizes the joint distribution of $log P(X, Z | \theta)$. However, instead of maximizing this directly, we are maximizing the expected value of this over the distribution we found in the previous step, which was the distribution $P(Z | X, \theta_n)$ :</p>
 </blockquote>
-$$Maximize \rightarrow E \Big[log P(X, Z | \theta)\Big]$$
+<p>$$Maximize \rightarrow E \Big[log P(X, Z | \theta)\Big]$$</p>
+
 </div>
 </div>
 </div><script>
@@ -1041,19 +1081,6 @@ $$Maximize \rightarrow E \Big[log P(X, Z | \theta)\Big]$$
   });
 </script>
 <form action="javascript:code_toggle()"><input type="submit" id="toggleButton" value="Show Code"></form>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
 <hr>
 &copy; 2018 Nathaniel Dake
 

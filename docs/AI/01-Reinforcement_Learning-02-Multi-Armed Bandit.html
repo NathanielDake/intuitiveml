@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,7 +211,8 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="2.-Multi-Armed-Bandit">2. Multi-Armed Bandit<a class="anchor-link" href="#2.-Multi-Armed-Bandit">&#182;</a></h1><p>Imagine you are at a casino playing slots (hence the term "arm"). The slot machines are bandits because they are taking your money. Not all the slot machines are equal, and the win rate is generally unknown. For example, they may be:</p>
 <ul>
@@ -225,7 +230,8 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="2.0-Epsilon-Greedy-Solution">2.0 Epsilon-Greedy Solution<a class="anchor-link" href="#2.0-Epsilon-Greedy-Solution">&#182;</a></h1><p>One method of solving the explore-exploit dilemma is called the epsilon-greedy algorithm (and it is intuitive). This algorithm is used heavily in reinforcement learning. Here is how it works:</p>
@@ -249,20 +255,25 @@ while True:
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="3.-Updating-Sample-Mean">3. Updating Sample Mean<a class="anchor-link" href="#3.-Updating-Sample-Mean">&#182;</a></h1><p>Let's assume for a moment that our rewards are not just coin tosses, so we don't just need to store the number of success's and failures. The general method for solving this problem is to use the mean. This works for coin tosses too, since if you add up all of the 0's and 1's that you get, and divide by $N$, you arrive at the maximum likelihood probability.</p>
 <p>So, how do we calculate the sample mean of a random variable? We know that it is the total sum, divided by the number of samples:</p>
-$$\bar{X} = \frac{1}{N}\sum_{i=1}^N X_i$$<p>What is the problem with this equation? The problem is that we need to keep track of <strong>ALL</strong> $N$ elements, in order to calculate the mean. And what if they can't fit into memory? Is there a way to make this calculation more efficient? There most definitely is. The trick is, the mean at the $N$th sample, can be calculated based on the mean at the $(N-1)$th sample.</p>
-$$\bar{X}_N =  \frac{1}{N}\sum_{n=1}^NX_n = \frac{1}{N}\Big((N-1)\bar{X}_{N-1} + X_N \Big) = (1 - \frac{1}{N})\bar{X}_{N-1}+\frac{1}{N}X_N$$<p>We can then express this using simpler symbols. We can call $Y$ our output, and we can use $t$ to represent the current time step:</p>
-$$\bar{X}_N = (1 - \frac{1}{N})\bar{X}_{N-1} + \frac{1}{N}X_N$$<p>Note: This is also known as the <strong>exponentially smoothed average</strong>, and more can be seen in my notebook on Modern Deep Learning, specifically the section concerning momentum and the ADAM optimizer.</p>
+<p>$$\bar{X} = \frac{1}{N}\sum_{i=1}^N X_i$$</p>
+<p>What is the problem with this equation? The problem is that we need to keep track of <strong>ALL</strong> $N$ elements, in order to calculate the mean. And what if they can't fit into memory? Is there a way to make this calculation more efficient? There most definitely is. The trick is, the mean at the $N$th sample, can be calculated based on the mean at the $(N-1)$th sample.</p>
+<p>$$\bar{X}_N =  \frac{1}{N}\sum_{n=1}^NX_n = \frac{1}{N}\Big((N-1)\bar{X}_{N-1} + X_N \Big) = (1 - \frac{1}{N})\bar{X}_{N-1}+\frac{1}{N}X_N$$</p>
+<p>We can then express this using simpler symbols. We can call $Y$ our output, and we can use $t$ to represent the current time step:</p>
+<p>$$\bar{X}_N = (1 - \frac{1}{N})\bar{X}_{N-1} + \frac{1}{N}X_N$$</p>
+<p>Note: This is also known as the <strong>exponentially smoothed average</strong>, and more can be seen in my notebook on Modern Deep Learning, specifically the section concerning momentum and the ADAM optimizer.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="4.-Epsilon-Greedy-in-Code">4. Epsilon-Greedy in Code<a class="anchor-link" href="#4.-Epsilon-Greedy-in-Code">&#182;</a></h1>
@@ -285,13 +296,14 @@ $$\bar{X}_N = (1 - \frac{1}{N})\bar{X}_{N-1} + \frac{1}{N}X_N$$<p>Note: This is 
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Create a custom plotting function.</p>
 
@@ -322,7 +334,7 @@ $$\bar{X}_N = (1 - \frac{1}{N})\bar{X}_{N-1} + \frac{1}{N}X_N$$<p>Note: This is 
   <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -401,7 +413,7 @@ $$\bar{X}_N = (1 - \frac{1}{N})\bar{X}_{N-1} + \frac{1}{N}X_N$$<p>Note: This is 
   <span class="n">plot_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">c_arr</span><span class="p">,</span> <span class="s1">&#39;Cumulative Averages&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Eps = 0.1&#39;</span><span class="p">,</span> <span class="s1">&#39;Eps = 0.05&#39;</span><span class="p">,</span> <span class="s1">&#39;Eps = 0.01&#39;</span><span class="p">],</span> <span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;Means&#39;</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -411,7 +423,7 @@ $$\bar{X}_N = (1 - \frac{1}{N})\bar{X}_{N-1} + \frac{1}{N}X_N$$<p>Note: This is 
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -436,7 +448,7 @@ Epsilon =  0.1
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -451,7 +463,7 @@ Epsilon =  0.1
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -466,7 +478,7 @@ Epsilon =  0.1
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -481,7 +493,7 @@ Epsilon =  0.1
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -496,7 +508,7 @@ Epsilon =  0.1
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -514,12 +526,15 @@ Epsilon =  0.1
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="5.-Optimistic-Initial-Values">5. Optimistic Initial Values<a class="anchor-link" href="#5.-Optimistic-Initial-Values">&#182;</a></h1><p>We will now look at another way of sovling the explore-exploit dilemma. Suppose you know that the true mean of the bandits was much less than 10. The idea is that you want to pick a high ceiling for the initial estimate of the bandit mean, and then do your update based on that. In other words, before we had:</p>
-$$\bar{X_0} = 0$$<p>And now we have:</p>
-$$\bar{X_0} = 10$$<p>We say that this is <em>optimistic</em> because the intial value for the sample mean is too good to be true. Since it is too good to be true, the only thing that can ever happen is that it will go down. So, if the mean is 1, as we collect more samples the mean will still converge to 1. In fact, eventually all of the means will eventually settle into their true values, at which point we will just be exploiting. Clearly, this will help exploration as well! If you haven't explored a bandit much, then its sample mean is going to remain very high, causing you to explore it more. In fact, it will remain higher than everything else, leaving you forced to explore it. So, in the main loop we need to still perform the greedy strategy, but using these optimistic means.</p>
+<p>$$\bar{X_0} = 0$$</p>
+<p>And now we have:</p>
+<p>$$\bar{X_0} = 10$$</p>
+<p>We say that this is <em>optimistic</em> because the intial value for the sample mean is too good to be true. Since it is too good to be true, the only thing that can ever happen is that it will go down. So, if the mean is 1, as we collect more samples the mean will still converge to 1. In fact, eventually all of the means will eventually settle into their true values, at which point we will just be exploiting. Clearly, this will help exploration as well! If you haven't explored a bandit much, then its sample mean is going to remain very high, causing you to explore it more. In fact, it will remain higher than everything else, leaving you forced to explore it. So, in the main loop we need to still perform the greedy strategy, but using these optimistic means.</p>
 
 </div>
 </div>
@@ -588,7 +603,7 @@ $$\bar{X_0} = 10$$<p>We say that this is <em>optimistic</em> because the intial 
   <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -598,7 +613,7 @@ $$\bar{X_0} = 10$$<p>We say that this is <em>optimistic</em> because the intial 
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -613,7 +628,7 @@ $$\bar{X_0} = 10$$<p>We say that this is <em>optimistic</em> because the intial 
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -626,7 +641,7 @@ $$\bar{X_0} = 10$$<p>We say that this is <em>optimistic</em> because the intial 
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -641,7 +656,7 @@ $$\bar{X_0} = 10$$<p>We say that this is <em>optimistic</em> because the intial 
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -659,18 +674,21 @@ $$\bar{X_0} = 10$$<p>We say that this is <em>optimistic</em> because the intial 
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="6.-UCB1">6. UCB1<a class="anchor-link" href="#6.-UCB1">&#182;</a></h1><p>Another method to solve the explore/exploit dilemma is the UCB1 algorithm. Intuitively, we know that if you collect 10 samples and take the mean, this is not as accurate as if you collect 1000 samples and take the mean. If you were to draw a confidence bound around the 10 sample mean, it would be much wider than that which was around the 1000 sample mean.</p>
 <p>In statistics, there is a bound called the <strong>Chernoff-Hoeffding</strong> bound. This states that our confidence bound changes exponentially with the number of samples we collect:</p>
-$$P \{|\bar{X} - \mu| \geq \epsilon\} \leq 2e^{\{-2\epsilon^2N\}}$$<p></p>
+<p>$$P \{|\bar{X} - \mu| \geq \epsilon\} \leq 2e^{\{-2\epsilon^2N\}}$$</p>
 <p>It looks complicated, but becomes less complicated when dissected slowly! It says that:</p>
 <blockquote><p>"<em>The probability that the absolute difference between the sample mean and the true mean is greater than or equal to $\epsilon$, is less than 2 times the exponent of -2 times $\epsilon^2$ times N.</em> Here, $N$ is the number of samples collected and $\epsilon$ is just a very small number."</p>
 </blockquote>
 <p>The full background is outside the scope of what we are looking at in terms of RL, however, the main idea is similar to the other algorithms we have looked at so far. The idea is that we take the upper confidence bound (<strong>UCB</strong>) to be the regular sample mean, plus the square root of $2ln(N)$ divided by $N_j$ (the number of times bandit $j$ has been played:</p>
-$$X_{UCB-j} = \bar{X}_j + \sqrt{2\frac{lnN}{N_j}}$$<p>In other words, we are stating that $\epsilon$ is defined as:</p>
-$$\epsilon = \sqrt{2\frac{lnN}{N_j}}$$<p>This is equivalent to choosing an epsilon equal to the square root and everything inside. So let's talk about what these symbols mean:</p>
+<p>$$X_{UCB-j} = \bar{X}_j + \sqrt{2\frac{lnN}{N_j}}$$</p>
+<p>In other words, we are stating that $\epsilon$ is defined as:</p>
+<p>$$\epsilon = \sqrt{2\frac{lnN}{N_j}}$$</p>
+<p>This is equivalent to choosing an epsilon equal to the square root and everything inside. So let's talk about what these symbols mean:</p>
 <blockquote><ul>
 <li>$\bar{X}_j$: Regular sample mean of the $j$th bandit</li>
 <li><strong>N</strong>: Total number of times each bandit has been played</li>
@@ -736,7 +754,7 @@ $$\epsilon = \sqrt{2\frac{lnN}{N_j}}$$<p>This is equivalent to choosing an epsil
   
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -763,7 +781,7 @@ $$\epsilon = \sqrt{2\frac{lnN}{N_j}}$$<p>This is equivalent to choosing an epsil
                 <span class="s1">&#39;Cumulative Average&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -773,7 +791,7 @@ $$\epsilon = \sqrt{2\frac{lnN}{N_j}}$$<p>This is equivalent to choosing an epsil
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -803,7 +821,7 @@ Final Number of Trials:  99983
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -818,7 +836,7 @@ Final Number of Trials:  99983
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -833,7 +851,7 @@ Final Number of Trials:  99983
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -851,12 +869,15 @@ Final Number of Trials:  99983
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="7.-Bayesian/Thompson-Sampling">7. Bayesian/Thompson Sampling<a class="anchor-link" href="#7.-Bayesian/Thompson-Sampling">&#182;</a></h1><p>In order to motivate the method of Bayesian (also sometimes refered to as Thompson sampling), we are going to look at confidence bounds again. Let's assume that our random variable, $X$, has a distribution associated with it:</p>
-$$X \approx Normal(\mu, \sigma^2)$$<p>We know intuitively that if we sample from $X$, the sample mean, $\bar{X}$ calculated from 10 samples is going to be less accurate than a sample mean calculated from 1000 samples. We can use the <strong>central limit theorem</strong> to say that the confidence interval is approximately gaussian, with the true mean ($\mu$) equal to the expected value of the random variable and variance equal to the original variance divided by $N$ number of samples:</p>
-$$\bar{X} \approx Normal(\mu, \frac{\sigma^2}{N})$$<p>This can be seen visually below, where the blue curve is skinnier and closer to the true mean of $\mu = 0.5$, since more samples have been drawn:</p>
+<p>$$X \approx Normal(\mu, \sigma^2)$$</p>
+<p>We know intuitively that if we sample from $X$, the sample mean, $\bar{X}$ calculated from 10 samples is going to be less accurate than a sample mean calculated from 1000 samples. We can use the <strong>central limit theorem</strong> to say that the confidence interval is approximately gaussian, with the true mean ($\mu$) equal to the expected value of the random variable and variance equal to the original variance divided by $N$ number of samples:</p>
+<p>$$\bar{X} \approx Normal(\mu, \frac{\sigma^2}{N})$$</p>
+<p>This can be seen visually below, where the blue curve is skinnier and closer to the true mean of $\mu = 0.5$, since more samples have been drawn:</p>
 <p><img src="https://drive.google.com/uc?id=1nml7viOYniVwHHA9OfbyroRV2P1YnW20" width="600"></p>
 <p>The reason that the sample mean has a distribution is because it is essentially the sum of random variables, and any function of random variables is also a random variable. So we can sum up and say that the goal of the frequentist method is:</p>
 <blockquote><p><strong>Goal</strong>: <em>Find $\bar{X}$, which is our estimate of the true mean (a specific point) $\mu$.</em></p>
@@ -868,8 +889,10 @@ $$\bar{X} \approx Normal(\mu, \frac{\sigma^2}{N})$$<p>This can be seen visually 
 <blockquote><p><strong>Goal</strong>: <em>Using $p(\mu)$ and $p(X|\mu)$, find $p(\mu | X)$, our distribution of $\mu$ based on the data. </em></p>
 </blockquote>
 <p>This should make a lot of sense; based on the data, we should be able to come up with a distribution that is far more accurate than if we didn't have the data. We refer to this as the <strong>posterior distribution</strong>:</p>
-$$p(\theta \; | \; X)$$<p>In the bayesian paradigm, the key tool is bayes rule. We are able to flip the posterior, and compute it from the likelihood and the prior:</p>
-$$p(\theta \; | \; X) = \frac{p(X|\theta ) P(\theta)}{\int p(X|\theta)p(\theta)d\theta} \propto p(X | \theta) p(\theta) = likelihood * prior$$<p>A disadvantage of the bayesian method is that we must chose the prior ourselves, and this can sometimes have a non negligible effect on the posterior. There are also a few problems with the above equation. The first is that it is very general, just as a differential equation is very general. The integral in the denominator cannot always be found, and we need to resort to mathematical tricks in order to make it workout. Luckily, there are a special set of pairs of distributions (likelihood and prior), such that the posterior will have the same distribution as the prior. These are called <strong>conjugate priors</strong>.</p>
+<p>$$p(\theta \; | \; X)$$</p>
+<p>In the bayesian paradigm, the key tool is bayes rule. We are able to flip the posterior, and compute it from the likelihood and the prior:</p>
+<p>$$p(\theta \; | \; X) = \frac{p(X|\theta ) P(\theta)}{\int p(X|\theta)p(\theta)d\theta} \propto p(X | \theta) p(\theta) = likelihood * prior$$</p>
+<p>A disadvantage of the bayesian method is that we must chose the prior ourselves, and this can sometimes have a non negligible effect on the posterior. There are also a few problems with the above equation. The first is that it is very general, just as a differential equation is very general. The integral in the denominator cannot always be found, and we need to resort to mathematical tricks in order to make it workout. Luckily, there are a special set of pairs of distributions (likelihood and prior), such that the posterior will have the same distribution as the prior. These are called <strong>conjugate priors</strong>.</p>
 <h2 id="7.2-Click-through-rates">7.2 Click-through rates<a class="anchor-link" href="#7.2-Click-through-rates">&#182;</a></h2><p>Let's do a quick example to illustrate conjugate priors with click through rates. Now, click-throughs are like coin tosses, so they have a Bernoulli likelihood. If we check <a href="https://en.wikipedia.org/wiki/Conjugate_prior#Table_of_conjugate_distributions">here</a> we can see that the conjugate prior for a bernoulli likelihood is a beta distribution. The beta distribution is always between 0 and 1, which makes sense; it also has 2 parameters <em>a</em> and <em>b</em>. Knowing this we can setup our calculation for the posterior.</p>
 <p><strong>Likelihood</strong>:<br>
 The likelihood can be written as a product since each coin toss is independent:
@@ -878,12 +901,18 @@ $$p(X|\theta) = \prod_{i=1}^N \theta^{1(x_i=1)}(1-\theta)^{1(x_i=0)}$$</p>
 The prior is simply the PDF of the beta distribution, which can be found at the link above:
 $$p(\theta) = \frac{1}{B(a,b)}\theta^{a-1}(1-\theta)^{b-1}$$</p>
 <p>To find the posterior, we need to combine the likelihood and the prior and solve for the posterior.</p>
-$$p(\theta|X) \propto \Big[ \prod_{i=1}^N \theta^{1(x_i=1)} (1-\theta)^{1(x_i=0)} \Big] \frac{1}{B(a,b)}\theta^{a-1}(1-\theta)^{b-1}$$<p>We can drop the beta function, $B(a,b)$, out of the proportionality, since it gets absorbed into the normalization constant. The key here is to see that the posterior also takes the form of a beta distribution, so we can infer what the new parameters of the Beta are:</p>
-$$p(\theta|X) \propto \theta^{a + \sum_{i=1}^N 1(x_i=1) - 1} (1-\theta)^{b + \sum_{i=1}^N 1(x_i=0) - 1 }$$<p>Where the terms in the exponents can just be written as $a'$ and $b'$:
+<p>$$p(\theta|X) \propto \Big[ \prod_{i=1}^N \theta^{1(x_i=1)} (1-\theta)^{1(x_i=0)} \Big] \frac{1}{B(a,b)}\theta^{a-1}(1-\theta)^{b-1}$$</p>
+<p>We can drop the beta function, $B(a,b)$, out of the proportionality, since it gets absorbed into the normalization constant. The key here is to see that the posterior also takes the form of a beta distribution, so we can infer what the new parameters of the Beta are:</p>
+<p>$$p(\theta|X) \propto \theta^{a + \sum_{i=1}^N 1(x_i=1) - 1} (1-\theta)^{b + \sum_{i=1}^N 1(x_i=0) - 1 }$$</p>
+<p>Where the terms in the exponents can just be written as $a'$ and $b'$:
 $$p(\theta|X) \propto \theta^{a'} (1-\theta)^{b'}$$</p>
 <p>Where again, we can define them now as:</p>
-$$a' = a + \sum_{i=1}^N 1(x_i=1) - 1$$$$b' = b + \sum_{i=1}^N 1(x_i=0) - 1$$<p>Or, simply put:</p>
-$$a' = a + \text{#1's}$$$$b' = b + \text{#0's}$$<p>We can look at a demo of this below:</p>
+<p>$$a' = a + \sum_{i=1}^N 1(x_i=1) - 1$$
+$$b' = b + \sum_{i=1}^N 1(x_i=0) - 1$$</p>
+<p>Or, simply put:</p>
+<p>$$a' = a + \text{#1's}$$
+$$b' = b + \text{#0's}$$</p>
+<p>We can look at a demo of this below:</p>
 
 </div>
 </div>
@@ -920,7 +949,7 @@ $$a' = a + \text{#1's}$$$$b' = b + \text{#0's}$$<p>We can look at a demo of this
     <span class="n">plot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">true_ctr</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -930,7 +959,7 @@ $$a' = a + \text{#1's}$$$$b' = b + \text{#0's}$$<p>We can look at a demo of this
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -945,7 +974,7 @@ $$a' = a + \text{#1's}$$$$b' = b + \text{#0's}$$<p>We can look at a demo of this
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -960,7 +989,7 @@ $$a' = a + \text{#1's}$$$$b' = b + \text{#0's}$$<p>We can look at a demo of this
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -975,7 +1004,7 @@ $$a' = a + \text{#1's}$$$$b' = b + \text{#0's}$$<p>We can look at a demo of this
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -990,7 +1019,7 @@ $$a' = a + \text{#1's}$$$$b' = b + \text{#0's}$$<p>We can look at a demo of this
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1005,7 +1034,7 @@ $$a' = a + \text{#1's}$$$$b' = b + \text{#0's}$$<p>We can look at a demo of this
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1020,7 +1049,7 @@ $$a' = a + \text{#1's}$$$$b' = b + \text{#0's}$$<p>We can look at a demo of this
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1035,7 +1064,7 @@ $$a' = a + \text{#1's}$$$$b' = b + \text{#0's}$$<p>We can look at a demo of this
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1050,7 +1079,7 @@ $$a' = a + \text{#1's}$$$$b' = b + \text{#0's}$$<p>We can look at a demo of this
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1065,7 +1094,7 @@ $$a' = a + \text{#1's}$$$$b' = b + \text{#0's}$$<p>We can look at a demo of this
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1080,7 +1109,7 @@ $$a' = a + \text{#1's}$$$$b' = b + \text{#0's}$$<p>We can look at a demo of this
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1095,7 +1124,7 @@ $$a' = a + \text{#1's}$$$$b' = b + \text{#0's}$$<p>We can look at a demo of this
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1113,28 +1142,38 @@ $$a' = a + \text{#1's}$$$$b' = b + \text{#0's}$$<p>We can look at a demo of this
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Above, we plotted the distribution periodically. You should have been able to notice that the distribution started off very fat. As it was updated, it became skinnier and taller. The area under the PDF is always 1, so whenever it gets skinnier it must get taller. The reason it is becoming skinnier, is because we are becoming more confident in our estimate of the parameter. In other words, this is a natural way to represent confidence or confidence intervals. Also, notice that this is an instance of online learning. The distribution becomes more precise after every coin toss-not just after we collect all of the data. We will see that all of the learning methods we will look at are able to update iteratively.</p>
 <h2 id="7.3-Gaussian-Likelihood/Prior">7.3 Gaussian Likelihood/Prior<a class="anchor-link" href="#7.3-Gaussian-Likelihood/Prior">&#182;</a></h2><p>In the notebook for section 4 of Bayesian Machine Learning, we saw that the a Gaussian likelihood is conjugate with a gaussian prior on the mean. If we place a prior only on the mean $\mu$ and assume the variance is fixed, we can start with these forms of the likelihood and prior:</p>
-$$X \approx N(\mu, \tau^{-1}), \mu \approx N(m_0, \lambda_0^{-1})$$<p>We can see above that we are using precision parameters, which is the inverse of variance. This makes the math a little easier to work with. The parameters for the $\mu$ distribution are $m$ and $\lambda$, and so what we are looking for are the update equations for $m$ and $\lambda$. In other words, our prior distribution regarding $\mu$ is $p(\mu)$, and we are going to be trying to find the posterior $p(\mu | X)$.</p>
+<p>$$X \approx N(\mu, \tau^{-1}), \mu \approx N(m_0, \lambda_0^{-1})$$</p>
+<p>We can see above that we are using precision parameters, which is the inverse of variance. This makes the math a little easier to work with. The parameters for the $\mu$ distribution are $m$ and $\lambda$, and so what we are looking for are the update equations for $m$ and $\lambda$. In other words, our prior distribution regarding $\mu$ is $p(\mu)$, and we are going to be trying to find the posterior $p(\mu | X)$.</p>
 <p><strong>Likelihood:</strong><br>
 So, for clarity, we define our likelihood as:</p>
-$$p(X|\mu)=\prod_{n=1}^N \frac{1}{\sqrt{\frac{2 \pi}{\tau}}} exp\Big(\frac{-\tau}{2} (x_n - \mu)^2\Big)$$<p><strong>Prior:</strong><br>
+<p>$$p(X|\mu)=\prod_{n=1}^N \frac{1}{\sqrt{\frac{2 \pi}{\tau}}} exp\Big(\frac{-\tau}{2} (x_n - \mu)^2\Big)$$</p>
+<p><strong>Prior:</strong><br>
 And our prior is:</p>
-$$p(\mu) = \frac{1}{\sqrt{\frac{\pi}{\lambda_0}}} exp\Big(\frac{-\lambda_0}{2} (\mu - m_0)^2\Big)$$<p><strong>Step 1</strong><br>
+<p>$$p(\mu) = \frac{1}{\sqrt{\frac{\pi}{\lambda_0}}} exp\Big(\frac{-\lambda_0}{2} (\mu - m_0)^2\Big)$$</p>
+<p><strong>Step 1</strong><br>
 So our first step is to multiply the likelihood and prior to get the proportionality for the posterior:</p>
-$$p(\mu |X) = \Big[\prod_{n=1}^N \frac{1}{\sqrt{\frac{2 \pi}{\tau}}} exp\Big(\frac{-\tau}{2} (x_n - \mu)^2\Big) \Big] \frac{1}{\sqrt{\frac{2 \pi}{\lambda_0}}} exp\Big(\frac{-\lambda_0}{2} (\mu - m_0)^2\Big) $$<p><strong>Step 2</strong><br>
+<p>$$p(\mu |X) = \Big[\prod_{n=1}^N \frac{1}{\sqrt{\frac{2 \pi}{\tau}}} exp\Big(\frac{-\tau}{2} (x_n - \mu)^2\Big) \Big] \frac{1}{\sqrt{\frac{2 \pi}{\lambda_0}}} exp\Big(\frac{-\lambda_0}{2} (\mu - m_0)^2\Big) $$</p>
+<p><strong>Step 2</strong><br>
 We can now drop some constants, and just keep what is the in the exponent, since we don't care about the normalization constant:</p>
-$$p(\mu | X) \propto exp\Big(\frac{-\lambda_0}{2} (\mu - m_0)^2 - \frac{\tau}{2} \sum_{n=1}^N (x_n^2 - 2x_n \mu + \mu^2)\Big)$$<p><strong>Step 3</strong><br>
+<p>$$p(\mu | X) \propto exp\Big(\frac{-\lambda_0}{2} (\mu - m_0)^2 - \frac{\tau}{2} \sum_{n=1}^N (x_n^2 - 2x_n \mu + \mu^2)\Big)$$</p>
+<p><strong>Step 3</strong><br>
 We now collect terms by order of $\mu$; we do not care about any terms that don't involve $\mu$, since they go away with the normalizing constant.</p>
-$$p(\mu|X) \propto exp \Big[ \frac{-1}{2} \Big( (\lambda_0 + \tau N)\mu^2 - 2(m_0\lambda_0 + \tau(\sum_{n=1}^N x_n))\mu + ... )\Big) \Big]$$<p><strong>Step 4</strong><br>
+<p>$$p(\mu|X) \propto exp \Big[ \frac{-1}{2} \Big( (\lambda_0 + \tau N)\mu^2 - 2(m_0\lambda_0 + \tau(\sum_{n=1}^N x_n))\mu + ... )\Big) \Big]$$</p>
+<p><strong>Step 4</strong><br>
 The next step is to recognize the form of the posterior that we are looking for. From our posterior, we want the form of what is on the left below; this is just what goes inside the exponent of the gaussian:</p>
-$$\frac{-1}{2}\lambda (\mu - m)^2 = \frac{-1}{2}(\lambda \mu^2 - 2m\lambda 
-\mu + ...)$$<p>But this is what we just found!!!</p>
+<p>$$\frac{-1}{2}\lambda (\mu - m)^2 = \frac{-1}{2}(\lambda \mu^2 - 2m\lambda 
+\mu + ...)$$</p>
+<p>But this is what we just found!!!</p>
 <p><strong>Step 5</strong><br>
 This means that our next step is to just equate the two by the term in $\mu$; the squared term goes with the squared term, and the linear term goes with the linear term.</p>
-$$\lambda = \lambda_0 + \tau N$$$$m \lambda = m_0 \lambda_0 + \tau \sum_n x_n \longleftrightarrow m = \frac{m_0\lambda_0 + \tau \sum_n x_n}{\lambda_0 + \tau N}$$<p>Note, the precision term is simpler to solve, but the $m$ term must be solved after because it depends on lambda. We now have our solution for the new $m$, and the new $\lambda$, based on the prior parameters and data we have collected.</p>
+<p>$$\lambda = \lambda_0 + \tau N$$</p>
+<p>$$m \lambda = m_0 \lambda_0 + \tau \sum_n x_n \longleftrightarrow m = \frac{m_0\lambda_0 + \tau \sum_n x_n}{\lambda_0 + \tau N}$$</p>
+<p>Note, the precision term is simpler to solve, but the $m$ term must be solved after because it depends on lambda. We now have our solution for the new $m$, and the new $\lambda$, based on the prior parameters and data we have collected.</p>
 <h2 id="7.4-Application-to-the-bandit-problem">7.4 Application to the bandit problem<a class="anchor-link" href="#7.4-Application-to-the-bandit-problem">&#182;</a></h2><p>The last step of the above process is to talk about how we apply it to the bandit problem. The answer is <em>sampling</em>. The key part is again the line of code where we chose the bandit. Rather than chose the argmax of the upper confidence bound as we did with UCB1, we are going to chose the argmax of samples from each of the bandits means. Remember, the means <em>are now probability distributions</em>, so we can draw samples from them.</p>
 <p>How does this help us explore and exploit? Well, in the demo above we saw that the distribution always starts out as fat, and then gradually becomes skinnier. When the distribution is fat, we still have a high chance of sampling a very high number, and hence we are encouraged to explore more often. When the distribution becomes skinny, and we are more confident in our estimates, we explore less and exploit more, since the sample will always be in a very narrow range. So, sampling from the bayesian posterior automatically controls how much exploration and exploitation we do!</p>
 
@@ -1142,7 +1181,8 @@ $$\lambda = \lambda_0 + \tau N$$$$m \lambda = m_0 \lambda_0 + \tau \sum_n x_n \l
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h2 id="7.5-Bayesian-Sampling-in-Code">7.5 Bayesian Sampling in Code<a class="anchor-link" href="#7.5-Bayesian-Sampling-in-Code">&#182;</a></h2><p>Below we will implement Bayesian Sampling in code. Before we do, however, there are few things to clarify to ensure everything remains clear.</p>
@@ -1207,7 +1247,7 @@ self.predicted_mean = self.tau * self.sum_x / self.lambda_
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1270,7 +1310,7 @@ self.predicted_mean = self.tau * self.sum_x / self.lambda_
   <span class="n">run_experiment_bayes</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">100000</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1280,7 +1320,7 @@ self.predicted_mean = self.tau * self.sum_x / self.lambda_
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1298,7 +1338,8 @@ self.predicted_mean = self.tau * self.sum_x / self.lambda_
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="9.-Compare-Explore-Exploit-Solutions">9. Compare Explore-Exploit Solutions<a class="anchor-link" href="#9.-Compare-Explore-Exploit-Solutions">&#182;</a></h1><p>In this lecture we are going to compare all of the explore-exploit solutions that we have looked into so far:</p>
@@ -1417,7 +1458,7 @@ self.predicted_mean = self.tau * self.sum_x / self.lambda_
   <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1427,7 +1468,7 @@ self.predicted_mean = self.tau * self.sum_x / self.lambda_
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1442,7 +1483,7 @@ self.predicted_mean = self.tau * self.sum_x / self.lambda_
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1455,7 +1496,7 @@ self.predicted_mean = self.tau * self.sum_x / self.lambda_
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1470,7 +1511,7 @@ self.predicted_mean = self.tau * self.sum_x / self.lambda_
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1498,7 +1539,7 @@ Final Number of Trials:  99977
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1513,7 +1554,7 @@ Final Number of Trials:  99977
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1528,7 +1569,7 @@ Final Number of Trials:  99977
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1543,7 +1584,7 @@ Final Number of Trials:  99977
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1561,7 +1602,8 @@ Final Number of Trials:  99977
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="10.-Non-Stationary-Bandits">10. Non-Stationary Bandits<a class="anchor-link" href="#10.-Non-Stationary-Bandits">&#182;</a></h1><p>What exactly do we mean by nonstationarity?</p>
@@ -1573,12 +1615,17 @@ Final Number of Trials:  99977
 </blockquote>
 <p>Strong-sense stationarity is the type that we are dealing with in the bandit scenario, because each bandit has the same distribution every time we pull its arm. The question is, what if our bandits were not stationary? Would it then make sense to calculate the mean as we have been?</p>
 <h2 id="10.1-Mean-Update-Equation">10.1 Mean Update Equation<a class="anchor-link" href="#10.1-Mean-Update-Equation">&#182;</a></h2><p>Recall the mean update equation that we went over earlier:</p>
-$$\bar{X}_t = (1 - \frac{1}{t})\bar{X}_{t-1} + \frac{1}{t}X_t$$<p>Let's call $\bar{X}$, $Q$ for convenience:
+<p>$$\bar{X}_t = (1 - \frac{1}{t})\bar{X}_{t-1} + \frac{1}{t}X_t$$</p>
+<p>Let's call $\bar{X}$, $Q$ for convenience:
 $$Q_t = \bar{X}_t$$</p>
-$$Q_t = (1 - \frac{1}{t})Q_{t-1} + \frac{1}{t}X_t$$<p>We can rearrange the terms, so that we have the $\frac{1}{t}$ term all by itself:</p>
-$$Q_t = Q_{t-1} - \frac{1}{t}(Q_{t-1} - X_t)$$<p>We can generalize this even further, so that the $\frac{1}{t}$ term is represented by a learning rate $\alpha$, so it kind of looks like gradient descent. The key with this equation is that we don't have to use $\alpha = \frac{1}{t}$ as the learning rate. We can rewrite our above equation as:</p>
-$$Q_t = (1 - \alpha)Q_{t-1} + \alpha X_t$$<p>If we get rid of recurrence:</p>
-$$Q_t = \alpha \sum_{\tau = 0}^t (1 - \alpha)^\tau X_{t - \tau}$$<p>We can now see that $Q$ has an exponentially decaying dependence on $X$. This means that there is more emphasis on recent values of $X$, instead of past values of $X$, so it like a <strong>moving average</strong> or <strong>low pass filter</strong>.</p>
+<p>$$Q_t = (1 - \frac{1}{t})Q_{t-1} + \frac{1}{t}X_t$$</p>
+<p>We can rearrange the terms, so that we have the $\frac{1}{t}$ term all by itself:</p>
+<p>$$Q_t = Q_{t-1} - \frac{1}{t}(Q_{t-1} - X_t)$$</p>
+<p>We can generalize this even further, so that the $\frac{1}{t}$ term is represented by a learning rate $\alpha$, so it kind of looks like gradient descent. The key with this equation is that we don't have to use $\alpha = \frac{1}{t}$ as the learning rate. We can rewrite our above equation as:</p>
+<p>$$Q_t = (1 - \alpha)Q_{t-1} + \alpha X_t$$</p>
+<p>If we get rid of recurrence:</p>
+<p>$$Q_t = \alpha \sum_{\tau = 0}^t (1 - \alpha)^\tau X_{t - \tau}$$</p>
+<p>We can now see that $Q$ has an exponentially decaying dependence on $X$. This means that there is more emphasis on recent values of $X$, instead of past values of $X$, so it like a <strong>moving average</strong> or <strong>low pass filter</strong>.</p>
 
 </div>
 </div>
@@ -1624,7 +1671,7 @@ $$Q_t = \alpha \sum_{\tau = 0}^t (1 - \alpha)^\tau X_{t - \tau}$$<p>We can now s
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1634,7 +1681,7 @@ $$Q_t = \alpha \sum_{\tau = 0}^t (1 - \alpha)^\tau X_{t - \tau}$$<p>We can now s
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1649,7 +1696,7 @@ $$Q_t = \alpha \sum_{\tau = 0}^t (1 - \alpha)^\tau X_{t - \tau}$$<p>We can now s
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1667,27 +1714,17 @@ $$Q_t = \alpha \sum_{\tau = 0}^t (1 - \alpha)^\tau X_{t - \tau}$$<p>We can now s
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Convergence-Criteria-for-Q">Convergence Criteria for Q<a class="anchor-link" href="#Convergence-Criteria-for-Q">&#182;</a></h2><p>There is a very popular result that is often seen in RL literature, which talks about the convergence of $Q$. The result is that $Q$ will converge if the sum of all $\alpha$'s is infinity:</p>
-$$\sum_{t=1}^\infty \alpha(t) = \infty$$<p>And the sum of all of all the squares of the $\alpha$'s is constant:</p>
-$$\sum_{t=1}^\infty \alpha (t)^2 &lt; \infty$$<p>If you think back to calculus, it should be clear that a constant $\alpha$ will <em>not</em> meet these two conditions. However, $\alpha = \frac{1}{t}$ does! The reason that you often see a constant $\alpha$ use is because RL problems are often non stationary, and we do not want convergence! It does not make sense to calculate a sample mean, over every collected sample ever.</p>
+<p>$$\sum_{t=1}^\infty \alpha(t) = \infty$$</p>
+<p>And the sum of all of all the squares of the $\alpha$'s is constant:</p>
+<p>$$\sum_{t=1}^\infty \alpha (t)^2 &lt; \infty$$</p>
+<p>If you think back to calculus, it should be clear that a constant $\alpha$ will <em>not</em> meet these two conditions. However, $\alpha = \frac{1}{t}$ does! The reason that you often see a constant $\alpha$ use is because RL problems are often non stationary, and we do not want convergence! It does not make sense to calculate a sample mean, over every collected sample ever.</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake

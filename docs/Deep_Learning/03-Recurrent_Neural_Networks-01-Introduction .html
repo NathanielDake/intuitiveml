@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,7 +211,8 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="1.-Recurrent-Neural-Networks:-Introduction">1. Recurrent Neural Networks: Introduction<a class="anchor-link" href="#1.-Recurrent-Neural-Networks:-Introduction">&#182;</a></h1><p>As with the notebooks related to Hidden Markov Models, <em><strong>Recurrent Neural Networks</strong></em> are all about learning sequences. But, where Markov Models are limited by the Markov Assumption, Recurrent Neural Networks are <em>not</em>. As a result, they are more expressive and powerful than anything we have seen and haven't made progress on in decades.</p>
 <h2 id="1.1-Outline">1.1 Outline<a class="anchor-link" href="#1.1-Outline">&#182;</a></h2><p>So, what will these notebooks contain, and how will they build on the previous notebooks surrounding Neural Networks and Hidden Markov Models?</p>
@@ -227,21 +232,26 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="2.-Review-of-Import-Deep-Learning-Concepts">2. Review of Import Deep Learning Concepts<a class="anchor-link" href="#2.-Review-of-Import-Deep-Learning-Concepts">&#182;</a></h1><h2 id="2.1-Softmax-Function">2.1 Softmax Function<a class="anchor-link" href="#2.1-Softmax-Function">&#182;</a></h2><p>Let's begin by talking about the Softmax function. The softmax function is what we use to classify <em>two or more</em> classes. It is a bit more complicated to work with than the sigmoid-in particular it's derivative is harder to derive-but, we will let theano and tensorflow take care of that stuff for us. Remeber, all we do here is take an array of numbers, exponentiate them, divide by the sum, and that allows us to interpret the output of the softmax as a probability:</p>
-$$y_k=\frac{e^{a_k}}{\sum_je^{a_j}}$$$$p\big(y=k \mid x \big) =\frac{e^{W_k^T x}}{\sum_je^{W_j^Tx}}$$<p>Where k represents the class $k$ in the output layer. In other words our $y$ output is going to be a  <strong>(kx1)</strong> vector for a single training example, and an <strong>(Nxk)</strong> matrix when computed for the entire training set.</p>
+<p>$$y_k=\frac{e^{a_k}}{\sum_je^{a_j}}$$</p>
+<p>$$p\big(y=k \mid x \big) =\frac{e^{W_k^T x}}{\sum_je^{W_j^Tx}}$$</p>
+<p>Where k represents the class $k$ in the output layer. In other words our $y$ output is going to be a  <strong>(kx1)</strong> vector for a single training example, and an <strong>(Nxk)</strong> matrix when computed for the entire training set.</p>
 <p>In code, it will look like:</p>
 
 <pre><code>def softmax(a):
     expA = np.exp(a)
     return expA / expA.sum(axis=1, keepdims=True)</code></pre>
 <h2 id="2.2-Backpropagation">2.2 Backpropagation<a class="anchor-link" href="#2.2-Backpropagation">&#182;</a></h2><p>All machine learning models have two main functions, prediction and training. Going in the forward direction is how we do prediction, and at the output we get a probability that tells us what the most likely answer is. For training, we use <em><strong>gradient descent</strong></em>. That just means that we take the a cost function (squared error for regression, cross entropy for classification), calculate its derivative with respect to each parameter, and move the parameters slowly in that direction:</p>
-$$W \leftarrow W - \eta \nabla J$$<p>Eventually, we will hit a local minimum and the slope will be 0, so the weights won't change anymore.</p>
+<p>$$W \leftarrow W - \eta \nabla J$$</p>
+<p>Eventually, we will hit a local minimum and the slope will be 0, so the weights won't change anymore.</p>
 <h2 id="2.3-Unsupervised-Learning">2.3 Unsupervised Learning<a class="anchor-link" href="#2.3-Unsupervised-Learning">&#182;</a></h2><p>We have seen that deep networks can be used to find patterns in data that doesn't have labels (i.e. language). We can <em>learn a probability</em> distribution from the data!</p>
 <h2 id="2.4-Markov-Models">2.4 Markov Models<a class="anchor-link" href="#2.4-Markov-Models">&#182;</a></h2><p>Suppose you have a bunch of states; these can represent words in a sentence, the weather, what page of a website you are on, etc. We can define them as:</p>
-$$states = \{ 1,2,...,M\}$$<p>A Markov Model is a model that makes the markov assumption:</p>
+<p>$$states = \{ 1,2,...,M\}$$</p>
+<p>A Markov Model is a model that makes the markov assumption:</p>
 <blockquote><p><strong>The next state only depends on the previous state</strong>: <br>
 <br>
 $$p\big(s(t) \mid s(t-1), s(t-2),...,s(1)\big) = p \big(s(t) \mid s(t-1)\big)$$</p>
@@ -253,19 +263,6 @@ $$p\big(s(t) \mid s(t-1), s(t-2),...,s(1)\big) = p \big(s(t) \mid s(t-1)\big)$$<
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake

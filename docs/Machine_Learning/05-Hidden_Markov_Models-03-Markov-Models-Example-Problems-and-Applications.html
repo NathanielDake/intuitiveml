@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,51 +211,88 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="3.-Markov-Models-Example-Problems">3. Markov Models Example Problems<a class="anchor-link" href="#3.-Markov-Models-Example-Problems">&#182;</a></h1><p>We will now look at a model that examines our state of healthiness vs. being sick. Keep in mind that this is very much like something you could do in real life. If you wanted to model a certain situation or environment, we could take some data that we have gathered, build a maximum likelihood model on it, and do things like study the properties that emerge from the model, or make predictions from the model, or generate the next most likely state.</p>
 <p>Let's say we have 2 states: <strong>sick</strong> and <strong>healthy</strong>. We know that we spend most of our time in a healthy state, so the probability of transitioning from healthy to sick is very low:</p>
-$$p(sick \; | \; healthy) = 0.005$$<p>Hence, the probability of going from healthy to healthy is:</p>
-$$p(healthy \; | \; healthy) = 0.995$$<p>Now, on the other hand the probability of going from sick to sick is also very high. This is because if you just got sick yesterday then you are very likely to be sick tomorrow.</p>
-$$p(sick \; | \; sick) = 0.8$$<p>However, the probability of transitioning from sick to healthy should be higher than the reverse, because you probably won't stay sick for as long as you would stay healthy:</p>
-$$p(healthy \; | \; sick) = 0.02$$<p>We have now fully defined our state transition matrix, and we can now do some calculations.</p>
+<p>$$p(sick \; | \; healthy) = 0.005$$</p>
+<p>Hence, the probability of going from healthy to healthy is:</p>
+<p>$$p(healthy \; | \; healthy) = 0.995$$</p>
+<p>Now, on the other hand the probability of going from sick to sick is also very high. This is because if you just got sick yesterday then you are very likely to be sick tomorrow.</p>
+<p>$$p(sick \; | \; sick) = 0.8$$</p>
+<p>However, the probability of transitioning from sick to healthy should be higher than the reverse, because you probably won't stay sick for as long as you would stay healthy:</p>
+<p>$$p(healthy \; | \; sick) = 0.02$$</p>
+<p>We have now fully defined our state transition matrix, and we can now do some calculations.</p>
 <h2 id="1.1-Example-Calculations">1.1 Example Calculations<a class="anchor-link" href="#1.1-Example-Calculations">&#182;</a></h2><h3 id="1.1.1">1.1.1<a class="anchor-link" href="#1.1.1">&#182;</a></h3><p>What is the probability of being healthy for 10 days in a row, given that we already start out as healthy? Well that is:</p>
-$$p(healthy \; 10 \; days \; in \; a \; row \; | \; healthy \; at \; t=0) = 0.995^9 = 95.6 \%$$<p>How about the probability of being healthy for 100 days in a row?</p>
-$$p(healthy \; 100 \; days \; in \; a \; row \; | \; healthy \; at \; t=0) = 0.995^{99} = 60.9 \%$$
+<p>$$p(healthy \; 10 \; days \; in \; a \; row \; | \; healthy \; at \; t=0) = 0.995^9 = 95.6 \%$$</p>
+<p>How about the probability of being healthy for 100 days in a row?</p>
+<p>$$p(healthy \; 100 \; days \; in \; a \; row \; | \; healthy \; at \; t=0) = 0.995^{99} = 60.9 \%$$</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.-Expected-Number-of-Continuously-Sick-Days">2. Expected Number of Continuously Sick Days<a class="anchor-link" href="#2.-Expected-Number-of-Continuously-Sick-Days">&#182;</a></h2><p>We can now look at the expected number of days that you would remain in the same state (e.g. how many days would you expect to stay sick given the model?). This is a bit more difficult than the last problem, but completely doable, only involving the mathematics of <a href="https://en.wikipedia.org/wiki/Geometric_series">infinite sums</a>.</p>
 <p>First, we can look at the probability of being in state $i$, and going to state $i$ in the next state. That is just $A(i,i)$:</p>
-$$p \big(s(t)=i \; | \; s(t-1)=i \big) = A(i, i)$$<p>Now, what is the probability distribution that we actually want to calculate? How about we calculate the probability that we stay in state $i$ for $n$ transitions, at which point we move to another state:</p>
-$$p \big(s(t) \;!=i \; | \; s(t-1)=i \big) = 1 - A(i, i)$$<p>So, the joint probability that we are trying to model is:</p>
-$$p\big(s(1)=i, s(2)=i,...,s(n)=i, s(n+1) \;!= i\big) = A(i,i)^{n-1}\big(1-A(i,i)\big)$$<p>In english this means that we are multiplying the transition probability of staying in the same state, $A(i,i)$, times the number of times we stayed in the same state, $n$, (note it is $n-1$ because we are given that we start in that state, hence there is no transition associated with it) times $1 - A(i,i)$, the probability of transitioning from that state. This leaves us with an expected value for $n$ of:</p>
-$$E(n) = \sum np(n) = \sum_{n=1..\infty} nA(i,i)^{n-1}(1-A(i,i))$$<p>Note, in the above equation $p(n)$ is the probability that we will see state $i$ $n-1$ times after starting from $i$ and then see a state that is not $i$. Also, we know that the expected value of $n$ should be the sum of all possible values of $n$ times $p(n)$.</p>
+<p>$$p \big(s(t)=i \; | \; s(t-1)=i \big) = A(i, i)$$</p>
+<p>Now, what is the probability distribution that we actually want to calculate? How about we calculate the probability that we stay in state $i$ for $n$ transitions, at which point we move to another state:</p>
+<p>$$p \big(s(t) \;!=i \; | \; s(t-1)=i \big) = 1 - A(i, i)$$</p>
+<p>So, the joint probability that we are trying to model is:</p>
+<p>$$p\big(s(1)=i, s(2)=i,...,s(n)=i, s(n+1) \;!= i\big) = A(i,i)^{n-1}\big(1-A(i,i)\big)$$</p>
+<p>In english this means that we are multiplying the transition probability of staying in the same state, $A(i,i)$, times the number of times we stayed in the same state, $n$, (note it is $n-1$ because we are given that we start in that state, hence there is no transition associated with it) times $1 - A(i,i)$, the probability of transitioning from that state. This leaves us with an expected value for $n$ of:</p>
+<p>$$E(n) = \sum np(n) = \sum_{n=1..\infty} nA(i,i)^{n-1}(1-A(i,i))$$</p>
+<p>Note, in the above equation $p(n)$ is the probability that we will see state $i$ $n-1$ times after starting from $i$ and then see a state that is not $i$. Also, we know that the expected value of $n$ should be the sum of all possible values of $n$ times $p(n)$.</p>
 <h3 id="2.1-Expected-$n$">2.1 Expected $n$<a class="anchor-link" href="#2.1-Expected-$n$">&#182;</a></h3><p>So, we can now expand this function and calculate the two sums separately.</p>
-$$E(n) = \sum_{n=1..\infty}nA(i,i)^{n-1}(1 - A(i,i)) = \sum nA(i, i)^{n-1} - \sum nA(i,i)^n$$<p><strong>First Sum</strong><br>
+<p>$$E(n) = \sum_{n=1..\infty}nA(i,i)^{n-1}(1 - A(i,i)) = \sum nA(i, i)^{n-1} - \sum nA(i,i)^n$$</p>
+<p><strong>First Sum</strong><br>
 With our first sum, we can say that:</p>
-$$S = \sum na(i, i)^{n-1}$$$$S = 1 + 2a + 3a^2 + 4a^3+ ...$$<p>And we can then multiply that sum, $S$, by $a$, to get:</p>
-$$aS = a + 2a^2 + 3a^3 + 4a^4+...$$<p>And then we can subtract $aS$ from $S$:</p>
-$$S - aS = S'= 1 + a + a^2 + a^3+...$$<p>This $S'$ is another infinite sum, but it is one that is much easier to solve!</p>
-$$S'= 1 + a + a^2 + a^3+...$$<p>And then $aS'$ is:</p>
-$$aS' = a + a^2 + a^3+ + a^4 + ...$$<p>Which, when we then do $S' - aS'$, we end up with:</p>
-$$S' - aS' = 1$$$$S' = \frac{1}{1 - a}$$<p>And if we then substitute that value in for $S'$ above:</p>
-$$S - aS = S'= 1 + a + a^2 + a^3+... = \frac{1}{1 - a}$$$$S - aS = \frac{1}{1 - a}$$$$S = \frac{1}{(1 - a)^2}$$<p><strong>Second Sum</strong><br>
+<p>$$S = \sum na(i, i)^{n-1}$$</p>
+<p>$$S = 1 + 2a + 3a^2 + 4a^3+ ...$$</p>
+<p>And we can then multiply that sum, $S$, by $a$, to get:</p>
+<p>$$aS = a + 2a^2 + 3a^3 + 4a^4+...$$</p>
+<p>And then we can subtract $aS$ from $S$:</p>
+<p>$$S - aS = S'= 1 + a + a^2 + a^3+...$$</p>
+<p>This $S'$ is another infinite sum, but it is one that is much easier to solve!</p>
+<p>$$S'= 1 + a + a^2 + a^3+...$$</p>
+<p>And then $aS'$ is:</p>
+<p>$$aS' = a + a^2 + a^3+ + a^4 + ...$$</p>
+<p>Which, when we then do $S' - aS'$, we end up with:</p>
+<p>$$S' - aS' = 1$$</p>
+<p>$$S' = \frac{1}{1 - a}$$</p>
+<p>And if we then substitute that value in for $S'$ above:</p>
+<p>$$S - aS = S'= 1 + a + a^2 + a^3+... = \frac{1}{1 - a}$$</p>
+<p>$$S - aS = \frac{1}{1 - a}$$</p>
+<p>$$S = \frac{1}{(1 - a)^2}$$</p>
+<p><strong>Second Sum</strong><br>
 We can now look at our second sum:</p>
-$$S = \sum na(i,i)^n$$$$S = 1a + 2a^2 + 3a^3 +...$$$$Sa = 1a^2 + 2a^3 +...$$$$S - aS = S' = a + a^2 + a^3 + ...$$$$aS' = a^2 + a^3 + a^4 +...$$$$S' - aS' = a$$$$S' = \frac{a}{1 - a}$$<p>And we can plug back in $S'$ to get:</p>
-$$S - aS = \frac{a}{1 - a}$$$$S = \frac{a}{(1 - a)^2}$$<p><strong>Combine</strong> <br>
+<p>$$S = \sum na(i,i)^n$$</p>
+<p>$$S = 1a + 2a^2 + 3a^3 +...$$</p>
+<p>$$Sa = 1a^2 + 2a^3 +...$$</p>
+<p>$$S - aS = S' = a + a^2 + a^3 + ...$$</p>
+<p>$$aS' = a^2 + a^3 + a^4 +...$$</p>
+<p>$$S' - aS' = a$$</p>
+<p>$$S' = \frac{a}{1 - a}$$</p>
+<p>And we can plug back in $S'$ to get:</p>
+<p>$$S - aS = \frac{a}{1 - a}$$</p>
+<p>$$S = \frac{a}{(1 - a)^2}$$</p>
+<p><strong>Combine</strong> <br>
 We can now combine these two sums as follows:</p>
-$$E(n) = \frac{1}{(1 - a)^2} - \frac{a}{(1-a)^2}$$$$E(n) = \frac{1}{1-a}$$<p><strong>Calculate Number of Sick Days</strong><br>
+<p>$$E(n) = \frac{1}{(1 - a)^2} - \frac{a}{(1-a)^2}$$</p>
+<p>$$E(n) = \frac{1}{1-a}$$</p>
+<p><strong>Calculate Number of Sick Days</strong><br>
 So, how do we calculate the correct number of sick days? That is just:</p>
-$$\frac{1}{1 - 0.8} = 5$$
+<p>$$\frac{1}{1 - 0.8} = 5$$</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="3.-SEO-and-Bounce-Rate-Optimization">3. SEO and Bounce Rate Optimization<a class="anchor-link" href="#3.-SEO-and-Bounce-Rate-Optimization">&#182;</a></h2><p>We are now going to look at SEO and Bounch Rate Optimization. This is a problem that every developer and website owner can relate to. You have a website and obviously you would like to increase traffic, increase conversions, and avoid a high bounce rate (which could lead to google assigning your page a low ranking). What would a good way of modeling this data be? Without even looking at any code we can look at some examples of things that we want to know, and how they relate to markov models.</p>
 <h3 id="3.1-Arrival">3.1 Arrival<a class="anchor-link" href="#3.1-Arrival">&#182;</a></h3><p>First and foremost, how do people arrive on your page? Is it your home page? Your landing page? Well, this is just the very first page of what is hopefully a sequence of pages. So, the markov analogy here is that this is just the initial state distribution or $\pi$. So, once we have our markov model, the $\pi$ vector will tell us which of our pages a user is most likely to start on.</p>
@@ -276,7 +317,7 @@ $$\frac{1}{1 - 0.8} = 5$$
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -317,7 +358,7 @@ $$\frac{1}{1 - 0.8} = 5$$
     <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Bounce rate for </span><span class="si">{s}</span><span class="s1">: </span><span class="si">{v}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -327,7 +368,7 @@ $$\frac{1}{1 - 0.8} = 5$$
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -361,7 +402,8 @@ Bounce rate for 9: 0.13176232104396302
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that page with <code>id</code> 9 has the highest value in the initial state distribution, so we are most likely to start on that page. We can then see that the page with highest bounce rate is also at page <code>id</code> 9.</p>
 
@@ -369,7 +411,8 @@ Bounce rate for 9: 0.13176232104396302
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="4.-Build-a-2nd-order-language-model-and-generate-phrases">4. Build a 2nd-order language model and generate phrases<a class="anchor-link" href="#4.-Build-a-2nd-order-language-model-and-generate-phrases">&#182;</a></h2><p>So, we are now going to work with non first order markov chains for a little bit. In this example we are going to try and create a language model. So we are going to first train a model on some data to determine the distribution of a word given the previous two words. We can then use this model to generate new phrases. Note that another step of this model would be to calculate the probability of a phrase.</p>
 <p>So the data that we are going to look at is just a collection of Robert Frost Poems. It is just a text file with all of the poems concatenated together. So, the first thing we are going to want to do is tokenize each sentence, and remove punctuation. It will look similar to this:</p>
@@ -424,7 +467,7 @@ I love cats</code></pre>
 <span class="kn">import</span> <span class="nn">string</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -524,7 +567,7 @@ I love cats</code></pre>
 <span class="n">generate</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -534,7 +577,7 @@ I love cats</code></pre>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -551,7 +594,8 @@ where he can eat off a barrel from the sense of our having been together
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="5.-Google's-PageRank-Algorithm">5. Google's PageRank Algorithm<a class="anchor-link" href="#5.-Google's-PageRank-Algorithm">&#182;</a></h2><p>Markov models were even used in Google's PageRank algorithm. The basic problem we face is:</p>
 <blockquote><ul>
@@ -562,7 +606,9 @@ where he can eat off a barrel from the sense of our having been together
 </blockquote>
 <p>How can we go about doing this? Well, we can think of a webpage as a sequence, and the page you are on as the state. Where does the ranking come from? Well, the ranking actually comes from the limiting distribution. That is, in the long run, the proportion of visits that will be spent on this page. Now, if you think "great that is all I need to know", slow down. How can we actually do this in practice? How do we train the markov model, and what are the values we assign to the state transition matrix? And how can we ensure that the limiting distribution exists and is unique? The key insight was that <strong>we can use the linked structure of the web to determine the ranking</strong>.</p>
 <p>The main idea is that a <em>link to a page</em> is like a <em>vote for its importance</em>. So, as a first attempt we could just use a frequency count to measure the votes. Of course, that wouldn't be a valid probability distribution, so we could just divide each row by its sum to make it sum to 1. So we set:</p>
-$$A(i, j) = \frac{1}{n(i)} \; if \; i \; links \; to \; j$$$$A(i, j) = 0 \; otherwise$$<p>Here $n(i)$ stands for the total number of links on a page, and you can confirm that the sum of a row is $\frac{n(i)}{n(i)} = 1$, so this is a valid markov matrix. Now, we still aren't sure if the limiting distribution is unique.</p>
+<p>$$A(i, j) = \frac{1}{n(i)} \; if \; i \; links \; to \; j$$
+$$A(i, j) = 0 \; otherwise$$</p>
+<p>Here $n(i)$ stands for the total number of links on a page, and you can confirm that the sum of a row is $\frac{n(i)}{n(i)} = 1$, so this is a valid markov matrix. Now, we still aren't sure if the limiting distribution is unique.</p>
 <h3 id="5.1-This-is-already-a-good-start">5.1 This is already a good start<a class="anchor-link" href="#5.1-This-is-already-a-good-start">&#182;</a></h3><p>Let's keep in mind that the above solution already solves a few problems. For instance, let's say you are a spammer and you want to sell 1000 links on your webpage. Well, because the transition matrix must remain a valid probability matrix, the rows must sum to 1, which means that each of your links now only has a strength of $\frac{1}{1000}$. For example the frequency matrix would look like:</p>
 <table>
 <thead><tr>
@@ -610,7 +656,8 @@ $$A(i, j) = \frac{1}{n(i)} \; if \; i \; links \; to \; j$$$$A(i, j) = 0 \; othe
 </blockquote>
 <p>In fact, we can start in any initial state and as time approaches infinity we will always end up with the same stationary distribution, therefore this is also the limiting distribution.</p>
 <p>So, how can we satisfy the PF criterion? Let's return to this idea of <strong>smoothing</strong>, which we first talked about when discussing how to train a markov model. The basic idea was that we can make things that were 0, non-zero, so there is still a small possibility that we can get to that state. This might be good news for the spammer. So, we can create a uniform probability distribution $U = \frac{1}{M}$, which is an $M x M$ matrix ($M$ is the number of states). PageRanks solution was to take the matrix we had before and multiply it by 0.85, and to take the uniform distribution and multiply it by 0.15, and add them together to get the final pagerank matrix.</p>
-$$G = 0.85A + 0.15U$$<p>Now all of the elements are strictly positive, and we can convince ourselves that G is still a valid markov matrix.</p>
+<p>$$G = 0.85A + 0.15U$$</p>
+<p>Now all of the elements are strictly positive, and we can convince ourselves that G is still a valid markov matrix.</p>
 
 </div>
 </div>

@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,13 +211,14 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="1.-Working-With-Word-Vectors">1. Working With Word Vectors<a class="anchor-link" href="#1.-Working-With-Word-Vectors">&#182;</a></h1><p>In the introduction section we went over some very basic NLP techniques, and more importantly gained an understanding for how to apply <em>basic</em> machine learning models and APIs to the a problem revolving around text data.</p>
 <p>One of the things that we went over was the <strong>term-document matrix</strong>, and how it could be utilized in our process of converting text data to numerical data, so a model can understand it. Well, one of the things that we did not discuss is there is a slight problem with that method, namely its simple counting process. One of the things that tends to happen is that words such as "a", "the", "and", "in", "to", etc, have a high count for ALL documents, no matter what the category is! This is a very large amount of noise that will often overshadow the meaningful words.</p>
 <p>These words are known as <strong>stopwords</strong> and one common technique is to just remove them from the dataset before doing any machine learning.</p>
 <h3 id="1.1-TF-IDF">1.1 TF-IDF<a class="anchor-link" href="#1.1-TF-IDF">&#182;</a></h3><p>However, there is another technique that we can utilize: <strong>Term Frequency-Inverse Document Frequency</strong>, (TF-IDF). We will not go into the full details of TF-IDF, however, the jist is as follows: We know that words that appear in many documents are probably less meaningful. With this in mind, we can weight each vector component (in this case a word) by something related to how many documents that word appears in. So, intuitively speaking, we may do something like:</p>
-$$\frac{\text{raw word count}}{\text{document count}}$$<p></p>
+<p>$$\frac{\text{raw word count}}{\text{document count}}$$</p>
 <p>So, the numerator tells us <em>how many times does this word appear in this document</em>, and the denominator tells us <em>how many documents does this word appear in, in total</em>. Now, in practice we do some transformations on these, like taking the log count, smoothing, and so on. However, the specific implementation isn't nearly as important for this course as is the general understand behind the process.</p>
 <h3 id="1.2-Key-Point">1.2 Key Point<a class="anchor-link" href="#1.2-Key-Point">&#182;</a></h3><p>One of the most important things to keep in mind during all subsequent posts is that no matter what technique we are using, we are always interested in a matrix of size $(V x D)$, where $V$ is the vocabulary size (the number of total words), and $D$ is the vector dimensionality, which if we are doing something like counting up the total number of times a word appears in a set of books, $D$ is the total number of books.</p>
 <h3 id="1.3-Word-Embeddings">1.3 Word Embeddings<a class="anchor-link" href="#1.3-Word-Embeddings">&#182;</a></h3><p>A final thing to note, we are going to encounter the term <strong>Word-Embedding</strong> quite a bit. This is just a fancy word for an old and relatively straight forward concept. A word-embedding is just a fancy name for a feature vector that represents a word. In other words, we can take a categorical object-a word in this case-and then map this object to a list of numbers (in other words, a vector). We say that we have embedded this word into a vector space, and that is why we call them word embeddings.</p>
@@ -222,7 +227,8 @@ $$\frac{\text{raw word count}}{\text{document count}}$$<p></p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="2.-Word-Analogy">2. Word Analogy<a class="anchor-link" href="#2.-Word-Analogy">&#182;</a></h1><p>One of the most popular applications of word embeddings is <strong>word analogies</strong>. This is where the famous <code>king - man = queen - woman</code> comes from.</p>
 <p><img src="https://drive.google.com/uc?id=1mlFNZ-GeyzawODRG4Fl0p05fXPSBwOLp" width="700"></p>
@@ -251,8 +257,12 @@ $$\frac{\text{raw word count}}{\text{document count}}$$<p></p>
 <p>Now, we know that a vector has two components: a direction and a magnitude. So, when we say that these two vectors are approximately the same, what we are really saying is that their magnitude and direction are very close to one another. This can be visualized below.</p>
 <p><img src="https://drive.google.com/uc?id=1toGKPnF6d51GBxUB15w0wYI6PDyZc2oU" width="300"></p>
 <h3 id="2.2-How-to-find-analogies?">2.2 How to find analogies?<a class="anchor-link" href="#2.2-How-to-find-analogies?">&#182;</a></h3><p>With that said, how do we actually we find word analogies? Well, we know that their are four words in every analogy. So, what we can do is take three of these words and try to find the fourth word. So, we have an input of three words, and an output of the fourth word. Notice that we because we are dealing entirely with vectors, we can just rearrange our equation as follows:</p>
-$$\text{King - Man = ? - Woman}$$$$\downarrow$$$$\text{King - Man + Woman = ?}$$<p>We know that the $?$ is representing <code>Queen</code>, however we will refer to it as <code>SomeVector</code> for the time being.</p>
-$$\text{King - Man + Woman = SomeVector}$$<p>So, our job is to find the word that is most closely associated with <code>SomeVector</code>. We will do this utilizing <em>distance</em>. In pseudocode this may look like:</p>
+<p>$$\text{King - Man = ? - Woman}$$</p>
+<p>$$\downarrow$$</p>
+<p>$$\text{King - Man + Woman = ?}$$</p>
+<p>We know that the $?$ is representing <code>Queen</code>, however we will refer to it as <code>SomeVector</code> for the time being.</p>
+<p>$$\text{King - Man + Woman = SomeVector}$$</p>
+<p>So, our job is to find the word that is most closely associated with <code>SomeVector</code>. We will do this utilizing <em>distance</em>. In pseudocode this may look like:</p>
 
 <pre><code>closest_distance = infinity
 best_word = None
@@ -264,19 +274,24 @@ for word, vector in vocabulary:
         best_word = word</code></pre>
 <p>Note that utilizing a <code>for</code> loop will be very slow, and we will of course want to vectorize this process utilizing <code>numpy</code>.</p>
 <p>Now, we did not define <code>get_distance</code> in the above pseudocode. We have a variety of options when deciding how to calculate distance. Sometimes, we will simply use <em>Euclidean Distance</em>:</p>
-$$\text{Euclidean Distance: } ||a - b||^2$$<p>It is also common to use the <em>cosine distance</em>:</p>
-$$\text{Cosine Distance: } cosine\_distance(a, b) = \frac{1 - a^Tb}{||a|| \; ||b||}$$<p>In this later form, since only the angle matters, because:</p>
-$$a^Tb = ||a|| \; ||b|| cos(a,b)$$<p></p>
+<p>$$\text{Euclidean Distance: } ||a - b||^2$$</p>
+<p>It is also common to use the <em>cosine distance</em>:</p>
+<p>$$\text{Cosine Distance: } cosine\_distance(a, b) = \frac{1 - a^Tb}{||a|| \; ||b||}$$</p>
+<p>In this later form, since only the angle matters, because:</p>
+<p>$$a^Tb = ||a|| \; ||b|| cos(a,b)$$</p>
 <p>During training we normalize all of the word vectors so that their length is 1:</p>
-$$cos(0) = 1, \; cos(90) = 0, \; cos(180) = -1$$<p>When two vectors are closer, $cos(\theta)$ is bigger. So, we want our distance to be:</p>
-$$\text{Distance} = 1 - cos(\theta)$$<p>At this point we can say that all of the word embeddings lie on the unit sphere.</p>
+<p>$$cos(0) = 1, \; cos(90) = 0, \; cos(180) = -1$$</p>
+<p>When two vectors are closer, $cos(\theta)$ is bigger. So, we want our distance to be:</p>
+<p>$$\text{Distance} = 1 - cos(\theta)$$</p>
+<p>At this point we can say that all of the word embeddings lie on the unit sphere.</p>
 <h3 id="2.3-Why-is-this-so-cool?">2.3 Why is this so cool?<a class="anchor-link" href="#2.3-Why-is-this-so-cool?">&#182;</a></h3><p>One pretty interesting fact about neural word embedding algorithms is that <em>they can find these analogies at all</em>. Once we have covered these algorithms, specifically <em><strong>word2vec</strong></em> and <em><strong>GloVe</strong></em>, it will become clear that these algorithms have no concept of analogies; in other words, what they want to optimize is totally unrelated to word analogies. So, the fact that word analogies suddenly emerge out of the training process is very intruiging. Remember, in all cases we are still dealing with a $VxD$ word embedding matrix. This is the case whether we are just using raw word counts, TF-IDF, or word2vec. Yet, raw word counts and TF-IDF do <em>not</em> give us good analogies. So, the fact that good word analogies emerge from the model and training process of word2vec is a very interesting research area.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="3.-Pretrained-word-vectors-from--GloVe">3. Pretrained word vectors from  GloVe<a class="anchor-link" href="#3.-Pretrained-word-vectors-from--GloVe">&#182;</a></h1><p>We are now going to take a look at some pretrained word vectors found by researchers at Stanford, who also created the <code>GloVe</code> algorithm. We will be studying <code>GloVe</code> shortly, but I want to to give some motivation and intuition before we do. We start with <code>GloVe</code> and not <code>Word2Vec</code> because the vectors are provided in plain text, and with a smaller vocabulary than the pretrained <code>Word2Vec</code> vectors. This has some advantages:</p>
 <ol>
@@ -297,7 +312,7 @@ $$\text{Distance} = 1 - cos(\theta)$$<p>At this point we can say that all of the
 <span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="k">import</span> <span class="n">pairwise_distances</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -377,13 +392,14 @@ $$\text{Distance} = 1 - cos(\theta)$$<p>At this point we can say that all of the
     <span class="k">return</span> <span class="s1">&#39;&#39;</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we can load in the pretrained word vectors:</p>
 
@@ -414,7 +430,7 @@ $$\text{Distance} = 1 - cos(\theta)$$<p>At this point we can say that all of the
 <span class="n">V</span><span class="p">,</span> <span class="n">D</span> <span class="o">=</span> <span class="n">embedding</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -424,7 +440,7 @@ $$\text{Distance} = 1 - cos(\theta)$$<p>At this point we can say that all of the
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -479,7 +495,7 @@ Found 400000 word vectors.
 <span class="nb">print</span><span class="p">(</span><span class="n">nearest_neighbors</span><span class="p">(</span><span class="s1">&#39;rome&#39;</span><span class="p">))</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -489,7 +505,7 @@ Found 400000 word vectors.
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -583,7 +599,8 @@ Neighbors of: rome
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So, from the above we can see that for the most part, these vectors make a lot of sense and could prove to be very powerful!</p>
 
@@ -591,7 +608,8 @@ Neighbors of: rome
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="4.-Text-Classification-with-word-vectors">4. Text Classification with word vectors<a class="anchor-link" href="#4.-Text-Classification-with-word-vectors">&#182;</a></h1><p>We are now going to see how we could apply pretrained word vectors in order to do text classification. Unlike the remaining walkthroughs in section 2, we are going to use a bag of words model. What this means is that <code>toy dog</code> would be represented in the same way as <code>dog toy</code>, even though we know they have different meanings. In other words, we do not consider the order of the words. A few examples of bag of words that we have seen already are word counting and <code>TF-IDF</code>.</p>
 <h2 id="4.1-Bag-of-Words">4.1 Bag-of-Words<a class="anchor-link" href="#4.1-Bag-of-Words">&#182;</a></h2><p>So, how can we apply word vectors (such as what we would get from <code>word2vec</code> and <code>GloVe</code>) to bag-of-words. Well, it is quite simple; we know that we would like to represent a sentence, or document, as a single vector. First, for each word in the sentence, we can use our list of word vectors to get a vector. Then, we can just take the average of all of those word vectors; in other words, we add up all the word vectors, and divide by the number of vectors.</p>
@@ -602,7 +620,8 @@ Neighbors of: rome
 
 <pre><code>Feature_vector = [vec('I') + vec('like') + vec('eggs')] / 3</code></pre>
 <p>Mathematically we can write this as:</p>
-$$feature = \frac{1}{|sentence|} \sum_{w \in sentence} vec(w)$$<h2 id="4.2-Perform-Classification">4.2 Perform Classification<a class="anchor-link" href="#4.2-Perform-Classification">&#182;</a></h2><p>At this point we are able to convert each document in our data set into a single feature vector, now what? Well, it is actually very simple! We can take this representation and plug it into any supervised machine learning classifier, such as Naive Bayes, Logistic Regression, Random Forest, Extra Trees (found in Scikit-Learn), etc! This is due to the standard classifcation api that scikit learn provides, namely:</p>
+<p>$$feature = \frac{1}{|sentence|} \sum_{w \in sentence} vec(w)$$</p>
+<h2 id="4.2-Perform-Classification">4.2 Perform Classification<a class="anchor-link" href="#4.2-Perform-Classification">&#182;</a></h2><p>At this point we are able to convert each document in our data set into a single feature vector, now what? Well, it is actually very simple! We can take this representation and plug it into any supervised machine learning classifier, such as Naive Bayes, Logistic Regression, Random Forest, Extra Trees (found in Scikit-Learn), etc! This is due to the standard classifcation api that scikit learn provides, namely:</p>
 
 <pre><code>model = Model()
 model.fit(X_train,Y_train)
@@ -614,7 +633,8 @@ model.score(X_test, Y_test)</code></pre>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="4.4-Text-Classification-in-Code">4.4 Text Classification in Code<a class="anchor-link" href="#4.4-Text-Classification-in-Code">&#182;</a></h2><p>For this next portion we will be utilizing a text data set that can be found <a href="https://www.cs.umb.edu/~smimarog/textmining/datasets/">here</a>.</p>
 
@@ -635,7 +655,7 @@ model.score(X_test, Y_test)</code></pre>
 <span class="kn">from</span> <span class="nn">gensim.models</span> <span class="k">import</span> <span class="n">KeyedVectors</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -651,7 +671,7 @@ model.score(X_test, Y_test)</code></pre>
 <span class="n">test</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">]</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -713,7 +733,7 @@ model.score(X_test, Y_test)</code></pre>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>        
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -732,7 +752,7 @@ model.score(X_test, Y_test)</code></pre>
 <span class="n">Ytest</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">label</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -742,7 +762,7 @@ model.score(X_test, Y_test)</code></pre>
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -770,7 +790,7 @@ Number of samples with no words found: 0 / 2189
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;test score:&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span><span class="p">))</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -780,7 +800,7 @@ Number of samples with no words found: 0 / 2189
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -795,25 +815,13 @@ test score: 0.9346733668341709
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that our glove vectors ended up performing well in the final Random Forest classification! This is a useful metric to show that our individual word vectors worked well.</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake

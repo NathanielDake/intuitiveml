@@ -195,6 +195,10 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
+<li>
+  <a href="../Projects.html">Projects</a>
+</li>
+        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -207,7 +211,8 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="1.-Composition-of-Functions">1. Composition of Functions<a class="anchor-link" href="#1.-Composition-of-Functions">&#182;</a></h1><p>This is a post that I have been excited to write for some time now. I realize that if you are reading this blog you most likely already have good handle on what a <strong>function</strong> is; both in the context's of mathematics and computer science. However, I recently saw just how shallow my own understanding was during my quest to understand the history of the <strong>normal distribution</strong>.</p>
 <p>For those unfamiliar, I highly recommend go through my post on the subject (in the mathematics/statistics section), but for the sake of making this post 100% stand alone, I will provide a brief background; it is essential in setting the stage for the problem that we are trying to solve. Please keep in mind that the purpose of this notebook is <em>not</em> to discuss statistics and probably distributions; these curves are simply being used as lens for which we can think about functions, function compositions, and how functions are discovered.</p>
@@ -222,7 +227,8 @@ body {
 <li>It plays a large role in <strong>statistical inference</strong> based on its use in the central limit theorem.</li>
 </ul>
 <p>Mathematically, the Normal Distribution is defined as follows:</p>
-$$f(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} exp(-\frac{(x-\mu)^2}{2\sigma^2})$$<p>Where $\mu$ is the <strong>mean</strong>/<strong>expectation</strong> of the distribution, $\sigma$ is the <strong>standard deviation</strong>, and $\sigma^2$ is the <strong>variance</strong>. If you are rusty on your understanding of the prior term's definitions, I recommend reviewing my previous post. It is worth noting that the normal distribution is parameterized by $\mu$ and $\sigma^2$, and it can be stated verbally as:</p>
+<p>$$f(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} exp(-\frac{(x-\mu)^2}{2\sigma^2})$$</p>
+<p>Where $\mu$ is the <strong>mean</strong>/<strong>expectation</strong> of the distribution, $\sigma$ is the <strong>standard deviation</strong>, and $\sigma^2$ is the <strong>variance</strong>. If you are rusty on your understanding of the prior term's definitions, I recommend reviewing my previous post. It is worth noting that the normal distribution is parameterized by $\mu$ and $\sigma^2$, and it can be stated verbally as:</p>
 <blockquote><p>It is a curve representing the probability distribution of the random variable $x$ given $\mu$ and $\sigma^2$.</p>
 </blockquote>
 <p>There is one point of confusion that isn't particulary important for our purposes, but that I will cover for clarity:</p>
@@ -252,7 +258,7 @@ $$f(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} exp(-\frac{(x-\mu)^2
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -278,7 +284,7 @@ $$f(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} exp(-\frac{(x-\mu)^2
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -288,7 +294,7 @@ $$f(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} exp(-\frac{(x-\mu)^2
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -308,7 +314,8 @@ height=408
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The graph above is incredibly important to keep in mind throughout this post! Take a moment to think above how on earth this was derived? Likewise, think about the shape (bell shape)-how would you take an input and transform it to have that shape?</p>
 <p>That was the problem that <strong><a href="https://en.wikipedia.org/wiki/Abraham_de_Moivre">Abraham de Moivre</a></strong> faced in the mid 1700's. He and many colleagues, had observered that certain random processes began to take on the <strong>binomial distribution</strong> when repeated many times (green discrete distribution below).</p>
@@ -353,7 +360,7 @@ height=408
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -363,7 +370,7 @@ height=408
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -383,7 +390,8 @@ height=408
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Which brings us to our main goal in this post, that is to answer the following:</p>
 <blockquote><p>How would <em>you</em> derive the equation of the red curve in the above plot?</p>
@@ -394,13 +402,17 @@ height=408
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.-Functions:-Mapping-input-to-response">2. Functions: Mapping <em>input</em> to <em>response</em><a class="anchor-link" href="#2.-Functions:-Mapping-input-to-response">&#182;</a></h2><p>Forget $x$'s and $y$'s for the moment, forget equations that have been rotely memorized. What is a function, and why would we even need one?</p>
 <p>Well let's consider the real world scenario where you are trying to buy a car. Let's say you know that the car was made in 2010 and it has 100,000 miles on it. Intuitively, and without even realizing it, you create a function that maps those features of the car, to what you feel it is worth. Maybe you think that car is worth 4,000 dollars. That means that in some way you decided in your head that there is a function, which we can call $Car \;Price \;Estimator$:</p>
-$$Function = Car \; Price \; Estimator $$<p>And it takes two inputs, the year it was made and the number of miles on it:</p>
-$$Car \; Price \; Estimator (Year \; made, number \; of \; miles)$$<p>And that yielded an output, of 4,000 dollars:</p>
-$$Car \; Price \; Estimator (2010, 100000 \;miles) = 4000 \; dollars$$<p>This can be seen visually as well:</p>
+<p>$$Function = Car \; Price \; Estimator $$</p>
+<p>And it takes two inputs, the year it was made and the number of miles on it:</p>
+<p>$$Car \; Price \; Estimator (Year \; made, number \; of \; miles)$$</p>
+<p>And that yielded an output, of 4,000 dollars:</p>
+<p>$$Car \; Price \; Estimator (2010, 100000 \;miles) = 4000 \; dollars$$</p>
+<p>This can be seen visually as well:</p>
 <p><br>
 <img src="https://drive.google.com/uc?id=1nzWv2dubxT8dLgOcF_fR07uUqiyM74X4" width="600">
 <br></p>
@@ -409,20 +421,27 @@ $$Car \; Price \; Estimator (2010, 100000 \;miles) = 4000 \; dollars$$<p>This ca
 <ol>
 <li>We can create functions that define the relationship between certain images of tumor cells and whether or not the patient actually has cancer</li>
 </ol>
-$$Function = Cancer \; Detector$$$$Cancer \; Detector(\text{Image of tumor cells}) \rightarrow \text{Patient has cancer, yes or no}$$<ol>
+<p>$$Function = Cancer \; Detector$$</p>
+<p>$$Cancer \; Detector(\text{Image of tumor cells}) \rightarrow \text{Patient has cancer, yes or no}$$</p>
+<ol>
 <li>We can create functions that take in thousands of pixels associated with image and then determine what is in that image</li>
 </ol>
-$$Function = Image \; Classifier$$$$Image \; Classifier(\text{Image of dog on a boat}) \rightarrow \text{Image contains: Dog, boat}$$<ol>
+<p>$$Function = Image \; Classifier$$</p>
+<p>$$Image \; Classifier(\text{Image of dog on a boat}) \rightarrow \text{Image contains: Dog, boat}$$</p>
+<ol>
 <li>We can create functions that predict given a certain population and its characteristics, how quickly will a disease spread. </li>
 </ol>
-$$Function = Disease \; Spread$$$$Disease \; Spread(\text{Population Characteristics}) \rightarrow \text{Disease spread rate}$$<p>Okay, so with that in mind I want us to remember that a function can be thought of as a map of a relationship. From a more abstract point of view, a function can be considered a <strong>process</strong> that relates (or maps) an input to a single element, the output:</p>
+<p>$$Function = Disease \; Spread$$</p>
+<p>$$Disease \; Spread(\text{Population Characteristics}) \rightarrow \text{Disease spread rate}$$</p>
+<p>Okay, so with that in mind I want us to remember that a function can be thought of as a map of a relationship. From a more abstract point of view, a function can be considered a <strong>process</strong> that relates (or maps) an input to a single element, the output:</p>
 <p><img src="https://drive.google.com/uc?id=1x-CFHKN2EpAvQfRCxrhaZmDeWUNpHSKY" width="500"></p>
 <p>Bringing in a slightly more formal terminology, we say that:</p>
 <blockquote><p>A function is a relationship that associates each element $x$ of a set $X$, the <strong>domain</strong> of the function, to a single element $y$ of another set $Y$ (possibly the same set), the <strong>codomain</strong> of the function. If the function is called $f$, the relation is denoted $y= f(x)$.</p>
 </blockquote>
 <h3 id="2.1-Graphs-of-Functions">2.1 Graphs of Functions<a class="anchor-link" href="#2.1-Graphs-of-Functions">&#182;</a></h3><p>Now that we have an intuitive understanding of what a function is actually representing, we can move on to graphing of a function. There is something incredibly subtle that takes place here, of which there is the utmost importance that we fully grasp before moving on.</p>
 <p>Let's consider the function:</p>
-$$f(x) = x^2$$<p>This is a very simple function, which I am confident that anyone reading this post has come across before; it can be visualized below:</p>
+<p>$$f(x) = x^2$$</p>
+<p>This is a very simple function, which I am confident that anyone reading this post has come across before; it can be visualized below:</p>
 
 </div>
 </div>
@@ -442,7 +461,7 @@ $$f(x) = x^2$$<p>This is a very simple function, which I am confident that anyon
     <span class="k">return</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -472,7 +491,7 @@ $$f(x) = x^2$$<p>This is a very simple function, which I am confident that anyon
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -482,7 +501,7 @@ $$f(x) = x^2$$<p>This is a very simple function, which I am confident that anyon
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -502,7 +521,8 @@ height=417
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Nothing ground breaking going on just yet. Now, an equivalent representation (<em>isomorphic</em> if you will), can be seen in the following table:</p>
 <table>
@@ -649,7 +669,7 @@ height=417
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -659,7 +679,7 @@ height=417
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -679,11 +699,13 @@ height=414
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Clearly this is not a valid function as presented above! Yet, this <em>does not</em> mean that the table above is invalid! A function <em>does not need</em> to take in an interval of ordered $x$ inputs; a function can take in anything that is part of it's domain (in this case all real numbers).</p>
 <p>The reason for the mixup was in the methodology for creating the final curve. I chose iterate down the table, row by row, plotting the point in my current row, then plotting the point in the next row, and connecting them by a line immediately. This was repeated for the whole table. In other words I did:</p>
-$$(-5, 25) \rightarrow (-3, 9) \rightarrow (-4, 16) \rightarrow ...$$<p>You can see that by plotting a point and then immediately using a line to connect to the next point we can run into issues.</p>
+<p>$$(-5, 25) \rightarrow (-3, 9) \rightarrow (-4, 16) \rightarrow ...$$</p>
+<p>You can see that by plotting a point and then immediately using a line to connect to the next point we can run into issues.</p>
 <blockquote><p>This is because we are introducing a <strong>time</strong> component without even meaning to! It is a side effect of human nature; we introduce this time component because given pen and paper that is how <em>we would draw the curve from left to right</em>.</p>
 </blockquote>
 <p>However, our function has no concept of time (it's only parameter is $x$). A more appropriate way to plot our function would be to plot all points at once, and <em>then</em> connect from left to right with a line of best fit:</p>
@@ -721,7 +743,7 @@ $$(-5, 25) \rightarrow (-3, 9) \rightarrow (-4, 16) \rightarrow ...$$<p>You can 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -731,7 +753,7 @@ $$(-5, 25) \rightarrow (-3, 9) \rightarrow (-4, 16) \rightarrow ...$$<p>You can 
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -751,13 +773,17 @@ height=414
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We see above that even though our $x$ inputs were not ordered (we plotted based on the ordering of the second table), we have the curve that we would expect. That is because this time all points were plotted first, and <em>then</em> the line of best fit was drawn.</p>
 <h4 id="2.1.2-Inputs-to-the-graphical-representation-of-$f$">2.1.2 Inputs to the graphical representation of $f$<a class="anchor-link" href="#2.1.2-Inputs-to-the-graphical-representation-of-$f$">&#182;</a></h4><p>Now that we have dug into the ordering of $x$ inputs when dealing with a graphical representation of a function, let's pick things up a notch. I pose the following question: when graphing the function $f(x)$, how many inputs does $f$ take?</p>
 <p>You may sit back and laugh when asked; surely if our function $f$ takes in a single input $x$, then the graphical representation of $f$ must only take in a single input, $x$, as well!</p>
 <p>Not so fast! While our function $f$ only takes a single input $x$, we have to keep in mind that $f$ only does one thing: it maps an input to an output:</p>
-$$f(input) \rightarrow output$$$$f(-4) \rightarrow 16$$$$f(4) \rightarrow 16$$<p>Yet, inherently a graphical representation of a function deal with <em>two things</em>: an input <strong>value</strong> and an input <strong>location</strong>. Let me explain via an example. Consider the case of our squaring function, you may initially think that the input to output mapping would look like:</p>
+<p>$$f(input) \rightarrow output$$</p>
+<p>$$f(-4) \rightarrow 16$$</p>
+<p>$$f(4) \rightarrow 16$$</p>
+<p>Yet, inherently a graphical representation of a function deal with <em>two things</em>: an input <strong>value</strong> and an input <strong>location</strong>. Let me explain via an example. Consider the case of our squaring function, you may initially think that the input to output mapping would look like:</p>
 
 </div>
 </div>
@@ -805,7 +831,7 @@ $$f(input) \rightarrow output$$$$f(-4) \rightarrow 16$$$$f(4) \rightarrow 16$$<p
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -815,7 +841,7 @@ $$f(input) \rightarrow output$$$$f(-4) \rightarrow 16$$$$f(4) \rightarrow 16$$<p
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -835,13 +861,19 @@ height=417
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The above plot is correct in that it takes an input $x=-4$, evaluates the function $f$, and plot's the result. So, our coordinates are mapped as such:</p>
-$$(-4, 0) \rightarrow (-4, 16)$$<p>Notice that our $x$ coordinate does not change. That is a fundamental concept of graphical representations of functions. When you evaluate a particular input from the domain, $x$, you then graph the output, $y$ at the same $x$ coordinate. This is seen clearly by the black arrow representing our squaring function, $f$; notice that it is <strong>perpendicular</strong> to the $x$ axis. Realize that this is <em>not</em> a fundamental property of the function $f$; rather it is used specifically by the graphical representation. To really highlight this point:</p>
+<p>$$(-4, 0) \rightarrow (-4, 16)$$</p>
+<p>Notice that our $x$ coordinate does not change. That is a fundamental concept of graphical representations of functions. When you evaluate a particular input from the domain, $x$, you then graph the output, $y$ at the same $x$ coordinate. This is seen clearly by the black arrow representing our squaring function, $f$; notice that it is <strong>perpendicular</strong> to the $x$ axis. Realize that this is <em>not</em> a fundamental property of the function $f$; rather it is used specifically by the graphical representation. To really highlight this point:</p>
 <p><strong>Stand Alone Function</strong><br></p>
-$$f(x) \rightarrow y$$$$f(-4) \rightarrow 16$$<p><strong>Graphical Representation of Function</strong><br></p>
-$$f(x_{location}, x_{value}) \rightarrow (x_{location}, y)$$$$f((-4, 0)) \rightarrow (-4,16)$$<p>In the graphical representation of the function, $f$ now takes in a <strong>point</strong>, $(-4, 0)$, instead of simply a stand alone value, $-4$. This is often a new way of view functions for most people (myself included), so I encourage you to take a moment to let this subtle change sink in. Once you have, you may realize what was wrong with the plot above.</p>
+<p>$$f(x) \rightarrow y$$</p>
+<p>$$f(-4) \rightarrow 16$$</p>
+<p><strong>Graphical Representation of Function</strong><br></p>
+<p>$$f(x_{location}, x_{value}) \rightarrow (x_{location}, y)$$</p>
+<p>$$f((-4, 0)) \rightarrow (-4,16)$$</p>
+<p>In the graphical representation of the function, $f$ now takes in a <strong>point</strong>, $(-4, 0)$, instead of simply a stand alone value, $-4$. This is often a new way of view functions for most people (myself included), so I encourage you to take a moment to let this subtle change sink in. Once you have, you may realize what was wrong with the plot above.</p>
 <p>Based on the idea that in reality the graphical representation of a function must take in <em>two</em> inputs, $x_{location}$ and $x_{value}$, you can see what is wrong with our green input point. It's $x_{location}$ is correct; it is equal to -4. However, it's $x_{value}$ is incredibly ambiguous! You most likely determine in your head that the $x_{value}$ must also be -4, but based on the visual representation we have provided, it is actually 0! This is often the case when we take our $x$ axis and treat it both as the location and value of our input.</p>
 <p>Why is this so important? Well, it creates an incredibly shaky foundation for us to build a top of if we ever want to be able to derive our own unique solutions! There is no way to fully intuit function composition and derive the normal distribution if we are working inside of this ambigious framework. The solution is as follows:</p>
 <blockquote><p>We need to ensure that when graphing functions our input curve/point has an unambiguous $x_{location}$ and $x_{value}$.</p>
@@ -897,7 +929,7 @@ $$f(x_{location}, x_{value}) \rightarrow (x_{location}, y)$$$$f((-4, 0)) \righta
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -907,7 +939,7 @@ $$f(x_{location}, x_{value}) \rightarrow (x_{location}, y)$$$$f((-4, 0)) \righta
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -927,10 +959,12 @@ height=413
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Excellent, our input now is incredibly unambiguous! Our function $f$, when graphed, takes in an $x_{location}$ and $x_{value}$, in this case: $(-4, -4)$:</p>
-$$f((-4, -4)) \rightarrow (-4,16)$$<p>This can be done for every single point along the line $y=x$ (only three shown below):</p>
+<p>$$f((-4, -4)) \rightarrow (-4,16)$$</p>
+<p>This can be done for every single point along the line $y=x$ (only three shown below):</p>
 
 </div>
 </div>
@@ -1000,7 +1034,7 @@ $$f((-4, -4)) \rightarrow (-4,16)$$<p>This can be done for every single point al
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1010,7 +1044,7 @@ $$f((-4, -4)) \rightarrow (-4,16)$$<p>This can be done for every single point al
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1030,18 +1064,28 @@ height=413
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>I want to make very clear why this generally does not cause an issue; When dealing with just one function operating on it's own, we can utilize the $x_{location}$ <em>as the</em> $x_{value}$! We have been doing this since middle school when functions and their corresponding graphs were introduced.</p>
 <p>You may be wondering why on earth we have introduced a seemingly more complex paradigm and notation, when our old method worked well enough to begin with? To answer that question, we will need to introduce <strong>function compositions</strong>.</p>
 <h4 id="2.1.3-Function-Compositions">2.1.3 Function Compositions<a class="anchor-link" href="#2.1.3-Function-Compositions">&#182;</a></h4><p>Function compositions are simply the operation of taking the <em>output</em> of a function $f$, using that as the <em>input</em> to another function $g$, in order to produce a final <em>output</em>, which we can refer to as h(x). This is written as:</p>
-$$h(x) = g(f(x))$$<p>It can be broken down as follows:</p>
-$$f(x) = y$$$$h(x) = g(y)$$<p>Notice this idea of passing the <em>output</em> of the function $f$, as the <em>input</em> to another function $g$. We can view this equivalently as a <strong>mapping</strong>:</p>
-$$f: X \rightarrow Y$$$$g: Y \rightarrow Z$$<p>Where $f$ and $g$ are said to be <strong>composed</strong> to yield a function that maps $x$ in $X$ to $g(f(x))$ in $Z$. This idea of function compositions is why we spent so the time earlier distinguishing between a function and a graphical representation of a function.</p>
+<p>$$h(x) = g(f(x))$$</p>
+<p>It can be broken down as follows:</p>
+<p>$$f(x) = y$$</p>
+<p>$$h(x) = g(y)$$</p>
+<p>Notice this idea of passing the <em>output</em> of the function $f$, as the <em>input</em> to another function $g$. We can view this equivalently as a <strong>mapping</strong>:</p>
+<p>$$f: X \rightarrow Y$$</p>
+<p>$$g: Y \rightarrow Z$$</p>
+<p>Where $f$ and $g$ are said to be <strong>composed</strong> to yield a function that maps $x$ in $X$ to $g(f(x))$ in $Z$. This idea of function compositions is why we spent so the time earlier distinguishing between a function and a graphical representation of a function.</p>
 <p>You may not initially realize it, but almost all functions other than most elementary are actually a composition of smaller functions! For example, consider the following:</p>
-$$h(x) = -x^2$$<p>Now, written as a I did above, it may be viewed as a single function, $h$. However, it is actually a composition of two separate functions:</p>
-$$\text{Negate Function:} \; \; \; g(x) = -x$$$$\text{Square Function:} \; \; \; f(x) = x^2$$<p>Where we can then write $h$ as the composition of $f$ and $g$:</p>
-$$h(x) = g(f(x)) = -x^2$$<p>This may seem elementary but, I promise you we are building to an incredibly powerful mental framework! Recall the purpose of this post:</p>
+<p>$$h(x) = -x^2$$</p>
+<p>Now, written as a I did above, it may be viewed as a single function, $h$. However, it is actually a composition of two separate functions:</p>
+<p>$$\text{Negate Function:} \; \; \; g(x) = -x$$</p>
+<p>$$\text{Square Function:} \; \; \; f(x) = x^2$$</p>
+<p>Where we can then write $h$ as the composition of $f$ and $g$:</p>
+<p>$$h(x) = g(f(x)) = -x^2$$</p>
+<p>This may seem elementary but, I promise you we are building to an incredibly powerful mental framework! Recall the purpose of this post:</p>
 <blockquote><p>Determine how you would derive an equation (red) that can approximate the the binomial distribution (green).</p>
 </blockquote>
 
@@ -1084,7 +1128,7 @@ $$h(x) = g(f(x)) = -x^2$$<p>This may seem elementary but, I promise you we are b
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1094,7 +1138,7 @@ $$h(x) = g(f(x)) = -x^2$$<p>This may seem elementary but, I promise you we are b
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1114,7 +1158,8 @@ height=408
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>What if I told you that figuring out how to approximate that red line was as easy as composing several elementary functions? You may think to yourself that that cannot be true, given the nature of the formula for the normal distribution. However, I assure you <em>it is true</em>.</p>
 <p>In order to make this as clear as possible, I am going to outline the exact composition of functions that will yield the bell shape of the normal distribution approximation above, and then walk through each individual step in detail. However, having the end result in mind will help us stay on track as we work through the mechanics.</p>
@@ -1128,10 +1173,19 @@ The function composition that we will use in order to create the general shape/a
 <li>Take the new output, exponentiate it, yielding a final output.</li>
 </ol>
 <p>So, our functions can be defined as:</p>
-$$f(x) = x^2$$$$g(x) = -x$$$$h(x) = e^x$$<p>To make things more intuitive, I am going to replace $x$ with a more general term: $input$. This is because we often associate $x$ with the $x$ axis, and in function compositions this will be a hindrance:</p>
-$$f(input) = {input}^2$$$$g(input) = -(input)$$$$h(input) = e^{input}$$<p>The equations above have the same meaning as before, only now it should be even more apparent that each one operates on some <em>input</em>, returning an output. If we evaluate our entire function composition we arrive at:</p>
-$$let \; input = x$$$$h \Big( g \big( f(x)\big) \Big) = h \Big( g \big( x^2 \big) \Big) = h \Big( -x^2 \Big) = e^{-x^2}$$<p>I am going to call the evaluated function composition above $n$, for normal:</p>
-$$n(x) = e^{-x^2}$$<p>Now, if we plot $n(x)$ for $x$ in the range $[-3, 3]$ we end up with:</p>
+<p>$$f(x) = x^2$$</p>
+<p>$$g(x) = -x$$</p>
+<p>$$h(x) = e^x$$</p>
+<p>To make things more intuitive, I am going to replace $x$ with a more general term: $input$. This is because we often associate $x$ with the $x$ axis, and in function compositions this will be a hindrance:</p>
+<p>$$f(input) = {input}^2$$</p>
+<p>$$g(input) = -(input)$$</p>
+<p>$$h(input) = e^{input}$$</p>
+<p>The equations above have the same meaning as before, only now it should be even more apparent that each one operates on some <em>input</em>, returning an output. If we evaluate our entire function composition we arrive at:</p>
+<p>$$let \; input = x$$</p>
+<p>$$h \Big( g \big( f(x)\big) \Big) = h \Big( g \big( x^2 \big) \Big) = h \Big( -x^2 \Big) = e^{-x^2}$$</p>
+<p>I am going to call the evaluated function composition above $n$, for normal:</p>
+<p>$$n(x) = e^{-x^2}$$</p>
+<p>Now, if we plot $n(x)$ for $x$ in the range $[-3, 3]$ we end up with:</p>
 
 </div>
 </div>
@@ -1164,7 +1218,7 @@ $$n(x) = e^{-x^2}$$<p>Now, if we plot $n(x)$ for $x$ in the range $[-3, 3]$ we e
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
@@ -1174,7 +1228,7 @@ $$n(x) = e^{-x^2}$$<p>Now, if we plot $n(x)$ for $x$ in the range $[-3, 3]$ we e
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+<div class="prompt"></div>
 
 
 
@@ -1194,7 +1248,8 @@ height=419
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And just like that we end up with our desired shape! Of course this is not the exact normal distribution, there are cosmetic updates that must be made in order to ensure it meets the constraints of a valid probability distribution (more on that can be found in my post on the history of the normal distribution). However, the significance of what we just accomplised cannot be overlooked! By composing just three elementary functions we were able to end up with the shape of the normal distribution. Recall how intimidating that function looked at the outset of this post!</p>
 <p>Now that I have shown the end result and a very high level view of how we get there, simply composing three basic functions, we will step through the details, using the concept of $x_{location}$ and $x_{value}$ that we discussed earlier.</p>
@@ -1325,13 +1380,14 @@ height=419
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=1kOtx1gzNPu6n2k__cULQXqVztmg5cfGb" width="700"></p>
 <p>Take note of the following in the animation above:</p>
@@ -1474,13 +1530,14 @@ height=419
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=1vL8ifHeVZCKfrFCc8FpVcbWiQI5YtBNK" width="700"></p>
 
@@ -1488,7 +1545,8 @@ height=419
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And just like that, all of our earlier work relating to the details behind graphs of functions-specifically that inputs have <em>locations</em> and <em>values</em>-has paid off! This is exactly the scenario that requires us to expand our mental framework around what it means to graph a function. Let's run through what just happened and hone in on why our earlier work was necessary:</p>
 <ul>
@@ -1499,7 +1557,8 @@ height=419
 <li>Now, our $x_{location}$ and $x_{value}$ are <em>not equivalent</em>.</li>
 </ul>
 <p>Again, this is why it is so crucial that our input is made up an $x_{location}$ and $x_{value}$. For example, if we were not dealing with a graph and we had an input $x = 4$ passed into our negate function $g$:</p>
-$$g(4) = -4$$<p>However, here we need to be aware that the $x_{location}$ and $x_{value}$ are <em>no longer equivalent</em>! For instance, take a look at the squared input (green curve) above; at what $x_{location}$ does $x_{value} =4$? At $x_{location} = 2$!</p>
+<p>$$g(4) = -4$$</p>
+<p>However, here we need to be aware that the $x_{location}$ and $x_{value}$ are <em>no longer equivalent</em>! For instance, take a look at the squared input (green curve) above; at what $x_{location}$ does $x_{value} =4$? At $x_{location} = 2$!</p>
 <p>Because we are no longer just graphing a standard input $x$ where the location and value are equivalent (as is the case where $y=x$), our function needs to be able to handle both the $x_{location}$ and $x_{value}$.</p>
 <p>Now, let's add $h$ to our composition. So, $h$ will be passed the red curve above, $-x^2$, as input:</p>
 
@@ -1640,13 +1699,14 @@ $$g(4) = -4$$<p>However, here we need to be aware that the $x_{location}$ and $x
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=1GvPjXHlRk1l-urBOS86NGpplyBtkwbhR" width="700"></p>
 <p>Again, we see that we are passing in a 2 dimensional point to our function (in green) and that is being mapped to a 2 dimensional point (red), our output. The only way that we can intuitively understand the graph of the function $n(x) = e^{-x^2}$ as a composition of functions $f, g$ and $h$, is if we can follow passing curves (aka a list of two dimensional points) as inputs to these functions.</p>
@@ -1919,13 +1979,14 @@ $$g(4) = -4$$<p>However, here we need to be aware that the $x_{location}$ and $x
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=1udWyIAPAKUXS6ra7nA7VpWwnaYdTVD3t" width="700"></p>
 <p>What we can also do is overlay $n(x)$ (in pink below) in order to see how our original input is transformed in just three steps to match the bell shaped approximation to the normal distribution that we were looking for:</p>
@@ -2202,18 +2263,22 @@ $$g(4) = -4$$<p>However, here we need to be aware that the $x_{location}$ and $x
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 
-    </div>
+</div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+</div>
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=139CaUK0aH9OX7QYFpI9_iWFsH6ozkre2" width="700"></p>
 <p>We have officially accomplished our goal, that being to determine a general function that could act as the normal distribution and approximate the discrete binomial distribution we saw earlier. There are additional cosmetic updates that must be made, and I have an entire post dedicated to that if you are interested (the history of the normal distribution).</p>
 <p>The shape of the normal distribution can be approximated via our curve $n(x)$:</p>
-$$f(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} exp(-\frac{(x-\mu)^2}{2\sigma^2})$$$$ n(x) = e^{-x^2}$$$$n(x) \rightarrow \text{Is an approximation of the shape} \rightarrow f(x \mid \mu, \sigma^2)$$<p>With that said, there is a much larger theme of this post that I would like you to leave with. Thousands upon thousands of formulas and equations have been derived over the past 2000 years; they span quantum mechanics, network theory, statistical learning, financial modeling, computational biology, and so on. Often times you will be presented with one of these equations in a text book and expected to take it on face value, or given a erudite proof.</p>
+<p>$$f(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} exp(-\frac{(x-\mu)^2}{2\sigma^2})$$</p>
+<p>$$ n(x) = e^{-x^2}$$</p>
+<p>$$n(x) \rightarrow \text{Is an approximation of the shape} \rightarrow f(x \mid \mu, \sigma^2)$$</p>
+<p>With that said, there is a much larger theme of this post that I would like you to leave with. Thousands upon thousands of formulas and equations have been derived over the past 2000 years; they span quantum mechanics, network theory, statistical learning, financial modeling, computational biology, and so on. Often times you will be presented with one of these equations in a text book and expected to take it on face value, or given a erudite proof.</p>
 <p>However, what is often left out is the underlying process that was used to arrive at that equation. I want you to be able to find your equations, to create your own solutions to the hard problems that face our world today. One of the most fundamental ways that this is done in mathematics and related sciences is via the following process:</p>
 <ol>
 <li>Collecting data on whatever it is you want to know more about. That could be the financial markets, the force due to gravity, the rate at which bacteria grow in a petri dish, etc.</li>
@@ -2242,19 +2307,6 @@ $$f(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} exp(-\frac{(x-\mu)^2
   });
 </script>
 <form action="javascript:code_toggle()"><input type="submit" id="toggleButton" value="Show Code"></form>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
 <hr>
 &copy; 2018 Nathaniel Dake
 
