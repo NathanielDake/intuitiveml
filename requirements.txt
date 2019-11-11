@@ -12,7 +12,7 @@ sos-essentials
 boto3
 scipy
 statsmodels
-plotly==3.10.0
+plotly
 chart-studio
 theano
 tensorflow
