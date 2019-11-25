@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -195,10 +194,6 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -211,12 +206,10 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="5.-Customer-Segmentation">5. Customer Segmentation<a class="anchor-link" href="#5.-Customer-Segmentation">&#182;</a></h1><p>The vast majority of my articles are written with intention of highlighting some mathematical or computer science concept and tying it in to a real world example. In other words, we are operating as follows:</p>
-<p>$$\text{Determine concept to teach} \longrightarrow \text{Find problem to demonstrate concept}$$</p>
-<p>For instance, in the case of Bayesian Classifiers I <em>decided</em> that I wanted to cover that particular concept and all of it's inner workings, and I then found problems (that I encountered working as a data scientist) in order to demonstrate how a Bayes Classifier would work in the real world.</p>
+$$\text{Determine concept to teach} \longrightarrow \text{Find problem to demonstrate concept}$$<p>For instance, in the case of Bayesian Classifiers I <em>decided</em> that I wanted to cover that particular concept and all of it's inner workings, and I then found problems (that I encountered working as a data scientist) in order to demonstrate how a Bayes Classifier would work in the real world.</p>
 <p>However, this is not how things work in the real world! TODO: Mention taleb ideas relating to trying to fit real world into Platonic framework (when it may not really be that way). In reality, a data scientist is often given a vague problem that needs solving by making use of data. If lucky, they will be given a stand alone data set (i.e. a csv), but often they may not even have that, leaving them to wrangle the necessary data from databases, API's, and other sources.</p>
 <p>I want to take some time to write an article that demonstrates how to handle being confronted with a data set and simply being tasked to "explore" it and find something useful (known as <strong>data mining</strong>). This post will specifically be based on the exploration of the <a href="http://archive.ics.uci.edu/ml/datasets/Online+Retail">online retail data set</a>.</p>
 <h3 id="5.1-Background-and-Context">5.1 Background and Context<a class="anchor-link" href="#5.1-Background-and-Context">&#182;</a></h3><p>Assume that you are a data scientist for an online retail store. Management comes to you saying that they have a set of customer transaction data over the course of ~ 1 year. They want you to simply explore and see if there is anything interesting; in other words, are there <strong>patterns</strong> in the data that could be relevant to marketing, <strong>trends</strong> that could be useful in customer prediction, and so on. We are starting with a <em>very</em> blank canvas; where do we begin?</p>
@@ -268,7 +261,7 @@ body {
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -278,7 +271,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stderr output_text">
@@ -309,7 +302,7 @@ To change this limit, set the config variable
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -354,14 +347,13 @@ To change this limit, set the config variable
 <span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>A good rule of thumb when just getting started is to simply utilize <code>head()</code> to get a glimpse of the data set:</p>
 
@@ -376,7 +368,7 @@ To change this limit, set the config variable
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -386,7 +378,7 @@ To change this limit, set the config variable
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -487,8 +479,7 @@ To change this limit, set the config variable
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And then determine the shape of the data set, and get an idea of the different columns present (including their data types and number of missing values):</p>
 
@@ -503,7 +494,7 @@ To change this limit, set the config variable
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Dataframe Shape: </span><span class="si">{df.shape}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -513,7 +504,7 @@ To change this limit, set the config variable
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -546,7 +537,7 @@ To change this limit, set the config variable
 <span class="n">display</span><span class="p">(</span><span class="n">df_info</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -556,7 +547,7 @@ To change this limit, set the config variable
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -635,8 +626,7 @@ To change this limit, set the config variable
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We immediately get an idea of the variables available to us for analysis, as well as where we may have particular gaps (null values). Right from the get go we see that there are <code>~25%</code> of transactions that do not have an associated <code>CustomerID</code>. Based on the data that is readily available, it is impossible to impute these values. Because the vast majority of inferences that we will try and make will tie back to a particular customer, these rows can be dropped:</p>
 
@@ -654,7 +644,7 @@ To change this limit, set the config variable
 <span class="n">display</span><span class="p">(</span><span class="n">df_info</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -664,7 +654,7 @@ To change this limit, set the config variable
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -677,7 +667,7 @@ To change this limit, set the config variable
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -756,8 +746,7 @@ To change this limit, set the config variable
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We also will want to be sure to check for duplicate entries:</p>
 
@@ -772,7 +761,7 @@ To change this limit, set the config variable
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Number of duplicate entries: {df.duplicated().sum()}&quot;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -782,7 +771,7 @@ To change this limit, set the config variable
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -798,8 +787,7 @@ To change this limit, set the config variable
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And drop them:</p>
 
@@ -814,14 +802,13 @@ To change this limit, set the config variable
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We have now accounted for null values and duplicate entries, meaning we are ready for basic data exploration.</p>
 <h3 id="5.3-Data-Exploration">5.3 Data Exploration<a class="anchor-link" href="#5.3-Data-Exploration">&#182;</a></h3><p>Our dataframe contains 8 different features, defined as:</p>
@@ -850,7 +837,7 @@ To change this limit, set the config variable
 <span class="n">display</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Number of countries from which transactions occured: {len(unique_countries)}&quot;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -860,7 +847,7 @@ To change this limit, set the config variable
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -876,8 +863,7 @@ To change this limit, set the config variable
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We may also want to know the <em>number of orders per country</em>. To do this, we need to account for the fact that an order can have many items in it; this means that a single order may contain multiple rows. We can see this below:</p>
 
@@ -892,7 +878,7 @@ To change this limit, set the config variable
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">InvoiceNo</span> <span class="o">==</span> <span class="s2">&quot;536365&quot;</span><span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -902,7 +888,7 @@ To change this limit, set the config variable
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1025,8 +1011,7 @@ To change this limit, set the config variable
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that above a single order, <code>InvoiceNo = 536365</code>, contained 7 different items, and hence 7 different rows in our dataframe. However, we just want to count the number of orders per country, and hence those should be grouped as a <em>single</em> value.</p>
 
@@ -1045,14 +1030,13 @@ To change this limit, set the config variable
 <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()[</span><span class="s2">&quot;Country&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can visualize these results nicely with a chloropleth map:</p>
 
@@ -1094,7 +1078,7 @@ To change this limit, set the config variable
 <span class="n">iplot</span><span class="p">(</span><span class="n">choromap</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1104,7 +1088,7 @@ To change this limit, set the config variable
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1162,8 +1146,7 @@ if (outputEl) {{
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that the data is heavily dominated by orders placed from the UK.</p>
 <h4 id="5.3.2-Number-of-products-purchased-distributions">5.3.2 Number of products purchased distributions<a class="anchor-link" href="#5.3.2-Number-of-products-purchased-distributions">&#182;</a></h4><p>Another thing that we may want to explore further is the number of customers and the number of products.</p>
@@ -1188,7 +1171,7 @@ if (outputEl) {{
 <span class="n">display</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1198,7 +1181,7 @@ if (outputEl) {{
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1245,8 +1228,7 @@ if (outputEl) {{
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that our data set consists of 4372 <code>customers</code> who have bought 3684 different <code>products</code> over the course of 22,190 total <code>transactions</code>. Let's try to get an idea of the distribution of number of products purchased per transaction:</p>
 
@@ -1269,7 +1251,7 @@ if (outputEl) {{
 <span class="n">display</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1279,7 +1261,7 @@ if (outputEl) {{
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1342,8 +1324,7 @@ if (outputEl) {{
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Which can be visualized via the histogram below:</p>
 
@@ -1379,7 +1360,7 @@ if (outputEl) {{
 <span class="n">plotly</span><span class="o">.</span><span class="n">offline</span><span class="o">.</span><span class="n">iplot</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1389,7 +1370,7 @@ if (outputEl) {{
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1447,8 +1428,7 @@ if (outputEl) {{
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And we can display a few metrics related to this data:</p>
 
@@ -1463,7 +1443,7 @@ if (outputEl) {{
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1473,7 +1453,7 @@ if (outputEl) {{
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1544,8 +1524,7 @@ if (outputEl) {{
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This is all definitely useful data, and certainly interesting; for instance, we see that number of unique products purchased is indeed a long tail distribution, and that certain orders have over 500 items! However, right now these purchases are <em>not</em> tied to specific customers. Let's update our group by's to remedy that! In order to implement a proper fix we will need to:</p>
 <ul>
@@ -1573,7 +1552,7 @@ if (outputEl) {{
 <span class="n">display</span><span class="p">(</span><span class="n">temp1</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;Number unique products in transaction&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1583,7 +1562,7 @@ if (outputEl) {{
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1654,8 +1633,7 @@ if (outputEl) {{
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that right now <code>CustomerID = 14096</code> has many large transactions. We want to find the <em>mean</em> number of unique products in a transactions, over all transactions, per customer. We can achieve this with another groupby, this time on <code>CustomerID</code>. Additionally, we want to use the <code>agg</code> function in order apply different aggregation functions <code>mean</code> and <code>count</code> to certain columns:</p>
 
@@ -1685,7 +1663,7 @@ if (outputEl) {{
 <span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1695,7 +1673,7 @@ if (outputEl) {{
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1796,8 +1774,7 @@ if (outputEl) {{
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We now have the <code>Average number unique products in transaction</code> and <code>Number of transactions</code> for individual customers. A question that may come up: are these two features correlated? We can get a visual gut check with the scatterplot below:</p>
 
@@ -1836,7 +1813,7 @@ if (outputEl) {{
 <span class="c1"># display(HTML(html_fig))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1846,7 +1823,7 @@ if (outputEl) {{
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1904,8 +1881,7 @@ if (outputEl) {{
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>There looks to be a negative correlation, but that is to be expected given the nature of the dataset (it is mentioned that many of the customers are whole sale customers). We can look at the distribution of the average number of unique products in a transactions to see how it compares the to the number of unique productions in a transaction:</p>
 
@@ -1941,7 +1917,7 @@ if (outputEl) {{
 <span class="n">plotly</span><span class="o">.</span><span class="n">offline</span><span class="o">.</span><span class="n">iplot</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1951,7 +1927,7 @@ if (outputEl) {{
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2009,8 +1985,7 @@ if (outputEl) {{
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Again we have what looks to be a long tail distribution. We can also look at the distribution of number of orders per customer:</p>
 
@@ -2046,7 +2021,7 @@ if (outputEl) {{
 <span class="n">plotly</span><span class="o">.</span><span class="n">offline</span><span class="o">.</span><span class="n">iplot</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2056,7 +2031,7 @@ if (outputEl) {{
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2114,8 +2089,7 @@ if (outputEl) {{
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="5.3.3-Cancelled-Orders">5.3.3 Cancelled Orders<a class="anchor-link" href="#5.3.3-Cancelled-Orders">&#182;</a></h4><p>Something that did look interesting came up during this exploration: the presence of cancelled orders. For example, let's take a peak at customer <code>14096</code> again:</p>
 
@@ -2130,7 +2104,7 @@ if (outputEl) {{
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">temp1</span><span class="p">[</span><span class="n">temp1</span><span class="o">.</span><span class="n">CustomerID</span> <span class="o">==</span> <span class="s2">&quot;14096&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">5</span><span class="p">:])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2140,7 +2114,7 @@ if (outputEl) {{
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2211,8 +2185,7 @@ if (outputEl) {{
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The question arises, what should we do with these cancelled orders? Well, first let's assess the severity of the issue. To start, we can see how many transactions in total were cancelled:</p>
 
@@ -2239,7 +2212,7 @@ if (outputEl) {{
 <span class="n">display</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2249,7 +2222,7 @@ if (outputEl) {{
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2338,7 +2311,7 @@ if (outputEl) {{
 <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Percentage of orders cancelled: </span><span class="si">{percentage_orders_cancelled}</span><span class="s2">%&quot;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2348,7 +2321,7 @@ if (outputEl) {{
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2362,8 +2335,7 @@ if (outputEl) {{
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Over 16% of orders end up cancelled! This is a very large number! Let's take a look at the start of the dataframe:</p>
 
@@ -2378,7 +2350,7 @@ if (outputEl) {{
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;CustomerID&#39;</span><span class="p">)[:</span><span class="mi">5</span><span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2388,7 +2360,7 @@ if (outputEl) {{
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2489,8 +2461,7 @@ if (outputEl) {{
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Interesting-it looks like we see that when an order is cancelled, we have another transaction in the dataframe, mostly identical except for the <code>Quantity</code> (the negation) and the <code>InvoiceDate</code>. We should figure out if this is true for <em>all</em> entries. We can do this via</p>
 
@@ -2506,7 +2477,7 @@ if (outputEl) {{
 <span class="n">df_not_cancelled</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">InvoiceNo</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;C&quot;</span><span class="p">]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2532,7 +2503,7 @@ if (outputEl) {{
 <span class="nb">print</span><span class="p">(</span><span class="n">num_with_counterpart</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2542,7 +2513,7 @@ if (outputEl) {{
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2556,8 +2527,7 @@ if (outputEl) {{
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Interesting-this condition clearly does not hold for all cases. We have a total of <code>8795</code> cancelled orders, but only <code>3224</code> of them perfectly cancel a prior order. For example, there are most certainly cases where a customer bought, say, <code>6</code> of a product, and then returned <code>3</code>, meaning there is a transaction with an <code>InvoiceNo</code> that has <code>C</code> prepended at the start. In this case, to correctly remedy the situation we must <em>subtract</em> the quantity in the cancellation from the nearest purchase of the same item. The logic is a little bit convoluted, but it can be done! We will first write a function that will gather some sufficient test groups for us-this will then allow us to write a function that will actually handle the cancellations.</p>
 
@@ -2595,7 +2565,7 @@ if (outputEl) {{
     <span class="k">return</span> <span class="n">df_list_select</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2608,14 +2578,13 @@ if (outputEl) {{
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_group</span> <span class="o">=</span> <span class="n">find_test_groups</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Below we can see an example group (based on <code>CustomerID</code> and <code>StockCode</code>) that has a cancelled value. We can check to make sure that the function we write to handle <em>all</em> cancelled values in the data set can handle this sample group. <code>my_group</code> currently has the shape:</p>
 
@@ -2630,7 +2599,7 @@ if (outputEl) {{
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">my_group</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2640,7 +2609,7 @@ if (outputEl) {{
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2778,7 +2747,7 @@ if (outputEl) {{
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">my_group</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2788,7 +2757,7 @@ if (outputEl) {{
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2804,8 +2773,7 @@ if (outputEl) {{
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So, that means we expect our function to take in <code>my_group</code> and return a group that is <code>(5, 9)</code>:</p>
 
@@ -2854,7 +2822,7 @@ if (outputEl) {{
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">conditions_list</span><span class="p">,</span> <span class="n">choices_list</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2867,7 +2835,7 @@ if (outputEl) {{
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_remove_cancellations</span> <span class="o">=</span> <span class="n">handle_perform_shift</span><span class="p">(</span><span class="n">my_group</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2880,7 +2848,7 @@ if (outputEl) {{
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">test_remove_cancellations</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2890,7 +2858,7 @@ if (outputEl) {{
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -3004,7 +2972,7 @@ if (outputEl) {{
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">test_remove_cancellations</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3014,7 +2982,7 @@ if (outputEl) {{
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -3030,8 +2998,7 @@ if (outputEl) {{
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Our functions seems to effectively remove cancellations! We can now <code>apply</code> it to the entire dataframe.</p>
 
@@ -3043,23 +3010,23 @@ if (outputEl) {{
 <div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">time</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>
 
-temp = df.assign(
-    cancelled=(df.InvoiceNo.str[0] == &quot;C&quot;),
-    InvoiceDate=pandas.to_datetime(df.InvoiceDate)
-)
+<span class="n">temp</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+    <span class="n">cancelled</span><span class="o">=</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">InvoiceNo</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;C&quot;</span><span class="p">),</span>
+    <span class="n">InvoiceDate</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">InvoiceDate</span><span class="p">)</span>
+<span class="p">)</span>
 
-grouped = temp.sort_values(
-    &#39;InvoiceDate&#39;
-).groupby(
-    [&#39;CustomerID&#39;, &#39;StockCode&#39;]
-)
+<span class="n">grouped</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
+    <span class="s1">&#39;InvoiceDate&#39;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span>
+    <span class="p">[</span><span class="s1">&#39;CustomerID&#39;</span><span class="p">,</span> <span class="s1">&#39;StockCode&#39;</span><span class="p">]</span>
+<span class="p">)</span>
     
-df_no_cancellations = grouped.apply(handle_perform_shift).reset_index(drop=True)
+<span class="n">df_no_cancellations</span> <span class="o">=</span> <span class="n">grouped</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">handle_perform_shift</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3069,7 +3036,7 @@ df_no_cancellations = grouped.apply(handle_perform_shift).reset_index(drop=True)
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3091,7 +3058,7 @@ Wall time: 6min 42s
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">Quantity</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3101,7 +3068,7 @@ Wall time: 6min 42s
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[40]:</div>
+    <div class="prompt output_prompt">Out[40]:</div>
 
 
 
@@ -3124,7 +3091,7 @@ Wall time: 6min 42s
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_no_cancellations</span><span class="p">[</span><span class="n">df_no_cancellations</span><span class="o">.</span><span class="n">Quantity</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3134,7 +3101,7 @@ Wall time: 6min 42s
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[41]:</div>
+    <div class="prompt output_prompt">Out[41]:</div>
 
 
 
@@ -3157,7 +3124,7 @@ Wall time: 6min 42s
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_no_cancellations</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3167,7 +3134,7 @@ Wall time: 6min 42s
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[42]:</div>
+    <div class="prompt output_prompt">Out[42]:</div>
 
 
 
@@ -3183,8 +3150,7 @@ Wall time: 6min 42s
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This looks great! Now this would be a great place for optimization; the <code>apply</code> can be performed in parallel with <code>multiprocessing</code> or <code>dask</code>, but I will leave that for another post.</p>
 <h4 id="5.3.4-StockCode-Exploration">5.3.4 StockCode Exploration<a class="anchor-link" href="#5.3.4-StockCode-Exploration">&#182;</a></h4><p>Now, let's take a peak at the <code>StockCode</code>s. We have seen that some values of <code>StockCode</code> deal with discounts; we can check to see what other types of codes there are:</p>
@@ -3204,7 +3170,7 @@ Wall time: 6min 42s
 <span class="n">display</span><span class="p">(</span><span class="n">special_codes</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3214,7 +3180,7 @@ Wall time: 6min 42s
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -3239,7 +3205,7 @@ Wall time: 6min 42s
     <span class="n">display</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:&lt;15}</span><span class="s2"> -&gt; </span><span class="si">{:&lt;30}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">val</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3249,7 +3215,7 @@ Wall time: 6min 42s
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -3262,7 +3228,7 @@ Wall time: 6min 42s
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -3275,7 +3241,7 @@ Wall time: 6min 42s
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -3288,7 +3254,7 @@ Wall time: 6min 42s
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -3301,7 +3267,7 @@ Wall time: 6min 42s
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -3314,7 +3280,7 @@ Wall time: 6min 42s
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -3330,8 +3296,7 @@ Wall time: 6min 42s
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="5.3.5-Total-Cart-Price">5.3.5 Total Cart Price<a class="anchor-link" href="#5.3.5-Total-Cart-Price">&#182;</a></h4><p>We can see that there are other types of strange charges (such as specific bank charges). We may come back to this, but for now let's move on to <strong>total item price</strong>. This is based on the <code>UnitPrice</code> of the item, times it's <code>Quantity</code>:</p>
 
@@ -3350,7 +3315,7 @@ Wall time: 6min 42s
 <span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3360,7 +3325,7 @@ Wall time: 6min 42s
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -3473,8 +3438,7 @@ Wall time: 6min 42s
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>From here we can find the <strong>total order price</strong>:</p>
 
@@ -3491,7 +3455,7 @@ Wall time: 6min 42s
 <span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3504,7 +3468,7 @@ Wall time: 6min 42s
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3514,7 +3478,7 @@ Wall time: 6min 42s
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[114]:</div>
+    <div class="prompt output_prompt">Out[114]:</div>
 
 
 
@@ -3633,8 +3597,7 @@ Wall time: 6min 42s
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Which has the following distribution (showing clipped and full data set distributions below):</p>
 
@@ -3693,7 +3656,7 @@ Wall time: 6min 42s
 <span class="n">plotly</span><span class="o">.</span><span class="n">offline</span><span class="o">.</span><span class="n">iplot</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3703,7 +3666,7 @@ Wall time: 6min 42s
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -3756,6 +3719,32 @@ if (outputEl) {{
 
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
 </div>
 </div>
 

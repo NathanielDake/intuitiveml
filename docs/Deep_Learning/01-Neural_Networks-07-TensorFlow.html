@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -195,10 +194,6 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -211,8 +206,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="7.-TensorFlow">7. TensorFlow<a class="anchor-link" href="#7.-TensorFlow">&#182;</a></h1><p>We are now going to go through a quick <strong>TensorFlow</strong> example. You may be wondering: "What is TensorFlow?" So here is a quick synopsis from the <code>https://www.tensorflow.org/</code> website:</p>
 <blockquote><p>TensorFlow™ is an open source software library for numerical computation using data flow graphs. Nodes in the graph represent mathematical operations, while the graph edges represent the multidimensional data arrays (tensors) communicated between them. The flexible architecture allows you to deploy computation to one or more CPUs or GPUs in a desktop, server, or mobile device with a single API. TensorFlow was originally developed by researchers and engineers working on the Google Brain Team within Google's Machine Intelligence research organization for the purposes of conducting machine learning and deep neural networks research, but the system is general enough to be applicable in a wide variety of other domains as well.</p>
@@ -233,14 +227,13 @@ body {
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now let's create our random training data. This is the same process that we used earlier in our training and predictions walk throughs. We have <strong>three</strong> gaussian clouds, 500 of each class centered at <strong>(0,2)</strong>, <strong>(2,2</strong>, and <strong>(-2,2)</strong>. We will make a scatter plot of the data in case your forgot what it looked like, as well as creating indicator variable (i.e. one hot encoding) for the targets.</p>
 
@@ -277,7 +270,7 @@ body {
     <span class="n">T</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -287,7 +280,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -305,8 +298,7 @@ body {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Tensorflow works with its own kind's of variables so we need to have a function for initing the weights. This will return a <code>tf</code> variable. It is going to be initialized the same was as in <code>numpy</code>, because everything in <code>TensorFlow</code> has a <code>numpy</code> analog. So it is going to be a a random normal of size <code>shape</code> with a standard deviation of <code>0.01</code>.</p>
 
@@ -322,14 +314,13 @@ body {
     <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">random_normal</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">stddev</span><span class="o">=</span><span class="mf">0.01</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We will also want to define the forward direction, just as we did before with <code>numpy</code>. It is going to take in <code>X, W1, b1, W2, b2</code> just as we did before. It will then use <code>tensorflow</code> functions: a tensorflow <code>sigmoid</code> and a tensorflow <code>matrix multiplication</code>. We then return <strong>just the activation</strong> (not the softmax). This is one main difference between numpy and tensorflow, is that when we calculate the <strong>cost</strong> we will want want the the <strong>logits</strong>, aka the activations, as the input- <em>not</em> the output of the softmax.</p>
 
@@ -346,14 +337,13 @@ body {
     <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">W2</span><span class="p">)</span> <span class="o">+</span> <span class="n">b2</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Next up, we will create tensorflow <strong>placeholders</strong>. This represents your <strong>X and Y data</strong>. What happens in tensorflow is that it creates a graph, so it knows how to calculate everything, but nothing has a value yet. So the <code>tfx</code> below is just a placedholder for the data. We will say it is of type <code>float32</code>, and the shape of it is <code>None</code> by <code>D</code>. This way the second dimension will be <code>D</code> because that is the dimensionality of the data, but we can pass in any size <code>N</code>. We will do the same thing with <code>tfY</code>, a place holder for <code>Y</code>.</p>
 
@@ -369,14 +359,13 @@ body {
 <span class="n">tfY</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">K</span><span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we will create our weights, similar to how we did in <code>numpy</code>.</p>
 
@@ -394,14 +383,13 @@ body {
 <span class="n">b2</span> <span class="o">=</span> <span class="n">init_weights</span><span class="p">([</span><span class="n">K</span><span class="p">])</span>            <span class="c1"># dimensions (K x 1)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we can get the output variable, remember this has no value yet.</p>
 
@@ -416,14 +404,13 @@ body {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">py_x</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">tfX</span><span class="p">,</span> <span class="n">W1</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">W2</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Note:</strong> Here is another thing different about tensorflow. We define the <code>cost function</code>, which is the mean and then the function <code>soft_max_cross_entropy_with_logits</code>. This takes in our predictions, <code>py_x</code>, and the targets, <code>tfY</code>.</p>
 
@@ -442,14 +429,13 @@ body {
 <span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So Tensorflow is going to calculate the gradients and do gradient descent automatically, so we don't have to specify the derivative in tensorflow. We are going to create what is a called a train function, and that comes from <code>tf.train</code>. We pass in a <code>learning_rate</code></p>
 
@@ -464,14 +450,13 @@ body {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_op</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">GradientDescentOptimizer</span><span class="p">(</span><span class="mf">0.05</span><span class="p">)</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Next we will create a <code>predict</code> that is just the <code>argmax</code> of <code>py_x</code> on axis = 1.</p>
 
@@ -486,14 +471,13 @@ body {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">predict_op</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">py_x</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In tensorflow we need to create things called sessions. For now just treat this as something that needs to be done.</p>
 
@@ -510,14 +494,13 @@ body {
 <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we will run our neural network by performing gradient descent. We will call <code>sess.run()</code> twice. The first time to perform backpropagation training, and the second time to make our predictions. This is going to take in whats called a <code>feed_dict</code>. This is a dictionary where the keys are tensorflow placeholders, and the values are the actual values you want to pass in (our X inputs and the T targets).</p>
 
@@ -536,7 +519,7 @@ body {
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Accuracy:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Y</span> <span class="o">==</span> <span class="n">pred</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -546,7 +529,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -569,8 +552,7 @@ Accuracy: 0.962
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Scikit-Learn-Artificial-Neural-Network">Scikit Learn Artificial Neural Network<a class="anchor-link" href="#Scikit-Learn-Artificial-Neural-Network">&#182;</a></h1><p>In the real world we won't be be implementing our Neural Networks from scratch; it simply doesn't make sense to do that when we have awesome libraries already there for us to utilize. <code>Scikit Learn</code> has a great implementation of this! This can be done in only 3 lines of code! A line to create the model, a line to train the model, and a line to make predictions!</p>
 
@@ -632,7 +614,7 @@ Accuracy: 0.962
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;train accuracy:&quot;</span><span class="p">,</span> <span class="n">train_accuracy</span><span class="p">,</span> <span class="s2">&quot;test accuracy:&quot;</span><span class="p">,</span> <span class="n">test_accuracy</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -642,7 +624,7 @@ Accuracy: 0.962
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">

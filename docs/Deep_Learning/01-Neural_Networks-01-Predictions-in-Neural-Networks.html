@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -195,10 +194,6 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -211,19 +206,15 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="1.-Predictions-in-Neural-Networks">1. Predictions in Neural Networks<a class="anchor-link" href="#1.-Predictions-in-Neural-Networks">&#182;</a></h1><p>In the past we have looked at both logistic regression and binary classification. There, we would collect some data, and then try to predict 1 of 2 possible labels. For example, if we were dealing with an e-commerce stie, we could collect <em><strong>time spent on site</strong></em> and <em><strong>number of pages viewed</strong></em>, and then try to predict whether someone is going to buy something on the site.</p>
 <p>In this case, we only have 2 dimensions. We will plot the information, and then try to use a straight line to classify the classes (buy or not buy):</p>
-<p>$$\sigma \big( w_1*(\text{time spent on site}) + w_2 (\text{number pages viewed})\big)$$</p>
-<p>If we are able to find a line that goes between the classes, they are <em>linearly seperable</em>. When we are dealing with data that is linearly seperable, logistic regression is fine, since it is a linear classifier. So, in 2 dimensions linearly seperable data can be separated via a line, in 3 dimensions a plane, and and 4+ dimensions a hyperplane. The point is, no matter how many dimensions we are dealing with, our decision boundary is going to be straight, not curved.</p>
+$$\sigma \big( w_1*(\text{time spent on site}) + w_2 (\text{number pages viewed})\big)$$<p>If we are able to find a line that goes between the classes, they are <em>linearly seperable</em>. When we are dealing with data that is linearly seperable, logistic regression is fine, since it is a linear classifier. So, in 2 dimensions linearly seperable data can be separated via a line, in 3 dimensions a plane, and and 4+ dimensions a hyperplane. The point is, no matter how many dimensions we are dealing with, our decision boundary is going to be straight, not curved.</p>
 <h2 id="1.1-Neural-Networks-Add-Non-linearity">1.1 Neural Networks Add Non-linearity<a class="anchor-link" href="#1.1-Neural-Networks-Add-Non-linearity">&#182;</a></h2><p>Now, as we get into the realm of Neural Networks, things begin to change. We can have non-linearly seperable variables, such as:</p>
 <p><img src="https://drive.google.com/uc?id=1tnYYowauWYZc_6Gfr65rvgQy276RX30u" width="400"></p>
 <p>Logistic regression would <em>not</em> be appropriate for this, while neural networks would! Recall, a linear function has the form:</p>
-<p>$$w_1x_1 + w_2x_2+...+w_nx_n$$</p>
-<p>$$w^T x$$</p>
-<p>Where, just a reminder, in the vector notation $w_T x$, the weights are transposed because by convention they are stored as a column vector, but we need to be able to perform matrix vector multiplicaton (akin to the dot product in this case) with the input vector $x$.</p>
+$$w_1x_1 + w_2x_2+...+w_nx_n$$$$w^T x$$<p>Where, just a reminder, in the vector notation $w_T x$, the weights are transposed because by convention they are stored as a column vector, but we need to be able to perform matrix vector multiplicaton (akin to the dot product in this case) with the input vector $x$.</p>
 <p>So, we can see that anything that cannot be simplified into $w^Tx$ is nonlinear. Now, $x^2$ and $x^3$ are both nonlinear, but neural networks are nonlinear in a <em>very specific way</em>. Neural Networks achieve nonlinearity by:</p>
 <blockquote><p><em>Being a combination of multiple logistic regression units (neurons) put together.</em></p>
 </blockquote>
@@ -233,28 +224,22 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="2.-Logistic-Regression-$\rightarrow$-Neural-Networks">2. Logistic Regression $\rightarrow$ Neural Networks<a class="anchor-link" href="#2.-Logistic-Regression-$\rightarrow$-Neural-Networks">&#182;</a></h1><p>We are now ready to start the transition from logistic regression to neural networks. Recall that logistic regression is a neuron, and we are going to be connecting many together to make a network of neurons. The most basic way to do this is the <em><strong>feed forward method</strong></em>. For logistic regression, we have a weight corresponding to every input:</p>
 <p><img src="https://drive.google.com/uc?id=1M8tztc_pcFzl5um_YJr2HsfkJtIo5No7" width="500"></p>
 <p>This is seen clearly in the image above. We have two input features, $x_1$ and $x_2$, but of course there can be many more. Each input feature has a corresponding weight, $w_1$ and $w_2$. In order to determine the output $y$, we multiply each input by its weight, sum them all together, add a bias term, and put it through a sigmoid function:</p>
-<p>$$z = x_1w_1 + x_2w_2 + bw_0$$</p>
-<p>$$y = p(y \mid x) = \frac{1}{1 + e^{-z}}$$</p>
-<p>$$prediction = round \big( p(y \mid x)\big)$$</p>
-<p>If our prediction is greater than 0.5, we predict class 1, otherwise we predict class 0.</p>
+$$z = x_1w_1 + x_2w_2 + bw_0$$$$y = p(y \mid x) = \frac{1}{1 + e^{-z}}$$$$prediction = round \big( p(y \mid x)\big)$$<p>If our prediction is greater than 0.5, we predict class 1, otherwise we predict class 0.</p>
 <h2 id="2.1-Extend-to-a-Neural-Network">2.1 Extend to a Neural Network<a class="anchor-link" href="#2.1-Extend-to-a-Neural-Network">&#182;</a></h2><p>Now, in order to extend this concept to that of a neural network, the main thing we need to do is just add more logistic regression layers (i.e. neurons):</p>
 <p><img src="https://drive.google.com/uc?id=1eb0SZPcqbpfQB6RssWTD0ZVfZyBH-32i" width="500"></p>
 <p>We will be working mainly with 1 extra layer, but an arbitrary number can be added. In recent years, researchers have found amazing success with deeper networks, hence the term <em>deep learning</em>. The first step is of course to just add 1 layer, and our calculations are the exact same!</p>
 <blockquote><p>We multiply each input by its weight (linear combination), add the bias, and pass it through a sigmoid function.</p>
 </blockquote>
 <p>That is how we get each value at node $z$:</p>
-<p>$$z_j = \sigma \big(\sum_i (W_{ij}x_j + b_j)\big)$$</p>
-<p>Where in the above equation our $x$ inputs are indexed by $i$, and the $z$ nodes are indexed by $j$. Also, notice that our set of weights $w$ is now a matrix. This is because there needs to be a weight for each input-output pair. Hence, since we have 2 inputs and 3 outputs, we need there to be 6 weights in total.</p>
+$$z_j = \sigma \big(\sum_i (W_{ij}x_j + b_j)\big)$$<p>Where in the above equation our $x$ inputs are indexed by $i$, and the $z$ nodes are indexed by $j$. Also, notice that our set of weights $w$ is now a matrix. This is because there needs to be a weight for each input-output pair. Hence, since we have 2 inputs and 3 outputs, we need there to be 6 weights in total.</p>
 <h2 id="2.2-Nonlinearities">2.2 Nonlinearities<a class="anchor-link" href="#2.2-Nonlinearities">&#182;</a></h2><p>We have already spoken about the fact that the main things that makes neural networks so powerful is that they are nonlinear classifiers. We have already gone over one of the most common nonlinear functions utilized in this architecture, the sigmoid:</p>
-<p>$$\sigma(x) = \frac{1}{1 + e^{-x}}$$</p>
-<p>There are also several other nonlinearities that we will cover soon, such as <em>tanh</em> and the <em>RELU</em>.</p>
+$$\sigma(x) = \frac{1}{1 + e^{-x}}$$<p>There are also several other nonlinearities that we will cover soon, such as <em>tanh</em> and the <em>RELU</em>.</p>
 <h2 id="2.3-Vectorization">2.3 Vectorization<a class="anchor-link" href="#2.3-Vectorization">&#182;</a></h2><p>From an implementation standpoint, remember that it is faster to use the numpy matrix and vector operations, compared to using python for loops. Hence, we are going to treat our system layers as follows:</p>
 <blockquote><ul>
 <li>$X$ is going to be a <strong><em>D dimensional vector</em></strong> (D is 2 in the above diagram)</li>
@@ -262,16 +247,8 @@ body {
 </ul>
 </blockquote>
 <p>This means that Z is going to look like:</p>
-<p>$$z_j = \sigma \big(\sum_i (W_{ij}x_i) + b_j\big)$$</p>
-<p>$$\downarrow$$</p>
-<p>$$z_j = \sigma \big(W_{j}^Tx) + b_j\big)$$</p>
-<p>$$\downarrow$$</p>
-<p>$$z = \sigma \big(W^Tx) + b\big)$$</p>
-<p>And $p(y \mid x)$ will look like:</p>
-<p>$$p(y \mid x) = \sigma \big(\sum_j (v_{j}z_j) + c\big)$$</p>
-<p>$$\downarrow$$</p>
-<p>$$p(y \mid x) = \sigma \big(v^Tz + c\big)$$</p>
-<h2 id="2.4-Matrix-Notation">2.4 Matrix Notation<a class="anchor-link" href="#2.4-Matrix-Notation">&#182;</a></h2><p>The above is pretty good, but we can do even better! In general, we have <em>many</em> data points, and we want to consider more than one sample at a time. So, we can further vectorize our calculations, by using the full input matrix of data!</p>
+$$z_j = \sigma \big(\sum_i (W_{ij}x_i) + b_j\big)$$$$\downarrow$$$$z_j = \sigma \big(W_{j}^Tx) + b_j\big)$$$$\downarrow$$$$z = \sigma \big(W^Tx) + b\big)$$<p>And $p(y \mid x)$ will look like:</p>
+$$p(y \mid x) = \sigma \big(\sum_j (v_{j}z_j) + c\big)$$$$\downarrow$$$$p(y \mid x) = \sigma \big(v^Tz + c\big)$$<h2 id="2.4-Matrix-Notation">2.4 Matrix Notation<a class="anchor-link" href="#2.4-Matrix-Notation">&#182;</a></h2><p>The above is pretty good, but we can do even better! In general, we have <em>many</em> data points, and we want to consider more than one sample at a time. So, we can further vectorize our calculations, by using the full input matrix of data!</p>
 <p>This will be an $NxD$ matrix, where $N$ is the number of samples and $D$ is the dimensionality. Because we will then be calculating everything at the same time, $z$ will then be an $NxM$ matrix. The output $y$ will be an $Nx1$ matrix (for binary classification, for $k$ classes it will be $Nxk$. It is important that our weights all have the correct shape. Hence:</p>
 <blockquote><p><strong>Weights:</strong></p>
 <ul>
@@ -284,13 +261,10 @@ body {
 <p>Visually, our current configuration can be interpreted as seen in the diagram below:</p>
 <p><img src="https://drive.google.com/uc?id=1EKIR1mZVB4AQQgDf8GPx1b6e_Z8poEuE" width="600"></p>
 <p>And after switching to a matrix representatino, we end up with the following equations:</p>
-<p>$$Z = \sigma \big(XW + b\big) $$</p>
-<p>$$Y = \sigma \big(Zv + c\big)$$</p>
-<h2 id="2.5-Intuition-Via-the-Dot-Product">2.5 Intuition Via the Dot Product<a class="anchor-link" href="#2.5-Intuition-Via-the-Dot-Product">&#182;</a></h2><p>Now, when just learning about Neural Networks, it is <em>very</em> easy to become lost in a fog of matrices, arrows pointing from node to node, transposes, and so on. Something that I feel is absolutely crucial to really have a good understanding for what is going on here is having a good understanding of the <em><strong>dot product</strong></em>, and being able to keep it in mind as we get into more complex networks.</p>
+$$Z = \sigma \big(XW + b\big) $$$$Y = \sigma \big(Zv + c\big)$$<h2 id="2.5-Intuition-Via-the-Dot-Product">2.5 Intuition Via the Dot Product<a class="anchor-link" href="#2.5-Intuition-Via-the-Dot-Product">&#182;</a></h2><p>Now, when just learning about Neural Networks, it is <em>very</em> easy to become lost in a fog of matrices, arrows pointing from node to node, transposes, and so on. Something that I feel is absolutely crucial to really have a good understanding for what is going on here is having a good understanding of the <em><strong>dot product</strong></em>, and being able to keep it in mind as we get into more complex networks.</p>
 <p>I have a notebook that delves into the dot product, linear combinations, and linear transformations in great detail in my <em>linear algebra</em> section of the Math Appendix. I highly recommend reviewing it if you are a bit hazy on the dot product, but I will give a quick overview here as well.</p>
 <p>Consider for a moment that our $x$ input is a <em>vector</em>. We have been representing it simply via an array of numbers, but we can think about it <em>geometrically</em> as well. This is of course only possible in 3 dimensions, since humans cannot think in any dimensionality larger than that, but for now let's assume that $x$ is a 3 dimensional vector. Now, if we have another 3 dimensional vector, $v$, and take the dot product of it with $x$:</p>
-<p>$$x \cdot v$$</p>
-<p>We are essentially getting a measure of <em>similarity</em>. The closer these two vectors are in direction and magnitude, the <em>larger their dot product</em>. If they are perpendicular to eachother, their dot product is 0. If they are pointing in opposite directions, their dot product is negative.</p>
+$$x \cdot v$$<p>We are essentially getting a measure of <em>similarity</em>. The closer these two vectors are in direction and magnitude, the <em>larger their dot product</em>. If they are perpendicular to eachother, their dot product is 0. If they are pointing in opposite directions, their dot product is negative.</p>
 <p>Now, in both the our logistic regression unit (neuron) and neural networks, we are taking dot products! (In both cases, we start with simply taking a linear combination, but after transitioning to matrix vector notation we are able to refer to it as a dot product). This can be seen clearly in the diagram below:</p>
 <p><img src="https://drive.google.com/uc?id=1KRmrETJeFRnxTcaDWAY74QTJx7S5TYRk" width="500"></p>
 <p>Let's walk through what is happening above:</p>
@@ -317,45 +291,32 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="3.-Softmax">3. Softmax<a class="anchor-link" href="#3.-Softmax">&#182;</a></h1><p>It is now time to dig into handling the scenario when your output has more than 2 categories. Previously, we have only discussed binary classification, for which there <em>are</em> many real world applications. However, there are countless situations where you want to be able to classify $k$ classes. For instance, consider the famous MNIST data set, or if you wanted to tag Faces, cars, friends, etc.</p>
 <h2 id="3.1-Extending-the-Logistic-Unit">3.1 Extending the Logistic Unit<a class="anchor-link" href="#3.1-Extending-the-Logistic-Unit">&#182;</a></h2><p>Let's quickly talk about the best way to extend the logistic unit so that it can handle more than 2 classes. Recall that when we have two classes, we only need 1 output:</p>
-<p>$$P(Y=1\mid X)$$</p>
-<p>This is because:</p>
-<p>$$P(Y=0 \mid X) = 1 - P(Y=1 \mid X)$$</p>
-<p>This can be visualized below:</p>
+$$P(Y=1\mid X)$$<p>This is because:</p>
+$$P(Y=0 \mid X) = 1 - P(Y=1 \mid X)$$<p>This can be visualized below:</p>
 <p><img src="https://drive.google.com/uc?id=1IEL1fu9RSWXkPaXwnpOs3ML_ooGVDIjs" width="400"></p>
 <p>Where again we can think of the weight vector $W$ as a learned representation of the $Y=1$ vector! When we take the dot product with our input vector $x$, if the input vector is similar, we have a high value and classify the vector as 1.</p>
 <p>However, there is another way that we could go about doing this.</p>
 <h3 id="3.1.1-Binary-Output-With-Two-Output-Nodes">3.1.1 Binary Output With Two Output Nodes<a class="anchor-link" href="#3.1.1-Binary-Output-With-Two-Output-Nodes">&#182;</a></h3><p>Instead of having a single output node, we could have two nodes, and then just normalize them so that they sum to 1. For instace, the diagram below:</p>
 <p><img src="https://drive.google.com/uc?id=1kpWAJtsHVNsXxklPnufR9kmWK55HKqrZ" width="400"></p>
 <p>We have $a_1$ and $a_2$, where they are just:</p>
-<p>$$a_1 = w_1^T x$$</p>
-<p>$$a_2 = w_2^T x$$</p>
-<p>We can exponentiate both of the output values ($a_1$ and $a_2$) in order to make sure they are both positive.</p>
-<p>$$P(Y=1 \mid X) = \frac{e^{a_1}}{e^{a_1} + e^{a_2}}$$</p>
-<p>$$P(Y=0 \mid X) = \frac{e^{a_2}}{e^{a_1} + e^{a_2}}$$</p>
-<p>Notice in the diagram that our weights are no longer a vector as they were in logistic regression. Since every input node has to be connected with every output node, and we have $D$ input nodes and 2 output nodes, the total number of weights is $2D$ and they are stored in a $Dx2$ matrix.</p>
+$$a_1 = w_1^T x$$$$a_2 = w_2^T x$$<p>We can exponentiate both of the output values ($a_1$ and $a_2$) in order to make sure they are both positive.</p>
+$$P(Y=1 \mid X) = \frac{e^{a_1}}{e^{a_1} + e^{a_2}}$$$$P(Y=0 \mid X) = \frac{e^{a_2}}{e^{a_1} + e^{a_2}}$$<p>Notice in the diagram that our weights are no longer a vector as they were in logistic regression. Since every input node has to be connected with every output node, and we have $D$ input nodes and 2 output nodes, the total number of weights is $2D$ and they are stored in a $Dx2$ matrix.</p>
 <h2 id="3.2-Softmax-for-$K$-Classes">3.2 Softmax for $K$ Classes<a class="anchor-link" href="#3.2-Softmax-for-$K$-Classes">&#182;</a></h2><p>We can easily extend this framework to $K$ classes:</p>
-<p>$$P(Y=k \mid X) = \frac{e^{a_k}}{Z}$$</p>
-<p>$$Z = e^{a_1} + e^{a_2} + ... + e^{a_k}$$</p>
-<p>And $W$ is a $DxK$ matrix. Note, the output which we have been calling $a$ is usually the activation.</p>
+$$P(Y=k \mid X) = \frac{e^{a_k}}{Z}$$$$Z = e^{a_1} + e^{a_2} + ... + e^{a_k}$$<p>And $W$ is a $DxK$ matrix. Note, the output which we have been calling $a$ is usually the activation.</p>
 <h2 id="3.3-Sigmoid-vs.-Softmax">3.3 Sigmoid vs. Softmax<a class="anchor-link" href="#3.3-Sigmoid-vs.-Softmax">&#182;</a></h2><p>Let's take a moment to determine when the sigmod and softmax are equivalent. We can begin by restating what we already know:</p>
-<p>$$P(Y=1 \mid X) = \frac{e^{w_1^Tx}}{e^{w_1^Tx} + e^{w_0^Tx}}$$</p>
-<p>$$P(Y=0 \mid X) = \frac{e^{w_0^Tx}}{e^{w_1^Tx} + e^{w_0^Tx}}$$</p>
-<p>Now, let's divide the first equation, $P(Y=1 \mid X)$, by $e^{w_1^Tx}$:</p>
-<p>$$P(Y=1 \mid X) = \frac{1}{1 + e^{(w_0 - w_1)^Tx}}$$</p>
-<p>And we can see that this has the same form as the sigmoid! Now, in this case $w = w_1 - w_0$. What does this mean? This means that having 2 weights is actually redundant when there are only two classes. However, from a software design perspective, it is safer to always just use softmax, since that will allow it to be more general! It will be able to handle the sigmoid case where $K=2$, but also any other value of $K$.</p>
+$$P(Y=1 \mid X) = \frac{e^{w_1^Tx}}{e^{w_1^Tx} + e^{w_0^Tx}}$$$$P(Y=0 \mid X) = \frac{e^{w_0^Tx}}{e^{w_1^Tx} + e^{w_0^Tx}}$$<p>Now, let's divide the first equation, $P(Y=1 \mid X)$, by $e^{w_1^Tx}$:</p>
+$$P(Y=1 \mid X) = \frac{1}{1 + e^{(w_0 - w_1)^Tx}}$$<p>And we can see that this has the same form as the sigmoid! Now, in this case $w = w_1 - w_0$. What does this mean? This means that having 2 weights is actually redundant when there are only two classes. However, from a software design perspective, it is safer to always just use softmax, since that will allow it to be more general! It will be able to handle the sigmoid case where $K=2$, but also any other value of $K$.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="4.-Feed-Forward-Example">4. Feed-Forward Example<a class="anchor-link" href="#4.-Feed-Forward-Example">&#182;</a></h1><p>We are now ready to make our first predictions via a Neural Network! The way that this is done is via the <em><strong>Feedforward method</strong></em>. Here is the scenario we will go over:</p>
@@ -385,88 +346,64 @@ $$Y = \begin{bmatrix}
 <p>We can now add in the weights for our network:</p>
 <p><img src="https://drive.google.com/uc?id=114mXlNUhZC-IPHt2XdLoB-fA2EumA1YD" width="500"></p>
 <p>Which can be written as a matrix of size $2x3$:</p>
-<p>$$W = \begin{bmatrix}
+$$W = \begin{bmatrix}
     W_{11} &amp; W_{12} &amp; W_{13}\\
     W_{21} &amp; W_{22} &amp; W_{23}\\
-\end{bmatrix}$$</p>
-<p>And for our case, our weights will have the values:</p>
-<p>$$W = \begin{bmatrix}
+\end{bmatrix}$$<p>And for our case, our weights will have the values:</p>
+$$W = \begin{bmatrix}
     0.5 &amp; 0.1 &amp; -0.3\\
     0.7 &amp; -0.3 &amp; 0.2\\
-\end{bmatrix}$$</p>
-<p>The first row of $W$ corresponds to the weights that relate $x_1$ to the hidden layer, and the second row of $W$ corresponds to the weights that relate $x_2$ to the hidden layer.</p>
+\end{bmatrix}$$<p>The first row of $W$ corresponds to the weights that relate $x_1$ to the hidden layer, and the second row of $W$ corresponds to the weights that relate $x_2$ to the hidden layer.</p>
 <p>Our bias terms can be held in a $3x1$ vector $b$:</p>
-<p>$$b = \begin{bmatrix}
+$$b = \begin{bmatrix}
     b_1 \\
     b_2 \\
     b_3 
-\end{bmatrix}$$</p>
-<p>With values:</p>
-<p>$$b = \begin{bmatrix}
+\end{bmatrix}$$<p>With values:</p>
+$$b = \begin{bmatrix}
    0.4 \\
    0.1 \\
    0 
-\end{bmatrix}$$</p>
-<p>We can now look at the hidden weights as well, where $V$ maps each node in the hidden layer to every output node (currently, we have 1 output node). Hence, with 3 hidden layer nodes, we need 3 weights:</p>
-<p>$$V = \begin{bmatrix}
+\end{bmatrix}$$<p>We can now look at the hidden weights as well, where $V$ maps each node in the hidden layer to every output node (currently, we have 1 output node). Hence, with 3 hidden layer nodes, we need 3 weights:</p>
+$$V = \begin{bmatrix}
     V_1 \\
     V_2 \\
     V_3 
-\end{bmatrix}$$</p>
-<p>$$V = \begin{bmatrix}
+\end{bmatrix}$$$$V = \begin{bmatrix}
     0.8 \\
     0.1 \\
     -0.1 
-\end{bmatrix}$$</p>
-<p>We can also specify a bias term, which we need on per output node. In this case, with a only one output node, our bias term can be a scalar:</p>
-<p>$$c = 0.2$$</p>
-
+\end{bmatrix}$$<p>We can also specify a bias term, which we need on per output node. In this case, with a only one output node, our bias term can be a scalar:</p>
+$$c = 0.2$$
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="4.2-Calculations-$\rightarrow$-Via-Summations">4.2 Calculations $\rightarrow$ Via Summations<a class="anchor-link" href="#4.2-Calculations-$\rightarrow$-Via-Summations">&#182;</a></h2><p>Alright, now that we have all of our values defined and sorted out, we can take the first sample and walk through a calculation trying to solve whether the person will succeed at deep learning or not. In other words, we are going to find $p(y =1 \mid x)$!</p>
 <p>At first, we are going to calculate this using summations, and also use the tanh activation function. We could have also used the sigmoid-we will discuss our choice later.</p>
 <h3 id="4.2.1-Calculate-$z_1$,-the-activation-at-hidden-layer-unit-1">4.2.1 Calculate $z_1$, the activation at hidden layer unit 1<a class="anchor-link" href="#4.2.1-Calculate-$z_1$,-the-activation-at-hidden-layer-unit-1">&#182;</a></h3><p>From a visual perspective, the activation at unit 1 in the hidden layer looks like:</p>
 <p><img src="https://drive.google.com/uc?id=17BI0sgBmIxqMUN-vl7zSGEH0tbElChEm" width="500"></p>
 <p>The activation is a linear combination of all input features values, $x$, and their corresponding weights. This linear combination is then used as the input to the tanh function, and the result is our activation:</p>
-<p>$$z_1 = tanh(x_1w_{11} + x_2w_{21} + 1*b_1)$$</p>
-<p>$$z_1 = tanh(0.5*0 + 0.7*3.5 + 0.4) = tanh(2.85) = 0.993$$</p>
-<h3 id="4.2.2-Calculate-$z_2$,-the-activation-at-hidden-layer-unit-2">4.2.2 Calculate $z_2$, the activation at hidden layer unit 2<a class="anchor-link" href="#4.2.2-Calculate-$z_2$,-the-activation-at-hidden-layer-unit-2">&#182;</a></h3><p>This same process can be followed for $z_2$:</p>
+$$z_1 = tanh(x_1w_{11} + x_2w_{21} + 1*b_1)$$$$z_1 = tanh(0.5*0 + 0.7*3.5 + 0.4) = tanh(2.85) = 0.993$$<h3 id="4.2.2-Calculate-$z_2$,-the-activation-at-hidden-layer-unit-2">4.2.2 Calculate $z_2$, the activation at hidden layer unit 2<a class="anchor-link" href="#4.2.2-Calculate-$z_2$,-the-activation-at-hidden-layer-unit-2">&#182;</a></h3><p>This same process can be followed for $z_2$:</p>
 <p><img src="https://drive.google.com/uc?id=1T7Buib9lNcjT8ZjJ6f6NsXzXg8K_j__3" width="500"></p>
-<p>$$z_2 = tanh(x_1w_{12} + x_2w_{22} + 1*b_2)$$</p>
-<p>$$z_2 = tanh(0.1*0 - 0.3*3.5 + 0.1) = tanh(-0.95) = -0.740$$</p>
-<h3 id="4.2.3-Calculate-$z_3$,-the-activation-at-hidden-layer-unit-3">4.2.3 Calculate $z_3$, the activation at hidden layer unit 3<a class="anchor-link" href="#4.2.3-Calculate-$z_3$,-the-activation-at-hidden-layer-unit-3">&#182;</a></h3><p>And again, for $z_3$:</p>
+$$z_2 = tanh(x_1w_{12} + x_2w_{22} + 1*b_2)$$$$z_2 = tanh(0.1*0 - 0.3*3.5 + 0.1) = tanh(-0.95) = -0.740$$<h3 id="4.2.3-Calculate-$z_3$,-the-activation-at-hidden-layer-unit-3">4.2.3 Calculate $z_3$, the activation at hidden layer unit 3<a class="anchor-link" href="#4.2.3-Calculate-$z_3$,-the-activation-at-hidden-layer-unit-3">&#182;</a></h3><p>And again, for $z_3$:</p>
 <p><img src="https://drive.google.com/uc?id=1Xpv2gueNe1YM0p5rybkAY-gu4a4h8BaO" width="500"></p>
-<p>$$z_3 = tanh(x_1w_{13} + x_2w_{23} + 1*b_3)$$</p>
-<p>$$z_3 = tanh(-0.3*0 + 0.2*3.5 +0) = tanh(0.7) = 0.604$$</p>
-<h3 id="4.2.4-Hidden-layer-activations,-$z_i$,-with-summations">4.2.4 Hidden layer activations, $z_i$, with summations<a class="anchor-link" href="#4.2.4-Hidden-layer-activations,-$z_i$,-with-summations">&#182;</a></h3><p>It is important to note that we can rewrite our equations for the activations in the hidden layer via summations, like so:</p>
-<p>$$z_1 = tanh\big(\sum_{i=1}^2 W_{i1}x_i + b_1\big)$$</p>
-<p>$$z_2 = tanh\big(\sum_{i=1}^2 W_{i2}x_i + b_2\big)$$</p>
-<p>$$z_3 = tanh\big(\sum_{i=1}^2 W_{i3}x_i + b_3\big)$$</p>
-<p>Now, at this point, we have determined all of the activations, $z$, for the hidden layer!</p>
+$$z_3 = tanh(x_1w_{13} + x_2w_{23} + 1*b_3)$$$$z_3 = tanh(-0.3*0 + 0.2*3.5 +0) = tanh(0.7) = 0.604$$<h3 id="4.2.4-Hidden-layer-activations,-$z_i$,-with-summations">4.2.4 Hidden layer activations, $z_i$, with summations<a class="anchor-link" href="#4.2.4-Hidden-layer-activations,-$z_i$,-with-summations">&#182;</a></h3><p>It is important to note that we can rewrite our equations for the activations in the hidden layer via summations, like so:</p>
+$$z_1 = tanh\big(\sum_{i=1}^2 W_{i1}x_i + b_1\big)$$$$z_2 = tanh\big(\sum_{i=1}^2 W_{i2}x_i + b_2\big)$$$$z_3 = tanh\big(\sum_{i=1}^2 W_{i3}x_i + b_3\big)$$<p>Now, at this point, we have determined all of the activations, $z$, for the hidden layer!</p>
 <h3 id="4.2.5-Calculate-Output,-$p(Y=1-\mid-X)$">4.2.5 Calculate Output, $p(Y=1 \mid X)$<a class="anchor-link" href="#4.2.5-Calculate-Output,-$p(Y=1-\mid-X)$">&#182;</a></h3><p>At this point we would like to calculate the output, $p(Y=1 \mid X)$. In other to do this, we need to multiply our hidden layer by $V$, add $c$, and run that value through the sigmoid function. Just as with the input to hidden weights, each of the Vs also connects 1 node in the hidden layer to the output node. So, visually our calculation looks like:</p>
 <p><img src="https://drive.google.com/uc?id=1Tz_7d6rMz_ED0hCL6yMJ1n9P2bcCFxXl" width="500"></p>
 <p>And it can be written mathematically as:</p>
-<p>$$p(Y=1 \mid X) = \sigma \big( V_1z_1 + V_2z_2 + V_3z_3 + c\big)$$</p>
-<p>Or, via summations as:</p>
-<p>$$p(Y=1 \mid X) = \sigma \big(\sum_{j=1}^3 V_jz_j + c \big)$$</p>
-<p>Which we can then plug in the known values for those variables:</p>
-<p>$$p(Y=1 \mid X) = \sigma \big(0.8*0.993 + 0.1*-0.74 - 0.1*0.604 + 0.2\big)$$</p>
-<p>$$p(Y=1 \mid X) = \sigma \big(0.86\big) = 0.70$$</p>
-<h3 id="4.2.6-Our-Prediction">4.2.6 Our Prediction<a class="anchor-link" href="#4.2.6-Our-Prediction">&#182;</a></h3><p>After the succession of calculations, we finally arrive at our prediction:</p>
+$$p(Y=1 \mid X) = \sigma \big( V_1z_1 + V_2z_2 + V_3z_3 + c\big)$$<p>Or, via summations as:</p>
+$$p(Y=1 \mid X) = \sigma \big(\sum_{j=1}^3 V_jz_j + c \big)$$<p>Which we can then plug in the known values for those variables:</p>
+$$p(Y=1 \mid X) = \sigma \big(0.8*0.993 + 0.1*-0.74 - 0.1*0.604 + 0.2\big)$$$$p(Y=1 \mid X) = \sigma \big(0.86\big) = 0.70$$<h3 id="4.2.6-Our-Prediction">4.2.6 Our Prediction<a class="anchor-link" href="#4.2.6-Our-Prediction">&#182;</a></h3><p>After the succession of calculations, we finally arrive at our prediction:</p>
 <blockquote><p>Our subject has a 70% chance of succeeding at deep learning!</p>
 </blockquote>
 <h2 id="4.3-Calculations-$\rightarrow$-Vectorized">4.3 Calculations $\rightarrow$ Vectorized<a class="anchor-link" href="#4.3-Calculations-$\rightarrow$-Vectorized">&#182;</a></h2><p>Now, that was a lot of work to calculated just one sample, which is why we want to vectorize our operations, via <em>numpy</em>.</p>
 <h3 id="4.3.1-Hidden-layer,-$z$,-vectorized">4.3.1 Hidden layer, $z$, vectorized<a class="anchor-link" href="#4.3.1-Hidden-layer,-$z$,-vectorized">&#182;</a></h3><p>We can start by vectorizing the hidden layer. Recall, the hidden layer is determined via:</p>
-<p>$$z_1 = tanh\big(\sum_{i=1}^2 W_{i1}x_i + b_1\big)$$</p>
-<p>$$z_2 = tanh\big(\sum_{i=1}^2 W_{i2}x_i + b_2\big)$$</p>
-<p>$$z_3 = tanh\big(\sum_{i=1}^2 W_{i3}x_i + b_3\big)$$</p>
-<p>Which, we can rewrite as follows:</p>
-<p>$$
+$$z_1 = tanh\big(\sum_{i=1}^2 W_{i1}x_i + b_1\big)$$$$z_2 = tanh\big(\sum_{i=1}^2 W_{i2}x_i + b_2\big)$$$$z_3 = tanh\big(\sum_{i=1}^2 W_{i3}x_i + b_3\big)$$<p>Which, we can rewrite as follows:</p>
+$$
 \begin{bmatrix}
     z_1\\
     z_2  \\
@@ -488,17 +425,15 @@ tanh \Big (
     b_3
 \end{bmatrix}
 \Big)
-$$</p>
-<p>Which can be written compactly as:</p>
-<p>$$
+$$<p>Which can be written compactly as:</p>
+$$
 \begin{bmatrix}
     z_1\\
     z_2  \\
     z_2 
 \end{bmatrix} = 
 tanh (W^Tx+b)
-$$</p>
-<p>Now, just to prove that that matrix notation is equivalent, we can quickly perform the calculation via numpy:</p>
+$$<p>Now, just to prove that that matrix notation is equivalent, we can quickly perform the calculation via numpy:</p>
 
 </div>
 </div>
@@ -523,7 +458,7 @@ $$</p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;z vector: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -533,7 +468,7 @@ $$</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -564,16 +499,13 @@ z vector:
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And we have arrived at our expected answer!</p>
 <h3 id="4.3.2-Output-layer-vectorized">4.3.2 Output layer vectorized<a class="anchor-link" href="#4.3.2-Output-layer-vectorized">&#182;</a></h3><p>Of course, we can do the exact same thing for the hidden to output layer! Our calculation with summations had the form:</p>
-<p>$$p(Y=1 \mid X) = \sigma \big(\sum_{j=1}^3 V_jz_j + c \big)$$</p>
-<p>And we can vectorize it so that it looks like:</p>
-<p>$$p(Y=1 \mid X) = \sigma \big(V^Tz +c)$$</p>
-<p>Which, when written out fully will look like:</p>
-<p>$$
+$$p(Y=1 \mid X) = \sigma \big(\sum_{j=1}^3 V_jz_j + c \big)$$<p>And we can vectorize it so that it looks like:</p>
+$$p(Y=1 \mid X) = \sigma \big(V^Tz +c)$$<p>Which, when written out fully will look like:</p>
+$$
 p(Y=1 \mid X) = 
 \sigma \Big (
 \begin{bmatrix}
@@ -586,8 +518,7 @@ p(Y=1 \mid X) =
 \end{bmatrix} +
 0.2
 \Big)
-$$</p>
-<p>Again, we can verify that this operation is equivalent to our summation calculation from earlier:</p>
+$$<p>Again, we can verify that this operation is equivalent to our summation calculation from earlier:</p>
 
 </div>
 </div>
@@ -610,7 +541,7 @@ $$</p>
 <span class="n">sigmoid</span><span class="p">(</span><span class="n">V_transpose</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -620,7 +551,7 @@ $$</p>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[2]:</div>
+    <div class="prompt output_prompt">Out[2]:</div>
 
 
 
@@ -636,8 +567,7 @@ $$</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And we arrive out the exact output we were expecting!</p>
 
@@ -645,43 +575,37 @@ $$</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="4.4-Multiple-Sample-$\rightarrow$-Matrixization">4.4 Multiple Sample $\rightarrow$ Matrixization<a class="anchor-link" href="#4.4-Multiple-Sample-$\rightarrow$-Matrixization">&#182;</a></h2><p>At this point we have effectively vectorized the prediction of a single sample. However, in general we may have <em>a set of samples</em> that we want to classify. We are able to take our vectorization process one step further and create an <em>input matrix</em>, $X$, of samples.</p>
 <p>Keep in mind that when we are dealing with a single input sample, $x$, it is a column vector; however, once we switch to deal with a matrix of input samples, by convention they are held as row vectors. In other words, when dealing with a single sample we have:</p>
-<p>$$x = \begin{bmatrix}
+$$x = \begin{bmatrix}
     0 \\
     3.5
-\end{bmatrix}$$</p>
-<p>And when dealing with multiple samples:</p>
-<p>$$X = \begin{bmatrix}
+\end{bmatrix}$$<p>And when dealing with multiple samples:</p>
+$$X = \begin{bmatrix}
     0 &amp; 3.5 \\
     1 &amp; 2 \\
     1 &amp; 0.5 
-\end{bmatrix}$$</p>
-<p>So, we want to find a way to pass in <em>an entire input matrix</em>, $X$, to our prediction process! This means that we will no longer be calculating a $z$ hidden layer vector, but a $Z$ hidden layer matrix. Likewise, we will not longer be determining a single output, but rather a vector holding a prediction for each corresponding row of the input matrix.</p>
+\end{bmatrix}$$<p>So, we want to find a way to pass in <em>an entire input matrix</em>, $X$, to our prediction process! This means that we will no longer be calculating a $z$ hidden layer vector, but a $Z$ hidden layer matrix. Likewise, we will not longer be determining a single output, but rather a vector holding a prediction for each corresponding row of the input matrix.</p>
 <p>To do this, we must first consider that our input samples are now <em>rows</em> in $X$:</p>
-<p>$$X = \begin{bmatrix}
+$$X = \begin{bmatrix}
     0 &amp; 3.5 \\
     1 &amp; 2 \\
     1 &amp; 0.5 
-\end{bmatrix}$$</p>
-<p>In order to ensure that our hidden layer is still calculated correctly we must make an update. Previously, we had been taking the tranpose of our weight matrix:</p>
-<p>$$W^T =
+\end{bmatrix}$$<p>In order to ensure that our hidden layer is still calculated correctly we must make an update. Previously, we had been taking the tranpose of our weight matrix:</p>
+$$W^T =
 \begin{bmatrix}
     W_{11} &amp; W_{21} \\
     W_{12} &amp; W_{22} \\
     W_{13} &amp; W_{23} 
 \end{bmatrix}
-$$</p>
-<p>However, that is no longer what we want to do, since our samples are rows of $X$, and not single column vectors. Hence, we want to keep $W$ in its original form:</p>
-<p>$$W = \begin{bmatrix}
+$$<p>However, that is no longer what we want to do, since our samples are rows of $X$, and not single column vectors. Hence, we want to keep $W$ in its original form:</p>
+$$W = \begin{bmatrix}
     W_{11} &amp; W_{12} &amp; W_{13}\\
     W_{21} &amp; W_{22} &amp; W_{23}\\
-\end{bmatrix}$$</p>
-<p>And have it be multipled (linearly transformed) by $X$:</p>
-<p>$$XW =
+\end{bmatrix}$$<p>And have it be multipled (linearly transformed) by $X$:</p>
+$$XW =
 \begin{bmatrix}
     0 &amp; 3.5 \\
     1 &amp; 2 \\
@@ -691,39 +615,33 @@ $$</p>
     W_{11} &amp; W_{12} &amp; W_{13}\\
     W_{21} &amp; W_{22} &amp; W_{23}\\
 \end{bmatrix}
-$$</p>
-<p>Now, the next step is determining if/how our bias vector, $b$, must be updated. $b$ is of size $Mx1$, and looks like:</p>
-<p>$$b = \begin{bmatrix}
+$$<p>Now, the next step is determining if/how our bias vector, $b$, must be updated. $b$ is of size $Mx1$, and looks like:</p>
+$$b = \begin{bmatrix}
     b_1 \\
     b_2 \\
     b_3 
-\end{bmatrix}$$</p>
-<p>However, the operation $XW$, leaves us with an $NxM$ matrix. Because matrix addition is element wise, when you add two matrices together they must be the same size. So, doing $XW + b$ does not work anymore!</p>
+\end{bmatrix}$$<p>However, the operation $XW$, leaves us with an $NxM$ matrix. Because matrix addition is element wise, when you add two matrices together they must be the same size. So, doing $XW + b$ does not work anymore!</p>
 <p>We know that what should happen is that the bias, $b$, should be applied to all $N$ input samples. For that to happen, we need to transpose $b$ so that it is a horizontal row vector, and then repeat it $N$ times. That would give us an $NxM$ matrix, and we would have two $NxM$ matrices that we could add together!</p>
-<p>$$
+$$
 XW_{NxM} + \begin{bmatrix}
     \leftarrow b^T  \rightarrow \\
     \leftarrow b^T \rightarrow \\
     \leftarrow b^T \rightarrow 
 \end{bmatrix}
-$$</p>
-<p>Luckily, numpy does now enforce that we do this explicitly and will automatically apply the process when call:</p>
+$$<p>Luckily, numpy does now enforce that we do this explicitly and will automatically apply the process when call:</p>
 
 <pre><code>X.dot(W) + b</code></pre>
 <p>So, our matrixization currently has gotten us to:</p>
-<p>$$XW + b$$</p>
-<p>Because the sigmoid and $tanh$ functions are applied element-wise, you pass scalars, vectors, and matrices in legally. This means that we can pass the entire expression above into $tanh$, like so:</p>
-<p>$$tanh(XW + b)$$</p>
-<p>The resulting matrix from this process, $Z$ (which holds the activations of all hidden units for each input sample), has a shape $NxM$:</p>
-<p>$$tanh(XW + b) = Z = 
+$$XW + b$$<p>Because the sigmoid and $tanh$ functions are applied element-wise, you pass scalars, vectors, and matrices in legally. This means that we can pass the entire expression above into $tanh$, like so:</p>
+$$tanh(XW + b)$$<p>The resulting matrix from this process, $Z$ (which holds the activations of all hidden units for each input sample), has a shape $NxM$:</p>
+$$tanh(XW + b) = Z = 
 \begin{bmatrix}
     Z_{11} &amp; Z_{12} &amp; Z_{13}\\
     Z_{21} &amp; Z_{22} &amp; Z_{23}\\
     Z_{21} &amp; Z_{22} &amp; Z_{23}\\
 \end{bmatrix}
-$$</p>
-<p>If we recall, $V$ has a shape $Mx1$. Hence, in order to keep consistency and ensure our calculations remain accurate, we must update our multiplcation operation to be:</p>
-<p>$$ ZV = 
+$$<p>If we recall, $V$ has a shape $Mx1$. Hence, in order to keep consistency and ensure our calculations remain accurate, we must update our multiplcation operation to be:</p>
+$$ ZV = 
 \begin{bmatrix}
     Z_{11} &amp; Z_{12} &amp; Z_{13}\\
     Z_{21} &amp; Z_{22} &amp; Z_{23}\\
@@ -734,32 +652,27 @@ $$</p>
     V_2 \\
     V_3 
 \end{bmatrix}
-$$</p>
-<p>Meaning that our entire calculation can be updated as:</p>
-<p>$$tanh(XW + b)V$$</p>
-<p>And, since $c$ is a scalar, it will be added to all entries of the above matrix, and we can add it normally:</p>
-<p>$$tanh(XW + b)V + c$$</p>
-<p>Because the sigmoid will be applied elementwise, we can pass then entire result from the above equation through the sigmoid, yielding our final output vector!</p>
-<p>$$y = 
+$$<p>Meaning that our entire calculation can be updated as:</p>
+$$tanh(XW + b)V$$<p>And, since $c$ is a scalar, it will be added to all entries of the above matrix, and we can add it normally:</p>
+$$tanh(XW + b)V + c$$<p>Because the sigmoid will be applied elementwise, we can pass then entire result from the above equation through the sigmoid, yielding our final output vector!</p>
+$$y = 
 \begin{bmatrix}
     y_1 \\
     y_2 \\
     y_3 
 \end{bmatrix} = 
-\sigma \big( tanh(XW + b)V + c \big) $$</p>
-
+\sigma \big( tanh(XW + b)V + c \big) $$
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="5.-Feed-Forward-with-Softmax">5. Feed-Forward with Softmax<a class="anchor-link" href="#5.-Feed-Forward-with-Softmax">&#182;</a></h1><p>At this point we have walked through the feedforward method with basic scalar multiplication, then a vectorized version, and finally we used matrix operations in order to calculate an entire layer of nodes, for every sample simultaneously.</p>
 <p>The next step is to make the transition to from the sigmoid to the softmax function. In this case, it is very helpful to think about what the targets will look like. When we use softmax, the output has multiple nodes and the output is a <em>vector</em>! When we have $k$ classes, we have $k$ output nodes, and the ouptut is a length $k$ vector. This also means that when we are considering multiple inputs at the same time, we will be dealing with an output <em>matrix</em> of size $NxK$. Each row of this output matrix will sum to 1, because it represents the probability that the sample belongs to each of the $K$ classes.</p>
 <p>This is interesting, because it suggests that if we use softmax, then our outputs should be 2 dimensional! However, if we recall from our original data set, our outputs are 1 dimensional scalars (0 or 1). The way to that we will fix our targets so they are usable by our neural network is to create an <strong>indicator matrix</strong>. This is similar to one hot encoding!</p>
-<p>$$
+$$
 \begin{bmatrix}
     0 \\
     5 \\
@@ -781,8 +694,7 @@ $$</p>
     0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\
     1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
 \end{bmatrix}
-$$</p>
-<p>In pseudocode it will look like:</p>
+$$<p>In pseudocode it will look like:</p>
 
 <pre><code>def convert_numbered_targets_to_indicator_matrix(Yin):
     N = length(Yin)
@@ -794,18 +706,16 @@ $$</p>
 <p>As input, we take a 1-d array, <code>Yin</code>. It will contain labels from 0 to $k-1$. We can then retrieve $N$, the number of samples, which is the length of <code>Yin</code>. We can also find $K$, since it is the max of <code>Yin + 1</code>. We then initialize a matrix of zeros of size $NxK$. Finally, we loop through each target in <code>Yin</code>, and we set the corresponding <code>Yout</code> to 1.</p>
 <h2 id="5.1-Why-does-a-Target-Indicator-Matrix-make-sense?">5.1 Why does a Target Indicator Matrix make sense?<a class="anchor-link" href="#5.1-Why-does-a-Target-Indicator-Matrix-make-sense?">&#182;</a></h2><p>Recall that the output of a neural network is a list of probabilities-the probability that the input belongs to each class. Remember that probability is used for measuring things that are <em>unknown</em>. What about things that <em>are known</em>? In that case, the probability is either 0 or 1! This is because it is something that has <em>already happened</em> or <em>been determined</em>.</p>
 <p>Now, the outputs from a neural network will not be exactly 0 or 1, because they are <em>predictions</em> not <em>certainties</em>. But, the goal is that after training, the probability of the true target is higher than the probabilities for any other label, like so:</p>
-<p>$$ \text{Target} \rightarrow
+$$ \text{Target} \rightarrow
 \begin{bmatrix}
     0, 0, 1, 0, 0
 \end{bmatrix}
-$$</p>
-<p>$$
+$$$$
 \text{Prediction} \rightarrow
 \begin{bmatrix}
     0.1, 0.1, 0.5, 0.2, 0.1
 \end{bmatrix}
-$$</p>
-<p>We can see how part of this process would work in pseudocode below:</p>
+$$<p>We can see how part of this process would work in pseudocode below:</p>
 
 <pre><code>prediction_labels = np.argmax(softmax_outputs, axis=1)
 target_labels = np.argmax(target_indicator, axis=1)
@@ -814,22 +724,20 @@ target_labels = np.argmax(target_indicator, axis=1)
   # Check if correct:
 accuracy = sum(prediction_labels == target_labels) / N</code></pre>
 <h2 id="5.2-Our-Dataset">5.2 Our Dataset<a class="anchor-link" href="#5.2-Our-Dataset">&#182;</a></h2><p>If we quickly jump back to our original training set, we had the following targets:</p>
-<p>$$Y = 
+$$Y = 
 \begin{bmatrix}
     1 \\
     1 \\
     0 
 \end{bmatrix}
-$$</p>
-<p>Which would be turned into the following indicator matrix:</p>
-<p>$$\text{Y Indicator Matrix} = 
+$$<p>Which would be turned into the following indicator matrix:</p>
+$$\text{Y Indicator Matrix} = 
 \begin{bmatrix}
     0 &amp; 1 \\
     0 &amp; 1 \\
     1 &amp; 0 
 \end{bmatrix}
-$$</p>
-<p>We want our predictions to be close to this target! For example, something we would like to see after training is:</p>
+$$<p>We want our predictions to be close to this target! For example, something we would like to see after training is:</p>
 <p><br>
 $$\text{Predictions Matrix} = 
 \begin{bmatrix}
@@ -856,8 +764,7 @@ $$<br></li>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="6.-Feedforward-Network-in-Python">6. Feedforward Network in Python<a class="anchor-link" href="#6.-Feedforward-Network-in-Python">&#182;</a></h1><p>We are now going to go through a neural network calculation in numpy.</p>
@@ -874,7 +781,7 @@ $$<br></li>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -901,7 +808,7 @@ $$<br></li>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -911,7 +818,7 @@ $$<br></li>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -968,7 +875,7 @@ $$<br></li>
   <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">n_correct</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_total</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -982,7 +889,7 @@ $$<br></li>
 <span class="n">P_Y_given_X</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">W1</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">W2</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -999,7 +906,7 @@ $$<br></li>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Classification rate for randomly chosen weights: &quot;</span><span class="p">,</span> <span class="n">classification_rate</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">P</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1009,7 +916,7 @@ $$<br></li>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1023,8 +930,7 @@ $$<br></li>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This classification rate is exactly as expected, 1/3. This is because the weights were randomly initialized, which should lead to the equivalent of a random guesss.</p>
 

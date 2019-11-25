@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -195,10 +194,6 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -211,8 +206,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="1.-Introduction-to-Probability-Theory">1. Introduction to Probability Theory<a class="anchor-link" href="#1.-Introduction-to-Probability-Theory">&#182;</a></h1><p>This is a post that I have been excited to get to for over a year now. Probability theory plays an incredibly interesting and unique role in the studying of machine learning and articiail intelligence techniques. It gives us a wonderful way of dealing with <strong>uncertainty</strong>, and shows up in everything from <strong>Hidden Markov Models</strong>, <strong>Bayesian Networks</strong>, <strong>Causal Path Analysis</strong>, <strong>Bayesian A/B</strong> testing, and many other areas.</p>
 <p>There are several things that make probability so interesting, and I am going to try and cover all of them in this post and several others. The main points are as follows:</p>
@@ -228,8 +222,7 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="3.1-Historical-Background-and-Definitions">3.1 Historical Background and Definitions<a class="anchor-link" href="#3.1-Historical-Background-and-Definitions">&#182;</a></h2><p>At is core, probability theory was defined incredibly well by <strong>Pierre-Simon Laplace</strong> in 1814:</p>
 <blockquote><p>Probability theory is nothing but common sense reduced to calculation. ... [Probability] is thus simply a fraction whose numerator is the number of favorable cases and whose denominator is the number of all the cases possible ... when nothing leads us to expect that any one of these cases should occur more than any other.</p>
@@ -273,8 +266,7 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="3.2-Probability-Rules">3.2 Probability Rules<a class="anchor-link" href="#3.2-Probability-Rules">&#182;</a></h2><p>Now, in general there are three very commonly used probabilities: <strong>marginal</strong>, <strong>joint</strong> and <strong>conditional</strong> probability. I like to do this via looking at an example, as I feel it will help keep the concepts more concrete. Suppose we have the situation shown in the table below:</p>
 <p><img src="https://drive.google.com/uc?id=1aNGxEap1BWNCnBbQlo8VJn8kp1RKtHs8" width="600"></p>
@@ -287,16 +279,10 @@ body {
 <blockquote><p>What is the probability that a user is from a specific country?</p>
 </blockquote>
 <p>Mathematically, that can be written as:</p>
-<p>$$P(Country = c)$$</p>
-<p>Where $c$ is the specific country you are interested in. Now, without knowing anything about marginal probabilities, I would guess that most people would end up with the following equation:</p>
-<p>$$P(Country = c) = \frac{\text{users from } c}{\text{total number of users}}$$</p>
-<p>This is entirely correct! Again, keeping in mind the original quote from Laplace, probability can very often be reduced to common sense and counting (at least in the discrete cases). So, we can do just that:</p>
-<p>$$P(Country = Canada) = \frac{300 + 20}{300 + 20 + 50 + 500 + 10 + 200} = 0.30$$</p>
-<p>$$P(Country = USA) = \frac{500 + 50}{300 + 20 + 50 + 500 + 10 + 200} = 0.51$$</p>
-<p>$$P(Country = Mexia) = \frac{200 + 10}{300 + 20 + 50 + 500 + 10 + 200} = 0.19$$</p>
-<p>Above we have just found the distribution $P(Country)$ over all countries. We can ensure that it is a correct and legal probability distribution by checking that it sums to 1:</p>
-<p>$$\sum_{c} P(Country = c) = 0.3 + 0.51 + 0.19 = 1$$</p>
-<p>Now, as I said earlier, I would have expected that even with <em>no knowledge</em> of marginal probabilities most people would come to that conclusion. However, I want to give a way of thinking about the problem as it relates to marginal probabilities and <strong>marginalization</strong> (we will go over marginalization in much greater detail soon).</p>
+$$P(Country = c)$$<p>Where $c$ is the specific country you are interested in. Now, without knowing anything about marginal probabilities, I would guess that most people would end up with the following equation:</p>
+$$P(Country = c) = \frac{\text{users from } c}{\text{total number of users}}$$<p>This is entirely correct! Again, keeping in mind the original quote from Laplace, probability can very often be reduced to common sense and counting (at least in the discrete cases). So, we can do just that:</p>
+$$P(Country = Canada) = \frac{300 + 20}{300 + 20 + 50 + 500 + 10 + 200} = 0.30$$$$P(Country = USA) = \frac{500 + 50}{300 + 20 + 50 + 500 + 10 + 200} = 0.51$$$$P(Country = Mexia) = \frac{200 + 10}{300 + 20 + 50 + 500 + 10 + 200} = 0.19$$<p>Above we have just found the distribution $P(Country)$ over all countries. We can ensure that it is a correct and legal probability distribution by checking that it sums to 1:</p>
+$$\sum_{c} P(Country = c) = 0.3 + 0.51 + 0.19 = 1$$<p>Now, as I said earlier, I would have expected that even with <em>no knowledge</em> of marginal probabilities most people would come to that conclusion. However, I want to give a way of thinking about the problem as it relates to marginal probabilities and <strong>marginalization</strong> (we will go over marginalization in much greater detail soon).</p>
 <p>When dealing with a distribution that contains multiple variables of interest, such as <em>purchase</em> and <em>country</em> in this case, we often want to acquire information about a single variable (such as country in the above example). To do that, we need to <strong>marginalize</strong> out the variable that we are not interested in (purchase in the above example). We intuitively did it above, but there is a great way to visualy think about this. Let's reconsider our table, but with a different shading of our cells:</p>
 <p><img src="https://drive.google.com/uc?id=11fqKDqAHHhFRFEaIcMncbZZETLjVMvR-" width="600"></p>
 <p>Here, I have shaded the <em>purchased</em> cell's gray since we are not interested in them. What we are interested in is the country information in the red and blue rows. We want to get rid of the purchase information, which by definition is what is means to <strong>marginalize out</strong> a variable. The visual trick here is to think of <em>collapsing</em> the rows, so that the <em>purchase</em> is erased and we are only left with our variable of interest: <em>country</em>.</p>
@@ -314,47 +300,30 @@ body {
 <blockquote><p>What is the probability that someone will make a purchase and that they are from a certain country?</p>
 </blockquote>
 <p>Mathematically we can write that as:</p>
-<p>$$P(Buy=b, Country=c)$$</p>
-<p>Where $b$ is either 0 (they did not buy something) or 1 (they did buy something), and $c$ is again country. This visually looks like our original table:</p>
+$$P(Buy=b, Country=c)$$<p>Where $b$ is either 0 (they did not buy something) or 1 (they did buy something), and $c$ is again country. This visually looks like our original table:</p>
 <p><img src="https://drive.google.com/uc?id=1aNGxEap1BWNCnBbQlo8VJn8kp1RKtHs8" width="600"></p>
 <p>Now, as before, I would guess that most people could probably reason about this problem based on general intuition. We know that there are two outcomes if a users buys (yes or no) and there are three countries. So, there are 6 total combinations of $b$ and $c$ that the above equation could be filled with. We can easily solve for each of the probabilities as follows:</p>
-<p>$$P(Buy=1, Country=Canada)= \frac{20}{1080} = 0.019$$</p>
-<p>$$P(Buy=0, Country=Canada)= \frac{300}{1080} = 0.28$$</p>
-<p>$$P(Buy=1, Country=USA)= \frac{50}{1080} = 0.046$$</p>
-<p>$$P(Buy=0, Country=USA)= \frac{500}{1080} = 0.46$$</p>
-<p>$$P(Buy=1, Country=Mexico)= \frac{10}{1080} = 0.0093$$</p>
-<p>$$P(Buy=0, Country=Mexico)= \frac{200}{1080} = 0.19$$</p>
-<p>Above, we simply take each cell corresponding to $b$ and $c$ and divide its value by the total number of outcomes. Now, we just calculated the joint probabilities by what amounts to gut instinct. However, let's try and put <em>what just felt right</em> into a more defined framework. For instance, what steps did we naturally take in order to calculate $P(Buy=1, Country=Canada)$?</p>
+$$P(Buy=1, Country=Canada)= \frac{20}{1080} = 0.019$$$$P(Buy=0, Country=Canada)= \frac{300}{1080} = 0.28$$$$P(Buy=1, Country=USA)= \frac{50}{1080} = 0.046$$$$P(Buy=0, Country=USA)= \frac{500}{1080} = 0.46$$$$P(Buy=1, Country=Mexico)= \frac{10}{1080} = 0.0093$$$$P(Buy=0, Country=Mexico)= \frac{200}{1080} = 0.19$$<p>Above, we simply take each cell corresponding to $b$ and $c$ and divide its value by the total number of outcomes. Now, we just calculated the joint probabilities by what amounts to gut instinct. However, let's try and put <em>what just felt right</em> into a more defined framework. For instance, what steps did we naturally take in order to calculate $P(Buy=1, Country=Canada)$?</p>
 <p>Well, first and foremost we honed in on the column specifically associated with Canada. Because the table was already filled out we may not have even thought about it, but we actively <em>focused</em> on a certain column. Well, that means that we needed to know how probable it was for a user to be from canada in the first place (that is a consequence of our focusing). This can be visualized as:</p>
 <p><img src="https://drive.google.com/uc?id=1OUBHqzdXcfMTyLHXtydL6Wz51uu4f_Sk" width="600"></p>
 <p>Now, as just mentioned, this focusing must be accounted for in our calculation! By selecting the canada row, we must define how probable a user is to be from canada in the first place. Mathematically this looks like:</p>
-<p>$$P(Country=Canada)$$</p>
-<p>And from earlier, we know that is equal to:</p>
-<p>$$P(Country=Canada) = \frac{320}{1080}$$</p>
-<p>So, in defining a more robust way to reason about joint probabilities, we must ensure that the above is included! Now, after this focusing has occured, we are only looking at:</p>
+$$P(Country=Canada)$$<p>And from earlier, we know that is equal to:</p>
+$$P(Country=Canada) = \frac{320}{1080}$$<p>So, in defining a more robust way to reason about joint probabilities, we must ensure that the above is included! Now, after this focusing has occured, we are only looking at:</p>
 <p><img src="https://drive.google.com/uc?id=1Dzu8tM-qRcIEcAFk6NNFmsVh_MsbULTO" width="400"></p>
 <p>Remember, the only way that we are able to ignore the rest of the table is if <em>we account for it in our equation</em>. That is why we need to make sure we include $P(Country=Canada)$ in our final calculation.</p>
 <p>So, with this focused view, what is the probability that someone from Canada buys something? Well, that can be written as:</p>
-<p>$$P(Buy=1 \mid Country=Canada) = \frac{20}{320}$$</p>
-<p>The way that we <em>encode</em> the focusing that we had just done is via the $\mid$ symbol. In english, it means <em>given</em>. So, the entire equation above can be interpreted as: "The probability that a user does buy something, given that they are from canada". This idea of focusing will be defined more thoroughly in the next section concerning <strong>conditional probability</strong> and <strong>conditioning</strong> on certain variables.</p>
+$$P(Buy=1 \mid Country=Canada) = \frac{20}{320}$$<p>The way that we <em>encode</em> the focusing that we had just done is via the $\mid$ symbol. In english, it means <em>given</em>. So, the entire equation above can be interpreted as: "The probability that a user does buy something, given that they are from canada". This idea of focusing will be defined more thoroughly in the next section concerning <strong>conditional probability</strong> and <strong>conditioning</strong> on certain variables.</p>
 <p>At this point, we have everything that we need to calculate $P(Buy=1, Country=Canada)$, via a more robust framework. Specifically, our equation is:</p>
-<p>$$P(Buy=1, Country=Canada) = P(Buy=1 \mid Country=Canada) P(Country=Canada)$$</p>
-<p>$$P(Buy=1, Country=Canada) = \frac{20}{320} *\frac{320}{1080} = 0.019$$</p>
-<p>The equation above is the standard definition for joint probability. Written more generally, we have:</p>
-<p>$$P(A,B) = P(A \mid B)P(B)$$</p>
-<p>There is an additional visualization that can be rather helpful to further our understanding here:</p>
+$$P(Buy=1, Country=Canada) = P(Buy=1 \mid Country=Canada) P(Country=Canada)$$$$P(Buy=1, Country=Canada) = \frac{20}{320} *\frac{320}{1080} = 0.019$$<p>The equation above is the standard definition for joint probability. Written more generally, we have:</p>
+$$P(A,B) = P(A \mid B)P(B)$$<p>There is an additional visualization that can be rather helpful to further our understanding here:</p>
 <p><img src="https://drive.google.com/uc?id=1-yonC3jkzjoJ6pmm4M7MkfvMKpyKzYma" width="400"></p>
 <p>We can think of the grey area above as our total probability space, of which there is also a space the represents the probability of being from canada, and another that represents the probability of buying something. Where those two areas overlap represents the probability of being from Canada and buying something.</p>
 <p>But wait just one second. When looking at the venn diagram above you may ask "But, the shaded purple area can be thought of the probability that you buy something, given you are from canada, $P(Buy=1 \mid Country=Canada)$?" It is tempting to think of it this way, but we are forgetting one key thing; by conditioning on the country being canada, we have <em>restricted</em> our probability space. In other words, $P(Buy=1 \mid Country=Canada)$ is the proportion of the shaded purple intersection, with respect to <em>only the canada space</em>:</p>
 <p><img src="https://intuitive-ml-images.s3-us-west-1.amazonaws.com/mathematics/probability/joint_conditional_expansion.png" width="400"></p>
 <p>We can write this as:</p>
-<p>$$P(Buy=1 \mid Country=Canada) = \frac{\text{Shaded Purple Area}}{\text{Red Canada Space}}$$</p>
-<p>However, we want the shaded purple intersection with respect to the entire space! In order to do that, we must account for the proportion of the canada space to the entire space; aka the probability of being from canada in the first place:</p>
-<p>$$P(Country=Canada) = \frac{\text{Red Canada Space}}{\text{Entire Space}}$$</p>
-<p>So, if we take our earlier equation substitute in our newly described area proportions:</p>
-<p>$$P(Buy=1, Country=Canada) = P(Buy=1 \mid Country=Canada) P(Country=Canada)$$</p>
-<p>$$P(Buy=1, Country=Canada) = \frac{\text{Shaded Purple Area}}{\text{Red Canada Space}} \times \frac{\text{Red Canada Space}}{\text{Entire Space}} = \frac{\text{Shaded Purple Area}}{\text{Entire Space}}$$</p>
-<p>I encourage you to take a moment and make sure that this is clear. It is very easy to get tripped up on, since on first glance $P(Buy=1 \mid Country=Canada)$ looks like it gives us the exact purple area that we needed; in reality, that probability is with respect to a restricted space and we must account for that.</p>
+$$P(Buy=1 \mid Country=Canada) = \frac{\text{Shaded Purple Area}}{\text{Red Canada Space}}$$<p>However, we want the shaded purple intersection with respect to the entire space! In order to do that, we must account for the proportion of the canada space to the entire space; aka the probability of being from canada in the first place:</p>
+$$P(Country=Canada) = \frac{\text{Red Canada Space}}{\text{Entire Space}}$$<p>So, if we take our earlier equation substitute in our newly described area proportions:</p>
+$$P(Buy=1, Country=Canada) = P(Buy=1 \mid Country=Canada) P(Country=Canada)$$$$P(Buy=1, Country=Canada) = \frac{\text{Shaded Purple Area}}{\text{Red Canada Space}} \times \frac{\text{Red Canada Space}}{\text{Entire Space}} = \frac{\text{Shaded Purple Area}}{\text{Entire Space}}$$<p>I encourage you to take a moment and make sure that this is clear. It is very easy to get tripped up on, since on first glance $P(Buy=1 \mid Country=Canada)$ looks like it gives us the exact purple area that we needed; in reality, that probability is with respect to a restricted space and we must account for that.</p>
 <p>Another way of thinking about how we can find that purple intersection area with respect to the entire space is by first finding the proportion of canada to the entire space. Then, once in the restricted canada space we can find the proportion of the shaded purple area with respect to the canada space. Multiplying these two quantities together will yield the proportion of the purple area to the entire space; aka, our joint probability.</p>
 <p>With that we have just gone through an intuitive derivation of the formula for joint probability (in the discrete case). A few things are worth noting at this point:</p>
 <ul>
@@ -371,22 +340,13 @@ body {
 <p>Again, just going off of gut instinct we can see that we start with the base table:</p>
 <p><img src="https://drive.google.com/uc?id=1aNGxEap1BWNCnBbQlo8VJn8kp1RKtHs8" width="600"></p>
 <p>We again perform the focusing that we talked about earlier, only now we have a new word for it: <strong>conditioning</strong>. Conditioning simply means that we are going to focus in on a subset of variables in the distributions in some way. Intuively, after we have focused our calculations look like:</p>
-<p>$$P(Buy=1 \mid Country=Canada)= \frac{20}{320} = 0.07$$</p>
-<p>$$P(Buy=0 \mid Country=Canada)= \frac{300}{320} = 0.93$$</p>
-<p>$$P(Buy=1 \mid Country=USA)= \frac{50}{550} = 0.09$$</p>
-<p>$$P(Buy=0 \mid Country=USA)= \frac{500}{550} = 0.91$$</p>
-<p>$$P(Buy=1 \mid Country=Mexico)= \frac{10}{210} = 0.04$$</p>
-<p>$$P(Buy=0 \mid Country=Mexico)= \frac{200}{210} = 0.96$$</p>
-<p>Notice that the sum of the above results is three, not one. This is because country is no longer random at this point-it is given! So, the results for each given country sum to one, and since there are three countries all of the results sum to three.</p>
+$$P(Buy=1 \mid Country=Canada)= \frac{20}{320} = 0.07$$$$P(Buy=0 \mid Country=Canada)= \frac{300}{320} = 0.93$$$$P(Buy=1 \mid Country=USA)= \frac{50}{550} = 0.09$$$$P(Buy=0 \mid Country=USA)= \frac{500}{550} = 0.91$$$$P(Buy=1 \mid Country=Mexico)= \frac{10}{210} = 0.04$$$$P(Buy=0 \mid Country=Mexico)= \frac{200}{210} = 0.96$$<p>Notice that the sum of the above results is three, not one. This is because country is no longer random at this point-it is given! So, the results for each given country sum to one, and since there are three countries all of the results sum to three.</p>
 <p>Now if we looked at a specific example, where we are trying to determine the probability that a user does or doesn't buy given they are from the united states, that would look like:</p>
 <p><img src="https://drive.google.com/uc?id=1mu2pIDnrEN-YZOWRyAQb5xadyNsH40Oj" width="600"></p>
 <p>Now recall the equation for the joint distribution:</p>
-<p>$$P(Buy=1, Country=USA) = P(Buy=1 \mid Country=USA) P(Country=USA)$$</p>
-<p>In our current situation, we are not trying to solve for the joint, but rather the conditional probability above:</p>
-<p>$$ P(Buy=1 \mid Country=USA) = \frac{P(Buy=1, Country=USA)}{P(Country=USA)}$$</p>
-<p>The above was just some basic algebraic manipulation, but it allows us to express our conditional probability in a way that may not be quite as intuitive. However, the nice thing about it is that we already have values for the two probabilities on the right hand side of the equation!</p>
-<p>$$ P(Buy=1 \mid Country=USA) = \frac{0.046}{0.51} = 0.09$$</p>
-<p>And that is exactly what we had found above via our slightly more intuitive, gut-instinct approach.</p>
+$$P(Buy=1, Country=USA) = P(Buy=1 \mid Country=USA) P(Country=USA)$$<p>In our current situation, we are not trying to solve for the joint, but rather the conditional probability above:</p>
+$$ P(Buy=1 \mid Country=USA) = \frac{P(Buy=1, Country=USA)}{P(Country=USA)}$$<p>The above was just some basic algebraic manipulation, but it allows us to express our conditional probability in a way that may not be quite as intuitive. However, the nice thing about it is that we already have values for the two probabilities on the right hand side of the equation!</p>
+$$ P(Buy=1 \mid Country=USA) = \frac{0.046}{0.51} = 0.09$$<p>And that is exactly what we had found above via our slightly more intuitive, gut-instinct approach.</p>
 <p>Now, using our visualization from before, we can think of finding $P(Buy=1 \mid Country=USA)$ as follows:</p>
 <p><img src="https://drive.google.com/uc?id=1XpW1AGgUDGC_GliqeZ8xgZx-FyleKYhd" width="600"></p>
 <p>We are specifically being <em>given</em> information, in this case that the country is the USA. What that essentially means is that we are <em>focusing</em> in on only the space where country is the USA. That space has a probability of 0.51. We then look at, within that space, what fraction of users buy something. In other words, we know that our total (focused) space has a size of 0.51 while our subspace where a user buys something is 0.046. We simply divide the latter by the former in order to compute our desired probability!</p>
@@ -397,26 +357,18 @@ body {
 </blockquote>
 <p>As another example, the probability that any given person has a cough on any given day may be only 5%. But if we know or assume that the person has a cold, then they are much more likely to be coughing. The conditional probability of coughing given that you have a cold might be a much higher 75%.</p>
 <p>In the most general case, we define conditional probability as:</p>
-<p>$$P(A \mid B) = \frac{P(A \cap B)}{P(B)}$$</p>
-<h3 id="3.2.4-Bayes-Rule">3.2.4 Bayes Rule<a class="anchor-link" href="#3.2.4-Bayes-Rule">&#182;</a></h3><p>Now, I would like to give a quick introduction to the increasingly popularized <strong>Bayes Rule</strong>. At it's core, Bayes Rule is just a unification of conditional probability and the idea that two things that each equal a third thing must also equal each other (as shown by Euclid over 2,000 years ago). We just showed above the idea of conditional probability in one direction:</p>
-<p>$$P(A \mid B) = \frac{P(A \cap B)}{P(B)}$$</p>
-<p>But, the reverse is equally true:</p>
-<p>$$P(B \mid A) = \frac{P(B \cap A)}{P(A)}$$</p>
-<p>Because the order of a joint probability does not matter, we know that:</p>
-<p>$$P(B \cap A) = P(A \cap B)$$</p>
-<p>If we then multiply each of our conditionals by the respective marginal:</p>
-<p>$$P(A \mid B)P(B) = P(A \cap B)$$</p>
-<p>$$P(B \mid A)P(A) = P(A \cap B)$$</p>
-<p>We see that in each of the two above equations, the left hand side equals $P(A \cap B)$. So, finally let's set the two left hand sides equal to each other:</p>
-<p>$$P(A \mid B)P(B) = P(B \mid A)P(A)$$</p>
-<p>The above relationship is Baye's rule! Now, I am dedicating the entire next post in this series to an in depth look at Bayes Rule, so we won't go into much more detail now. The purpose of the above was just to show that Bayes Rule is only a slight extension to our understanding of basic conditional probabilities.</p>
+$$P(A \mid B) = \frac{P(A \cap B)}{P(B)}$$<h3 id="3.2.4-Bayes-Rule">3.2.4 Bayes Rule<a class="anchor-link" href="#3.2.4-Bayes-Rule">&#182;</a></h3><p>Now, I would like to give a quick introduction to the increasingly popularized <strong>Bayes Rule</strong>. At it's core, Bayes Rule is just a unification of conditional probability and the idea that two things that each equal a third thing must also equal each other (as shown by Euclid over 2,000 years ago). We just showed above the idea of conditional probability in one direction:</p>
+$$P(A \mid B) = \frac{P(A \cap B)}{P(B)}$$<p>But, the reverse is equally true:</p>
+$$P(B \mid A) = \frac{P(B \cap A)}{P(A)}$$<p>Because the order of a joint probability does not matter, we know that:</p>
+$$P(B \cap A) = P(A \cap B)$$<p>If we then multiply each of our conditionals by the respective marginal:</p>
+$$P(A \mid B)P(B) = P(A \cap B)$$$$P(B \mid A)P(A) = P(A \cap B)$$<p>We see that in each of the two above equations, the left hand side equals $P(A \cap B)$. So, finally let's set the two left hand sides equal to each other:</p>
+$$P(A \mid B)P(B) = P(B \mid A)P(A)$$<p>The above relationship is Baye's rule! Now, I am dedicating the entire next post in this series to an in depth look at Bayes Rule, so we won't go into much more detail now. The purpose of the above was just to show that Bayes Rule is only a slight extension to our understanding of basic conditional probabilities.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="3.3-Discrete-vs.-Continuous-Distributions">3.3 Discrete vs. Continuous Distributions<a class="anchor-link" href="#3.3-Discrete-vs.-Continuous-Distributions">&#182;</a></h2><p>One of the biggest disconnects that many face when really trying to grok probability is the idea of a continuous vs. discrete distribution. The issue is not one of inherent difficulty, only that the majority of probability concepts are introduced with discrete distributions (as I have above). However, taking a few paragraphs to sort through the differences in a concrete manor will be incredibly valuable. Recall, the informal definition of a random variable that we discussed earlier:</p>
 <blockquote><p>A random variable is a quantitative variable whose value depends on chance in some way.</p>
@@ -507,7 +459,7 @@ body {
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -517,7 +469,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -535,8 +487,7 @@ body {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The above table represents a discrete probability distribution because it relates each value of a discrete random variable with its probability of occurrence.</p>
 <p>Note: With a discrete probability distribution, each possible value of the discrete random variable can be associated with a non-zero probability. Thus, a discrete probability distribution can always be presented in tabular form.</p>
@@ -608,7 +559,7 @@ body {
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -618,7 +569,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -671,7 +622,7 @@ body {
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -681,7 +632,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -699,8 +650,7 @@ body {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Note: The shaded area in the graph represents the probability that the random variable X is greater than or equal to $a$. This is a cumulative probability. However, the probability that X is exactly equal to a would be zero. A continuous random variable can take on an infinite number of values. The probability that it will equal a specific value (such as $a$) is always zero.</p>
 <h3 id="3.3.2.1-Probability-Density-Functions">3.3.2.1 Probability Density Functions<a class="anchor-link" href="#3.3.2.1-Probability-Density-Functions">&#182;</a></h3><p>Now we just looked at a probability density function above, but we can take a moment to further formalize it:</p>
@@ -729,7 +679,7 @@ body {
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -739,7 +689,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -757,8 +707,7 @@ body {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>$f(x)$ represents the height of the curve at the point $x$. For continuous random variables, probabilities are the <strong>areas under the curve</strong>. This is shown visually below:</p>
 
@@ -798,7 +747,7 @@ body {
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -808,7 +757,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -826,54 +775,36 @@ body {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The height of the curve is represented by $f(x)$. The probability that a random variable $x$ falls between the values a and b, is simply the area under the curve between $a$ and $b$ (the grey shaded region).</p>
 <p>One important notion here is that the probability that the random variable $x$ is <em>exactly</em> equal to one specific value, is 0. We could say that the probability that the random variable x is equal to the value $a$ is 0 for any $a$. Mathematically that looks like:</p>
-<p>$$P(X=a) =0$$</p>
-<p>We can think of a as an infintesimally small point with an infintesimally small area above it, so we call that area zero. So from a practical point of view, it only makes sense to talk about a random variable $x$ falling in an interval of values.</p>
+$$P(X=a) =0$$<p>We can think of a as an infintesimally small point with an infintesimally small area above it, so we call that area zero. So from a practical point of view, it only makes sense to talk about a random variable $x$ falling in an interval of values.</p>
 <h3 id="3.3.2.2-Finding-Probabilities-and-Percentiles-for-a-Continuous-Probability-Distribution">3.3.2.2 Finding Probabilities and Percentiles for a Continuous Probability Distribution<a class="anchor-link" href="#3.3.2.2-Finding-Probabilities-and-Percentiles-for-a-Continuous-Probability-Distribution">&#182;</a></h3><p>There are two main features to keep in mind when dealing with and defining continuous probability distributions:</p>
 <ul>
 <li>$f(x) \geq 0$ for all $x$</li>
 <li>The area under the entire curve is equal to one</li>
 </ul>
 <p>Now, let's go through a quick example to solidify these concepts. Suppose for a random variable $X$:</p>
-<p>$$f(x)=cx^3$$</p>
-<p>When:</p>
-<p>$$2 \leq x \leq 4 \;and\;otherwise\;0$$</p>
-<p>And $c$ is just some constant.</p>
+$$f(x)=cx^3$$<p>When:</p>
+$$2 \leq x \leq 4 \;and\;otherwise\;0$$<p>And $c$ is just some constant.</p>
 <p>The question we want to answer is: <strong>what value of $c$ makes this a legitimate probabilty distribution?</strong></p>
 <p>Okay well lets think, what needs to be satisfied in order for $f(x)$ to be a legitimate probability distribution?</p>
 <ul>
 <li>First, it can <em>never</em> take on negative values. Since x ranges from (2,4), we know that c must be positive.  </li>
 <li>Second, the area under the entire curve must equal 1. Mathematically that looks like:</li>
 </ul>
-<p>$$\int_{-\infty}^{\infty}f(x)dx=1$$</p>
-<p>And in our example it specifically looks like:</p>
-<p>$$\int_{2}^{4}cx^3dx=1$$</p>
-<p>Lets carry out this integration quickly as a refresher.</p>
-<p>$$c\int_{2}^{4}x^3dx=1$$</p>
-<p>$$c\Big[\frac{x^4}{4}\Big]_2^4$$</p>
-<p>$$c\Big[\frac{4^4}{4}-\frac{2^4}{4}\Big]$$</p>
-<p>$$60c$$</p>
-<p>And we know that the entire area under the curve must equal one, so in this case:</p>
-<p>$$60c = 1$$</p>
-<p>$$c = \frac{1}{60}$$</p>
-<h3 id="3.3.2.3-Determine-a-Probability">3.3.2.3 Determine a Probability<a class="anchor-link" href="#3.3.2.3-Determine-a-Probability">&#182;</a></h3><p>Suppose we wanted to find the probability that a random variable X takes on a value greater than 3:</p>
-<p>$$P(X&gt;3)$$</p>
-<p>For continuous probability distributions, probabilty is simply the area under the curve, so in our case it simply the area under the curve to the right of 3! We can find that value by using integration! Lets walk through that now.</p>
-<p>$$\int_{3}^{4}\frac{1}{60}x^3dx$$</p>
-<p>$$\frac{1}{60}\Big[\frac{x^4}{4}\Big]_3^4$$</p>
-<p>$$\frac{1}{60}\Big[\frac{4^4}{4}-\frac{3^4}{4}\Big]$$</p>
-<p>$$\frac{175}{240} = 0.729$$</p>
-
+$$\int_{-\infty}^{\infty}f(x)dx=1$$<p>And in our example it specifically looks like:</p>
+$$\int_{2}^{4}cx^3dx=1$$<p>Lets carry out this integration quickly as a refresher.</p>
+$$c\int_{2}^{4}x^3dx=1$$$$c\Big[\frac{x^4}{4}\Big]_2^4$$$$c\Big[\frac{4^4}{4}-\frac{2^4}{4}\Big]$$$$60c$$<p>And we know that the entire area under the curve must equal one, so in this case:</p>
+$$60c = 1$$$$c = \frac{1}{60}$$<h3 id="3.3.2.3-Determine-a-Probability">3.3.2.3 Determine a Probability<a class="anchor-link" href="#3.3.2.3-Determine-a-Probability">&#182;</a></h3><p>Suppose we wanted to find the probability that a random variable X takes on a value greater than 3:</p>
+$$P(X&gt;3)$$<p>For continuous probability distributions, probabilty is simply the area under the curve, so in our case it simply the area under the curve to the right of 3! We can find that value by using integration! Lets walk through that now.</p>
+$$\int_{3}^{4}\frac{1}{60}x^3dx$$$$\frac{1}{60}\Big[\frac{x^4}{4}\Big]_3^4$$$$\frac{1}{60}\Big[\frac{4^4}{4}-\frac{3^4}{4}\Big]$$$$\frac{175}{240} = 0.729$$
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="3.4-Marginalization">3.4 Marginalization<a class="anchor-link" href="#3.4-Marginalization">&#182;</a></h2><p>The final introductory probability concept that I wanted to highlight was that of <strong>marginalization</strong>. We have seen marginalization before when determining our marginal probabilities. We can informally define marginalization as follows:</p>
 <blockquote><p><strong>Marginalization</strong>: A way to safely ignore variables.</p>
@@ -891,31 +822,23 @@ body {
 <blockquote><p>What are all of the ways in which someone can be experience symptoms?</p>
 </blockquote>
 <p>In other words, what is the probability that $Y=1$?</p>
-<p>$$p(Y=1)$$</p>
-<p>In order to find that we can just sum up the different ways in which $Y=1$! Visually that looks like:</p>
+$$p(Y=1)$$<p>In order to find that we can just sum up the different ways in which $Y=1$! Visually that looks like:</p>
 <p><img src="https://drive.google.com/uc?id=10skKfKglkRI9mjs3R5Ulks0Lr5t7DOm0" width="400"></p>
 <p>And we can write it as:</p>
-<p>$$p(Y=1) = p(Y=1, X=0) + p(Y=1, X=1) = 0.1 + 0.3 = 0.4$$</p>
-<p>This can be rewritten with a summation for consciseness:</p>
-<p>$$p(Y=1) = \sum_{x}p(Y=1, X=x)$$</p>
-<p>Now, our general case above can be expanded for the general formula of marginalization:</p>
-<p>$$P(Y=y) = \sum_{x}p(Y=y, X=x)$$</p>
-<p>Now, keep in mind that we can do the exact same thing to the $X$ variable if we'd like; that is, we can marginalize out $Y$ and be left with only $X$. For instance, say we want to know:</p>
+$$p(Y=1) = p(Y=1, X=0) + p(Y=1, X=1) = 0.1 + 0.3 = 0.4$$<p>This can be rewritten with a summation for consciseness:</p>
+$$p(Y=1) = \sum_{x}p(Y=1, X=x)$$<p>Now, our general case above can be expanded for the general formula of marginalization:</p>
+$$P(Y=y) = \sum_{x}p(Y=y, X=x)$$<p>Now, keep in mind that we can do the exact same thing to the $X$ variable if we'd like; that is, we can marginalize out $Y$ and be left with only $X$. For instance, say we want to know:</p>
 <blockquote><p>What is the probability that someone has the disease?</p>
 </blockquote>
 <p>Intuitvely, we know that is just <em>the probability someone has the disease and shows symptons</em>, plus <em>the probability someone has the disease and doesn't show symptoms</em>.</p>
 <p><img src="https://drive.google.com/uc?id=1VzQ_X9PmN3xXgbz6i4r4GnWtyueG26qy" width="400"></p>
 <p>And we can write it as:</p>
-<p>$$p(X=1) = p(Y=0, X=1) + p(Y=1, X=1) = 0.1 + 0.3 = 0.4$$</p>
-<h3 id="3.4.1.1-Discrete-Case-Intuition">3.4.1.1 Discrete Case Intuition<a class="anchor-link" href="#3.4.1.1-Discrete-Case-Intuition">&#182;</a></h3><p>A way to think about this in the discrete case (when we are dealing with tables), is that we are <em>collapsing</em> the dimension that we are marginalizing out. For instance, our table above represents the <em><strong>joint distribution</strong></em> between <em>disease</em> and <em>symptoms</em>. Now, if we wanted to find just the distribution of <em>symptoms</em>, we would need to marginalize out <em>disease</em>:</p>
-<p>$$P(Symptoms) = \sum_{disease={yes,no}}p(Symptoms, Disease=disease)$$</p>
-<p>$$P(Y) = \sum_{x}p(Y, X=x)$$</p>
-<p>The key is to remember how this looks visually:</p>
+$$p(X=1) = p(Y=0, X=1) + p(Y=1, X=1) = 0.1 + 0.3 = 0.4$$<h3 id="3.4.1.1-Discrete-Case-Intuition">3.4.1.1 Discrete Case Intuition<a class="anchor-link" href="#3.4.1.1-Discrete-Case-Intuition">&#182;</a></h3><p>A way to think about this in the discrete case (when we are dealing with tables), is that we are <em>collapsing</em> the dimension that we are marginalizing out. For instance, our table above represents the <em><strong>joint distribution</strong></em> between <em>disease</em> and <em>symptoms</em>. Now, if we wanted to find just the distribution of <em>symptoms</em>, we would need to marginalize out <em>disease</em>:</p>
+$$P(Symptoms) = \sum_{disease={yes,no}}p(Symptoms, Disease=disease)$$$$P(Y) = \sum_{x}p(Y, X=x)$$<p>The key is to remember how this looks visually:</p>
 <p><img src="https://drive.google.com/uc?id=18HW5nckCyi3_zOLSzl7b7LOhzwwFGa5T" width="700"></p>
 <p>We can see that out columns in $X$ (the disease) were collapsed into a single probability column for $Y$, and the $X$ variable no longer remained.</p>
 <h3 id="3.4.1.2-A-Confusing-Convention">3.4.1.2 A Confusing Convention<a class="anchor-link" href="#3.4.1.2-A-Confusing-Convention">&#182;</a></h3><p>You may notice that if we are trying to find $p(Y)$ for all $y$, the equation to do so is written as:</p>
-<p>$$P(Y) = \sum_{x}p(Y, X=x)$$</p>
-<p>What may seem strange if you think about this from the mechanical perspective (or if you think about implementing it in code), is that we seem to be missing an iterator. In other words, what we are trying to do is sum over all $x$ in $X$, <em>for each</em> $y$. In code we could write it as:</p>
+$$P(Y) = \sum_{x}p(Y, X=x)$$<p>What may seem strange if you think about this from the mechanical perspective (or if you think about implementing it in code), is that we seem to be missing an iterator. In other words, what we are trying to do is sum over all $x$ in $X$, <em>for each</em> $y$. In code we could write it as:</p>
 
 <pre><code>P(y,x) # Joint Distribution
 P(y) # Marginalized Distribution
@@ -926,11 +849,9 @@ for y in Y:
 <h3 id="3.4.2-Marginalization-$\rightarrow$-Continuous">3.4.2 Marginalization $\rightarrow$ Continuous<a class="anchor-link" href="#3.4.2-Marginalization-$\rightarrow$-Continuous">&#182;</a></h3><p>Now, let's take a moment to look at our continuous case. Visually, a continuous joint distribution looks like:</p>
 <p><img src="https://drive.google.com/uc?id=1M2p4eP6MDpmSGC4RcvdxZc28uoRCjZhn" width="450"></p>
 <p>Where we have two variables, $X_1$ and $X_2$, and then the probability density on our vertical axis. Our probability density function looks like:</p>
-<p>$$p(X_1, X_2)$$</p>
-<p>Note, the volume under this curve must be equal to 1, since the total volume under the density function represents the probability of our variables $X_1$ and $X_2$.</p>
+$$p(X_1, X_2)$$<p>Note, the volume under this curve must be equal to 1, since the total volume under the density function represents the probability of our variables $X_1$ and $X_2$.</p>
 <p>Now, what if we were asked to find $P(X_1)$? In order to do that we would need to <em>marginalize</em> out $X_2$. Mathematically, that would look like:</p>
-<p>$$P(X_1) = \int_{x_2= - \infty}^{x_2 = \infty}p(X_1, X_2 = x_2)$$</p>
-<p>But what can that be viewed as visually? Well, let's think for a moment. We are going through all possible values of $X_1$ (this is not written explicitly, but implied based on the convention of marginalization), and for each we want to find the area under curve at that value (the area under the curve along the $X_2$ axis). Let's take $x_1 = -0.6$ for instance. Visually, when we fix $X_1 = -0.6$, we have the following curve, shown in pink:</p>
+$$P(X_1) = \int_{x_2= - \infty}^{x_2 = \infty}p(X_1, X_2 = x_2)$$<p>But what can that be viewed as visually? Well, let's think for a moment. We are going through all possible values of $X_1$ (this is not written explicitly, but implied based on the convention of marginalization), and for each we want to find the area under curve at that value (the area under the curve along the $X_2$ axis). Let's take $x_1 = -0.6$ for instance. Visually, when we fix $X_1 = -0.6$, we have the following curve, shown in pink:</p>
 <p><img src="https://drive.google.com/uc?id=13kyapVs6BSdLyM0zkWS_I_76bwZJ_QF5" width="450"></p>
 <p>That curve is occuring in only 2-dimensions (since $X_1$ is fixed). Now, the integral is finding the <em>area</em> under that curve, from $X_2 = -\infty$ to $X_2 = \infty$.</p>
 <p><img src="https://drive.google.com/uc?id=1Ocx9gxX4B9yWOEnq4CyWuj1KVfIYIDFe" width="450"></p>
@@ -960,6 +881,19 @@ for y in Y:
   });
 </script>
 <form action="javascript:code_toggle()"><input type="submit" id="toggleButton" value="Show Code"></form>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
 <hr>
 &copy; 2018 Nathaniel Dake
 

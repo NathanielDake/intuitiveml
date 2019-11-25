@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -195,10 +194,6 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -211,13 +206,11 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="18.-Batch-Normalization">18. Batch Normalization<a class="anchor-link" href="#18.-Batch-Normalization">&#182;</a></h1><p>At this point we should know that normalizing our data for machine learning models is typically a good idea. That is when we make all of the input features have mean of 0 and variance of 1.</p>
 <p>We accomplish this by subtracting by the mean and dividing by the standard deviation of the data.</p>
-<p>$$X_{normalized} = \frac{X - \mu}{\sigma}$$</p>
-<p>Recall, the reason we want to do this is because this is the region where our nonlinear activation functions are the most active/dynamic - aka that is where they change the most.</p>
+$$X_{normalized} = \frac{X - \mu}{\sigma}$$<p>Recall, the reason we want to do this is because this is the region where our nonlinear activation functions are the most active/dynamic - aka that is where they change the most.</p>
 <p>So, how can we think of batch normalization? Well, instead of making normalization part of the preprocessing stage, we make it part of the neural network itself.</p>
 <p><br>
 <img src="https://drive.google.com/uc?id=1xqSR6pG4sBxQxJ4GSfDsVv1Pjy6XboTL"></p>
@@ -228,36 +221,26 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
 <h1 id="2.-Exponentially-Smoothed-Averages">2. Exponentially Smoothed Averages<a class="anchor-link" href="#2.-Exponentially-Smoothed-Averages">&#182;</a></h1><p>We are going to take a minute to dig into something that may seem straight forward: How to calculate an average. The first thought we all have when being asked to do this is: Why not just add all of the sample data points, and then divide by the number of data points, resulting in the sample mean:</p>
-<p>$$\bar{X}_N = \frac{1}{N}\sum_{n=1}^NX_n$$</p>
-<p>But now let's suppose that you have a large amount of data-so much so that all of your X's cannot fit into memory at the same time. Is it still possible to calculate the sample mean? Yes it is! We can read in one data point at a time, and then delete each data point after we've looked at it. It is shown below that the current sample mean can actually be expressed in terms of the previous sample mean and the current data point.</p>
-<p>$$\bar{X}_N =  \frac{1}{N}\sum_{n=1}^NX_n = \frac{1}{N}\Big((N-1)\bar{X}_{N-1} + X_N \Big) = (1 - \frac{1}{N})\bar{X}_{N-1}+\frac{1}{N}X_N$$</p>
-<p>We can then express this using simpler symbols. We can call $Y$ our output, and we can use $t$ to represent the current time step:</p>
-<p>$$Y_t = (1 - \frac{1}{t})Y_{t-1} + \frac{1}{t}X_t$$</p>
-<p>Great, so we have solved our problem of how to calculate the sample mean when we can't fit all of the data into memory, but we can see that there is this $\frac{1}{t}$ term. This says that as $t$ grows larger, the current sample has less and less of an effect on the total mean. Clearly this makes sense, because as $t$ grows that means the total number of $X$'s we've seen has grown. We also decrease the influence of the previous $Y$ by $1 - \frac{1}{t}$. This means that each new $Y$ is just part of the old $Y$, plus part of the newest $X$. But in the end, it balances out to give us exactly the sample mean of $X$.</p>
+$$\bar{X}_N = \frac{1}{N}\sum_{n=1}^NX_n$$<p>But now let's suppose that you have a large amount of data-so much so that all of your X's cannot fit into memory at the same time. Is it still possible to calculate the sample mean? Yes it is! We can read in one data point at a time, and then delete each data point after we've looked at it. It is shown below that the current sample mean can actually be expressed in terms of the previous sample mean and the current data point.</p>
+$$\bar{X}_N =  \frac{1}{N}\sum_{n=1}^NX_n = \frac{1}{N}\Big((N-1)\bar{X}_{N-1} + X_N \Big) = (1 - \frac{1}{N})\bar{X}_{N-1}+\frac{1}{N}X_N$$<p>We can then express this using simpler symbols. We can call $Y$ our output, and we can use $t$ to represent the current time step:</p>
+$$Y_t = (1 - \frac{1}{t})Y_{t-1} + \frac{1}{t}X_t$$<p>Great, so we have solved our problem of how to calculate the sample mean when we can't fit all of the data into memory, but we can see that there is this $\frac{1}{t}$ term. This says that as $t$ grows larger, the current sample has less and less of an effect on the total mean. Clearly this makes sense, because as $t$ grows that means the total number of $X$'s we've seen has grown. We also decrease the influence of the previous $Y$ by $1 - \frac{1}{t}$. This means that each new $Y$ is just part of the old $Y$, plus part of the newest $X$. But in the end, it balances out to give us exactly the sample mean of $X$.</p>
 <p>For convenience we can call this $\frac{1}{t}$ term $\alpha_t$. What if we were to say that we did not want $\alpha$ to be $\frac{1}{t}$? What if we said that we wanted each data point to matter equally at the time that we see it, so that we can set alpha to be a constant? Of course, $\alpha$ needs to be less than 1 so that we don't end up negating the previous mean.</p>
-<p>$$0 &lt; \alpha_t = constant &lt; 1 $$
-$$Y_t = (1 - \alpha)Y_{t-1} + \alpha X_t$$</p>
-<p>So what does this give us?</p>
+$$0 &lt; \alpha_t = constant &lt; 1 $$$$Y_t = (1 - \alpha)Y_{t-1} + \alpha X_t$$<p>So what does this give us?</p>
 <h3 id="2.1-The-Exponentially-smoothed-average">2.1 The Exponentially-smoothed average<a class="anchor-link" href="#2.1-The-Exponentially-smoothed-average">&#182;</a></h3><p>This gives us what is called the exponentially smoothed average! We can see why it is called exponential when we express it in terms of only $X$'s.</p>
-<p>$$Y_t = (1 - \alpha)^tY_0 + \alpha \sum_{\tau = 0}^{t - 1}(1- \alpha)^\tau X(t- \tau)$$</p>
-<p>If the equation above is not clear, the expansion below should clear up where everything is coming from and <em>why</em> this is called exponential. Let's say we are looking at $Y_{100}$:</p>
-<p>$$Y_{100} = (1-\alpha)^{100}Y_0 + \alpha * X_{100} + \alpha * (1 - \alpha)^1*X_{99} + \alpha * (1 - \alpha)^2 * X_{98}+ ...$$</p>
-<p>We can see the exponential term start to accumulate along the $(1 - alpha)$! Now, does this still give us the mean, aka the expected value of $X$? Well, if you take the expected value of everything, we can see that we arrive at the expected value of $X$:</p>
-<p>$$(1 - \alpha)E[y(t-1)] + \alpha E[X(t)] = (1-\alpha)E(X) + \alpha E(X) = E(X)$$</p>
-<p>We do arrive at the expected value of $X$, so we can see that the math does checkout! Of course, this is assuming that the distribution of $X$ does not change over time. Note that if you have come from a signal processing background, you may recognize this as a <strong>low-pass filter</strong>. Another way to think about this is that you are saying <em>current values matter more</em>, and <em>past values matter less</em> in an exponentially decreasing way. So, if $X$ is not stationary (meaning it's distribution changes over time), then this is actually a better way to estimate the mean (average) then weighting all data points equally over all time.</p>
+$$Y_t = (1 - \alpha)^tY_0 + \alpha \sum_{\tau = 0}^{t - 1}(1- \alpha)^\tau X(t- \tau)$$<p>If the equation above is not clear, the expansion below should clear up where everything is coming from and <em>why</em> this is called exponential. Let's say we are looking at $Y_{100}$:</p>
+$$Y_{100} = (1-\alpha)^{100}Y_0 + \alpha * X_{100} + \alpha * (1 - \alpha)^1*X_{99} + \alpha * (1 - \alpha)^2 * X_{98}+ ...$$<p>We can see the exponential term start to accumulate along the $(1 - alpha)$! Now, does this still give us the mean, aka the expected value of $X$? Well, if you take the expected value of everything, we can see that we arrive at the expected value of $X$:</p>
+$$(1 - \alpha)E[y(t-1)] + \alpha E[X(t)] = (1-\alpha)E(X) + \alpha E(X) = E(X)$$<p>We do arrive at the expected value of $X$, so we can see that the math does checkout! Of course, this is assuming that the distribution of $X$ does not change over time. Note that if you have come from a signal processing background, you may recognize this as a <strong>low-pass filter</strong>. Another way to think about this is that you are saying <em>current values matter more</em>, and <em>past values matter less</em> in an exponentially decreasing way. So, if $X$ is not stationary (meaning it's distribution changes over time), then this is actually a better way to estimate the mean (average) then weighting all data points equally over all time.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -294,9 +277,7 @@ mu_B = mean(X_B)
 sigma_B_squared = var(X_B)
 Y_B = (X_B - mu_B)/ sqrt(sigma_B_squared + epsilon)</code></pre>
 <p>However, at this point we are missing one crucial and slightly counter intuitive step! This step comes right before we pass through the activation function. So, what was shown previously was actually missing a step. So, right after normalize the data, we actually scale it back. Right after standardizing the data, we actually scale it to something else, giving it a different mean and different standard deviation. We call this second scale parameter $\gamma$, and the second location parameter $\beta$.</p>
-<p>$$\hat{X}_B = \frac{X_B - \mu_B}{\sqrt{\sigma_B^2 + \epsilon}}$$
-$$Y = \gamma\hat{X}_B + \beta$$</p>
-<p>This may seem very counterintuitive, because this entire concept was motivated with the idea that standardization is good. So, why are we now unstandardizing our data by multiplying by $\gamma$ and adding $\beta$? The reason is that standardization may not be good, but we do not know. So, <strong>we let the neural network decide by using gradient descent</strong>. In other words, we will optimize $\gamma$ and $\beta$ to do whatever is best.</p>
+$$\hat{X}_B = \frac{X_B - \mu_B}{\sqrt{\sigma_B^2 + \epsilon}}$$$$Y = \gamma\hat{X}_B + \beta$$<p>This may seem very counterintuitive, because this entire concept was motivated with the idea that standardization is good. So, why are we now unstandardizing our data by multiplying by $\gamma$ and adding $\beta$? The reason is that standardization may not be good, but we do not know. So, <strong>we let the neural network decide by using gradient descent</strong>. In other words, we will optimize $\gamma$ and $\beta$ to do whatever is best.</p>
 <p>Note, these parameters will be updated using back propagation, just like all of the other weights in the neural network. Luckily, now that we know theano and tensorflow, we don't have to worry about taking any derivatives, and we can just focus on how the neural network was built.</p>
 <p><br></p>
 <h2 id="3.3-Letting-the-Neural-Network-learn-what-is-best">3.3 Letting the Neural Network learn what is best<a class="anchor-link" href="#3.3-Letting-the-Neural-Network-learn-what-is-best">&#182;</a></h2><p>So, lets suppose that standardization is good. Then, the neural network will learn that $\gamma$ should be close to 1, and $\beta$ should be close to 0. However, if standardization is bad and something else will lead to better results, then the neural network will learn a better $\gamma$ and a better $\beta$ - aka they will be whatever minimizes the cost! In other words, the neural network is learning through gradient descent what the best scale and shift of the data should be. This is not necessarily 1 and 0, it is whatever minimizes our cost function.</p>
@@ -311,9 +292,7 @@ $$\mu = mean(X_{train})$$
 $$\sigma^2 = var(X_{train})$$</p>
 <p>The problem with that is that it does not scale if your data is too large. At the same time, that may be a simpler way to think of $\mu$ and $\sigma$.</p>
 <h2 id="3.5-Test/Prediction">3.5 Test/Prediction<a class="anchor-link" href="#3.5-Test/Prediction">&#182;</a></h2><p>During test time, based on our above discussion:</p>
-<p>$$\hat{x}_{test} = \frac{x_{test} - \mu}{\sqrt{\sigma^2 + \epsilon}}$$
-$$y_{test} = \gamma \hat{x}_{test} + \beta$$</p>
-<p>Where $\mu$ and $\sigma$ are whatever we calculated during training.</p>
+$$\hat{x}_{test} = \frac{x_{test} - \mu}{\sqrt{\sigma^2 + \epsilon}}$$$$y_{test} = \gamma \hat{x}_{test} + \beta$$<p>Where $\mu$ and $\sigma$ are whatever we calculated during training.</p>
 <h2 id="3.6-Implementation">3.6 Implementation<a class="anchor-link" href="#3.6-Implementation">&#182;</a></h2><p>Now, in order to implement these, you could do it manually. However, there are functions that are built into both theano and tensorflow that can help us. For tensorflow that is:</p>
 <p><strong>TensorFlow Implementation</strong><br></p>
 
@@ -340,8 +319,7 @@ batch_normalization_test</code></pre>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -650,7 +628,7 @@ y = y' * gamma + beta</code></pre>
   <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -660,7 +638,7 @@ y = y' * gamma + beta</code></pre>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -746,7 +724,7 @@ Train acc: 0.999780487804878 Test acc: 0.977
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -761,7 +739,7 @@ Train acc: 0.999780487804878 Test acc: 0.977
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -776,8 +754,7 @@ Test accuracy: 0.977
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -1023,7 +1000,7 @@ batch_normalization_test</code></pre>
   <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1033,7 +1010,7 @@ batch_normalization_test</code></pre>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1057,19 +1034,15 @@ Train acc: 0.9785609756097561 Test acc: 0.952
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="6.-Noise-Perspective">6. Noise Perspective<a class="anchor-link" href="#6.-Noise-Perspective">&#182;</a></h1><p>We are now going to discuss another way in which batch normalization performs regularization. In particular we are going to talk about how batch norm is a type of noise injection, which we have looked at in this course already.</p>
 <p>Here is how it works: When we are doing batch norm, we use $\mu_B$ and $\sigma_B$ as though they are the true values, $\mu_{true}$ and $\sigma_{true}$. Of course, we can never really know these true values.</p>
 <p>However, you can see that if we knew the true $\mu$ and $\sigma$, and we used these during training and testing, then training and testing would be exactly the same; we would always be subtracting the same $\mu$ and the same $\sigma$.</p>
-<p>$$\hat{X} = \frac{X - \mu_{true}}{\sigma_{true}}$$
-$$Y = \hat{X}\gamma + \beta$$</p>
-<p>This stems from the fact that the batch norm transformation is exactly the same during training and testing. The only difference is how we calculate the $\mu$s and $\sigma$s.</p>
+$$\hat{X} = \frac{X - \mu_{true}}{\sigma_{true}}$$$$Y = \hat{X}\gamma + \beta$$<p>This stems from the fact that the batch norm transformation is exactly the same during training and testing. The only difference is how we calculate the $\mu$s and $\sigma$s.</p>
 <h2 id="6.1-Noise">6.1 Noise<a class="anchor-link" href="#6.1-Noise">&#182;</a></h2><p>One way to think of any estimate, as you know from general machine learning principles, is that an estimate is equal to its true value plus noise:</p>
-<p>$$Estimate = True \; Value + Noise$$</p>
-<p>So, we can say that:
+$$Estimate = True \; Value + Noise$$<p>So, we can say that:
 $$\mu_B = \mu_{true} + \epsilon$$
 $$\sigma_B = \sigma_{true} + \epsilon$$</p>
 <p>Hence, batch norm is a way of doing noise injection at the level of the batch $\mu$ and batch $\sigma$. This makes sense in the context that noise injection can really work anywhere in the neural network-whether we add noise to the inputs, or to the weights, or simply drop nodes in the network, all of these are adding noise.</p>

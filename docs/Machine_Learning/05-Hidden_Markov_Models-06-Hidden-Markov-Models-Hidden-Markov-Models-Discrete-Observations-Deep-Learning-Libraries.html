@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -195,10 +194,6 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -211,8 +206,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="6.-Hidden-Markov-Models-with-Theano-and-TensorFlow">6. Hidden Markov Models with Theano and TensorFlow<a class="anchor-link" href="#6.-Hidden-Markov-Models-with-Theano-and-TensorFlow">&#182;</a></h1><p>In the last section we went over the training and prediction procedures of Hidden Markov Models. This was all done using only vanilla numpy the Expectation Maximization algorithm. I now want to introduce how both <code>Theano</code> and <code>Tensorflow</code> can be utilized to accomplish the same goal, albeit by a very different process.</p>
 <h2 id="1.-Gradient-Descent">1. Gradient Descent<a class="anchor-link" href="#1.-Gradient-Descent">&#182;</a></h2><p>Hopefully you are familiar with the gradient descent optimization algorithm, if not I recommend reviewing my posts on Deep Learning, which leverage gradient descent heavily (or this <a href="https://www.youtube.com/watch?v=IHZwWFHWa-w">video</a>. With that said, a simple overview is as follows:</p>
@@ -221,25 +215,16 @@ body {
 <p>Visually, this iterative process looks like:</p>
 <p><img src="https://drive.google.com/uc?id=1R2zVTj3uo5zmow6vFujWlU-qs9jRF_XG" width="250"></p>
 <p>Where above we are looking at a contour plot of a three dimensional bowl, and the center of the bowl is a minimum. Now, the actual underlying mechanics of gradient descent work as follows:</p>
-<h4 id="1.-Define-a-model/hypothesis-that-will-be-mapping-inputs-to-outputs,-or-in-other-words-making-predictions:">1. Define a model/hypothesis that will be mapping inputs to outputs, or in other words making predictions:<a class="anchor-link" href="#1.-Define-a-model/hypothesis-that-will-be-mapping-inputs-to-outputs,-or-in-other-words-making-predictions:">&#182;</a></h4><p>$$h_{\theta}(x) = \theta_0 + \theta_1x$$</p>
-<p>In this case $x$ is our input and $h(x)$, often thought of as $y$, is our output. We are stating that we believe the ground truth relationship between $x$ and $h(x)$ is captured by the linear combination of $\theta_0 + \theta_1x$. Now, what are $\theta_0$ and $\theta_1$ equal to?</p>
-<h4 id="2.-Define-a-cost-function-for-which-you-are-trying-to-find-the-minimum.-Generally,-this-cost-function-is-defined-as-some-form-of-error,-and-it-will-be-parameterized-by-variables-related-to-your-model-in-some-way.">2. Define a <strong>cost</strong> function for which you are trying to find the minimum. Generally, this cost function is defined as some form of <strong>error</strong>, and it will be parameterized by variables related to your model in some way.<a class="anchor-link" href="#2.-Define-a-cost-function-for-which-you-are-trying-to-find-the-minimum.-Generally,-this-cost-function-is-defined-as-some-form-of-error,-and-it-will-be-parameterized-by-variables-related-to-your-model-in-some-way.">&#182;</a></h4><p>$$cost = J = (y - h_{\theta}(x))^2$$</p>
-<p>Above $y$ refers to the ground truth/actual value of the output, and $h_{\theta}(x)$ refers to that which our model predicted. The difference, squared, represents our cost. We can see that if our prediction is exactly equal to the ground truth value, our cost will be 0. If our prediction is very far off from our ground truth value then our cost will be very high. Our goal is to minimize the cost (error) of our model.</p>
-<h4 id="3.-Take-the-gradient-(multi-variable-generalization-of-the-derivative)-of-the-cost-function-with-respect-to-the-parameters-that-you-have-control-over.">3. Take the <a href="https://en.wikipedia.org/wiki/Gradient"><strong>gradient</strong></a> (multi-variable generalization of the derivative) of the cost function with respect to the parameters that you have control over.<a class="anchor-link" href="#3.-Take-the-gradient-(multi-variable-generalization-of-the-derivative)-of-the-cost-function-with-respect-to-the-parameters-that-you-have-control-over.">&#182;</a></h4><p>$$\nabla J = \frac{\partial J}{\partial \theta}$$</p>
-<p>Simply put, we want to see how $J$ changes as we change our model parameters, $\theta_0$ and $\theta_1$.</p>
-<h4 id="4.-Based-on-the-gradient-update-our-values-for-$\theta$-with-a-simple-update-rule:">4. Based on the gradient update our values for $\theta$ with a simple update rule:<a class="anchor-link" href="#4.-Based-on-the-gradient-update-our-values-for-$\theta$-with-a-simple-update-rule:">&#182;</a></h4><p>$$\theta_0 \rightarrow \theta_0 - \alpha \cdot \frac{\partial J}{\partial \theta_0}$$</p>
-<p>$$\theta_1 \rightarrow \theta_1 - \alpha \cdot \frac{\partial J}{\partial \theta_1}$$</p>
-<h4 id="5.-Repeat-steps-two-and-three-for-a-set-number-of-iterations/until-convergence.">5. Repeat steps two and three for a set number of iterations/until convergence.<a class="anchor-link" href="#5.-Repeat-steps-two-and-three-for-a-set-number-of-iterations/until-convergence.">&#182;</a></h4><p>After a set number of steps, the hope is that the model weights that were <em>learned</em> are the most optimal weights to minimize prediction error. Now after everything we discussed in the past two posts you may be wondering, how exactly does this relate to Hidden Markov Models, which have been trained via Expectation Maximization?</p>
+<h4 id="1.-Define-a-model/hypothesis-that-will-be-mapping-inputs-to-outputs,-or-in-other-words-making-predictions:">1. Define a model/hypothesis that will be mapping inputs to outputs, or in other words making predictions:<a class="anchor-link" href="#1.-Define-a-model/hypothesis-that-will-be-mapping-inputs-to-outputs,-or-in-other-words-making-predictions:">&#182;</a></h4>$$h_{\theta}(x) = \theta_0 + \theta_1x$$<p>In this case $x$ is our input and $h(x)$, often thought of as $y$, is our output. We are stating that we believe the ground truth relationship between $x$ and $h(x)$ is captured by the linear combination of $\theta_0 + \theta_1x$. Now, what are $\theta_0$ and $\theta_1$ equal to?</p>
+<h4 id="2.-Define-a-cost-function-for-which-you-are-trying-to-find-the-minimum.-Generally,-this-cost-function-is-defined-as-some-form-of-error,-and-it-will-be-parameterized-by-variables-related-to-your-model-in-some-way.">2. Define a <strong>cost</strong> function for which you are trying to find the minimum. Generally, this cost function is defined as some form of <strong>error</strong>, and it will be parameterized by variables related to your model in some way.<a class="anchor-link" href="#2.-Define-a-cost-function-for-which-you-are-trying-to-find-the-minimum.-Generally,-this-cost-function-is-defined-as-some-form-of-error,-and-it-will-be-parameterized-by-variables-related-to-your-model-in-some-way.">&#182;</a></h4>$$cost = J = (y - h_{\theta}(x))^2$$<p>Above $y$ refers to the ground truth/actual value of the output, and $h_{\theta}(x)$ refers to that which our model predicted. The difference, squared, represents our cost. We can see that if our prediction is exactly equal to the ground truth value, our cost will be 0. If our prediction is very far off from our ground truth value then our cost will be very high. Our goal is to minimize the cost (error) of our model.</p>
+<h4 id="3.-Take-the-gradient-(multi-variable-generalization-of-the-derivative)-of-the-cost-function-with-respect-to-the-parameters-that-you-have-control-over.">3. Take the <a href="https://en.wikipedia.org/wiki/Gradient"><strong>gradient</strong></a> (multi-variable generalization of the derivative) of the cost function with respect to the parameters that you have control over.<a class="anchor-link" href="#3.-Take-the-gradient-(multi-variable-generalization-of-the-derivative)-of-the-cost-function-with-respect-to-the-parameters-that-you-have-control-over.">&#182;</a></h4>$$\nabla J = \frac{\partial J}{\partial \theta}$$<p>Simply put, we want to see how $J$ changes as we change our model parameters, $\theta_0$ and $\theta_1$.</p>
+<h4 id="4.-Based-on-the-gradient-update-our-values-for-$\theta$-with-a-simple-update-rule:">4. Based on the gradient update our values for $\theta$ with a simple update rule:<a class="anchor-link" href="#4.-Based-on-the-gradient-update-our-values-for-$\theta$-with-a-simple-update-rule:">&#182;</a></h4>$$\theta_0 \rightarrow \theta_0 - \alpha \cdot \frac{\partial J}{\partial \theta_0}$$$$\theta_1 \rightarrow \theta_1 - \alpha \cdot \frac{\partial J}{\partial \theta_1}$$<h4 id="5.-Repeat-steps-two-and-three-for-a-set-number-of-iterations/until-convergence.">5. Repeat steps two and three for a set number of iterations/until convergence.<a class="anchor-link" href="#5.-Repeat-steps-two-and-three-for-a-set-number-of-iterations/until-convergence.">&#182;</a></h4><p>After a set number of steps, the hope is that the model weights that were <em>learned</em> are the most optimal weights to minimize prediction error. Now after everything we discussed in the past two posts you may be wondering, how exactly does this relate to Hidden Markov Models, which have been trained via Expectation Maximization?</p>
 <h3 id="1.1-Gradient-Descent-and-Hidden-Markov-Models">1.1 Gradient Descent and Hidden Markov Models<a class="anchor-link" href="#1.1-Gradient-Descent-and-Hidden-Markov-Models">&#182;</a></h3><p>Let's say for a moment that our goal that we wish to accomplish is predict the probability of an observed sequence, $p(x)$. And let's say that we have 100 observed sequences at our disposal. It should be clear that if we have a trained HMM that predicts the majority of our sequences are very unlikely, the HMM was probably not trained very well. Ideally, our HMM parameters would be learned in a way that maximizes the probability of observing what we did (this was the goal of expectation maximization).</p>
 <p>What may start to become apparent at this point is that we have a perfect cost function already created for us! The total probability of our observed sequences, based on our HMM parameters $A$, $B$, and $\pi$. We can define this mathematically as follows (for the scaled version); in the previous post we proved that:</p>
-<p>$$p(x) = \prod_{t=1}^T c(t)$$</p>
-<p>Which states that the probability of an observed sequence is equal to the product of the scales at each time step. Also recall that the scale is just defined as:</p>
-<p>$$c(t) = \sum_{i=1}^M \alpha'(t,i)$$</p>
-<p>With that all said, we can define the cost of a single observed training sequence as:</p>
-<p>$$cost = \sum_{t}^{T} log\big(c(t)\big)$$</p>
-<p>Where we are using the log to avoid the underflow problem, just as we did in the last notebook. So, we have a cost function which intuitively makes sense, but can we find its gradient with respect to our HMM parameters $A$, $B$, and $\pi$? We absolutely can! The wonderful thing about Theano is that it links variables together via a <a href="http://deeplearning.net/software/theano/extending/graphstructures.html">computational graph</a>. So, cost is depedent on $A$, $B$ and $\pi$ via the following link:</p>
-<p>$$cost \rightarrow c(t) \rightarrow alpha \rightarrow A, B, \pi$$</p>
-<p>We can take the gradient of this cost function in theano as well, allowing us to then easily update our values of $A$, $B$, and $\pi$! Done iteratively, we hopefully will converge to a nice minimum.</p>
+$$p(x) = \prod_{t=1}^T c(t)$$<p>Which states that the probability of an observed sequence is equal to the product of the scales at each time step. Also recall that the scale is just defined as:</p>
+$$c(t) = \sum_{i=1}^M \alpha'(t,i)$$<p>With that all said, we can define the cost of a single observed training sequence as:</p>
+$$cost = \sum_{t}^{T} log\big(c(t)\big)$$<p>Where we are using the log to avoid the underflow problem, just as we did in the last notebook. So, we have a cost function which intuitively makes sense, but can we find its gradient with respect to our HMM parameters $A$, $B$, and $\pi$? We absolutely can! The wonderful thing about Theano is that it links variables together via a <a href="http://deeplearning.net/software/theano/extending/graphstructures.html">computational graph</a>. So, cost is depedent on $A$, $B$ and $\pi$ via the following link:</p>
+$$cost \rightarrow c(t) \rightarrow alpha \rightarrow A, B, \pi$$<p>We can take the gradient of this cost function in theano as well, allowing us to then easily update our values of $A$, $B$, and $\pi$! Done iteratively, we hopefully will converge to a nice minimum.</p>
 <h3 id="1.2-HMM-Theano-specifics">1.2 HMM Theano specifics<a class="anchor-link" href="#1.2-HMM-Theano-specifics">&#182;</a></h3><p>I would be lying if I said that Theano wasn't a little bit hard to follow at first. For those unfamiliar, representing symbolic mathematical computations as graphs may feel very strange. I have a few walk throughs of Theano in my Deep Learning section, as well as <code>.py</code> files in the source repo. Additionally, the theano <a href="http://deeplearning.net/software/theano/index.html">documentation</a> is also very good. With that said, I do want to discuss a few details of the upcoming code block.</p>
 <h4 id="Recurrence-Block-$\rightarrow$-Calculating-the-Forward-Variable,-$\alpha$">Recurrence Block $\rightarrow$ Calculating the Forward Variable, $\alpha$<a class="anchor-link" href="#Recurrence-Block-$\rightarrow$-Calculating-the-Forward-Variable,-$\alpha$">&#182;</a></h4><p>First, I want to discuss the <code>recurrence</code> and <code>scan</code> functions that you will be seeing:</p>
 
@@ -290,9 +275,7 @@ self.cost_op = theano.function(
 </li>
 <li>Our recurrence function, <code>recurrence_to_find_alpha</code>, is meant to calculate $\alpha$ at each time step. $\alpha$ at $t=1$ was defined by <code>outputs_info</code> in <code>scan</code>. This recurrence function essentially is performing the forward algorithm (additionally it incorporates scaling):</li>
 </ol>
-<p>$$\alpha(1,i) = \pi_iB\big(i, x(1)\big)$$</p>
-<p>$$\alpha(t+1, j) = \sum_{i=1}^M \alpha(t,i) A(i,j)B(j, x(t+1))$$</p>
-<ol>
+$$\alpha(1,i) = \pi_iB\big(i, x(1)\big)$$$$\alpha(t+1, j) = \sum_{i=1}^M \alpha(t,i) A(i,j)B(j, x(t+1))$$<ol>
 <li>We calculate $p(x)$ to be the sum of the log likelihood. This is set to be our <code>cost</code>.</li>
 <li>We define a <code>cost_op</code>, which is a theano function that takes in a symbolic variable <code>thx</code> and determines the output <code>cost</code>. Remember, <code>cost</code> is linked to <code>thx</code> via:</li>
 </ol>
@@ -342,8 +325,7 @@ for it in range(max_iter):
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.-HMM's-with-Theano">2. HMM's with Theano<a class="anchor-link" href="#2.-HMM's-with-Theano">&#182;</a></h2><p>In code, our HMM can be implemented with Theano as follows:</p>
 
@@ -372,7 +354,7 @@ for it in range(max_iter):
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -540,7 +522,7 @@ for it in range(max_iter):
     <span class="n">fit_coin</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -550,7 +532,7 @@ for it in range(max_iter):
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -568,7 +550,7 @@ pi learned from training:
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -585,7 +567,7 @@ height=339
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -600,8 +582,7 @@ Log Likelihood with true params:  1059.723
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="3.-HMM's-with-Theano-$\rightarrow$-Optimization-via-Softmax">3. HMM's with Theano $\rightarrow$ Optimization via Softmax<a class="anchor-link" href="#3.-HMM's-with-Theano-$\rightarrow$-Optimization-via-Softmax">&#182;</a></h2><p>One of the challenges of the approach we took is that gradient descent is <em>unconstrained</em>; it simply goes in the direction of the gradient. This presents a problem for us in the case of HMM's. Remember, the parameters of an HMM are $\pi$, $A$, and $B$, and each is a probability matrix/vector. This means that they must be between 0 and 1, and must sum to 1 (along the rows if 2-D).</p>
 <p>We accomplished this in the previous section by performing a "hack". Specifically, we renormalized after each gradient descent step. However, this means that we weren't performing <em>real</em> gradient descent, because by renormalizing we are not exactly moving in the direction of the gradient anymore. For reference, the pseudocode looked like this:</p>
@@ -622,11 +603,9 @@ updates = [
 ]</code></pre>
 <p>This leads us to the question: is it possible to use true gradient descent, while still conforming to the constraints that each parameter much be a true probability. The answer is of course yes!</p>
 <h3 id="3.1-Softmax">3.1 Softmax<a class="anchor-link" href="#3.1-Softmax">&#182;</a></h3><p>If you are unfamiliar with Deep Learning then you may want to jump over this section, or go through my deep learning posts that dig into the subject. If you are familiar, recall the softmax function:</p>
-<p>$$softmax(x)_i = \frac{exp(x_i)}{\sum_{k=1}^K exp(x_k)}$$</p>
-<p>Where $x$ is an array of size $K$, and $K$ is the number of classes that we have. The result of the softmax is that all outputs are positive and sum to 1. What exactly does this mean in our scenario?</p>
+$$softmax(x)_i = \frac{exp(x_i)}{\sum_{k=1}^K exp(x_k)}$$<p>Where $x$ is an array of size $K$, and $K$ is the number of classes that we have. The result of the softmax is that all outputs are positive and sum to 1. What exactly does this mean in our scenario?</p>
 <h4 id="Softmax-for-$\pi$">Softmax for $\pi$<a class="anchor-link" href="#Softmax-for-$\pi$">&#182;</a></h4><p>Consider $\pi$, an array of size $M$. Supposed we want to parameterize $\pi$, using the symbol $\theta$. We can then assign $\pi$ to be:</p>
-<p>$$pi = softmax(\theta)$$</p>
-<p>In this way, $\pi$ is like an intermediate variable and $\theta$ is the actual parameter that we will be updating. This ensures that $\pi$ is always between 0 and 1, and sums to 1. At the same time, the values in $\theta$ can be anything; this means that we can freely use gradient descent on $\theta$ without having to worry about any constraints! No matter what we do to $\theta$, $\pi$ will always be between 0 and 1 and sum to 1.</p>
+$$pi = softmax(\theta)$$<p>In this way, $\pi$ is like an intermediate variable and $\theta$ is the actual parameter that we will be updating. This ensures that $\pi$ is always between 0 and 1, and sums to 1. At the same time, the values in $\theta$ can be anything; this means that we can freely use gradient descent on $\theta$ without having to worry about any constraints! No matter what we do to $\theta$, $\pi$ will always be between 0 and 1 and sum to 1.</p>
 <h4 id="Softmax-for-$A$-and-$B$">Softmax for $A$ and $B$<a class="anchor-link" href="#Softmax-for-$A$-and-$B$">&#182;</a></h4><p>Now, what about $A$ and $B$? Unlike $\pi$, which was a 1-d vector, $A$ and $B$ are matrices. Luckily for us, softmax works well for us here too! Recall that when dealing with data in deep learning (and most ML) that we are often dealing with multiple samples at the same time. Typically an $NxD$ matrix, where $N$ is the number of samples, and $D$ is the dimensionality. We know that the output of our model is usually an $NxK$ matrix, where $K$ is the number of classes. Naturally, because the classes go along the rows, each row must represent a separate probability distribution.</p>
 <p>Why is this helpful? Well, the softmax was actually written with this specifically in mind! When you use the softmax it automatically exponentiates every element of the matrix and divides by the row sum. That is exactly what we want to do with $A$ and $B$! Each row of $A$ is the probability of the next state to transition to, and each row of $B$ is the probability of the next symbol to emit. The rows must sum to 1, just like the output predictions of a neural network!</p>
 <p>In pseudocode, softmax looks like:</p>
@@ -660,7 +639,7 @@ updates = [
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exponentiated A divided row sum: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round_</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -670,7 +649,7 @@ updates = [
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -692,8 +671,7 @@ Exponentiated A divided row sum:
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now you may be wondering: Why can't we just perform standard normalization? Why does the exponetial need to be used? For an answer to that I recommend reading up <a href="https://stackoverflow.com/questions/17187507/why-use-softmax-as-opposed-to-standard-normalization">here</a>, <a href="https://stats.stackexchange.com/questions/162988/why-sigmoid-function-instead-of-anything-else/318209#318209">here</a>, and <a href="http://cs231n.github.io/linear-classify/#softmax">here</a>.</p>
 
@@ -701,8 +679,7 @@ Exponentiated A divided row sum:
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="3.2-Update-Discrete-HMM-Code-$\rightarrow$-with-Softmax">3.2 Update Discrete HMM Code $\rightarrow$ with Softmax<a class="anchor-link" href="#3.2-Update-Discrete-HMM-Code-$\rightarrow$-with-Softmax">&#182;</a></h3>
 </div>
@@ -860,7 +837,7 @@ Exponentiated A divided row sum:
     <span class="n">fit_coin</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -870,7 +847,7 @@ Exponentiated A divided row sum:
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -887,7 +864,7 @@ height=339
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -902,8 +879,7 @@ Log Likelihood with true params:  1047.421
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="4.-Hidden-Markov-Models-with-TensorFlow">4. Hidden Markov Models with TensorFlow<a class="anchor-link" href="#4.-Hidden-Markov-Models-with-TensorFlow">&#182;</a></h2><p>I now want to expose everyone to an HMM implementation in TensorFlow. In order to do so, we will need to first go over the <code>scan</code> function in Tensorflow. Just like when dealing with Theano, we need to ask "What is the equivalent of a for loop in TensorFlow?". And why should we care?</p>
 <h3 id="4.1-TensorFlow-Scan">4.1 TensorFlow Scan<a class="anchor-link" href="#4.1-TensorFlow-Scan">&#182;</a></h3><p>In order to understand the importance of <code>scan</code>, we need to be sure that we have a good idea of how TensorFlow works, even if only from a high level. In general, with both TensorFlow and Theano, you have to create variables and link them together functionally, but they do not have values until you actually run the functions. So, when you create your $X$ matrix you don't give it a shape; you just say here is a place holder I am going to call $X$ and this is a possible shape for it:</p>
@@ -915,8 +891,7 @@ Log Likelihood with true params:  1047.421
     # ....</code></pre>
 <p>In order to write a for loop we must specify the number of times the loop will run. But in order to specify the number of times the loop will run we must know the number of elements in $X$. Generally speaking, we cannot guarantee the length of our training sequences. This is why we need the tensorflow <code>scan</code> function! It will allow us to loop through a tensorflow array without knowing its size. This is similar to how everything else in Tensorflow and Theano works. Using <code>scan</code> we can tell Tensorflow "how to run the for loop", without actually running it.</p>
 <p>There is another big reason that the <code>scan</code> function is so important; it allows us to perform <strong>automatic differentiation</strong> when we have sequential data. Tensorflow keeps track of how all the variables in your graph link together, so that it can automatically calculate the gradient for you when you do gradient descent:</p>
-<p>$$W(t) \leftarrow W(t-1) - \eta \nabla J\big(W(t-1)\big)$$</p>
-<p>The <code>scan</code> function keeps track of this when it performs the loop. The anatomy of the <code>scan</code> function is shown in pseudocode below:</p>
+$$W(t) \leftarrow W(t-1) - \eta \nabla J\big(W(t-1)\big)$$<p>The <code>scan</code> function keeps track of this when it performs the loop. The anatomy of the <code>scan</code> function is shown in pseudocode below:</p>
 
 <pre><code>outputs = tf.scan(
     fn=some_function,          # Function applied to every element in sequence 
@@ -972,7 +947,7 @@ def square(last, current):
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Output: &quot;</span><span class="p">,</span> <span class="n">o_val</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -982,7 +957,7 @@ def square(last, current):
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -999,8 +974,7 @@ Output:  [ 1  4  9 16 25]
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, of course <code>scan</code> can do more complex things than this. We can implement another argument, <code>initializer</code>, that allows us to compute recurrence relationships.</p>
 
@@ -1043,7 +1017,7 @@ Output:  [ 1  4  9 16 25]
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Output: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">o_val</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1053,7 +1027,7 @@ Output:  [ 1  4  9 16 25]
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1068,12 +1042,10 @@ Output:  [ 1  4  9 16 25]
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Another example of what we can do with the theano <code>scan</code> is create a <strong>low pass filter</strong> (also known as a <strong>moving average</strong>). In this case, our recurrence relation is given by:</p>
-<p>$$s(t) = \text{decay_rate} \cdot s(t-1) + (1 - \text{decay_rate}) \cdot x(t)$$</p>
-<p>Where $x(t)$ is the input and $s(t)$ is the output. The goal here is to return a clean version of a noisy signal. To do this we can create a sine wave, add some random gaussian noise to it, and finally try to retrieve the sine wave. In code this looks like:</p>
+$$s(t) = \text{decay_rate} \cdot s(t-1) + (1 - \text{decay_rate}) \cdot x(t)$$<p>Where $x(t)$ is the input and $s(t)$ is the output. The goal here is to return a clean version of a noisy signal. To do this we can create a sine wave, add some random gaussian noise to it, and finally try to retrieve the sine wave. In code this looks like:</p>
 
 </div>
 </div>
@@ -1116,7 +1088,7 @@ Output:  [ 1  4  9 16 25]
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1126,7 +1098,7 @@ Output:  [ 1  4  9 16 25]
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1146,8 +1118,7 @@ height=333
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="4.2-Discrete-HMM-With-Tensorflow">4.2 Discrete HMM With Tensorflow<a class="anchor-link" href="#4.2-Discrete-HMM-With-Tensorflow">&#182;</a></h3><p>Let's now take a moment to walk through the creation of a discrete HMM class utilizing Tensorflow.</p>
 
@@ -1290,7 +1261,7 @@ height=333
     <span class="n">fit_coin</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1300,7 +1271,7 @@ height=333
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1311,7 +1282,7 @@ height=333
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1328,7 +1299,7 @@ height=339
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1338,6 +1309,19 @@ Log Likelihood with true params:  1059.723
 </div>
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
 </div>
 </div>
 

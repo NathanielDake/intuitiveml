@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -195,10 +194,6 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -211,28 +206,23 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="5.-AdaBoost-Algorithm">5. AdaBoost Algorithm<a class="anchor-link" href="#5.-AdaBoost-Algorithm">&#182;</a></h1><p>We are now going to talk about <strong>boosting</strong>, and introduce a realization of the boosting idea, the algorithm <strong>AdaBoost</strong>. It is currently still one of the most powerful ensemble methods in existence, and like the random forest it is considered a good off the shelf/plug and play model.</p>
 <p>The idea behind <strong>boosting</strong> is very different from <strong>bagging</strong> and <strong>random forest</strong>. Recall, in those instances we wanted a <strong>low bias, high variance</strong> model. In boosting, we actually want <strong>high bias</strong> models. In boosting nomenclature these are called <strong>weak learners</strong>. Weak learners generally have classification accuracies not much better than chance-in general about 50-60%. We will show later though, that even after ensembling the variance will remain low, and the test error will remain low, and the ensemble will not overfit-even when we keep adding more trees.</p>
 <p><br></p>
 <h2 id="1.1-Boosting">1.1 Boosting<a class="anchor-link" href="#1.1-Boosting">&#182;</a></h2><p>The hypothesis behind boosting is that if we <strong>combine many weak learners</strong>, as a whole they will be a strong learner. As in our stacking example earlier, what we are going to do is weight each learner so that each base model has a different amount of influence on the output.</p>
-<p>$$F(x) = \sum_{m=1}^M \alpha_mf_m(x)$$</p>
-<p><br></p>
+$$F(x) = \sum_{m=1}^M \alpha_mf_m(x)$$<p><br></p>
 <h3 id="1.1.1-Weak-Learners">1.1.1 Weak Learners<a class="anchor-link" href="#1.1.1-Weak-Learners">&#182;</a></h3><p>So, how do we create or find weak learners? A typical way to do that with boosting is to use decision trees with a max depth of 1. These are also called <strong>decision stumps</strong>. A decision stump is just one split, in one dimension. In other words, you are only splitting the space in half for each tree. In other words, it is actually remarkable that a combination of these can actually yield a good classifier.</p>
 <p>Another way is just to use a linear classifier like logistic regression. An added bonus of using such simple models is that they train extremely fast. This means that you can quickly train an ensemble of thousands of trees.</p>
 <p><br></p>
 <h3 id="1.1.2-Details">1.1.2 Details<a class="anchor-link" href="#1.1.2-Details">&#182;</a></h3><p>In Adaboost, which we will get to shortly, there are a couple of details which we have to make note of. First and foremost, Adaboost used <strong>{-1, +1}</strong> as targets, rather than <strong>{0, 1}</strong>. This will become clear why when we see the algorithm. So, for example if we were doing logistic regression we would rescale the output by multiplying by 2 and subtracting by 1.</p>
-<p>$$ModifiedLogisticOutput(x) = 2*LogisticOutput(x) - 1$$</p>
-<p>The final output of Adaboost is:</p>
-<p>$$F_M(x) = sign(\sum_{m=1}^M \alpha_mf_m(x))$$</p>
-<p>Where $f_m$ represents the individual base learners, $F_M$ is the ensemble model, with $M$ being the number of base learners. Since the targets are -1 and +1, the decision boundary is 0, so we just take the sign to determine the final prediction. We typicaly use $\alpha$ as the symbol to weight each classifier, since $w$ will be used for something else-in particular, to tell us how important each sample is.</p>
+$$ModifiedLogisticOutput(x) = 2*LogisticOutput(x) - 1$$<p>The final output of Adaboost is:</p>
+$$F_M(x) = sign(\sum_{m=1}^M \alpha_mf_m(x))$$<p>Where $f_m$ represents the individual base learners, $F_M$ is the ensemble model, with $M$ being the number of base learners. Since the targets are -1 and +1, the decision boundary is 0, so we just take the sign to determine the final prediction. We typicaly use $\alpha$ as the symbol to weight each classifier, since $w$ will be used for something else-in particular, to tell us how important each sample is.</p>
 <p><br></p>
 <h2 id="1.2-AdaBoost">1.2 AdaBoost<a class="anchor-link" href="#1.2-AdaBoost">&#182;</a></h2><p>Let's now talk about the <strong>AdaBoost</strong> algorithm itself. The idea is that we are going to add each base model one at a time, which is called <strong>additive modeling</strong>. We train the base model on all of the training data, which means there is no resampling or bootstrapping here. The difference between this and the other algorithms that we have studied, is that we are going to weight how important each sample is, using $w_i$ for $i = 1...N$. We will modify $w_i$ for each round. So intitially they will all be equal, but if we get the prediction for the pair $x_i, y_i$ wrong, then we will increase $w_i$ for that round. In this way, the base model knows which samples are more important. Else we will decrease $w_i$.</p>
 <p>You can imagine that this may require us to modify the cost function. For example, for logistic regression, you would need to multiple each individual cross entropy by the weight for that sample.</p>
-<p>$$J_{weighted} = \sum_{i=1}^N w_i\Big[t_ilogy_i +(1-t_i)log(1-y_i) \Big]$$</p>
-<p>For the decision tree, luckily the scikit learn API already allows us to pass in sample weights to our fit function!</p>
+$$J_{weighted} = \sum_{i=1}^N w_i\Big[t_ilogy_i +(1-t_i)log(1-y_i) \Big]$$<p>For the decision tree, luckily the scikit learn API already allows us to pass in sample weights to our fit function!</p>
 <p>Once we have trained the base model (on all data $X,Y$ with weights $w_i$, where $i=1..N$), we calculate its error weighted by $w_i$. We then compute $\alpha_m$, which represents how important this base model is to the final model as a function of the error. Note that if we had less error (our model was more accurate) then $\alpha_m$ should be bigger. Then we store $\alpha_m$ and we store the base model $f_m$. Once the loop is done, and we hit the specified number of base models, we exit the loop and we are done training.</p>
 <p><br></p>
 <h3 id="1.2.1-AdaBoost-Pseudocode">1.2.1 AdaBoost Pseudocode<a class="anchor-link" href="#1.2.1-AdaBoost-Pseudocode">&#182;</a></h3><hr>
@@ -268,8 +258,7 @@ for m=1..M:
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -295,8 +284,7 @@ for m = 1..M:
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -310,12 +298,9 @@ for m = 1..M:
 </ul>
 <p>Now we are going to look at one more - the loss function that AdaBoost uses - Exponential Loss. Because our outputs are {-1, +1} it does not make sense to use cross entropy.</p>
 <h2 id="3.1-Exponential-Loss">3.1 Exponential Loss<a class="anchor-link" href="#3.1-Exponential-Loss">&#182;</a></h2><p>The exponential loss function is defined as follows:</p>
-<p>$$L\Big(y, f(x)\Big) = exp\Big(-yf(x)\Big)$$</p>
-<p>We can see that as always it takes in two arguments, the target $y$, and $f(x)$ which is the model. We can see that when $y$ and $f(x)$ are the same sign, the output approaches 0. When $y$ and $f(x)$ are opposite signs, the output approaches infinity. This means we still have the same asymptotic effect of the cross entropy function.</p>
+$$L\Big(y, f(x)\Big) = exp\Big(-yf(x)\Big)$$<p>We can see that as always it takes in two arguments, the target $y$, and $f(x)$ which is the model. We can see that when $y$ and $f(x)$ are the same sign, the output approaches 0. When $y$ and $f(x)$ are opposite signs, the output approaches infinity. This means we still have the same asymptotic effect of the cross entropy function.</p>
 <h2 id="3.2-Cross-Entropy-Comparison">3.2 Cross Entropy Comparison<a class="anchor-link" href="#3.2-Cross-Entropy-Comparison">&#182;</a></h2><p>Let's consider the positive class, $y=1$, for cross entropy. Recall, that with cross entropy and logistic regression, the input into the sigmoid, which we call the <strong>logit</strong>, has to equal infinity for the sigmoid to equal 1. Otherwise, we can get very close to 1, but not quite equal to one. Mathematically that looks like:</p>
-<p>$$Let \; f(x) = \sigma(w^Tx)$$</p>
-<p>$$CrossEntropy(y, f(x)) = ylog(f(x)) + (1-y)log(1 - f(x))$$</p>
-<p>If our class is 1, i.e. y = 1, then if our prediction, $f(x)$ is 1, we have 0 loss. However, since $f(x)$ is the output of the sigmoid function, we would need the input to the sigmoid (the logit), $w^Tx$,  to equal infinity. Since $w^Tx$ can never reach infinity, we can keep increasing it forever.</p>
+$$Let \; f(x) = \sigma(w^Tx)$$$$CrossEntropy(y, f(x)) = ylog(f(x)) + (1-y)log(1 - f(x))$$<p>If our class is 1, i.e. y = 1, then if our prediction, $f(x)$ is 1, we have 0 loss. However, since $f(x)$ is the output of the sigmoid function, we would need the input to the sigmoid (the logit), $w^Tx$,  to equal infinity. Since $w^Tx$ can never reach infinity, we can keep increasing it forever.</p>
 <h2 id="3.3-Relationship-to-Squared-Error">3.3 Relationship to Squared Error<a class="anchor-link" href="#3.3-Relationship-to-Squared-Error">&#182;</a></h2><p>This is why we don't want to use squared error for classification. Recall that squared error is defined as:
 $$L = \Big[y - f(x)\Big]^2$$</p>
 <p>Squared error does not care which side of $y$ $f(x)$ is on-anything that is far away from $y$ will increase the error. If $f(x)$ is on the right side of $y$, it doesn't matter how big it is, as long as it leads to the right prediction.</p>
@@ -323,8 +308,7 @@ $$L = \Big[y - f(x)\Big]^2$$</p>
 <h2 id="3.4-Additive-Modeling-Algorithm---AdaBoost-Derivation">3.4 Additive Modeling Algorithm - AdaBoost Derivation<a class="anchor-link" href="#3.4-Additive-Modeling-Algorithm---AdaBoost-Derivation">&#182;</a></h2><p>No we know that using exponential loss "makes sense" in this situation, but we can take it one step further. In particular, we are going to use the additive modeling definition, and solve for the best model weight, and in the process recover all of the equation that we saw in AdaBoost Algorithm. That means we will recover the equations for $\alpha$, the sample weights $w$, and the weighted errors.</p>
 <p><br></p>
 <h3 id="3.4.1-Replace-General-Cost-function-with-Exponential-Loss">3.4.1 Replace General Cost function with Exponential Loss<a class="anchor-link" href="#3.4.1-Replace-General-Cost-function-with-Exponential-Loss">&#182;</a></h3><p>So, we are starting at this point:</p>
-<p>$$(\alpha_m^*, \theta_m^*) = argmin_{\alpha_m, \theta_m} \sum_{i=1}^N L(y_i, F_{m-1}(x_i) + \alpha_mf_m(x_i;\theta_m))$$
-The above equation is just saying that the best value for $\alpha$ and the best value for $\theta$ is that which minimize the total cost over $N$ training examples. So, our first step is to replace the general cost function with the exponential loss that we discussed earlier. 
+$$(\alpha_m^*, \theta_m^*) = argmin_{\alpha_m, \theta_m} \sum_{i=1}^N L(y_i, F_{m-1}(x_i) + \alpha_mf_m(x_i;\theta_m))$$<p>The above equation is just saying that the best value for $\alpha$ and the best value for $\theta$ is that which minimize the total cost over $N$ training examples. So, our first step is to replace the general cost function with the exponential loss that we discussed earlier. 
 $$(\alpha_m^*, f_m^*) = argmin_{\alpha_m, f_m} \sum_{i=1}^N exp\Big[-y_i*\Big(F_{m-1}(x_i) + \alpha_mf_m(x_i)\Big)\Big]$$</p>
 <p>Recall that we are using the convention $F_M$ means the full ensemble model, and $f_m$ means the mth base model.</p>
 <p><br></p>
@@ -356,19 +340,13 @@ $$J = \sum_{i=1}^N w_i^{(m)}exp \Big[- y_i\alpha_mf_m(x_i)\Big]$$</p>
 <p>Let's now return to the cost function.</p>
 <p><br></p>
 <h3 id="3.4.4-Realize-$y*f$-will-always-be-+1-or--1">3.4.4 Realize $y*f$ will always be +1 or -1<a class="anchor-link" href="#3.4.4-Realize-$y*f$-will-always-be-+1-or--1">&#182;</a></h3><p>We can then realize the $y$ times $f$ is always going to be either $+1$ or $-1$ depending on whether the prediction is right or wrong. So, we can split the sum into two terms, the correct terms and incorrect terms:</p>
-<p>$$J = e^{-\alpha_m} \sum _{y_i = f_m(x_i)} w_i^{(m)} + e^{\alpha_m} \sum _{y_i \neq f_m(x_i)} w_i^{(m)}$$</p>
-<p><br></p>
+$$J = e^{-\alpha_m} \sum _{y_i = f_m(x_i)} w_i^{(m)} + e^{\alpha_m} \sum _{y_i \neq f_m(x_i)} w_i^{(m)}$$<p><br></p>
 <h3 id="3.4.5-Rename-and-Simplify">3.4.5 Rename and Simplify<a class="anchor-link" href="#3.4.5-Rename-and-Simplify">&#182;</a></h3><p>We can simplify this a little bit by renaming things. We will call the first sum, the number of weighted corrects $A$, and we will call the second sum the weighted of incorrects $B$. We will also just drop the subscript $m$ since it is just getting in our way.</p>
-<p>$$J = e^{-\alpha}A + e^\alpha B$$</p>
+$$J = e^{-\alpha}A + e^\alpha B$$<p></p>
 <p>This has taken us to our new cost function!</p>
 <p><br></p>
 <h3 id="3.4.5-Take-derivative,-set-to-0,-solve-for-alpha">3.4.5 Take derivative, set to 0, solve for alpha<a class="anchor-link" href="#3.4.5-Take-derivative,-set-to-0,-solve-for-alpha">&#182;</a></h3><p>We now want to take the derivative with repsect to $\alpha$, set to 0, and solve for $\alpha$. That will allow us to find the value of $\alpha$ that minimizes our cost, $J$.</p>
-<p>$$\frac{\partial J}{\partial \alpha} = -e ^{-\alpha}A + e^\alpha B = 0$$
-$$e ^{-\alpha}A = e^\alpha B$$
-$$-\alpha + lnA = \alpha + lnB$$
-$$2\alpha = lnA - lnB $$
-$$\alpha_m = \frac{1}{2} ln(\frac{A}{B}) = \frac{1}{2} ln(\frac{number \;weighted \; correct}{number \;weighted\;incorrect})$$</p>
-<p>We can see that this is equal to our update equation for $\alpha$ in the adaboost algorithm! Note, the number correct, and the number incorrect, are represented as error rates in the orignal algorithm. But, since we would be dividing by the same number on both top and bottom, they cancel out.</p>
+$$\frac{\partial J}{\partial \alpha} = -e ^{-\alpha}A + e^\alpha B = 0$$$$e ^{-\alpha}A = e^\alpha B$$$$-\alpha + lnA = \alpha + lnB$$$$2\alpha = lnA - lnB $$$$\alpha_m = \frac{1}{2} ln(\frac{A}{B}) = \frac{1}{2} ln(\frac{number \;weighted \; correct}{number \;weighted\;incorrect})$$<p>We can see that this is equal to our update equation for $\alpha$ in the adaboost algorithm! Note, the number correct, and the number incorrect, are represented as error rates in the orignal algorithm. But, since we would be dividing by the same number on both top and bottom, they cancel out.</p>
 <hr>
 <p><br></p>
 <h2 id="3.5-Summary">3.5 Summary<a class="anchor-link" href="#3.5-Summary">&#182;</a></h2><p>Let's try and summarize what we just did, since that was rather long.</p>
@@ -388,8 +366,7 @@ $$\alpha_m = \frac{1}{2} ln(\frac{A}{B}) = \frac{1}{2} ln(\frac{number \;weighte
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -416,14 +393,13 @@ $$\alpha_m = \frac{1}{2} ln(\frac{A}{B}) = \frac{1}{2} ln(\frac{number \;weighte
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We now want to define our AdaBoost Class.</p>
 
@@ -542,7 +518,7 @@ $$\alpha_m = \frac{1}{2} ln(\frac{A}{B}) = \frac{1}{2} ln(\frac{number \;weighte
   <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -552,7 +528,7 @@ $$\alpha_m = \frac{1}{2} ln(\frac{A}{B}) = \frac{1}{2} ln(\frac{number \;weighte
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -574,7 +550,7 @@ final test error: 0.0
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -589,7 +565,7 @@ final test error: 0.0
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -607,8 +583,7 @@ final test error: 0.0
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Awesome! We can see that as we increase the number of models we do not overfit! The test error remains 0!</p>
 
@@ -616,17 +591,13 @@ final test error: 0.0
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
 <h1 id="5.-AdaBoost-vs.-Stacking">5. AdaBoost vs. Stacking<a class="anchor-link" href="#5.-AdaBoost-vs.-Stacking">&#182;</a></h1><p>We are now going to take a minute to compare to compare AdaBoost vs Stacking. We will see that AdaBoost is a big improvement on the old stacking idea. Remember, both of these methods use a weighted ensemble of base models:</p>
-<p>$$F(x) = \sum_{m=1}^M \alpha_m f_m(x)$$</p>
-<p>The next step in our stacking setup was we setup a cost function to minimize. We used the squared error in our earlier example, but that need not be the case. We can choose any cost function for this, and the idea remains the same. It was only because we choose the squared error the first time that we could arrive at the quadratic programming solution. If we don't use squared error, we can still attempt to minimize the loss, we just need to use a different method, perhaps gradient descent. Now, we can just call the loss $L$ (being agnostic towards the loss function). So let's compare these two algorithms side by side:</p>
-<p>$$\textbf{AdaBoost} \rightarrow J = \frac{1}{N} \sum_{i=1}^N L \Big[y_i, F_M(x_i)\Big] = \frac{1}{N} \sum_{i=1}^N L \Big[y_i, \sum_{m=1}^M \alpha_m f_m(x_i|W^{(m)})\Big]$$</p>
-<p>$$\textbf{Stacking} \rightarrow J = \frac{1}{N} \sum_{i=1}^N L \Big[y_i, F_M(x_i)\Big] = \frac{1}{N} \sum_{i=1}^N L \Big[y_i, \sum_{m=1}^M \alpha_m f_m^{-i}(x_i)\Big]$$</p>
-<p>We can see above that in AdaBoost we just have some base classifier $f_m$ that is trained given some sample weights $W^{(m)}$. In stacking, the base classifier is like a leave one out cross validated classifier. Recall, the $-i$ means that this $f_m$ is trained on every sample except the $ith$ sample.</p>
+$$F(x) = \sum_{m=1}^M \alpha_m f_m(x)$$<p>The next step in our stacking setup was we setup a cost function to minimize. We used the squared error in our earlier example, but that need not be the case. We can choose any cost function for this, and the idea remains the same. It was only because we choose the squared error the first time that we could arrive at the quadratic programming solution. If we don't use squared error, we can still attempt to minimize the loss, we just need to use a different method, perhaps gradient descent. Now, we can just call the loss $L$ (being agnostic towards the loss function). So let's compare these two algorithms side by side:</p>
+$$\textbf{AdaBoost} \rightarrow J = \frac{1}{N} \sum_{i=1}^N L \Big[y_i, F_M(x_i)\Big] = \frac{1}{N} \sum_{i=1}^N L \Big[y_i, \sum_{m=1}^M \alpha_m f_m(x_i|W^{(m)})\Big]$$$$\textbf{Stacking} \rightarrow J = \frac{1}{N} \sum_{i=1}^N L \Big[y_i, F_M(x_i)\Big] = \frac{1}{N} \sum_{i=1}^N L \Big[y_i, \sum_{m=1}^M \alpha_m f_m^{-i}(x_i)\Big]$$<p>We can see above that in AdaBoost we just have some base classifier $f_m$ that is trained given some sample weights $W^{(m)}$. In stacking, the base classifier is like a leave one out cross validated classifier. Recall, the $-i$ means that this $f_m$ is trained on every sample except the $ith$ sample.</p>
 <p><br>
 <strong>General Stacking Method</strong><br>
 So, the cost functions were not extremely different, but they were a little different. Let's talk about how we find the alphas, which are the model weights next. We can think about a general method to train the stacking ensemble. The main thing is that we need to construct this cost function, and then optimize it with respect to alpha. To do that, we need to find all of the $f_m^{-i}$. In other words, we need to know how to construct the whole cost function before we even begin optimizing the alphas. Aka, we must know all of the $f$ values for i=1..N, and m = 1..M, before we can optimize $L$! Because $f_m^{-i}$ is indexed by $m$ and $i$, that means those values will be stored in a matrix of size <strong>(M x N)</strong>. Therefore, the number of models we need to train is <strong>O(NM)</strong>. That is <strong>quadratic complexity</strong>! And, since model training isn't fast, it is not a scalable solution.</p>
@@ -638,19 +609,29 @@ You can see that we are stepping away from machine learning for a minute in orde
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
 <h1 id="6.-AdaBoost-Connection-to-Deep-Learning">6. AdaBoost Connection to Deep Learning<a class="anchor-link" href="#6.-AdaBoost-Connection-to-Deep-Learning">&#182;</a></h1><p>We are now going to make a connection between AdaBoost to Deep Learning! Recall that we do not need to use a tree as a base learner, we can also use logisitc regression (scaled to -1 and +1). If we write out the entire equation for the AdaBoost output, in terms of the individual base logistic regressions, we see a form that is very similar to that of a neural network!</p>
-<p>$$\textbf{AdaBoost} \rightarrow \hat{y} = sign \Big(\sum_{m=1}^M \alpha_m sign(w_m^Tx)\Big)$$</p>
-<p>$$\textbf{Neural  Net} \rightarrow \hat{y} = sign \Big(\sum_{m=1}^M \alpha_m tanh(w_m^Tx)\Big)$$</p>
-<p>The main difference is that adaboost uses base classifiers with hard outputs; aka actual predictions equal to -1 and +1, rather than soft outputs where you get a number between -1 and +1. So the structure of these is the same, even though the training algorithms are different.</p>
+$$\textbf{AdaBoost} \rightarrow \hat{y} = sign \Big(\sum_{m=1}^M \alpha_m sign(w_m^Tx)\Big)$$$$\textbf{Neural  Net} \rightarrow \hat{y} = sign \Big(\sum_{m=1}^M \alpha_m tanh(w_m^Tx)\Big)$$<p>The main difference is that adaboost uses base classifiers with hard outputs; aka actual predictions equal to -1 and +1, rather than soft outputs where you get a number between -1 and +1. So the structure of these is the same, even though the training algorithms are different.</p>
 <p>So an interesting conclusion that we can draw from this is that <strong>adaboost</strong> (with a logistic regression base learner) has the same structure as a 1-hidden-layer neural network, that can dynamically expand the size of its hidden layer. This is about as far as the analogy goes, since training AdaBoost is greedy, and you only get to set the current alpha given all the previous alphas and $w$'s. With neural networks, you update all of the weights at the same time, so it is more of a global optimization.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake

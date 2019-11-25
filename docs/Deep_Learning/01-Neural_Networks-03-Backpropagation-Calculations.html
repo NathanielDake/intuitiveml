@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -195,10 +194,6 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -211,8 +206,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="3.-Backpropagation-Calculations">3. Backpropagation Calculations<a class="anchor-link" href="#3.-Backpropagation-Calculations">&#182;</a></h1><p>At this point I am going to take an aside to go through a thorough backpropagation walk through. For this walk through, we are going to start by looking at a single logistic neuron, then an overview of backpropagation, and then look at a specific example with numbers! 
 <br><br></p>
@@ -227,8 +221,7 @@ $$output = y = \frac{1}{1+e^{-z}}$$</p>
 <p>It is clear that <strong>y</strong> is approximately 1 when <strong>z</strong> is big and positive, approximately 0 when <strong>z</strong> is big and negative, and in between it changes smoothly and nonlinearly. The fact that it changes continuously gives it nice derivatives which make learning easy. 
 <br><br></p>
 <h2 id="1.2-Derivatives-of-Logistic-Neuron">1.2 Derivatives of Logistic Neuron<a class="anchor-link" href="#1.2-Derivatives-of-Logistic-Neuron">&#182;</a></h2><p>For this section note that our overall goal is to determine how the error between our output prediction, y, and target, t, changes as we change our weights. Why are we trying to find that? Well we want to change our weights so as to reduce the error between our predictions and targets. By finding how the change in weights effects the change in error, we can change our weights intelligently in order to make accurate predictions. So, mathematically wer are going to try and find:</p>
-<p>$$\frac{\partial E}{\partial w_i}$$</p>
-<p>In order to learn what the best weights are and make accurate predictions, we need to find out how the output, <strong>y</strong>, changes as we change the weights, <strong>w</strong>. In order to do that we will need to determine:</p>
+$$\frac{\partial E}{\partial w_i}$$<p>In order to learn what the best weights are and make accurate predictions, we need to find out how the output, <strong>y</strong>, changes as we change the weights, <strong>w</strong>. In order to do that we will need to determine:</p>
 <ol>
 <li>how the logit, <strong>z</strong>, changes as we change a specific weight. </li>
 <li>how the output, <strong>y</strong>, changes as we change the logit, <strong>z</strong>. </li>
@@ -236,50 +229,33 @@ $$output = y = \frac{1}{1+e^{-z}}$$</p>
 <p>When we are trying to figure out how changing one variable effects the the change of another, we want to use derivatives in order to to do so! 
 <br><br></p>
 <h3 id="1.2.1-Derivative-of-Logit-with-respect-to-the-weight">1.2.1 Derivative of Logit with respect to the weight<a class="anchor-link" href="#1.2.1-Derivative-of-Logit-with-respect-to-the-weight">&#182;</a></h3><p>For number 1 above, we are trying to determine: the derivative of the logit itself, that is the total input to the logistic neuron, with respect to a weight. That is very simple to do. The logit is just a bias plus the sum over all of the input lines, of the value on the input line times the weight.</p>
-<p>$$z = b + \sum_ix_iw_i$$</p>
-<p>So when we differentiate the logit with respect to $w_i$, we end up with:</p>
-<p>$$\frac{\partial z}{\partial w_i} = x_i$$</p>
-<p>And similarly, the derivative of the logit with respect to $x_i$ is:</p>
-<p>$$\frac{\partial z}{\partial x_i} = w_i$$
-<br><br></p>
+$$z = b + \sum_ix_iw_i$$<p>So when we differentiate the logit with respect to $w_i$, we end up with:</p>
+$$\frac{\partial z}{\partial w_i} = x_i$$<p>And similarly, the derivative of the logit with respect to $x_i$ is:</p>
+$$\frac{\partial z}{\partial x_i} = w_i$$<p><br><br></p>
 <h3 id="1.2.2-Derivative-of-Output-with-respect-to-the-Logit">1.2.2 Derivative of Output with respect to the Logit<a class="anchor-link" href="#1.2.2-Derivative-of-Output-with-respect-to-the-Logit">&#182;</a></h3><p>Now, for number 2 above, the derivative of the output with respect to the logit is also simple, if you express it in terms of the output! Remember, the output <strong>y</strong> is:</p>
-<p>$$y = \frac{1}{1+e^{-z}}$$</p>
-<p>Which we can rewrite as:</p>
-<p>$$y = \frac{1}{1+e^{-z}} = (1+e^{-z})^{-1}$$</p>
-<p>And to find the derivative of the output respect to the logit:</p>
-<p>$$\frac{dy}{dz} = \frac{-1(-e^{-z})}{(1+e^{-z})^2} = \Big(\frac{1}{1+e^{-z}}\Big)\Big(\frac{e^{-z}}{1+e^{-z}}\Big)\rightarrow$$</p>
-<p>$$\Big(\frac{1}{1+e^{-z}}\Big)\Big(\frac{e^{-z}}{1+e^{-z}}\Big) = y\Big(\frac{e^{-z}}{1+e^{-z}}\Big) \rightarrow$$</p>
-<p>And we can find that:</p>
-<p>$$\Big(\frac{e^{-z}}{1+e^{-z}}\Big) = \frac{(1+e^{-z})-1}{1+e^{-z}} = \frac{(1+e^{-z})}{1+e^{-z}}-\frac{1}{1+e^{-z}}$$</p>
-<p>Where:</p>
-<p>$$\frac{(1+e^{-z})}{1+e^{-z}}-\frac{1}{1+e^{-z}} = 1-y$$</p>
-<p>Hence, if we plug in $1-y$ to the following equation:</p>
-<p>$$y\Big(\frac{e^{-z}}{1+e^{-z}}\Big) = y(1-y)$$</p>
-<p>We end up with a final derivative of:</p>
-<p>$$\frac{dy}{dz} = y(1-y)$$
-<br><br></p>
+$$y = \frac{1}{1+e^{-z}}$$<p>Which we can rewrite as:</p>
+$$y = \frac{1}{1+e^{-z}} = (1+e^{-z})^{-1}$$<p>And to find the derivative of the output respect to the logit:</p>
+$$\frac{dy}{dz} = \frac{-1(-e^{-z})}{(1+e^{-z})^2} = \Big(\frac{1}{1+e^{-z}}\Big)\Big(\frac{e^{-z}}{1+e^{-z}}\Big)\rightarrow$$$$\Big(\frac{1}{1+e^{-z}}\Big)\Big(\frac{e^{-z}}{1+e^{-z}}\Big) = y\Big(\frac{e^{-z}}{1+e^{-z}}\Big) \rightarrow$$<p>And we can find that:</p>
+$$\Big(\frac{e^{-z}}{1+e^{-z}}\Big) = \frac{(1+e^{-z})-1}{1+e^{-z}} = \frac{(1+e^{-z})}{1+e^{-z}}-\frac{1}{1+e^{-z}}$$<p>Where:</p>
+$$\frac{(1+e^{-z})}{1+e^{-z}}-\frac{1}{1+e^{-z}} = 1-y$$<p>Hence, if we plug in $1-y$ to the following equation:</p>
+$$y\Big(\frac{e^{-z}}{1+e^{-z}}\Big) = y(1-y)$$<p>We end up with a final derivative of:</p>
+$$\frac{dy}{dz} = y(1-y)$$<p><br><br></p>
 <h3 id="1.2.3-Derivative-of-Output-with-respect-to-the-Weights">1.2.3 Derivative of Output with respect to the Weights<a class="anchor-link" href="#1.2.3-Derivative-of-Output-with-respect-to-the-Weights">&#182;</a></h3><p>Now that we have the derivative of the output with respect to the logit, and the derivative of the logit with respect to the weight, we can start to figure out the derivative of the output with respect to the weight! That is the big thing that we are trying to find right now: <strong>how does our output, y, change as we change our weights?</strong> The best way to do this is using the chain rule!</p>
 <p>So, the chain rule states that in order to find the derivative of the output with respect to the weights, we need to find:</p>
-<p>$$\frac{\partial y}{\partial w_i} = \frac{\partial z}{\partial w_i}\frac{dy}{dz}$$</p>
-<p>Since we have already found both $\frac{\partial z}{\partial w_i}$ and $\frac{dy}{dz}$, we can plug them in to get our result of:</p>
-<p>$$\frac{\partial y}{\partial w_i} = x_iy(1-y)$$</p>
-<p>The last thing we need to find is how our error changes with respect to our output...
+$$\frac{\partial y}{\partial w_i} = \frac{\partial z}{\partial w_i}\frac{dy}{dz}$$<p>Since we have already found both $\frac{\partial z}{\partial w_i}$ and $\frac{dy}{dz}$, we can plug them in to get our result of:</p>
+$$\frac{\partial y}{\partial w_i} = x_iy(1-y)$$<p>The last thing we need to find is how our error changes with respect to our output...
 <br><br></p>
 <h3 id="1.2.4-Derivative-of-Error-with-respect-to-the-Output">1.2.4 Derivative of Error with respect to the Output<a class="anchor-link" href="#1.2.4-Derivative-of-Error-with-respect-to-the-Output">&#182;</a></h3><p>When we change our output, we change the amount of error in our prediction. One basic equation for error is that of least squares:</p>
-<p>$$Error = E = \frac{1}{2}\sum_{n \in training}(t^n - y^n)^2$$</p>
-<p>This is equal to our squared residuals, summed over all training cases. In other words, it is the squared difference between the target, and what the neural net predicts, over all of the training cases. The half used to cancel the 2 when we differentiate. With that definition of error in mind, we want to find how the error changes as we change the output:</p>
-<p>$$\frac{\partial E}{\partial y} = -\sum_n(t^n-y^n)$$
-<br><br></p>
+$$Error = E = \frac{1}{2}\sum_{n \in training}(t^n - y^n)^2$$<p>This is equal to our squared residuals, summed over all training cases. In other words, it is the squared difference between the target, and what the neural net predicts, over all of the training cases. The half used to cancel the 2 when we differentiate. With that definition of error in mind, we want to find how the error changes as we change the output:</p>
+$$\frac{\partial E}{\partial y} = -\sum_n(t^n-y^n)$$<p><br><br></p>
 <h3 id="1.2.5-Derivative-of-the-Error-with-respect-to-the-Weights">1.2.5 Derivative of the Error with respect to the Weights<a class="anchor-link" href="#1.2.5-Derivative-of-the-Error-with-respect-to-the-Weights">&#182;</a></h3><p>We now have everyting we need to find the learning rule for a logistic neuron! Since we are trying to determine how the error changes as we change a weight our overall equation will look like:</p>
-<p>$$\frac{\partial E}{\partial w_i} = \sum_n\frac{\partial E}{\partial y^n}\frac{\partial y^n}{\partial w^i} = -\sum_nx_i^ny^n(1-y^n)(t^n-y^n) $$</p>
-<p>This represents the sum over all of the training cases, n, of the value on an input line $x_i^n$, times the residual (the difference between the target and the output), times $y^n(1-y^n)$, which comes from the slope over the logistic function.</p>
+$$\frac{\partial E}{\partial w_i} = \sum_n\frac{\partial E}{\partial y^n}\frac{\partial y^n}{\partial w^i} = -\sum_nx_i^ny^n(1-y^n)(t^n-y^n) $$<p>This represents the sum over all of the training cases, n, of the value on an input line $x_i^n$, times the residual (the difference between the target and the output), times $y^n(1-y^n)$, which comes from the slope over the logistic function.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></br></p>
@@ -292,12 +268,10 @@ $$output = y = \frac{1}{1+e^{-z}}$$</p>
 <p>Once we have the error derivatives for the hidden units- that is <strong>we know how fast the error changes as we change the hidden activity on that particular training case</strong>- it is easy to convert those error derivatives for the activities, into error derivatives for the weights coming into a hidden unit.</p>
 <p><br><br></p>
 <h2 id="2.2-Sketch-of-Backpropagation-on-single-training-case">2.2 Sketch of Backpropagation on single training case<a class="anchor-link" href="#2.2-Sketch-of-Backpropagation-on-single-training-case">&#182;</a></h2><p>First we are going to need to define the error at the output, and in this case we are going to define it as being the squared difference between the target values of the output unit $j$, and the actual values that the net produces for the output unit $j$.</p>
-<p>$$Error = E = \frac{1}{2}\sum_{j \in output}(t_j - y_j)^2$$</p>
-<p>We can see in the diagram below that there are 3 output units.</p>
+$$Error = E = \frac{1}{2}\sum_{j \in output}(t_j - y_j)^2$$<p>We can see in the diagram below that there are 3 output units.</p>
 <p><img src="https://drive.google.com/uc?id=1z1uiGeHwsX3AGoIxB7SBewa0GtYraPiw" width="500"></p>
 <p>We then differentiate that error with respect to the output, y. We end up with a familiar expression, which is how the error changes as you change the activity of an output unit, j.</p>
-<p>$$\frac{\partial E}{\partial y_j} = -\sum_n(t_j-y_j)$$</p>
-<p>Note: we are going to use a notation where the index on a unit tells us which layer we are in. So the output unit has a typical index of <strong>j</strong>, and the layer in front of that - the hidden layer below it - will have a typical index of <strong>i</strong>.</p>
+$$\frac{\partial E}{\partial y_j} = -\sum_n(t_j-y_j)$$<p>Note: we are going to use a notation where the index on a unit tells us which layer we are in. So the output unit has a typical index of <strong>j</strong>, and the layer in front of that - the hidden layer below it - will have a typical index of <strong>i</strong>.</p>
 <p>So once we have the error derivative with respect to one of the output units (the middle unit in our example), we then want to use all of the error derivatives in the output layer, to compute the same quantity in the hidden layer that comes before the output layer.</p>
 <p><br><br></p>
 <h2 id="2.3-Core-Idea-of-Backpropagation">2.3 Core Idea of Backpropagation<a class="anchor-link" href="#2.3-Core-Idea-of-Backpropagation">&#182;</a></h2><p>The core idea behind backprogation is <strong>to take the error derivatives in one layer, and from them compute the error derivatives in the layer that comes before that.</strong> Now, obviously when we change the output of unit <strong>i</strong>, it will change the activities of <strong>all three</strong> output units! So we must sum up all of those effects.</p>
@@ -322,22 +296,18 @@ $$z = b + \sum_ix_iw_i$$</li>
 </blockquote>
 <p><br></br></p>
 <h3 id="2.4.1-Error-derivative-with-respect-to-$z_j$">2.4.1 Error derivative with respect to $z_j$<a class="anchor-link" href="#2.4.1-Error-derivative-with-respect-to-$z_j$">&#182;</a></h3><p>Our first step is that we need to convert the error derivative with respect to $y_j$, into the error derivative with respect to $z_j$. To do that we use the chain rule.</p>
-<p>$$\frac{\partial E}{\partial z_j} = \frac{d y_j}{d z_j}\frac{\partial E}{\partial y_j} = y_j(1-y_j)\frac{\partial E}{\partial y_j}$$</p>
-<p>We already know from our prior derivations that:</p>
-<p>$$\frac{d y_j}{d z_j} = y_j(1-y_j)$$</p>
+$$\frac{\partial E}{\partial z_j} = \frac{d y_j}{d z_j}\frac{\partial E}{\partial y_j} = y_j(1-y_j)\frac{\partial E}{\partial y_j}$$<p>We already know from our prior derivations that:</p>
+$$\frac{d y_j}{d z_j} = y_j(1-y_j)$$<p></p>
 <p>And, we also know that:</p>
-<p>$$\frac{\partial E}{\partial y_j} = -\sum_n(t_j-y_j)$$</p>
-<p>Which is the error derivative, with respect to the output of unit $j$. At this point we have the total error derivative with respect to the total input received by unit $j$ ($z_j$). Simply put, we know how the error will change as we change the total input to unit $j$.</p>
+$$\frac{\partial E}{\partial y_j} = -\sum_n(t_j-y_j)$$<p>Which is the error derivative, with respect to the output of unit $j$. At this point we have the total error derivative with respect to the total input received by unit $j$ ($z_j$). Simply put, we know how the error will change as we change the total input to unit $j$.</p>
 <p><br></br></p>
 <h3 id="2.4.2-Error-derivative-with-respect-to-$y_i$">2.4.2 Error derivative with respect to $y_i$<a class="anchor-link" href="#2.4.2-Error-derivative-with-respect-to-$y_i$">&#182;</a></h3><p>Now we can compute the error derivative with respect to the output of unit $i$. It is going to be the sum over all three of the outgoing connections of unit $i$, of how the total input to unit $j$ changes as we change the output of unit $i$, times how the error changes as we change the input to unit $j$.</p>
-<p>$$\frac{\partial E}{\partial y_i} = \sum_j \frac{dz_j}{dy_i}\frac{\partial E}{\partial z_j} = \sum_jw_{ij}\frac{\partial E}{\partial z_j}$$</p>
-<p>We calculated $\frac{\partial E}{\partial z_j}$ in in the previous step, and we know that $\frac{dz_j}{dy_i}$ is just equal to $w_{ij}$ (the weight on the connection), since we derived it earlier.</p>
+$$\frac{\partial E}{\partial y_i} = \sum_j \frac{dz_j}{dy_i}\frac{\partial E}{\partial z_j} = \sum_jw_{ij}\frac{\partial E}{\partial z_j}$$<p>We calculated $\frac{\partial E}{\partial z_j}$ in in the previous step, and we know that $\frac{dz_j}{dy_i}$ is just equal to $w_{ij}$ (the weight on the connection), since we derived it earlier.</p>
 <p>So what we get is that the error derivative with respect to the output of unit $i$, is the sum over all of the outgoing connections to the layer above, of the weight, $w{ij}$, on that connection, times a quantity that we already know, $\frac{\partial E}{\partial z_j}$ for the layer above.</p>
 <p>Note: The reason that we sum over all three of the outgoing connection from unit $i$ is because all three of the output nodes are dependent upon $y_i$. By changing $y_i$, we will change the output of each node in layer $j$, and hence change the error, $E$. We need to account for all of those effects.</p>
 <p><br></br></p>
 <h3 id="2.4.3-Error-derivative-with-respect-to-$w_{ij}$">2.4.3 Error derivative with respect to $w_{ij}$<a class="anchor-link" href="#2.4.3-Error-derivative-with-respect-to-$w_{ij}$">&#182;</a></h3><p>Once we have $\frac{\partial E}{\partial z_j}$, which we computed in 2.4.1, it is very easy to get the error derivatives for all of the weights coming into unit $j$.</p>
-<p>$$\frac{\partial E}{\partial w{ij}} = \frac{\partial z_j}{\partial w_{ij}} \frac{\partial E}{\partial z_j} = y_i\frac{\partial E}{\partial z_j}$$</p>
-<p>We already have computed $\frac{\partial E}{\partial z_j}$, and we multiply that times how $z_j$ changes as we change the weight on the connection, which is simply the activity of the unit in the layer below, $y_i$.</p>
+$$\frac{\partial E}{\partial w{ij}} = \frac{\partial z_j}{\partial w_{ij}} \frac{\partial E}{\partial z_j} = y_i\frac{\partial E}{\partial z_j}$$<p>We already have computed $\frac{\partial E}{\partial z_j}$, and we multiply that times how $z_j$ changes as we change the weight on the connection, which is simply the activity of the unit in the layer below, $y_i$.</p>
 <p>So the rule for changing a weight is that you multiply this quantity that you have computed at a unit, $\frac{\partial E}{\partial z_j}$, by the activity coming in from the layer below. That gives you the error derivative with respect to the weight.</p>
 <p><br></br></p>
 <h3 id="2.4.4-Overview">2.4.4 Overview<a class="anchor-link" href="#2.4.4-Overview">&#182;</a></h3><p>So in 2.4 we have seen how we can start with $\frac{\partial E}{\partial y_j}$, and backpropagate to get $\frac{\partial E}{\partial y_i}$. We have gone backwards one layer, and computed the same quantity, the derivative of the error with respect to the output in the previous layer. We can clearly do this for as many layers as we like! And after we have done that for all of these layers, we can compute <strong>how the error changes as you change the weights on the connections</strong>. That is the back propagation algorithm! It is an algorithm for taking one training case, and computing, efficiently, for every weight in the network, how the error will change (on that particular training case), as you change the weight.</p>
@@ -346,8 +316,7 @@ $$z = b + \sum_ix_iw_i$$</li>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></br></p>
@@ -367,37 +336,27 @@ $$z = b + \sum_ix_iw_i$$</li>
 <p>We want to figure out the <strong>total net input</strong> to each hidden layer neuron (the <strong>logit</strong>, $z$), then squash the total net input in our output using an <strong>activation function</strong> (in this case we use the <strong>logistic function</strong>, or the <strong>sigmoid</strong>). At this point the output $y$, can be fed in as the input to <strong>our output layer</strong>.</p>
 <p><br></br></p>
 <h3 id="3.1.1-Net-input-for-hidden-unit-1">3.1.1 Net <em>input</em> for hidden unit 1<a class="anchor-link" href="#3.1.1-Net-input-for-hidden-unit-1">&#182;</a></h3><p>Lets start by finding the the net input into hidden unit 1, the logit, $z_{h1}$. It is a linear combination of the weights times the inputs into the units, plus the bias.</p>
-<p>$$z_{h1} = w_1x1+w_2x_2+b_1*1$$
-$$z_{h1} = 0.15*0.05+0.2*0.1+0.35*1 = 0.3775$$</p>
-<p><br></br></p>
+$$z_{h1} = w_1x1+w_2x_2+b_1*1$$$$z_{h1} = 0.15*0.05+0.2*0.1+0.35*1 = 0.3775$$<p><br></br></p>
 <h3 id="3.1.2-Net-output-for-hidden-unit-1">3.1.2 Net <em>output</em> for hidden unit 1<a class="anchor-link" href="#3.1.2-Net-output-for-hidden-unit-1">&#182;</a></h3><p>In order to get the output of hidden unit 1, we must now take the input we just calculated, and run it through the logistic function.</p>
-<p>$$y_{h1} = \frac{1}{1+e^{-z_{h1}}} = \frac{1}{1+e^{-0.3775}} = 0.593269992$$</p>
-<p><br></br></p>
+$$y_{h1} = \frac{1}{1+e^{-z_{h1}}} = \frac{1}{1+e^{-0.3775}} = 0.593269992$$<p><br></br></p>
 <h3 id="3.1.3-Net-input-for-hidden-unit-2">3.1.3 Net <em>input</em> for hidden unit 2<a class="anchor-link" href="#3.1.3-Net-input-for-hidden-unit-2">&#182;</a></h3><p>Repeating the same process as we went through for hidden unit 1:
 $$z_{h2} = w_3x_1+w_4x_2+b_1*1$$
 $$z_{h2} = 0.25*0.05+0.3*0.1+0.35*1 = 0.3925$$</p>
 <p><br></br></p>
 <h3 id="3.1.4-Net-output-for-hidden-unit-2">3.1.4 Net <em>output</em> for hidden unit 2<a class="anchor-link" href="#3.1.4-Net-output-for-hidden-unit-2">&#182;</a></h3><p>Repeating the same process as we went through for hidden unit 1:</p>
-<p>$$y_{h2} = \frac{1}{1+e^{-z_{h2}}} = \frac{1}{1+e^{-0.3925}} = 0.596884378$$</p>
-<p>We now are going to repeat this same process for the output layer.</p>
+$$y_{h2} = \frac{1}{1+e^{-z_{h2}}} = \frac{1}{1+e^{-0.3925}} = 0.596884378$$<p>We now are going to repeat this same process for the output layer.</p>
 <p><br></br></p>
-<h3 id="3.1.5-Net-input-for-output-unit-1">3.1.5 Net <em>input</em> for output unit 1<a class="anchor-link" href="#3.1.5-Net-input-for-output-unit-1">&#182;</a></h3><p>$$z_{o1} = w_5y_{h1}+w_6y_{h2}+b_2*1$$
-$$z_{o1} = 0.4*0.593269992 + 0.45*0.596884378 +0.6*1 = 1.105905967$$</p>
-<p><br></br></p>
-<h3 id="3.1.6-Net-output-for-output-unit-1">3.1.6 Net <em>output</em> for output unit 1<a class="anchor-link" href="#3.1.6-Net-output-for-output-unit-1">&#182;</a></h3><p>$$y_{o1} =\frac{1}{1+e^{-z_{o1}}} = \frac{1}{1+e^{-1.105905967}} = 0.75136507 $$</p>
-<p><br></br></p>
+<h3 id="3.1.5-Net-input-for-output-unit-1">3.1.5 Net <em>input</em> for output unit 1<a class="anchor-link" href="#3.1.5-Net-input-for-output-unit-1">&#182;</a></h3>$$z_{o1} = w_5y_{h1}+w_6y_{h2}+b_2*1$$$$z_{o1} = 0.4*0.593269992 + 0.45*0.596884378 +0.6*1 = 1.105905967$$<p><br></br></p>
+<h3 id="3.1.6-Net-output-for-output-unit-1">3.1.6 Net <em>output</em> for output unit 1<a class="anchor-link" href="#3.1.6-Net-output-for-output-unit-1">&#182;</a></h3>$$y_{o1} =\frac{1}{1+e^{-z_{o1}}} = \frac{1}{1+e^{-1.105905967}} = 0.75136507 $$<p><br></br></p>
 <h3 id="3.1.7-Net-output-for-output-unit-2">3.1.7 Net <em>output</em> for output unit 2<a class="anchor-link" href="#3.1.7-Net-output-for-output-unit-2">&#182;</a></h3><p>Carrying out the same process that we went through above, we find that the output of output unit 2 is:
 $$y_{o2} = 0.772928465$$</p>
 <p><br></br></p>
 <h2 id="3.2-Calculate-the-Total-Error">3.2 Calculate the Total Error<a class="anchor-link" href="#3.2-Calculate-the-Total-Error">&#182;</a></h2><p>At this point we have found the output predictions from each of the output nodes, 1 and 2. We are now going to need to find the total error concerning our predictions and the targets. We can calculate the error for each output neuron using the squared error function, and then sum them to get the total error.</p>
-<p>$$E_{total} = \frac{1}{2}\sum_{j \in output}(t_j - y_j)^2$$</p>
-<p><br></br></p>
+$$E_{total} = \frac{1}{2}\sum_{j \in output}(t_j - y_j)^2$$<p><br></br></p>
 <h3 id="3.2.1-Error-for-output-unit-1">3.2.1 Error for output unit 1<a class="anchor-link" href="#3.2.1-Error-for-output-unit-1">&#182;</a></h3><p>Using the above equation, we find that the error for output unit 1 is:</p>
-<p>$$E_{o1} = \frac{1}{2}(t_{o1}-y_{o1})^2 = 0.5(0.01-0.75136507)^2=0.274811083$$</p>
-<p><br></br></p>
+$$E_{o1} = \frac{1}{2}(t_{o1}-y_{o1})^2 = 0.5(0.01-0.75136507)^2=0.274811083$$<p><br></br></p>
 <h3 id="3.2.2-Error-for-output-unit-2">3.2.2 Error for output unit 2<a class="anchor-link" href="#3.2.2-Error-for-output-unit-2">&#182;</a></h3><p>We can repeat the above steps to find the error at output unit 2:</p>
-<p>$$E_{o2} = \frac{1}{2}(t_{o2}-y_{o2})^2 = 0.5(0.99-0.772928465)^2=0.023560026$$</p>
-<p><br></br></p>
+$$E_{o2} = \frac{1}{2}(t_{o2}-y_{o2})^2 = 0.5(0.99-0.772928465)^2=0.023560026$$<p><br></br></p>
 <h3 id="3.2.3-Total-error-for-all-output-units">3.2.3 Total error for all output units<a class="anchor-link" href="#3.2.3-Total-error-for-all-output-units">&#182;</a></h3><p>Finally we can sum together $E_{o1}$ and $E_{o2}$ to determine the total error for the neural network:
 $$E_{total} = \sum_jE_j = E_{o1}+E_{o2} = 0.274811083+0.023560026 = 0.298371109$$</p>
 <h2 id="3.3-Backpropagate-the-Error">3.3 Backpropagate the Error<a class="anchor-link" href="#3.3-Backpropagate-the-Error">&#182;</a></h2><p>The entire goal of backpropagation is to update each of the weights in the network so that they cause the actual output to be closer to the target output, thereby minimizing the error for each output neuron and the network as a whole!</p>
@@ -405,8 +364,7 @@ $$E_{total} = \sum_jE_j = E_{o1}+E_{o2} = 0.274811083+0.023560026 = 0.298371109$
 <h3 id="3.3.1-The-Output-Layer">3.3.1 The Output Layer<a class="anchor-link" href="#3.3.1-The-Output-Layer">&#182;</a></h3><p>We are going to start backpropagating the error at the output layer, first focusing on weight $w_5$. We want to figure out how much a change in $w_5$ affects the total error. In other words, we want to find the derivative of total error with respect to $w_5$.</p>
 <p><img src="https://drive.google.com/uc?id=1xQ30fxsOSgelRNfhv1kvNPFm_jVBKv4J" width="500"></p>
 <p><br></br></p>
-<h3 id="3.3.1.1-Derivative-of-Total-Error-with-respect-to-$w_5$">3.3.1.1 Derivative of Total Error with respect to $w_5$<a class="anchor-link" href="#3.3.1.1-Derivative-of-Total-Error-with-respect-to-$w_5$">&#182;</a></h3><p>$$\frac{\partial E_{total}}{\partial w_5}$$</p>
-<p>We can apply the <strong>chain rule</strong> in order to find this! 
+<h3 id="3.3.1.1-Derivative-of-Total-Error-with-respect-to-$w_5$">3.3.1.1 Derivative of Total Error with respect to $w_5$<a class="anchor-link" href="#3.3.1.1-Derivative-of-Total-Error-with-respect-to-$w_5$">&#182;</a></h3>$$\frac{\partial E_{total}}{\partial w_5}$$<p>We can apply the <strong>chain rule</strong> in order to find this! 
 $$\frac{\partial E_{total}}{\partial w_5} = \frac{\partial E_{total}}{\partial y_{o1}}\frac{\partial y_{o1}}{\partial z_{o1}}\frac{\partial z_{o1}}{\partial w_5}$$</p>
 <p>In words, the above equation is finding:</p>
 <blockquote><ul>
@@ -432,9 +390,7 @@ $$z_{o1} = w_5y_{h1}+w_6y_{h2}+b_2*1$$
 $$\frac{\partial z_{o1}}{\partial w_5} = 1*y_{h_1}+0+0 = y_{h1} = 0.593269992$$</p>
 <p><br></br></p>
 <h3 id="3.3.1.1.4-Combining-in-chain-rule">3.3.1.1.4 Combining in chain rule<a class="anchor-link" href="#3.3.1.1.4-Combining-in-chain-rule">&#182;</a></h3><p>We can now combine the 3 partial derivatives that we just found in order to calculate our main goal, how the total error changes as we change $w_5$.</p>
-<p>$$\frac{\partial E_{total}}{\partial w_5} = \frac{\partial E_{total}}{\partial y_{o1}}\frac{\partial y_{o1}}{\partial z_{o1}}\frac{\partial z_{o1}}{\partial w_5}$$</p>
-<p>$$\frac{\partial E_{total}}{\partial w_5} =0.74136507*0.186815602*0.593269992 = 0.82167041$$</p>
-<p><br></br></p>
+$$\frac{\partial E_{total}}{\partial w_5} = \frac{\partial E_{total}}{\partial y_{o1}}\frac{\partial y_{o1}}{\partial z_{o1}}\frac{\partial z_{o1}}{\partial w_5}$$$$\frac{\partial E_{total}}{\partial w_5} =0.74136507*0.186815602*0.593269992 = 0.82167041$$<p><br></br></p>
 <h3 id="3.3.1.1.5-The-Delta-Rule">3.3.1.1.5 The Delta Rule<a class="anchor-link" href="#3.3.1.1.5-The-Delta-Rule">&#182;</a></h3><p>Often, the procedure above will be combined the form of the delta rule:
 $$\frac{\partial E_{total}}{\partial w_5} = \frac{\partial E_{total}}{\partial y_{o1}}\frac{\partial y_{o1}}{\partial z_{o1}}\frac{\partial z_{o1}}{\partial w_5}$$
 $$\delta_{o1} = \frac{\partial E_{total}}{\partial y_{o1}}\frac{\partial y_{o1}}{\partial z_{o1}} = \frac{\partial E_{total}}{\partial y_{o1}}$$
@@ -442,22 +398,17 @@ Hence, we can write:
 $$\frac{\partial E_{total}}{\partial w_5} = \delta_{o1}\frac{\partial z_{o1}}{\partial w_5}=\delta_{o1}y_{h1}$$</p>
 <p><br></br></p>
 <h3 id="3.3.1.1.5-Updating-$w_5$">3.3.1.1.5 Updating $w_5$<a class="anchor-link" href="#3.3.1.1.5-Updating-$w_5$">&#182;</a></h3><p>Now that we have found how the total error is changed as we change $w_5$, we can subtract this value from the current value of $w_5$, and multiply if by the learning rate (here we set to 0.5).</p>
-<p>$$w_5 = w5 - \alpha\frac{\partial E_{total}}{\partial w_5}$$
-Since our current value for $w_5$ is 0.4, our update looks like:
+$$w_5 = w5 - \alpha\frac{\partial E_{total}}{\partial w_5}$$<p>Since our current value for $w_5$ is 0.4, our update looks like:
 $$w_5 = 0.4 - 0.5*0.082167041 = 0.35891648$$</p>
 <p><br></br></p>
 <h3 id="3.3.1.2-Updating-the-remain-weights">3.3.1.2 Updating the remain weights<a class="anchor-link" href="#3.3.1.2-Updating-the-remain-weights">&#182;</a></h3><p>We can repeat the same process from above in order to update the remaining weights that go from the hidden layer to the output layer!</p>
-<p>$$w_6 = 0.408666186$$
-$$w_7 = 0.511301270$$
-$$w_7 = 0.561370121$$</p>
-<p>It is important to note that we do not perform the actual updates until the also have the updated values for $w_1$, $w_2$, $w_3$, and $w_4$. In other words, we use the original weights, not the updated ones, when we continue our backpropagation algorithm below.</p>
+$$w_6 = 0.408666186$$$$w_7 = 0.511301270$$$$w_7 = 0.561370121$$<p>It is important to note that we do not perform the actual updates until the also have the updated values for $w_1$, $w_2$, $w_3$, and $w_4$. In other words, we use the original weights, not the updated ones, when we continue our backpropagation algorithm below.</p>
 <p><br></br></p>
 <h3 id="3.3.2-The-Hidden-Layer">3.3.2 The Hidden Layer<a class="anchor-link" href="#3.3.2-The-Hidden-Layer">&#182;</a></h3><p>At this point, we are going to continue our backpropagation of the error in order to find the weights that connect the inputs to the hidden layer, $w_1$, $w_2$, $w_3$, and $w_4$. We can start by looking at $w_1$:</p>
 <p><img src="https://drive.google.com/uc?id=1Ka-0dKaIyrfrK5d1QX3jMh3sp2zxxZ-g" width="600"></p>
 <p><br></br></p>
 <h3 id="3.3.2.1-Derivative-of-Total-Error-with-respect-to-$w_1$">3.3.2.1 Derivative of Total Error with respect to $w_1$<a class="anchor-link" href="#3.3.2.1-Derivative-of-Total-Error-with-respect-to-$w_1$">&#182;</a></h3><p>Lets start by looking at $w_1$ specificaly, where we are trying to figure out how the total error changes and we change the value of $w_1$. That looks like:</p>
-<p>$$\frac{\partial E_{total}}{\partial w_1} = \frac{\partial E_{total}}{\partial y_{h1}}\frac{\partial y_{h1}}{\partial z_{h1}}\frac{\partial z_{h1}}{\partial w_1}$$</p>
-<p><br></br></p>
+$$\frac{\partial E_{total}}{\partial w_1} = \frac{\partial E_{total}}{\partial y_{h1}}\frac{\partial y_{h1}}{\partial z_{h1}}\frac{\partial z_{h1}}{\partial w_1}$$<p><br></br></p>
 <h3 id="3.3.2.2-Derivative-of-Total-Error-with-respect-to-$y_{h1}$">3.3.2.2 Derivative of Total Error with respect to $y_{h1}$<a class="anchor-link" href="#3.3.2.2-Derivative-of-Total-Error-with-respect-to-$y_{h1}$">&#182;</a></h3><p>We will use a similar process that we did for the input layer, however it will be slightly different due to the fact that each neuron in the hidden layer, $h_1$ and $h_2$, contributes to the output (and hence error) of multiple neurons (in this case $o_1$ and $o_2$).</p>
 <p>We know that $y_{h1}$ affects both $y_{o1}$ and $y_{o2}$, and therefore $\frac{\partial E_{total}}{\partial o_{h1}}$ needs to take into consideration its effect on both output neurons.
 $$\frac{\partial E_{total}}{\partial y_{h1}} = \frac{\partial E_{o1}}{\partial y_{h1}}+\frac{\partial E_{o2}}{\partial y_{h1}}$$</p>
@@ -498,16 +449,12 @@ And our final result for how the error changes at output node 2 with respect to 
 $$\frac{\partial E_{o2}}{y_{h1}} = -0.03809823661106623*0.50 = -0.019049118305533116$$</p>
 <p><br></br></p>
 <h3 id="3.3.2.5-Combine-to-find-Derivative-of-Total-Error-with-respect-to-$y_{h1}$">3.3.2.5 Combine to find Derivative of Total Error with respect to $y_{h1}$<a class="anchor-link" href="#3.3.2.5-Combine-to-find-Derivative-of-Total-Error-with-respect-to-$y_{h1}$">&#182;</a></h3><p>Take a quick second to remember that we are trying to find how the total error changes as we change $y_{h1}$, the output of hidden unit 1. Because the output of hidden unit 1 is fed forward into both output nodes, we need to figure out how it affects the error at <strong>each</strong> output node. We defined that as:</p>
-<p>$$\frac{\partial E_{total}}{\partial y_{h1}} = \frac{\partial E_{o1}}{\partial y_{h1}}+\frac{\partial E_{o2}}{\partial y_{h1}}$$
-Plugging in the values we previously we found, we end up with a result of:
+$$\frac{\partial E_{total}}{\partial y_{h1}} = \frac{\partial E_{o1}}{\partial y_{h1}}+\frac{\partial E_{o2}}{\partial y_{h1}}$$<p>Plugging in the values we previously we found, we end up with a result of:
 $$\frac{\partial E_{total}}{\partial y_{h1}}=0.055399425+-0.019049118305533116=- 0.036350306$$</p>
 <p><br></br></p>
 <h3 id="3.3.2.6-Derivative-of-$y_{h1}$-with-respect-to-$z_{h1}$">3.3.2.6 Derivative of $y_{h1}$ with respect to $z_{h1}$<a class="anchor-link" href="#3.3.2.6-Derivative-of-$y_{h1}$-with-respect-to-$z_{h1}$">&#182;</a></h3><p>Lets look back at the main equation we are trying to solve right now:</p>
-<p>$$\frac{\partial E_{total}}{\partial w_1} = \frac{\partial E_{total}}{\partial y_{h1}}\frac{\partial y_{h1}}{\partial z_{h1}}\frac{\partial z_{h1}}{\partial w_1}$$</p>
-<p>We want to determine how the total error changes as we change the weight, $w_1$. We just solved for the first time in the equation above, lets now determine $\frac{\partial y_{h1}}{\partial z_{h1}}$:</p>
-<p>$$y_{h1} =\frac{1}{1+e^{-z_{h1}}}$$
-$$\frac{\partial y_{h1}}{\partial z_{h1}}= y_{h1}(1-y_{h1})$$
-We know $y_{h1}$ from our forward pass,
+$$\frac{\partial E_{total}}{\partial w_1} = \frac{\partial E_{total}}{\partial y_{h1}}\frac{\partial y_{h1}}{\partial z_{h1}}\frac{\partial z_{h1}}{\partial w_1}$$<p>We want to determine how the total error changes as we change the weight, $w_1$. We just solved for the first time in the equation above, lets now determine $\frac{\partial y_{h1}}{\partial z_{h1}}$:</p>
+$$y_{h1} =\frac{1}{1+e^{-z_{h1}}}$$$$\frac{\partial y_{h1}}{\partial z_{h1}}= y_{h1}(1-y_{h1})$$<p>We know $y_{h1}$ from our forward pass,
 $$\frac{\partial y_{h1}}{\partial z_{h1}}= 0.59326999(1-0.59326999) = 0.241300709$$</p>
 <p><br></br></p>
 <h3 id="3.3.2.7-Derivative-of-$z_{h1}$-with-respect-to-$w_1$">3.3.2.7 Derivative of $z_{h1}$ with respect to $w_1$<a class="anchor-link" href="#3.3.2.7-Derivative-of-$z_{h1}$-with-respect-to-$w_1$">&#182;</a></h3><p>That last piece of the puzzle that we need to solve for is how the net input to hidden unit 1 changes as we change the value of $w_1$. 
@@ -515,15 +462,11 @@ $$z_{h1} = w_1*x_1+w_3*x_2+b_1*1$$
 $$\frac{\partial z_{h1}}{\partial w_1} = x_1 = 0.05$$</p>
 <p><br></br></p>
 <h3 id="3.3.2.8-Putting-it-all-together">3.3.2.8 Putting it all together<a class="anchor-link" href="#3.3.2.8-Putting-it-all-together">&#182;</a></h3><p>We finally have all of the pieces that we need in order to determine how the total error changes as we change $w_1$!</p>
-<p>$$\frac{\partial E_{total}}{\partial w_1} = \frac{\partial E_{total}}{\partial y_{h1}}\frac{\partial y_{h1}}{\partial z_{h1}}\frac{\partial z_{h1}}{\partial w_1}$$</p>
-<p>$$\frac{\partial E_{total}}{\partial w_1} = -0.036350306*0.241300709*0.05 = 0.000438568$$</p>
-<p><br></br></p>
+$$\frac{\partial E_{total}}{\partial w_1} = \frac{\partial E_{total}}{\partial y_{h1}}\frac{\partial y_{h1}}{\partial z_{h1}}\frac{\partial z_{h1}}{\partial w_1}$$$$\frac{\partial E_{total}}{\partial w_1} = -0.036350306*0.241300709*0.05 = 0.000438568$$<p><br></br></p>
 <p><br></br></p>
 <h3 id="3.3.2.8.a-Note-about-Notation">3.3.2.8.a Note about Notation<a class="anchor-link" href="#3.3.2.8.a-Note-about-Notation">&#182;</a></h3><p>It is common to see the above calculations written as:
 $$\frac{\partial E_{total}}{\partial w_1} = \Big(\sum_o\frac{\partial E_{total}}{\partial y_o}\frac{\partial y_o}{\partial z_o}\frac{\partial z_o}{\partial y_{h1}}\Big)\frac{\partial y_{h1}}{\partial z_{h1}}\frac{\partial z_{h1}}{\partial w_1}$$</p>
-<p>$$\frac{\partial E_{total}}{\partial w_1} = \Big(\sum_o\delta_o*w_{ho}\Big)y_{h1}(1-y_{h1})*x_1$$</p>
-<p>$$\frac{\partial E_{total}}{\partial w_1} = \delta_{h1}*x_1$$</p>
-<h3 id="3.3.2.9-Update-$w_1$">3.3.2.9 Update $w_1$<a class="anchor-link" href="#3.3.2.9-Update-$w_1$">&#182;</a></h3><p>We now have what we need in order to update $w_1$. 
+$$\frac{\partial E_{total}}{\partial w_1} = \Big(\sum_o\delta_o*w_{ho}\Big)y_{h1}(1-y_{h1})*x_1$$$$\frac{\partial E_{total}}{\partial w_1} = \delta_{h1}*x_1$$<h3 id="3.3.2.9-Update-$w_1$">3.3.2.9 Update $w_1$<a class="anchor-link" href="#3.3.2.9-Update-$w_1$">&#182;</a></h3><p>We now have what we need in order to update $w_1$. 
 $$w_1 = w_1 - \alpha*\frac{\partial E_{total}}{\partial w_1}$$
 $$w_1 = 0.15 - 0.5*0.000438568 = 0.149780716$$</p>
 <p><br></br></p>
@@ -535,6 +478,19 @@ $$w_4 = 0.29950229$$</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake

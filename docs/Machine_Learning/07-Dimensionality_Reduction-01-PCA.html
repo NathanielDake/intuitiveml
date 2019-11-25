@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -195,10 +194,6 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -211,8 +206,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="1.-Dimensionality-Reduction-&amp;-Principal-Component-Analysis">1. Dimensionality Reduction &amp; Principal Component Analysis<a class="anchor-link" href="#1.-Dimensionality-Reduction-&amp;-Principal-Component-Analysis">&#182;</a></h1><p>Principal component analysis is an incredibly powerful technique that all data scientists should be aware of in the plight against the <strong>curse of dimensionality</strong>. Before we dig into the mechanics of it, however, we need to define what the curse of dimensionality is to begin with.</p>
 <h2 id="1.1-The-Curse-of-Dimensionality">1.1 The Curse of Dimensionality<a class="anchor-link" href="#1.1-The-Curse-of-Dimensionality">&#182;</a></h2><p>To understand the curse of dimensionality, we can start with an example. We will say that we are given a dataset that we want to perform some machine learning with (make some sort of prediction) and that data set has two attributes: <code>height</code> and <code>urefu</code> (whatever <code>urefu</code> is). Now, we can pose the question: what is the dimensionality of this dataset? Of course we can immediately say that this is a 2 dimensional dataset.</p>
@@ -241,7 +235,7 @@ body {
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -270,7 +264,7 @@ body {
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -280,7 +274,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -298,8 +292,7 @@ body {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We immediately see from the plot above that these two attributes are very correlated, but we still are dealing with a 2-dimensional dataset. However, then a colleague comes by, and they happen to speak Swahili, and they let us know that <code>urefu</code> in Swahili stands for <code>height</code>. At this point we realize that our dataset only has one unique dimension! In reality the <code>height</code> and the <code>urefu</code> are just different names for the same thing; yes the numbers may be different, with one being in inches and the other in centimeters, and their is slight variation due to noise in the observations due to the measuring device, but they are the same thing.</p>
 <p>Now this is an extreme example, but it is meant to be illustrative of the following:</p>
@@ -360,7 +353,7 @@ body {
 <span class="n">pylab</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -370,7 +363,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -388,8 +381,7 @@ body {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>A 28x28 image means that their are $\{0,1\}^{(28x28)}$ possible events ($2^{784}$). Of this enormous number of events, we will never see that vast majority! The actual digits represent a <em>tiny</em> fraction. For example, below there are four random examples from the space of possible events:</p>
 
@@ -428,7 +420,7 @@ body {
 <span class="n">pylab</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -438,7 +430,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -456,8 +448,7 @@ body {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can clearly see that the above examples look nothing like digits. This should spark the thought:</p>
 <blockquote><p>Do we need to use the original representation, or can we transform it in order to prevent wasting our ML algorithms on events that don't look anything like what we want to model?</p>
@@ -471,8 +462,7 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="1.2-How-to-deal-with-High-Dimensionality">1.2 How to deal with High Dimensionality<a class="anchor-link" href="#1.2-How-to-deal-with-High-Dimensionality">&#182;</a></h2><h3 id="A.-Domain-knowledge">A. Domain knowledge<a class="anchor-link" href="#A.-Domain-knowledge">&#182;</a></h3><p>There are a few main ways to deal with high dimensionality. The first of which is to simply use domain knowledge and feature engineering. For instance, in computer vision the raw pixels are rarely used directly-they are generally transformed first (for example via SIFT). The same goes for raw speech-it may be transformed via MFCC.</p>
 <h3 id="B.-Simplifying-Assumptions">B. Simplifying Assumptions<a class="anchor-link" href="#B.-Simplifying-Assumptions">&#182;</a></h3><p>We also can make simplifying assumptions. For instance, <strong>Naive Bayes</strong> makes an assumption about indepedence, specifically that each dimension is independent of the others. Pictorally, this can be seen below. In the first plot, we have a 2-dimensional dataset, consisting of attributes $X_1$ and $X_2$. If we are counting the frequencies for $X_1$, the independence assumption allows us to ignore $X_2$ entirely. We can view this as though no matter the value of $X_2$, we use the same counts of $X_1$ (second plot), or that we are collapsing the $X_2$ variable entirely and only dealing with $X_1$. The end result is that we have a greater density of observations.</p>
@@ -505,7 +495,7 @@ body {
     <span class="n">marker</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">point</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;b^&#39;</span><span class="p">,</span>  <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -515,7 +505,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -553,7 +543,7 @@ body {
         <span class="n">marker</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x_2</span><span class="p">,</span> <span class="s1">&#39;b^&#39;</span><span class="p">,</span>  <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -563,7 +553,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -616,14 +606,13 @@ body {
 <span class="c1"># ax1.axes.get_yaxis().set_ticks([])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can also make the assumption of smoothness, which just means that observations propagate to neighboring regions in space. This can be seen below; we have the same set of observations as we did before, but now each observation "spills over" into neighboring regions, allowing us to get further with few datapoints.</p>
 
@@ -659,7 +648,7 @@ body {
     <span class="n">marker</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">point</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -669,7 +658,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -687,29 +676,24 @@ body {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="C.-Reduce-Dimensionality-of-the-data">C. Reduce Dimensionality of the data<a class="anchor-link" href="#C.-Reduce-Dimensionality-of-the-data">&#182;</a></h3><p>The final option that we have is to reduce the dimensionality of the data. Simply put, this means that we take the data as it comes in with a specific number of dimensions, and we try to come up with a new set of dimensions which is smaller than that which came in. The overall goal of dimensionality reduction could be stated as follows:</p>
 <blockquote><p><strong>Goal</strong>: Represent our class instances with fewer variables, while preserving as much <strong>structure</strong> in the data as possible.</p>
 </blockquote>
 <p>The term structure above is just meant to stand for anything in the data that is useful for the task at hand. For instance, if we were performing regression, then structure would be anything in the data that was useful for performing regression. Likewise if we were performing classification.</p>
 <p>So, how exactly can we reduce the dimensionality of the data? The simplest method is known as <strong>Feature Selection</strong>. The idea here is that we have an observation which is represented by $d$ attributes:</p>
-<p>$$X = \{ X_1, X_2, X_3,...,X_{d-1}, X_d\}$$</p>
-<p>And we are going to pick a subset of those attributes that we reason to be good <em>predictors</em>. In other words, we want to pick the attributes that do the best job of encoding our class instances (for whatever purpose we have):</p>
-<p>$$X = \{ X_2, X_{d-1}\}$$</p>
-<p>Keep in mind that in feature selection we are <em>throwing away</em> portions of the data. On the other hand we can perform <strong>Feature Extraction</strong>. With this method we make use of all of the original attributes and combine them in some way to form a smaller number of attributes:</p>
+$$X = \{ X_1, X_2, X_3,...,X_{d-1}, X_d\}$$<p>And we are going to pick a subset of those attributes that we reason to be good <em>predictors</em>. In other words, we want to pick the attributes that do the best job of encoding our class instances (for whatever purpose we have):</p>
+$$X = \{ X_2, X_{d-1}\}$$<p>Keep in mind that in feature selection we are <em>throwing away</em> portions of the data. On the other hand we can perform <strong>Feature Extraction</strong>. With this method we make use of all of the original attributes and combine them in some way to form a smaller number of attributes:</p>
 <p><img src="https://drive.google.com/uc?id=1E5HWGY9fKEfjkxjtcdMA--BsbCNjQdm9"></p>
 <p>Mathematically, this can be written as:</p>
-<p>$$E_i = f(X_1,...X_d)$$</p>
-<p>Often times this will end up being a <strong>linear combination</strong> of the original dimensions. And that is essentially what <strong>Principal Component Analysis</strong> is.</p>
+$$E_i = f(X_1,...X_d)$$<p>Often times this will end up being a <strong>linear combination</strong> of the original dimensions. And that is essentially what <strong>Principal Component Analysis</strong> is.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="2.-Principal-Component-Analysis">2. Principal Component Analysis<a class="anchor-link" href="#2.-Principal-Component-Analysis">&#182;</a></h1><p>Principal Component Analysis, commonly referred to as <strong>PCA</strong>, is a method to define a new set of dimensions. It does this by defining a set of <strong>principal components</strong>, where the 1st component holds the direction of greatest variability in the data, and the 2nd is perpendicular to the first, holding the greatest variability of what is left. This can continue up until $d$, the original dimensionality.</p>
 <p>For instance, if we look at the plot below we can see that our data essentially falls along a sheet in the 3d space. This means that the vast majority of the 3d space remains unused, and we can reduce our dimensionality by finding two components along the sheets planes. We can see what our principal components should be in the 2nd plot, the green being the first principal component, the magenta being the second.</p>
@@ -753,7 +737,7 @@ body {
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -763,7 +747,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -826,7 +810,7 @@ body {
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -836,7 +820,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -854,8 +838,7 @@ body {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The main idea here is that we are looking for the dimension that has the greatest variance, and then we look for a dimension that is perpendicular to the first, with the greatest remaining variance. Once we come up with these new dimensions, we change the coordinate system so that each datapoint is in the new set of dimensions. In this case, we can see our transformed data into the dimensions of the principal components below:</p>
 
@@ -907,7 +890,7 @@ body {
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -917,7 +900,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -935,8 +918,7 @@ body {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="2.1-Why-try-and-maximize-variance?">2.1 Why try and maximize variance?<a class="anchor-link" href="#2.1-Why-try-and-maximize-variance?">&#182;</a></h3><p>The question that will most definitely arise at this point is: why are we trying to pick principal components that maximize variance? Well, the main intuition behind this is that high variance dimensions will help to preserve the relative distances between data points; i.e., they help preserve the <strong>structure</strong> of the data. Visually, this can be seen below:</p>
 <p><img src="https://drive.google.com/uc?id=1Sv0eW3b6THnVHDBlCj9XCZsqZ0cAxefF" width="500"></p>
@@ -947,8 +929,7 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.2-Finding-the-Principal-Components">2.2 Finding the Principal Components<a class="anchor-link" href="#2.2-Finding-the-Principal-Components">&#182;</a></h2><p>Let's now discuss how we go about finding the principal components. We will start wit the data set shown below. It consists of two dimensions, $X_1$ and $X_2$.</p>
 
@@ -966,7 +947,7 @@ body {
 <span class="n">x_2</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">x_1</span> <span class="o">+</span> <span class="n">noise</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -992,7 +973,7 @@ body {
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1002,7 +983,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1020,8 +1001,7 @@ body {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="2.2.1-Center-the-Data">2.2.1 Center the Data<a class="anchor-link" href="#2.2.1-Center-the-Data">&#182;</a></h3><p>The first thing that we want to do is center the data so that the origin is dead in the center of the data cloud. To do this, we simply subtract the mean from each dimension.</p>
 
@@ -1038,7 +1018,7 @@ body {
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean of x_1: &#39;</span><span class="p">,</span> <span class="n">mu_x_1</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Mean of x_2: &#39;</span><span class="p">,</span> <span class="n">mu_x_2</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1048,7 +1028,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1071,7 +1051,7 @@ Mean of x_2:  6.015274363310343
 <span class="n">centered_x_2</span> <span class="o">=</span> <span class="n">x_2</span> <span class="o">-</span> <span class="n">mu_x_2</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1092,7 +1072,7 @@ Mean of x_2:  6.015274363310343
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1102,7 +1082,7 @@ Mean of x_2:  6.015274363310343
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1120,18 +1100,13 @@ Mean of x_2:  6.015274363310343
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="2.2.2-Compute-the-Covariance-Matrix">2.2.2 Compute the Covariance Matrix<a class="anchor-link" href="#2.2.2-Compute-the-Covariance-Matrix">&#182;</a></h3><p>We can now compute the covariance matrix $\Sigma$. The covariance between two attributes is essentially an indication as to whether they change together or in opposite directions. The covariance matrix is defined as:</p>
-<p>$$cov(X_1,X_2) = E \big[(X_1 - E[X_1])(X_2 - E[X_2])\big]$$</p>
-<p>Where $E$ is the expected value, and hence in this case the mean. This allows us to rewrite the above as:</p>
-<p>$$cov(X_1, X_2) = \frac{1}{N} \sum_i^N (X_1^i - E[X_1])(X_2^i - E[X_2])$$</p>
-<p>And $E[X_1]$ is simply the expected value of $X_1$, in which case as a random variable that simplifies to the mean of $X_1$, $\mu_{X_1}$. The same goes for $X_2$:</p>
-<p>$$cov(X_1, X_2) = \frac{1}{N} \sum_i^N (X_1^i - \mu_{X_1})(X_2^i - \mu_{X_2})$$</p>
-<p>Finally, remember that we already have centered the data by subtracting the mean in the prior step, so that is no longer necessary, reducing our equation to:</p>
-<p>$$cov(X_1, X_2) = \frac{1}{N} \sum_i^N (X_1^i)(X_2^i)$$</p>
-<p>Now, one final point: when calculating the covariance matrix we will need to determine how $X_1$ varies with $X_2$, but also how $X_2$ varies with $X_1$ (they will be the same), and then how $X_1$ and $X_2$ vary with themselves (the variance). We can write a simple function to do just that:</p>
+$$cov(X_1,X_2) = E \big[(X_1 - E[X_1])(X_2 - E[X_2])\big]$$<p>Where $E$ is the expected value, and hence in this case the mean. This allows us to rewrite the above as:</p>
+$$cov(X_1, X_2) = \frac{1}{N} \sum_i^N (X_1^i - E[X_1])(X_2^i - E[X_2])$$<p>And $E[X_1]$ is simply the expected value of $X_1$, in which case as a random variable that simplifies to the mean of $X_1$, $\mu_{X_1}$. The same goes for $X_2$:</p>
+$$cov(X_1, X_2) = \frac{1}{N} \sum_i^N (X_1^i - \mu_{X_1})(X_2^i - \mu_{X_2})$$<p>Finally, remember that we already have centered the data by subtracting the mean in the prior step, so that is no longer necessary, reducing our equation to:</p>
+$$cov(X_1, X_2) = \frac{1}{N} \sum_i^N (X_1^i)(X_2^i)$$<p>Now, one final point: when calculating the covariance matrix we will need to determine how $X_1$ varies with $X_2$, but also how $X_2$ varies with $X_1$ (they will be the same), and then how $X_1$ and $X_2$ vary with themselves (the variance). We can write a simple function to do just that:</p>
 
 </div>
 </div>
@@ -1146,7 +1121,7 @@ Mean of x_2:  6.015274363310343
     <span class="k">return</span> <span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1162,7 +1137,7 @@ Mean of x_2:  6.015274363310343
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Variance between X_2 and X_2: &#39;</span><span class="p">,</span> <span class="n">calculate_covariance</span><span class="p">(</span><span class="n">centered_x_2</span><span class="p">,</span> <span class="n">centered_x_2</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1172,7 +1147,7 @@ Mean of x_2:  6.015274363310343
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1189,8 +1164,7 @@ Variance between X_2 and X_2:  13.687328145980187
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can quickly compare our results to the built in covariance matrix function, <code>np.cov</code>, supplied from numpy:</p>
 
@@ -1206,7 +1180,7 @@ Variance between X_2 and X_2:  13.687328145980187
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Numpy calculated covariance matrix: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">covariance_matrix</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1216,7 +1190,7 @@ Variance between X_2 and X_2:  13.687328145980187
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1232,8 +1206,7 @@ Variance between X_2 and X_2:  13.687328145980187
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Looks like our function lines up perfectly. For a quick sanity check, do these values make sense? We have found a variance of 3.06 for $X_1$ and 13.9 for $X_2$. That seems reasonable, considering our points are clearly more spread out in $X_2$. And we then found a positive covariance of 6.17 when relating $X_1$ to $X_2$; this also makes sense considering our points do clearly seem to co-vary positively.</p>
 
@@ -1241,8 +1214,7 @@ Variance between X_2 and X_2:  13.687328145980187
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="2.2.3-Multiplying-by-the-covariance-matrix">2.2.3 Multiplying by the covariance matrix<a class="anchor-link" href="#2.2.3-Multiplying-by-the-covariance-matrix">&#182;</a></h3><p>Now, let's say for a moment that we have the following vectors (red, green, and blue below), which correspond to our points in the cartesian plane:</p>
 
@@ -1265,7 +1237,7 @@ vector_blue = np.array([[0.05], [-2.0]]) # (0.05, -2.0)</code></pre>
 <span class="n">vectors</span> <span class="o">=</span> <span class="p">[[</span><span class="n">vector_red</span><span class="p">,</span> <span class="n">vector_green</span><span class="p">,</span> <span class="n">vector_blue</span><span class="p">]]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1290,7 +1262,7 @@ vector_blue = np.array([[0.05], [-2.0]]) # (0.05, -2.0)</code></pre>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1300,7 +1272,7 @@ vector_blue = np.array([[0.05], [-2.0]]) # (0.05, -2.0)</code></pre>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1318,8 +1290,7 @@ vector_blue = np.array([[0.05], [-2.0]]) # (0.05, -2.0)</code></pre>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, we had just found the covariance matrix a moment ago. What would the result be if we transformed our vectors above by the covariance matrix (via a matrix multiplication)? Let's take a look:</p>
 
@@ -1334,7 +1305,7 @@ vector_blue = np.array([[0.05], [-2.0]]) # (0.05, -2.0)</code></pre>
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">vectors</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">covariance_matrix</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vectors</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1361,7 +1332,7 @@ vector_blue = np.array([[0.05], [-2.0]]) # (0.05, -2.0)</code></pre>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1371,7 +1342,7 @@ vector_blue = np.array([[0.05], [-2.0]]) # (0.05, -2.0)</code></pre>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1389,8 +1360,7 @@ vector_blue = np.array([[0.05], [-2.0]]) # (0.05, -2.0)</code></pre>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Ahh! Very interesting; it appears as though that transformation seemed to turn our vectors towards the direction of greatest variance in the data. Let's perform that matrix multiplication a second time (on the transformed vectors):</p>
 
@@ -1405,7 +1375,7 @@ vector_blue = np.array([[0.05], [-2.0]]) # (0.05, -2.0)</code></pre>
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">vectors</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">covariance_matrix</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vectors</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1429,7 +1399,7 @@ vector_blue = np.array([[0.05], [-2.0]]) # (0.05, -2.0)</code></pre>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1439,7 +1409,7 @@ vector_blue = np.array([[0.05], [-2.0]]) # (0.05, -2.0)</code></pre>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1457,8 +1427,7 @@ vector_blue = np.array([[0.05], [-2.0]]) # (0.05, -2.0)</code></pre>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Our vectors seems to be be perfectly in line with the direction of greatest variance now! It seems to be that our vectors were rotated in the direction of greatest variance, while subsequently having a greater magnitude after each transformation! Now, what is equally interesting is that our vectors appear to be <em>converging</em> to a specific slope! Let's take a look at each vector:</p>
 
@@ -1476,7 +1445,7 @@ vector_blue = np.array([[0.05], [-2.0]]) # (0.05, -2.0)</code></pre>
         <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Slope at t = </span><span class="si">{i}</span><span class="s1">: &#39;</span><span class="p">,</span> <span class="n">vectors</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">vectors</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1486,7 +1455,7 @@ vector_blue = np.array([[0.05], [-2.0]]) # (0.05, -2.0)</code></pre>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1514,14 +1483,12 @@ Slope at t = 2:  2.1701434142246483
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can clearly see that they each are converging to a specific slope, <code>~2.15</code>. So the slope is cleary getting closer and closer to <em>something</em>, and if we look at our plot we can see that that is what we would pick out as the dimension of greatest variance. Put another way, it is the dimension where the data points seem to be spread out the most.</p>
 <p>This is definitely an interesting behavior; we have taken a random vector(s), multiplied them by the covariance matrix, and that appears to have turned it towards the dimension of the greatest variance.</p>
 <p>So, we can see that by iteratively multiplying these random vectors by the covariance matrix we have found the dimension of greatest variance that we would have also found via visual inspection. There is another way that we can go about this though! What we are actually looking for are vectors that are not <em>turned</em> when multiplied by the covariance matrix. By definition those are simply our <strong>eigenvectors</strong>! The eigenvector equation can be seen below:</p>
-<p>$$\Sigma v = \lambda v$$</p>
-<p>Here we transform a vector $v$ by the covariance matrix, $\Sigma$, and if $v$ is an eigenvector it simply is <em>scaled</em> by its eigenvalue (and not rotated). Another way to think about this is that $v$ remains on its <em>span</em>. So, what we have come to discover is that our principal components are actually our eigenvectors with the largest eigenvalues!</p>
+$$\Sigma v = \lambda v$$<p>Here we transform a vector $v$ by the covariance matrix, $\Sigma$, and if $v$ is an eigenvector it simply is <em>scaled</em> by its eigenvalue (and not rotated). Another way to think about this is that $v$ remains on its <em>span</em>. So, what we have come to discover is that our principal components are actually our eigenvectors with the largest eigenvalues!</p>
 <h3 id="Finding-the-Eigenvalues-and-Eigenvectors">Finding the Eigenvalues and Eigenvectors<a class="anchor-link" href="#Finding-the-Eigenvalues-and-Eigenvectors">&#182;</a></h3><p>So, how do we actually go about finding the eigenvalues and eigenvectors? The mechanical process of doing so by hand is covered in any introductory linear algebra course and countless tutorials, and to be honest not entirely enlightening. We will do so below via numpy's <code>linalg.eig(A)</code> function:</p>
 
 </div>
@@ -1537,7 +1504,7 @@ Slope at t = 2:  2.1701434142246483
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Eigen Vectors: &#39;</span><span class="p">,</span> <span class="n">e_vec</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1547,7 +1514,7 @@ Slope at t = 2:  2.1701434142246483
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1563,8 +1530,7 @@ Eigen Vectors:  [[-0.9081863  -0.41856617]
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can then see where they land in our plot:</p>
 
@@ -1591,7 +1557,7 @@ Eigen Vectors:  [[-0.9081863  -0.41856617]
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1601,7 +1567,7 @@ Eigen Vectors:  [[-0.9081863  -0.41856617]
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1619,15 +1585,13 @@ Eigen Vectors:  [[-0.9081863  -0.41856617]
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="2.2.4-Why-are-Eigenvectors-in-along-the-direction-of-greatest-variance?">2.2.4 Why are Eigenvectors in along the direction of greatest variance?<a class="anchor-link" href="#2.2.4-Why-are-Eigenvectors-in-along-the-direction-of-greatest-variance?">&#182;</a></h3><p>At this point the following question surely must be going through your mind:</p>
 <blockquote><p>Why does the eigenvector represent the direction of greatest variance?</p>
 </blockquote>
 <p>To determine this we are going to look at the visualization below. For now, we are going to just assume that the vector $e$ is just any vector (although, we are going to prove that it is our eigenvector). We are going to be projecting our points, $x_1, x_2, x_3$, onto the vector $e$. We are then going to be measuring the <em>variance</em> of the projections. What exactly does that mean? Well, we have three data points in the original space, and they can be projected into the space associated with $e$ by doing a dot product (the projections are shown via dotted lines). By definition, the dot product is:</p>
-<p>$$x^T \cdot e = \sum_{j=1}^d x_{ij} e_j$$</p>
-<p>It will result in a <em>single number</em> which tells us <em>where</em> the projection is along $e$. This number is a scalar, not a vector. In our case it looks like our projects result in the numbers ~$1, 3, 3.5$, which makes calculating the variance very easy.</p>
+$$x^T \cdot e = \sum_{j=1}^d x_{ij} e_j$$<p>It will result in a <em>single number</em> which tells us <em>where</em> the projection is along $e$. This number is a scalar, not a vector. In our case it looks like our projects result in the numbers ~$1, 3, 3.5$, which makes calculating the variance very easy.</p>
 
 </div>
 </div>
@@ -1657,7 +1621,7 @@ Eigen Vectors:  [[-0.9081863  -0.41856617]
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1667,7 +1631,7 @@ Eigen Vectors:  [[-0.9081863  -0.41856617]
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1685,20 +1649,14 @@ Eigen Vectors:  [[-0.9081863  -0.41856617]
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The standard definition for variance is:</p>
-<p>$$\frac{1}{n} \sum_{k=1}^n \Big(x_k - \mu\Big)^2$$</p>
-<p>And in our case we know that each specific $x_k$ (the resulting projection of $x_i$ onto $e$) is calculated via the dot product from above. That leaves us with a final variance equation of:</p>
-<p>$$\frac{1}{n} \sum_{i=1}^n \Big(\sum_{j=1}^d x_{ij} e_j - \mu\Big)^2$$</p>
-<p>Now, what I want to claim for a moment is that the above equation is the same thing as:</p>
-<p>$$\frac{1}{n} \sum_{i=1}^n \Big(\sum_{j=1}^d x_{ij} e_j - \mu\Big)^2 = \frac{1}{n} \sum_{i=1}^n \Big(\sum_{j=1}^d x_{ij} e_j\Big)^2$$</p>
-<p>This is because mean is going to be 0, which we are going to prove shortly. For now though, we have an equation for variance, and we know that we want to make this variance <em>as large as possible</em>; in other words, pick the vector $e$ that maximize's the variance:</p>
-<p>$$V = \frac{1}{n} \sum_{i=1}^n \Big(\sum_{j=1}^d x_{ij} e_j\Big)^2$$</p>
-<p>Generally, performing an optimization (maximizing or minimizing something) on an equation that is differentiable would be done by taking the derivative, set it equal to 0, solve, and see what the resulting value is (a minimum or maximum). However, we run into an issue in our scenario; if we don't place a contstraint on the above formula, then the variance can be maximized trivialy by just making $e$ unbelievably massive. To prevent this, we will place a <strong>constraint</strong> on the vector $e$. The best way to do that is to <em>cap the length</em> of the vector, to be 1 (unit length):</p>
-<p>$$||e|| = 1$$</p>
-<p>This prevents just placing arbitrarily large numbers in there. Visually this can be see as:</p>
+$$\frac{1}{n} \sum_{k=1}^n \Big(x_k - \mu\Big)^2$$<p>And in our case we know that each specific $x_k$ (the resulting projection of $x_i$ onto $e$) is calculated via the dot product from above. That leaves us with a final variance equation of:</p>
+$$\frac{1}{n} \sum_{i=1}^n \Big(\sum_{j=1}^d x_{ij} e_j - \mu\Big)^2$$<p>Now, what I want to claim for a moment is that the above equation is the same thing as:</p>
+$$\frac{1}{n} \sum_{i=1}^n \Big(\sum_{j=1}^d x_{ij} e_j - \mu\Big)^2 = \frac{1}{n} \sum_{i=1}^n \Big(\sum_{j=1}^d x_{ij} e_j\Big)^2$$<p>This is because mean is going to be 0, which we are going to prove shortly. For now though, we have an equation for variance, and we know that we want to make this variance <em>as large as possible</em>; in other words, pick the vector $e$ that maximize's the variance:</p>
+$$V = \frac{1}{n} \sum_{i=1}^n \Big(\sum_{j=1}^d x_{ij} e_j\Big)^2$$<p>Generally, performing an optimization (maximizing or minimizing something) on an equation that is differentiable would be done by taking the derivative, set it equal to 0, solve, and see what the resulting value is (a minimum or maximum). However, we run into an issue in our scenario; if we don't place a contstraint on the above formula, then the variance can be maximized trivialy by just making $e$ unbelievably massive. To prevent this, we will place a <strong>constraint</strong> on the vector $e$. The best way to do that is to <em>cap the length</em> of the vector, to be 1 (unit length):</p>
+$$||e|| = 1$$<p>This prevents just placing arbitrarily large numbers in there. Visually this can be see as:</p>
 
 </div>
 </div>
@@ -1728,7 +1686,7 @@ Eigen Vectors:  [[-0.9081863  -0.41856617]
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1738,7 +1696,7 @@ Eigen Vectors:  [[-0.9081863  -0.41856617]
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1756,16 +1714,13 @@ Eigen Vectors:  [[-0.9081863  -0.41856617]
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The constraint, $||e|| = 1$, is shown via the red circle. Our problem has now been transformed into: find the vector $e$ from those above that <em>maximizes</em> the variance of the projections.</p>
 <p>This new constraint will make maximization a bit more difficult, specifically we are going to need to add a <strong>lagrange multiplier</strong>, in order to make sure that the solution is unit length. This leaves us with the resulting equation:</p>
-<p>$$V = \frac{1}{n} \sum_{i=1}^n \Big(\sum_{j=1}^d x_{ij} e_j\Big)^2 - \overbrace{\lambda \Big( \big( \sum_{k=1}^d e_j^2\big) - 1\Big)}^\text{Lagrange Multiplier}$$</p>
-<p>In case you are not familiar with the lagrange multiplier, a brief overview is below. If you are familiar, feel free to just skip past it.</p>
+$$V = \frac{1}{n} \sum_{i=1}^n \Big(\sum_{j=1}^d x_{ij} e_j\Big)^2 - \overbrace{\lambda \Big( \big( \sum_{k=1}^d e_j^2\big) - 1\Big)}^\text{Lagrange Multiplier}$$<p>In case you are not familiar with the lagrange multiplier, a brief overview is below. If you are familiar, feel free to just skip past it.</p>
 <h3 id="Lagrange-Multiplier">Lagrange Multiplier<a class="anchor-link" href="#Lagrange-Multiplier">&#182;</a></h3><p>The Lagrange Multiplier is a technique that allows you to find the min/max of a multivariable function, <em>when there is a constraint on the input values you can you</em>. For example, let's say that we wanted to find the maximum value of:</p>
-<p>$$f(x, y) = 2x + y$$</p>
-<p>Visually, that is a 2-dimensional sheet sitting in 3-dimensional space:</p>
+$$f(x, y) = 2x + y$$<p>Visually, that is a 2-dimensional sheet sitting in 3-dimensional space:</p>
 
 </div>
 </div>
@@ -1799,7 +1754,7 @@ Eigen Vectors:  [[-0.9081863  -0.41856617]
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1809,7 +1764,7 @@ Eigen Vectors:  [[-0.9081863  -0.41856617]
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1827,14 +1782,11 @@ Eigen Vectors:  [[-0.9081863  -0.41856617]
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In this case, a maximization can be achieved just by picking infinite values for $x$ and $y$. However, what if we add the following constraint:</p>
-<p>$$g(x,y) = c$$</p>
-<p>Where $g(x,y)$ is $x^2 + y^2$, and $c=1$, leaving us with:</p>
-<p>$$x^2 + y^2 = 1$$</p>
-<p>Visually, this would be:</p>
+$$g(x,y) = c$$<p>Where $g(x,y)$ is $x^2 + y^2$, and $c=1$, leaving us with:</p>
+$$x^2 + y^2 = 1$$<p>Visually, this would be:</p>
 
 </div>
 </div>
@@ -1882,7 +1834,7 @@ Eigen Vectors:  [[-0.9081863  -0.41856617]
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1892,7 +1844,7 @@ Eigen Vectors:  [[-0.9081863  -0.41856617]
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1951,7 +1903,7 @@ Eigen Vectors:  [[-0.9081863  -0.41856617]
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1961,7 +1913,7 @@ Eigen Vectors:  [[-0.9081863  -0.41856617]
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1979,14 +1931,12 @@ Eigen Vectors:  [[-0.9081863  -0.41856617]
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So, we can see clearly that the point at which $f$ is maximized, subject to this constraint, is the highest point where the sphere, $g$, intersects $f$. Now, if we think about the <strong>gradient</strong> where $f$ and $g$ intersect, we can extend that to reasoning about the contour lines of $f$ and the contour lines of $g$ being <em>tangent</em>.</p>
 <p>That is easy enough to process, but what exactly can we do with it? Well, if we bring back the gradient ($\nabla f$), we know that the gradient of $f$ evaluate at a point $(x_0, y_0)$ will always give a vector perpendicular to the countour line passing through that point. This means that when $f$ and $g$ are tangent, their gradient vectors are parallel. Now, we do not know the magnitude of each of these gradient vectors, but because we know that they point in the same direction at the point $(x_0, y_0)$, we can multiply one by a constant to get the other. This looks like:</p>
-<p>$$\nabla f(x_0, y_0) = \lambda_0 \nabla g(x_0, y_0)$$</p>
-<p>In our particular example, we can work out the math as follows:</p>
-<p>$$\nabla f(x,y) = 
+$$\nabla f(x_0, y_0) = \lambda_0 \nabla g(x_0, y_0)$$<p>In our particular example, we can work out the math as follows:</p>
+$$\nabla f(x,y) = 
 \begin{bmatrix}
     \frac{\partial}{\partial x} (2x + y) \\
     \frac{\partial}{\partial y} (2x + y)
@@ -1995,8 +1945,7 @@ Eigen Vectors:  [[-0.9081863  -0.41856617]
     2 \\
     1
 \end{bmatrix} 
-$$</p>
-<p>$$\nabla g(x,y) = 
+$$$$\nabla g(x,y) = 
 \begin{bmatrix}
     \frac{\partial}{\partial x} (x^2 + y^2 - 1) \\
     \frac{\partial}{\partial y} (x^2 + y^2 - 1) 
@@ -2005,9 +1954,8 @@ $$</p>
     2x \\
     2y
 \end{bmatrix} 
-$$</p>
-<p>Leaving us with a tangency condition of:</p>
-<p>$$\begin{bmatrix}
+$$<p>Leaving us with a tangency condition of:</p>
+$$\begin{bmatrix}
     2 \\
     1
 \end{bmatrix} = 
@@ -2016,71 +1964,47 @@ $$</p>
     2x_0 \\
     2y_0
 \end{bmatrix} 
-$$</p>
-<p>We now have three equations:</p>
-<p>$$x_0^2 + y_0^2 = 1$$</p>
-<p>$$2 \lambda_0 x_0$$</p>
-<p>$$2 \lambda_0 y_0$$</p>
-<p>And three unknowns: $\lambda_0, x_0, y_0$</p>
+$$<p>We now have three equations:</p>
+$$x_0^2 + y_0^2 = 1$$$$2 \lambda_0 x_0$$$$2 \lambda_0 y_0$$<p>And three unknowns: $\lambda_0, x_0, y_0$</p>
 <p>Which is a perfectly solvable situation. Now, where Lagrange came in was that he took the above scenario and created a special function from which all 3 equations above could be found. It looked like:</p>
-<p>$$L(x,y,\lambda) = f(x,y) - \lambda(g(x,y) - c)$$</p>
-<h3 id="Back-to-Eigenvectors...">Back to Eigenvectors...<a class="anchor-link" href="#Back-to-Eigenvectors...">&#182;</a></h3><p>Based on the above, it is fairly straight forward to see how our equation was determined:</p>
-<p>$$V = \frac{1}{n} \sum_{i=1}^n \Big(\sum_{j=1}^d x_{ij} e_j\Big)^2 - \overbrace{\lambda \Big( \big( \sum_{k=1}^d e_j^2\big) - 1\Big)}^\text{Lagrange Multiplier}$$</p>
-<p>Our constraint was equal to $1$, and our function $g$ was that representing the length of $e$. Now, we can take the derivative of the above equation and set it equal to 0:</p>
-<p>$$\frac{\partial V}{\partial e_a} = \frac{2}{n} \sum_{i=1}^n \Big(\sum_{j=1}^d x_{ij} e_j\Big)x_{ia} - 2\lambda e_a = 0$$</p>
-<p>Note that we are differentiating with respect to components of $e$. So, $e_a$ is the value of $e$ for attribute $a$. Hence, the above equation is representing the derivative for just one coordinate, but we will have many. As a next step, we can move things around as follows:</p>
-<p>$$2 \sum_{j=1}^d e_j \Big( \frac{1}{n} \sum_{i=1}^n x_{ia} x_{ij}\Big) = 2\lambda e_a$$</p>
-<p>The sums can be swapped since everything is linear. $e_j$ is moved outside of the inner sum since it does not depend on $i$, and is effectively a constant inside of that sum. We end up with the sum over $i$'s, which are our instances in the dataset, and we take the value of the $a$th attribute multiply it by the value of the $j$th attribute, and add the values up. This is the definition of the <strong>covariance</strong> between attribute $a$ and $j$.</p>
-<p>$$2 \sum_{j=1}^d e_j \overbrace{\Big( \frac{1}{n} \sum_{i=1}^n x_{ia} x_{ij}\Big)}^\text{covariance of a,j} = 2\lambda e_a$$</p>
-<p>Keep in mind that we have one of the above equations for all attributes $a$, where $a$ is in $1..d$. Our entire equation set looks like:</p>
-<p>$$
+$$L(x,y,\lambda) = f(x,y) - \lambda(g(x,y) - c)$$<h3 id="Back-to-Eigenvectors...">Back to Eigenvectors...<a class="anchor-link" href="#Back-to-Eigenvectors...">&#182;</a></h3><p>Based on the above, it is fairly straight forward to see how our equation was determined:</p>
+$$V = \frac{1}{n} \sum_{i=1}^n \Big(\sum_{j=1}^d x_{ij} e_j\Big)^2 - \overbrace{\lambda \Big( \big( \sum_{k=1}^d e_j^2\big) - 1\Big)}^\text{Lagrange Multiplier}$$<p>Our constraint was equal to $1$, and our function $g$ was that representing the length of $e$. Now, we can take the derivative of the above equation and set it equal to 0:</p>
+$$\frac{\partial V}{\partial e_a} = \frac{2}{n} \sum_{i=1}^n \Big(\sum_{j=1}^d x_{ij} e_j\Big)x_{ia} - 2\lambda e_a = 0$$<p>Note that we are differentiating with respect to components of $e$. So, $e_a$ is the value of $e$ for attribute $a$. Hence, the above equation is representing the derivative for just one coordinate, but we will have many. As a next step, we can move things around as follows:</p>
+$$2 \sum_{j=1}^d e_j \Big( \frac{1}{n} \sum_{i=1}^n x_{ia} x_{ij}\Big) = 2\lambda e_a$$<p>The sums can be swapped since everything is linear. $e_j$ is moved outside of the inner sum since it does not depend on $i$, and is effectively a constant inside of that sum. We end up with the sum over $i$'s, which are our instances in the dataset, and we take the value of the $a$th attribute multiply it by the value of the $j$th attribute, and add the values up. This is the definition of the <strong>covariance</strong> between attribute $a$ and $j$.</p>
+$$2 \sum_{j=1}^d e_j \overbrace{\Big( \frac{1}{n} \sum_{i=1}^n x_{ia} x_{ij}\Big)}^\text{covariance of a,j} = 2\lambda e_a$$<p>Keep in mind that we have one of the above equations for all attributes $a$, where $a$ is in $1..d$. Our entire equation set looks like:</p>
+$$
 \begin{bmatrix}
     \sum_{j=1}^d cov(1,j) e_j = \lambda e_1 \\
     \vdots \\
     \sum_{j=1}^d cov(d,j) e_j = \lambda e_d
 \end{bmatrix} 
-$$</p>
-<p>We have a sum from $j=1..d$, which is a sum over all of our attributes, then we have the covariance of the first attribute with $j$ times the value of $j$ in our vector $e$, which is then equal to $\lambda$, the lagrange multiplier, times $e_1$, the value of the first attribute in the vector. Another way to view it is that we are taking the first row of the covariance matrix $cov(1,j)$ (for all $j$, thanks to the sum), and taking the dot product with $e$: This could also be written without the summations:</p>
-<p>$$cov(1, :) \cdot e$$</p>
-<p>So, we see that the first row of the covariance matrix dotted with vector $e$ is the first component of vector $e$ times the lagrange multiplier. This is then repeated for all attributes $1..d$. Which, if we rewrite this in matrix notation and drop the sums, we end up with:</p>
-<p>$$\sum e = \lambda e$$</p>
-<p>Which is the eigenvector/value equation that we have seen before! Hence, $e$ <em>must</em> be an eigenvector! So, we have just proved that the way to maximize the variance of our projections is to project onto an <em>eigenvector</em>. Curiously enough, our lagrange multiplier ends up being and eigenvalue.</p>
+$$<p>We have a sum from $j=1..d$, which is a sum over all of our attributes, then we have the covariance of the first attribute with $j$ times the value of $j$ in our vector $e$, which is then equal to $\lambda$, the lagrange multiplier, times $e_1$, the value of the first attribute in the vector. Another way to view it is that we are taking the first row of the covariance matrix $cov(1,j)$ (for all $j$, thanks to the sum), and taking the dot product with $e$: This could also be written without the summations:</p>
+$$cov(1, :) \cdot e$$<p>So, we see that the first row of the covariance matrix dotted with vector $e$ is the first component of vector $e$ times the lagrange multiplier. This is then repeated for all attributes $1..d$. Which, if we rewrite this in matrix notation and drop the sums, we end up with:</p>
+$$\sum e = \lambda e$$<p>Which is the eigenvector/value equation that we have seen before! Hence, $e$ <em>must</em> be an eigenvector! So, we have just proved that the way to maximize the variance of our projections is to project onto an <em>eigenvector</em>. Curiously enough, our lagrange multiplier ends up being and eigenvalue.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="2.2.5-Eigenvalue-is-the-variance-along-the-Eigenvector">2.2.5 Eigenvalue is the variance along the Eigenvector<a class="anchor-link" href="#2.2.5-Eigenvalue-is-the-variance-along-the-Eigenvector">&#182;</a></h3><p>At this point we know that we are picking eigenvectors because they are good! But, we can actually quantify what the variance along the eigenvector is going to be. So, once again we are projecting all of our instances onto $e$, which is just the dot product:</p>
-<p>$$x^T \cdot e$$</p>
-<p>We then want to measure the variance along $e$, which we are now assuming to be an eigenvector. Again, this is:</p>
-<p>$$\frac{1}{n} \sum_{i=1}^n \Big(\sum_{j=1}^d x_{ij} e_j - \mu\Big)^2 = \frac{1}{n} \sum_{i=1}^n \Big( \overbrace{\sum_{j=1}^d x_{ij} e_j }^\text{Dot Product}\Big)^2$$</p>
-<p>We have dropped the mean of the projections(again claiming it is zero), but we can now discuss <em>why</em> it is zero. The mean in the projection space can be rewritten as:</p>
-<p>$$\mu = \frac{1}{n} \sum_{i=1}^n \Big(\sum_{j=1}^d x_{ij} e_j\Big)$$</p>
-<p>Which we can then manipulate the sums to get the average of the $j$th attribute:</p>
-<p>$$\mu = \sum_{j=1}^d \Big( \frac{1}{n} \sum_{i=1}^n x_{ij}\Big)e_j$$</p>
-<p>Recall, earlier we centered our data, meaning that the average of the $j$th attribute must be zero! Hence, we can drop this term. So, we can take our variance along the eigenvector $e$ and play around with it as follows:</p>
-<p>$$\frac{1}{n} \sum_{i=1}^n \Big(\sum_{j=1}^d x_{ij} e_j\Big) \Big(\sum_{a=1}^d x_{ia} e_a\Big)$$</p>
-<p>Above we have just broken out our two summations (they had been squared before), and now writing each on it's own with a unique subscript. Keep in mind, these two sums are <em>identical</em>. At this point we can move the sums around:</p>
-<p>$$\sum_{a=1}^d \sum_{j=1}^d \Big( \overbrace{ \frac{1}{n} \sum_{i=1}^n x_{ia} x_{ij} }^\text{cov(a,j)}\Big) e_j e_a$$</p>
-<p>And once again, we are have the covariance of attribute $a$ and $j$:</p>
-<p>$$\sum_{a=1}^d\Big( \sum_{j=1}^d cov(a,j)e_j \Big) e_a$$</p>
-<p>Which, from the same line of reasoning that we went over earlier, our covariance multiplication actually is just equal to:</p>
-<p>$$\sum_{j=1}^d cov(a,j)e_j = \lambda e_a$$</p>
-<p>Again, this is because we know that multiplying the $a$th row of the covariance matrix by the eigenvector $e$, and we know we are going to get back the $a$th eigenvector. This allows us to simplify our equation to:</p>
-<p>$$\sum_{a=1}^d\Big(\lambda e_a \Big) e_a$$</p>
-<p>And we can simplify that to:</p>
-<p>$$\lambda ||e||^2 = \lambda$$</p>
-<p>Where $||e||$ had unit length, so it just resolves to 1. So, we have just shown that the variance along the eigenvector $e$ is just the eigenvalue $\lambda$!</p>
+$$x^T \cdot e$$<p>We then want to measure the variance along $e$, which we are now assuming to be an eigenvector. Again, this is:</p>
+$$\frac{1}{n} \sum_{i=1}^n \Big(\sum_{j=1}^d x_{ij} e_j - \mu\Big)^2 = \frac{1}{n} \sum_{i=1}^n \Big( \overbrace{\sum_{j=1}^d x_{ij} e_j }^\text{Dot Product}\Big)^2$$<p>We have dropped the mean of the projections(again claiming it is zero), but we can now discuss <em>why</em> it is zero. The mean in the projection space can be rewritten as:</p>
+$$\mu = \frac{1}{n} \sum_{i=1}^n \Big(\sum_{j=1}^d x_{ij} e_j\Big)$$<p>Which we can then manipulate the sums to get the average of the $j$th attribute:</p>
+$$\mu = \sum_{j=1}^d \Big( \frac{1}{n} \sum_{i=1}^n x_{ij}\Big)e_j$$<p>Recall, earlier we centered our data, meaning that the average of the $j$th attribute must be zero! Hence, we can drop this term. So, we can take our variance along the eigenvector $e$ and play around with it as follows:</p>
+$$\frac{1}{n} \sum_{i=1}^n \Big(\sum_{j=1}^d x_{ij} e_j\Big) \Big(\sum_{a=1}^d x_{ia} e_a\Big)$$<p>Above we have just broken out our two summations (they had been squared before), and now writing each on it's own with a unique subscript. Keep in mind, these two sums are <em>identical</em>. At this point we can move the sums around:</p>
+$$\sum_{a=1}^d \sum_{j=1}^d \Big( \overbrace{ \frac{1}{n} \sum_{i=1}^n x_{ia} x_{ij} }^\text{cov(a,j)}\Big) e_j e_a$$<p>And once again, we are have the covariance of attribute $a$ and $j$:</p>
+$$\sum_{a=1}^d\Big( \sum_{j=1}^d cov(a,j)e_j \Big) e_a$$<p>Which, from the same line of reasoning that we went over earlier, our covariance multiplication actually is just equal to:</p>
+$$\sum_{j=1}^d cov(a,j)e_j = \lambda e_a$$<p>Again, this is because we know that multiplying the $a$th row of the covariance matrix by the eigenvector $e$, and we know we are going to get back the $a$th eigenvector. This allows us to simplify our equation to:</p>
+$$\sum_{a=1}^d\Big(\lambda e_a \Big) e_a$$<p>And we can simplify that to:</p>
+$$\lambda ||e||^2 = \lambda$$<p>Where $||e||$ had unit length, so it just resolves to 1. So, we have just shown that the variance along the eigenvector $e$ is just the eigenvalue $\lambda$!</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.3-How-many-Dimensions?">2.3 How many Dimensions?<a class="anchor-link" href="#2.3-How-many-Dimensions?">&#182;</a></h2><p>After performing PCA, we will end up with just as many eigenvectors as we had original dimensions. So, if we had $d$ coordinates, we are going to have $d$ eigenvectors, $e_1...e_d$. Our goal is to <em>reduce</em> the dimesionality, so we are going to pick $m$ of those eigenvectors, where $m &lt;&lt; d$. Now, we previously showed that the eigenvalue represents variance along the eigenvector, $\lambda_i = \text{variance along} e_i$, but where do we start?</p>
 <p>We cannot capture all of the variance in the data, but maybe we want to capture 90% or 95%. We can do that just by looking at the eigenvalues. So, that can be done by simply:</p>
@@ -2096,8 +2020,7 @@ That will tell us what proportion of the variance we are capturing with the firs
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.4-PCA-in-Practice">2.4 PCA in Practice<a class="anchor-link" href="#2.4-PCA-in-Practice">&#182;</a></h2><p>We can now go over a real world example dealing with 64 dimensional (8x8 pixel) images of digits. We can start by loading the data to see exactly what we are working with:</p>
 
@@ -2114,7 +2037,7 @@ That will tell us what proportion of the variance we are capturing with the firs
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Original shape of digits data: &#39;</span><span class="p">,</span> <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> 
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2124,7 +2047,7 @@ That will tell us what proportion of the variance we are capturing with the firs
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2138,8 +2061,7 @@ That will tell us what proportion of the variance we are capturing with the firs
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, to gain some further intuition into the relationships between these points, we can project them to a lower dimension using PCA:</p>
 
@@ -2157,7 +2079,7 @@ That will tell us what proportion of the variance we are capturing with the firs
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;PCA transformed shape of digits data: &#39;</span><span class="p">,</span> <span class="n">projected</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2167,7 +2089,7 @@ That will tell us what proportion of the variance we are capturing with the firs
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2181,8 +2103,7 @@ That will tell us what proportion of the variance we are capturing with the firs
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And we can then plot the first two principal components of the points below:</p>
 
@@ -2203,7 +2124,7 @@ That will tell us what proportion of the variance we are capturing with the firs
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">();</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2213,7 +2134,7 @@ That will tell us what proportion of the variance we are capturing with the firs
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2231,8 +2152,7 @@ That will tell us what proportion of the variance we are capturing with the firs
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Above we have taken a 64 dimensional point cloud, projected it into a 2 dimensional space that contained the directions of largest variance, and plotted the result (coloring each number). A way to think about this is that we managed to find the <em>optimal</em> stretch and rotation in 64-dimensional space that allows us to see the layout of the digits in two dimensions.</p>
 <h2 id="2.5-Choosing-the-Number-of-Components">2.5 Choosing the Number of Components<a class="anchor-link" href="#2.5-Choosing-the-Number-of-Components">&#182;</a></h2><p>As mentioned earlier, choosing the number of components is a very crucial aspect of PCA, and one that can best be accomplished by looking at the cumulative <em>explained variance ratio</em> as a function of the number of components:</p>
@@ -2258,7 +2178,7 @@ That will tell us what proportion of the variance we are capturing with the firs
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Explained variance&#39;</span><span class="p">,</span> <span class="s1">&#39;90% threshold&#39;</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2268,7 +2188,7 @@ That will tell us what proportion of the variance we are capturing with the firs
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[31]:</div>
+    <div class="prompt output_prompt">Out[31]:</div>
 
 
 
@@ -2281,7 +2201,7 @@ That will tell us what proportion of the variance we are capturing with the firs
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2299,8 +2219,7 @@ That will tell us what proportion of the variance we are capturing with the firs
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can clearly see that we can select the first 20 principal components and still explain 90% of the variance!</p>
 

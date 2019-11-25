@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -195,10 +194,6 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -211,8 +206,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="1.-Introduction-to-Natural-Language-Processing">1. Introduction to Natural Language Processing<a class="anchor-link" href="#1.-Introduction-to-Natural-Language-Processing">&#182;</a></h1><p>Natural Language Processing is certainly one of the most fascinating and exciting areas to be involved with at this point in time. It is a wonderful intersection of computer science, artificial intelligence, machine learning and linguistics. With the (somewhat) recent rise of Deep Learning, Natural Language Processing currently has a great deal of buzz surrounding it, and for good reason. The goal of this post is to do three things:</p>
 <ol>
@@ -256,8 +250,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 <p>We will see that, at least at first, a lot of NLP deals with preprocessing data, which allows us to use algorithms that we already know. The question that most definitely arises is: How do we take a bunch of documents which are basically a bunch of text, and feed them into other machine learning algorithms where the input is usually a vector of numbers?</p>
 <p>Well, before we even get to that, let's take a preprocessed data set from the <a href="https://archive.ics.uci.edu/ml/datasets/Spambase">uci archive</a> and perform a simple classification on it. The data has been processed in such a way that we can consider columns 1-48 to the be the input, and column 49 to the be label (1 = spam, 0 = not spam).</p>
 <p>The input columns are considered the input, and they are a <strong>word frequency measure</strong>. This measure can be calculated via:</p>
-<p>$$\text{Word Frequency Measure} = \frac{\text{# of times word appears in a document}}{\text{Number of words in document}} * 100$$</p>
-<p>This will result in a <strong>Document Term matrix</strong>, which is a matrix where <em>terms</em> (words that appeared in the document) go along the columns, and <em>documents</em> (emails in this case) go along the rows:</p>
+$$\text{Word Frequency Measure} = \frac{\text{# of times word appears in a document}}{\text{Number of words in document}} * 100$$<p>This will result in a <strong>Document Term matrix</strong>, which is a matrix where <em>terms</em> (words that appeared in the document) go along the columns, and <em>documents</em> (emails in this case) go along the rows:</p>
 <table>
 <thead><tr>
 <th></th>
@@ -343,7 +336,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -357,7 +350,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 <span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -367,7 +360,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[2]:</div>
+    <div class="prompt output_prompt">Out[2]:</div>
 
 
 
@@ -567,7 +560,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Classifcation Rate for NB: &quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -577,7 +570,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -591,8 +584,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Excellent, a classification rate of 92%! Let's now look utilize <code>AdaBoost</code>:</p>
 
@@ -611,7 +603,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Classifcation Rate for Adaboost: &quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -621,7 +613,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -635,8 +627,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Great, a nice improvement, but more importantly, we have shown that we can take text data and that via correct preprocessing we are able to utilize it with standard machine learning API's. The next step is to dig into <em>how</em> basic preprocessing is performed.</p>
 
@@ -644,8 +635,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="3.-Sentiment-Analysis">3. Sentiment Analysis<a class="anchor-link" href="#3.-Sentiment-Analysis">&#182;</a></h1><p>To go through the basic preprocessing steps that are frequently used when performing machine learning on text data (often referred to an NLP pipeline) we are going to want to work on the problem of <strong>sentiment analysis</strong>. Sentiment is a measure of how positive or negative something is, and we are going to build a very simple sentiment analyzer to predict the sentiment of Amazon reviews. These are reviews, so they come with 5 star ratings, and we are going to look at the electronics category in particular. These are XML files, so we will need an XML parser.</p>
@@ -668,8 +658,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="3.3-Sentiment-Analysis-in-Code">3.3 Sentiment Analysis in Code<a class="anchor-link" href="#3.3-Sentiment-Analysis-in-Code">&#182;</a></h2>
 </div>
@@ -700,14 +689,13 @@ When confronted with such an example, one realizes that it is utterly impossible
 <span class="n">negative_reviews</span> <span class="o">=</span> <span class="n">negative_reviews</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;review_text&#39;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="3.3.1-Class-Imbalance">3.3.1 Class Imbalance<a class="anchor-link" href="#3.3.1-Class-Imbalance">&#182;</a></h3><p>There are more positive than negative reviews, so we are going to shuffle the positive reviews and then cut off any extra that we may have so that they are both the same size.</p>
 
@@ -723,14 +711,13 @@ When confronted with such an example, one realizes that it is utterly impossible
 <span class="n">positive_reviews</span> <span class="o">=</span> <span class="n">positive_reviews</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">negative_reviews</span><span class="p">)]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="3.3.2-Tokenizer-function">3.3.2 Tokenizer function<a class="anchor-link" href="#3.3.2-Tokenizer-function">&#182;</a></h3><p>Lets now create a tokenizer function that can be used on our specific reviews.</p>
 
@@ -751,14 +738,13 @@ When confronted with such an example, one realizes that it is utterly impossible
     <span class="k">return</span> <span class="n">tokens</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="3.3.3-Index-each-word">3.3.3 Index each word<a class="anchor-link" href="#3.3.3-Index-each-word">&#182;</a></h3><p>We now need to create an index for each of the words, so that each word has an index in the final data vector. However, to able able to do that we need to know the size of the final data vector, and to be able to know that we need to know how big the vocabulary is. Remember, the <strong>vocabulary</strong> is just the set of all types!</p>
 <p>We are essentially going to look at every individual review, tokenize them, and then add those tokens 1 by 1 to the map if they do not exist yet.</p>
@@ -796,14 +782,13 @@ When confronted with such an example, one realizes that it is utterly impossible
             <span class="n">current_index</span> <span class="o">+=</span> <span class="mi">1</span>   
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And we can actually take a look at the contents of <code>word_index_map</code> by making use of the <code>random</code> module (part of the Python Standard Library):</p>
 
@@ -819,7 +804,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 <span class="nb">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">word_index_map</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="mi">20</span><span class="p">)))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -829,7 +814,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -850,7 +835,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Vocabulary Size&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">word_index_map</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -860,7 +845,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -874,8 +859,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="3.3.4-Convert-tokens-into-vector">3.3.4 Convert tokens into vector<a class="anchor-link" href="#3.3.4-Convert-tokens-into-vector">&#182;</a></h3><p>Now that we have our tokens and vocabulary, we need to convert our tokens into a vector. Because we are going to shuffle our train and test sets again, we are going to want to put labels and vector into same array for now since it makes it easier to shuffle.</p>
 <p>Note, this function operates on <strong>one</strong> review. So the +1 is creating our label, and this function is basically designed to take our input vector from an english form to a numeric vector form.</p>
@@ -898,14 +882,13 @@ When confronted with such an example, one realizes that it is utterly impossible
     <span class="k">return</span> <span class="n">xy_data</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Time to actually assign these tokens to vectors.</p>
 
@@ -932,7 +915,7 @@ When confronted with such an example, one realizes that it is utterly impossible
     <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>         
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -945,7 +928,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -955,7 +938,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -969,8 +952,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Our data is now 1000 rows of positively labeled reviews, followed by 1000 rows of negatively labeled reviews. We have <code>11089</code> columns, which is one more than our vocabulary size because we have a column for the label (positive or negative). Lets shuffle before getting our train and test set.</p>
 
@@ -997,7 +979,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Classification Rate: &quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Xtest</span><span class="p">,</span> <span class="n">Ytest</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1007,7 +989,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1021,8 +1003,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="3.3.5-Classification-Rate">3.3.5 Classification Rate<a class="anchor-link" href="#3.3.5-Classification-Rate">&#182;</a></h3><p>We end up with a classification rate of 0.71, which is not ideal, but it is better than random guessing.</p>
 <h3 id="3.3.6-Sentiment-Analysis">3.3.6 Sentiment Analysis<a class="anchor-link" href="#3.3.6-Sentiment-Analysis">&#182;</a></h3><p>Something interesting that we can do is look at the weights of each word, to see if that word has positive or negative sentiment.</p>
@@ -1049,7 +1030,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 <span class="nb">print</span><span class="p">(</span><span class="n">large_magnitude_weights</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1059,7 +1040,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1073,8 +1054,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Clearly the above list is not perfect, <em>but</em> it should give some insight on what is possible for us already. The logistic regression model was able to pick out <code>easy</code>, <code>quality</code>, and <code>excellent</code> as words that correlate to a positive response, and it was able to find <code>poor</code>, <code>returned</code>, and <code>waste</code> as words the correlate to a negative response.</p>
 
@@ -1082,8 +1062,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="4.-NLTK-Exploration">4. NLTK Exploration<a class="anchor-link" href="#4.-NLTK-Exploration">&#182;</a></h1><p>Before we move on any further, I wanted to take a minute to go over a few of the most useful tools for the <code>nltk</code> (Natural Language Toolkit) library. This library will encapsulate many NLP tasks for us.</p>
@@ -1104,7 +1083,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 <span class="n">nltk</span><span class="o">.</span><span class="n">pos_tag</span><span class="p">(</span><span class="s2">&quot;Bob is great&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1114,7 +1093,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[16]:</div>
+    <div class="prompt output_prompt">Out[16]:</div>
 
 
 
@@ -1137,7 +1116,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">nltk</span><span class="o">.</span><span class="n">pos_tag</span><span class="p">(</span><span class="s2">&quot;Machine learning is great&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1147,7 +1126,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[17]:</div>
+    <div class="prompt output_prompt">Out[17]:</div>
 
 
 
@@ -1163,8 +1142,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The second entry in the above tuples <code>NN</code>, <code>VBZ</code>, etc, represents the determined tag of the word. For a description of each tag, check out <a href="https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html">this link</a>.</p>
 
@@ -1172,8 +1150,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="4.2-Stemming-and-Lemmatization">4.2 Stemming and Lemmatization<a class="anchor-link" href="#4.2-Stemming-and-Lemmatization">&#182;</a></h3><p>Both the process of <strong>stemming</strong> and <strong>lemmatization</strong> are used in reducing words to a "base" form. This is very useful because a vocabulary can get very large, while certain words tend to have the same meaning. For example <em>dog</em> and <em>dogs</em>, and <em>jump</em> and <em>jumping</em> both have similar meanings. The main difference between stemming and lemmatization is that stemming is a bit more basic.</p>
 
@@ -1189,7 +1166,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 <span class="nb">print</span><span class="p">(</span><span class="n">porter_stemmer</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="s1">&#39;dogs&#39;</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1199,7 +1176,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1220,7 +1197,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">porter_stemmer</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="s1">&#39;wolves&#39;</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1230,7 +1207,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1252,7 +1229,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 <span class="nb">print</span><span class="p">(</span><span class="n">lemmatizer</span><span class="o">.</span><span class="n">lemmatize</span><span class="p">(</span><span class="s1">&#39;dogs&#39;</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1262,7 +1239,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1283,7 +1260,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">lemmatizer</span><span class="o">.</span><span class="n">lemmatize</span><span class="p">(</span><span class="s1">&#39;wolves&#39;</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1293,7 +1270,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1307,8 +1284,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Both the stemmer and lemmatizer managed to get <code>dogs</code> correct, but only the lemmatizer managed to correctly convert <code>wolves</code> to base form.</p>
 
@@ -1316,8 +1292,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="4.3-Named-Entity-Recognition">4.3 Named Entity Recognition<a class="anchor-link" href="#4.3-Named-Entity-Recognition">&#182;</a></h3><p>Finally there is <strong>Named Entity</strong> recognition. Entities refer to nouns such as:</p>
 <ul>
@@ -1338,7 +1313,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 <span class="nb">print</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1348,7 +1323,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1369,7 +1344,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">nltk</span><span class="o">.</span><span class="n">ne_chunk</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1379,7 +1354,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[23]:</div>
+    <div class="prompt output_prompt">Out[23]:</div>
 
 
 
@@ -1405,7 +1380,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 <span class="nb">print</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1415,7 +1390,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1436,7 +1411,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">nltk</span><span class="o">.</span><span class="n">ne_chunk</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1446,7 +1421,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[25]:</div>
+    <div class="prompt output_prompt">Out[25]:</div>
 
 
 
@@ -1463,8 +1438,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="5.-Latent-Semantic-Analysis">5. Latent Semantic Analysis<a class="anchor-link" href="#5.-Latent-Semantic-Analysis">&#182;</a></h1><p>We will now take a moment to extend our semantic analysis example from before, instead now performing <strong>Latent Semantic Analysis</strong>. Latent semantic analysis is utilized to deal with the reality that we will often have <em>multiple</em> words with the <em>same</em> meaning, or on the other hand, <em>one</em> word with <em>multiple</em> meanings. These are referred to as <em>synonomy</em> and <em>polysemy</em> respectively.</p>
@@ -1481,8 +1455,7 @@ When confronted with such an example, one realizes that it is utterly impossible
 </ul>
 <p>In order to solve this problem, we will need to introduce <em>Latent Variables</em>.</p>
 <h2 id="5.1-Latent-Variables">5.1 Latent Variables<a class="anchor-link" href="#5.1-Latent-Variables">&#182;</a></h2><p>The easiest way to get your head around latent variables at first is via an example. Consider the words "computer", "laptop", and "PC"; these words are most likely seen together very often, meaning they are highly correlated. We can thinking a <em>latent</em> or <em>hidden</em> variable that is below representing them all, and we can call that $z$. We can mathematically define $z$ as:</p>
-<p>$$z = 0.7*computer \; + 0.5*PC \; + 0.6*laptop$$</p>
-<p>So, we now have an idea of what a latent variable is, but what is the job of Latent Semantic Analysis? The entire goal of LSA is:</p>
+$$z = 0.7*computer \; + 0.5*PC \; + 0.6*laptop$$<p>So, we now have an idea of what a latent variable is, but what is the job of Latent Semantic Analysis? The entire goal of LSA is:</p>
 <ol>
 <li>To find the latent/hidden variables.</li>
 <li>Then, transform original data into these new variables. </li>
@@ -1517,14 +1490,13 @@ Z = model.transform(X)
 <span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="k">import</span> <span class="n">TruncatedSVD</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Process:">Process:<a class="anchor-link" href="#Process:">&#182;</a></h3><ul>
 <li>we start by pulling in all of the titles, and all of the stop words. Our titles will look like:
@@ -1632,7 +1604,7 @@ Z = model.transform(X)
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1642,7 +1614,7 @@ Z = model.transform(X)
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1660,13 +1632,25 @@ Z = model.transform(X)
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Keep-in-mind...">Keep in mind...<a class="anchor-link" href="#Keep-in-mind...">&#182;</a></h2><p>What is important to remember here is that the main point of this process is to take a bunch of words (2070) be able to plot their relationship to eachother in a 2-d surface. To do this, their use in 2373 book titles are considered, and SVD is performed.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake

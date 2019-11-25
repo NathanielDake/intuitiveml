@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -195,10 +194,6 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -211,8 +206,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="7.-Temporal-Difference-Learning-Introduction">7. Temporal Difference Learning Introduction<a class="anchor-link" href="#7.-Temporal-Difference-Learning-Introduction">&#182;</a></h1><p>We are now going to look at a third method for solving MDPs, <em><strong>Temporal Difference Learning</strong></em>. TD is one of the most important ideas in RL, and we will see how it combines ideas from the first two techniques, Dynamic Programming and Monte Carlo.</p>
 <p>Recall that one of the disadvantages of DP was that it requires a full model of environment, and never learns from experience. On the other hand, we saw that MC does learn from experience, and we will shortly see that TD learns from experience as well.</p>
@@ -228,28 +222,20 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="2.-Prediction-Problem---TD(0)">2. Prediction Problem - <code>TD(0)</code><a class="anchor-link" href="#2.-Prediction-Problem---TD(0)">&#182;</a></h1><p>We are now going to look at how to apply TD to the prediction problem, aka finding the value function. The reason that there is a 0 in the name is because there are other TD learning methods such as <code>TD(1)</code> and <code>TD(</code>${\lambda}$<code>)</code>, but they are outside the scope of this course. They are similar, but not necessary to understand <em>Q-learning</em> and <em>Approximation methods</em>, which is what we eventually want to get to.</p>
 <h2 id="2.1-Monte-Carlo-Disadvantage">2.1 Monte Carlo Disadvantage<a class="anchor-link" href="#2.1-Monte-Carlo-Disadvantage">&#182;</a></h2><p>One big disadvantage of Monte Carlo was that we needed to wait until the episode is finished before we can calculate the returns, since the return depends on all future rewards. Also, recall that the MC method is to average the returns, and that earlier in the course we looked at different ways of calculating averages.</p>
 <h2 id="2.2-TD(0)">2.2 <code>TD(0)</code><a class="anchor-link" href="#2.2-TD(0)">&#182;</a></h2><p>In particular, we can look at the method that does not require us to store all of the returns: <em>the moving average</em>.</p>
-<p>$$Y_t = (1 - \alpha)Y_{t-1} + \alpha X_t$$
-$$Y_t = Y_{t-1} - \alpha Y_{t-1} + \alpha X_t$$
-$$Y_t = Y_{t-1} + \alpha ( X_t - Y_{t-1})$$</p>
-<p>Recall that $\alpha$ can be constant or decay with time. So, if we use this formula it would be an alternative way of caculating the average reward for a state.</p>
-<p>$$V(S_t) \leftarrow V(S_t) + \alpha \big[G(t) - V(S_t)\big]$$</p>
-<p>Annotated:</p>
+$$Y_t = (1 - \alpha)Y_{t-1} + \alpha X_t$$$$Y_t = Y_{t-1} - \alpha Y_{t-1} + \alpha X_t$$$$Y_t = Y_{t-1} + \alpha ( X_t - Y_{t-1})$$<p>Recall that $\alpha$ can be constant or decay with time. So, if we use this formula it would be an alternative way of caculating the average reward for a state.</p>
+$$V(S_t) \leftarrow V(S_t) + \alpha \big[G(t) - V(S_t)\big]$$<p>Annotated:</p>
 <p><img src="https://drive.google.com/uc?id=1j1uV3Fl04qjSPfURVMn5QB32K4nrykP3"></p>
 <p>In this case we have chosen to not multiply the previous value by $1 - \alpha$, and we have chosen to have $\alpha$ be constant (instead of slowly get smaller over time).</p>
 <p>Now recall the definition of $V$; it is the expected value of the return, given a state:</p>
-<p>$$V(s) = E \big[G(t) \mid S_t = s\big]$$</p>
-<p>But, remember that we can also define it recursively:</p>
-<p>$$V(s) = E \big[R(t+1) + \lambda V(S_{t+1}) \mid S_t =s\big]$$</p>
-<p>So, it is reasonable to ask if we can just replace the return in the update equation with this recursive definition of $V$! What we get from this, is the <code>TD(0)</code> method:</p>
-<p>$$V(S_t) = V(S_t) + \alpha \big[R(t+1) + \lambda V(S_{t+1}) - V(S_t)\big]$$</p>
-<p><span style="color:#0000cc">$$\text{TD(0)} \rightarrow V(s) = V(s) + \alpha \big[r + \lambda V(s') - V(s)\big]$$</span></p>
+$$V(s) = E \big[G(t) \mid S_t = s\big]$$<p>But, remember that we can also define it recursively:</p>
+$$V(s) = E \big[R(t+1) + \lambda V(S_{t+1}) \mid S_t =s\big]$$<p>So, it is reasonable to ask if we can just replace the return in the update equation with this recursive definition of $V$! What we get from this, is the <code>TD(0)</code> method:</p>
+$$V(S_t) = V(S_t) + \alpha \big[R(t+1) + \lambda V(S_{t+1}) - V(S_t)\big]$$<p><span style="color:#0000cc">$$\text{TD(0)} \rightarrow V(s) = V(s) + \alpha \big[r + \lambda V(s') - V(s)\big]$$</span></p>
 <p>We can also see how this is fully online! We are not calculating $G$, the full return. Instead, we are just using another $V$ estimate, in particular the $V$ for the next state. What this also tells us is that we cannot update $V(s)$ until we know $V(s')$. So, rather than waiting for the entire episode to finish, we just need to wait until we reach the next state to update the value for the current state.</p>
 <h2 id="2.3-Sources-of-Randomness">2.3 Sources of Randomness<a class="anchor-link" href="#2.3-Sources-of-Randomness">&#182;</a></h2><p>It is helpful to examine how these estimates work, and what the sources of randomness are.</p>
 <blockquote><ul>
@@ -269,8 +255,7 @@ $$Y_t = Y_{t-1} + \alpha ( X_t - Y_{t-1})$$</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="3.-TD(0)-in-Code">3. <code>TD(0)</code> in Code<a class="anchor-link" href="#3.-TD(0)-in-Code">&#182;</a></h1>
@@ -374,7 +359,7 @@ $$Y_t = Y_{t-1} + \alpha ( X_t - Y_{t-1})$$</p>
   <span class="n">print_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -384,7 +369,7 @@ $$Y_t = Y_{t-1} + \alpha ( X_t - Y_{t-1})$$</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -418,15 +403,12 @@ policy:
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="3.-SARSA">3. SARSA<a class="anchor-link" href="#3.-SARSA">&#182;</a></h1><p>We are now going to look at how to apply the <code>TD(0)</code> algorithm to the control problem. We are going to apply <code>TD(0)</code> to <em>policy iteration</em>. In particular, we are going to use the value iteration method, where we continually update $Q$ based on itself. We are going to do it in place, and any actions we take are always greedy with respect to our current estimate of $Q$. So, we will be skipping the part where we do a full policy evaluation, and just immediately going to the more efficient form.</p>
 <p>Recall from the Monte Carlo section, that the reason we want to use $Q$ is because it allows us to choose an action based on the argmax of $Q$. We are not able to do this with $V$ because it is only indexed by the state. Since $Q$ has the same recursive form, we can apply the same update equation as before:</p>
-<p>$$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha \Big[R(t+1) + \gamma Q(S_{t+1}, A_{t+1}) - Q(S_t, A_t)\Big]$$</p>
-<p>$$Q(s, a) \leftarrow Q(s, a) + \alpha \Big[r + \gamma Q(s', a') - Q(s,a)\Big]$$</p>
-<p>Notice that we have the same limitation as we did with MC; since $Q$ is indexed by both state and action, we need many more iterations to gather enough data for convergence. Because the update depends on the 5-tuple (s,a,r,s',a') this method is called <em><strong>SARSA</strong></em>.</p>
+$$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha \Big[R(t+1) + \gamma Q(S_{t+1}, A_{t+1}) - Q(S_t, A_t)\Big]$$$$Q(s, a) \leftarrow Q(s, a) + \alpha \Big[r + \gamma Q(s', a') - Q(s,a)\Big]$$<p>Notice that we have the same limitation as we did with MC; since $Q$ is indexed by both state and action, we need many more iterations to gather enough data for convergence. Because the update depends on the 5-tuple (s,a,r,s',a') this method is called <em><strong>SARSA</strong></em>.</p>
 <h2 id="3.1-What-Policy-to-use?">3.1 What Policy to use?<a class="anchor-link" href="#3.1-What-Policy-to-use?">&#182;</a></h2><p>Since SARSA requires us to know $Q(s,a)$ for all the possible actions $a$ in state $s$, so that we can accurately chose the argmax, we have the same problem as we did with MC. Recall, the problem was that if you follow a deterministic policy, you will only ever do $\frac{1}{|A|}$ of the possible actions, which will leave most of $Q$ undefined. To fix this we either have to use exploring starts, or a policy that allows for exploration, like epsilon-greedy. Since we know that exploring starts is not realistic, we are going to use epsilon greedy.</p>
 <h2 id="3.2-Pseudocode">3.2 Pseudocode<a class="anchor-link" href="#3.2-Pseudocode">&#182;</a></h2>
 <pre><code>Q(s,a) = artibtrary, Q(terminal, a) = 0 
@@ -455,17 +437,14 @@ for t=1..N:
 <h2 id="3.3-Learning-Rate">3.3 Learning Rate<a class="anchor-link" href="#3.3-Learning-Rate">&#182;</a></h2><p>Recall that we can also have a decaying learning rate. There is a problem with using a $\alpha = \frac{1}{t}$ decay though. Only one state action pair will be updated in $Q$. Therefore, the learning rate will decay for values of $Q$ that have never been updated before. You could try to remedy this by only decaying the learning rate once per episode, but you still have the same problem. Only a subset of the full set of states are going to be visited in the episode, and only one of the possible actions per state are going to be taken. So, even if you decay the learning rate once per episode, you will still be decaying the learning rate for parts of $Q$ that have never been updated before.</p>
 <p>To solve this, we take inspiration from deep learning; in particular the AdaGrad and RMSprop algorithms, which are both adaptive learning rates. Recall, what makes these unique is that the effective learning rates decrease more when past gradients have been large. In other words, the more something has changed in the past, the more we will decrease the learning rate in the future.</p>
 <p>Our version will be simpler than these techniques, but the idea is the same. We are going to keep a count of how many times we have seen a state action pair (s, a). We will set $\alpha$ to be the original $\alpha$ divided by this count:</p>
-<p>$$\alpha(s,a) = \frac{\alpha_0}{count(s,a)}$$</p>
-<p>Equivalently:</p>
-<p>$$\alpha(s,a) = \frac{\alpha_0}{k + m*count(s,a)}$$</p>
-<p>Every state action pair now has its own alpha, and so each will have its own individually decaying learning rate.</p>
+$$\alpha(s,a) = \frac{\alpha_0}{count(s,a)}$$<p>Equivalently:</p>
+$$\alpha(s,a) = \frac{\alpha_0}{k + m*count(s,a)}$$<p>Every state action pair now has its own alpha, and so each will have its own individually decaying learning rate.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="4.-SARSA-in-Code">4. SARSA in Code<a class="anchor-link" href="#4.-SARSA-in-Code">&#182;</a></h1>
@@ -483,7 +462,7 @@ for t=1..N:
 <span class="kn">from</span> <span class="nn">common</span> <span class="k">import</span> <span class="n">standard_grid</span><span class="p">,</span> <span class="n">negative_grid</span><span class="p">,</span> <span class="n">print_policy</span><span class="p">,</span> <span class="n">print_values</span><span class="p">,</span> <span class="n">max_dict</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -617,7 +596,7 @@ for t=1..N:
   <span class="n">print_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -627,7 +606,7 @@ for t=1..N:
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -649,7 +628,7 @@ it: 8000
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -664,7 +643,7 @@ it: 8000
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -698,8 +677,7 @@ policy:
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="5.-Q-Learning">5. Q-Learning<a class="anchor-link" href="#5.-Q-Learning">&#182;</a></h1><p>We are now going to discuss <em><strong>Q-Learning</strong></em>. This is different from the strategy that we have been taking so far. The main theme so far behind each of the control algorithms that we have studied so far has been generalized policy iteration. We always alternate between:</p>
@@ -710,9 +688,7 @@ policy:
 </blockquote>
 <p>All of these control algorithms are referred to as <em><strong>on-policy</strong></em> methods. That means that we are playing the game using the current best policy. What is unique about Q-learning is that it is an <em><strong>off-policy</strong></em> method. This means that the actions you take can be completely random, and yet you still end up being able to calculate the optimal policy.</p>
 <h2 id="5.1-Q-Learning-Theory">5.1 Q-Learning Theory<a class="anchor-link" href="#5.1-Q-Learning-Theory">&#182;</a></h2><p>So, how does Q-Learning actually work? Well, it actually looks a lot like SARSA. The idea is, instead of choosing $a'$ based on the argmax of $Q$, we instead update $Q$ based on the max over all actions.</p>
-<p>$$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha \Big[R(t+1) + \gamma max_{a'} Q(S_{t+1}, a') - Q(S_t, A_t)\Big]$$</p>
-<p>$$Q(s, a) \leftarrow Q(s, a) + \alpha \Big[r + \gamma max_{a'} Q(s', a') - Q(s,a)\Big]$$</p>
-<p>Now you think yourself: isn't that exactly the same thing? If we choose $a'$ as the argmax of $Q$, then the thing beside $\gamma$ will be $Q(s',a')$, which is maxed over $a'$.</p>
+$$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha \Big[R(t+1) + \gamma max_{a'} Q(S_{t+1}, a') - Q(S_t, A_t)\Big]$$$$Q(s, a) \leftarrow Q(s, a) + \alpha \Big[r + \gamma max_{a'} Q(s', a') - Q(s,a)\Big]$$<p>Now you think yourself: isn't that exactly the same thing? If we choose $a'$ as the argmax of $Q$, then the thing beside $\gamma$ will be $Q(s',a')$, which is maxed over $a'$.</p>
 <p>The difference is, that Q-Learning is <em>off-policy</em>. With Q-Learning, remember that it is an off policy method. So, $Q(s',a')$ might be the max over all $a'$, but this doesn't necessarily mean that $a'$ has to be our next action. That is the difference. We update $Q(s,a)$ using the max of $Q(s',a')$, even if we don't end up doing the action $a'$ in the next step. What this suggests is that it doesn't really matter what policy we follow; we can choose actions randomly and still get the same answer. In reality, if we do take purely random actions, your agent will act suboptimally very often and that will make your episodes last longer.</p>
 <h2 id="5.2-Key-Difference">5.2 Key Difference<a class="anchor-link" href="#5.2-Key-Difference">&#182;</a></h2><p>So, the key difference to remember:</p>
 <blockquote><p>It doesn't matter what policy we use to play the game. It is reasonable to ask then, under what circumstances is Q-Learning equivalent to SARSA? If the policy you use during Q-Learning is a greedy policy, meaning that you always choose the argmax over $Q$, then your $Q(s',a')$ will correspond to the next action you take. In that case, you will be doing SARSA, but also Q-Learning.</p>
@@ -722,8 +698,7 @@ policy:
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="6.-Q-Learning-in-Code">6. Q-Learning in Code<a class="anchor-link" href="#6.-Q-Learning-in-Code">&#182;</a></h1>
@@ -861,7 +836,7 @@ policy:
   <span class="n">print_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -871,7 +846,7 @@ policy:
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -893,7 +868,7 @@ it: 8000
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -908,7 +883,7 @@ it: 8000
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -942,8 +917,7 @@ policy:
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="7.-Temporal-Difference-Learning-Summary">7. Temporal Difference Learning Summary<a class="anchor-link" href="#7.-Temporal-Difference-Learning-Summary">&#182;</a></h1><p>Temporal Difference learning combines aspects from both Monte Carlo and Dynamic Programming. From Monte Carlo we incorporate ideas like learning from experience, meaning we actually play the game. We also learn how to generalize this idea of taking the sample mean from the returns (based on what we learned in the multi-armed bandit section). The problem of MC is that it is not fully online.</p>

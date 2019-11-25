@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -195,10 +194,6 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -211,8 +206,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="1.-Introduction-to-Statistics">1. Introduction to Statistics<a class="anchor-link" href="#1.-Introduction-to-Statistics">&#182;</a></h1><p>I have been meaning to get to an introductory statistics post for quite some time now! Statistics play an incredibly important role in modern day machine learning. For instance, while it is a far less "sexy" description, modern day machine learning can most often be reduced to variations of <strong>statistical learning</strong>, where as <strong>statistical model</strong> can be defined as follows:</p>
 <blockquote><p>A statistical model is a mathematical model which is modified or trained by the input of data points. Statistical models are often but not always probabilistic.</p>
@@ -223,8 +217,7 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="1.-Population-vs.-Sample">1. Population vs. Sample<a class="anchor-link" href="#1.-Population-vs.-Sample">&#182;</a></h2><p>One of the first concepts that you must have a good understanding of when interacting with statistics and statistical learning is that of a <strong>population</strong> and a <strong>sample</strong>. Many analysis and algorithms rest upon the correct usage of these two different groups, so having a good intuition surrounding them both is paramount.</p>
 <p>Simply put, a population is defined as follows:</p>
@@ -276,7 +269,7 @@ body {
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -286,7 +279,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -306,8 +299,7 @@ height=328
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, let's say that we want to sample from this population (for one of the reasons listed above). This would look like:</p>
 
@@ -336,7 +328,7 @@ height=328
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -346,7 +338,7 @@ height=328
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -366,8 +358,7 @@ height=328
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And if we no longer overlay the original population in the background, we can look at only our freshly sampled data set:</p>
 
@@ -386,7 +377,7 @@ height=328
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -396,7 +387,7 @@ height=328
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -416,8 +407,7 @@ height=328
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>When describing populations and samples, there is additional vocabulary that we must be aware of; specifically:</p>
 <ul>
@@ -430,8 +420,7 @@ height=328
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.-Descriptive-Statistics">2. Descriptive Statistics<a class="anchor-link" href="#2.-Descriptive-Statistics">&#182;</a></h2><p>With a good understanding of the differences between a population and a sample, we can now move onto <strong>descriptive statistics</strong>. Simply put:</p>
 <blockquote><p>Descriptive statistics entail the numbers and calculations that we use to summarize raw data.</p>
@@ -439,13 +428,10 @@ height=328
 <p>This is best illustrated by an example. Imagine that we are political entity that is trying to make decisions concerning public spending. To do this, we deem it important to have a good handle on the <em>income of the population</em> that we are overseeing. There are many different ways that we could go about doing this. Let's say that we are over seeing New York City, to make this more concrete. As of 2019 the population of NYC is listed at 8.6 million people. So, imagine for a second that we are fortunate enough to have income data on every single person (an unrealistic assumption, but one we will hold for now). If we want to understand the income of our population, we could go through each individual row, from the first all the way up the 8.6 millionth, observing the income of each individual person.</p>
 <p>Clearly, I don't think anyone in their right mind would find the above a realistic or well thought out approach! However, it is important to keep in mind that that is our entire goal when dealing with descriptive statistics; the data above can be thought of as <em>the ground truth</em> and we are trying to find simpler ways of representing it so that we as humans can make sense of it. The key here is that there are <em>different ways</em> to represent it, and depending on which we chose we can end up with very different inferences. A few common describe raw data, that nearly everyone has heard of at some point, are through the use of the <strong>mean</strong>, <strong>median</strong>, and <strong>mode</strong>. Each of these has its own spin on how to determine the "middle" of a distribution.</p>
 <h3 id="2.1-Mean">2.1 Mean<a class="anchor-link" href="#2.1-Mean">&#182;</a></h3><p>Let's reduce our example from the above to something a bit easier to hold in our brains. Say that our population is now a group of 100 people sitting in a bar, and we are trying to make sense of their income to determine if public spending needs to be increased. To make this example easy, assume that they all make 40,000 dollars. In this case we can calculate what is known as the <strong>mean</strong>, or <strong>average</strong>, to try and summarize all of the raw incomes:</p>
-<p>$$\frac{1}{N} \sum_{i=1}^N x_i$$</p>
-<p>Which in this case would just be:</p>
-<p>$$\frac{40000 + 40000 + ... + 40000}{100} = 40000$$</p>
-<p>In this case the mean provided a great summary of our data set! We originally were dealing with 100 numbers (individual incomes) and we reduced that to a single descriptor, the mean of all of the incomes. Now, of course this was a trivial case since all of the incomes were identical, but it would apply equally well if the incomes were with a range of ~5,000 dollars.</p>
+$$\frac{1}{N} \sum_{i=1}^N x_i$$<p>Which in this case would just be:</p>
+$$\frac{40000 + 40000 + ... + 40000}{100} = 40000$$<p>In this case the mean provided a great summary of our data set! We originally were dealing with 100 numbers (individual incomes) and we reduced that to a single descriptor, the mean of all of the incomes. Now, of course this was a trivial case since all of the incomes were identical, but it would apply equally well if the incomes were with a range of ~5,000 dollars.</p>
 <p>Now, consider the following: imagine that Bill Gates then walks into the bar and is included in our analysis. I think we can still agree that the general population makes approximately 40,000 dollars. Intuitively, that is the summary of the population that we want to arrive at. However, how will having a billionare included in this calculation change things? Well, we can determine the new mean to be:</p>
-<p>$$\frac{40000 + 40000 + ... + 40000 + 1,000,000,000}{101} = 10,039,600$$</p>
-<p>And just like that we can see the potential draw back and ease of abuse of descriptive statistics! By introducing a simplification we risk misleading ourselves or others about the actual underlying data. Here, we had one <strong>outlier</strong>, bill gates (an outlier is an observation point that is distant from other observations), and that caused our mean income to explode. Based on this value, if you didn't have any access to the underlying data or knowledge of the population you may think that everyone in the bar makes approximately 10 million dollars.</p>
+$$\frac{40000 + 40000 + ... + 40000 + 1,000,000,000}{101} = 10,039,600$$<p>And just like that we can see the potential draw back and ease of abuse of descriptive statistics! By introducing a simplification we risk misleading ourselves or others about the actual underlying data. Here, we had one <strong>outlier</strong>, bill gates (an outlier is an observation point that is distant from other observations), and that caused our mean income to explode. Based on this value, if you didn't have any access to the underlying data or knowledge of the population you may think that everyone in the bar makes approximately 10 million dollars.</p>
 <p>This brings up two important points, one related to the mean, and one related to statistics in general. As for the mean, we have just shown that it is <em>very sensitive to outliers</em>. This can be a drawback depending on the situation (and can be remedied by using the median, defined the in the next section). Concerning statistics in general, we have seen the potential errors that can occur if make incorrect assumptions (assuming no outliers are present and using the mean), or if we use incorrect statistics and process's all together.</p>
 <p>Statistics are incredibly powerful. In today's world, with incredibly large amounts of data being generated every second, we <em>need</em> ways to reduce that data into bits of knowledge that we was humans can comfortably work with. However, that reduction process requires great care and understanding, or else we can get into rocky water quickly.</p>
 <h3 id="2.2-Median">2.2 Median<a class="anchor-link" href="#2.2-Median">&#182;</a></h3><p>Now, we just saw the short comings of the mean in the bar scenario above. There is a way to remedy this situation, however! What if we were to find the point that divides our distribution in half, so that half of the people lie on one side, and half on the other? In this case, we would order our 101 people in order of ascending income, which would look like:</p>
@@ -500,16 +486,13 @@ height=328
 <blockquote><p><strong>Variance</strong>: How far are a set of random numbers spread out from their average value.</p>
 </blockquote>
 <p>We can define variance as:</p>
-<p>$$Var(X) = \sigma^2 = \frac{1}{n} \sum_{i-1}^n \big(x_i - \mu\big)^2$$</p>
-<p>Where $\mu$ is the mean of $X$. Now, the standard deviation is just the square root of the variance:</p>
-<p>$$Std(X) = \sigma = \sqrt{Var(X)} = \sqrt{\frac{1}{n} \sum_{i-1}^n \big(x_i - \mu\big)^2}$$</p>
-
+$$Var(X) = \sigma^2 = \frac{1}{n} \sum_{i-1}^n \big(x_i - \mu\big)^2$$<p>Where $\mu$ is the mean of $X$. Now, the standard deviation is just the square root of the variance:</p>
+$$Std(X) = \sigma = \sqrt{Var(X)} = \sqrt{\frac{1}{n} \sum_{i-1}^n \big(x_i - \mu\big)^2}$$
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="3.-Random-Variables">3. Random Variables<a class="anchor-link" href="#3.-Random-Variables">&#182;</a></h2><p>Now, in statistics (as was the case with probability) <strong>random variables</strong> play a crucial role. Random variables, also known as <strong>stochastic variables</strong> can be defined as:</p>
 <blockquote><p><strong>Random Variables</strong>: a variable whose possible values are outcomes of a random phenomenom.</p>
@@ -517,34 +500,17 @@ height=328
 <p>More concretely, a random variable is a defined as a <em>function</em> that maps the outcomes of an unpredictable process to numerical quantities, typically real numbers. It is a variable (specifically a dependent variable), in the sense that it depends on the outcome of an underlying process providing the input to this function, and it is random in the sense that the underlying process is assumed to be random.</p>
 <p>A random variable has a <strong>probability distribution</strong>, which specifies the probability of its values. Random variables can be discrete or continuous.</p>
 <p>For those who would like a mathematical representation (and I do recommend gaining comfort with these representations over time) we can define a function as:</p>
-<p>$$f: X \rightarrow Y$$</p>
-<p>And subsequently define a random variable as:</p>
-<p>$$X : \Omega \rightarrow E$$</p>
-<p>Where $\Omega$ represents the set of <em>potential outcomes</em> and $E$ represents the <em>measureable space</em>. Generally, $E$ is real valued, $\Re$. An example could be a die roll, where our potential outcomes are the numbers 1-6, and the measureable space is the set of real numbers from 0-1. This can be shown as:</p>
-<p>$$\{\omega : X(\omega) = outcome \} = P(X=outcome)$$</p>
-<p>$$X(1) = \frac{1}{6}$$</p>
-<p>$$X(2) = \frac{1}{6}$$</p>
-<p>$$X(3) = \frac{1}{6}$$</p>
-<p>$$X(4) = \frac{1}{6}$$</p>
-<p>$$X(5) = \frac{1}{6}$$</p>
-<p>$$X(6) = \frac{1}{6}$$</p>
-<p>Where all of the above can also be written with the following (more familiar) notation:</p>
-<p>$$P(X = 1) = \frac{1}{6} $$</p>
-<p>$$P(X = 2) = \frac{1}{6} $$</p>
-<p>$$P(X = 3) = \frac{1}{6} $$</p>
-<p>$$P(X = 4) = \frac{1}{6} $$</p>
-<p>$$P(X = 5) = \frac{1}{6} $$</p>
-<p>$$P(X = 6) = \frac{1}{6} $$</p>
-<h3 id="3.1-Expected-Value-and-the-Law-of-Large-Numbers">3.1 Expected Value and the Law of Large Numbers<a class="anchor-link" href="#3.1-Expected-Value-and-the-Law-of-Large-Numbers">&#182;</a></h3><p>Now, with the basics of what a random variable represents (remember, a <em>function</em>), we can now look at some concepts that build upon this knowledge. Some of the things we are about to talk about are highly related to probability theory; I again will just make a point to state that statistics and probability have many common threads and overlaps, so we must wade into these non deterministic waters for now.</p>
+$$f: X \rightarrow Y$$<p>And subsequently define a random variable as:</p>
+$$X : \Omega \rightarrow E$$<p>Where $\Omega$ represents the set of <em>potential outcomes</em> and $E$ represents the <em>measureable space</em>. Generally, $E$ is real valued, $\Re$. An example could be a die roll, where our potential outcomes are the numbers 1-6, and the measureable space is the set of real numbers from 0-1. This can be shown as:</p>
+$$\{\omega : X(\omega) = outcome \} = P(X=outcome)$$$$X(1) = \frac{1}{6}$$$$X(2) = \frac{1}{6}$$$$X(3) = \frac{1}{6}$$$$X(4) = \frac{1}{6}$$$$X(5) = \frac{1}{6}$$$$X(6) = \frac{1}{6}$$<p>Where all of the above can also be written with the following (more familiar) notation:</p>
+$$P(X = 1) = \frac{1}{6} $$$$P(X = 2) = \frac{1}{6} $$$$P(X = 3) = \frac{1}{6} $$$$P(X = 4) = \frac{1}{6} $$$$P(X = 5) = \frac{1}{6} $$$$P(X = 6) = \frac{1}{6} $$<h3 id="3.1-Expected-Value-and-the-Law-of-Large-Numbers">3.1 Expected Value and the Law of Large Numbers<a class="anchor-link" href="#3.1-Expected-Value-and-the-Law-of-Large-Numbers">&#182;</a></h3><p>Now, with the basics of what a random variable represents (remember, a <em>function</em>), we can now look at some concepts that build upon this knowledge. Some of the things we are about to talk about are highly related to probability theory; I again will just make a point to state that statistics and probability have many common threads and overlaps, so we must wade into these non deterministic waters for now.</p>
 <p>The first extension of a random variable is it's <strong>expected value</strong>. Intuitively, this can be thought of as the long-run average of repetitions of the same experiment it represents. In other words, whatever random process the random variable is meant to represent (rolling a six sided die, flipping a coin, playing the lottery, drawing from a deck of cards), if we repeated that process many times we would slowly converge on an average or mean value.</p>
 <blockquote><p>The <strong>expected value</strong> is, simply put, the sum of all possible outcomes, each weighted by it's respected probability of occuring.</p>
 </blockquote>
 <p>Mathematically, the expected value can be represented as:</p>
-<p>$$E[X] = \sum_{i=1}^k x_i p_i = x_1p_1 + x_2p_2 + ... + x_kp_k$$</p>
-<p>Before digging into the details, let's look at 2 examples, one that is particulary relevant for anyone with a gambling problem.</p>
+$$E[X] = \sum_{i=1}^k x_i p_i = x_1p_1 + x_2p_2 + ... + x_kp_k$$<p>Before digging into the details, let's look at 2 examples, one that is particulary relevant for anyone with a gambling problem.</p>
 <h4 id="3.1.1-Expected-Value-of-a-Die">3.1.1 Expected Value of a Die<a class="anchor-link" href="#3.1.1-Expected-Value-of-a-Die">&#182;</a></h4><p>The expected value of a die is relatively easy to calculate. Based on our equation presented earlier, we can show that if $X$ is a random variable representing the process of rolling a die:</p>
-<p>$$E[X] = 1\cdot\frac{1}{6} + 2\cdot\frac{1}{6} + 3\cdot\frac{1}{6} + 4\cdot\frac{1}{6} + 5\cdot\frac{1}{6} + 6\cdot\frac{1}{6} = 3.5$$</p>
-<p>Above, we took each outcome (number on the die after being rolled) and multiplied it by it's chance of occuring (one sixth in the case of a standard die). This results in an expected value of 3.5. Because all probabilties add up to 1 I should note that this a <strong>weighted average</strong>. Now, you may be wondering/looking for proof that this happens in practice. The following simulation should demonstrate that it indeed does:</p>
+$$E[X] = 1\cdot\frac{1}{6} + 2\cdot\frac{1}{6} + 3\cdot\frac{1}{6} + 4\cdot\frac{1}{6} + 5\cdot\frac{1}{6} + 6\cdot\frac{1}{6} = 3.5$$<p>Above, we took each outcome (number on the die after being rolled) and multiplied it by it's chance of occuring (one sixth in the case of a standard die). This results in an expected value of 3.5. Because all probabilties add up to 1 I should note that this a <strong>weighted average</strong>. Now, you may be wondering/looking for proof that this happens in practice. The following simulation should demonstrate that it indeed does:</p>
 
 </div>
 </div>
@@ -561,7 +527,7 @@ height=328
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Average after 10,000 simulated die rolls: &#39;</span><span class="p">,</span> <span class="n">die_outcomes</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -571,7 +537,7 @@ height=328
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -616,7 +582,7 @@ height=328
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -626,7 +592,7 @@ height=328
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -646,8 +612,7 @@ height=410
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Above I simulated the rolling of a dice 10,000 times, and after each role calculated the average. Clearly, we do converge nicely to the expected value of 3.5!</p>
 <h4 id="3.1.2-Expected-Value-of-a-Lottery-Ticket">3.1.2 Expected Value of a Lottery Ticket<a class="anchor-link" href="#3.1.2-Expected-Value-of-a-Lottery-Ticket">&#182;</a></h4><p>One fantastic use case for the expected value is in the case of financial decision making. For instance, let's say that you think playing the lottery is a worthwhile investment based on the chances of winning it big. Well, the expected value can help guide your decision from a numerical view point.</p>
@@ -725,7 +690,7 @@ $$E[X] = 2 \cdot \frac{1}{15} + 4 \cdot \frac{1}{42.86} +  5 \cdot \frac{1}{75} 
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Average after 100,000 simulated die rolls: &#39;</span><span class="p">,</span> <span class="n">outcomes</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -735,7 +700,7 @@ $$E[X] = 2 \cdot \frac{1}{15} + 4 \cdot \frac{1}{42.86} +  5 \cdot \frac{1}{75} 
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -774,7 +739,7 @@ $$E[X] = 2 \cdot \frac{1}{15} + 4 \cdot \frac{1}{42.86} +  5 \cdot \frac{1}{75} 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -784,7 +749,7 @@ $$E[X] = 2 \cdot \frac{1}{15} + 4 \cdot \frac{1}{42.86} +  5 \cdot \frac{1}{75} 
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -804,8 +769,7 @@ height=410
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The visual above is very enlightening! It can clearly be seen that the expected value of the ticket (a random variable) converges to ~\$0.51 over time, while the cost of the ticket is \$1. If you don't want to lose money on the long, avoid the lottery.</p>
 <h3 id="3.1.3-Law-of-Large-Numbers">3.1.3 Law of Large Numbers<a class="anchor-link" href="#3.1.3-Law-of-Large-Numbers">&#182;</a></h3><p>So far I have been frequently referring the concept of <em>performing an experiment many times</em> and that a random variable will <em>converge to it's expected value in the long run</em>. This is formalized via the <strong>Law of Large Numbers</strong>. The law of large numbers states:</p>
@@ -813,27 +777,22 @@ height=410
 </blockquote>
 <p>The law of large numbers if important because it guarantees <em>stable</em> long term results for the averages of some random events. For example, while a casino (or the lottery) may lose money in a single spin or ticket, the earnings will tend towards a predictable percentage over a large number of spins.</p>
 <p>This same effect is used extensively in the insurance industry, only here it is referred to as <strong>expected loss</strong>. The idea is the same though! To determine the expected loss of insuring a 19 year old male driver, they calculate (from historical data and mathematical models) the probability he will get into an accident, and then place a value on what it will take to fix the car in that place. Let's say (to keep things simple), they determine he has a 10% chance of getting into an accident this year, and that the accident will cost \$3,000 to fix. The expected loss in that case is:</p>
-<p>$$3000 * 0.10 = 300$$</p>
-<p>So, the insurance company will then set a monthly rate that guarantees that they charge more than that expected value on the whole of the year. Of course this is incredibly dumbed down, but was just meant to show how wide spread the expected value (and loss) really is! For a full proof of the Law of Large Numbers, please take a look at the appendix of this post.</p>
+$$3000 * 0.10 = 300$$<p>So, the insurance company will then set a monthly rate that guarantees that they charge more than that expected value on the whole of the year. Of course this is incredibly dumbed down, but was just meant to show how wide spread the expected value (and loss) really is! For a full proof of the Law of Large Numbers, please take a look at the appendix of this post.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="3.2-Variance">3.2 Variance<a class="anchor-link" href="#3.2-Variance">&#182;</a></h3><p>We now should have an intuitive grasp on what the expected value is, which allows us to dig into the details a bit further when it comes to <strong>variance</strong> and <strong>standard deviation</strong>. To begin, we can define variance with the new vocabulary we have learned concerning the expected value:</p>
 <blockquote><p><strong>Variance</strong>:  Variance is the <em>expectation</em> of the squared deviation of a random variable from its mean.</p>
 </blockquote>
 <p>Now the above brings in a very interesting idea: that is the <em>expectation</em> of an expression, not simply a random variable:</p>
-<p>$$Var(X) = E \big[(X - \mu)^2 \big]$$</p>
-<p>Above we see that we are trying to find the expected value of the expression $(X - \mu)^2$. In other words, if we repeatedly evaluated that expression, what would it's average/mean be in the long run. Now, before we get into the derivation, I just want to make sure the following is clear: $X$ is our random variable, and $\mu$ is it's mean value. So, to build on what we intuitively mentioned earlier, the variance is representing the <em>spread</em> of our data. If the mean of $X$ is 150, but the data is very spread out (airline passengers) then we will end up with a larger variance. This intuively made sense before, and it still does with our updated definition.</p>
+$$Var(X) = E \big[(X - \mu)^2 \big]$$<p>Above we see that we are trying to find the expected value of the expression $(X - \mu)^2$. In other words, if we repeatedly evaluated that expression, what would it's average/mean be in the long run. Now, before we get into the derivation, I just want to make sure the following is clear: $X$ is our random variable, and $\mu$ is it's mean value. So, to build on what we intuitively mentioned earlier, the variance is representing the <em>spread</em> of our data. If the mean of $X$ is 150, but the data is very spread out (airline passengers) then we will end up with a larger variance. This intuively made sense before, and it still does with our updated definition.</p>
 <p>With that said, let's start dissecting the above formula. First and foremost, it should be immediately clear that $\mu$, the mean, is simply the expected value of $X$! So we can replace it in the equation to get:</p>
-<p>$$Var(X) = E \big[(X - E[X])^2 \big]$$</p>
-<p>We can then expand the equation as follows:</p>
-<p>$$Var(X) = E \big[X^2 - 2XE[X] + E[X]^2 \big]$$</p>
-<p>Now with the help of two <a href="https://en.wikipedia.org/wiki/Expected_value#Basic_properties">basic properties</a> of the expected value, we can reduce this even further. The properties are:</p>
+$$Var(X) = E \big[(X - E[X])^2 \big]$$<p>We can then expand the equation as follows:</p>
+$$Var(X) = E \big[X^2 - 2XE[X] + E[X]^2 \big]$$<p>Now with the help of two <a href="https://en.wikipedia.org/wiki/Expected_value#Basic_properties">basic properties</a> of the expected value, we can reduce this even further. The properties are:</p>
 <ol>
 <li>The expected value of a constant is simply the constant. For example, if $X = c$ then $E[X] = c$. Keep in mind that in our general case, $E[X]$ is equal to the mean of $X$, $\mu_X$. In other words, $E[X]$ is itself a constant. So, based on previous argument, if we take the expectation of an expectation, we simply get the inner expectation: $E\big[E[X]\big] = E[X]$.</li>
 <li>The expected value demonstrates <em>linearity</em>. This can be shown via: 
@@ -844,22 +803,16 @@ and:
 $$E[aX] = aE[X]$$</li>
 </ol>
 <p>With this two properties in our toolbelt, we can further reduce our equation to:</p>
-<p>$$Var(X) = E[X^2] - 2E[X]E[X] + E[X]^2$$</p>
-<p>Which can be reduce to the final desired form:</p>
-<p>$$Var(X) = E[X^2] - E[X]^2$$</p>
-<p>In other words, we see that the variance of $X$ is equivalent to the mean of the square of $X$ minus the square of the mean of $X$. Now, if we think back to our earlier definition of variance, we recall it was:</p>
-<p>$$Var(X) = \frac{1}{n} \sum_{i-1}^n \big(x_i - \mu\big)^2$$</p>
-<p>Can we get our updated version that is in terms of expected values to reduce to this version? Yes! The derivation is as follows:</p>
-<p>$$Var(X) = E \big[(X - \mu)^2 \big]$$</p>
-<p>$$Var(X) = \frac{1}{n} \sum_i^n (x_i - \mu)^2$$</p>
-<p>These two viewpoints of variance will come up frequently, so it is good to be familiar with both!</p>
+$$Var(X) = E[X^2] - 2E[X]E[X] + E[X]^2$$<p>Which can be reduce to the final desired form:</p>
+$$Var(X) = E[X^2] - E[X]^2$$<p>In other words, we see that the variance of $X$ is equivalent to the mean of the square of $X$ minus the square of the mean of $X$. Now, if we think back to our earlier definition of variance, we recall it was:</p>
+$$Var(X) = \frac{1}{n} \sum_{i-1}^n \big(x_i - \mu\big)^2$$<p>Can we get our updated version that is in terms of expected values to reduce to this version? Yes! The derivation is as follows:</p>
+$$Var(X) = E \big[(X - \mu)^2 \big]$$$$Var(X) = \frac{1}{n} \sum_i^n (x_i - \mu)^2$$<p>These two viewpoints of variance will come up frequently, so it is good to be familiar with both!</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="4.-Distributions">4. Distributions<a class="anchor-link" href="#4.-Distributions">&#182;</a></h2><p>Now we are read to move on to distributions. A good additional resource to utilize while trying to internalize distributions would be my introduction to probability post, which touches on a distributions from a more probabilistic point of view.</p>
 <p>To start, as always, we are going to go through an example. Imagine that we are walking through Times Square in NYC and we want to get an idea of how tall people are. Let's say we collect 1000 measurements in total, the first 10 of which are shown below:</p>
@@ -882,7 +835,7 @@ $$E[aX] = aE[X]$$</li>
 <span class="n">df_heights</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;Person&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -895,7 +848,7 @@ $$E[aX] = aE[X]$$</li>
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">df_heights</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -905,7 +858,7 @@ $$E[aX] = aE[X]$$</li>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -988,8 +941,7 @@ $$E[aX] = aE[X]$$</li>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, up until this point we have been using <em>statistics</em> to make a large amount of raw data more digestable. In other words, and this is such a crucial component of statistics I must make it clear, we have been intentionally reducing the amount of information we are dealing with in some way in order to make sense of it! Instead of looking at 1000 individual heights, we perform aggregations and reductions (such as finding the mean of all of the heights, or the standard deviation to see how far spread out they are). We can gather those statistics for our data set easily:</p>
 
@@ -1006,7 +958,7 @@ $$E[aX] = aE[X]$$</li>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Standard deviation in height: &#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">heights</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;ft&#39;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1016,7 +968,7 @@ $$E[aX] = aE[X]$$</li>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1032,8 +984,7 @@ Standard deviation in height:  0.41 ft
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>However, there are <em>additional methods</em> that can be used in order to make sense of all our raw data! On of the most common is what is known as a <strong>distribution</strong>. What exactly is a distribution? Well, let's start by thinking of different ways to categorize/reduce the data that we are dealing with. Maybe we think that: "Instead of having 1000 measurements, let's just categorize every person as above or below a certain height. Then, we would end up with only 3 numbers: the threshold height (say our mean height, 5.86 ft), the number of people above the height, and the number below". Visually, this would look like:</p>
 
@@ -1072,7 +1023,7 @@ Standard deviation in height:  0.41 ft
 <span class="n">normal_dist_experiment</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Number of People in group&#39;</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;Number of people in group with </span><span class="si">{2}</span><span class="s1"> bins&#39;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1082,7 +1033,7 @@ Standard deviation in height:  0.41 ft
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1102,8 +1053,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Excellent, so we can see that from our height range of ~4.6 to 5.86 ft we have ~440 people, and in the range 5.86 to 7.2 ft we have ~560 people. The total number of people is of course 1000. In other words, we have found a reduced set of numbers to describe our data, along with a visualization.</p>
 <p>Now, we can also use this same visualization with a different set of units on the y axis. We can update the y axis to reflect the probability that a person will have a height of less than or greater than 5.86. This would look like:</p>
@@ -1119,7 +1069,7 @@ height=353
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">normal_dist_experiment</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Probability of being in group&#39;</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;Probability group with </span><span class="si">{2}</span><span class="s1"> bins&#39;</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1129,7 +1079,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1149,8 +1099,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>What we see here is that out visual looks nearly identical, expect for the y axis. We now have <em>probabilities</em> on the y axis, representing the probability that a random person will be above or below a height of 5.86 ft. Note, that the summed area under each of the two bins must equal 1, since we need to ensure that this is a valid probability distribution.</p>
 <p>Now, I will admit that in this case 2 groups (bins) isn't the most valuable way to look at our data. What if we increased the number of bins that we are grouping our heights into? Let's try using 5 groups now:</p>
@@ -1166,7 +1115,7 @@ height=353
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">normal_dist_experiment</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;Number of People in group&#39;</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;Number of people in group with </span><span class="si">{5}</span><span class="s1"> bins&#39;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1176,7 +1125,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1203,7 +1152,7 @@ height=353
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">normal_dist_experiment</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;Probability of being in group&#39;</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;Probability group with </span><span class="si">{5}</span><span class="s1"> bins&#39;</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1213,7 +1162,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1233,8 +1182,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Interesting, it appears as though most of our data is centered around the mean (5.86), with heights become less likely the further we are from the mean. What if we increased the number of bins to 10?</p>
 
@@ -1249,7 +1197,7 @@ height=353
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">normal_dist_experiment</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;Number of People in group&#39;</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;Number of people in group with </span><span class="si">{10}</span><span class="s1"> bins&#39;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1259,7 +1207,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1286,7 +1234,7 @@ height=353
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">normal_dist_experiment</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;Probability of being in group&#39;</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;Probability group with </span><span class="si">{10}</span><span class="s1"> bins&#39;</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1296,7 +1244,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1316,8 +1264,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Hmm, a distinct shape seems to be appearing. What about 25 bins?</p>
 
@@ -1332,7 +1279,7 @@ height=353
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">normal_dist_experiment</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="s1">&#39;Number of People in group&#39;</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;Number of people in group with </span><span class="si">{25}</span><span class="s1"> bins&#39;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1342,7 +1289,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1369,7 +1316,7 @@ height=353
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">normal_dist_experiment</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="s1">&#39;Probability of being in group&#39;</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;Probability group with </span><span class="si">{25}</span><span class="s1"> bins&#39;</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1379,7 +1326,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1399,8 +1346,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>What this visualization is doing is giving us a sense of how likely it is that we are going to measure someone really tall, really short, or close the average height. In other words, just as our single number statistics, such as a the mean, gave us a way of reducing our raw data into a more managable form, this visualization is doing the same thing. The visualization is known as a <strong>histogram</strong>.</p>
 <p>Now, as we make the bins smaller and smaller we are able to get a more accurate and precise estimate of how heights are distributed. This brings us to our informal defintion of a distribution:</p>
@@ -1426,7 +1372,7 @@ height=353
 <span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1436,7 +1382,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1456,8 +1402,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This curve, shown in red, tells us the exact same thing that the histogram tells us! That is that there is a low probability that we will measure someone short than 5ft and taller than 6.5 ft tall, while there is a high probability that we will measure someone in the range of 5.7 to 6.2 ft tall.</p>
 <p>Both this curve and the histogram are <strong>distributions</strong>. They show us how the probabilities of measurements are <em>distributed</em>. We find this distribution of probabilities based on counting/grouping of measurements!</p>
@@ -1476,8 +1421,7 @@ height=353
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="4.1-Gaussian/Normal-Distribution">4.1 Gaussian/Normal Distribution<a class="anchor-link" href="#4.1-Gaussian/Normal-Distribution">&#182;</a></h3><p>We have spoken a great deal about distributions at this point, and in particular I made reference to one that has a <em>bell shape</em>. This distribution has a specific name, that is the <strong>Normal Distribution</strong> or <strong>Gaussian Distribution</strong>. It is a continuous probability distribution and represents many random variables that are seen in the social and natural sciences (such as height in our previous example). There are two reasons for the Gaussian distribution's great importance:</p>
 <ol>
@@ -1485,10 +1429,8 @@ height=353
 <li>It is used heavily in the <strong>central limit theorem</strong>, which will discuss in the next section. </li>
 </ol>
 <p>The normal distribution is wonderful in that it can be <strong>parameterized</strong> by only two values, the mean and standard deviation of the data. Keep in mind that this was determined by experimentation that took place during the past 300 years. This experimentation resulted in the normal distribution equation:</p>
-<p>$$f(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} exp(-\frac{(x-\mu)^2}{2\sigma^2})$$</p>
-<p>Where $\mu$ is the mean/expectation of the distribution, $\sigma$ is the standard deviation, and $\sigma^2$ is the variance. Remember, this above formula was derived from experimentation over time, and through the use of a lot of data. For those familiar with phyiscs, this is same type of process that was used to determine <strong>Newton's law of Universal Gravitation</strong>:</p>
-<p>$$F = G \frac{m_1 m_2}{r^2}$$</p>
-<p>Where $G$ represents the gravitational constant, $6.674*10^{-11} \frac{m^3}{kg \cdot s^2}$. This constant was determined via experiment, just as the leading term $\frac{1}{\sqrt{2 \pi \sigma^2}}$ was in the normal distribution equation. This is incredibly important to keep in mind, especially if you are new to the field of mathematical modeling.</p>
+$$f(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} exp(-\frac{(x-\mu)^2}{2\sigma^2})$$<p>Where $\mu$ is the mean/expectation of the distribution, $\sigma$ is the standard deviation, and $\sigma^2$ is the variance. Remember, this above formula was derived from experimentation over time, and through the use of a lot of data. For those familiar with phyiscs, this is same type of process that was used to determine <strong>Newton's law of Universal Gravitation</strong>:</p>
+$$F = G \frac{m_1 m_2}{r^2}$$<p>Where $G$ represents the gravitational constant, $6.674*10^{-11} \frac{m^3}{kg \cdot s^2}$. This constant was determined via experiment, just as the leading term $\frac{1}{\sqrt{2 \pi \sigma^2}}$ was in the normal distribution equation. This is incredibly important to keep in mind, especially if you are new to the field of mathematical modeling.</p>
 <p>Below, we can see several different curves that we generated based on different values of $\mu$ and $\sigma^2$:</p>
 
 </div>
@@ -1515,7 +1457,7 @@ height=353
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1525,7 +1467,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1545,8 +1487,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>What this graph actually represents is <em>how likely it is</em> to observed $x$ taking on specific value, based on the corresponding parameterized normal distribution that represents the world $x$ is occuring in.</p>
 
@@ -1554,8 +1495,7 @@ height=353
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="5.-Central-Limit-Theorem">5. Central Limit Theorem<a class="anchor-link" href="#5.-Central-Limit-Theorem">&#182;</a></h2><p>I mentioned above that one of the main uses for the gaussian distribution was in the central limit theorem. The central limit theorem is one of the most important ideas in statistics, and truly in all of mathematics.</p>
 <blockquote><p>The <strong>Central Limit Theorem</strong> is what allows us to go from working with a <em>sample</em> to making inferences about the underlying <em>population</em>.</p>
@@ -1593,7 +1533,7 @@ height=353
     <span class="k">return</span> <span class="n">avg</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1623,7 +1563,7 @@ height=353
     <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;Die roll = </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current</span><span class="p">),</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">,</span><span class="mi">250</span><span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1662,7 +1602,7 @@ height=353
         <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1678,7 +1618,7 @@ height=353
 <span class="c1"># generate_clt_animation_gif(sampled_means, &#39;5&#39;, 275, &#39;clt-sample-size-5.gif&#39;)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1693,7 +1633,7 @@ height=353
 <span class="c1"># generate_clt_animation_gif(sampled_means, &#39;10&#39;, 275, &#39;clt-sample-size-10.gif&#39;)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1708,14 +1648,13 @@ height=353
 <span class="c1"># generate_clt_animation_gif(sampled_means, &#39;50&#39;, 350, &#39;clt-sample-size-50.gif&#39;)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=1A_ueG8QBwxPdsbyvPJ488s2Urorz02io"></p>
 
@@ -1723,8 +1662,7 @@ height=353
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that this does look like a normal distriubtion, one that has a larger variance and is subsequently much wider. The mean still is approximately our expected value of 3.5. If we increase our sample size to 10 die rolls, we can see that the variance decreases, and we are more confident that our expected value is 3.5. This idea of <strong>confidence</strong> will be discussed in the next section.</p>
 
@@ -1732,8 +1670,7 @@ height=353
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=1hdQS5RqcVsXUzL7u86UFJlu96xR0f4j5"></p>
 
@@ -1741,8 +1678,7 @@ height=353
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Finally, we can increase the sample size to 50 rolls. Again, we see a normal distribution, but now the variance is much smaller and we have a much more confidence in where the true population expected value will fall.</p>
 <p><img src="https://drive.google.com/uc?id=1RH_HaLJIG4DFjDHuFU4LG_xes4qYpG2H"></p>
@@ -1758,81 +1694,55 @@ height=353
 <li>Hence, the standard error is the standard deviation of the sample means!</li>
 </ol>
 <p>So, we could say that the experiment above with 5 die rolls had a large standard error, while the experiment with 50 die rolls had a small standard error. This patter will always hold: sample means will cluster more tightly around the population mean as the size of each sample gets larger. At the same time, sample means will cluster less tightly around the population mean when the underlying population is more spread out. Mathematically, we define the standard error as:</p>
-<p>$$SE = \frac{s}{\sqrt{n}}$$</p>
-<p>Where $s$ is the standard deviation of the population and $n$ is the size of the sample. At this point we finally are reaching the payoff for all of this work. Because sample means are distributed normally around the population means, we can harness the power of the normal curve. Based on the earlier visual, we expect that 68% of sample means will lie within one standard deviation of the population mean, 95% of sample means will lie within two standard deviations of the population mean, and 99.7% will lie within three standard deviations of the population mean. Note, you may ask were this percentages come from; well, we are able to calculate them based on the fact that the entire area under the curve must sum to 1. Making use of integrals from calculus we are able to find the area under the curve like so:</p>
-<p>$$\int_{-\sigma}^{\sigma} f(x \mid \mu, \sigma^2)$$</p>
-<p>This area is going to be ~0.68, which we can divide by 1 (the total area) in order to get the percentage of area under the curve from $[-\sigma, \sigma]$, resulting in 68%. This is an incredibly powerful feature that is the main reason the central limit theorem and normal distribution are so valuable. We are going to discuss in depth in the next section, however, here is an example to get us started. Say that we have two groups, $A$ and $B$, who are indentical in all ways expect that they are shown differently styled webpages when checking out on an ecommerce site. If we observe that 10% of group $A$ end up making a purchase, and 12% of group $B$ make a purchase, we can then use everything we have just talked about to see if the different landing pages shown to $A$ and $B$ were able to create a statistically significant difference in the purchase likelihood. This would allow for the site to find the optimal page configuration, assuming they want to maximize purchases.</p>
+$$SE = \frac{s}{\sqrt{n}}$$<p>Where $s$ is the standard deviation of the population and $n$ is the size of the sample. At this point we finally are reaching the payoff for all of this work. Because sample means are distributed normally around the population means, we can harness the power of the normal curve. Based on the earlier visual, we expect that 68% of sample means will lie within one standard deviation of the population mean, 95% of sample means will lie within two standard deviations of the population mean, and 99.7% will lie within three standard deviations of the population mean. Note, you may ask were this percentages come from; well, we are able to calculate them based on the fact that the entire area under the curve must sum to 1. Making use of integrals from calculus we are able to find the area under the curve like so:</p>
+$$\int_{-\sigma}^{\sigma} f(x \mid \mu, \sigma^2)$$<p>This area is going to be ~0.68, which we can divide by 1 (the total area) in order to get the percentage of area under the curve from $[-\sigma, \sigma]$, resulting in 68%. This is an incredibly powerful feature that is the main reason the central limit theorem and normal distribution are so valuable. We are going to discuss in depth in the next section, however, here is an example to get us started. Say that we have two groups, $A$ and $B$, who are indentical in all ways expect that they are shown differently styled webpages when checking out on an ecommerce site. If we observe that 10% of group $A$ end up making a purchase, and 12% of group $B$ make a purchase, we can then use everything we have just talked about to see if the different landing pages shown to $A$ and $B$ were able to create a statistically significant difference in the purchase likelihood. This would allow for the site to find the optimal page configuration, assuming they want to maximize purchases.</p>
 <p>At this risk of this post becoming far too long I am going to leave off here and pick up in my post <strong>Statistical Inference</strong>.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Appendix">Appendix<a class="anchor-link" href="#Appendix">&#182;</a></h2><h3 id="A.1-The-Weak-Law-of-Large-Numbers">A.1 The Weak Law of Large Numbers<a class="anchor-link" href="#A.1-The-Weak-Law-of-Large-Numbers">&#182;</a></h3><p>This section will serve as a derivation for the <strong>Weak Law of Large Numbers</strong>, and is meant to provide a more concrete vantage point, in junction with the intuitive explanations from earlier.</p>
 <p>To start, we will assume that we have a random variable, $X$, with a probability distribution that has a certain (finite) mean, $\mu$, and variance, $\sigma^2$. We then draw $n$ independent and identically distributed random variables from $X$:</p>
-<p>$$\{ x_1, x_2,...,x_n\}$$</p>
-<p>After drawing $n$ samples from $X$ we have a <strong>sample mean</strong>:</p>
-<p>$$\text{sample mean} \longrightarrow M_n = \frac{x_1 + ... + x_n}{n}$$</p>
-<p>Where the sample mean is a random variable because it is a function of random variables. This should be distinguished between the true mean, $\mu$, which is a <em>number</em>-it is <em>not</em> random:</p>
-<p>$$\text{true mean} \longrightarrow E[X]$$</p>
-<p>Now, the sample mean is the most natural way to estimate the true mean. The weak law of large numbers provides support for this notion. We can calculate the expectation of the sample mean:</p>
-<p>$$E[M_n]$$</p>
-<p>Note, there are two different types of averaging going on here:</p>
+$$\{ x_1, x_2,...,x_n\}$$<p>After drawing $n$ samples from $X$ we have a <strong>sample mean</strong>:</p>
+$$\text{sample mean} \longrightarrow M_n = \frac{x_1 + ... + x_n}{n}$$<p>Where the sample mean is a random variable because it is a function of random variables. This should be distinguished between the true mean, $\mu$, which is a <em>number</em>-it is <em>not</em> random:</p>
+$$\text{true mean} \longrightarrow E[X]$$<p>Now, the sample mean is the most natural way to estimate the true mean. The weak law of large numbers provides support for this notion. We can calculate the expectation of the sample mean:</p>
+$$E[M_n]$$<p>Note, there are two different types of averaging going on here:</p>
 <ol>
 <li>First, the sample mean averages over the values observed in one long experiment</li>
 <li>Secondly, the expectation averages over all possible outcomes of the experiment. It is a theoretical average. </li>
 </ol>
 <h4 id="Expectation-of-Sample-Mean">Expectation of Sample Mean<a class="anchor-link" href="#Expectation-of-Sample-Mean">&#182;</a></h4><p>We can find the expectation as follows:</p>
-<p>$$E[M_n] = \frac{E[x_1 + x_2 + ... + x_n]}{n}$$</p>
-<p>Then, using <a href="https://en.wikipedia.org/wiki/Expected_value#Linearity">linearity</a> we can apply the fact that $E[x_i] = \mu$:</p>
-<p>$$E[M_n] = \frac{n \mu}{n} = \mu$$</p>
-<h4 id="Variance-of-Sample-Mean">Variance of Sample Mean<a class="anchor-link" href="#Variance-of-Sample-Mean">&#182;</a></h4><p>We can now calculate the variance of the sample mean, $var(M_n)$:</p>
-<p>$$Var\Big(\frac{x_1 + ... + x_n}{n}\Big)$$</p>
-<p>The variance of a random variable divided by a number is equivalent to the variance of the random variable, divided by the square of that number (seen <a href="https://en.wikipedia.org/wiki/Variance#Basic_properties">here</a>). In the nature of keeping this appendix self contained, we can quickly prove that now. We can let:</p>
-<p>$$Y = aX$$</p>
-<p>$$E[X] = \mu$$</p>
-<p>$$ \nu = E[Y] = a \cdot E[X] = a \cdot \mu $$</p>
-<p>$$Var(Y) = E \big[(ax - a\mu)^2 \big] = E \big[ a^2 (x - \mu)^2 \big] = a^2 E \big[(x-\mu)^2\big] = a^2 Var(X)$$</p>
-<p>$$\text{Rule} \longrightarrow Var(aX) = a^2 Var(X)$$</p>
-<p>And we have the property that we were looking for. So, picking up where we left off:</p>
-<p>$$Var\Big(\frac{1}{n}\frac{x_1 + ... + x_n}{1}\Big) = \frac{Var(x_1 + ... + x_n)}{n^2}$$</p>
-<p>Because the $x_i$'s are independent, the variance of $x_i$ is the sum of the variances. Hence, we end up with $n$ times the variance of each one of them:</p>
-<p>$$Var(M_n) = \frac{n \sigma^2}{n^2} = \frac{\sigma^2}{n}$$</p>
-<h4 id="Apply-Chebyshev-Inequality">Apply Chebyshev Inequality<a class="anchor-link" href="#Apply-Chebyshev-Inequality">&#182;</a></h4><p>Now we are in a position to apply the <strong>Chebyshev Inequality</strong>. If you are unfamilar, I highly recommend checking out my post on probability inequalities. Chebyshev tells us that the distance of a random variable from it's mean being larger than a certain number, has a probability that is bounded above by the variance of the random variable of interest, divided by the square of the certain number:</p>
-<p>$$P \big(\big| M_n - \mu \big|\geq \epsilon \big) \; \leq \; \frac{Var(M_n)}{\epsilon^2}$$</p>
-<p>We have already calculated the variance, and so this quantity is:</p>
-<p>$$P \big(\big| M_n - \mu \big|\geq \epsilon \big) \; \leq \; \frac{\sigma^2}{n\epsilon^2}$$</p>
-<p>If we consider $\epsilon$ to be a fixed number and let $n \rightarrow \infty$, then we obtain a limiting value of 0:</p>
-<p>$$P \big(\big| M_n - \mu \big|\geq \epsilon \big) \; \leq \; \frac{\sigma^2}{\infty \epsilon^2} = 0$$</p>
-<p>This shows that the probability of falling far away from the mean diminishes to zero as we draw more samples.</p>
+$$E[M_n] = \frac{E[x_1 + x_2 + ... + x_n]}{n}$$<p>Then, using <a href="https://en.wikipedia.org/wiki/Expected_value#Linearity">linearity</a> we can apply the fact that $E[x_i] = \mu$:</p>
+$$E[M_n] = \frac{n \mu}{n} = \mu$$<h4 id="Variance-of-Sample-Mean">Variance of Sample Mean<a class="anchor-link" href="#Variance-of-Sample-Mean">&#182;</a></h4><p>We can now calculate the variance of the sample mean, $var(M_n)$:</p>
+$$Var\Big(\frac{x_1 + ... + x_n}{n}\Big)$$<p>The variance of a random variable divided by a number is equivalent to the variance of the random variable, divided by the square of that number (seen <a href="https://en.wikipedia.org/wiki/Variance#Basic_properties">here</a>). In the nature of keeping this appendix self contained, we can quickly prove that now. We can let:</p>
+$$Y = aX$$$$E[X] = \mu$$$$ \nu = E[Y] = a \cdot E[X] = a \cdot \mu $$$$Var(Y) = E \big[(ax - a\mu)^2 \big] = E \big[ a^2 (x - \mu)^2 \big] = a^2 E \big[(x-\mu)^2\big] = a^2 Var(X)$$$$\text{Rule} \longrightarrow Var(aX) = a^2 Var(X)$$<p>And we have the property that we were looking for. So, picking up where we left off:</p>
+$$Var\Big(\frac{1}{n}\frac{x_1 + ... + x_n}{1}\Big) = \frac{Var(x_1 + ... + x_n)}{n^2}$$<p>Because the $x_i$'s are independent, the variance of $x_i$ is the sum of the variances. Hence, we end up with $n$ times the variance of each one of them:</p>
+$$Var(M_n) = \frac{n \sigma^2}{n^2} = \frac{\sigma^2}{n}$$<h4 id="Apply-Chebyshev-Inequality">Apply Chebyshev Inequality<a class="anchor-link" href="#Apply-Chebyshev-Inequality">&#182;</a></h4><p>Now we are in a position to apply the <strong>Chebyshev Inequality</strong>. If you are unfamilar, I highly recommend checking out my post on probability inequalities. Chebyshev tells us that the distance of a random variable from it's mean being larger than a certain number, has a probability that is bounded above by the variance of the random variable of interest, divided by the square of the certain number:</p>
+$$P \big(\big| M_n - \mu \big|\geq \epsilon \big) \; \leq \; \frac{Var(M_n)}{\epsilon^2}$$<p>We have already calculated the variance, and so this quantity is:</p>
+$$P \big(\big| M_n - \mu \big|\geq \epsilon \big) \; \leq \; \frac{\sigma^2}{n\epsilon^2}$$<p>If we consider $\epsilon$ to be a fixed number and let $n \rightarrow \infty$, then we obtain a limiting value of 0:</p>
+$$P \big(\big| M_n - \mu \big|\geq \epsilon \big) \; \leq \; \frac{\sigma^2}{\infty \epsilon^2} = 0$$<p>This shows that the probability of falling far away from the mean diminishes to zero as we draw more samples.</p>
 <h4 id="Weak-Law-of-Large-Numbers">Weak Law of Large Numbers<a class="anchor-link" href="#Weak-Law-of-Large-Numbers">&#182;</a></h4><p>So, to summarize, the Weak Law of Large Numbers is defined as:</p>
 <h4 id="$$\text{Weak-Law-of-Large-Numbers}-\longrightarrow--\text{For-}-\epsilon-&gt;-0-\;-,-\;-P\big(-\big|M_n---\mu-\big|-\geq-\epsilon-\big)-=-P-\Big(-\Big|-\frac{X_1-+-...-+-X_n}{n}---\mu-\Big|-\geq-\epsilon-\Big)-\rightarrow-0-\;-,-\;-\text{as-}-n-\rightarrow-\infty$$"><span style="color:#0000cc">$$\text{Weak Law of Large Numbers} \longrightarrow  \text{For } \epsilon &gt; 0 \; , \; P\big( \big|M_n - \mu \big| \geq \epsilon \big) = P \Big( \Big| \frac{X_1 + ... + X_n}{n} - \mu \Big| \geq \epsilon \Big) \rightarrow 0 \; , \; \text{as } n \rightarrow \infty$$</span><a class="anchor-link" href="#$$\text{Weak-Law-of-Large-Numbers}-\longrightarrow--\text{For-}-\epsilon-&gt;-0-\;-,-\;-P\big(-\big|M_n---\mu-\big|-\geq-\epsilon-\big)-=-P-\Big(-\Big|-\frac{X_1-+-...-+-X_n}{n}---\mu-\Big|-\geq-\epsilon-\Big)-\rightarrow-0-\;-,-\;-\text{as-}-n-\rightarrow-\infty$$">&#182;</a></h4><p>I'd like to also offer an interpretation for the WLLN. We can think of having one long experiment, and during that experiment we draw many random variables from the same distribution. A way to think about those random variables is that each one is equal to the true mean plus some measurement noise:</p>
-<p>$$X_i = \mu + W_i$$</p>
-<p>Where $W_i$ has an expected value of 0, $E[W_i] = 0$, and is independent. So, we have a collection of noisy measurements and we take the average of them. The WLLN tells use that the sample mean of $M_n$ is unlikely to be far off from the true mean, $\mu$.</p>
+$$X_i = \mu + W_i$$<p>Where $W_i$ has an expected value of 0, $E[W_i] = 0$, and is independent. So, we have a collection of noisy measurements and we take the average of them. The WLLN tells use that the sample mean of $M_n$ is unlikely to be far off from the true mean, $\mu$.</p>
 <p>As a special case let us consider a probabilistic model in which we repeat, many times and independently, the same experiment. There is an event associated with that experiment that has a certain probability:</p>
-<p>$$\text{Event: } A$$</p>
-<p>$$p = P(A)$$</p>
-<p>And $X_i$ acts an indicator of the events occurrence:</p>
-<p>$$
+$$\text{Event: } A$$$$p = P(A)$$<p>And $X_i$ acts an indicator of the events occurrence:</p>
+$$
 X_i =
 \begin{cases}
  1, &amp; \text{if A occurs} \\
  0, &amp; \text{if A does not occur}
 \end{cases}
-$$</p>
-<p>Where the expected value of $X_i$ is:</p>
-<p>$$E[X_i] = p$$</p>
-<p>In this particular case, the sample mean counts how many times $A$ occurred out of the $n$ experiments that we carried out. So, it is just the frequency with which event $A$ occurred. In other words, the sample mean $M_n$ is the <strong>empirical frequency</strong> of event $A$. The WLLN tells us that the empirical frequency will be close the the probability of the event $A$. In this way it reinforces or justifies the interpretation of probabilities as frequencies.</p>
+$$<p>Where the expected value of $X_i$ is:</p>
+$$E[X_i] = p$$<p>In this particular case, the sample mean counts how many times $A$ occurred out of the $n$ experiments that we carried out. So, it is just the frequency with which event $A$ occurred. In other words, the sample mean $M_n$ is the <strong>empirical frequency</strong> of event $A$. The WLLN tells us that the empirical frequency will be close the the probability of the event $A$. In this way it reinforces or justifies the interpretation of probabilities as frequencies.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2><ol>
 <li><a href="https://www.youtube.com/watch?v=Yh5bR7X3ch8">The Law of Large Numbers</a></li>

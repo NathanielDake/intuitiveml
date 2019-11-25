@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -195,10 +194,6 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -211,8 +206,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="9.-Gradient-Descent:-Full-vs.-Batch-vs.-Stochastic">9. Gradient Descent: Full vs. Batch vs. Stochastic<a class="anchor-link" href="#9.-Gradient-Descent:-Full-vs.-Batch-vs.-Stochastic">&#182;</a></h1><p>Let's take a moment to talk about the different ways that we can perform gradient descent, and their particular advantages and disadvantages. The three basic types we will go over are:</p>
 <ol>
@@ -221,8 +215,7 @@ body {
 <li><strong>Stochastic</strong></li>
 </ol>
 <h2 id="1.1-Full-Gradient-Descent">1.1 Full Gradient Descent<a class="anchor-link" href="#1.1-Full-Gradient-Descent">&#182;</a></h2><p>Up until now, most of my notebooks have covered <strong>full</strong> gradient descent:</p>
-<p>$$J = \sum_{n=1}^N t(n)logy(n)$$</p>
-<p>Why is that? Well it makes sense that we would want to maximize the likelihood over our entire training set! The main disadvantage of this however is that the calculation of the gradient is now <strong>O(N)</strong>, since it depends on each sample. This means that it will struggle to be effective when working with big data.</p>
+$$J = \sum_{n=1}^N t(n)logy(n)$$<p>Why is that? Well it makes sense that we would want to maximize the likelihood over our entire training set! The main disadvantage of this however is that the calculation of the gradient is now <strong>O(N)</strong>, since it depends on each sample. This means that it will struggle to be effective when working with big data.</p>
 <h2 id="1.2-Stochastic-Gradient-Descent">1.2 Stochastic Gradient Descent<a class="anchor-link" href="#1.2-Stochastic-Gradient-Descent">&#182;</a></h2><p>On the other end of the spectrum we have <strong>stochastic gradient descent</strong>. This looks at one particular sample at a time, and the associated error. We are depending on the fact that all of the samples are <strong>IID (independent and identically distributed)</strong>. This means that in the long run your error will improve because all of your samples are coming from the same distribution. Now that we have reduced our calculation from $N$ operations to 1, that is a nice improvement, however, there is a disadvantage. Whereas the log likelihood always improves on every iteration of full gradient descent, sometimes the log likelihood can get worse with stochastic gradient descent. In fact, the cost function will behave pretty erratically over each iteration, but it will improve in the long run.</p>
 <h2 id="1.3-Batch-Gradient-Descent">1.3 Batch Gradient Descent<a class="anchor-link" href="#1.3-Batch-Gradient-Descent">&#182;</a></h2><p>Batch gradient descent can be thought of as the happy medium between these two. In this method we split our data up into batches. For instance, say we have 10,000 examples, we could split it up into 100 batches of size 100. Then we could compute our cost function based on each batch for each iteration. In this case the cost function can still get worse, but it will be much less erratic than if we had done pure stochastic gradient descent.</p>
 
@@ -230,8 +223,7 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="2.-Full-vs.-Batch-vs.-Stochastic-in-Code">2. Full vs. Batch vs. Stochastic in Code<a class="anchor-link" href="#2.-Full-vs.-Batch-vs.-Stochastic-in-Code">&#182;</a></h1><p>We are now going to compare each form of gradient descent in code, particularly how they progress. We start with the standard imports:</p>
 
@@ -252,14 +244,13 @@ body {
 <span class="kn">from</span> <span class="nn">modern_dl_util</span> <span class="k">import</span> <span class="n">get_transformed_data</span><span class="p">,</span> <span class="n">forward</span><span class="p">,</span> <span class="n">error_rate</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">gradW</span><span class="p">,</span> <span class="n">gradb</span><span class="p">,</span> <span class="n">y2indicator</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We will be using the transformed data (after PCA has been applied). We will also be using logistic regression instead of a full neural network, just to speed things up. So we will start by getting the transformed data, and only take the first 300 columns. We will also normalize X, get our training and test set, and create our indicator matrices.</p>
 
@@ -290,7 +281,7 @@ body {
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;reached&#39;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -300,7 +291,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -311,7 +302,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -326,7 +317,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -340,8 +331,7 @@ body {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.2-Full-Gradient-Descent">2.2 Full Gradient Descent<a class="anchor-link" href="#2.2-Full-Gradient-Descent">&#182;</a></h2><p>Now we will perform full gradient descent.</p>
 
@@ -380,7 +370,7 @@ body {
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Elapsted time for full GD:&quot;</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)</span>      <span class="c1"># print current time </span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -390,7 +380,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -425,8 +415,7 @@ Elapsted time for full GD: 0:00:43.549665
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.3-Stochastic-Gradient-Descent">2.3 Stochastic Gradient Descent<a class="anchor-link" href="#2.3-Stochastic-Gradient-Descent">&#182;</a></h2><p>Now let's go over batch gradient descent. Note that we are only going to make 1 pass through the data since we are going to need to look at every sample and make an update based on every sample individually. We also are only going to go through 500 samples, since it will be very slow to go through all of them.</p>
 
@@ -470,7 +459,7 @@ Elapsted time for full GD: 0:00:43.549665
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Elapsted time for SGD:&quot;</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -480,7 +469,7 @@ Elapsted time for full GD: 0:00:43.549665
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -497,8 +486,7 @@ Elapsted time for SGD: 0:00:00.492293
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.4-Batch-Gradient-Descent">2.4 Batch Gradient Descent<a class="anchor-link" href="#2.4-Batch-Gradient-Descent">&#182;</a></h2><p>The main question that usually comes up here is: "how do you select the batch?". That is done by selecting the rows from the iteration number, times the batch size, all the way to the iteration number times the batch size, plus the batch size</p>
 
@@ -545,7 +533,7 @@ Elapsted time for SGD: 0:00:00.492293
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Elapsted time for batch GD:&quot;</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -555,7 +543,7 @@ Elapsted time for SGD: 0:00:00.492293
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -670,8 +658,7 @@ Elapsted time for batch GD: 0:00:12.933731
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Compare">Compare<a class="anchor-link" href="#Compare">&#182;</a></h2><p>Let's take a second to compare the plots of each gradient descent variation. We can see that <strong>stochastic</strong> gradient descent has hardly improved at all, so we would need many more iterations. If we then look at <strong>full</strong> gradient descent, it appears to have converged faster than <strong>batch</strong> gradient descent, but it all ran slower.</p>
 <p>Now, if you zoom into the batch and stochastic curves you will see that they are not always smooth, whereas full gradient descent is.</p>
@@ -695,7 +682,7 @@ Elapsted time for batch GD: 0:00:12.933731
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -705,7 +692,7 @@ Elapsted time for batch GD: 0:00:12.933731
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -718,6 +705,19 @@ Elapsted time for batch GD: 0:00:12.933731
 
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
 </div>
 </div>
 

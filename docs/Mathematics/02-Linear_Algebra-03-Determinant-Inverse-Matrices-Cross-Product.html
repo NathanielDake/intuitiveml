@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -195,10 +194,6 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -211,8 +206,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="3.-The-Determinant,-Linear-Systems-Of-Equations-&amp;-Inverse-Matrices">3. The Determinant, Linear Systems Of Equations &amp; Inverse Matrices<a class="anchor-link" href="#3.-The-Determinant,-Linear-Systems-Of-Equations-&amp;-Inverse-Matrices">&#182;</a></h1><p>Recall that when we discussed linear transformations, some will stretch space out, while others squish it on in:</p>
 <p><img src="https://drive.google.com/uc?id=1mjBgHpriaVKTaTP2T4R7uF1ba2lHAeQ8" width="300"></p>
@@ -228,11 +222,11 @@ body {
 <p>After the transformation, this turns into a 2x3 rectangle:</p>
 <p><img src="https://drive.google.com/uc?id=1EbHJja8oqi0ygfiEhVjc-REjTpkVGS7A" width="300"></p>
 <p>Since this region started out with an area of 1, and ended up with an area of 6, we can say the linear transformation has <em>scaled its area</em> by a factor of 6. Compare that to a shear whose matrix has the form:</p>
-<p>$$
+$$
 \begin{bmatrix}
     1  &amp; 1\\
     0  &amp; 1
-\end{bmatrix}$$<br></p>
+\end{bmatrix}$$<p><br></p>
 <p>In this case the original area, contained by the square of the two unit vectors, is slanted; yet its area does not change:</p>
 <p><img src="https://drive.google.com/uc?id=1smasavMznCNy0nrLYvEA97HHSbALdFfD" width="300">
 <img src="https://drive.google.com/uc?id=1p2mYArGFepGJvWavePCB6KpIVknL2faA" width="300"></p>
@@ -243,31 +237,30 @@ body {
 <p><img src="https://drive.google.com/uc?id=19yHyF3gVqDATWS_DTl6JbVL-BU-JLQJD" width="300">
 <img src="https://drive.google.com/uc?id=1x3ZknwLMbJjV_nyNFAMAxIKzxibvIbsb" width="300"></p>
 <h2 id="1.1-Determinant-Definition">1.1 Determinant Definition<a class="anchor-link" href="#1.1-Determinant-Definition">&#182;</a></h2><p>Now this very special scaling factor-the factor by which a linear transformation changes any area-is called the <em><strong>determinant</strong></em> of a transformation. So, in the case of our earlier example:</p>
-<p>$$det\Big(
+$$det\Big(
 \begin{bmatrix}
     3  &amp; 2\\
     0  &amp; 2
-\end{bmatrix}\Big) = 6$$<br></p>
+\end{bmatrix}\Big) = 6$$<p><br></p>
 <p>Now, the <em>determinant</em> of a transformation would be 3, if that transformation increases the area of a region by a factor of 3. It would be 1/2 if it squishes down all areas by a factor of 1/2. Finally, the determinant of a transformation is zero if it squishes all of space onto a line! Note, this will be relevant when we discuss eigenvectors. It means that checking if the determinant of a given matrix is zero will give a way of computing whether or not the transformation associated with that matrix squishes everything into a smaller dimension.</p>
 <p>We should also quickly mention that a determinant can be <em>negative</em>. This means that space has been inverted (visually we can think of it as being flipped). A simple way to check if this has happened is to note that $\hat{j}$ always starts to the left of $\hat{i}$. If, after a transformation, $\hat{i}$ is to the left of $\hat{j}$ then we know orientation has changed. The absolute value of the determinant will still tell us the factor by which the area has been scaled.</p>
 <p>You may (reasonably) ask, why does this negative area relate to orientation flipping? That is most easily explained with a beautiful visual, seen <a href="https://youtu.be/Ip3X9LOh2dk?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab&amp;t=306">here</a>.</p>
 <h2 id="1.2-Determinant-Computation">1.2 Determinant Computation<a class="anchor-link" href="#1.2-Determinant-Computation">&#182;</a></h2><p>You may still be wondering at this point, how we actually compute the determinant? While the actual computation is not nearly as important as the underlying meaning and what it represents, it is still useful to cover. We will define the computation as follows:</p>
-<p>$$det\Big(
+$$det\Big(
 \begin{bmatrix}
     a  &amp; b\\
     c  &amp; d
-\end{bmatrix}\Big) = ad - bc$$<br></p>
+\end{bmatrix}\Big) = ad - bc$$<p><br></p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="2.-Linear-Systems-of-Equations-&amp;-Inverse-Matrices">2. Linear Systems of Equations &amp; Inverse Matrices<a class="anchor-link" href="#2.-Linear-Systems-of-Equations-&amp;-Inverse-Matrices">&#182;</a></h1><p>Now one of the reasons that linear algebra is more broadly applicable, and is required for nearly all technical disciplines, is that it lets us solve certain <em>systems of equations</em>. Before digging into a few key points concerning systems of equations, let's look an example:</p>
-<p>$$2x + 5y + 3z = -3$$<br>
+$$2x + 5y + 3z = -3$$<p><br>
 $$4x + 0y + 8z = 0$$<br>
 $$1x + 3y + 0z = 2$$<br></p>
 <p>In this case we have two main entities:</p>
@@ -283,7 +276,7 @@ $$1x + 3y + 0z = 2$$<br></p>
 <blockquote><p>We are in a situation/scenario where all equations above hold for a certain $x, y$ and $z$. In order for them to all hold (since we are treating them as a system), we must find the $x, y$ and $z$ where they <em>intersect</em>!</p>
 </blockquote>
 <h2 id="2.1-Geometric-Coordinate-Space">2.1 Geometric Coordinate Space<a class="anchor-link" href="#2.1-Geometric-Coordinate-Space">&#182;</a></h2><p>Before digging into the linear algebra solution, it is important to have a good understanding of what is happening in <em>coordinate space</em>. Let's say we are dealing with the following system of equations:</p>
-<p>$$2x + 2y = -4$$<br>
+$$2x + 2y = -4$$<p><br>
 $$1x + 3y = -1$$<br></p>
 <p>What this means is that our world is at a current state where both of these equations hold true! We can quickly plot the equations below:</p>
 
@@ -309,7 +302,7 @@ $$1x + 3y = -1$$<br></p>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="sa">r</span><span class="s1">&#39;$y = -x - 2$&#39;</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -319,7 +312,7 @@ $$1x + 3y = -1$$<br></p>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[1]:</div>
+    <div class="prompt output_prompt">Out[1]:</div>
 
 
 
@@ -332,7 +325,7 @@ $$1x + 3y = -1$$<br></p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -359,7 +352,7 @@ $$1x + 3y = -1$$<br></p>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="sa">r</span><span class="s1">&#39;$y = \frac{-x}</span><span class="si">{3}</span><span class="s1"> - \frac</span><span class="si">{1}{3}</span><span class="s1">$&#39;</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -369,7 +362,7 @@ $$1x + 3y = -1$$<br></p>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[2]:</div>
+    <div class="prompt output_prompt">Out[2]:</div>
 
 
 
@@ -382,7 +375,7 @@ $$1x + 3y = -1$$<br></p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -400,8 +393,7 @@ $$1x + 3y = -1$$<br></p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, we can see our geometric representation of the equation's above-both straight lines. The fact that they are defined to be a system of equations means that they are both true at the same time (in our current state). Well, when do both equations have the same $x$ and $y$? When they <em>intersect</em>!</p>
 
@@ -419,7 +411,7 @@ $$1x + 3y = -1$$<br></p>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="sa">r</span><span class="s1">&#39;$y = -x - 2$&#39;</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$y = \frac{-x}</span><span class="si">{3}</span><span class="s1"> - \frac</span><span class="si">{1}{3}</span><span class="s1">$&#39;</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -429,7 +421,7 @@ $$1x + 3y = -1$$<br></p>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[3]:</div>
+    <div class="prompt output_prompt">Out[3]:</div>
 
 
 
@@ -442,7 +434,7 @@ $$1x + 3y = -1$$<br></p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -460,13 +452,12 @@ $$1x + 3y = -1$$<br></p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see above that the intersection point-the point at which both equations have the same $x$ and $y$ values, and hence they are both true-is $x=-2.5$ and $y=0.5$. We can solve it by performing some simple algebraic manipulation, but for now what we really need is to just focus on the underlying geometry.</p>
 <h2 id="2.2-Linear-Algebra-View-Point">2.2 Linear Algebra View Point<a class="anchor-link" href="#2.2-Linear-Algebra-View-Point">&#182;</a></h2><p>Alright, we have just looked at what a system of equations represents from the perspective of geometric coordinate space. Now, there is an alternative view that is rather power. Let's try and view this system of equations through the lense of linear algebra.</p>
 <p>To begin, we can look at our system of equations again (the 3 dimensional case):</p>
-<p>$$2x + 5y + 3z = -3$$<br>
+$$2x + 5y + 3z = -3$$<p><br>
 $$4x + 0y + 8z = 0$$<br>
 $$1x + 3y + 0z = 2$$<br></p>
 <p>Recall, we did not <em>need</em> to align the system this way; we chose to. The $x$, $y$, and $z$ vertically inline, with the constant on the right, was a choice on our part. Once that choice was made, however, we can see a few things that are rather interesting.</p>
@@ -477,7 +468,7 @@ $$1x + 3y + 0z = 2$$<br></p>
 </ol>
 </blockquote>
 <p>We can express the left hand side of equation as matrix vector multiplication!</p>
-<p>$$
+$$
 \begin{bmatrix}
     2 &amp; 5 &amp; 3 \\
     4 &amp; 0 &amp; 8 \\
@@ -488,9 +479,8 @@ $$1x + 3y + 0z = 2$$<br></p>
     y \\
     z
 \end{bmatrix} 
-$$</p>
-<p>To be clear about how we arrived here, let's actually work from this matrix represntation back to our coordinate space system of equations:</p>
-<p>$$
+$$<p>To be clear about how we arrived here, let's actually work from this matrix represntation back to our coordinate space system of equations:</p>
+$$
 \begin{bmatrix}
     2 &amp; 5 &amp; 3 \\
     4 &amp; 0 &amp; 8 \\
@@ -506,8 +496,7 @@ $$</p>
     0 \\
     2
 \end{bmatrix} \longleftrightarrow A \vec{x} = \vec{v}
-$$
-$$\downarrow$$<br>
+$$$$\downarrow$$<p><br>
 $$
 \begin{bmatrix}
     2 \\
@@ -554,14 +543,13 @@ $$
 \end{bmatrix} 
 $$
 $$\downarrow$$<br></p>
-<p>$$
+$$
 \begin{bmatrix}
     2x + 5y + 3z = -3 \\
     4x + 0y + 8z = 0 \\
     1x + 3y + 0z = 2
 \end{bmatrix}
-$$</p>
-<p>We have just shown how these two representations-one in coordinate and one in vector space-are equivalent. From the linear algebra matrix-vector multiplication side of things, we can interpret it as follows:</p>
+$$<p>We have just shown how these two representations-one in coordinate and one in vector space-are equivalent. From the linear algebra matrix-vector multiplication side of things, we can interpret it as follows:</p>
 <p>What vector $\begin{bmatrix}x \\y \\z\end{bmatrix}$ can be linearly transformed via the matrix: $\begin{bmatrix}2 &amp; 5 &amp; 3 \\4 &amp; 0 &amp; 8 \\1 &amp; 3 &amp; 0 \end{bmatrix}$ and result in the output vector: $\begin{bmatrix}-3 \\0 \\2\end{bmatrix}$?</p>
 <p>Now, the above is a vector space interpretation of our problem! It may feel a little strange at first, because it is living in a different space than our coordinate interpretation.</p>
 
@@ -569,8 +557,7 @@ $$</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="2.2.1-Intuition">2.2.1 Intuition<a class="anchor-link" href="#2.2.1-Intuition">&#182;</a></h3><p>This next bit of intuition is seldom taught in courses, but I think you will find it rather useful. Even though we have proven above how we can switch back and forth between a geometric coordinate space (the system of equations) and a vector space (the matrix and vector), the question remains <em>how are they connected</em>? In other words:</p>
 <blockquote><p>Why does solving a linear system of equations by methods of substitution end up being equivalent to finding the pre-transformation vector $\vec{x}$ in the equation $A\vec{x} = \vec{v}$? In other words, finding the vector $\vec{x}$ in the original vector space, that after being transformed via $A$, results in the vector $\vec{v}$</p>
@@ -580,7 +567,7 @@ $$</p>
 </blockquote>
 <p>To fully understand this, we will approach the problem from two different angles; the theoretical angle and experimental angle.</p>
 <h3 id="2.2.1.1-Intuition-Theoretical">2.2.1.1 Intuition Theoretical<a class="anchor-link" href="#2.2.1.1-Intuition-Theoretical">&#182;</a></h3><p>Let's look at our linear system of equations and matrix interpretation again:</p>
-<p>$$
+$$
 \begin{bmatrix}
     2 &amp; 5 &amp; 3 \\
     4 &amp; 0 &amp; 8 \\
@@ -601,11 +588,11 @@ $$</p>
     4x + 0y + 8z = 0 \\
     1x + 3y + 0z = 2
 \end{bmatrix}
-$$<br></p>
+$$<p><br></p>
 <p>We have proven how we can shift back and forth between the vector space (left) and coordinate space (right). If we let (in the right hand side of our equation) the linear transformation matrix be $A$, the vector that is being transformed be $\vec{x}$, and the output/transformed vector be $\vec{v}$, then we can rewrite this as:</p>
-<p>$$A \vec{x} = \vec{v}$$<br></p>
+$$A \vec{x} = \vec{v}$$<p><br></p>
 <p>What this is saying, is that $A$ will <em>transform</em> $\vec{x}$ in such a way, that it lands on $\vec{v}$. From a functional notation perspective we would see that:</p>
-<p>$$\vec{x} \rightarrow A(\vec{x}) \rightarrow \vec{v}$$<br>
+$$\vec{x} \rightarrow A(\vec{x}) \rightarrow \vec{v}$$<p><br>
 $$\begin{bmatrix}
     x \\
     y \\
@@ -616,29 +603,29 @@ $$\begin{bmatrix}
     2
 \end{bmatrix}$$</p>
 <p>Which allows us to clearly see that, each coordinate of our original three dimensional vectors moves as follows:</p>
-<p>$$\begin{bmatrix}
+$$\begin{bmatrix}
     x \rightarrow -3 \\
     y \rightarrow 0\\
     z \rightarrow 2
-\end{bmatrix}$$<br></p>
+\end{bmatrix}$$<p><br></p>
 <p>This brings up the <em>first hurdle</em> that you may encounter when going through this (as I did). All seems fine and well at this point, the mechanical manipulation of the numbers is no problem, until you realize: <em>the order of the equations was arbitrary</em>. That gave me pause when first learning this. If the order of the equations is arbitrary, and we could have just as easily have grouped them as follows when we started:</p>
-<p>$$
+$$
 \begin{bmatrix}
     4x + 0y + 8z = 0 \\
     2x + 5y + 3z = -3 \\
     1x + 3y + 0z = 2
 \end{bmatrix}
-$$<br></p>
+$$<p><br></p>
 <p>Then wouldn't that correspond to a <em>different matrix $A$</em>, and a <em><strong>different linear transformation</strong></em>? The answer is that <em>it would</em>! In this case, our transformation matrix would look like:</p>
-<p>$$ A =
+$$ A =
 \begin{bmatrix}
     4 &amp; 0 &amp; 8 \\
     2 &amp; 5 &amp; 3 \\
     1 &amp; 3 &amp; 0 
 \end{bmatrix}
-$$<br></p>
+$$<p><br></p>
 <p>But wait! All is not lost. The order of the output vector $\vec{v}$ would of course change as well (because it of course would have had to when reordering our equations):</p>
-<p>$$
+$$
 \begin{bmatrix}
     4 &amp; 0 &amp; 8 \\
     2 &amp; 5 &amp; 3 \\
@@ -654,26 +641,25 @@ $$<br></p>
     -3 \\
     2
 \end{bmatrix}
-$$<br></p>
+$$<p><br></p>
 <p>Now we arrive at the <em>second hurdle</em> that I encountered, and you may as well. The order of our vector $\vec{x}$ <em>does not change</em>. In other words, in our new ordering of the equations, we now have a transformation $A$ that takes $\vec{x}$ and moves it as follows:</p>
-<p>$$\begin{bmatrix}
+$$\begin{bmatrix}
     x \rightarrow 0 \\
     y \rightarrow -3 \\
     z \rightarrow 2
-\end{bmatrix}$$<br></p>
+\end{bmatrix}$$<p><br></p>
 <p>What we are seeing is that <em>the ordering does not matter</em>! Yes our transformation matrix $A$ has changed, but the output vector $\vec{v}$ has changed also! This <em>new</em> transformation will take our original $\vec{x}$ and move it to the <em>new</em> $\vec{v}$. This means that we can still solve for our $\vec{x}$ without a problem!</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="2.2.1.2-Intuition-Theoretical---Key-Point">2.2.1.2 Intuition Theoretical - Key Point<a class="anchor-link" href="#2.2.1.2-Intuition-Theoretical---Key-Point">&#182;</a></h3><p>Alright, I must confess that at this point I still had several gaps in my intuition surrounding this. I still was struggling to understand how one equation (of the 3 that make up the system):</p>
-<p>$$2x + 5y + 3z = -3$$<br></p>
+$$2x + 5y + 3z = -3$$<p><br></p>
 <p>Can relate to a <em>row</em> from the matrix-vector representation. Now, this next bit of intuition will require a very solid understanding of linear transformation (I have another notebook on it-check it out). We can actually represent this equation as our original vector $\vec{x}$, transformed by a 1x3 matrix, into a 1-dimensional output:</p>
-<p>$$
+$$
 \begin{bmatrix}
     2 &amp; 5 &amp; 3 \\
 \end{bmatrix}
@@ -685,8 +671,7 @@ $$<br></p>
 \begin{bmatrix}
     -3 
 \end{bmatrix}
-$$</p>
-<p>This leads to a <em>very</em> crucial point:</p>
+$$<p>This leads to a <em>very</em> crucial point:</p>
 <blockquote><p><em><strong>Each equation is a linear combination that yields one value.</strong></em></p>
 </blockquote>
 <p>Here, in coordinate space, the equation is a linear combination that will yield a single output. When we view it in vector space, we see that $\vec{x}$ is transformed from 3 dimensional space, to a single dimension (via the <em>dot product</em>). Stated again so we recognize how important this is:</p>
@@ -696,31 +681,27 @@ $$</p>
 <p><strong>Most Crucial Point</strong><br>
 And here is the best part of all! Because we don't simply have 1 equation, we have a <em>system</em> of them, we are able to solve for the transformed versions of the remaining basis vectors as well! You may think: what transformed basis vector does the above 1 dimensional output represent? Well, it doesn't technically map to <em>any</em> when performed on its own; it takes on its meaning once treated within the system. This corresponds nicely to the geometric approach where a single equation with 3 unknowns cannot be solved on its own. Only in <em>conjunction</em> with 2 other equations can all 3 variables be solved for (since they place <em>constraints</em> on state that we are in).</p>
 <p>As we saw earlier, we can change the order of the equations, which yields a different transformation matrix and output vector, however, the input vector remains the same! This is analogous to saying that we have a simple equation such as:</p>
-<p>$$5 = x + 3$$</p>
-<p>And then updating that to be:</p>
-<p>$$8 = x + 6$$</p>
-<p>We have changed the way in which we update the side with the variable (adding 3 and then adding 6), but our left hand side <em>is also updated</em> to reflect this! The same thing is happening when we change the order of our equations, and subsequently get a different matrix. The operation (transformation) of our vector is altered, but the output is altered to match the alterered operation, keeping things in sync.</p>
+$$5 = x + 3$$<p>And then updating that to be:</p>
+$$8 = x + 6$$<p>We have changed the way in which we update the side with the variable (adding 3 and then adding 6), but our left hand side <em>is also updated</em> to reflect this! The same thing is happening when we change the order of our equations, and subsequently get a different matrix. The operation (transformation) of our vector is altered, but the output is altered to match the alterered operation, keeping things in sync.</p>
 <p>A way to think about it is that we are <em>just trying to find linear combinations in <strong>either space</strong></em>!</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="2.2.1.1-Intuition-Experimental">2.2.1.1 Intuition Experimental<a class="anchor-link" href="#2.2.1.1-Intuition-Experimental">&#182;</a></h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We are again will deal with the same system of equations that we looked at in the geometric coordinate space.</p>
-<p>$$2x + 2y = -4$$<br>
+$$2x + 2y = -4$$<p><br>
 $$1x + 3y = -1$$<br></p>
-<p>$$
+$$
 \begin{bmatrix}
     2  &amp; 2\\
     1  &amp; 3
@@ -732,7 +713,7 @@ $$1x + 3y = -1$$<br></p>
 \begin{bmatrix}
     -4 \\
     -1
-\end{bmatrix}$$<br>
+\end{bmatrix}$$<p><br>
 $$A \vec{x} = \vec{v}$$<br></p>
 <p>Now, we can get a look at our system from a unique perspective by overlaying our linear algebra view point, with the geometric coordinate space viewpoint:</p>
 
@@ -770,7 +751,7 @@ $$A \vec{x} = \vec{v}$$<br></p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -780,7 +761,7 @@ $$A \vec{x} = \vec{v}$$<br></p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -798,12 +779,11 @@ $$A \vec{x} = \vec{v}$$<br></p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>It is clear that the original location of vector $\vec{x}$ has the exact same value as that of the intersection point of our two original equations! We can see where our original basis vectors are located, and where they lie after the linear transformation is applied.</p>
 <p>The only thing that seems to be left on it its own is our vector $\vec{v}$. We know that after we have performed the linear transformation $A$ that our vector $\vec{x}$ will land on $\vec{v}$. Keep in mind this alone is a pretty cool thing to realize. Consider looking at the original equations:</p>
-<p>$$2x + 2y = -4$$<br>
+$$2x + 2y = -4$$<p><br>
 $$1x + 3y = -1$$<br></p>
 <p>You may wonder to yourself: "What exactly do the -4 and -1 represent?". You may realize that in one equation we are saying:</p>
 <blockquote><p>Scaling $x$ by 2 and adding it $y$ scaled by 2 will <em>always</em> yield -4. This is, remember, by definition a linear combination.</p>
@@ -829,7 +809,7 @@ $$1x + 3y = -1$$<br></p>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;A inverse: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">Ainv</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -839,7 +819,7 @@ $$1x + 3y = -1$$<br></p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -858,14 +838,13 @@ A inverse:
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Hence, our equations associated with the $A^{-1}$ are:</p>
-<p>$$.75*x - 0.5*y = -2.5$$<br>
+$$.75*x - 0.5*y = -2.5$$<p><br>
 $$-0.25*x + 0.5*y = 0.5$$<br></p>
 <p>Remember, $A^{-1}$ represents the transformation that will take $\vec{v}$ to the location of $\vec{x}$! So, we can write:</p>
-<p>$$A^{-1}\vec{v} = \vec{x}$$<br></p>
+$$A^{-1}\vec{v} = \vec{x}$$<p><br></p>
 <p>And that can be shown here:</p>
 
 </div>
@@ -879,7 +858,7 @@ $$-0.25*x + 0.5*y = 0.5$$<br></p>
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">Ainv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -889,7 +868,7 @@ $$-0.25*x + 0.5*y = 0.5$$<br></p>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[6]:</div>
+    <div class="prompt output_prompt">Out[6]:</div>
 
 
 
@@ -905,8 +884,7 @@ $$-0.25*x + 0.5*y = 0.5$$<br></p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And we can also add those two updated linear equations associated with our inverse transformation to our original plot!</p>
 
@@ -942,7 +920,7 @@ $$-0.25*x + 0.5*y = 0.5$$<br></p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -952,7 +930,7 @@ $$-0.25*x + 0.5*y = 0.5$$<br></p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -970,8 +948,7 @@ $$-0.25*x + 0.5*y = 0.5$$<br></p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Awesome! We can see that the lines associated intersect at the location of $\vec{v}$!</p>
 
@@ -979,16 +956,14 @@ $$-0.25*x + 0.5*y = 0.5$$<br></p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.2.2-One-equation-vs.-One-row-in-transformation-matrix">2.2.2 One equation vs. One row in transformation matrix<a class="anchor-link" href="#2.2.2-One-equation-vs.-One-row-in-transformation-matrix">&#182;</a></h2><p>At this point hopefully a great deal of ambiguity has been resolved between linear system's of equations and the linear transformation counterpart. However, there may still be a tingling of confusion surrounding the following:</p>
 <blockquote><p>It is very clear what <em>a single</em> equation from the system represents: a <em>line</em>. But what does a single <em>row</em> and corresponding 1-d output vector represent?</p>
 </blockquote>
 <p>This is worth digging into further! Let's say we are in a scenario where we want to know what $x$ and $y$ are, for a given state of our world. We intially have <em>no idea</em> what they are. However, we first learn that given our current state, a certain <em>relationship</em> holds true (a function concerning both x and y). This alone will give us a line in the coordinate space:</p>
-<p>$$2x + 5y = -3$$</p>
-<p>Where above our equation is a linear combination of $x$ and $y$. Well, just as we realized that the above <em>function</em> holds true given the state of our world, we could equally say that a certain <em>linear transformation</em> holds given the state of our world:</p>
-<p>$$
+$$2x + 5y = -3$$<p>Where above our equation is a linear combination of $x$ and $y$. Well, just as we realized that the above <em>function</em> holds true given the state of our world, we could equally say that a certain <em>linear transformation</em> holds given the state of our world:</p>
+$$
 \begin{bmatrix}
     2 &amp; 5 \\
 \end{bmatrix}
@@ -999,8 +974,7 @@ $$-0.25*x + 0.5*y = 0.5$$<br></p>
 \begin{bmatrix}
     -3 
 \end{bmatrix}
-$$</p>
-<p>Where the transformation is of a 2-dimensional vector into 1-dimensional vector, <em>but</em> we are not sure what the original vector values-it could be many! For instance, for the above transformation we could have $x = 1$ and $y = -1$. Or, $x = 6$ and $y = -3$. The list goes on and on. Visually, our transformation takes the visual form:</p>
+$$<p>Where the transformation is of a 2-dimensional vector into 1-dimensional vector, <em>but</em> we are not sure what the original vector values-it could be many! For instance, for the above transformation we could have $x = 1$ and $y = -1$. Or, $x = 6$ and $y = -3$. The list goes on and on. Visually, our transformation takes the visual form:</p>
 
 </div>
 </div>
@@ -1048,7 +1022,7 @@ $$</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1058,7 +1032,7 @@ $$</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1076,8 +1050,7 @@ $$</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We <em>do not know</em> which values of x and y correspond to our particular state yet.</p>
 <p>Now, suddenly there is a break in the case! We are given <em>another</em> relationship concerning $x$ and $y$ that holds true for our current state of the world. We have been given another <em>constraint</em>. Now, from a coordinate space perspective, we have been given another line. From the vector space, it is another transformation that is holding true in our current state. At this point, we have 2 linear combinations. Because we know that they <em>both currently are true</em>, we treat them as a system. This means that we can hold them in a 2x2 matrix and treat it as one whole transformation (instead of 2 separate ones that resemble the dot product).</p>
@@ -1086,8 +1059,7 @@ $$</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="2.3-Isomorphisms">2.3 Isomorphisms<a class="anchor-link" href="#2.3-Isomorphisms">&#182;</a></h1><p>Now, we have been tip toeing around a <em>very</em> fundamental concept that occurs in throughout not only all of mathematics, but the world as we know it. That is the idea of an <em><strong>isomorphism</strong></em>. We are not going to dig into the strictly defined mathemematical isomorphism, but rather a slightly looser definition that carries incredible intuition.</p>
@@ -1095,50 +1067,50 @@ $$</p>
 </blockquote>
 <p>This may still sound rather abstract, but let's go through a few quick examples to see how it can be applied to the relationship surrounding a linear system of equations and the corresponding linear transformation.</p>
 <h3 id="2.3.1-Language">2.3.1 Language<a class="anchor-link" href="#2.3.1-Language">&#182;</a></h3><p>Imagine sitting down to breakfast, unfolding the paper, and having a nice cup of coffee. Your breakfast, coffee, and paper are all placed on top of <em>something</em>. That something is, in the english language, referred to as a <em>table</em>. There is an inherent mapping between the word <em>table</em> and the corresponding <em>thing</em> upon which your breakfast is resting atop. This mapping is so subtle to an english speaker they don't even recognize it.</p>
-<blockquote><p>$$\text{table} \longleftrightarrow \text{The thing your breakfast sits atop.}$$</p>
+<blockquote>$$\text{table} \longleftrightarrow \text{The thing your breakfast sits atop.}$$
 </blockquote>
 <p>However, let's not say for a moment that the english speaker asked a native spanish speaker to describe it; they come up with the word <em>mesa</em>. Ah, now for you as english speaker, it is a bit easier to identify that <em>mesa</em> is meant to map to the thing your breakfast is sitting a top:</p>
-<blockquote><p>$$\text{mesa} \longleftrightarrow \text{The thing your breakfast sits atop.}$$</p>
+<blockquote>$$\text{mesa} \longleftrightarrow \text{The thing your breakfast sits atop.}$$
 </blockquote>
 <p>If you didn't speak spanish, but were living in Spain and needed to purchase a <em>something that your breakfast could sit atop</em>, you could go to the department store and (perhaps not so smoothly) say <em>mesa</em> and they would immediately understand that you were looking for a <em>table</em>, something that your breakfast can sit atop.</p>
-<blockquote><p>$$\text{table} \longleftrightarrow \text{mesa} \longleftrightarrow \text{The thing your breakfast sits atop.}$$</p>
+<blockquote>$$\text{table} \longleftrightarrow \text{mesa} \longleftrightarrow \text{The thing your breakfast sits atop.}$$
 </blockquote>
 <h3 id="2.3.2-Symbols">2.3.2 Symbols<a class="anchor-link" href="#2.3.2-Symbols">&#182;</a></h3><p>Reading through the above example on language, you may start to see that certain <em>isomorphisms</em> occur on a level that is so fundamental, they are hard to recognize. The implicit mapping between <em>table</em> and  <em>something that your breakfast sits atop</em> is so subtle, it often takes stepping outside of the system (in this case the english language), and utilizing another system (in this case the spanish language) to fully recognize it.</p>
 <p>This occurs just as frequently in mathematics. Take for example the symbol:</p>
-<blockquote><p>$$=$$</p>
+<blockquote>$$=$$
 </blockquote>
 <p>This symbol has an implicit mapping the concept "<em>is equal to</em>". It may seem crazy to think that there is a mapping between these two things, after all in most peoples mind's they are the <em>exact same thing</em>. However, it is important to realize the the equals symbol is manmade invention (invented by Robert Recorde, a Welsh Mathematician, in 1557). It is simply meant to map to the concept of equivalence.</p>
 <h3 id="2.3.3-An-Interesting-System">2.3.3 An Interesting System<a class="anchor-link" href="#2.3.3-An-Interesting-System">&#182;</a></h3><p>For a moment let's consider that we never created <em>numbers</em>, or the symbols frequently used in mathematics (+, -, *, /, and so on) and instead decided to represent counts of things with the symbol:</p>
-<blockquote><p>$$\text{-}$$</p>
+<blockquote>$$\text{-}$$
 </blockquote>
 <p>So, for instance, the following set of objects:</p>
 <p><img src="https://drive.google.com/uc?id=1Je2WbaSAIVD2gdl80huLq2NeO30WntVd" width="300"></p>
 <p>Could be represented as:</p>
-<blockquote><p>$$\text{- - - -}$$</p>
+<blockquote>$$\text{- - - -}$$
 </blockquote>
 <p>Where the above set of dash's is just mean to represent the number of green circles in our image. Now, lets say I tell you there are two additional symbols that we have access to (in addition to the <code>-</code> which represents a quantity:</p>
-<blockquote><p>$$p \; e$$</p>
+<blockquote>$$p \; e$$
 </blockquote>
 <p>If we were to write the following:</p>
-<blockquote><p>$$\text{- - - - } p \text{ - - } e \text{ - - - - - -}$$</p>
+<blockquote>$$\text{- - - - } p \text{ - - } e \text{ - - - - - -}$$
 </blockquote>
 <p>What do you think the symbols $p$ and $e$ are meant to map to? It seems perfectly natural that they map to <em>addition</em> and <em>equals</em>. Perhaps even the symbol for <em>plus</em>, +, and the symbol for equals, =. Meaning that we can represent the above line in the more comfortable symbolic notation:</p>
-<blockquote><p>$$\text{- - - - } + \text{ - - } = \text{ - - - - - -}$$</p>
+<blockquote>$$\text{- - - - } + \text{ - - } = \text{ - - - - - -}$$
 </blockquote>
 <p>And this (bringing back in notation we are comfortable with), is literally saying "4 dashes plus 2 dashes equals 6 dashes"! But, what is helpful about this exercise is again looking at how there are different way to represent the <em>same thing</em>. In other words, there is an isomorphism, a mapping, between:</p>
-<blockquote><p>$$- \leftrightarrow 1$$<br>
+<blockquote>$$- \leftrightarrow 1$$<p><br>
 $$p \leftrightarrow +$$<br>
 $$e \leftrightarrow =$$<br></p>
 </blockquote>
 <p>With that said, let's take a moment to be thankful that number's were created-doing mathematics with only dashes at our disposal would be incredibly tedious!</p>
 <h3 id="2.3.4-Descartes-Big-Leap">2.3.4 Descartes Big Leap<a class="anchor-link" href="#2.3.4-Descartes-Big-Leap">&#182;</a></h3><p>We are now prepared to talk about one of the most ground breaking isomorphisms that has ever been found. Say for a moment that I have the following equation:</p>
-<blockquote><p>$$2x - y = 6$$</p>
+<blockquote>$$2x - y = 6$$
 </blockquote>
 <p>This is, at is core just a relationship about the current state of the world! For instance, if I told you that $x$ was representing the number of cookies you baked, and $y$ was representing the amount of money you made, then the relationship could be rewritten in english as:</p>
-<blockquote><p>$$2*\text{Number of cookies baked} - \text{Amount of money you make} = 6$$</p>
+<blockquote>$$2*\text{Number of cookies baked} - \text{Amount of money you make} = 6$$
 </blockquote>
 <p>Now, up until the early 1600s, this was the extent to which the current state described above could be represented. A bit of a shame, considering humans are incredible <em>visual</em> by nature. Then, along came French Mathematician Rene Descartes, who had a brilliant revelation. There was a <em>mapping</em> that could be made between that relationship listed above, and a coordinate system! He found that by simply rearranging the relationship to be:</p>
-<blockquote><p>$$\text{Amount of money you make} = 2*\text{Number of cookies baked} - 6$$</p>
+<blockquote>$$\text{Amount of money you make} = 2*\text{Number of cookies baked} - 6$$
 </blockquote>
 <p>You could then create a coordinate system with a set of axis, and create a visual representation that encoded the <em>exact same information</em> as the above equation:</p>
 
@@ -1161,7 +1133,7 @@ $$e \leftrightarrow =$$<br></p>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Amount of money made per number of cookies baked&#39;</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1171,7 +1143,7 @@ $$e \leftrightarrow =$$<br></p>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[14]:</div>
+    <div class="prompt output_prompt">Out[14]:</div>
 
 
 
@@ -1184,7 +1156,7 @@ $$e \leftrightarrow =$$<br></p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1202,18 +1174,17 @@ $$e \leftrightarrow =$$<br></p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This was an incredibly big leap! The ability to view these two different representations as equivalent allowed for massive advancements to be made in mathematics!</p>
 <h3 id="2.3.5-Linear-Systems-of-Equations-vs.-Linear-Transformations">2.3.5 Linear Systems of Equations vs. Linear Transformations<a class="anchor-link" href="#2.3.5-Linear-Systems-of-Equations-vs.-Linear-Transformations">&#182;</a></h3><p>Now, we finally are at a point where we can tie everything that we just learned together. If we consider <em>Descartes</em> big leap, we realize that he found <em>one</em> way (a curve on a plane) of representing a relationship of the form:</p>
-<p>$$2x - y = 6$$<br></p>
+$$2x - y = 6$$<p><br></p>
 <p>And the <em>main</em> way in which students are taught to deal with relationships from grade school onwards is via the isomorphism that maps to relationship to the plane (via a curve/line). But, that is not the only way in which relationships can be viewed!</p>
 <p>Remember the language example; for an english speaker <em>something upon which my breakfast rests</em> is mapped internally to <em>table</em> without even thinking about it. It is so natural, that saying there is an isomorphism that exists almost feels wrong. However, if we now refer to <em>something upon which my breakfast rests</em> as a <em>mesa</em>, it is immediately clear that there is a in fact a mapping. It is not as clear and intuitive, because the english speaker was not brought up with this association.</p>
 <p>The same thing occurs when looking at a relationship in mathematics. Students are brought up seeing an equation and the natural instinct is to use the isomorphism discovered by descartes and create the equal representation of a curve on a plane. To do this, one variable must be isolated as so:</p>
-<p>$$y = 2x - 6$$<br></p>
+$$y = 2x - 6$$<p><br></p>
 <p>But-and here is the main idea we have been getting at- in certain cases (such as our equation above), we can view this relationship not only as a curve on plane, but also as a <em>linear transformation</em>. In this case, we will perform some typographical operations, adding brackets, treating certain pieces of the equation as vectors and others as matrices, etc. We would end up with a representation of the following form:</p>
-<p>$$
+$$
 \begin{bmatrix}
     2 &amp; -1 \\
 \end{bmatrix}
@@ -1224,8 +1195,7 @@ $$e \leftrightarrow =$$<br></p>
 \begin{bmatrix}
     -6
 \end{bmatrix}
-$$</p>
-<p>The thing to keep in mind is that once we perform matrix-vector multiplication, we end up with a linear combination that is <em>identical</em> in form and content to our original relationship $2x - y = 6$. So, summed up simply:</p>
+$$<p>The thing to keep in mind is that once we perform matrix-vector multiplication, we end up with a linear combination that is <em>identical</em> in form and content to our original relationship $2x - y = 6$. So, summed up simply:</p>
 <blockquote><p>The reason that we can use matrix-vector multiplication to solve a linear system of equations is because both the relationship represented by the equation and the relationship represnted by the matrix-vector multiplication yields an <em>identical linear combination</em> when solved. This isomorphism that exists is incredibly powerful, and allows us to transfer a problem from one domain (coordinate space) to another (vector space). This gives us a new set of tools and techniques, and in many cases makes the problem more managable!</p>
 </blockquote>
 
@@ -1233,36 +1203,27 @@ $$</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.4-Inverse-Matrices">2.4 Inverse Matrices<a class="anchor-link" href="#2.4-Inverse-Matrices">&#182;</a></h2><p>We have already touched on this, but I want to take a moment to hone in on the important concept of inverse matrices. Before we do so, I quickly want to examine the concept of an inverse in the domain of functions.</p>
 <blockquote><p><em><strong>Inverse Function</strong></em>: A function that reverses another function: If the function $f$ applied to an input $x$ gives a result of $y$, then applying its inverse function $g$ to $y$ gives the result $x$.</p>
 </blockquote>
 <p>Say that we have the function:</p>
-<p>$$f(x) = 2x$$</p>
-<p>And we also know that:</p>
-<p>$$f(x) = y $$</p>
-<p>We could say that our function takes an input $x$ in from the <em>domain</em> and transforms it to $y$ in the <em>codomain</em>. Let's set $x = 4$:</p>
-<p>$$f(4) = 2 * 4 = 8$$</p>
-<p>$$y = 8$$</p>
-<p>Now, in this case if we want to reverse the transformation of $x \rightarrow y$, we would want to find $g$ - the function that takes $y \rightarrow x$. We can see that $g$ is:</p>
-<p>$$g(y) = \frac{y}{2}$$</p>
-<p>And that equivalently:</p>
-<p>$$g(y) = x$$</p>
-<p>And we can solve this to find:</p>
-<p>$$g(8) = \frac{8}{2} = 4$$</p>
-<p>$$x = 4$$</p>
-<p>So, we have clearly shown that an inverse is simply the reversal of a function. This can be beautifully applied to the world of linear transformations. Recall, a matrice is just a representation of a linear transformation. If we have a matrix $A$ and a vector $\vec{x}$, then writing the matrix vector multiplication:</p>
-<p>$$A\vec{x}$$</p>
+$$f(x) = 2x$$<p>And we also know that:</p>
+$$f(x) = y $$<p>We could say that our function takes an input $x$ in from the <em>domain</em> and transforms it to $y$ in the <em>codomain</em>. Let's set $x = 4$:</p>
+$$f(4) = 2 * 4 = 8$$$$y = 8$$<p>Now, in this case if we want to reverse the transformation of $x \rightarrow y$, we would want to find $g$ - the function that takes $y \rightarrow x$. We can see that $g$ is:</p>
+$$g(y) = \frac{y}{2}$$<p>And that equivalently:</p>
+$$g(y) = x$$<p>And we can solve this to find:</p>
+$$g(8) = \frac{8}{2} = 4$$$$x = 4$$<p>So, we have clearly shown that an inverse is simply the reversal of a function. This can be beautifully applied to the world of linear transformations. Recall, a matrice is just a representation of a linear transformation. If we have a matrix $A$ and a vector $\vec{x}$, then writing the matrix vector multiplication:</p>
+$$A\vec{x}$$<p></p>
 <p>Is simply saying that the vector $\vec{x}$ is linearly transformed to a new vector. Therefore, we can write this equation completely as:</p>
-<p>$$A\vec{x} = \vec{v}$$</p>
+$$A\vec{x} = \vec{v}$$<p></p>
 <p>Now, we know that what this is saying is really the following:</p>
-<p>$$\vec{x} \rightarrow A(\vec{x}) \rightarrow \vec{v}$$<br></p>
+$$\vec{x} \rightarrow A(\vec{x}) \rightarrow \vec{v}$$<p><br></p>
 <p>So, in other words, $A$ is a linear transformation that will take in a vector $\vec{x}$ and transform it to a vector $\vec{v}$. Therefore, the inverse of $A$ would just be reversing the process! It will take the vector $\vec{v}$ and transform it back to the vector $\vec{x}$:</p>
-<p>$$\vec{v} \rightarrow A^{-1}(\vec{v}) \rightarrow \vec{x}$$<br></p>
+$$\vec{v} \rightarrow A^{-1}(\vec{v}) \rightarrow \vec{x}$$<p><br></p>
 <p>Written in matrix-vector multiplication notation that looks like:</p>
-<p>$$A^{-1}\vec{v} = \vec{x}$$<br></p>
+$$A^{-1}\vec{v} = \vec{x}$$<p><br></p>
 <p>This understanding can be solidified visually below. We start with simply our basis vectors $\hat{i}$ and $\hat{j}$, and our vector $\vec{x}$:</p>
 
 </div>
@@ -1290,7 +1251,7 @@ $$</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1300,7 +1261,7 @@ $$</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1318,8 +1279,7 @@ $$</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We then perform a linear transformation on the entire vector space. This linear transformation is represented by the $A$ (remember, the columns of matrix $A$ represent where the transformed basis vectors land!). So, after performing the linear transformation, our transformed basis vectors and our $\vec{x}$ land at:</p>
 
@@ -1348,7 +1308,7 @@ $$</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1358,7 +1318,7 @@ $$</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1376,8 +1336,7 @@ $$</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, this transformed $\vec{x}$ is what we have been referring to as $\vec{v}$! So, in other words, we can see how $\vec{x}$ was transformed to $\vec{v}$ via the linear transformation $A$ by overlaying the two plots:</p>
 
@@ -1413,7 +1372,7 @@ $$</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1423,7 +1382,7 @@ $$</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1441,8 +1400,7 @@ $$</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Where above, we can clearly see how the green vector $\vec{x}$ was moved to the location of the red vector $\vec{v}$ (which can think of as transformed $\vec{x}$, via the linear transformation $A$. The visual intuition of an inverse matrix, $A^{-1}$, is to think about the linear transformation that would "untransform $\vec{x}$". More formally:</p>
 <blockquote><p>The inverse matrix is the linear transformation that will transform $\vec{v}$ into the $\vec{x}$.</p>
@@ -1452,14 +1410,11 @@ $$</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="Appendix">Appendix<a class="anchor-link" href="#Appendix">&#182;</a></h1><p>This appendix will show how to use numpy to solve the following system of linear equations:</p>
-<p>$$2x + 2y = -4$$</p>
-<p>$$1x + 3y = -1$$
-<br>
+$$2x + 2y = -4$$$$1x + 3y = -1$$<p><br>
 $$
 \begin{bmatrix}
     2  &amp; 2\\
@@ -1492,7 +1447,7 @@ $$A \vec{x} = \vec{v}$$</p>
 <span class="nb">print</span><span class="p">(</span><span class="n">xvec</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1502,7 +1457,7 @@ $$A \vec{x} = \vec{v}$$</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1516,8 +1471,7 @@ $$A \vec{x} = \vec{v}$$</p>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="A.2-Solve-for-$\vec{x}$,-reverse-order-of-rows-in-matrix-$A$-and-$\vec{v}$">A.2 Solve for $\vec{x}$, reverse order of rows in matrix $A$ and $\vec{v}$<a class="anchor-link" href="#A.2-Solve-for-$\vec{x}$,-reverse-order-of-rows-in-matrix-$A$-and-$\vec{v}$">&#182;</a></h2>
 </div>
@@ -1535,7 +1489,7 @@ $$A \vec{x} = \vec{v}$$</p>
 <span class="nb">print</span><span class="p">(</span><span class="n">xvec1</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1545,7 +1499,7 @@ $$A \vec{x} = \vec{v}$$</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">

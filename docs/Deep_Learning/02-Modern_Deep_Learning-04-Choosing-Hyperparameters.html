@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -195,10 +194,6 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -211,8 +206,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="11.-Hyperparameter-Optimization">11. Hyperparameter Optimization<a class="anchor-link" href="#11.-Hyperparameter-Optimization">&#182;</a></h1><p>We have just introduced a lot of new hyperparameters, and this is only going to get worse as our neural networks get more and more complex. This leads us in to a topic called <strong>hyperparameter optimization</strong>. So, what are the hyperparameters that we have learned about so far?</p>
 <blockquote><ul>
@@ -293,8 +287,7 @@ for i in range(max_iterations):
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -321,8 +314,7 @@ Decay Rate = 1 - 10^R</code></pre>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -373,7 +365,7 @@ We are referring to the variables as $x_1$ and $x_2$ because we are going to use
     <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -397,14 +389,13 @@ We are referring to the variables as $x_1$ and $x_2$ because we are going to use
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now let's just take a quick look at our dataset.</p>
 
@@ -423,7 +414,7 @@ We are referring to the variables as $x_1$ and $x_2$ because we are going to use
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -433,7 +424,7 @@ We are referring to the variables as $x_1$ and $x_2$ because we are going to use
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -451,8 +442,7 @@ We are referring to the variables as $x_1$ and $x_2$ because we are going to use
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And now we can finally get back to grid search! Note that we have imported <code>theano_ann</code>, which makes use of a custom class that we have not gone over yet. However, it is fully encapsulated, so it is just like using Scikit Learn! You don't need to know how it is written, just how to use it's API.</p>
 <p>Something else to note is that while it is standard practice in the field of machine learning to use cross validation and a test set, we will not use it here. It is not very common in the subfield of deep learning, because you generally have so much data that one validation set is fine. Plus, if training takes 1 hour and you want to do 5 fold cross validation, then it is going to take 5 hours in that case.</p>
@@ -513,7 +503,7 @@ We are referring to the variables as $x_1$ and $x_2$ because we are going to use
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;l2:&quot;</span><span class="p">,</span> <span class="n">best_l2</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -526,7 +516,7 @@ We are referring to the variables as $x_1$ and $x_2$ because we are going to use
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">grid_search</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -536,7 +526,7 @@ We are referring to the variables as $x_1$ and $x_2$ because we are going to use
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -581,8 +571,7 @@ l2: 0.0
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>One thing to be mindful of with grid search is that people are usually looking for ways to automate choosing hyper parameters, because it is kind of unscientific to chose them yourself. Well, grid search doesn't really solve that problem. You still need to choose what hyperparameter settings to go through. If you chose the wrong ones, you are still going to arrive at a poor result. So, unfortunately there is no way of getting around this trial and error method.</p>
 
@@ -590,8 +579,7 @@ l2: 0.0
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -607,8 +595,7 @@ l2: 0.0
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -632,14 +619,13 @@ l2: 0.0
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And now we can write our <code>random_search</code> function. A few things to note:</p>
 <blockquote><ul>
@@ -719,7 +705,7 @@ l2: 0.0
     <span class="n">random_search</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -729,7 +715,7 @@ l2: 0.0
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -195,10 +194,6 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -211,8 +206,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="13.-Theano-Basics">13. Theano Basics<a class="anchor-link" href="#13.-Theano-Basics">&#182;</a></h1><p>Going from regular numpy to pandas is a pretty straightforward leap, however, going to theano is not and there are certain things that do not happen as you would expect. So we can now talk about variables.</p>
 
@@ -228,14 +222,13 @@ body {
 <span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="k">as</span> <span class="nn">T</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In order to create a scalar, vector, and matrix we do so as follows:</p>
 
@@ -253,14 +246,13 @@ body {
 <span class="n">A</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>There are also tensors in theano, which are for matrices of dimensionality 3 and greater. These may be seen if you work with an image that has not been flattened. So we have vector that are 784 in length, but need to be reshaped to 28x28 to view the image. So, if you wanted to store the images as squares and you had N images, then that would be <strong>(N x 28 x 28)</strong>, which is a 3 dimensional Tensor. If you had 3 color channels, then you would have an <strong>(N x 3 x 28 x 28)</strong> tensor, which is 4 dimensional.</p>
 <p>With that said, notice that the 3 variables we created above do not have values, they are just symbols, so we can even do algebra on them!</p>
@@ -276,14 +268,13 @@ body {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>However, we still have not done any multiplication, which would be impossible since A and v don't have any values yet. So, how do we set values to A and v and find the result w? This is where <strong>theano functions</strong> come into play. So, lets import the top level theano module.</p>
 
@@ -298,14 +289,13 @@ body {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">theano</span> 
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can use this to create a theano function. Each function creation specifies the inputs and outputs.</p>
 
@@ -320,14 +310,13 @@ body {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">matrix_times_vector</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">A</span><span class="p">,</span><span class="n">v</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="n">w</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we can import numpy so that we can create real arrays and call the function.</p>
 
@@ -347,7 +336,7 @@ body {
 <span class="n">display</span><span class="p">(</span><span class="n">w_val</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -357,7 +346,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -373,8 +362,7 @@ body {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now this is nothing too impressive so far. However, one of the biggest advantages of theano is that it links all of these variables up into a graph. And we can use that structure to calculate gradients using the chain rule. In theano, regular variables are not updateable. To make an updateable variable we need to make what is called a shared variable. Let's do that now.</p>
 
@@ -392,14 +380,13 @@ body {
 <span class="n">x</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="mf">20.0</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's also create a simple cost function that we can solve ourselves, and we know has a global minimum.</p>
 
@@ -415,14 +402,13 @@ body {
 <span class="n">cost</span> <span class="o">=</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, let's tell theano how we want to update x, by giving it an update expression.</p>
 
@@ -442,14 +428,13 @@ body {
 <span class="n">x_update</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="mf">0.3</span><span class="o">*</span><span class="n">T</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">cost</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we can create the theano train function. This is like the previous function we created, except we are going to add a new argument which is updates. The updates argument takes in a list of tuples, and each tuple has 2 things in it:</p>
 <ol>
@@ -469,14 +454,13 @@ body {
 <span class="n">train</span> <span class="o">=</span> <span class="n">theano</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="n">cost</span><span class="p">,</span> <span class="n">updates</span><span class="o">=</span><span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_update</span><span class="p">)])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So, we have created a function to train, but we have not actually called it yet. Now, notice that x is not an input, it is the thing that we update. In later examples the inputs will be the data and labels. So, the inputs param takes in data and labels, while the updates param takes in your model parameters with their updates.</p>
 <p>Now we have to write our own loop to call the training function.</p>
@@ -497,7 +481,7 @@ body {
 <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">get_value</span><span class="p">())</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -507,7 +491,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -546,8 +530,7 @@ body {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><br></p>
@@ -574,14 +557,13 @@ body {
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can now define an error rate function. New versions of Theano have the ReLU function, but incase yours does not we can create one right now. Note that both of these functions use true false values and turn them into numbers.</p>
 
@@ -600,14 +582,13 @@ body {
   <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can now write out main function.</p>
 
@@ -710,7 +691,7 @@ body {
   <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -720,7 +701,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -911,7 +892,7 @@ Cost / err at iteration i=19, j=80: 241.383 / 0.073
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -924,6 +905,19 @@ Cost / err at iteration i=19, j=80: 241.383 / 0.073
 
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
 </div>
 </div>
 

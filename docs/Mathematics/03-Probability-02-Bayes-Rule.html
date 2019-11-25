@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -195,10 +194,6 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -211,43 +206,32 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="2.-Bayes-Rule">2. Bayes Rule<a class="anchor-link" href="#2.-Bayes-Rule">&#182;</a></h1><p>The main goal of this post is to dig a bit further into Bayes rule, from a purely probabilistic perspective! Before we begin I do want to make one note; a great deal of the power of Bayes Rule comes in the form of bayesian inference and bayesian statistics, which can be found in the statistics section. I would recommend reading both of those posts as well if you are interested, since they demonstrate the application of Bayes rule to real world problems. If you have caught the bayesian bug at that point then I recommend reading my posts on Bayesian AB testing, found in the Machine Learning section.</p>
 <p>One more thing to note: I am going to hold of on explaining the importance of Bayes Rule until the end, and its many use cases will in reality be spread throughout the aformentioned posts. Just another reason to go through them all. With that out of the way, let's begin!</p>
 <h2 id="1.1-Mathematical-Definition">1.1 Mathematical Definition<a class="anchor-link" href="#1.1-Mathematical-Definition">&#182;</a></h2><p>We worked with Bayes Rule briefly in the probability introduction, but just to recap, it can be derived as follows:</p>
 <p>We know that the below statement represents the conditional probability of $A$ given $B$:</p>
-<p>$$p(A \mid B)=\frac{p(A,B)}{p(B)}$$</p>
-<p>And we also know that the opposite is also true:</p>
-<p>$$p(B \mid A)=\frac{p(B,A)}{p(A)}$$</p>
-<p>And since:</p>
-<p>$$p(A,B)=p(B,A)$$</p>
-<p>We can write:</p>
-<p>$$p(A \mid B)=\frac{p(B \mid A)*p(A)}{p(B)}$$</p>
-<p>Now, often times we may not have $p(B)$ directly, but this is just the marginal distribution of the joint probability $p(A,B)$, summed over all $p(A)$. It looks like:</p>
-<p>$$p(B)=\sum_ip(A_i,B) = \sum_ip(B \mid A_i)*p(A_i)$$</p>
-<p>If we are working with continuous distributions, sum turns into an integral.</p>
+$$p(A \mid B)=\frac{p(A,B)}{p(B)}$$<p>And we also know that the opposite is also true:</p>
+$$p(B \mid A)=\frac{p(B,A)}{p(A)}$$<p>And since:</p>
+$$p(A,B)=p(B,A)$$<p>We can write:</p>
+$$p(A \mid B)=\frac{p(B \mid A)*p(A)}{p(B)}$$<p>Now, often times we may not have $p(B)$ directly, but this is just the marginal distribution of the joint probability $p(A,B)$, summed over all $p(A)$. It looks like:</p>
+$$p(B)=\sum_ip(A_i,B) = \sum_ip(B \mid A_i)*p(A_i)$$<p>If we are working with continuous distributions, sum turns into an integral.</p>
 <p>Another way to think of this, is that the term on the bottom is just a normalization constant (Z) to ensure that the distribution sums to one.</p>
-<p>$$p(A \mid B)=\frac{p(B \mid A)*p(A)}{Z}$$</p>
-<p>Another way of saying this, is that they are proportional:</p>
-<p>$$p(A \mid B)\propto p(B \mid A)*p(A)$$</p>
-<p>Now this is a very powerful fact! Because the denominator ($p(B)$) does not depend on $A$, if we are simply trying to find the value of $A$ that maximizes the conditional probability of $p(A \mid B)$, we can ignore the denominator! In other words, this is used when we are trying to find the argmax of a distribution:</p>
-<p>$$argmax_Ap(A \mid B)$$</p>
-<p>So, we don't need to know the actual value of the probability, just the particular A that gives us the maximum probability. Because Z is independent of A:</p>
-<p>$$argmax_Ap(A \mid B) = argmax_Ap(B \mid A)p(A)$$</p>
+$$p(A \mid B)=\frac{p(B \mid A)*p(A)}{Z}$$<p>Another way of saying this, is that they are proportional:</p>
+$$p(A \mid B)\propto p(B \mid A)*p(A)$$<p>Now this is a very powerful fact! Because the denominator ($p(B)$) does not depend on $A$, if we are simply trying to find the value of $A$ that maximizes the conditional probability of $p(A \mid B)$, we can ignore the denominator! In other words, this is used when we are trying to find the argmax of a distribution:</p>
+$$argmax_Ap(A \mid B)$$<p>So, we don't need to know the actual value of the probability, just the particular A that gives us the maximum probability. Because Z is independent of A:</p>
+$$argmax_Ap(A \mid B) = argmax_Ap(B \mid A)p(A)$$<p></p>
 <p>This leads us into one of the main uses for Bayes Rule.</p>
 <h2 id="1.2-Bayes-Rule-for-Classification">1.2 Bayes Rule for Classification<a class="anchor-link" href="#1.2-Bayes-Rule-for-Classification">&#182;</a></h2><p>In the context of the Bayes Classifier, $y$ represents the class, and $x$ represents the data.</p>
-<p>$$p(y \mid x)=\frac{p(x \mid y)*p(y)}{p(x)}$$</p>
-<p>We refer to $p(x \mid y)$ as the <strong>generative distribution</strong>, because it tells us what the features look like for a specific class y, which we are already given.</p>
+$$p(y \mid x)=\frac{p(x \mid y)*p(y)}{p(x)}$$<p>We refer to $p(x \mid y)$ as the <strong>generative distribution</strong>, because it tells us what the features look like for a specific class y, which we are already given.</p>
 <p>Note, that while the bayes classifier does make use of bayes rule, it does NOT necessarily make use of bayesian statistics. For more information on exactly what that means please see the posts on Bayesian Statistics. Again, the purpose of this post is really to just demonstrate it's role when purely confined to basic probability problems.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.-Examples">2. Examples<a class="anchor-link" href="#2.-Examples">&#182;</a></h2><h3 id="2.1-The-Monty-Hall-Problem">2.1 The Monty Hall Problem<a class="anchor-link" href="#2.1-The-Monty-Hall-Problem">&#182;</a></h3><p>We are now going to go over a few brief examples where Bayes Rule can be applied in a simple proabilistic setting. First we can start with a very famous problem in probability know as <strong>The Monty Hall Problem</strong>. Imagine you are on a game show and you have to pick a door. There are 3 doors, and behind 1 of the doors there is a car, and behind the other two doors there are goats. Here is how the game works:</p>
 <ol>
@@ -257,34 +241,19 @@ body {
 </ol>
 <p>The big question is, which door should you choose?</p>
 <h4 id="2.1.1-Which-door-should-you-chose">2.1.1 Which door should you chose<a class="anchor-link" href="#2.1.1-Which-door-should-you-chose">&#182;</a></h4><p>So, remember, you choose door 1, and each probability is conditioned on this. We then define the following:</p>
-<p>$$ C = \text{where the car really is}$$</p>
-<p>$$ p(C=1) = p(C=2) = p(C=3) = 1/3$$</p>
-<p>For example, $p(C=1)$ represents the probability that a car is behind door 1. We can then define the random variable $H$:</p>
-<p>$$ H = \text{random variable to represent the door that Monty Hall opens}$$</p>
-<p>We can assume he opens door 2 without loss of generality, since the problem is symmetric.</p>
-<p>$$p(H=2 \mid C=1) = 0.5$$</p>
-<p>Remember that you chose door 1. So if the car is behind door 1, he can choose either door 2 or 3 since they will each be a goat. If the car is behind door 2, he cannot open door 2, so the probability is 0:</p>
-<p>$$ p(H=2 \mid C=2) = 0$$</p>
-<p>Similarly, if the car is behind door 3, then monty hall has to open door 2, since that is the only door left with a goat:</p>
-<p>$$p(H=2 \mid C=3) = 1$$</p>
-<p>Now, What probability do we actually want? We want to know if we should stick with door 1 or switch to door 3. In other words we want to compare:</p>
-<p>$$p(C=1 \mid H=2) \text{ vs. } p(C=3 \mid H=2)$$</p>
-<p>Now, we can do that using bayes rule!</p>
-<p>$$p(A \mid B)=\frac{p(B \mid A)*p(A)}{p(B)}$$</p>
-<p>$$p(A \mid B)=\frac{p(B \mid A)*p(A)}{\sum_ip(B \mid A_i)*p(A_i)}$$</p>
-<p>Where in our case:</p>
-<p>$$A: C=3 \;, B: H=2$$</p>
-<p>$$p(C=3 \mid H=2) = \frac{p(H=2 \mid C=3)p(C=3)}{p(H=2)}$$</p>
-<p>$$p(C=3 \mid H=2) = \frac{p(H=2 \mid C=3)p(C=3)}{p(H=2 \mid C=1)p(C=1)+p(H=2 \mid C=2)p(C=2)+p(H=2 \mid C=3)p(C=3)}$$</p>
-<p>$$p(C=3 \mid H=2) = \frac{\frac{1}{3}}{\frac{1}{2}*\frac{1}{3}+0*\frac{1}{3}+1*\frac{1}{3}} = \frac{2}{3}$$</p>
-<p>And we can similarly show:</p>
-<p>$$p(C=1 \mid H=2) = \frac{1}{3}$$</p>
-<p>Hence, by the above application of Bayes Rule it is clear that we should always switch doors!</p>
+$$ C = \text{where the car really is}$$$$ p(C=1) = p(C=2) = p(C=3) = 1/3$$<p>For example, $p(C=1)$ represents the probability that a car is behind door 1. We can then define the random variable $H$:</p>
+$$ H = \text{random variable to represent the door that Monty Hall opens}$$<p>We can assume he opens door 2 without loss of generality, since the problem is symmetric.</p>
+$$p(H=2 \mid C=1) = 0.5$$<p>Remember that you chose door 1. So if the car is behind door 1, he can choose either door 2 or 3 since they will each be a goat. If the car is behind door 2, he cannot open door 2, so the probability is 0:</p>
+$$ p(H=2 \mid C=2) = 0$$<p>Similarly, if the car is behind door 3, then monty hall has to open door 2, since that is the only door left with a goat:</p>
+$$p(H=2 \mid C=3) = 1$$<p>Now, What probability do we actually want? We want to know if we should stick with door 1 or switch to door 3. In other words we want to compare:</p>
+$$p(C=1 \mid H=2) \text{ vs. } p(C=3 \mid H=2)$$<p>Now, we can do that using bayes rule!</p>
+$$p(A \mid B)=\frac{p(B \mid A)*p(A)}{p(B)}$$$$p(A \mid B)=\frac{p(B \mid A)*p(A)}{\sum_ip(B \mid A_i)*p(A_i)}$$<p>Where in our case:</p>
+$$A: C=3 \;, B: H=2$$$$p(C=3 \mid H=2) = \frac{p(H=2 \mid C=3)p(C=3)}{p(H=2)}$$$$p(C=3 \mid H=2) = \frac{p(H=2 \mid C=3)p(C=3)}{p(H=2 \mid C=1)p(C=1)+p(H=2 \mid C=2)p(C=2)+p(H=2 \mid C=3)p(C=3)}$$$$p(C=3 \mid H=2) = \frac{\frac{1}{3}}{\frac{1}{2}*\frac{1}{3}+0*\frac{1}{3}+1*\frac{1}{3}} = \frac{2}{3}$$<p>And we can similarly show:</p>
+$$p(C=1 \mid H=2) = \frac{1}{3}$$<p>Hence, by the above application of Bayes Rule it is clear that we should always switch doors!</p>
 <h4 id="2.1.2-Mathematical-Intuition">2.1.2 Mathematical Intuition<a class="anchor-link" href="#2.1.2-Mathematical-Intuition">&#182;</a></h4><p>We can also think about the problem like so:</p>
-<p>$$ p(C=1) = 1/3 $$</p>
-<p>$$ p(C=2) = 1/3$$</p>
-<p>$$ p(C=3) = 1/3$$</p>
-<p>$$ p(C=2 \text{ or } C=3) = 2/3$$</p>
+$$ p(C=1) = 1/3 $$$$ p(C=2) = 1/3$$<p></p>
+$$ p(C=3) = 1/3$$<p></p>
+$$ p(C=2 \text{ or } C=3) = 2/3$$<p></p>
 <p>Now lets say that we pick door 1, and monty hall opens door 2, showing us there is a goat behind it. We now know that $p(C=2) = 0$. In other words, monty has <strong>revealed certain information to us</strong> that we did not have originally.  Hence, our equation $p(C=2 \text{ or } C=3) = 2/3$ still remains true, which means that $p(C=3) = 2/3$ and $p(C=1) = 1/3$. So we want to pick door 3! Note the reason this happens is because once door 2 is opened, it is known and is no longer a random variable.</p>
 <h4 id="2.1.3-Advanced-Intuition">2.1.3 Advanced Intuition<a class="anchor-link" href="#2.1.3-Advanced-Intuition">&#182;</a></h4><p>Now, this problem is often referred to as a <strong>paradox</strong>. The reason it is viewed as a paradox is because it violates general human intuition and common sense. Now, this section will touch on some more advanced topics such as <strong>causal analysis</strong> (which will be covered in later posts), but I would feel remiss if I did not add a few sentences on the topic.</p>
 <p>In general, human intuition operates under the logic of <strong>causation</strong>, while data conform to the logic of probabilties and proportions. Paradoxes often arise when we misapply the rules we have learned in one realm to another. In the case the Monty Hall problem, the main thing needed to resolve this apparent paradox is that we must take into account <em>not only the data</em>, but also the <em>data generating process</em> (the rules of the game). The main idea is as follows:</p>
@@ -297,8 +266,7 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="2.2-Imbalanced-Classes">2.2 Imbalanced Classes<a class="anchor-link" href="#2.2-Imbalanced-Classes">&#182;</a></h3><p>Lets look at another example of where Bayes rule comes into play. Suppose we are doing disease testing. We would take a blood sample, extract some features from it, and output whether or not that person has the disease. So, we would have:</p>
 <ul>
@@ -308,8 +276,7 @@ body {
 <p>Lets look further at a realistic scenario where this is involved. Most people are healthy and non diseased, most of the time. So, suppose that only 1% of the population has the disease. We can build a classifier that just predicts "no" each time. In other words, it doesn't learn anything. It is already correct for 99% of cases though! Hence, accuracy is not always the best metric to utilize. Perhaps we do not care about overall accuracy?</p>
 <h4 id="2.2.1-So-what-should-we-measure?">2.2.1 So what should we measure?<a class="anchor-link" href="#2.2.1-So-what-should-we-measure?">&#182;</a></h4><p>What we actually want to measure is $p(predict=1 | disease=1)$. This is called the <strong>true positive rate</strong>. In medical terminology this is referred to as <strong>sensitivity</strong>. In information retrieval is is known as <strong>hit rate</strong> or <strong>recall</strong>.</p>
 <p>We can solve for the above using bayes rule:</p>
-<p>$$p(prediction=1 | disease=1) = \frac{p(prediction=1, disease=1)}{p(disease=1)}$$</p>
-<p>Typically, we count 4 things:</p>
+$$p(prediction=1 | disease=1) = \frac{p(prediction=1, disease=1)}{p(disease=1)}$$<p>Typically, we count 4 things:</p>
 <ol>
 <li><strong>true positives</strong> (you have the disease, and we predict you have the disease)</li>
 <li><strong>true negatives</strong> (you don't have the disease, and we predict you dont' have the disease)</li>
@@ -338,25 +305,29 @@ body {
 </tbody>
 </table>
 <h4 id="2.2.2-Sensitivity">2.2.2 Sensitivity<a class="anchor-link" href="#2.2.2-Sensitivity">&#182;</a></h4><p>With that said, we can calculate sensitivity as follows:</p>
-<p>$$p(prediction=1 | disease=1) = \frac{p(prediction=1, disease=1)}{p(disease=1)}$$</p>
-<p>$$sensitivity = recall = \frac{TP}{TP+FN}$$</p>
-<h4 id="2.2.3-Specificity">2.2.3 Specificity<a class="anchor-link" href="#2.2.3-Specificity">&#182;</a></h4><p>And we can then calculate the <strong>specificity</strong> (the true negative rate):</p>
-<p>$$p(prediction=0 | disease=0) = \frac{p(prediction=0, disease=0)}{p(disease=0)}$$</p>
-<p>$$specificity = \frac{TN}{TN+FP}$$</p>
-<h4 id="2.2.4-Precision">2.2.4 Precision<a class="anchor-link" href="#2.2.4-Precision">&#182;</a></h4><p>Now, in information retrieval, rather than specificity, we are interested in <strong>precision</strong>.</p>
-<p>$$precision = \frac{TP}{TP+FP}$$</p>
-<p>What is this the probability of? Well, $TP$ can be defined as:</p>
-<p>$$TP = p(prediction=1, disease=1)$$</p>
-<p>And $TP + FP$:</p>
-<p>$$TP+FP = p(prediction=1)$$</p>
-<p>Which then looks like:</p>
-<p>$$precision = \frac{TP}{TP+FP} = \frac{p(prediction=1, disease=1)}{p(prediction=1)}$$</p>
-<p>Which equals:</p>
-<p>$$p(disease=1|prediction=1) = \frac{p(prediction=1, disease=1)}{p(prediction=1)}$$</p>
-<p>This is a useful measure! Just because your results come back positive, does not mean that you have the disease! Generally, more testing is required! This will be explored further in the bayesian statistics section.</p>
+$$p(prediction=1 | disease=1) = \frac{p(prediction=1, disease=1)}{p(disease=1)}$$$$sensitivity = recall = \frac{TP}{TP+FN}$$<h4 id="2.2.3-Specificity">2.2.3 Specificity<a class="anchor-link" href="#2.2.3-Specificity">&#182;</a></h4><p>And we can then calculate the <strong>specificity</strong> (the true negative rate):</p>
+$$p(prediction=0 | disease=0) = \frac{p(prediction=0, disease=0)}{p(disease=0)}$$$$specificity = \frac{TN}{TN+FP}$$<h4 id="2.2.4-Precision">2.2.4 Precision<a class="anchor-link" href="#2.2.4-Precision">&#182;</a></h4><p>Now, in information retrieval, rather than specificity, we are interested in <strong>precision</strong>.</p>
+$$precision = \frac{TP}{TP+FP}$$<p>What is this the probability of? Well, $TP$ can be defined as:</p>
+$$TP = p(prediction=1, disease=1)$$<p>And $TP + FP$:</p>
+$$TP+FP = p(prediction=1)$$<p>Which then looks like:</p>
+$$precision = \frac{TP}{TP+FP} = \frac{p(prediction=1, disease=1)}{p(prediction=1)}$$<p>Which equals:</p>
+$$p(disease=1|prediction=1) = \frac{p(prediction=1, disease=1)}{p(prediction=1)}$$<p>This is a useful measure! Just because your results come back positive, does not mean that you have the disease! Generally, more testing is required! This will be explored further in the bayesian statistics section.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake

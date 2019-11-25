@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -195,10 +194,6 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -211,8 +206,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="3.-Statistical-Inference-and-Frequentist-A/B-Testing">3. Statistical Inference and Frequentist A/B Testing<a class="anchor-link" href="#3.-Statistical-Inference-and-Frequentist-A/B-Testing">&#182;</a></h1><p>If you went through my <strong>Introduction to Statistics</strong> post, then you are finally arriving at the payoff for all of our work: <strong>statistical inference</strong>. Statistical inference is used a wide variety of ways, but for now we will informally describe it as follows:</p>
 <blockquote><p>Statistics cannot prove anything with certainty. Instead, statistical inference derives its power from observing some pattern or outcome and then using probability to determine the most likely explanation for that outcome.</p>
@@ -247,7 +241,7 @@ body {
 <span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;retina&#39;
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -298,7 +292,7 @@ body {
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -308,7 +302,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -328,8 +322,7 @@ height=333
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, suppose instead that 92 out of 100 patients taking the medication showed improvement, compared to only 49 of 100 in the control group (plot on right). It is still possible that the result is unrelated to the drug; the patients in the treatment group may have just been very lucky, and of course the experiment may have missed controlling for a <strong>confounder</strong>. However, that is now a <em>much less likely explanation</em>. In the language of statistical inference, the following would most likely be concluded:</p>
 <ol>
@@ -367,13 +360,11 @@ height=333
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.-Parameter-Estimation">2. Parameter Estimation<a class="anchor-link" href="#2.-Parameter-Estimation">&#182;</a></h2><h3 id="2.1-Parameter-Estimation---Bernoulli-Distribution">2.1 Parameter Estimation - Bernoulli Distribution<a class="anchor-link" href="#2.1-Parameter-Estimation---Bernoulli-Distribution">&#182;</a></h3><p>Consider the following situation: you run an e-commerce site, and you want to track and measure the <em>click-through-rate</em> (CTR) for different users. The CTR is a metric that can either be yes or no, meaning the user either entered the website, found an item, went to the checkout and completed the purchase (<em>buy</em>), or they did not (<em>don't buy</em>).</p>
 <p>This is not a Gaussian Distribution, rather it is more like that of a coin toss, meaning there are two possible outcomes-namely a <strong>bernoulli distribution</strong>:</p>
-<p>$$P(n) = p^n (1-p)^{1-n}$$</p>
-<p>Where $p$ is the probability of buying something, $p = P(buy)$. Let's say that we have historical data related to five users:</p>
+$$P(n) = p^n (1-p)^{1-n}$$<p>Where $p$ is the probability of buying something, $p = P(buy)$. Let's say that we have historical data related to five users:</p>
 <table>
 <thead><tr>
 <th>User</th>
@@ -404,23 +395,18 @@ height=333
 </tbody>
 </table>
 <p>If we know that $P(buy) = p$, and there are only two outcomes, then it follows that:</p>
-<p>$$P(not \; buy) = 1 - p$$</p>
-<p>We also know that these events are <strong>independent</strong> and <strong>idenitically distributed</strong> (IID); in other words, person 1 buying/not buying does not effect the outcome of person 4. Finally, keep in mind that the bernoulli distribution only has one parameter, $p$, while the gaussian distribution has two parameters $\mu$ and $\sigma^2$.</p>
+$$P(not \; buy) = 1 - p$$<p>We also know that these events are <strong>independent</strong> and <strong>idenitically distributed</strong> (IID); in other words, person 1 buying/not buying does not effect the outcome of person 4. Finally, keep in mind that the bernoulli distribution only has one parameter, $p$, while the gaussian distribution has two parameters $\mu$ and $\sigma^2$.</p>
 <p>With all of the above information, we want to answer the following question:</p>
 <blockquote><p>What is the total likelihood of our observations in the above table?</p>
 </blockquote>
 <p>Well, based on the Bernoulli distribution, we can say that the total likelihood is equal to:</p>
-<p>$$L(2 \; buy, 3 \; not \;buy) = p^2 (1-p)^3 = P(buy)P(not \; buy)P(not \; buy)P(buy)P(not \; buy)$$</p>
-<p>Above, we were able to multiply the probabilities because they were independent events. This can be generalized as:</p>
-<p>$$L(N_{buy}, N_{!buy}) = p^{N_{buy}} (1-p)^{N_{!buy}}$$</p>
-<p>Keep in mind that we do <em>not</em> know $p$ yet. So, at this point we cannot calculate the total likelihood. In order to do so, we must answer the following question first:</p>
+$$L(2 \; buy, 3 \; not \;buy) = p^2 (1-p)^3 = P(buy)P(not \; buy)P(not \; buy)P(buy)P(not \; buy)$$<p>Above, we were able to multiply the probabilities because they were independent events. This can be generalized as:</p>
+$$L(N_{buy}, N_{!buy}) = p^{N_{buy}} (1-p)^{N_{!buy}}$$<p>Keep in mind that we do <em>not</em> know $p$ yet. So, at this point we cannot calculate the total likelihood. In order to do so, we must answer the following question first:</p>
 <blockquote><p>What is the <strong>maximum likelihood estimate</strong> of $p$, based on the data that we have collected?</p>
 </blockquote>
 <p>For more information on maximum likelihood estimation see my post in the mathematics section, but here is a brief overview: we use maximum likelihood estimation in order to estimate the <strong>parameter</strong> (in this case $p$) that maximize the likelihood of observing the data that we did.</p>
 <p>Visually, if we iterate over all values of $p$ from $[0,1]$, plugging into our bernoulli equation:</p>
-<p>$$L(N_{buy} = 2, N_{!buy} = 3) =  p^2 (1-p)^3$$</p>
-<p>$$L(data) =  p^2 (1-p)^3$$</p>
-<p>We end up with:</p>
+$$L(N_{buy} = 2, N_{!buy} = 3) =  p^2 (1-p)^3$$$$L(data) =  p^2 (1-p)^3$$<p>We end up with:</p>
 
 </div>
 </div>
@@ -514,14 +500,13 @@ height=333
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=1r41RLLxYvVbwQpA4j0cENRu0zV7bIaBA" width="800"></p>
 
@@ -529,41 +514,30 @@ height=333
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>From the above visualization it is clear that the value of $p$ which maximize the likelihood of observing the data that we did is $0.4$. This is based on the value where the likelihood plot on the right peaks, namely $p=0.4$. Now, with a little bit of calculus we can solve for this arg max without needing to look a the plot. To do there we want to take the derivative of our likelihood function and set it equal to zero; this way we can find our extrema.</p>
 <p>There is one minor implementation detail I must mention-in order to prevent computational precision issues from arising (these come about due to multiplying together many small probabilities), we will take the $log$ of our likelihood.</p>
-<p>$$L(N_{buy}, N_{!buy}) = p^{N_{buy}} (1-p)^{N_{!buy}}$$</p>
-<p>$$log \Big\{ L(N_{buy}, N_{!buy}) \Big\} = log \Big\{ p^{N_{buy}} (1-p)^{N_{!buy}}\Big\} = N_{buy} log(p) + N_{!buy} log(1-p)$$</p>
-<p>We can then take the derivative and set to 0:</p>
-<p>$$\frac{\partial L}{\partial p} = \frac{N_H}{p} - \frac{N_T}{(1-p)} = 0$$</p>
-<p>And finally, we can solve for $p$:</p>
-<p>$$p = \frac{N_{buy}}{N_{buy} + N_{!buy}}$$</p>
-<p>Which, just a quick sanity check we can see that it does indeed result in the value of $p$ that maximizes our total likelihood:</p>
-<p>$$p = \frac{2}{2 + 3} = 0.4$$</p>
-<p>And, if we let $Buy = 1$ and $!Buy = 0$ then we can end up with standard formula for the mean:</p>
-<p>$$p = \frac{1}{N} \sum_{i=1}^N x_i$$</p>
-<p>Now, we have just performed our <strong>parameter estimation</strong> based upon our data, but there is something that may be troubling you. Based on the above methodology, if we had observed 20 people buy and 30 people not buy, we would still end up with a 40% probability $p$ that someone buys. The same can be said if we were to observe 2000 buy and 3000 not buy.</p>
+$$L(N_{buy}, N_{!buy}) = p^{N_{buy}} (1-p)^{N_{!buy}}$$$$log \Big\{ L(N_{buy}, N_{!buy}) \Big\} = log \Big\{ p^{N_{buy}} (1-p)^{N_{!buy}}\Big\} = N_{buy} log(p) + N_{!buy} log(1-p)$$<p>We can then take the derivative and set to 0:</p>
+$$\frac{\partial L}{\partial p} = \frac{N_H}{p} - \frac{N_T}{(1-p)} = 0$$<p>And finally, we can solve for $p$:</p>
+$$p = \frac{N_{buy}}{N_{buy} + N_{!buy}}$$<p>Which, just a quick sanity check we can see that it does indeed result in the value of $p$ that maximizes our total likelihood:</p>
+$$p = \frac{2}{2 + 3} = 0.4$$<p>And, if we let $Buy = 1$ and $!Buy = 0$ then we can end up with standard formula for the mean:</p>
+$$p = \frac{1}{N} \sum_{i=1}^N x_i$$<p>Now, we have just performed our <strong>parameter estimation</strong> based upon our data, but there is something that may be troubling you. Based on the above methodology, if we had observed 20 people buy and 30 people not buy, we would still end up with a 40% probability $p$ that someone buys. The same can be said if we were to observe 2000 buy and 3000 not buy.</p>
 <p>Yet, intuitively we know that the more observations we have, the more reliable our parameter estimate is, and the less likely it is to be skewed due to random chance. The way that we deal with that in standard <strong>frequentist statistics</strong> is through the use of <strong>confidence intervals</strong>. We will delve into what they are and how they work in the next section, but first I want to go over one more example of parameter estimation concerning the gaussian distribution.</p>
 <h3 id="2.2-Parameter-Estimation---Gaussian-Distribution">2.2 Parameter Estimation - Gaussian Distribution<a class="anchor-link" href="#2.2-Parameter-Estimation---Gaussian-Distribution">&#182;</a></h3><p>I would like to pose the following question:</p>
 <blockquote><p>How do you find the mean of a gaussian distribution?</p>
 </blockquote>
 <p>As we did in the example above, we will again use maximum likelihood estimation. Consider for a moment that we collected one sample from a gaussian distributed data source, which we will call $x$. What is the probability density of that one point? Well, we simply need to plug it into the gaussian distribution formula:</p>
-<p>$$p(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} exp\big( -\frac{1}{2} \frac{(x-\mu)^2}{\sigma^2}\big)$$</p>
-<p>And we will get a single number as a result, the probability density of observing that single sample. Of course in real experiments we will be collecting many samples. Generally, these samples are <strong>IID</strong>, which in this case means:</p>
+$$p(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} exp\big( -\frac{1}{2} \frac{(x-\mu)^2}{\sigma^2}\big)$$<p>And we will get a single number as a result, the probability density of observing that single sample. Of course in real experiments we will be collecting many samples. Generally, these samples are <strong>IID</strong>, which in this case means:</p>
 <ul>
 <li><strong>Identically Distributed</strong>: Each sample is generated from a gaussian distribution with the same mean and variance</li>
 <li><strong>Independent</strong>: The outcome of one sample does not effect the outcome of any other samples. Think of a coin toss. Just because I flip heads on my first try does not mean that I am any more likely to flip heads on the second try. </li>
 </ul>
 <p>This independence also means that if we wanted to know the joint probability of all the sample we have observed, we just multiply the individual probabilities of each sample together:</p>
-<p>$$p\big(x_1, x_2,...,x_n\big) = \prod_{i=1}^N \frac{1}{\sqrt{2 \pi \sigma^2}} exp\big( -\frac{1}{2} \frac{(x-\mu)^2}{\sigma^2}\big)$$</p>
-<p>Now, the equation above is nearly correct for our purposes, we just need to make one final update. Our goal is to the find the mean, $\mu$, of this gaussian. So, we can define the probability of the data as:</p>
-<p>$$p\big(x_1, x_2,...,x_n \mid \mu \big) = \prod_{i=1}^N p\big(x_i \mid \mu \big)$$</p>
-<p><strong>Data Likelihood</strong><br>
+$$p\big(x_1, x_2,...,x_n\big) = \prod_{i=1}^N \frac{1}{\sqrt{2 \pi \sigma^2}} exp\big( -\frac{1}{2} \frac{(x-\mu)^2}{\sigma^2}\big)$$<p>Now, the equation above is nearly correct for our purposes, we just need to make one final update. Our goal is to the find the mean, $\mu$, of this gaussian. So, we can define the probability of the data as:</p>
+$$p\big(x_1, x_2,...,x_n \mid \mu \big) = \prod_{i=1}^N p\big(x_i \mid \mu \big)$$<p><strong>Data Likelihood</strong><br>
 The above probability has a name: the <strong>likelihood distribution</strong>. In general terms, the likelihood distribution represents the probability of the observed data, given the parameters. In our case, this is the probability of our observations, given the mean of the gaussian distribution:</p>
-<p>$$p(data \mid parameters)$$</p>
-<p>Our parameters will depend entirely on what the model is, e.g. Gaussian, Bernoulli, Beta, Gamma, etc. Now the Gaussian does have two parameters, $\mu$ and $\sigma$, but we will focus on $\mu$.</p>
+$$p(data \mid parameters)$$<p>Our parameters will depend entirely on what the model is, e.g. Gaussian, Bernoulli, Beta, Gamma, etc. Now the Gaussian does have two parameters, $\mu$ and $\sigma$, but we will focus on $\mu$.</p>
 <p><strong>Maximum Likelihood</strong><br>
 Now that we have our likelihood, how do we maximize it? In other words, what is the best value for $\mu$ such that our total likelihood of observing our data is maximized. Visually, we can think of iterting over the different values that our parameter, $\mu$, can take on, and determing how likely our data would be in each case. This can be seen below:</p>
 
@@ -581,7 +555,7 @@ Now that we have our likelihood, how do we maximize it? In other words, what is 
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">log_likelihood_of_data</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -678,14 +652,13 @@ Now that we have our likelihood, how do we maximize it? In other words, what is 
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=1cyHP0ZF8-tt6Ng4qrZSX5iA_yhd03MRa" width="800"></p>
 
@@ -693,8 +666,7 @@ Now that we have our likelihood, how do we maximize it? In other words, what is 
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Above, I have created two plots with the following features:</p>
 <ul>
@@ -705,13 +677,8 @@ Now that we have our likelihood, how do we maximize it? In other words, what is 
 <li>In other words, on the right I am plotting $p\big(x_1, x_2,...,x_n \mid \mu =i \big)$ for $i = [-5,5]$</li>
 </ul>
 <p>As with the bernoulli distribution, we could easily use the right plot in order to see that $\mu$ is maximized where there is a peak. Once again, we can use calculus in order to solve this mathematically. As with before, we will want to take the derivative and set it equal to zero. As I mentioned, we will be taking the log of the likelihood before we take the derivative; this is because the derivative of an exponential is just itself, which will make things more difficult to solve.</p>
-<p>$$L = log \Big( p(X \mid \mu) \Big) = log \Big( \prod_{i=1}^N \frac{1}{\sqrt{2 \pi \sigma^2}} exp\big( -\frac{1}{2} \frac{(x_i -\mu)^2}{\sigma^2}\big) \Big)$$</p>
-<p>$$L = \sum_{i=1}^N log \Big ( \frac{1}{\sqrt{2 \pi \sigma^2}} exp\big( -\frac{1}{2} \frac{(x_i -\mu)^2}{\sigma^2}\big) \Big)$$</p>
-<p>$$L = \sum_{i=1}^N \Big(\frac{ -(x_i -\mu)^2}{2\sigma^2} \Big) + \text{constant wrt } \mu$$</p>
-<p>We can now take the derivative of our likelihood function:</p>
-<p>$$\frac{\partial L}{\partial \mu} = \sum_{i=1}^N \frac{x_i - \mu}{\sigma^2} = 0$$</p>
-<p>$$\mu = \frac{1}{N} \sum_{i=1}^N x_i$$</p>
-<p>And we arrive at a familiar expression: the sample mean of a random variable!</p>
+$$L = log \Big( p(X \mid \mu) \Big) = log \Big( \prod_{i=1}^N \frac{1}{\sqrt{2 \pi \sigma^2}} exp\big( -\frac{1}{2} \frac{(x_i -\mu)^2}{\sigma^2}\big) \Big)$$$$L = \sum_{i=1}^N log \Big ( \frac{1}{\sqrt{2 \pi \sigma^2}} exp\big( -\frac{1}{2} \frac{(x_i -\mu)^2}{\sigma^2}\big) \Big)$$$$L = \sum_{i=1}^N \Big(\frac{ -(x_i -\mu)^2}{2\sigma^2} \Big) + \text{constant wrt } \mu$$<p>We can now take the derivative of our likelihood function:</p>
+$$\frac{\partial L}{\partial \mu} = \sum_{i=1}^N \frac{x_i - \mu}{\sigma^2} = 0$$$$\mu = \frac{1}{N} \sum_{i=1}^N x_i$$<p>And we arrive at a familiar expression: the sample mean of a random variable!</p>
 <p>As with the bernoulli case, I pose the following question:</p>
 <blockquote><p>How can we differentiate between a $\mu$ that was determined from 50 data points vs 5000 data points?</p>
 </blockquote>
@@ -721,31 +688,23 @@ Now that we have our likelihood, how do we maximize it? In other words, what is 
 <p>That is the whole idea behind confidence intervals. They places us in a stronger position to convey information about analysis that we have performed, estimates we arrived at, and so on. Without them, it is impossible to differentiate a conclusion reached off of 5 historical observations and 5,000.</p>
 <p>So, with that said, we can begin. To start, let's look at the <strong>sum of random variables</strong>.</p>
 <h3 id="3.1-Sum-of-Random-Variables">3.1 Sum of Random Variables<a class="anchor-link" href="#3.1-Sum-of-Random-Variables">&#182;</a></h3><p>To begin, we need to think about what the sum of random variables represents. Well, let's say we have two random variables, $X$ and $Y$. We then have $Z$ equal to their sum:</p>
-<p>$$Z = X + Y$$</p>
-<p>Is $Z$ also random? Yes it is! This means that it also has a probability distribution, a mean, variance, etc. Well, this is very helpful in our situation of parameter estimation! Let us say that our parameter estimate of the mean is $\hat{\mu}$, and the true parameter is $\mu$. We can see that the estimate mean is the sum of random variables:</p>
-<p>$$\hat{\mu} = \frac{1}{N} \sum_{i=1}^N x_i$$</p>
-<p>So, putting together everything that we have been talking about up until this point:</p>
+$$Z = X + Y$$<p>Is $Z$ also random? Yes it is! This means that it also has a probability distribution, a mean, variance, etc. Well, this is very helpful in our situation of parameter estimation! Let us say that our parameter estimate of the mean is $\hat{\mu}$, and the true parameter is $\mu$. We can see that the estimate mean is the sum of random variables:</p>
+$$\hat{\mu} = \frac{1}{N} \sum_{i=1}^N x_i$$<p>So, putting together everything that we have been talking about up until this point:</p>
 <blockquote><p>The central limit theorem states that the sum of independent and identically distributed variables tends to a Gaussian Distribution.</p>
 </blockquote>
 <p>This means that out parameter estimate, $\hat{\mu}$, will tend to a gaussian distribution!</p>
-<p>$$\hat{\mu} \approx N(\mu, \frac{\sigma^2}{N} )$$</p>
-<p>Specifically, the central limit theorem states that $\hat{\mu}$ is gaussian distributed with mean $\mu$ and variance $\frac{\sigma^2}{N}$, where this variance is the standard error squared (recall, standard error is the standard deviation of the sample means).</p>
+$$\hat{\mu} \approx N(\mu, \frac{\sigma^2}{N} )$$<p>Specifically, the central limit theorem states that $\hat{\mu}$ is gaussian distributed with mean $\mu$ and variance $\frac{\sigma^2}{N}$, where this variance is the standard error squared (recall, standard error is the standard deviation of the sample means).</p>
 <p><img src="https://drive.google.com/uc?id=1qdxnH78cQrDDT4iVXCsf3zfSEzSVZtvd"></p>
 <p>Now, we see that the variance of this gaussian is going to be $\frac{\sigma^2}{N}$. This makes intuitive sense, because as you collect more samples, the variance of your estimates should decrease. I highly encourage you take a look at the my introduction to statistics post, specifically the section pertaining to the central limit theorem to get a clear visualization of this.</p>
 <p>In english, what we are saying is say I collect 5 samples from a distribution for $\mu$, and calculate this sample mean. I repeat this 100 times. Because I only collected 5 samples, they may just happen to all be far from each other. This means they are spread out, and have a higher variance. If I repeated this process, but each iteration I collected 200 samples, based on the probability distribution of $\mu$, the sample means are going to be closer to the true mean, and the variance will have decreased.</p>
 <p>At this point it is worth noting what $\mu$ and $\sigma$ are-they actually refer to the mean and variance of $X$:</p>
-<p>$$E(X) = \mu$$</p>
-<p>$$var(X) = \sigma^2$$</p>
-<p>So $\mu$ is the true mean of $X$, and it is also the true mean of $\hat{\mu}$. Likewise, $\sigma^2$ is the variance of $X$, while $\frac{\sigma^2}{N}$ is the variance of $\hat{\mu}$. This means that if the variance of $X$ is large, then we will need many more samples to get an accurate $\hat{\mu}$. The central limit theorem shows that as $N$ approaches $\infty$, $\hat{\mu}$ will approach $\mu$.</p>
+$$E(X) = \mu$$$$var(X) = \sigma^2$$<p>So $\mu$ is the true mean of $X$, and it is also the true mean of $\hat{\mu}$. Likewise, $\sigma^2$ is the variance of $X$, while $\frac{\sigma^2}{N}$ is the variance of $\hat{\mu}$. This means that if the variance of $X$ is large, then we will need many more samples to get an accurate $\hat{\mu}$. The central limit theorem shows that as $N$ approaches $\infty$, $\hat{\mu}$ will approach $\mu$.</p>
 <p>Note the difference in scale between the numerator and the denominator in the variance; the numerator grows as a quadratic in $\sigma$, but the denominator grows linearly in $N$:</p>
-<p>$$var(\hat{\mu}) \propto \sigma^2$$</p>
-<p>$$var(\hat{\mu}) \propto \frac{1}{N}$$</p>
-<p>Hence, we know the following:</p>
+$$var(\hat{\mu}) \propto \sigma^2$$$$var(\hat{\mu}) \propto \frac{1}{N}$$<p>Hence, we know the following:</p>
 <blockquote><p>You need many more samples to decrease the variance of $\hat{\mu}$, but just a small increase in $\sigma$ can lead to a large increase in the variance of $\hat{\mu}$.</p>
 </blockquote>
 <p>Mathematically we can write the above as:</p>
-<p>$$\hat{\mu} - \mu \approx N(0, \frac{\sigma^2}{N})$$</p>
-<h3 id="3.2-Confidence-Intervals">3.2 Confidence Intervals<a class="anchor-link" href="#3.2-Confidence-Intervals">&#182;</a></h3><p>Let's state our goal at this point:</p>
+$$\hat{\mu} - \mu \approx N(0, \frac{\sigma^2}{N})$$<h3 id="3.2-Confidence-Intervals">3.2 Confidence Intervals<a class="anchor-link" href="#3.2-Confidence-Intervals">&#182;</a></h3><p>Let's state our goal at this point:</p>
 <blockquote><p>We want to know the range of values that are likely to contain the true $\mu$.</p>
 </blockquote>
 <p>Visually, we can do by shading in the middle 95% of the gaussian. This allows to (almost) say that "$\mu$ is probably here":</p>
@@ -803,7 +762,7 @@ Now that we have our likelihood, how do we maximize it? In other words, what is 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -813,7 +772,7 @@ Now that we have our likelihood, how do we maximize it? In other words, what is 
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -833,8 +792,7 @@ height=333
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The more samples we have, the narrower our probability distribution is for $\hat{\mu}$, meaning that our confidence interval will be narrow! The opposite is true for a small number of samples. Note, a 95% confidence interval does <strong>not</strong> tell us "$\mu$ is in this interval with probability 95%". In reality, all we can say is:</p>
 <blockquote><p>If we did many experiments to calculate the sample mean, 95% of the time, it's respective confidence interval would contain the true $\mu$.</p>
@@ -853,31 +811,22 @@ height=333
 </ul>
 <p>I realize this is a bit convoluted and make take a moment to digest, however I encourage you to do so! If not, you are likely to draw incorrect conclusions when dealing with confidence intervals.</p>
 <h4 id="Confidence-Level/Significance-Level">Confidence Level/Significance Level<a class="anchor-link" href="#Confidence-Level/Significance-Level">&#182;</a></h4><p>We have a symbol that we use to represent this confidence level:</p>
-<p>$$1 - \alpha$$</p>
-<p>Where we call the significance level $\alpha$.</p>
+$$1 - \alpha$$<p>Where we call the significance level $\alpha$.</p>
 <h4 id="Confidence-Interval-Limits">Confidence Interval Limits<a class="anchor-link" href="#Confidence-Interval-Limits">&#182;</a></h4><p>Now, how do we go about finding the actual confidence interval? In other words, we want the min and max value for the range where $\mu$ should lie; we can call them $x_{left}$ and $x_{right}$. We want to find the limits such that the area under the Gaussian is 0.95. Again, calculus provides the tools for us-we can use an integral!</p>
-<p>$$0.95 = 1 - \alpha = \int_{x_{left}} ^{x_{right}} N \big( x \mid 0, \frac{\sigma^2}{N}\big) dx$$</p>
-<p>The above integral cannot be solved by hand, so we will not even try. Rather, we will manipulate it into a form such that we can find the answer computationally. First off, since this is a gaussian with an arbitrary variance, the first thing that we can do is convert it to a <strong>standard normal</strong>, which looks like this:</p>
+$$0.95 = 1 - \alpha = \int_{x_{left}} ^{x_{right}} N \big( x \mid 0, \frac{\sigma^2}{N}\big) dx$$<p>The above integral cannot be solved by hand, so we will not even try. Rather, we will manipulate it into a form such that we can find the answer computationally. First off, since this is a gaussian with an arbitrary variance, the first thing that we can do is convert it to a <strong>standard normal</strong>, which looks like this:</p>
 <p><img src="https://drive.google.com/uc?id=1ej2rCqpKqnlSSw9lrwtKRMJ4jJBcAuag"></p>
 <p>Mathematically this is done by taking $X$ and subtracting the mean, and then dividing by the standard deviation:</p>
-<p>$$Z = \frac{X - \mu_x}{\frac{\sigma_x}{\sqrt{N}}}$$</p>
-<p>Where $Z$ is now our normalized $X$. We can update our prior equation to be:</p>
-<p>$$0.95 = 1 - \alpha = \int_{z_{left}} ^{z_{right}} N \big( z \mid 0, 1\big) dz$$</p>
-<p>Now, you may recall the definition of the <strong>cumulative distribution function</strong> (CDF):</p>
-<p>$$P(X \leq x) = \int_{-\infty}^{x} p(x) dx$$</p>
-<p>Well, we are currently dealing with the integral of the gaussian PDF, and we know that the CDF is equal to some integral of the PDF. So, we can absolutely make use of it! In particular, the CDF is the integral from $-\infty$ to $x$ over the PDF. Keep in mind that that gaussian distribution is symmetric; in other words the left side is a mirror image of the right side. Hence, if we want 5% of the weight to be on the tail end, then we want each tail to carry 2.5% of the weight.</p>
+$$Z = \frac{X - \mu_x}{\frac{\sigma_x}{\sqrt{N}}}$$<p>Where $Z$ is now our normalized $X$. We can update our prior equation to be:</p>
+$$0.95 = 1 - \alpha = \int_{z_{left}} ^{z_{right}} N \big( z \mid 0, 1\big) dz$$<p>Now, you may recall the definition of the <strong>cumulative distribution function</strong> (CDF):</p>
+$$P(X \leq x) = \int_{-\infty}^{x} p(x) dx$$<p>Well, we are currently dealing with the integral of the gaussian PDF, and we know that the CDF is equal to some integral of the PDF. So, we can absolutely make use of it! In particular, the CDF is the integral from $-\infty$ to $x$ over the PDF. Keep in mind that that gaussian distribution is symmetric; in other words the left side is a mirror image of the right side. Hence, if we want 5% of the weight to be on the tail end, then we want each tail to carry 2.5% of the weight.</p>
 <p>This means that the integral from $-\infty$ to $z_{right}$ should give us an area of $0.975$:</p>
-<p>$$0.975 = \int_{z_{left}} ^{z_{right}} N \big( z \mid 0, 1\big) dz = \Phi(z_{right})$$</p>
-<p>Typically, we give the above function the name $\Phi$. What we are actually looking for is the inverse of this function, namely:</p>
-<p>$$z_{right} = \Phi^{-1} (0.975)$$</p>
-<p>Now, as I said earlier, this integral is not possible/realistic for us to solve by hand. Thankfully however, <code>scipy</code> has a function that will allow us to solve it without a problem. It can be found via:</p>
+$$0.975 = \int_{z_{left}} ^{z_{right}} N \big( z \mid 0, 1\big) dz = \Phi(z_{right})$$<p>Typically, we give the above function the name $\Phi$. What we are actually looking for is the inverse of this function, namely:</p>
+$$z_{right} = \Phi^{-1} (0.975)$$<p>Now, as I said earlier, this integral is not possible/realistic for us to solve by hand. Thankfully however, <code>scipy</code> has a function that will allow us to solve it without a problem. It can be found via:</p>
 
 <pre><code>scipy.stats.norm.ppf</code></pre>
 <p>The <code>ppf</code> stands for percent point function, which really just stands for <em>inverse of the CDF</em>. You may be wondering what the left side is equal to; well, because the gaussian is symmetric:</p>
-<p>$$z_{left} = - z_{right}$$</p>
-<p>Or, we could easily just use the inverse CDF function again:</p>
-<p>$$z_{left} = \Phi^{-1} (0.025)$$</p>
-<p>Visually, $z_{left}$ and $z_{right}$ can be seen below, where the each shaded red area is equivalent to 2.5%.</p>
+$$z_{left} = - z_{right}$$<p>Or, we could easily just use the inverse CDF function again:</p>
+$$z_{left} = \Phi^{-1} (0.025)$$<p>Visually, $z_{left}$ and $z_{right}$ can be seen below, where the each shaded red area is equivalent to 2.5%.</p>
 
 </div>
 </div>
@@ -949,7 +898,7 @@ height=333
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -959,7 +908,7 @@ height=333
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -979,25 +928,17 @@ height=333
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Because these are very standard, many statistics text books will just use rounded off numbers. After solving for $z_{left}$ and $z_{right}$ (via scipy) we would end up with:</p>
-<p>$$z_{left} = -1.96$$</p>
-<p>$$z_{right} = 1.96$$</p>
-<p>Another way that you may see these values denoted is:</p>
-<p>$$z_{left} = z_{\frac{\alpha}{2}}$$</p>
-<p>$$z_{right} = z_{1 - \frac{\alpha}{2}}$$</p>
-<p>Finally, we arrive at our confidence interval! After we have measured $\mu$, we are 95% certain that $\mu$ lies in this range:</p>
+$$z_{left} = -1.96$$$$z_{right} = 1.96$$<p>Another way that you may see these values denoted is:</p>
+$$z_{left} = z_{\frac{\alpha}{2}}$$$$z_{right} = z_{1 - \frac{\alpha}{2}}$$<p>Finally, we arrive at our confidence interval! After we have measured $\mu$, we are 95% certain that $\mu$ lies in this range:</p>
 <h5 id="$$\text{Gaussian-Confidence-Interval}-\rightarrow-\Big[-\hat{\mu}-+-z_{left}\frac{\sigma}{\sqrt{N}},-\;-\hat{\mu}-+-z_{right}\frac{\sigma}{\sqrt{N}}--\Big]$$"><span style="color:#0000cc">$$\text{Gaussian Confidence Interval} \rightarrow \Big[ \hat{\mu} + z_{left}\frac{\sigma}{\sqrt{N}}, \; \hat{\mu} + z_{right}\frac{\sigma}{\sqrt{N}}  \Big]$$</span><a class="anchor-link" href="#$$\text{Gaussian-Confidence-Interval}-\rightarrow-\Big[-\hat{\mu}-+-z_{left}\frac{\sigma}{\sqrt{N}},-\;-\hat{\mu}-+-z_{right}\frac{\sigma}{\sqrt{N}}--\Big]$$">&#182;</a></h5><p>Where above we have denormalized our distribution by adding $\hat{\mu}$ back and multiplying by $\frac{\sigma_x}{\sqrt{N}}$. This is just used to transform from $Z$ to $X$</p>
-<p>$$X = Z * \frac{\sigma_x}{\sqrt{N}} + \mu_x$$</p>
-<p>However, we do have one problem still! In our confidence interval above, we don't actually know the standard deviation of $X$, $\sigma$! If we don't know the true population mean, $\mu$, we most likely don't know the population standard deviation either.</p>
+$$X = Z * \frac{\sigma_x}{\sqrt{N}} + \mu_x$$<p>However, we do have one problem still! In our confidence interval above, we don't actually know the standard deviation of $X$, $\sigma$! If we don't know the true population mean, $\mu$, we most likely don't know the population standard deviation either.</p>
 <p>Luckily, when finding the confidence interval in the case where we don't know the real $\sigma$, we can use the estimated $\hat{\sigma}$ instead as a valid approximation:</p>
-<p>$$\hat{\sigma} = \sqrt{\frac{1}{N} \sum_{i=1}^N (x_i - \hat{\mu})^2}$$</p>
-<p>I should note that in order to find the non-approximated version of the confidence interval, we would need to use the inverse CDF of the t-distribution instead; this will be saved for a later post.</p>
+$$\hat{\sigma} = \sqrt{\frac{1}{N} \sum_{i=1}^N (x_i - \hat{\mu})^2}$$<p>I should note that in order to find the non-approximated version of the confidence interval, we would need to use the inverse CDF of the t-distribution instead; this will be saved for a later post.</p>
 <p>Also, something to keep in mind is that we can apply this confidence interval to Bernoulli as well! We simply replace the gaussian symbols with the symbols corresponding to Bernoulli. For Bernoulli, the variance is:</p>
-<p>$$var(X) = p(1-p)$$</p>
-<h5 id="$$\text{Bernoulli-Confidence-Interval}-\rightarrow-\Big[-\hat{p}-+-z_{left}-\sqrt{\frac{\hat{p}(1-\hat{p})}{N}},-\;-\hat{p}-+-z_{right}\sqrt{\frac{\hat{p}(1-\hat{p})}{N}}--\Big]$$"><span style="color:#0000cc">$$\text{Bernoulli Confidence Interval} \rightarrow \Big[ \hat{p} + z_{left} \sqrt{\frac{\hat{p}(1-\hat{p})}{N}}, \; \hat{p} + z_{right}\sqrt{\frac{\hat{p}(1-\hat{p})}{N}}  \Big]$$</span><a class="anchor-link" href="#$$\text{Bernoulli-Confidence-Interval}-\rightarrow-\Big[-\hat{p}-+-z_{left}-\sqrt{\frac{\hat{p}(1-\hat{p})}{N}},-\;-\hat{p}-+-z_{right}\sqrt{\frac{\hat{p}(1-\hat{p})}{N}}--\Big]$$">&#182;</a></h5><h4 id="Confidence-Interval-Summary">Confidence Interval Summary<a class="anchor-link" href="#Confidence-Interval-Summary">&#182;</a></h4><p>Let's take a moment to recap everything we just went over, because it is very easy to get lost in the details and miss the big picture.</p>
+$$var(X) = p(1-p)$$<h5 id="$$\text{Bernoulli-Confidence-Interval}-\rightarrow-\Big[-\hat{p}-+-z_{left}-\sqrt{\frac{\hat{p}(1-\hat{p})}{N}},-\;-\hat{p}-+-z_{right}\sqrt{\frac{\hat{p}(1-\hat{p})}{N}}--\Big]$$"><span style="color:#0000cc">$$\text{Bernoulli Confidence Interval} \rightarrow \Big[ \hat{p} + z_{left} \sqrt{\frac{\hat{p}(1-\hat{p})}{N}}, \; \hat{p} + z_{right}\sqrt{\frac{\hat{p}(1-\hat{p})}{N}}  \Big]$$</span><a class="anchor-link" href="#$$\text{Bernoulli-Confidence-Interval}-\rightarrow-\Big[-\hat{p}-+-z_{left}-\sqrt{\frac{\hat{p}(1-\hat{p})}{N}},-\;-\hat{p}-+-z_{right}\sqrt{\frac{\hat{p}(1-\hat{p})}{N}}--\Big]$$">&#182;</a></h5><h4 id="Confidence-Interval-Summary">Confidence Interval Summary<a class="anchor-link" href="#Confidence-Interval-Summary">&#182;</a></h4><p>Let's take a moment to recap everything we just went over, because it is very easy to get lost in the details and miss the big picture.</p>
 <p><img src="https://drive.google.com/uc?id=132w72e6G5EPaX4aAhc48T4aat9fPbP77" width="800"></p>
 <ol>
 <li>We began by applying the central limit theorem to show that the maximum likelihood estimate of $\mu$ is Gaussian Distributed.</li>
@@ -1014,8 +955,7 @@ height=333
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="4.-Hypothesis-Testing:-Explained-via-A/B-Testing">4. Hypothesis Testing: Explained via A/B Testing<a class="anchor-link" href="#4.-Hypothesis-Testing:-Explained-via-A/B-Testing">&#182;</a></h2><p>After several posts pertaining to statistics, and several others to probability, we are finally reaching the full payoff: <strong>hypothesis testing</strong>. I want to explain hypothesis testing in relation to <strong>A/B testing</strong>. So, here is the scenario:</p>
 <ul>
@@ -1040,8 +980,7 @@ height=333
 <h4 id="Types-of-Hypothesis">Types of Hypothesis<a class="anchor-link" href="#Types-of-Hypothesis">&#182;</a></h4><p>In statistical testing, we have two types of hypotheses:</p>
 <p><strong>Null Hypothesis</strong>:<br>
 This is where there is <em>no difference</em> between the two groups being compared. For example, we may find that there is no significant difference in the mean height between men and women. Or we may find that there is no difference in effect between drug and placebo. Mathematically we are saying:</p>
-<p>$$H_0 : \mu_1 = \mu_2$$</p>
-<p>And visually this looks like:</p>
+$$H_0 : \mu_1 = \mu_2$$<p>And visually this looks like:</p>
 
 </div>
 </div>
@@ -1082,7 +1021,7 @@ This is where there is <em>no difference</em> between the two groups being compa
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1092,7 +1031,7 @@ This is where there is <em>no difference</em> between the two groups being compa
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1112,13 +1051,11 @@ height=358
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Alternative Hypothesis (one sided test)</strong>:
 Another type of hypothesis is a one sided alternative hypothesis. This is where state the mean height of men is greater than the mean height of women:</p>
-<p>$$H_1 : \mu_1 &gt; \mu_2$$</p>
-<p>Visually, this is can be seen below. The mean estimate height for men is clearly greater than for that of women:</p>
+$$H_1 : \mu_1 &gt; \mu_2$$<p>Visually, this is can be seen below. The mean estimate height for men is clearly greater than for that of women:</p>
 
 </div>
 </div>
@@ -1159,7 +1096,7 @@ Another type of hypothesis is a one sided alternative hypothesis. This is where 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1169,7 +1106,7 @@ Another type of hypothesis is a one sided alternative hypothesis. This is where 
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1189,13 +1126,11 @@ height=358
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Alternative Hypothesis (two sided test)</strong>:
 Finaly, we have a two sided alternative hypothesis. This is where state the mean height of men is simply <em>not equal to</em> than the mean height of women:</p>
-<p>$$H_1 : \mu_1 \neq \mu_2$$</p>
-<p>And again, visually this can be seen below. On the left the mean estimate of men's heights is greater than that of women, and vice versa on the right. The key is that they are not equal:</p>
+$$H_1 : \mu_1 \neq \mu_2$$<p>And again, visually this can be seen below. On the left the mean estimate of men's heights is greater than that of women, and vice versa on the right. The key is that they are not equal:</p>
 
 </div>
 </div>
@@ -1262,7 +1197,7 @@ Finaly, we have a two sided alternative hypothesis. This is where state the mean
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1272,7 +1207,7 @@ Finaly, we have a two sided alternative hypothesis. This is where state the mean
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1292,20 +1227,15 @@ height=358
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Step-1:-Select-a-Distribution">Step 1: Select a Distribution<a class="anchor-link" href="#Step-1:-Select-a-Distribution">&#182;</a></h3><p>Now, we will be making an assumption, namely that our data is Gaussian Distributed. This is very common, especially when dealing with human related metrics, such as height and weight. So, both the height of men and the height of women are assumed to be generated from a gaussian process, and the that process may have different means.</p>
 <h3 id="Step-2:-Collect-Data">Step 2: Collect Data<a class="anchor-link" href="#Step-2:-Collect-Data">&#182;</a></h3><p>So, we begin by collecting some data; namely, we measure a randomly selected sample of men and women (this random selection is crucial-imagine if to gather our sample we went to the nearest basketball court. Our sample would clearly not be representative of the population as a whole. From each sample, we gather a list of heights:</p>
-<p>$$X_1 = \{ x_{11}, x_{12}, ..., x_{1N}\}$$</p>
-<p>$$X_2 = \{ x_{21}, x_{22}, ..., x_{2N}\}$$</p>
-<p>Where the $X_1$ represents men, and $X_2$ women.</p>
+$$X_1 = \{ x_{11}, x_{12}, ..., x_{1N}\}$$$$X_2 = \{ x_{21}, x_{22}, ..., x_{2N}\}$$<p>Where the $X_1$ represents men, and $X_2$ women.</p>
 <h3 id="Step-3:-Define-a-Test-Statistic">Step 3: Define a Test Statistic<a class="anchor-link" href="#Step-3:-Define-a-Test-Statistic">&#182;</a></h3><p>Next, we create what is know as a <strong>test statistic</strong>, which we can call $t$. A test statistic is a standardized value that is calculated from sample data during a hypothesis test. By definition, the function that defines your test statistic compares your data to what is expected under the <em>null hypothesis</em>.</p>
 <p>The goal of the test statistic is to boil down all of the sample data to one value, the $t$-statistic. The calculation to arrive at the $t$-statistic compares the data be tested (sample means in our case) to the null hypothesis, being sure to incorporate both sample size and variability of the data. Now with that said, we will define $t$ as:</p>
-<p>$$t = \frac{\bar{X_1} - \bar{X_2}}{s_p \sqrt{\frac{2}{N}}}$$</p>
-<p>Where $s_p$ is known as the <strong>pooled standard deviation</strong>, representing the average of the two standard deviations:</p>
-<p>$$s_p = \sqrt{\frac{s_1^2 + s_2^2}{2}}$$</p>
-<p>Note that the standard deviations are the unbiased estimates, so we divide by $N-1$ for all $s$, not $N$. Remember, $N$ is the number of samples collected for one group, so if we had 10 men and 10 women then $N$ would be 10.</p>
+$$t = \frac{\bar{X_1} - \bar{X_2}}{s_p \sqrt{\frac{2}{N}}}$$<p>Where $s_p$ is known as the <strong>pooled standard deviation</strong>, representing the average of the two standard deviations:</p>
+$$s_p = \sqrt{\frac{s_1^2 + s_2^2}{2}}$$<p>Note that the standard deviations are the unbiased estimates, so we divide by $N-1$ for all $s$, not $N$. Remember, $N$ is the number of samples collected for one group, so if we had 10 men and 10 women then $N$ would be 10.</p>
 <p>It is clear from the formula above that if $\bar{X_1} = \bar{X_2}$, <em>the condition of our null hypothesis</em>, then $t$ will be zero. So, we can say that $t$ is a function based on the null hypothesis being true. Realize that $t$ that this is the case specifically due to how we defined the function for $t$; namely, having chosing to use the difference of means.</p>
 <h4 id="t-distribution"><em>t</em>-distribution<a class="anchor-link" href="#t-distribution">&#182;</a></h4><p>Recall that when we looked into the estimate of the mean, we saw that because it was the sum of random variables, it was therefore also a random variable. Looking at the test statistic, $t$, it is also a function of random variables, (the two respective sample means) and hence a random variable. Now, when performing a hypothesis test we only calculate a single $t$-statistic, but if we were to draw multiple random samples of the same size from the population, and perform the same test, we would obtain many t-statistics and we could plot the distribution of them all. As an aside, this type of distribution is known as a <strong>sampling distribution</strong>. In this case, the sampling distribution has a name, the <strong>t-distribution</strong>.</p>
 <p>What is great about the t-distribution is that it's properties are well known, so we do not need to collect many samples-just the one! A t-distribution can be entirely defined based on it's <strong>degrees of freedom</strong>, $v$, a value directly related to sample size. Note that $v$ generally equals $N-1$.</p>
@@ -1347,7 +1277,7 @@ height=358
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1357,7 +1287,7 @@ height=358
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1377,15 +1307,13 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The main thing to keep in mind when thinking about the $t$-distribution is:</p>
 <blockquote><p>$t$-distributions assume that you have drawn repeated samples from a population where the null hypothesis <em>is true</em>. This means that if you then find the $t$-statistic in your particular scenario, you can see where it falls along the distribution where the null hypothesis is true. If it falls near the ends, that means that if the null hypothesis were true, the $t$-statistic you observed would be <em>very</em> unlikely. In that case we can reject the null hypothesis.</p>
 </blockquote>
 <p>Now, let's dig into how the above would work in practice. First and foremost, I want to at least offer exposure to the $t$-distribution's PDF formula (even though we won't be using it directly):</p>
-<p>$$t(x) = \frac{\Gamma \big(\frac{v+1}{2}\big)}{\sqrt{v \pi} \; \Gamma \big(\frac{v}{2}\big)} \Big(1 + \frac{x^2}{v}\Big)^{-\frac{v+1}{2}}$$</p>
-<p>As with the gaussian, the $t$-distribution can have a mean and scale parameter, but we will not be looking at them. With that said, let's inspect the formula for our $t$ statistic again, and examine how the value may change under certain conditions</p>
+$$t(x) = \frac{\Gamma \big(\frac{v+1}{2}\big)}{\sqrt{v \pi} \; \Gamma \big(\frac{v}{2}\big)} \Big(1 + \frac{x^2}{v}\Big)^{-\frac{v+1}{2}}$$<p>As with the gaussian, the $t$-distribution can have a mean and scale parameter, but we will not be looking at them. With that said, let's inspect the formula for our $t$ statistic again, and examine how the value may change under certain conditions</p>
 <h4 id="$\bar{X_1}-=-\bar{X_2}-\rightarrow-t=0$">$\bar{X_1} = \bar{X_2} \rightarrow t=0$<a class="anchor-link" href="#$\bar{X_1}-=-\bar{X_2}-\rightarrow-t=0$">&#182;</a></h4><p>If the means, $\bar{X_1}$ and $\bar{X_2}$, are equivalent, then our t-statistic will fall right in the center of the distribution (left plot below). This would be the situation if the height of men and women was the same, i.e. our null hypothesis is true.</p>
 <h4 id="$\bar{X_1}-&lt;&lt;-\bar{X_2}-\rightarrow-t-=-small-\;-number$">$\bar{X_1} &lt;&lt; \bar{X_2} \rightarrow t = small \; number$<a class="anchor-link" href="#$\bar{X_1}-&lt;&lt;-\bar{X_2}-\rightarrow-t-=-small-\;-number$">&#182;</a></h4><p>If $\bar{X_1}$ is much smaller than $\bar{X_2}$, then our t-statistic will fall in the left tail of the distribution (center plot below). This would be the case if the height of men was less than that of women, i.e. the alternative hypothesis.</p>
 <h4 id="$\bar{X_1}-&gt;&gt;-\bar{X_2}-\rightarrow-t-=-large-\;-number$">$\bar{X_1} &gt;&gt; \bar{X_2} \rightarrow t = large \; number$<a class="anchor-link" href="#$\bar{X_1}-&gt;&gt;-\bar{X_2}-\rightarrow-t-=-large-\;-number$">&#182;</a></h4><p>If $\bar{X_1}$ is much greater than $\bar{X_2}$, then our t-statistic will fall in the right tail of the distribution (right plot below). This would be the case if the height of men was greater than that of women, i.e. the alternative hypothesis.</p>
@@ -1426,7 +1354,7 @@ height=353
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1436,7 +1364,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1456,8 +1384,7 @@ height=303
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Step-4:-Find-Area-Under-t-distribution,-based-on-$t$-statistic">Step 4: Find Area Under t-distribution, based on $t$ statistic<a class="anchor-link" href="#Step-4:-Find-Area-Under-t-distribution,-based-on-$t$-statistic">&#182;</a></h3><p>Now, the foundation behind any hypothesis test is being able to take a test statistic from a specific sample and place it within the context of a known probability distribution. For t-tests, if you take a $t$-statistic and place it in the context of the correct $t$-distribution, you can calculate the probabilities associated with that $t$-statistic.</p>
 <p>A probability allows us to determine how common or rare our $t$-statistic is under the assumption that the null hypothesis is true. If the probability is low enough, we can conclude that the effect observed in our sample is inconsistent with the null hypothesis. The evidence in the sample data is strong enough to reject the null hypothesis for the entire population.</p>
@@ -1537,7 +1464,7 @@ height=303
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1547,7 +1474,7 @@ height=303
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1567,8 +1494,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Again, we are going to need the CDF. Also, remember that there are two tails of the distribution that we are going to need to consider, the left and the right. If we are at the extreme left, then our CDF will be very small and we will end up with a probability close to 0. If we are at the extreme right, then our CDF (area) will be very close to one.</p>
 <p>Hence, for a significance level of $\alpha = 0.05$, then we want to be be either in the bottom 2.5% of area on the left, or top 2.5% of area on the right. If that is the case, then we can say that the difference between our two groups is statistically significant. For this significance level, $t$ is known to have a threshold of $-2.776$ and $2.776$.</p>
@@ -1616,7 +1542,7 @@ height=353
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1626,7 +1552,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1646,8 +1572,7 @@ height=303
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Of which we would conclude the following result:</p>
 <ul>
@@ -1711,7 +1636,7 @@ height=303
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1721,7 +1646,7 @@ height=303
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1741,8 +1666,7 @@ height=303
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So, in general the following will happen:</p>
 <ol>
@@ -1755,14 +1679,10 @@ height=303
 <p>I want to note that we only multiply by two when conducting a two sided test. If we were conducting a one sided test, we are only checking if $\bar{X_1} &gt; \bar{X_2}$, and we don't need to multiply by two because we are only interested in one tail. In this way, we say that the one sided test has more <strong>power</strong> than the two sided test, because it doesn't require a test statistic as extreme to be significant.</p>
 <p>In general, the more assumptions you make the more power your test has. The opposite is also true. The less assumptions we make, the less power our test has.</p>
 <h3 id="Testing-Characteristics">Testing Characteristics<a class="anchor-link" href="#Testing-Characteristics">&#182;</a></h3><p>Now that we know the process behind how to conduct a statistical test, I want to take a minute to go over some broad characteristics of our $t$-test, and testing in general. Let's look at the equation for our $t$-statistic again:</p>
-<p>$$t = \frac{\bar{X_1} - \bar{X_2}}{s_p \sqrt{\frac{2}{N}}}$$</p>
-<h4 id="Relationship-between-$t$-and-$N$">Relationship between $t$ and $N$<a class="anchor-link" href="#Relationship-between-$t$-and-$N$">&#182;</a></h4><p>We know that if $\bar{X_1} &gt;&gt; \bar{X_2}$, or vice versa, $t$ will be larger. On the other hand, how does $t$ depend on $s_p$ and $N$? Well, because $N$ is effectively in the denominator of the denominator, we can see that:</p>
-<p>$$t \propto \sqrt{N}$$</p>
-<p>And likewise, $t$ is inversely proportional to $s_p$:</p>
-<p>$$t \propto \frac{1}{s_p}$$</p>
-<p>Putting that together, we arrive at:</p>
-<p>$$t \propto \frac{\sqrt{N}}{s_p}$$</p>
-<p>So, in other words as we collect more samples ($N$ grows), we get a larger $t$-statistic, and subsequently a smaller $p$ value. This means the for the exact same $\bar{X_1}$ and $\bar{X_2}$, a large $N$ may lead to a significant difference, while a small $N$ may not.</p>
+$$t = \frac{\bar{X_1} - \bar{X_2}}{s_p \sqrt{\frac{2}{N}}}$$<h4 id="Relationship-between-$t$-and-$N$">Relationship between $t$ and $N$<a class="anchor-link" href="#Relationship-between-$t$-and-$N$">&#182;</a></h4><p>We know that if $\bar{X_1} &gt;&gt; \bar{X_2}$, or vice versa, $t$ will be larger. On the other hand, how does $t$ depend on $s_p$ and $N$? Well, because $N$ is effectively in the denominator of the denominator, we can see that:</p>
+$$t \propto \sqrt{N}$$<p>And likewise, $t$ is inversely proportional to $s_p$:</p>
+$$t \propto \frac{1}{s_p}$$<p>Putting that together, we arrive at:</p>
+$$t \propto \frac{\sqrt{N}}{s_p}$$<p>So, in other words as we collect more samples ($N$ grows), we get a larger $t$-statistic, and subsequently a smaller $p$ value. This means the for the exact same $\bar{X_1}$ and $\bar{X_2}$, a large $N$ may lead to a significant difference, while a small $N$ may not.</p>
 <h4 id="Relationship-between-$t$-and-$s_p$">Relationship between $t$ and $s_p$<a class="anchor-link" href="#Relationship-between-$t$-and-$s_p$">&#182;</a></h4><p>Next, we can look at the standard deviation. This is saying that if the variance is large, it will be harder to find a statistically significant difference, due to too much overlap between the two groups, seen below:</p>
 
 </div>
@@ -1830,7 +1750,7 @@ height=303
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1840,7 +1760,7 @@ height=303
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1860,16 +1780,13 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see above that we have same means in each plot (left and right), however the large variance on the right makes it harder to declare statistical significance.</p>
 <p>Next, let's look at how the test statistics changes with the pooled standard deviation, compared to $N$. This may very well remind you about the confidence interval. Recall, the standard deviation of the confidence interval was proportional to the standard deviation of the data, but only inversely proportional to the the square root of the sample size. Hence, we need a lot more data to account for a small increase in the standard deviation.</p>
 <p>We have the same situation with the test statistic-it only grows or becomes more extreme with  $\sqrt{N}$. At the same time, $t$ is inversely proportional to the standard deviation. So, if you are trying to find a significant difference, then you will need a lot more samples to account for small deviations in your data.</p>
 <h4 id="Same-variance-assumption">Same variance assumption<a class="anchor-link" href="#Same-variance-assumption">&#182;</a></h4><p>Another thing that we assumed earlier was that the standard deviation of both groups is the same. This is a pretty strong assumption, one that is very likely to not be correct. What if they are in fact different? In that case we use <strong>Welch's t-test</strong>, which looks like:</p>
-<p>$$t = \frac{\bar{X_1} - \bar{X_2}}{s_{\bar{\Delta}}}$$</p>
-<p>$$s_{\bar{\Delta}} = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}$$</p>
-<p>The nice thing about the above is that our steps remain the same! We still:</p>
+$$t = \frac{\bar{X_1} - \bar{X_2}}{s_{\bar{\Delta}}}$$$$s_{\bar{\Delta}} = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}$$<p>The nice thing about the above is that our steps remain the same! We still:</p>
 <ol>
 <li>Find our $t$-statistic</li>
 <li>Find our degrees of freedom</li>
@@ -1883,8 +1800,7 @@ height=353
 <li>Mann-Whitney U test</li>
 </ul>
 <p>These can all be found in <code>scipy</code>. Similar to how <code>SKLearn</code> models have a <code>fit</code> and <code>predict</code> function, <code>scipy</code> will provide a similar API to work with. One thing to note about these nonparametric tests is that because they make less assumptions, they have less statistical power than if you had done something like a $t$-test:</p>
-<p>$$\text{Less assumptions} \rightarrow \text{Less power} \rightarrow \text{Need more extreme difference for statistically significant p-value }$$</p>
-<p>For those familiar with machine learning, this can be thought of in terms of providing your model with some prior knowledge, instead of letting it learn everything on it's own.</p>
+$$\text{Less assumptions} \rightarrow \text{Less power} \rightarrow \text{Need more extreme difference for statistically significant p-value }$$<p>For those familiar with machine learning, this can be thought of in terms of providing your model with some prior knowledge, instead of letting it learn everything on it's own.</p>
 <h4 id="1-sided-vs.-2-sided-tests">1-sided vs. 2-sided tests<a class="anchor-link" href="#1-sided-vs.-2-sided-tests">&#182;</a></h4><p>One final thing to note before moving on to our full example is the difference between 1 and 2 sided tests. In our example of the heights of men vs. women, we did not make the 1 sided assumption even though we could have (since we are positing that the height of men is greater than that of women, not simply that they are different).</p>
 <p>However, sometimes you don't want to just do a 1-sided test. For instance, imagine that you are drug testing-you want to test if a drug makes some condition better, but you alos want to test if it makes things worse!</p>
 <h4 id="Summary">Summary<a class="anchor-link" href="#Summary">&#182;</a></h4><p>The point of this entire section was really to show how hypothesis testing works! We know that we start by generating a test statistic, from which we know it's distribution. We then look to see if it is at the <em>extreme</em> values of the distribution, meaning that their is statistical significance. If there is statistical significance, then we can reject the null hypothesis.</p>
@@ -1893,16 +1809,14 @@ height=353
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="5.-Hypothesis-Testing-in-Code">5. Hypothesis Testing in Code<a class="anchor-link" href="#5.-Hypothesis-Testing-in-Code">&#182;</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We are now going to walk through hypothesis testing in code. Note that in order to see all of the corresponding code you will need to click the toggle at the bottom of this page.</p>
 <p>We can start be generating our data. We will create two groups, <code>a</code> and <code>b</code>. <code>a</code> is going to be equal to gaussian distributed data of size <code>N</code>, with a mean of <code>2</code>. <code>b</code> is going to be the same thing, but with a mean of 0. Both <code>a</code> and <code>b</code> have a variance of 1. Visually, our data looks like:</p>
@@ -1924,7 +1838,7 @@ height=353
 <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">+</span> <span class="n">mean_b</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1950,7 +1864,7 @@ height=353
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1960,7 +1874,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1980,8 +1894,7 @@ height=136
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And to be clear, these group we randomly sampled from their respected gaussian distributions:</p>
 
@@ -2018,7 +1931,7 @@ height=136
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2028,7 +1941,7 @@ height=136
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2048,12 +1961,10 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Our goal is to determine if groups <code>a</code> and <code>b</code> are statistically different. So, we will start by assuming that the null hypothesis is true, namely that there is no difference between groups <code>a</code> and <code>b</code>. Because of this assumption, we can use the $t$-statistic. The main goal of the $t$-statistic is boil down everything you see in the above plot into a single number!</p>
-<p>$$t = \frac{\bar{X_1} - \bar{X_2}}{s_p \sqrt{\frac{2}{N}}}$$</p>
-<p>We can create our own $t$-test as follows:</p>
+$$t = \frac{\bar{X_1} - \bar{X_2}}{s_p \sqrt{\frac{2}{N}}}$$<p>We can create our own $t$-test as follows:</p>
 <ul>
 <li>We want to calculate the variance of <code>a</code></li>
 <li>By default <code>numpy</code> does the MLE of the variance (this can be done because we know the mean), which is dividing by <code>N</code></li>
@@ -2075,7 +1986,7 @@ height=353
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Variance of b: &quot;</span><span class="p">,</span> <span class="n">var_b</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2085,7 +1996,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2100,12 +2011,10 @@ Variance of b:  1.4814361584490872
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="Calculate-Pooled-Standard-Deviation">Calculate Pooled Standard Deviation<a class="anchor-link" href="#Calculate-Pooled-Standard-Deviation">&#182;</a></h4><p>Next, we will calculate the pooled standard deviation:</p>
-<p>$$s_p = \sqrt{\frac{s_1^2 + s_2^2}{2}}$$</p>
-
+$$s_p = \sqrt{\frac{s_1^2 + s_2^2}{2}}$$
 </div>
 </div>
 </div>
@@ -2118,7 +2027,7 @@ Variance of b:  1.4814361584490872
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pooled standard deviation: &quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2128,7 +2037,7 @@ Variance of b:  1.4814361584490872
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2142,8 +2051,7 @@ Variance of b:  1.4814361584490872
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="Calculate-$t$-statistic">Calculate $t$-statistic<a class="anchor-link" href="#Calculate-$t$-statistic">&#182;</a></h4><p>And we can use that to in turn calculate our $t$-statistic:</p>
 
@@ -2159,7 +2067,7 @@ Variance of b:  1.4814361584490872
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;t-statistic: &quot;</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2169,7 +2077,7 @@ Variance of b:  1.4814361584490872
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2183,14 +2091,11 @@ Variance of b:  1.4814361584490872
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="Calculate-Degrees-of-Freedom">Calculate Degrees of Freedom<a class="anchor-link" href="#Calculate-Degrees-of-Freedom">&#182;</a></h4><p>Then the degress of freedom; when dealing with one group the degrees of freedom are equal to $N-1$. However, when we have two groups, <code>a</code> and <code>b</code>, there are two <code>N</code>'s to consider, so the degrees of freedom are:</p>
-<p>$$df = (N_1 - 1) + (N_2 - 1)$$</p>
-<p>In our case that is:</p>
-<p>$$df = 2N - 2$$</p>
-
+$$df = (N_1 - 1) + (N_2 - 1)$$<p>In our case that is:</p>
+$$df = 2N - 2$$
 </div>
 </div>
 </div>
@@ -2203,7 +2108,7 @@ Variance of b:  1.4814361584490872
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Degrees of freedom: &quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2213,7 +2118,7 @@ Variance of b:  1.4814361584490872
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2227,8 +2132,7 @@ Variance of b:  1.4814361584490872
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now that we have our $t$-statistic and degrees of freedom, we can see where our statistic lies on the $t$-distribution:</p>
 
@@ -2260,7 +2164,7 @@ Variance of b:  1.4814361584490872
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2270,7 +2174,7 @@ Variance of b:  1.4814361584490872
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2290,8 +2194,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Our $t$-statistic is clearly past the point of statistical significance; we can even zoom in to see the shaded are from $[0.975, 1]$:</p>
 
@@ -2323,7 +2226,7 @@ height=353
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2333,7 +2236,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2353,8 +2256,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="Calculate-the-$p$-value">Calculate the $p$-value<a class="anchor-link" href="#Calculate-the-$p$-value">&#182;</a></h4><p>Finally, we can calculate the $p$-value. <code>scipy</code> has a stats module that gives us access to the Student's T continuous random variable. We can use its <code>cdf</code> method in order to calculate how much of the area under the curve lies after our $t$-statistic:</p>
 
@@ -2370,7 +2272,7 @@ height=353
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;t: &quot;</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">p: &quot;</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">p</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2380,7 +2282,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2394,8 +2296,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="Calculate-the-$p$-value-with-scipy's-built-in-function">Calculate the $p$-value with <code>scipy</code>'s built in function<a class="anchor-link" href="#Calculate-the-$p$-value-with-scipy's-built-in-function">&#182;</a></h4><p>The entire process that we just completed above can be compared to <code>scipys</code> build in <code>ttest_ind</code> function:</p>
 
@@ -2411,7 +2312,7 @@ height=353
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;t2:&quot;</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">p2:&quot;</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2421,7 +2322,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2435,8 +2336,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="6.-$t$-test:-Click-through-rate-in-code">6. $t$-test: Click through rate in code<a class="anchor-link" href="#6.-$t$-test:-Click-through-rate-in-code">&#182;</a></h2><p>Contrary to the previous lectures, we can in fact use a standard $t$-test even though clicks/no clicks (or buy/not buy) are not normally distributed. The reason we can still use a $t$-test is because their <em>means</em> are approximately normal due the Central Limit Theorem (for a visualization of this in action look at my introduction to statistics post). This is a very crucial idea to keep in mind going forward, because it allows for probabilistic and statistical methods that work for normal distributions to be applicable to many problems involving other types of distributions.</p>
 <h3 id="6.1-Data-File">6.1 Data File<a class="anchor-link" href="#6.1-Data-File">&#182;</a></h3><p>To start, I want us to take a look at the data file we are going to be working with, <code>advertisement_clicks.csv</code>:</p>
@@ -2453,7 +2353,7 @@ height=353
 <span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2463,7 +2363,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2535,7 +2435,7 @@ height=353
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2545,7 +2445,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2562,7 +2462,7 @@ memory usage: 31.3+ KB
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2585,7 +2485,7 @@ memory usage: 31.3+ KB
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2595,7 +2495,7 @@ memory usage: 31.3+ KB
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2666,8 +2566,7 @@ memory usage: 31.3+ KB
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So, the first column, <code>advertisement_id</code> tells us the advertisement that we are looking at (<code>A</code> or <code>B</code>). The second column, <code>action</code>, tells us whether the action was click of a no-click. Hence, for each row we know that the user has seen an advertisement, and a 1 means that they clicked on it, and a 0 means that they did not click on it.</p>
 <p>In total we have 2000 rows (historical examples), and overall we can see that our mean advertisement click rate is 0.338.</p>
@@ -2686,7 +2585,7 @@ memory usage: 31.3+ KB
 <span class="n">df_b</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;advertisement_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;B&quot;</span><span class="p">]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2702,7 +2601,7 @@ memory usage: 31.3+ KB
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mean clicks on advertisement B: &quot;</span><span class="p">,</span> <span class="n">df_b</span><span class="p">[</span><span class="s2">&quot;action&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2712,7 +2611,7 @@ memory usage: 31.3+ KB
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2730,8 +2629,7 @@ Mean clicks on advertisement B:  0.372
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that there does in fact seem to be a difference between the means of <code>A</code> and <code>B</code>! Let's try and get a visualization of this:</p>
 
@@ -2758,7 +2656,7 @@ Mean clicks on advertisement B:  0.372
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2768,7 +2666,7 @@ Mean clicks on advertisement B:  0.372
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2788,8 +2686,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So, at this point we can see that there is a difference between advertisement <code>A</code> and <code>B</code>; specifically, <code>B</code> seems to have a higher click through rate compared to <code>A</code>. The question we need to ask if:</p>
 <blockquote><p>Is the difference between CTR of advertisement <code>A</code> and <code>B</code> statistically significant?</p>
@@ -2797,10 +2694,7 @@ height=353
 <p>We know exactly how to do this! We just completed it in section 5 by using a hypothesis test! Specifically, we will need to:</p>
 <p><img src="https://drive.google.com/uc?id=1Zlz83SNwrovG5-I1wbMvK-CzsGFpzgB9" width="800"></p>
 <p>Now, in this case we are going to be using <strong>Welches t-test</strong> because our variances are not the same:</p>
-<p>$$t = \frac{\bar{X_1} - \bar{X_2}}{s_{\bar{\Delta}}}$$</p>
-<p>$$s_{\bar{\Delta}} = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}$$</p>
-<p>$$df = \frac{\big( \frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}\big)^2 }{\frac{\big(\frac{s_1^2}{n_1}\big)^2}{n_1 - 1} + \frac{\big(\frac{s_2^2}{n_2}\big)^2}{n_2 - 1}}$$</p>
-<h4 id="Calculate-Pooled-Standard-Deviation">Calculate Pooled Standard Deviation<a class="anchor-link" href="#Calculate-Pooled-Standard-Deviation">&#182;</a></h4>
+$$t = \frac{\bar{X_1} - \bar{X_2}}{s_{\bar{\Delta}}}$$$$s_{\bar{\Delta}} = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}$$$$df = \frac{\big( \frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}\big)^2 }{\frac{\big(\frac{s_1^2}{n_1}\big)^2}{n_1 - 1} + \frac{\big(\frac{s_2^2}{n_2}\big)^2}{n_2 - 1}}$$<h4 id="Calculate-Pooled-Standard-Deviation">Calculate Pooled Standard Deviation<a class="anchor-link" href="#Calculate-Pooled-Standard-Deviation">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -2817,7 +2711,7 @@ height=353
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pooled Standard Deviation: &quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2827,7 +2721,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2841,8 +2735,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="Determine-our-t-statistic">Determine our t-statistic<a class="anchor-link" href="#Determine-our-t-statistic">&#182;</a></h4>
 </div>
@@ -2857,7 +2750,7 @@ height=353
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;t-statistic: &quot;</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2867,7 +2760,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2881,8 +2774,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="Calculate-Degrees-of-Freedom---Needed-for-$t$-distribution">Calculate Degrees of Freedom - Needed for $t$-distribution<a class="anchor-link" href="#Calculate-Degrees-of-Freedom---Needed-for-$t$-distribution">&#182;</a></h4>
 </div>
@@ -2899,7 +2791,7 @@ height=353
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Degrees of freedom for t-distribution: &quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2909,7 +2801,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2923,8 +2815,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="Find-where-$t$-statistic-falls-along-$t$-distribution">Find where $t$-statistic falls along $t$-distribution<a class="anchor-link" href="#Find-where-$t$-statistic-falls-along-$t$-distribution">&#182;</a></h4><p>We now have our $t$-statistic and degrees of freedom, so we can plot our distribution and see where the $t$-statistic lies:</p>
 
@@ -2956,7 +2847,7 @@ height=353
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2966,7 +2857,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -2986,8 +2877,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="Determine-$p$-value">Determine $p$-value<a class="anchor-link" href="#Determine-$p$-value">&#182;</a></h4><p>We can now determine our $p$-value, specifically the area under the curve to the left of our $t$-statistic. This area can be interpreted, in english, as:</p>
 <blockquote><p>The probability that we would have observed the $t$-statistic that we did <em>if the null hypothesis was true</em>.</p>
@@ -3022,7 +2912,7 @@ height=353
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3032,7 +2922,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -3052,8 +2942,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can then calculate the $p$-value via the <code>scipy</code> stats module (since it gives us access to the student's T continuous random variable). We can use the <code>cdf</code> method in order to calculate how much of the area under the curve lies after our $t$-statistic:</p>
 
@@ -3069,7 +2958,7 @@ height=353
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;t-statistic: &quot;</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">p-value:&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">p</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3079,7 +2968,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3093,8 +2982,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And we can of course compare with the built-in <code>scipy</code> function, <code>ttest_ind</code>:</p>
 
@@ -3110,7 +2998,7 @@ height=353
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;t-statistic: &quot;</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">p-value:&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">p</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3120,7 +3008,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3134,8 +3022,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h4><p>We arrived at a $p$-value that is equivalent to that of the scipy <code>ttest_ind</code> function! We can see that if the null hypothesis:
 $$\mu_A = \mu_B$$
@@ -3145,8 +3032,7 @@ were true, our observations would have been made only 0.13% of the time. Because
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="7.-A/B-Test-for-Click-Through-Rates-(Chi-Squared-Test)">7. A/B Test for Click Through Rates (Chi-Squared Test)<a class="anchor-link" href="#7.-A/B-Test-for-Click-Through-Rates-(Chi-Squared-Test)">&#182;</a></h2><p>At this point if you are only interested in hypothesis testing there is no need to continue, you have already covered the bulk of the important content. The remaining portion of this post focus's specifically on A/B testing for click through rates, and the some of it's nuances.</p>
 <p>We now know one hypothesis test ($t$-test), let's look at another (more complex) one. It is known as the <strong>Chi-Squared Test</strong>, and works for click through rates, and anything else that takes on a Bernoulli Distribution (not Gaussian). In other words, this test works for any categorical variable where we count things. We can see how it works by using a **contingency table:</p>
@@ -3176,10 +3062,8 @@ were true, our observations would have been made only 0.13% of the time. Because
 <p>So, once we have the above contingency table, we calculate what is called the <strong>Chi-Square Test Statistic</strong>.</p>
 <h3 id="7.1-Chi-Square-Test-Statistic">7.1 Chi-Square Test Statistic<a class="anchor-link" href="#7.1-Chi-Square-Test-Statistic">&#182;</a></h3><p>The $\chi^2$ test statistic gets it's name because it is chi-square distributed. This is similar to how the $t$-statistic is $t$-distributed. Like the $t$-distribution, the chi-square distributions main parameter is the degrees of freedom. Like $t$, it also have a location and scale, which is not listed in the wikipedia entry, but is available in <code>scipy</code> (with default: <code>loc = 0</code> and <code>scale = 1</code>).</p>
 <p>The statistic is defined as follows:</p>
-<p>$$\chi^2 = \sum_i \frac{(observed_i - expected_i)^2}{expected_i}$$</p>
-<p>Where $i$ is equal to every cell of the table (4 in our current scenario). Specifically, the $i$ is used to index a call in the table. For example, at the start it is going to refer to (row 1, column 1):</p>
-<p>$$i = (\text{Ad A}, \text{Click})$$</p>
-<p>We can update our table to reflect the totals as well:</p>
+$$\chi^2 = \sum_i \frac{(observed_i - expected_i)^2}{expected_i}$$<p>Where $i$ is equal to every cell of the table (4 in our current scenario). Specifically, the $i$ is used to index a call in the table. For example, at the start it is going to refer to (row 1, column 1):</p>
+$$i = (\text{Ad A}, \text{Click})$$<p>We can update our table to reflect the totals as well:</p>
 <table>
 <thead><tr>
 <th><strong><strong><strong>___</strong></strong></strong></th>
@@ -3210,12 +3094,9 @@ were true, our observations would have been made only 0.13% of the time. Because
 </tbody>
 </table>
 <p>Here, the observed value is:</p>
-<p>$$observed_i = 36$$</p>
-<p>And the expected value is:</p>
-<p>$$expected_i = (\text{Number of times Ad A is shown}) * p(click) = 50 * \frac{66}{105} = 31.429$$</p>
-<p>Where:</p>
-<p>$$p(click) = \frac{\text{Total number of clicks}}{\text{Total number of impressions}}$$</p>
-<p>Similarly, if we wanted to estimate the number of no clicks for advertisement A:</p>
+$$observed_i = 36$$<p>And the expected value is:</p>
+$$expected_i = (\text{Number of times Ad A is shown}) * p(click) = 50 * \frac{66}{105} = 31.429$$<p>Where:</p>
+$$p(click) = \frac{\text{Total number of clicks}}{\text{Total number of impressions}}$$<p>Similarly, if we wanted to estimate the number of no clicks for advertisement A:</p>
 <table>
 <thead><tr>
 <th><strong><strong><strong>___</strong></strong></strong></th>
@@ -3246,13 +3127,9 @@ were true, our observations would have been made only 0.13% of the time. Because
 </tbody>
 </table>
 <p>Now, $i = (Ad A, no click)$. We can see that:</p>
-<p>$$observed_i = 14$$</p>
-<p>And the expected value:</p>
-<p>$$expected_i = (\text{Number of times Ad A is shown}) * p(no \; click) = 50 * \frac{39}{105} = 18.571$$</p>
-<p>$$p(click) = \frac{\text{Total number of no clicks}}{\text{Total number of impressions}}$$</p>
-<p>So, we can go through the above process for all four cells in the contingency table, and use the chi-squared statistic equation to determine our final value. In this case is is:</p>
-<p>$$\frac{(36-31.429)^2}{31.429}+\frac{(14-18.571)^2}{18.571}+\frac{(30-34.571)^2}{34.571}+\frac{(25-20.429)^2}{20.429} = 3.418$$</p>
-<h3 id="7.2-Chi-Square-Distribution">7.2 Chi-Square Distribution<a class="anchor-link" href="#7.2-Chi-Square-Distribution">&#182;</a></h3><p>Now that we have our test statistic, the next step is to place it in the context of it's corresponding distribution. Because the test statistic is always positive, and would get larger when the data strays from the average, a large chi-square test statistic would be significant. It will be extreme when <em>observed</em> is far away from <em>expected</em>. Hence, if $\chi^2$ is large, $1 - CDF(\chi^2)$ will give us a small number. This small number is the $p$-value. As is typical, if $text{p-value} &lt; \alpha$, then ad A and B are significantly different.</p>
+$$observed_i = 14$$<p>And the expected value:</p>
+$$expected_i = (\text{Number of times Ad A is shown}) * p(no \; click) = 50 * \frac{39}{105} = 18.571$$$$p(click) = \frac{\text{Total number of no clicks}}{\text{Total number of impressions}}$$<p>So, we can go through the above process for all four cells in the contingency table, and use the chi-squared statistic equation to determine our final value. In this case is is:</p>
+$$\frac{(36-31.429)^2}{31.429}+\frac{(14-18.571)^2}{18.571}+\frac{(30-34.571)^2}{34.571}+\frac{(25-20.429)^2}{20.429} = 3.418$$<h3 id="7.2-Chi-Square-Distribution">7.2 Chi-Square Distribution<a class="anchor-link" href="#7.2-Chi-Square-Distribution">&#182;</a></h3><p>Now that we have our test statistic, the next step is to place it in the context of it's corresponding distribution. Because the test statistic is always positive, and would get larger when the data strays from the average, a large chi-square test statistic would be significant. It will be extreme when <em>observed</em> is far away from <em>expected</em>. Hence, if $\chi^2$ is large, $1 - CDF(\chi^2)$ will give us a small number. This small number is the $p$-value. As is typical, if $text{p-value} &lt; \alpha$, then ad A and B are significantly different.</p>
 
 </div>
 </div>
@@ -3282,7 +3159,7 @@ were true, our observations would have been made only 0.13% of the time. Because
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3292,7 +3169,7 @@ were true, our observations would have been made only 0.13% of the time. Because
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -3312,19 +3189,16 @@ height=358
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, fortunately <code>scipy</code> has a built in process that will determine the chi-square statistic for us: <code>scipy.stats.chi2_contingency(Table, correction=False)</code>. You may wonder what exactly the <code>correction</code> parameter represents; well, to fully understand that we must realize that our chi-square test statistic asymptotically approachces the chi-square distribution (i.e. when $N = \infty$). This is the same situation as the Central Limit Theorem, aka the same situation we have when estimating the mean of a random variable. It will only be exact when $N=\infty$. So, there are slight statistical corrections that can be made to allow our answer to be more accurate. We won't delve into those corrections, since we risk missing the forest for the trees.</p>
 <p>One final thing to mention: there is a shortcut to find $\chi^2$ for a 2x2 contingency table:</p>
-<p>$$\chi^2 = \frac{(ad-bc)^2 (a+b+c+d)}{(a+b)(c+d)(a+c)(b+d)}$$</p>
-
+$$\chi^2 = \frac{(ad-bc)^2 (a+b+c+d)}{(a+b)(c+d)(a+c)(b+d)}$$
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="7.3-Chi-Square-Test-in-Code:-Focus-on-how-$p$-value-changes">7.3 Chi-Square Test in Code: Focus on how $p$-value changes<a class="anchor-link" href="#7.3-Chi-Square-Test-in-Code:-Focus-on-how-$p$-value-changes">&#182;</a></h3><p>I want us to take a moment to walk through the chi-square test applied to A/B CTR testing, but our focus will be on the $p$-value. Specifically, I want us to look at how the $p$-value changes as we collect each sample. The reason to look closely at this is to highlight some of the draw backs of standard frequentist statistical testing (you may be getting the impression that I am biased towards bayesian statistics!).</p>
 <p>We are going to need to create three main things:</p>
@@ -3388,7 +3262,7 @@ height=358
     <span class="k">return</span> <span class="n">p_values</span><span class="p">,</span> <span class="n">N</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3425,7 +3299,7 @@ height=358
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3435,7 +3309,7 @@ height=358
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -3455,8 +3329,7 @@ height=303
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Above, I run the experiment three times, and we can already start to see how we can run into issues when using the p-value. Sometimes we can find a value that is significant, and then as the sample size increases it changes to no longer be significant. The same can happen where initially the p-value is not significant and as sample size increase it becomes significant. This can lead to what is known as <strong>p-value hacking</strong>, where researchers will stop the test and a convenient point in order to achieve a proper p-value.</p>
 <h3 id="7.4-Chi-Squared-Test---Advertisement-Clicks">7.4 Chi Squared Test - Advertisement Clicks<a class="anchor-link" href="#7.4-Chi-Squared-Test---Advertisement-Clicks">&#182;</a></h3><p>As a quick demonstration of the chi-square test, I will demonstrate how it could be performed on the data that we originally used with our $t$-test.</p>
@@ -3506,7 +3379,7 @@ height=303
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; T = </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3516,7 +3389,7 @@ height=303
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3539,7 +3412,7 @@ height=303
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;P-value from custom function: &quot;</span><span class="p">,</span> <span class="n">get_p_value</span><span class="p">(</span><span class="n">T</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3549,7 +3422,7 @@ height=303
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3570,7 +3443,7 @@ height=303
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;P-value from scipy stats module: &quot;</span><span class="p">,</span> <span class="n">stats</span><span class="o">.</span><span class="n">chi2_contingency</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">correction</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3580,7 +3453,7 @@ height=303
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3594,8 +3467,7 @@ height=303
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that we arrived at nearly the exact same conclusion we did with the $t$-test! You may be wondering:</p>
 <blockquote><p>When should I use the $t$-test and when should I use the $\chi^2$-test?</p>
@@ -3611,16 +3483,13 @@ height=303
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="8.-A/B-Testing-for-more-than-2-groups">8. A/B Testing for more than 2 groups<a class="anchor-link" href="#8.-A/B-Testing-for-more-than-2-groups">&#182;</a></h2><p>A very practical thing that you may want to do at some point is perform A/B testing for more than two groups. For example, test 10 advertisements against eachother, 3 different landing pages, etc. The thing that we must remember about $p$-values is that it is possible to end up with a significant $p$-value just by chance, as we saw earlier. This is what I was getting at earlier when mentioning <strong>p-value hacking</strong>. You can potentially just run a bunch of experiments and then work backwards until you find something that had a significant $p$-value.</p>
 <p>An easy solution to testing multiple groups and ensuring that our $\alpha$ reflects this is to use the <strong>Bonferroni Correction</strong>. It looks like:</p>
-<p>$$\alpha_{NEW} = \frac{\alpha}{\text{# tests}}$$</p>
-<p>Where we update our $\alpha$ by dividing it by the number of things we are testing.</p>
+$$\alpha_{NEW} = \frac{\alpha}{\text{# tests}}$$<p>Where we update our $\alpha$ by dividing it by the number of things we are testing.</p>
 <h2 id="9.-Statistical-Power">9. Statistical Power<a class="anchor-link" href="#9.-Statistical-Power">&#182;</a></h2><p>I have mentioned the term <strong>statistical power</strong> several times at this point, but can we delve deeper and give it a more concrete definition? Yes! We can relate power back to our discussion surrounding imbalanced classes. In this context, power is actually equal to <strong>sensitivity</strong>. We can write:</p>
-<p>$$Power = P(reject \; H_0 \mid H_1 \; is \; true)$$</p>
-<p>In english this just says that power is equal to the probability that we reject the null hypothesis given that the alternative hypothesis is true. We need to recognize that this is like a binary classification problem where we have two possible truths:</p>
+$$Power = P(reject \; H_0 \mid H_1 \; is \; true)$$<p>In english this just says that power is equal to the probability that we reject the null hypothesis given that the alternative hypothesis is true. We need to recognize that this is like a binary classification problem where we have two possible truths:</p>
 <ol>
 <li>The null hypothesis is true.</li>
 <li>The alternative hypothesis is true.</li>
@@ -3662,8 +3531,7 @@ height=303
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="10.-Frequentist-A/B-Testing-Pitfalls">10. Frequentist A/B Testing Pitfalls<a class="anchor-link" href="#10.-Frequentist-A/B-Testing-Pitfalls">&#182;</a></h2><p>I want to take a moment to discuss some of the major drawbacks to standard frequentist A/B testing. This is not essential, but I think it may generate a curiosity surrounding alternatives, specifically Bayesian A/B testing.</p>
 <p>In the experiment we ran earlier, we observed how a $p$-value can change as an experiment progresses. The only reason that we were monitoring the $p$-value mid test was to get a sense for how it can change. In general, you shouldn't check the $p$-value until the experiment is over; i.e. a predetermined number of samples have been collected. However, sometimes people stop their experiment early as soon as it reaches significance.</p>
@@ -3747,8 +3615,7 @@ height=303
 </table>
 <p>We see there is a specific scenario, 3, where the $p$-value can go from significant to insignificant, that we would never catch. The end result is that we have increased the proportion of time that we detect significance when $A$ is equal to $B$. As a general rule of thumb to prevent this, it is advised to chose your sample size before the experiment starts and then stick to it.</p>
 <h3 id="10.1-Choosing-Sample-Size">10.1 Choosing Sample Size<a class="anchor-link" href="#10.1-Choosing-Sample-Size">&#182;</a></h3><p>As a general rule of thumb, $N$ is:</p>
-<p>$$N = 16\frac{\sigma^2}{\delta^2}$$</p>
-<p>Where $\sigma^2$ is the variance in the data, and $\delta$ is the minimum difference you want to detect. The reason for $\delta$ is because smaller differences are harder to detect, and thus require a larger $N$.</p>
+$$N = 16\frac{\sigma^2}{\delta^2}$$<p>Where $\sigma^2$ is the variance in the data, and $\delta$ is the minimum difference you want to detect. The reason for $\delta$ is because smaller differences are harder to detect, and thus require a larger $N$.</p>
 <h3 id="10.2-The-strange-thing-about-frequentist-statistics">10.2 The strange thing about frequentist statistics<a class="anchor-link" href="#10.2-The-strange-thing-about-frequentist-statistics">&#182;</a></h3><p>There are some rather strange things about standard frequentist statistics, specifically that the rules are often counter intuitive and authorative. Judea Pearl does an excellent job describing the reasons behind this in his book, <em>The Book of Why</em>, which I highly recommend reading. Essentially, and this is a vast over simplification, there were two main statisticians who oversaw much of the field through the 1900's: Karl Pearson and Ronald Fisher. They both were incredibly opinionated, and due to there power and clout, what they said ruled the field-bar a few people, no one really fought back. As a result, the concept of <strong>causality</strong> was locked in the basement of statistics, and many counter intuitive and wordy rules and methodologies were left in it's place.</p>
 <p>This lead to certain scenarios that border on being unethical. Specifically, imagine the case were you are testing a drug. You know the science behind it, you are confident that it works. You start the test and it is clearly performing well, but the experiment has not ended yet. Wouldn't you want to give the drug to all of the subjects to help them get better? Well, frequentist statistics says that you can't.</p>
 <p>Another, less dramatic case, could be conversion rates. Imagine that you are absolutely certain that after a small number of pages that one landing page is performing better than the other. Can you stop early and make more money? Frequentist statistics says that you can't.</p>
@@ -3758,8 +3625,7 @@ height=303
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="11.-Traditional-A/B-Testing-Summary">11. Traditional A/B Testing Summary<a class="anchor-link" href="#11.-Traditional-A/B-Testing-Summary">&#182;</a></h2><p>Let's take a minute to summarize and digest what we went over in this post.</p>
 <h4 id="Student-$t$-test">Student $t$-test<a class="anchor-link" href="#Student-$t$-test">&#182;</a></h4><p>We started by going over the basics of hypothesis testing and use the $t$-test as an example. The $t$-test is used to compare two different groups of Gaussian distributed data. Frequently scientists will use this test on data that non gaussian, since the central limit theorem states the sample means of the data will be normally distributed. There are non parametric tests that make no distribution assumptions and may be more suitable; keep in mind though that less assumptions mean less power.</p>
@@ -3784,6 +3650,19 @@ height=303
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div><script>
   function code_toggle() {
     if (code_shown){
@@ -3802,6 +3681,19 @@ height=303
   });
 </script>
 <form action="javascript:code_toggle()"><input type="submit" id="toggleButton" value="Show Code"></form>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
 <hr>
 &copy; 2018 Nathaniel Dake
 

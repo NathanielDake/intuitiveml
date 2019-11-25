@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -195,10 +194,6 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -211,16 +206,14 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="2.-Language-Modeling-and-Neural-Networks">2. Language Modeling and Neural Networks<a class="anchor-link" href="#2.-Language-Modeling-and-Neural-Networks">&#182;</a></h1><p>This post is about language modeling and its relation to neural networks. We will start with what may very well be the simplest task possible: creating a <strong>bigram language model</strong>.</p>
 <h2 id="2.1-Bigram-Language-Model">2.1 Bigram Language Model<a class="anchor-link" href="#2.1-Bigram-Language-Model">&#182;</a></h2><p>To start, in case it not clear, what is a language model? A language model is a model of the probabilities of sequences of words. In english, we refer to a sequence of words a sentence. So, for example, if we had the sentence:</p>
 
 <pre><code>The quick brown fox jumps over the lazy dog.</code></pre>
 <p>A language model will allow us to calculate:</p>
-<p>$$p\Big(\text{The quick brown fox jumps over the lazy dog.}\Big)$$</p>
-<p>The form that the above probability distribution takes is what makes up the model, and typically that is going to involve making some assumptions about the structure of language and how sentences are formed.</p>
+$$p\Big(\text{The quick brown fox jumps over the lazy dog.}\Big)$$<p>The form that the above probability distribution takes is what makes up the model, and typically that is going to involve making some assumptions about the structure of language and how sentences are formed.</p>
 <h3 id="2.1.1-What-is-a-Model-anyways?">2.1.1 What is a Model anyways?<a class="anchor-link" href="#2.1.1-What-is-a-Model-anyways?">&#182;</a></h3><p>I want to take a moment to be very clear here and describe exactly what a model is. A model is trying to capture some real world phenomema (i.e. language, motion, finances, etc), and it will never be 100% correct. It is always going to make simplifying assumptions. The idea is that they will be correct most of the time, but some of the time they will be incorrect. For example, Newtonian Mechanics was determined to be incorrect (based on work by Einstein), but it still proves to be useful!</p>
 <h3 id="2.1.2-What-is-a-Bigram?">2.1.2 What is a Bigram?<a class="anchor-link" href="#2.1.2-What-is-a-Bigram?">&#182;</a></h3><p>A <strong>bigram</strong> is simply two consecutive words in a sentence. So, from our above example, the bigrams would be:</p>
 
@@ -233,42 +226,30 @@ over the
 the lazy
 lazy dog</code></pre>
 <p>We could also have <strong>trigrams</strong> and <strong>n-grams</strong>, which deal with three and $n$ consecutive words respectively. In terms of the bigram model, we are going to be modeling each bigram as a probability:</p>
-<p>$$Bigram \; model: p\big(w_t \mid w_{t-1}\big)$$</p>
-<p>So for example, we could have:</p>
-<p>$$p\big(brown \mid quick\big) = 0.5$$</p>
-<p>$$p\big(the \mid the\big) = 0$$</p>
-<p>In the above, all the statement is saying is: the probability of seeing the word <code>brown</code> given that we just saw the word <code>quick</code> is 0.5. Now, how do we actually find these probabilities? We just count! So, to find that $p\big(brown \mid quick\big) = 0.5$, we would simply count up how many times $quick \rightarrow brown$ appears in our documents, and how many times $brown$ appears, and then divide the former by the later. This will give us the <strong>maximum likelihood probability</strong>:</p>
-<p>$$p\big(brown \mid quick\big) = \frac{count(quick \rightarrow brown)}{count(quick)}$$</p>
-<p>I would like to clarify what I mean when I refer to <strong>documents</strong>. Generally speaking, we are going to have some training data - a list of exmaple sentences - to create our model. For our purposes, we will mostly be using wikipedia, but in general documents just refer to a set of files that contains sentences. This sometimes will be called a <strong>corpus</strong>.</p>
+$$Bigram \; model: p\big(w_t \mid w_{t-1}\big)$$<p>So for example, we could have:</p>
+$$p\big(brown \mid quick\big) = 0.5$$$$p\big(the \mid the\big) = 0$$<p>In the above, all the statement is saying is: the probability of seeing the word <code>brown</code> given that we just saw the word <code>quick</code> is 0.5. Now, how do we actually find these probabilities? We just count! So, to find that $p\big(brown \mid quick\big) = 0.5$, we would simply count up how many times $quick \rightarrow brown$ appears in our documents, and how many times $brown$ appears, and then divide the former by the later. This will give us the <strong>maximum likelihood probability</strong>:</p>
+$$p\big(brown \mid quick\big) = \frac{count(quick \rightarrow brown)}{count(quick)}$$<p>I would like to clarify what I mean when I refer to <strong>documents</strong>. Generally speaking, we are going to have some training data - a list of exmaple sentences - to create our model. For our purposes, we will mostly be using wikipedia, but in general documents just refer to a set of files that contains sentences. This sometimes will be called a <strong>corpus</strong>.</p>
 <h3 id="2.1.3-What-is-a-Language-Model">2.1.3 What is a Language Model<a class="anchor-link" href="#2.1.3-What-is-a-Language-Model">&#182;</a></h3><p>Returning to the idea of a language model, recall that we want to know the probability of an entire sentence. How can bigrams help us do that? As per our previous discussion, this is going to involve making some assumptions. Let's look at a simpler example, specifically the sentence:</p>
 
 <pre><code>I like dogs.</code></pre>
 <p>Our goal is to find $p\big(I like dogs\big)$. Well, we can apply the <strong>rules of conditional probability</strong> here. For a quick refresher, recall that the rules of conditional probability state that:</p>
-<p>$$p\big(A \mid B\big) = \frac{p \big(A \cap B \big)}{p\big(B\big)}$$</p>
-<p>$$p \big(A \cap B \big) = p\big(A \mid B\big)  p\big(B\big)$$</p>
-<p>This can of course be extended to 3 variables like so:</p>
-<p>$$p \big(A, B, C \big) = p \big(C \mid A, B\big)  p\big(A, B\big)$$</p>
-<p>Which, in the case of our sentence above would leave us with:</p>
-<p>$$p \big(I, like, dogs \big) = p \big(dogs \mid I, like\big)  p\big(I, like\big)$$</p>
-<p>We can apply this rule of conditional probability yet again the joint probability $ p\big(I, like\big)$, resultin in:</p>
-<p>$$p \big(I, like, dogs \big) = p \big(dogs \mid I, like\big)  p\big(like \mid I\big) p \big(I\big)$$</p>
-<p>This could simply be continued if we had a longer sentence. This process encapsulates what is known as the <strong>chain rule</strong> of probability. So, why is the above important? Well, if we look at our resulting expression above, we can see that one of the probabilities is part of the bigram model:</p>
+$$p\big(A \mid B\big) = \frac{p \big(A \cap B \big)}{p\big(B\big)}$$$$p \big(A \cap B \big) = p\big(A \mid B\big)  p\big(B\big)$$<p>This can of course be extended to 3 variables like so:</p>
+$$p \big(A, B, C \big) = p \big(C \mid A, B\big)  p\big(A, B\big)$$<p>Which, in the case of our sentence above would leave us with:</p>
+$$p \big(I, like, dogs \big) = p \big(dogs \mid I, like\big)  p\big(I, like\big)$$<p>We can apply this rule of conditional probability yet again the joint probability $ p\big(I, like\big)$, resultin in:</p>
+$$p \big(I, like, dogs \big) = p \big(dogs \mid I, like\big)  p\big(like \mid I\big) p \big(I\big)$$<p>This could simply be continued if we had a longer sentence. This process encapsulates what is known as the <strong>chain rule</strong> of probability. So, why is the above important? Well, if we look at our resulting expression above, we can see that one of the probabilities is part of the bigram model:</p>
 <p><br></p>
 <center>
 <span style="color:#0000cc">$p \big(dogs \mid I, like\big)$</span>
 <span style="color:#ff0000">$p\big(like \mid I\big)$</span>
 <span style="color:#0000cc">$p \big(I\big)$</span>
 </center><p>Now, the two other terms in blue are <em>not</em> bigrams, but that is okay! We can still calculate them using maximum likelihood estimation. For the unigram $p(I)$, this is simply the number of times $I$ appears in the corpus, relative to the total corpus length:</p>
-<p>$$p\big(I\big) = \frac{count(I)}{corpus \; length }$$</p>
-<p>For the trigram $p \big(dogs \mid I, like\big)$, we would need to perform the following counts:</p>
-<p>$$p \big(dogs \mid I, like\big) = \frac{count(I, like, dogs)}{count(I, like)}$$</p>
-<p>We can extend the above logic to sentences of any length. So, if we were dealing with a sentence:</p>
+$$p\big(I\big) = \frac{count(I)}{corpus \; length }$$<p>For the trigram $p \big(dogs \mid I, like\big)$, we would need to perform the following counts:</p>
+$$p \big(dogs \mid I, like\big) = \frac{count(I, like, dogs)}{count(I, like)}$$<p>We can extend the above logic to sentences of any length. So, if we were dealing with a sentence:</p>
 
 <pre><code>A B C D E</code></pre>
 <p>We could model it as:</p>
-<p>$$p\big( A, B, C, D, E\big) = p\big(E \mid A, B, C, D\big) p\big( D \mid A, B, C\big) p\big( C \mid A, B\big)
-p\big( B \mid A \big) p\big( A\big)$$</p>
-<p>Note, above we are using commas to separate our words, which makes it look like a joint probability. However, we must keep in mind that we are looking at a sequence, and not simply a joint probability. With that said, what we should be taking away from the above equation is that modeling these $n$-grams will at some point become problematic. For example, if we return to our original sentence:</p>
+$$p\big( A, B, C, D, E\big) = p\big(E \mid A, B, C, D\big) p\big( D \mid A, B, C\big) p\big( C \mid A, B\big)
+p\big( B \mid A \big) p\big( A\big)$$<p>Note, above we are using commas to separate our words, which makes it look like a joint probability. However, we must keep in mind that we are looking at a sequence, and not simply a joint probability. With that said, what we should be taking away from the above equation is that modeling these $n$-grams will at some point become problematic. For example, if we return to our original sentence:</p>
 
 <pre><code>The quick brown fox jumps over the lazy dog.</code></pre>
 <p>Perhaps this is the only sentence like this in our corpus! We know that:</p>
@@ -276,39 +257,29 @@ p\big( B \mid A \big) p\big( A\big)$$</p>
 <pre><code>The quick brown fox jumps over the lazy cat.</code></pre>
 <p>Is a valid and reasonable sentence. However, if it never shows up in our corpus, its maximum likelihood probability is 0. Zero is not an accurate probability in this case, since we <em>know</em> that the sentence makes sense, and that our language model should allow for it.</p>
 <h3 id="2.1.4-Add-One-Smoothing">2.1.4 Add-One Smoothing<a class="anchor-link" href="#2.1.4-Add-One-Smoothing">&#182;</a></h3><p>One simple way to overcome these zero probabilities is to add a small number to each count, instead of performing vanilla maximum-likelihood counting. For instance, if we have a vocabulary size of $V$, our probability would look like:</p>
-<p>$$p_{smooth}\big(B \mid A\big) = \frac{count(A \rightarrow B) + 1}{count(A) + V}$$</p>
-<p>We add $V$ to the denominator to ensure that our probabilities sum to one. This process ensures that even if a phrase does not appear in our corpus, it still has a small probability of occuring.</p>
+$$p_{smooth}\big(B \mid A\big) = \frac{count(A \rightarrow B) + 1}{count(A) + V}$$<p>We add $V$ to the denominator to ensure that our probabilities sum to one. This process ensures that even if a phrase does not appear in our corpus, it still has a small probability of occuring.</p>
 <h3 id="2.1.5-The-Markov-Assumption">2.1.5 The Markov Assumption<a class="anchor-link" href="#2.1.5-The-Markov-Assumption">&#182;</a></h3><p>Another thing we can do is make the <strong>Markov Assumption</strong>. This is that whatever you see <em>now</em> depends only on what you saw in the previous step. Mathematically this looks like:</p>
-<p>$$p\big( w_t \mid w_{t-1}, w_{t-2}, ... , w_1 \big) = p \big(w_t \mid w_{t-1}\big)$$</p>
-<p>This is know as a <strong>first order markov</strong> because it only depends on one previous term. For example, in our previous situation when modeling <code>A B C D E</code> we ended up with:</p>
-<p>$$p\big( A, B, C, D, E\big) = p\big(E \mid A, B, C, D\big) p\big( D \mid A, B, C\big) p\big( C \mid A, B\big)
-p\big( B \mid A \big) p\big( A\big)$$</p>
-<p>If we made the markov assumption, the first term on the right would be reduced to:</p>
-<p>$$p\big(E \mid A, B, C, D\big) = p\big(E \mid D\big)$$</p>
-<p>The entire sentence would be reduced to:</p>
-<p>$$p\big( A, B, C, D, E\big) = p\big(E \mid  D\big) p\big( D \mid  C\big) p\big( C \mid B\big)
-p\big( B \mid A \big) p\big( A\big)$$</p>
-<p>We end up with a probability consisting entirely of bigrams and one unigram! Why is this important? Well, we need to keep in mind that the longer a sentence, the less likely it is to appear in our training data. This is because our training data makes up only a tiny fraction of the entire space of possible sentences. However, very short phrases like bigrams are going to be very common. So, while phrases such as:</p>
+$$p\big( w_t \mid w_{t-1}, w_{t-2}, ... , w_1 \big) = p \big(w_t \mid w_{t-1}\big)$$<p>This is know as a <strong>first order markov</strong> because it only depends on one previous term. For example, in our previous situation when modeling <code>A B C D E</code> we ended up with:</p>
+$$p\big( A, B, C, D, E\big) = p\big(E \mid A, B, C, D\big) p\big( D \mid A, B, C\big) p\big( C \mid A, B\big)
+p\big( B \mid A \big) p\big( A\big)$$<p>If we made the markov assumption, the first term on the right would be reduced to:</p>
+$$p\big(E \mid A, B, C, D\big) = p\big(E \mid D\big)$$<p>The entire sentence would be reduced to:</p>
+$$p\big( A, B, C, D, E\big) = p\big(E \mid  D\big) p\big( D \mid  C\big) p\big( C \mid B\big)
+p\big( B \mid A \big) p\big( A\big)$$<p>We end up with a probability consisting entirely of bigrams and one unigram! Why is this important? Well, we need to keep in mind that the longer a sentence, the less likely it is to appear in our training data. This is because our training data makes up only a tiny fraction of the entire space of possible sentences. However, very short phrases like bigrams are going to be very common. So, while phrases such as:</p>
 
 <pre><code>The quick brown fox jumps over the lazy cat.
 
 The quick brown fox jumps over the lazy lizard.</code></pre>
 <p>Are not likely to appear in our corpus, phrases such as <code>lazy cat</code> and <code>lazy lizard</code> most likely do. Hence, it is easier to model the probability for <code>lazy lizard</code> than it is to model the probability for <code>The quick brown fox jumps over the lazy lizard.</code>. This in turn makes the full sentence much more probable.</p>
 <h2 id="2.2-Creating-a-Bigram-Language-Model-with-NLTK">2.2 Creating a Bigram Language Model with NLTK<a class="anchor-link" href="#2.2-Creating-a-Bigram-Language-Model-with-NLTK">&#182;</a></h2><p>We are about to create a bigram language model in code using NLTK, but before we do there are a few things to consider. First, we know that probabilities are always between 0 and 1, and that the full joint probability of our bigram model is just the multiplication of each bigram probability in the sentence:</p>
-<p>$$p\big(w_1,...,w_T \big) = p\big(w_1\big) \prod_{t=2}^T p \big( w_t \mid w_{t-1}\big)$$</p>
-<p>We also know that multiplying two numbers less than one together will always yield a smaller number. The result is that if we just keep multiplying probabilities together, we may encounter the <strong>underflow</strong> problem, which means that we hit the limit of numerical precision that our computer can handle, and it will just round down to 0. The solution to this is to use the <strong>log probability</strong> instead:</p>
-<p>$$log \Big(p\big(w_1,...,w_T \big)\big) = log \Big(p\big(w_1\big)\Big) \sum_{t=2}^T log \Big( p \big( w_t \mid w_{t-1}\big) \Big)$$</p>
-<p>We can use this because we know that the log function is <strong>monotonically</strong> increasing, so if $A &gt; B$ then $log(A) &gt; log(B)$. The other thing that we are going to want to do is <strong>normalize</strong> each sentence. Since probabilities are between 0 and 1, log probabilities are always negative. Hence, the longer our sentences, the more negative numbers we are going to add together. This means that if we compare raw log probabilities, there is always going to be a bias towards shorter sentences. Shorter sentences will always have a higher log probabilty, simply because they have fewer negative numbers to add together. For example:</p>
-<p>$$logp\big( \text{the the the} \big) &gt; logp\big( \text{A real, but much longer sentence than the one to left} \big)$$</p>
-<p>To solve this, we can just compare the log probabilities, divided by the length of the sentence, $T$:</p>
-<p>$$\frac{1}{T}logp\big(w_1,...,w_T \big) = \frac{1}{T} \Big[ logp\big(w_1\big)\Big) \sum_{t=2}^T logp \big( w_t \mid w_{t-1}\big) \Big)\big]$$</p>
-
+$$p\big(w_1,...,w_T \big) = p\big(w_1\big) \prod_{t=2}^T p \big( w_t \mid w_{t-1}\big)$$<p>We also know that multiplying two numbers less than one together will always yield a smaller number. The result is that if we just keep multiplying probabilities together, we may encounter the <strong>underflow</strong> problem, which means that we hit the limit of numerical precision that our computer can handle, and it will just round down to 0. The solution to this is to use the <strong>log probability</strong> instead:</p>
+$$log \Big(p\big(w_1,...,w_T \big)\big) = log \Big(p\big(w_1\big)\Big) \sum_{t=2}^T log \Big( p \big( w_t \mid w_{t-1}\big) \Big)$$<p>We can use this because we know that the log function is <strong>monotonically</strong> increasing, so if $A &gt; B$ then $log(A) &gt; log(B)$. The other thing that we are going to want to do is <strong>normalize</strong> each sentence. Since probabilities are between 0 and 1, log probabilities are always negative. Hence, the longer our sentences, the more negative numbers we are going to add together. This means that if we compare raw log probabilities, there is always going to be a bias towards shorter sentences. Shorter sentences will always have a higher log probabilty, simply because they have fewer negative numbers to add together. For example:</p>
+$$logp\big( \text{the the the} \big) &gt; logp\big( \text{A real, but much longer sentence than the one to left} \big)$$<p>To solve this, we can just compare the log probabilities, divided by the length of the sentence, $T$:</p>
+$$\frac{1}{T}logp\big(w_1,...,w_T \big) = \frac{1}{T} \Big[ logp\big(w_1\big)\Big) \sum_{t=2}^T logp \big( w_t \mid w_{t-1}\big) \Big)\big]$$
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.3-Bigram-Language-Model-in-Code">2.3 Bigram Language Model in Code<a class="anchor-link" href="#2.3-Bigram-Language-Model-in-Code">&#182;</a></h2><p>We will start with our imports:</p>
 
@@ -325,14 +296,13 @@ The quick brown fox jumps over the lazy lizard.</code></pre>
 <span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="k">import</span> <span class="n">brown</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And then write a few functions to load our data:</p>
 
@@ -441,14 +411,13 @@ The quick brown fox jumps over the lazy lizard.</code></pre>
     <span class="k">return</span> <span class="n">sentences_small</span><span class="p">,</span> <span class="n">word2idx_small</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we can start with our language model:</p>
 
@@ -482,7 +451,7 @@ The quick brown fox jumps over the lazy lizard.</code></pre>
     <span class="k">return</span> <span class="n">bigram_probs</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -573,7 +542,7 @@ The quick brown fox jumps over the lazy lizard.</code></pre>
             <span class="k">break</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -583,7 +552,7 @@ The quick brown fox jumps over the lazy lizard.</code></pre>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -603,12 +572,24 @@ Continue? [Y/n]n
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="3.-Neural-Bigram-Model">3. Neural Bigram Model<a class="anchor-link" href="#3.-Neural-Bigram-Model">&#182;</a></h1>
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake

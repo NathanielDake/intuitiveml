@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -195,10 +194,6 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -211,8 +206,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="2.-Linear-Combination,-Linear-Transformation,-Dot-Product">2. Linear Combination, Linear Transformation, Dot Product<a class="anchor-link" href="#2.-Linear-Combination,-Linear-Transformation,-Dot-Product">&#182;</a></h1><p>As we progress in our understanding of the math surrounding machine learning, AI, and DS, there will be a host of linear algebra concepts that we are forced to reckon with. From PCA and it's utilization of eigenvalues and eigenvectors, to neural networks reliance on linear combinations and matrix multiplication, the list goes on and on. Having a very solid grasp on linear algebra is crucial to realizing <em>how</em> and <em>why</em> these algorithms work.</p>
 <p>This notebook in particular is going to focus on the connection between the following:</p>
@@ -228,8 +222,7 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="1.-Linear-Combination">1. Linear Combination<a class="anchor-link" href="#1.-Linear-Combination">&#182;</a></h1><p>If you go to wikipedia, you can find the following definition regarding a <strong>linear combination</strong>:</p>
 <blockquote><p>A linear combination is an expression constructed from a set of terms by multiplying each term by a constant and adding the results. For example, a linear combination of $x$ and $y$ would be any expression of the form $ax + by$, where a and b are constants.</p>
@@ -293,19 +286,17 @@ $$<br>
 $$a_1v_1+a_2v_2+a_nv_n$$
 And end up with a 1 dimensional vector, often just viewed as a scalar.</p>
 <p>Now, this definition is good to have in mind, however we can make it a bit more concrete by expanding visually. For instance, if you have a pair of numbers that is meant to describe, a vector, such as:</p>
-<p>$$\begin{bmatrix}
+$$\begin{bmatrix}
     3 \\
     -2
 \end{bmatrix} 
-$$</p>
-<p><img src="https://drive.google.com/uc?id=1dzL3c1wCklOE78qBiqf0QIbt70eQtsOD" width="300"></p>
+$$<p><img src="https://drive.google.com/uc?id=1dzL3c1wCklOE78qBiqf0QIbt70eQtsOD" width="300"></p>
 <p>We can think of each coordinate as a scalar (how does it stretch or squish vectors?). In linear algebra, there are two very important vectors, commonly known as $\hat{i}$ and $\hat{j}$:</p>
 <p><img src="https://drive.google.com/uc?id=1M8_Uhcddg2bqET8yfrvsuzW6KqezsGgH" width="300"></p>
 <p>Now, we can think of the coordinates of our vector as stretching $\hat{i}$ and $\hat{j}$:</p>
 <p><img src="https://drive.google.com/uc?id=1tAeBsXNFUdC_hV9z3RqahavR0KIhDGPt" width="300"></p>
 <p>In this sense, the vector that these coordinates describe is the sum of two scaled vectors:</p>
-<p>$$(3)\hat{i} + (-2)\hat{j}$$</p>
-<p>Note that $\hat{i}$ and $\hat{j}$ have a special name; they are refered to as the <em>basis vectors</em> of the <em>xy</em> coordinate system. This means that when you think about vector coordinates as scalars, the basis vectors are what those coordinates are actually scaling.</p>
+$$(3)\hat{i} + (-2)\hat{j}$$<p>Note that $\hat{i}$ and $\hat{j}$ have a special name; they are refered to as the <em>basis vectors</em> of the <em>xy</em> coordinate system. This means that when you think about vector coordinates as scalars, the basis vectors are what those coordinates are actually scaling.</p>
 <p>Now, this brings us to our first definiton:</p>
 <blockquote><p><strong>Linear Combination:</strong> Any time you are scaling two vectors and then adding them together, you have a linear combination. For example: <br>
 $$(3)\hat{i} + (-2)\hat{j}$$<br>
@@ -326,23 +317,21 @@ Where, above both $a$ and $b$ are scalars.</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="2.-Linear-Transformations-and-Matrices">2. Linear Transformations and Matrices<a class="anchor-link" href="#2.-Linear-Transformations-and-Matrices">&#182;</a></h1><p>Linear transformations are absolutely fundamental in order to understand matrix vector multiplication (well, unless you want to rely on memorization). To start, let's just parse the term "Linear Transformation".</p>
 <p>Transformation is essentially just another way of saying <em>function</em>. This is where the first bit of confusion can arise though if you are being particularly thoughtful about the process's-what exactly is a function? It is helpful to define it before moving forward.</p>
 <p><strong>Function</strong><br>
 Generally, in mathematics we view a function as a process that take in an input and returns an output (this coincides nicely with the computer science view as well). It can be viewed as:</p>
-<p>$$x \rightarrow f(x) \rightarrow y$$
-Or, expanded as:
+$$x \rightarrow f(x) \rightarrow y$$<p>Or, expanded as:
 $$x_1, x_2, ... , x_n \rightarrow f(x_1, x_2, ... , x_n) \rightarrow y$$</p>
 <p>This is how it is <em>generally</em> encountered, where anywhere from one to several inputs are taken in, and a single output is produced. However, let's define a function more rigorously:</p>
 <blockquote><p>A function is a <em>process</em> or a relation that associates each element $x$ of a set $X$, the <em>domain</em> of the function, to a single element $y$ of another set $Y$ (possibly the same set), the codomain of the function.</p>
 </blockquote>
 <p>The important point to recognize from the above definition is that, while it is common for a function to map elements from a set $X$ to a different set $Y$, the two sets can be <em>same</em>. Hence, although it is not encountered quite as often in ML, a function can map $X \rightarrow X$.</p>
 <p>Now, back to our term transformation; it is something that takes in inputs, and spits out an output for each one. In the context of linear algebra, we like to think about transformations that take in some vector, and spit out another vector:</p>
-<p>$$\begin{bmatrix}
+$$\begin{bmatrix}
     5 \\
     7
 \end{bmatrix} \rightarrow 
@@ -352,10 +341,8 @@ L(\vec{v})
     2 \\
     -3
 \end{bmatrix}
-$$</p>
-<p>This is where we can see an example of a function that does not map to a different space necessarily, but potentially to itself. In other words, generally if we have a function that takes in two inputs, we end up with one output:</p>
-<p>$$f(x,y) = z$$</p>
-<p>However, we can clearly see here that we take in two inputs (coordinates of the vector) and end up with two outputs (coordinates of the transformed vector).</p>
+$$<p>This is where we can see an example of a function that does not map to a different space necessarily, but potentially to itself. In other words, generally if we have a function that takes in two inputs, we end up with one output:</p>
+$$f(x,y) = z$$<p>However, we can clearly see here that we take in two inputs (coordinates of the vector) and end up with two outputs (coordinates of the transformed vector).</p>
 <p>So, why use the word transformation instead of function if they essentially mean the same thing? Well, it is to be suggestive of <em>movement</em>! The way to think about functions of vectors is to use movement. If a transformation takes some input vector to some output vector, we image that input vector moving over to the output vector:</p>
 <p><img src="https://drive.google.com/uc?id=1JxUVZYtLwQh9eTK6RrRjGhfCP3Z_i5mh" width="400"></p>
 <p>And in order to think about the transformation as a whole, we can think about <em>every possible input vector</em> moving over to its corresponding <em>output vector</em>.</p>
@@ -363,7 +350,7 @@ $$</p>
 <blockquote><p>We are now seeing that our general interpretation of a function can be expanded (via its full definition), to not simply taking in one or several inputs and producing a single output, but taking in one to several inputs, and producing one to several outputs. This expansion is key to recognizing the relationship between functions, linear transformations, and dot products.</p>
 </blockquote>
 <p>Now let's pose the following question: If we were given the coordinates of a vector, and we then were trying to determine the coordinates of where that vector landed after being linearly transformed, how would we represent this?</p>
-<p>$$\begin{bmatrix}
+$$\begin{bmatrix}
     x_{in} \\
     y_{in}
 \end{bmatrix}
@@ -374,25 +361,21 @@ $$</p>
     x_{out} \\
     y_{out}
 \end{bmatrix}
-$$</p>
-<p>Well, it turns out that you actually only need to record where the two basis vectors land and everything else will follow from that! For example, let's consider the vector:</p>
-<p>$$ \vec{v} = 
+$$<p>Well, it turns out that you actually only need to record where the two basis vectors land and everything else will follow from that! For example, let's consider the vector:</p>
+$$ \vec{v} = 
 \begin{bmatrix}
     -1 \\
     2
-\end{bmatrix}$$</p>
-<p><img src="https://drive.google.com/uc?id=18WMVsEdWeDd6nt7XCxMkKIU_khRG73jo" width="250"></p>
+\end{bmatrix}$$<p><img src="https://drive.google.com/uc?id=18WMVsEdWeDd6nt7XCxMkKIU_khRG73jo" width="250"></p>
 <p>Where $\vec{v}$ can also be written as:</p>
-<p>$$\vec{v} = -1 \hat{i} + 2 \hat{j}$$</p>
-<p>If we then perform some transformation and watch where all of the vectors go, the property (of linear transformations) that all gridlines remain parallel and evenly spaced has a really important consequence!</p>
+$$\vec{v} = -1 \hat{i} + 2 \hat{j}$$<p>If we then perform some transformation and watch where all of the vectors go, the property (of linear transformations) that all gridlines remain parallel and evenly spaced has a really important consequence!</p>
 <p><img src="https://drive.google.com/uc?id=1KJPU9eq8wAw1QBiM7rCZSOG2lj5Fwd9P" width="400"></p>
 <p>The place where $\vec{v}$ lands will be -1 times the vector where $\hat{i}$ landed, and 2 times the vector where $\hat{j}$ landed.</p>
-<p>$$\text{Transformed } \vec{v} = -1 (\text{Transformed }\hat{i}) + 2 (\text{Transformed }\hat{j})$$</p>
-<p>In other words, it started off as a certain <em>linear combination</em> of $\hat{i}$ and $\hat{j}$, and it ended up as that <em>same linear combination</em> of where those two vectors landed! This means that we can determine where $\vec{v}$ must go, based only on where the two basis vectors land!</p>
+$$\text{Transformed } \vec{v} = -1 (\text{Transformed }\hat{i}) + 2 (\text{Transformed }\hat{j})$$<p>In other words, it started off as a certain <em>linear combination</em> of $\hat{i}$ and $\hat{j}$, and it ended up as that <em>same linear combination</em> of where those two vectors landed! This means that we can determine where $\vec{v}$ must go, based only on where the two basis vectors land!</p>
 <p>Because we have a copy of our original gridlines in the background, we can see where the vectors landed:</p>
 <p><img src="https://drive.google.com/uc?id=120YMveKLwGeS492LiMf0_RGJL9FThxyk" width="500"></p>
 <p>We see that our transformed $\hat{i}$ and $\hat{j}$ landed at:</p>
-<p>$$ \text{Transformed }\hat{i} = 
+$$ \text{Transformed }\hat{i} = 
 \begin{bmatrix}
     1 \\
     -2
@@ -402,26 +385,22 @@ $$</p>
     3 \\
     0
 \end{bmatrix}
-$$</p>
-<p>Meaning that our transformed $\vec{v}$ is:</p>
-<p>$$\text{Transformed } \vec{v} = -1 \begin{bmatrix}
+$$<p>Meaning that our transformed $\vec{v}$ is:</p>
+$$\text{Transformed } \vec{v} = -1 \begin{bmatrix}
     1 \\
     -2
 \end{bmatrix} + 2 \begin{bmatrix}
     3 \\
     0
-\end{bmatrix}$$</p>
-<p>$$\text{Transformed } \vec{v} = \begin{bmatrix}
+\end{bmatrix}$$$$\text{Transformed } \vec{v} = \begin{bmatrix}
     5 \\
     2
-\end{bmatrix}$$</p>
-<p>Now, the cool thing about this is that we have just discovered a way to determine where <em>any</em> transformed vector will land, only by knowing where $\hat{i}$ and $\hat{j}$ land, without needing to watch the transformation itself! We can write a vector with more general coordinates:</p>
-<p>$$\begin{bmatrix}
+\end{bmatrix}$$<p>Now, the cool thing about this is that we have just discovered a way to determine where <em>any</em> transformed vector will land, only by knowing where $\hat{i}$ and $\hat{j}$ land, without needing to watch the transformation itself! We can write a vector with more general coordinates:</p>
+$$\begin{bmatrix}
     x \\
     y
-\end{bmatrix}$$</p>
-<p>And it will land on $x$ times the vector where $\hat{i}$ lands, and $y$ times the vector where $\hat{j}$ lands:</p>
-<p>$$ \begin{bmatrix}
+\end{bmatrix}$$<p>And it will land on $x$ times the vector where $\hat{i}$ lands, and $y$ times the vector where $\hat{j}$ lands:</p>
+$$ \begin{bmatrix}
     x \\
     y
 \end{bmatrix} \rightarrow x \begin{bmatrix}
@@ -435,8 +414,7 @@ $$</p>
     1x + 3y\\
     -2x + 0y
 \end{bmatrix}
-$$</p>
-<p>We can now get to a very key point:</p>
+$$<p>We can now get to a very key point:</p>
 <p>This is all to say that a 2-dimensional linear transformation is completely described by <em>just four numbers</em>: the 2 coordinates for where $\hat{i}$ lands, and the 2 coordinates for where $\hat{j}$ lands. It is common to package these coordinates in a 2x2 grid of numbers, commonly referred to as a 2x2 <em><strong>matrix</strong></em>:<br>
 <br>
 $$\begin{bmatrix}
@@ -445,18 +423,16 @@ $$\begin{bmatrix}
 \end{bmatrix}$$<br>
 Here you can interprete the columns as where $\hat{i}$ lands and where $\hat{j}$ lands!</p>
 <p>So, for just one more example, let's say we are given the 2x2 matrix representing a linear transformation:</p>
-<p>$$
+$$
 \begin{bmatrix}
     3  &amp; 2\\
     -2  &amp; 1
-\end{bmatrix}$$</p>
-<p>And we are then given a random vector:</p>
-<p>$$\begin{bmatrix}
+\end{bmatrix}$$<p>And we are then given a random vector:</p>
+$$\begin{bmatrix}
     5\\
     7 
-\end{bmatrix}$$</p>
-<p>If we want to determine where that linear transformation takes that vector, we can take the coordinates of the vector, multiply them by the corresponding columns of the matrix, and then add together what you get:</p>
-<p>$$
+\end{bmatrix}$$<p>If we want to determine where that linear transformation takes that vector, we can take the coordinates of the vector, multiply them by the corresponding columns of the matrix, and then add together what you get:</p>
+$$
 5\begin{bmatrix}
     3 \\
     -2
@@ -464,20 +440,17 @@ Here you can interprete the columns as where $\hat{i}$ lands and where $\hat{j}$
 7\begin{bmatrix}
     2 \\
     1
-\end{bmatrix}$$</p>
-<h2 id="2.1-The-General-Case">2.1 The General Case<a class="anchor-link" href="#2.1-The-General-Case">&#182;</a></h2><p>Let's now try and generalize this as much as possible. Assume our 2x2 matrix (the typographical representation of our linear transformation of the vector space-in other words, it is a convenient way to package the information needed to describe a linear transformation), is:</p>
-<p>$$
+\end{bmatrix}$$<h2 id="2.1-The-General-Case">2.1 The General Case<a class="anchor-link" href="#2.1-The-General-Case">&#182;</a></h2><p>Let's now try and generalize this as much as possible. Assume our 2x2 matrix (the typographical representation of our linear transformation of the vector space-in other words, it is a convenient way to package the information needed to describe a linear transformation), is:</p>
+$$
 \begin{bmatrix}
     a  &amp; b\\
     c  &amp; d
-\end{bmatrix}$$</p>
-<p>If we apply this transformation to some vector:</p>
-<p>$$ \begin{bmatrix}
+\end{bmatrix}$$<p>If we apply this transformation to some vector:</p>
+$$ \begin{bmatrix}
     x \\
     y
-\end{bmatrix}$$</p>
-<p>What do we end up with? Well it will be:</p>
-<p>$$
+\end{bmatrix}$$<p>What do we end up with? Well it will be:</p>
+$$
 x\begin{bmatrix}
     a \\
     c
@@ -489,9 +462,8 @@ y\begin{bmatrix}
 \begin{bmatrix}
     ax + by\\
     cx + dy
-\end{bmatrix}$$</p>
-<p>Now, what we just did-which has been intuitive and clear (or I should at least hope)-is frequently taught <em>with no intuition whatsoever</em>. It is referred to as <em><strong>matrix vector multiplication</strong></em>, and would written as follows:</p>
-<p>$$\begin{bmatrix}
+\end{bmatrix}$$<p>Now, what we just did-which has been intuitive and clear (or I should at least hope)-is frequently taught <em>with no intuition whatsoever</em>. It is referred to as <em><strong>matrix vector multiplication</strong></em>, and would written as follows:</p>
+$$\begin{bmatrix}
     a  &amp; b\\
     c  &amp; d
 \end{bmatrix}
@@ -510,9 +482,8 @@ y\begin{bmatrix}
 \begin{bmatrix}
     ax + by\\
     cx + dy
-\end{bmatrix}$$</p>
-<p>Where our matrix (linear transformation, a form of a <em>function</em>) is on the left, and the vector is on the right. This, when taught without the necessary background is incredibly confusing and leaves us to simply utilize rote memorization of symbol manipulation processes. When we view this transformation as a type of function that takes in a vector as input and yields an output:</p>
-<p>$$\begin{bmatrix}
+\end{bmatrix}$$<p>Where our matrix (linear transformation, a form of a <em>function</em>) is on the left, and the vector is on the right. This, when taught without the necessary background is incredibly confusing and leaves us to simply utilize rote memorization of symbol manipulation processes. When we view this transformation as a type of function that takes in a vector as input and yields an output:</p>
+$$\begin{bmatrix}
     5 \\
     7
 \end{bmatrix} \rightarrow 
@@ -522,8 +493,7 @@ L(\vec{v})
     2 \\
     -3
 \end{bmatrix}
-$$</p>
-<p>It begins to become far more intuitive <em>why the order matters</em>, and <em>why the top number in the vector is multiplied by the first column of the matrix</em>, and subsequently <em>why the bottom number in the vector is multiplied by the second column in the matrix</em>. It is simply due to:</p>
+$$<p>It begins to become far more intuitive <em>why the order matters</em>, and <em>why the top number in the vector is multiplied by the first column of the matrix</em>, and subsequently <em>why the bottom number in the vector is multiplied by the second column in the matrix</em>. It is simply due to:</p>
 <blockquote><ol>
 <li>The way that vectors are, by convention, packaged and represented.</li>
 <li>The way that matrices are, by convention, packaged and represented. </li>
@@ -531,16 +501,14 @@ $$</p>
 </blockquote>
 <p>In order for the process to perform isomorphically to the geometric interpretation, we must follow the conventions that have been laid out. However, if we <em>only new the conventions</em>, while we did not have the underlying <em>intuition</em>, then there would be very little <em>meaning</em> in what was going on.</p>
 <h2 id="2.2-Matrix-Multiplication">2.2 Matrix Multiplication<a class="anchor-link" href="#2.2-Matrix-Multiplication">&#182;</a></h2><p>We won't dig into it here, but as a quick note I wanted to touch on matrix multiplication.  If we had the following two matrices:</p>
-<p>$$\begin{bmatrix}
+$$\begin{bmatrix}
     a  &amp; b\\
     c  &amp; d
-\end{bmatrix}$$</p>
-<p>$$\begin{bmatrix}
+\end{bmatrix}$$$$\begin{bmatrix}
     e  &amp; f\\
     g  &amp; h
-\end{bmatrix}$$</p>
-<p>And we wanted to the result of applying one, then the other, to a given vector:</p>
-<p>$$\begin{bmatrix}
+\end{bmatrix}$$<p>And we wanted to the result of applying one, then the other, to a given vector:</p>
+$$\begin{bmatrix}
     a  &amp; b\\
     c  &amp; d
 \end{bmatrix}
@@ -551,17 +519,14 @@ $$</p>
 \begin{bmatrix}
     x  \\
     y 
-\end{bmatrix}$$</p>
-<p>We can first thinking about this a a <em><strong>composition of functions</strong></em>. What this would look like from a standard function perspective is:</p>
-<p>$$f(g(x))$$</p>
-<p>Where we first run $x$ through function $g$, and then the result is run through function $f$. In our case, where the function is a matrix (linear transformation), we can say that the vector is first <em>transformed</em> via the matrix:</p>
-<p>$$
+\end{bmatrix}$$<p>We can first thinking about this a a <em><strong>composition of functions</strong></em>. What this would look like from a standard function perspective is:</p>
+$$f(g(x))$$<p>Where we first run $x$ through function $g$, and then the result is run through function $f$. In our case, where the function is a matrix (linear transformation), we can say that the vector is first <em>transformed</em> via the matrix:</p>
+$$
 \begin{bmatrix}
     e  &amp; f\\
     g  &amp; h
-\end{bmatrix}$$</p>
-<p>Which would look like:</p>
-<p>$$
+\end{bmatrix}$$<p>Which would look like:</p>
+$$
 \begin{bmatrix}
     e  &amp; f\\
     g  &amp; h
@@ -574,9 +539,8 @@ $$</p>
     ex + fy\\
     gx + hy
 \end{bmatrix}
-$$</p>
-<p>And that resulting 2-d vector is then transformed via the second <em>linear transformation</em>:</p>
-<p>$$
+$$<p>And that resulting 2-d vector is then transformed via the second <em>linear transformation</em>:</p>
+$$
 \begin{bmatrix}
     a  &amp; b\\
     c  &amp; d
@@ -589,29 +553,24 @@ $$</p>
     a(ex + fy) + b(gx + hy)\\
     c(ex + fy) + d(gx + hy)
 \end{bmatrix}
-$$</p>
-<p>Resulting in a final 2-d vector! We can now easily understand what the following property of matrices exists:</p>
-<p>$$M_1M_2 \neq M_2M_1$$</p>
-<p>We know that because a matrix represents a <em>transformation</em> or <em>function</em>, that switching the order changes the order in which they are applied. In a more familiar case, that would mean:</p>
-<p>$$f(g(x)) \rightarrow g(f(x))$$</p>
-<p>We know that the above is not true, and it follows that it is not true for matrices either!</p>
+$$<p>Resulting in a final 2-d vector! We can now easily understand what the following property of matrices exists:</p>
+$$M_1M_2 \neq M_2M_1$$<p>We know that because a matrix represents a <em>transformation</em> or <em>function</em>, that switching the order changes the order in which they are applied. In a more familiar case, that would mean:</p>
+$$f(g(x)) \rightarrow g(f(x))$$<p>We know that the above is not true, and it follows that it is not true for matrices either!</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="3.-Nonsquare-Matrices-$\rightarrow$-Transformations-between-dimensions">3. Nonsquare Matrices $\rightarrow$ Transformations between dimensions<a class="anchor-link" href="#3.-Nonsquare-Matrices-$\rightarrow$-Transformations-between-dimensions">&#182;</a></h1><p>Up until this point we have been dealing with transformations from 2-d vectors to other 2-d vectors, by the means of a 2x2 matrix. Dealing with non-square matrices and having an underlying intuition is crucial, especially when dealing with machine learning (specifically deep neural networks). More importantly, it should help bring our generalization around to include some of the functions we are more familiar with.</p>
 <p>As we go through this, recall what was mentioned at the start of this notebook. There are functions that are dependent on several inputs, such as:</p>
-<p>$$f(x,y) = z$$
-Or:
+$$f(x,y) = z$$<p>Or:
 $$f(x_1,x_2, ...,x_n) = z$$</p>
 <p>Now, what is interesting about functions of that sort is that we start with <em>multiple dimensions</em>, and the result of our function process is a <em>one dimensional output</em>. Keep that in mind as we move forward.</p>
 <p>Okay, so we can start by saying that it is perfectly reasonable to talk about transformations between dimensions, such as:</p>
-<p>$$\begin{bmatrix}
+$$\begin{bmatrix}
     2 \\
     7
 \end{bmatrix} \rightarrow 
@@ -622,25 +581,21 @@ L(\vec{v})
    8 \\
    2
 \end{bmatrix}
-$$</p>
-<p>Above, we have a 2-d input, and a 3-d output. In order to determine the transformation $L$, we just look at the coordinates of where the basis vectors land! For instance, it may be (left column is $\hat{i}$, right column is $\hat{j}$):</p>
-<p>$$L = 
+$$<p>Above, we have a 2-d input, and a 3-d output. In order to determine the transformation $L$, we just look at the coordinates of where the basis vectors land! For instance, it may be (left column is $\hat{i}$, right column is $\hat{j}$):</p>
+$$L = 
 \begin{bmatrix}
    2 &amp; 0\\
    -1 &amp; 1 \\
    -2 &amp; 1
-\end{bmatrix}$$</p>
-<p>Now, the matrix above which encodes our transformation has 3 rows and 2 columns, making it a 3x2 matrix. We can intuitively say that a 3x2 matrix has a geometric interpretation of mapping 2 dimensions to 3 dimensions. This is because the 2 columns mean that the input space has 2 basis vectors, and the 3 rows indicate that the landing spots for each of those 3 basis vectors is described with 3 separate coordinates.</p>
+\end{bmatrix}$$<p>Now, the matrix above which encodes our transformation has 3 rows and 2 columns, making it a 3x2 matrix. We can intuitively say that a 3x2 matrix has a geometric interpretation of mapping 2 dimensions to 3 dimensions. This is because the 2 columns mean that the input space has 2 basis vectors, and the 3 rows indicate that the landing spots for each of those 3 basis vectors is described with 3 separate coordinates.</p>
 <p>Likewise, if we see a 2x3 matrix (2 rows, 3 columns):</p>
-<p>$$\begin{bmatrix}
+$$\begin{bmatrix}
    3 &amp; 1 &amp; 4\\
    1 &amp; 5 &amp; 9 
-\end{bmatrix}$$</p>
-<p>We know that the 3 columns indicate that we are starting in a space that has 3 basis vectors, and the 2 rows indicate that the landing spot for each of those 3 basis vectors is described with only 2 coordinates.</p>
+\end{bmatrix}$$<p>We know that the 3 columns indicate that we are starting in a space that has 3 basis vectors, and the 2 rows indicate that the landing spot for each of those 3 basis vectors is described with only 2 coordinates.</p>
 <p>Now, we can complete the bridge from linear transformations to our standard functions. We have come across functions before of the form:</p>
-<p>$$f(x,y) = z$$</p>
-<p>Where we take a 2 dimensional input, and produce a single 1 dimensional output. Well, linear transformations are capable of the same thing! Below, we take a 2-d input, and produce a 1-d output:</p>
-<p>$$\begin{bmatrix}
+$$f(x,y) = z$$<p>Where we take a 2 dimensional input, and produce a single 1 dimensional output. Well, linear transformations are capable of the same thing! Below, we take a 2-d input, and produce a 1-d output:</p>
+$$\begin{bmatrix}
     2 \\
     7
 \end{bmatrix} \rightarrow 
@@ -649,24 +604,21 @@ L(\vec{v})
 \begin{bmatrix}
    1.8
 \end{bmatrix}
-$$</p>
-<p>1-dimensional space is just the number line, so a transformation such as the one above essentially just takes in 2-d vectors, and spits out a single number. A transformation such as this is encoded as a 1x2 matrix, where each column has a single entry:</p>
-<p>$$L = 
+$$<p>1-dimensional space is just the number line, so a transformation such as the one above essentially just takes in 2-d vectors, and spits out a single number. A transformation such as this is encoded as a 1x2 matrix, where each column has a single entry:</p>
+$$L = 
 \begin{bmatrix}
    1 &amp; 2\\
-\end{bmatrix}$$</p>
-<p>The 2 columns represent where each of the basis vectors land, and each column requires just one number; the number where that basis vector landed on. This is a very interesting concept, with ties to the dot product.</p>
+\end{bmatrix}$$<p>The 2 columns represent where each of the basis vectors land, and each column requires just one number; the number where that basis vector landed on. This is a very interesting concept, with ties to the dot product.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <h1 id="4.-The-Dot-Product">4. The Dot Product<a class="anchor-link" href="#4.-The-Dot-Product">&#182;</a></h1><p>In general, the dot product would be introduced as follows: we have 2 vector of the same length, and we take there dot product by multiplying the corresponding rows and adding the results:</p>
-<p>$$\begin{bmatrix}
+$$\begin{bmatrix}
     2 \\
     7 \\
     1
@@ -676,10 +628,8 @@ $$</p>
    8 \\
    2
 \end{bmatrix}
-$$</p>
-<p>$$(2*1) + (7*8) + (1*2) = 60$$</p>
-<h3 id="4.1-Geometric-Interpretation">4.1 Geometric Interpretation<a class="anchor-link" href="#4.1-Geometric-Interpretation">&#182;</a></h3><p>Now, this computation has a very nice geometric intepretation. Let's say we have two vectors, $\vec{v}$ and $\vec{w}$:</p>
-<p>$$
+$$$$(2*1) + (7*8) + (1*2) = 60$$<h3 id="4.1-Geometric-Interpretation">4.1 Geometric Interpretation<a class="anchor-link" href="#4.1-Geometric-Interpretation">&#182;</a></h3><p>Now, this computation has a very nice geometric intepretation. Let's say we have two vectors, $\vec{v}$ and $\vec{w}$:</p>
+$$
 \vec{v} = 
 \begin{bmatrix}
     4 \\
@@ -691,12 +641,11 @@ $$</p>
     2  \\
     -1 
 \end{bmatrix} 
-$$</p>
-<p><img src="https://drive.google.com/uc?id=1ain7m5PeTnwX-Wu5NepUCxNGxRwJR5xA" width="250"></p>
+$$<p><img src="https://drive.google.com/uc?id=1ain7m5PeTnwX-Wu5NepUCxNGxRwJR5xA" width="250"></p>
 <p>To think about the dot product between $\vec{v}$ and $\vec{w}$, think about project $\vec{w}$ onto the line that passes through the origin and the tip of $\vec{v}$:</p>
 <p><img src="https://drive.google.com/uc?id=14wuptrxqsBeGVWFM_lu6JmC2Lw7LFcYr" width="250"></p>
 <p>Multiplying the length of the projected $\vec{w}$ by the length of $\vec{v}$, we end up with $\vec{v} \cdot \vec{w}$:</p>
-<p>$$
+$$
 \vec{v} \cdot \vec{w} = 
 (\text{Length of projected } \vec{w})(\text{Length of }\vec{v})= 
 \begin{bmatrix}
@@ -708,8 +657,7 @@ $$</p>
     2  \\
     -1 
 \end{bmatrix}
-$$</p>
-<p>Note: if the direction of the projection of $\vec{w}$ is pointing in the opposite direction of $\vec{v}$, that dot product should be <em>negative</em>.</p>
+$$<p>Note: if the direction of the projection of $\vec{w}$ is pointing in the opposite direction of $\vec{v}$, that dot product should be <em>negative</em>.</p>
 <p>So, when two vectors are generally pointing in the same direction their dot product is positive, when they are perpendicular their dot product is 0, and if they point in generally the opposite direction, their dot product is negative.</p>
 <p>Note: Additionally I should mention that <em>order doesn't matter</em>. We will not going into the derivation here.</p>
 <p><strong>Why are these two views connected?</strong><br>
@@ -718,7 +666,7 @@ You may be sitting there at this point wondering:</p>
 </blockquote>
 <p>Well, in order to give a fully satisfactory answer here, we are going to need to unearth something a little deeper here; <em><strong>duality</strong></em>. However, before we can get into that, we first need to talk about linear transformations from <em>multiple dimensions</em> to <em>one dimension</em>.</p>
 <h3 id="4.2-Linear-Transformations-from-Multiple-to-One-Dimension">4.2 Linear Transformations from Multiple to One Dimension<a class="anchor-link" href="#4.2-Linear-Transformations-from-Multiple-to-One-Dimension">&#182;</a></h3><p>These are functions that take in a 2-d vector and spit out some number (a 1-d output):</p>
-<p>$$\begin{bmatrix}
+$$\begin{bmatrix}
     2 \\
     7
 \end{bmatrix} \rightarrow 
@@ -727,39 +675,32 @@ L(\vec{v})
 \begin{bmatrix}
    1.8
 \end{bmatrix}
-$$</p>
-<p><em>Linear transformations</em> are much more restrictive that your run of the mill function with a 2-d input with a 1-d output. For example, a <em>non-linear</em> transformation (function) may look like:</p>
-<p>$$f\Big( \begin{bmatrix}
+$$<p><em>Linear transformations</em> are much more restrictive that your run of the mill function with a 2-d input with a 1-d output. For example, a <em>non-linear</em> transformation (function) may look like:</p>
+$$f\Big( \begin{bmatrix}
     x \\
     y
 \end{bmatrix} \Big) = 
 x^2 + y^2
-$$</p>
-<p>Now, recall from section 2 that we whenever we are performing a transformation, in order to determine the matrix that represents that transformation (remember: this operates isomorphically to a linear function), we just follow $\hat{i}$ and $\hat{j}$:</p>
+$$<p>Now, recall from section 2 that we whenever we are performing a transformation, in order to determine the matrix that represents that transformation (remember: this operates isomorphically to a linear function), we just follow $\hat{i}$ and $\hat{j}$:</p>
 <p><img src="https://drive.google.com/uc?id=1oCORXDrbx5tgH1a0pfAej3AYfewTg5h7" width="250"></p>
 <p><img src="https://drive.google.com/uc?id=18vI0-5JaHen5X47qBV0NMeWRyhz4YiVD" width="250"></p>
 <p>Only this time, each one of our basis vectors just lands on a number! When we record where they land as the columns of a matrix ($\hat{i}$ lands on 2 and $\hat{j}$ lands on 1), each of those columns just has a single number:</p>
-<p>$$\text{Transformation Matrix:}\begin{bmatrix}
+$$\text{Transformation Matrix:}\begin{bmatrix}
     2 &amp; 1
 \end{bmatrix}
-$$</p>
-<p>This is a 1x2 matrix. Let's go through an example of what it means to apply one of these transformations to a vector. We will start by defining our vector, $\vec{v}$, to be:</p>
-<p>$$\vec{v} =
+$$<p>This is a 1x2 matrix. Let's go through an example of what it means to apply one of these transformations to a vector. We will start by defining our vector, $\vec{v}$, to be:</p>
+$$\vec{v} =
 \begin{bmatrix}
     4  \\
     3 
-\end{bmatrix}$$</p>
-<p><img src="https://drive.google.com/uc?id=1K4-RnkmUDUrbjbz3EBEVwYhug8s_htlZ" width="250"></p>
+\end{bmatrix}$$<p><img src="https://drive.google.com/uc?id=1K4-RnkmUDUrbjbz3EBEVwYhug8s_htlZ" width="250"></p>
 <p>Let's say that we have a linear transformation that takes $\hat{i}$ to 1, and $\hat{j}$ to -2:</p>
 <p><img src="https://drive.google.com/uc?id=1eNrwCAmXJhfbL4vVUI3nsn8s98Yn5N6g" width="250"></p>
 <p><img src="https://drive.google.com/uc?id=1VFoh9kgT4ZGcfao919SxSorLCRrieyLh" width="250"></p>
 <p>Recall that we can write our original vector $\vec{v}$ as <em>linear combination</em> of 4 times $\hat{i}$ plus 3 times $\hat{j}$:</p>
-<p>$$(4)\hat{i} + (3)\hat{j}$$</p>
-<p>A consequence of linearity is that when we perform a linear transformation on $\vec{v}$, the transformed output can be written as:</p>
-<p>$$\text{Transformed } \vec{v} = 4 (\text{Transformed }\hat{i}) + 3 (\text{Transformed }\hat{j})$$</p>
-<p>$$4(1) + 3(-2) = -2$$</p>
-<p>When we perform this calculation purely numerically, it is matrix vector multiplication:</p>
-<p>$$\begin{bmatrix}
+$$(4)\hat{i} + (3)\hat{j}$$<p>A consequence of linearity is that when we perform a linear transformation on $\vec{v}$, the transformed output can be written as:</p>
+$$\text{Transformed } \vec{v} = 4 (\text{Transformed }\hat{i}) + 3 (\text{Transformed }\hat{j})$$$$4(1) + 3(-2) = -2$$<p>When we perform this calculation purely numerically, it is matrix vector multiplication:</p>
+$$\begin{bmatrix}
     1 &amp; -2
 \end{bmatrix}
 \begin{bmatrix}
@@ -767,10 +708,8 @@ $$</p>
     3
 \end{bmatrix} = 
 4*1 + 3*-2 = -2
-$$</p>
-<p>Where again, $\begin{bmatrix}1 &amp; -2\end{bmatrix}$ is our transform, and $\begin{bmatrix}4 \\3\end{bmatrix}$ is our vector. Now, this numerical operation of multiplying a 1x2 matrix by a 2x1 vector feels <em>just like taking the dot product of two vectors</em>. The 1x2 matrix looks just like a vector that we tipped on its side. In fact, we can say that there is a nice association between 1x2 matrices and 2-d vectors:</p>
-<p>$$\text{1 x 2 Matrices} \longleftrightarrow \text{2-d vectors}$$</p>
-<p>At this point it is worth noting again that a matrix is a representation of a linear transformation, or function. What is often confusing in linear algebra is when matrices and vectors begin to look <em>the same</em>. For instance, we could have a matrice that is 2x1, looking identical to a vector. That means that it is expect 1 input dimension, and will result in with 2 output dimensions. It is important to remain aware of what typographical objects are meant to represent matrices and vectors as we continue.</p>
+$$<p>Where again, $\begin{bmatrix}1 &amp; -2\end{bmatrix}$ is our transform, and $\begin{bmatrix}4 \\3\end{bmatrix}$ is our vector. Now, this numerical operation of multiplying a 1x2 matrix by a 2x1 vector feels <em>just like taking the dot product of two vectors</em>. The 1x2 matrix looks just like a vector that we tipped on its side. In fact, we can say that there is a nice association between 1x2 matrices and 2-d vectors:</p>
+$$\text{1 x 2 Matrices} \longleftrightarrow \text{2-d vectors}$$<p>At this point it is worth noting again that a matrix is a representation of a linear transformation, or function. What is often confusing in linear algebra is when matrices and vectors begin to look <em>the same</em>. For instance, we could have a matrice that is 2x1, looking identical to a vector. That means that it is expect 1 input dimension, and will result in with 2 output dimensions. It is important to remain aware of what typographical objects are meant to represent matrices and vectors as we continue.</p>
 <p>Back to where we were, the above association suggests something very cool form the geometric view:</p>
 <blockquote><p><em>There is some kind of connections between linear transformations that take vectors to numbers, and vectors themselves</em>.</p>
 </blockquote>
@@ -784,7 +723,7 @@ $$</p>
 <p><img src="https://drive.google.com/uc?id=1Q-_lUtkLPB3O_BTYA3uMJ0mppYt-CKva" width="400"></p>
 <p>In effect, <em><strong>we have just defined a function that takes 2-d vectors to numbers</strong></em>. What is more, this function is actually linear, since it passes the visual test <em>any line of evenly spaced dots must remain evenly spaced once landing on number line.</em></p>
 <p>To be clear, even though the number line was embeded in 2-d space, the outputs are <em>numbers</em>, not <em>2-d vectors</em>. Again, we should be thinking of a function that takes in two coordinates, and outputs a single coordinate:</p>
-<p>$$\begin{bmatrix}
+$$\begin{bmatrix}
     x \\
     y
 \end{bmatrix} \rightarrow 
@@ -793,13 +732,11 @@ L(\vec{v})
 \begin{bmatrix}
    z
 \end{bmatrix}
-$$</p>
-<p>But, the vector $\hat{u}$ is a two dimensional vector living in the input space. It is just situated in such a way that overlaps with the embedding of the number line.</p>
+$$<p>But, the vector $\hat{u}$ is a two dimensional vector living in the input space. It is just situated in such a way that overlaps with the embedding of the number line.</p>
 <p>With this projection, we just defined a linear transformation from 2-d vectors, to numbers. This means that we will be able to find a 1x2 matrix that describes this transformation:</p>
-<p>$$\begin{bmatrix}
+$$\begin{bmatrix}
     \text{Where } \hat{i} \text{ lands} &amp; \text{Where } \hat{j} \text{ lands}
-\end{bmatrix}$$</p>
-<p>To find this 1x2 matrix, we can zoom in on our diagonal number line setup and think about where $\hat{i}$ and $\hat{j}$ each land, since those landing spots are going to be the columns of the matrix:</p>
+\end{bmatrix}$$<p>To find this 1x2 matrix, we can zoom in on our diagonal number line setup and think about where $\hat{i}$ and $\hat{j}$ each land, since those landing spots are going to be the columns of the matrix:</p>
 <p><img src="https://drive.google.com/uc?id=1cQMF-LalYiPdkJLEdV_DgD3wLT7DDjjP" width="230"></p>
 <p><img src="https://drive.google.com/uc?id=1fZRb-9RU5aVlcZ2P05sBGVj_AAoVT6Kn" width="230"></p>
 <p>We can actually reason through this with a piece of symmetry; since $\hat{i}$ and $\hat{u}$ are both unit vectors, projecting $\hat{i}$ onto the line passing through $\hat{u}$, looks completely symmetric to projecting $\hat{u}$ onto the x-axis.</p>
@@ -809,13 +746,12 @@ $$</p>
 <p>We can use nearly identical reasoning when determining where $\hat{j}$ lands!</p>
 <p><img src="https://drive.google.com/uc?id=1_LWImNskhCi7MUqqfkjgLDior1IgCAOh" width="230"></p>
 <p>So, the entries of a 1x2 transformation matrix describing the projection transformation are going to be the coordinates of $\hat{u}$:</p>
-<p>$$\begin{bmatrix}
+$$\begin{bmatrix}
     u_x &amp; u_y
-\end{bmatrix}$$</p>
-<p>And computing that transformation for arbitrary vectors in space:</p>
+\end{bmatrix}$$<p>And computing that transformation for arbitrary vectors in space:</p>
 <p><img src="https://drive.google.com/uc?id=1lCP3loW0YfY7oL8ihr6Qjogy9HCmOwby" width="300"></p>
 <p>Requires multiplying that matrix by those vectors:</p>
-<p>$$
+$$
 \begin{bmatrix}
     u_x &amp; u_y
 \end{bmatrix}
@@ -824,9 +760,8 @@ $$</p>
     y
 \end{bmatrix} = 
 u_x * x + u_y * y
-$$</p>
-<p>This is computationally identical to taking the dot product with $\hat{u}$!</p>
-<p>$$
+$$<p>This is computationally identical to taking the dot product with $\hat{u}$!</p>
+$$
 \begin{bmatrix}
     u_x \\
     u_y
@@ -837,8 +772,7 @@ $$</p>
     y
 \end{bmatrix} = 
 u_x * x + u_y * y
-$$</p>
-<p><strong>Key Point</strong>:<br></p>
+$$<p><strong>Key Point</strong>:<br></p>
 <blockquote><p>This is why <em>taking the dot product with a unit vector</em> can be interpreted as <em>projecting a vector onto the span of that unit vector and taking the length</em>.</p>
 </blockquote>
 <p>Let's take a moment to think about what just happened here; we started with a linear transformation from 2-d space to the number line, which was <em>not</em> defined in terms of numerical vectors or numerical dot products. Rather, it was defined by projecting space onto a diagonal copy of the number line. But, <em>because the translation was linear</em>, it was necessarily <em>described by some 1x2 matrix</em>. And since multiplying some 1x2 matrix by a 2-d vector is the same as turning that matrix on its side and taking the dot product, this transformation was, <em>inescapably</em> related to some 2-d vector.</p>
@@ -874,6 +808,19 @@ $$</p>
   });
 </script>
 <form action="javascript:code_toggle()"><input type="submit" id="toggleButton" value="Show Code"></form>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
 <hr>
 &copy; 2018 Nathaniel Dake
 

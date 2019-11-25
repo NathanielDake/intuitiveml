@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -195,10 +194,6 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -211,8 +206,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="8.-Modern-Deep-Learning:-Introduction">8. Modern Deep Learning: Introduction<a class="anchor-link" href="#8.-Modern-Deep-Learning:-Introduction">&#182;</a></h1><p>As we get ready to dive into Modern Deep Learning in Python, a quick review may help to get us started. Note that this is meant to only be a review to material already learned, so if you have not gone through my <strong>Deep Learning in Python</strong> walkthrough, I highly recommend you do so first.</p>
 <p><br></br></p>
@@ -240,13 +234,11 @@ body {
 <p><br></br>
 <img src="https://drive.google.com/uc?id=1DGNP1v0H83E1djxTYI79x0umZq6T_HI2" width="600"></p>
 <p>In numpy, if we wanted to flatten a matrix, we can just call the flatten function: <code>A.flatten()</code>. However, our data is coming in a CSV format and will already be flattened. For the normalization, it is necessary due to the following: Think of a typical activation function such as <strong>tanh</strong>. If your input is around -1 to +1, the <strong>tanh</strong> spreads out those value nonlinearly. However, image pixels are in the range of [0-255]. If we input 255 to the tanh function, it outputs 1 (rounding due to numerical imprecision). The problem is that tanh(255/2) is also 1! Hence, for most of the inputs in an image, tanh is going to map them to 1. That is why we normalize the data first:</p>
-<p>$$\frac{x - mean}{stddev}$$</p>
-<p>Which allows the mapping done by tanh, or any other nonlinearity, to be meaningful. As a note, because we know that pixels are always positive, and have an upper bound (255), we can divide each pixel by the max (255), in order to map them to [0,1].</p>
+$$\frac{x - mean}{stddev}$$<p>Which allows the mapping done by tanh, or any other nonlinearity, to be meaningful. As a note, because we know that pixels are always positive, and have an upper bound (255), we can divide each pixel by the max (255), in order to map them to [0,1].</p>
 <p>Now the tanh is just one example, but many machine learning algorithms assume your data is normalized, and will not work optimally if your data is not normalized. One such algorithm that this applies to is <strong>PCA</strong>.</p>
 <p><br></br></p>
 <h3 id="1.8-PCA">1.8 PCA<a class="anchor-link" href="#1.8-PCA">&#182;</a></h3><p>As a high level overview, what PCA does is a linear transformation into a different vector space. In english, that means that we just multiply the input vector by a matrix, and just get a new vector that is smaller than the input vector.</p>
-<p>$$z = W^Tx$$</p>
-<p>How does that help us? Well think about what happens if your data is very large. MNIST images are 28x28 pixels, meaning we have 784 input features in total. If we could go from 784 to 300 inputs, that is a pretty big savings in terms of processing time, because we just reduced our data size by more than one half. The question comes up: how is that possible? Well, one perspective of real world data is that it always consists of signal + noise, and it is generally jumbled together. So what PCA tries to do is separate the signal from the noise, and then get rid of the noise. Luckily, the output of PCA is the dimensions order by the amount of signal that they contain! Hence the first dimension will contain the most information, the second dimension will contain the second most information, and so on. This means that when we get the return from PCA, we can just cut of the right side of the matrix, and be confident that not much information was lost.</p>
+$$z = W^Tx$$<p>How does that help us? Well think about what happens if your data is very large. MNIST images are 28x28 pixels, meaning we have 784 input features in total. If we could go from 784 to 300 inputs, that is a pretty big savings in terms of processing time, because we just reduced our data size by more than one half. The question comes up: how is that possible? Well, one perspective of real world data is that it always consists of signal + noise, and it is generally jumbled together. So what PCA tries to do is separate the signal from the noise, and then get rid of the noise. Luckily, the output of PCA is the dimensions order by the amount of signal that they contain! Hence the first dimension will contain the most information, the second dimension will contain the second most information, and so on. This means that when we get the return from PCA, we can just cut of the right side of the matrix, and be confident that not much information was lost.</p>
 <p>You may be wondering how the cutoff point is determined, i.e. how do we know where to cut the data off, without losing a ton of information. To justify this, we will use something called a cumulative variance plot.</p>
 <p><img src="https://drive.google.com/uc?id=1VsVFMuGbz0p2aUX9qp3dRgRhLq0GgS2i"></p>
 <p>That is because in statistics, <strong>variance</strong> is analogous to <strong>information</strong>. So we can say something like: "the first 300 hundred columns of the transformed data contain 95% of the original variance, so I can feel confident that only keeping the first 300 columns is okay".</p>
@@ -258,8 +250,7 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="2.-Benchmarks">2. Benchmarks<a class="anchor-link" href="#2.-Benchmarks">&#182;</a></h1><p><br></br>
 Lets now go through several benchmarks:</p>
@@ -281,7 +272,7 @@ Lets now go through several benchmarks:</p>
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">util</span> 
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -294,7 +285,7 @@ Lets now go through several benchmarks:</p>
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">util</span><span class="o">.</span><span class="n">benchmark_full</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -304,7 +295,7 @@ Lets now go through several benchmarks:</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -337,7 +328,7 @@ Cost at iteration 450: 8393.858091
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -474,7 +465,7 @@ q9EAAAAASUVORK5CYII=
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -613,7 +604,7 @@ NzNrQf8f/lEu2RtkrXUAAAAASUVORK5CYII=
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">util</span><span class="o">.</span><span class="n">benchmark_pca</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -623,7 +614,7 @@ NzNrQf8f/lEu2RtkrXUAAAAASUVORK5CYII=
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -634,7 +625,7 @@ NzNrQf8f/lEu2RtkrXUAAAAASUVORK5CYII=
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -769,7 +760,7 @@ YpTZ+PIVvuEAAAAASUVORK5CYII=
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -801,7 +792,7 @@ Cost at iteration 180: 9929.653747
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -946,7 +937,7 @@ SUVORK5CYII=
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1065,13 +1056,25 @@ l6QeZLhLUg8y3CWpBxnuktSDDHdJ6kGGuyT1IMNdknrQ/wcIYX7aLN8cWQAAAABJRU5ErkJggg==
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>What we should take away from this is that in the <strong>PCA</strong> example, we only needed 300 features to get comparable accuracy! This means that there is some linear transformation to a new vector of size 300 that can get comparable accuracy. Now, it may seem pretty handwavy to say this, but you can as a rough calculation, you could say that with a nonlinear neural network with 300 hidden units, we should be able to do just as good or even better than this!</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
 <hr>
 &copy; 2018 Nathaniel Dake

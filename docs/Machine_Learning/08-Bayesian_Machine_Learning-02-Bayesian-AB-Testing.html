@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -195,10 +194,6 @@ body {
   <a href="../NLP.html">NLP</a>
 </li>
         
-<li>
-  <a href="../Projects.html">Projects</a>
-</li>
-        
       </ul>
         
 <ul class="nav navbar-nav navbar-right">
@@ -211,8 +206,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="2.-Bayesian-A/B-Testing">2. Bayesian A/B Testing<a class="anchor-link" href="#2.-Bayesian-A/B-Testing">&#182;</a></h1><p>In this post we are going to discuss Bayesian Methods and their application to Bayesian A/B testing. In particular we will:</p>
 <ul>
@@ -247,8 +241,7 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.-Adaptive-Learning-Methods">2. Adaptive Learning Methods<a class="anchor-link" href="#2.-Adaptive-Learning-Methods">&#182;</a></h2><h3 id="2.1-Epsilon-Greedy-Solution">2.1 Epsilon-Greedy Solution<a class="anchor-link" href="#2.1-Epsilon-Greedy-Solution">&#182;</a></h3><p>One method of solving the explore-exploit dilemma is called the <strong>epsilon-greedy</strong> algorithm (and it is intuitive). It just so happens that this algorithm is also used in reinforcement learning. Here is how it works:</p>
 <blockquote><p>Say you have some software that is serving 2 advertisements ($A$ &amp; $B$), you will <em>not</em> run a full A/B test by blindly serving ad $A$ and ad $B$ an equal number of times. Instead you will adapt to the data you have collected. If ad $A$ is performing better, it will be shown more often.</p>
@@ -266,40 +259,26 @@ while True:
         # exploit
         # show best advertisement (as determined by #clicks/#impressions)</code></pre>
 <h4 id="Analyis-of-Epsilon-Greedy">Analyis of Epsilon-Greedy<a class="anchor-link" href="#Analyis-of-Epsilon-Greedy">&#182;</a></h4><p>We can clearly see that that was pretty simple, so let's analyze further. One problem is that this algorithm does the same thing <em>forever</em>. For instance, even when ad $A$ is statistically significantly better than $B$, it will still sometimes choose $B$. Suppose the test has converged, $A$ is better than $B$, how much reward will we get? If we say that:</p>
-<p>$$reward(click) = 1 \;,\; reward(noclick) =0$$</p>
-<p>Then after $N$ impressions:</p>
-<p>$$reward = N(1-\frac{\epsilon}{2})$$</p>
-<p>In other words, for $\epsilon = 0.1$, we get $0.95N$ instead of $N$. However, this is still better than traditional A/B testing with no adaptation.</p>
+$$reward(click) = 1 \;,\; reward(noclick) =0$$<p>Then after $N$ impressions:</p>
+$$reward = N(1-\frac{\epsilon}{2})$$<p>In other words, for $\epsilon = 0.1$, we get $0.95N$ instead of $N$. However, this is still better than traditional A/B testing with no adaptation.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="2.2-UCB1">2.2 UCB1<a class="anchor-link" href="#2.2-UCB1">&#182;</a></h3><p>Alright, so we have now looked at one adaptive learning method. The question is, can we improve upon it? To find out, let's look at the <strong>UCB1</strong> algorithm. Recall earlier discussions about confidence intervals. We determined an upper and lower limit to represent where we believe the true CTR is. We'll now look at a very similar idea, but we are not going to use the confidence bound we discussed before.</p>
 <p>If you are unsure how confidence intervals relate to the scenario at hand, considering the following: Intuitively, we know that if you collect 10 samples and take the mean, this is not as accurate as if you collect 1000 samples and take the mean. If you were to draw a confidence bound around the 10 sample mean, it would be much wider than that which was around the 1000 sample mean. This concept can be used algorithmically in order to dynamically update when each advertisement should be served.</p>
 <p>Now, to be clear, we are not going to be using the exact same confidence interval that we have worked with before. Rather, we are going to use a <em>tighter</em> bound, the <strong>Chernoff-Hoeffding</strong> bound. It says for some:</p>
-<p>$$\epsilon &gt; 0$$</p>
-<p>That the following probability inequality is true:</p>
-<p>$$P \big(\hat{\mu}&gt;\mu+\epsilon \big) \leq e^{-2\epsilon^2N} $$</p>
-<p>It also follows that the opposite side is also true:</p>
-<p>$$P \big(\hat{\mu} &lt; \mu+\epsilon \big) \leq e^{-2\epsilon^2N}  $$</p>
-<p>Note, this bound is a little different from the confidence interval that we have seen before. Namely, the confidence interval gave us specific numbers, and said that the probability that the true parameter lied within that interval was 95% (this isn't <em>entirely accurate</em>, but is an approximate description):</p>
-<p>$$P(\text{lower bound} &lt; \mu &lt; \text{upper bound} ) = 95\%$$</p>
-<p>On the other hand, our new equation says that:</p>
-<p>$$P(\mu \text{in interval}) &gt; f(N)$$</p>
-<p>Or in english, "the probability that the true parameter lies within this range is greater than some function of $N$". In order to get the greater than sign, we just need to combine and arrange the two probabilities:</p>
-<p>$$P(\hat{\mu} - \mu &gt; \epsilon) \leq e^{-2\epsilon^2N}  \longleftrightarrow P(\hat{\mu} - \mu \leq \epsilon) &gt; 1 - e^{-2\epsilon^2N} $$</p>
-<p>$$P(\hat{\mu} - \mu &lt; - \epsilon) \leq e^{-2\epsilon^2N}  \longleftrightarrow P(\hat{\mu} - \mu \geq - \epsilon) &gt; 1 - e^{-2\epsilon^2N} $$</p>
-<p>$$P \big( |\hat{\mu} - \mu| \leq \epsilon \big) &gt; 1 - 2 e^{-2\epsilon^2N} $$</p>
-<h4 id="Upper-Confidence-Bound">Upper Confidence Bound<a class="anchor-link" href="#Upper-Confidence-Bound">&#182;</a></h4><p>In any case, for us we are only interested in the upper bound, because we want to get the highest reward possible. How exactly does this help us? Well, intuitively if we have a tighter upper bound, we can be more confident above that maximum possible win rate of any bandit. We are skipping some math here, but essentially for any arm $j$, we "choose" $\epsilon$ to be:</p>
-<p>$$\epsilon_j = \sqrt{\frac{2 lnN}{N_j}}$$</p>
-<p>Where $N$ is the total number of games played so far, and $N_j$ is the total times that arm $j$ has been played. We can define the upper confidence bound via:</p>
-<p>$$\mu_{UCB-j} = \hat{\mu}_j + \epsilon_j$$</p>
-<p>$$\mu_{UCB-j} = \hat{\mu}_j + \sqrt{\frac{2 lnN}{N_j}}$$</p>
-<p>So, in other words, we are picking whichever bandit arm gives us the largest <em>upper confidence bound</em> for any given turn. Again, as with epsilon-greedy, we will be using a greedy strategy. However, we are not simply greedy with respect to the sample mean $j$, but rather the upper confidence bound of the sample mean. In psuedocode, we would have:</p>
+$$\epsilon &gt; 0$$<p>That the following probability inequality is true:</p>
+$$P \big(\hat{\mu}&gt;\mu+\epsilon \big) \leq e^{-2\epsilon^2N} $$<p>It also follows that the opposite side is also true:</p>
+$$P \big(\hat{\mu} &lt; \mu+\epsilon \big) \leq e^{-2\epsilon^2N}  $$<p>Note, this bound is a little different from the confidence interval that we have seen before. Namely, the confidence interval gave us specific numbers, and said that the probability that the true parameter lied within that interval was 95% (this isn't <em>entirely accurate</em>, but is an approximate description):</p>
+$$P(\text{lower bound} &lt; \mu &lt; \text{upper bound} ) = 95\%$$<p>On the other hand, our new equation says that:</p>
+$$P(\mu \text{in interval}) &gt; f(N)$$<p>Or in english, "the probability that the true parameter lies within this range is greater than some function of $N$". In order to get the greater than sign, we just need to combine and arrange the two probabilities:</p>
+$$P(\hat{\mu} - \mu &gt; \epsilon) \leq e^{-2\epsilon^2N}  \longleftrightarrow P(\hat{\mu} - \mu \leq \epsilon) &gt; 1 - e^{-2\epsilon^2N} $$$$P(\hat{\mu} - \mu &lt; - \epsilon) \leq e^{-2\epsilon^2N}  \longleftrightarrow P(\hat{\mu} - \mu \geq - \epsilon) &gt; 1 - e^{-2\epsilon^2N} $$$$P \big( |\hat{\mu} - \mu| \leq \epsilon \big) &gt; 1 - 2 e^{-2\epsilon^2N} $$<h4 id="Upper-Confidence-Bound">Upper Confidence Bound<a class="anchor-link" href="#Upper-Confidence-Bound">&#182;</a></h4><p>In any case, for us we are only interested in the upper bound, because we want to get the highest reward possible. How exactly does this help us? Well, intuitively if we have a tighter upper bound, we can be more confident above that maximum possible win rate of any bandit. We are skipping some math here, but essentially for any arm $j$, we "choose" $\epsilon$ to be:</p>
+$$\epsilon_j = \sqrt{\frac{2 lnN}{N_j}}$$<p>Where $N$ is the total number of games played so far, and $N_j$ is the total times that arm $j$ has been played. We can define the upper confidence bound via:</p>
+$$\mu_{UCB-j} = \hat{\mu}_j + \epsilon_j$$$$\mu_{UCB-j} = \hat{\mu}_j + \sqrt{\frac{2 lnN}{N_j}}$$<p>So, in other words, we are picking whichever bandit arm gives us the largest <em>upper confidence bound</em> for any given turn. Again, as with epsilon-greedy, we will be using a greedy strategy. However, we are not simply greedy with respect to the sample mean $j$, but rather the upper confidence bound of the sample mean. In psuedocode, we would have:</p>
 
 <pre><code>N = 0
 N_j = 0 for all bandits j
@@ -317,22 +296,17 @@ while True:
 <li>Finally, we increment $N$ and $N_j$.</li>
 </ol>
 <h4 id="How-does-this-help-with-the-Explore-vs.-Exploit-problem?">How does this help with the Explore vs. Exploit problem?<a class="anchor-link" href="#How-does-this-help-with-the-Explore-vs.-Exploit-problem?">&#182;</a></h4><p>You may look at this algorithm and wonder how it helps us explore and exploit. Well, let's look at where the main logic of this algorithm is held, the following line:</p>
-<p>$$j^* = argmax \Big( \hat{\mu}_j + \sqrt{\frac{2 lnN}{N_j}} \Big)$$</p>
-<p>Let's now look at each term individually. The first term is just the estimated mean:</p>
-<p>$$\hat{\mu}_j$$</p>
-<p>If that is high, then we will be exploiting it more often. If you look at the second term:</p>
-<p>$$\sqrt{\frac{2 lnN}{N_j}}$$</p>
-<p>You will see that it depends on $N$, the total number of plays, and $N_j$, the number of plays for arm $j$. If $N$ is large while $N_j$ is low, then that will encourage us to explore arm $j$ more, because it increases the upper confidence bound. We also should consider the asymptotic behavior of:</p>
-<p>$$\frac{ln(N)}{N}$$</p>
-<p>Above, as $N \rightarrow \infty$, $\frac{ln(N)}{N}$ approaches 0, so we use only the true CTR (estimated means) when $N$ is large.</p>
+$$j^* = argmax \Big( \hat{\mu}_j + \sqrt{\frac{2 lnN}{N_j}} \Big)$$<p>Let's now look at each term individually. The first term is just the estimated mean:</p>
+$$\hat{\mu}_j$$<p>If that is high, then we will be exploiting it more often. If you look at the second term:</p>
+$$\sqrt{\frac{2 lnN}{N_j}}$$<p>You will see that it depends on $N$, the total number of plays, and $N_j$, the number of plays for arm $j$. If $N$ is large while $N_j$ is low, then that will encourage us to explore arm $j$ more, because it increases the upper confidence bound. We also should consider the asymptotic behavior of:</p>
+$$\frac{ln(N)}{N}$$<p>Above, as $N \rightarrow \infty$, $\frac{ln(N)}{N}$ approaches 0, so we use only the true CTR (estimated means) when $N$ is large.</p>
 <p>We can see that from a coding/implementation perspective, this is no more complex than the epsilon-greedy algorithm. The right question to ask at this point, however, is what is our expected loss from this algorithm. With a good deal of math it can be shown that the loss is proportional to $ln(N)$. Compare this to epsilon-greedy where the loss is proportional to $N$. This means that in the long run, <strong>UCB1</strong> will perform much better than epsilon-greedy.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="3.-Bayesian-Adaptive-Learning">3. Bayesian Adaptive Learning<a class="anchor-link" href="#3.-Bayesian-Adaptive-Learning">&#182;</a></h2><h3 id="3.1-Bayesian-Paradigm">3.1 Bayesian Paradigm<a class="anchor-link" href="#3.1-Bayesian-Paradigm">&#182;</a></h3><p>We are finally approaching the point of implementing full blown bayesian learning. But before we do, I think it would be useful to make a distinction as to what the Bayesian Paradigm really is, and how it differs from the frequentist paradigm.</p>
 <p>Now, intuitively we know that as we collect more data, our estimates will become more accurate. As far as frequentist statistics are concerned, the method that we use to determine how accurate our measurements are is the <em>confidence interval</em>.</p>
@@ -345,10 +319,8 @@ while True:
 <p>On the other hand, we have <strong>Bayesian Statistics</strong>. This essentially works in the opposite way. We give the parameter a distribution. It becomes a random variable that has an actual probability distribution. The data on the other hand is <strong>fixed</strong>. You can make the argument that this better reflects reality because data <em>is</em> fixed. This is what happens in the real world. There is no randomness to a coin toss result after the fact. In this way we can then model the distribution of the parameter, given some data (i.e. $p(parameter \mid data)$).</p>
 <p>To be clear, we can classify the two paradigms as follows:</p>
 <h4 id="Frequentist-Statistics">Frequentist Statistics<a class="anchor-link" href="#Frequentist-Statistics">&#182;</a></h4><p>When doing frequentist statistics we are trying to find the argmax of the likelihood. In other words, the value of the parameter that maximizes the likelihood of our data, $X$. This is a point estimate.</p>
-<p>$$\hat{\theta} = argmax_{\theta} P(X \mid \theta)$$</p>
-<p>For example, when using the frequentist paradigm, we measure things like mean and click through rate with <em>point estimates</em>:</p>
-<p>$$\frac{\sum X} {N}$$</p>
-<p>The problem that you may see is that the above method doesn't take into account how accurate those estimates are. The frequentist solution is to use the central limit theorem to show that the confidence interval was approximately gaussian and from there we could get an upper and lower bound on the 95% confidence interval.</p>
+$$\hat{\theta} = argmax_{\theta} P(X \mid \theta)$$<p>For example, when using the frequentist paradigm, we measure things like mean and click through rate with <em>point estimates</em>:</p>
+$$\frac{\sum X} {N}$$<p>The problem that you may see is that the above method doesn't take into account how accurate those estimates are. The frequentist solution is to use the central limit theorem to show that the confidence interval was approximately gaussian and from there we could get an upper and lower bound on the 95% confidence interval.</p>
 <p>So, the frequentist paradigm:</p>
 <ol>
 <li>Calculates the likelihood-the probability of your data, given the parameter. For example, the probability that you observed the data that you did, given a gaussian distribution with a mean $\mu =4$</li>
@@ -356,25 +328,16 @@ while True:
 <li>This leaves us with a maximum likelihood estimate for that parameter.</li>
 </ol>
 <p>This can all be represented by the equation we saw earlier:</p>
-<p>$$\hat{\theta} = argmax_{\theta} P(X \mid \theta)$$</p>
-<p>It is general, but think of the case: the likelihood of the data we observed ($X$) maximized by a given value of the mean $(\theta = \mu)$. The final value for $\hat{\theta}$ is a point estimate, not a distribution.</p>
+$$\hat{\theta} = argmax_{\theta} P(X \mid \theta)$$<p>It is general, but think of the case: the likelihood of the data we observed ($X$) maximized by a given value of the mean $(\theta = \mu)$. The final value for $\hat{\theta}$ is a point estimate, not a distribution.</p>
 <h4 id="Bayesian-Statistics">Bayesian Statistics<a class="anchor-link" href="#Bayesian-Statistics">&#182;</a></h4><p>When we do Bayesian Statistics, we are trying to find the <strong>posterior distributon</strong>:</p>
-<p>$$P(\theta \mid X)$$</p>
-<p>This is the probability of a parameter, given the data. Data is given, and data is fixed. So, in bayesian statistics our parameter, $\theta$, has a distribution! This is the opposite of frequentist statistics where $\theta$ is a point estimate.</p>
+$$P(\theta \mid X)$$<p>This is the probability of a parameter, given the data. Data is given, and data is fixed. So, in bayesian statistics our parameter, $\theta$, has a distribution! This is the opposite of frequentist statistics where $\theta$ is a point estimate.</p>
 <p>So, in Bayesian Statistics we treat $\theta$ as a random variable too. Because of this, and the subsequent fact that it has a distribution, we can use the shape of it's distribution to tell us how confident we are for any value of that parameter. We can apply bayes rule to help us with this:</p>
-<p>$$P(\theta \mid X) = \frac{P(X \mid \theta) P(\theta)}{P(X)} = \frac{P(X \mid \theta) P(\theta)}{Z}$$</p>
-<p>Where above:</p>
-<p>$$Z \rightarrow \text{normalizing constant}$$</p>
-<p>$$P(X \mid \theta) \rightarrow \text{Likelihood of data given current }\theta$$</p>
-<p>$$P(\theta) \rightarrow \text{Prior, old beliefs about }\theta$$</p>
-<p>$$P(\theta \mid X) \rightarrow \text{Posterior, new beliefs about }\theta \text{after seeing data}$$</p>
-<p>Now, at this point you may be thinking that this should be easy! This is just multiplication and division! Not so fast. These are all probability distributions. In particular, remember that $P(X)$ is the integral over:</p>
-<p>$$\int P(X \mid \theta) P(\theta) d\theta$$</p>
-<p>Generally speaking, this integral is either very hard or impossible to solve. One solution is to use sampling methods like <strong>Markov Chain Monte Carlo</strong>, but we are not going to cover that since we are going to arrive at a much more elegant solution.</p>
+$$P(\theta \mid X) = \frac{P(X \mid \theta) P(\theta)}{P(X)} = \frac{P(X \mid \theta) P(\theta)}{Z}$$<p>Where above:</p>
+$$Z \rightarrow \text{normalizing constant}$$$$P(X \mid \theta) \rightarrow \text{Likelihood of data given current }\theta$$$$P(\theta) \rightarrow \text{Prior, old beliefs about }\theta$$$$P(\theta \mid X) \rightarrow \text{Posterior, new beliefs about }\theta \text{after seeing data}$$<p>Now, at this point you may be thinking that this should be easy! This is just multiplication and division! Not so fast. These are all probability distributions. In particular, remember that $P(X)$ is the integral over:</p>
+$$\int P(X \mid \theta) P(\theta) d\theta$$<p>Generally speaking, this integral is either very hard or impossible to solve. One solution is to use sampling methods like <strong>Markov Chain Monte Carlo</strong>, but we are not going to cover that since we are going to arrive at a much more elegant solution.</p>
 <h3 id="3.2-Conjugate-Priors">3.2 Conjugate Priors<a class="anchor-link" href="#3.2-Conjugate-Priors">&#182;</a></h3><p>The answer to our problem from above is <strong>conjugate priors</strong>, which are able to give us perfectly elegant solutions for $P(\theta \mid X)$. It turns out that for specific likleihood distributions, $P(X \mid \theta)$, and specific prior distributions, $P(\theta)$, when you solve bayes equation the posterior distribution, $P(\theta \mid X)$ will have the same type of distribution as the prior! The easiest way to see this is via an example.</p>
 <p>Let's come back to our old friend, the <strong>Bernoulli Distribution</strong> and it's relation to click through rates. We know that the likelihood for CTR is bernoulli:</p>
-<p>$$P(X \mid \theta) = \prod_{i=1}^N \theta^{x_i} (1 - \theta)^{1 - x_i}$$</p>
-<p>Now, what do we know that could help us find a distribution to represent the prior? Well we also know that $\theta$ must be between $[0,1]$, because it is the probability of a click. Remember, the prior represents our prior beliefs of $\theta$, in this case $p(click)$ is. So, it must be a distribution between 0 and 1!</p>
+$$P(X \mid \theta) = \prod_{i=1}^N \theta^{x_i} (1 - \theta)^{1 - x_i}$$<p>Now, what do we know that could help us find a distribution to represent the prior? Well we also know that $\theta$ must be between $[0,1]$, because it is the probability of a click. Remember, the prior represents our prior beliefs of $\theta$, in this case $p(click)$ is. So, it must be a distribution between 0 and 1!</p>
 <p>What probability distributions fit the description above? Well, if you browse the your probability reference book or look on <a href="https://en.wikipedia.org/wiki/Conjugate_prior">wikipedia</a> you would arrive at the <strong>Beta Distribution</strong>:</p>
 
 </div>
@@ -406,7 +369,7 @@ while True:
 <span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;retina&#39;
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -438,7 +401,7 @@ while True:
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -448,7 +411,7 @@ while True:
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -468,39 +431,25 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Which has a PDF defined as:</p>
-<p>$$\theta = Beta(a,b) = \frac{\theta^{a-1} (1- \theta)^{b-1}}{B(a,b)}$$</p>
-<p>Where we define $B(a,b)$ as:</p>
-<p>$$B(a,b) = \frac{\Gamma(a) \Gamma(b)}{\Gamma(a+b)}$$</p>
-<p>And $\Gamma$ is defined as:</p>
-<p>$$\Gamma(n) = (n-1)!$$</p>
-<p>Where $\Gamma$ is really just a generalized factorial for real numbers.</p>
+$$\theta = Beta(a,b) = \frac{\theta^{a-1} (1- \theta)^{b-1}}{B(a,b)}$$<p>Where we define $B(a,b)$ as:</p>
+$$B(a,b) = \frac{\Gamma(a) \Gamma(b)}{\Gamma(a+b)}$$<p>And $\Gamma$ is defined as:</p>
+$$\Gamma(n) = (n-1)!$$<p>Where $\Gamma$ is really just a generalized factorial for real numbers.</p>
 <h4 id="Combine-Beta-Prior-with-Bernoulli-Likelihood-to-Solve-for-Posterior">Combine Beta Prior with Bernoulli Likelihood to Solve for Posterior<a class="anchor-link" href="#Combine-Beta-Prior-with-Bernoulli-Likelihood-to-Solve-for-Posterior">&#182;</a></h4><p>If we let our prior distribution be the Beta Distribution, does that let us solve for the posterior? Well, let's try and combine it with the likelihood via bayes rule to find out. We can start as follows:</p>
-<p>$$P(\theta \mid X) \propto P(X \mid \theta) P(\theta)$$</p>
-<p>Where we are using the proportionality symbol because we are not considering the normalizing constant.</p>
-<p>$$
+$$P(\theta \mid X) \propto P(X \mid \theta) P(\theta)$$<p>Where we are using the proportionality symbol because we are not considering the normalizing constant.</p>
+$$
 P(\theta \mid X) \propto \Big[ \overbrace{ \prod_{i=1}^N \theta^{x_i}(1-\theta)^{1-x_i} }^\text{Bernoulli likelihood}\Big] 
 \overbrace{\theta^{a-1}(1-\theta)^{b-1}}^\text{Beta Prior}
-$$</p>
-<p>We can then combine like terms so that everything that has $\theta$ on the base goes together, and everything that has $1 - \theta$ goes together:</p>
-<p>$$P(\theta \mid X) \propto \theta^{a - 1 + \sum_{i=1}^N x_i} (1 - \theta)^{b - 1 + \sum_{i=1}^N (1 - x_i)} $$</p>
-<p>And you may see that this has the same shape as the Beta Distribution! Remember, our normalization constant doesn't matter because it does not depend on $\theta$. In particular, we can see that $P(\theta \mid X)$ is also a Beta distribution:</p>
-<p>$$P(\theta \mid X) = Beta(a', b')$$</p>
-<p>But the parameters are updated (we will call them $a'$ and $b'$). They are equal to:</p>
-<p>$$a' = a + \sum_{i=1}^N x_i$$</p>
-<p>$$b' = b + N -\sum_{i=1}^N x_i$$</p>
-<p>However, we can also define them in terms of our CTR problem:</p>
-<p>$$a' = a + \text{# of clicks}$$</p>
-<p>$$b' = b + \text{# of no clicks}$$</p>
-<h4 id="Interesting-Things-to-Note">Interesting Things to Note<a class="anchor-link" href="#Interesting-Things-to-Note">&#182;</a></h4><p>One interesting fact about the beta distribution is that the mean is equation to:</p>
-<p>$$E(\theta) = \frac{a}{a + b}$$</p>
-<p>Which is exactly what the maximum likelihood estimate of the click through rate would have been. However, this solution is far more elegant, because this distribution doesn't require an approximation.</p>
+$$<p>We can then combine like terms so that everything that has $\theta$ on the base goes together, and everything that has $1 - \theta$ goes together:</p>
+$$P(\theta \mid X) \propto \theta^{a - 1 + \sum_{i=1}^N x_i} (1 - \theta)^{b - 1 + \sum_{i=1}^N (1 - x_i)} $$<p>And you may see that this has the same shape as the Beta Distribution! Remember, our normalization constant doesn't matter because it does not depend on $\theta$. In particular, we can see that $P(\theta \mid X)$ is also a Beta distribution:</p>
+$$P(\theta \mid X) = Beta(a', b')$$<p>But the parameters are updated (we will call them $a'$ and $b'$). They are equal to:</p>
+$$a' = a + \sum_{i=1}^N x_i$$$$b' = b + N -\sum_{i=1}^N x_i$$<p>However, we can also define them in terms of our CTR problem:</p>
+$$a' = a + \text{# of clicks}$$$$b' = b + \text{# of no clicks}$$<h4 id="Interesting-Things-to-Note">Interesting Things to Note<a class="anchor-link" href="#Interesting-Things-to-Note">&#182;</a></h4><p>One interesting fact about the beta distribution is that the mean is equation to:</p>
+$$E(\theta) = \frac{a}{a + b}$$<p>Which is exactly what the maximum likelihood estimate of the click through rate would have been. However, this solution is far more elegant, because this distribution doesn't require an approximation.</p>
 <p>Another interesting fact arises when we analyze the variance of $\theta$:</p>
-<p>$$var(\theta) = \frac{ab}{(a+b)^2 (a+b+1)}$$</p>
-<p>Now what is interesting about this? Well, we know that as we collect more data, the larger $a$ and $b$ will become. Therefore, as $a$ and $b$ get bigger, the variance gets smaller. So this automatically follows the same behavior that we observe with the approximate confidence interval, which is that the variance shrinks as we gather more data.</p>
+$$var(\theta) = \frac{ab}{(a+b)^2 (a+b+1)}$$<p>Now what is interesting about this? Well, we know that as we collect more data, the larger $a$ and $b$ will become. Therefore, as $a$ and $b$ get bigger, the variance gets smaller. So this automatically follows the same behavior that we observe with the approximate confidence interval, which is that the variance shrinks as we gather more data.</p>
 <h4 id="Selecting-$a$-and-$b$">Selecting $a$ and $b$<a class="anchor-link" href="#Selecting-$a$-and-$b$">&#182;</a></h4><p>One question you may have is: How do we choose $a$ and $b$? Well, it turns out that if you set $a = 1$ and $b=1$, the beta distribution is equal to the <strong>Uniform Distribution</strong>. This makes a lot of sense, because if you don't know anything about your CTR prior to the experiment, then all possible CTR's are equally probable. We refer to this as a <strong>non-informative prior</strong>.</p>
 <p>One important fact to keep in mind is that as we collect more and more data, the influence of the prior parameters becomes negligably small.</p>
 <h4 id="Summary-of-what-we-just-did">Summary of what we just did<a class="anchor-link" href="#Summary-of-what-we-just-did">&#182;</a></h4><p>I want to take a quick moment to summarize what we just did before moving on to the code implementation.</p>
@@ -514,8 +463,7 @@ $$</p>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="4.-Bayesian-A/B-Testing-Algorithm">4. Bayesian A/B Testing Algorithm<a class="anchor-link" href="#4.-Bayesian-A/B-Testing-Algorithm">&#182;</a></h2><p>Finally, we have arrived at the actual implementation of the A/B testing algorithm. We just looked at how we can get a probability distribution of our click through rates, but two questions still remain:</p>
 <ol>
@@ -560,7 +508,7 @@ $$</p>
 <span class="n">plot_sampling_scenario</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -570,7 +518,7 @@ $$</p>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -590,8 +538,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>If we sample a number from both of these beta distributions, we would expect with a very high probability that the one with the higher CTR will give us a larger random number. So, in terms of our Bayesian Bandit problem, we should choose to play the bandit that gives us the largest sample. Note that it is still possible for the worse bandit/advertisement to give us a higher random number, but it becomes increasingly unlikely as distributions get sharper (variance decrases).</p>
 <h4 id="Scenario-2">Scenario 2<a class="anchor-link" href="#Scenario-2">&#182;</a></h4><p>Let's now consider a second scenario. One advertisement has been exploited a lot, so we are very sure of its CTR. However, we have not collected that much data for the other advertisement:</p>
@@ -607,7 +554,7 @@ height=353
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_sampling_scenario</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -617,7 +564,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -637,8 +584,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Sampling and choosing that advertisement that returned that maximum will help us in this scenario as well! Now, CTR 1, which has a higher variance, has a much higher chance of given us a random number that is larger. So, you can see that:</p>
 <blockquote><p>It is the distributions themselves that tell us how much to explore and exploit.</p>
@@ -678,7 +624,7 @@ height=353
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -688,7 +634,7 @@ height=353
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -708,8 +654,7 @@ height=350
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This means that CTR 2 is already pretty good, so we will spend more time exploiting that, and less time exploring.</p>
 <h4 id="Scenario-3">Scenario 3<a class="anchor-link" href="#Scenario-3">&#182;</a></h4><p>Now what if we had a scenario where the CTR with a sharp distribution (CTR 2) we lower than CTR 1. In that case, the probability of exploring the other CTR would be higher because more probability weight is to the right of it.</p>
@@ -725,7 +670,7 @@ height=350
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_sampling_scenario</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">800</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -735,7 +680,7 @@ height=350
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -755,8 +700,7 @@ height=353
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="Thompson-Sampling">Thompson Sampling<a class="anchor-link" href="#Thompson-Sampling">&#182;</a></h4><p>Note that this method is also refered to <strong>Thompson Sampling</strong>, and it can also be used in the context of reinforcement learning.</p>
 <h4 id="Pseudocode">Pseudocode<a class="anchor-link" href="#Pseudocode">&#182;</a></h4><p>With that said, we can put this all together with a bit of pseudocode as follows:</p>
@@ -773,8 +717,7 @@ height=353
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="4.2-Bayesian-A/B-in-Code">4.2 Bayesian A/B in Code<a class="anchor-link" href="#4.2-Bayesian-A/B-in-Code">&#182;</a></h3><p>Let's finally put everything together and create our Bayesian A/B test in code. We are going to define the following:</p>
 <ul>
@@ -905,14 +848,13 @@ height=353
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=1Use2gnw6pCm56ZoBUTFAO7FrVsRBvYpy" width="500"></p>
 
@@ -920,14 +862,10 @@ height=353
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Above, we see that we have 3 different advertisements, and for the sake of simplicity we can refer to them as the red, blue, and green advertisments (this isn't even that much of a leap-often in Bayesian A/B online testing something as simple of text color may be being compared). The advertisements have a ground truth probability of being clicked of:</p>
-<p>$$P(Click \mid red) = 0.2$$</p>
-<p>$$P(Click \mid green) = 0.75$$</p>
-<p>$$P(Click \mid blue) = 0.5$$</p>
-<p>However, keep in mind that we <em>do not</em> actually know that when conducting the experiment. I am simply including it for demonstration/clarity purposes. So, we assign each advertisement a Beta distribution with a $a = 1$ and $b=1$. From a machine learning perspective we can think of these as initial, unlearned parameters (think of how a neural network's weights start off as randomly initialized).</p>
+$$P(Click \mid red) = 0.2$$$$P(Click \mid green) = 0.75$$$$P(Click \mid blue) = 0.5$$<p>However, keep in mind that we <em>do not</em> actually know that when conducting the experiment. I am simply including it for demonstration/clarity purposes. So, we assign each advertisement a Beta distribution with a $a = 1$ and $b=1$. From a machine learning perspective we can think of these as initial, unlearned parameters (think of how a neural network's weights start off as randomly initialized).</p>
 <p>We then sample from each of these (unlearned) beta distributions, at which point all are equally likely to result in the highest sampled number. Whichever returns the highest number is then selected as as the advertisement to show to a customer. The customer will then either click on that advertisement, or not click on the advertisement. Based on that result, we update $a$ and $b$ of the advertisment that was shown (we update it's beta distribution). We then repeat this process for 500 iterations.</p>
 <p>What we see is that for the first 5 to 10 iterations all of the advertisements iterations are nearly the same. However, something very elegant begins to happen over time. Let's look at the red advertisment for a moment. If on iteration 5 the red distribution ends up returning the highest sampled value (which isn't unrealistic since all the of beta distributions begin at the uniform distribution), then what happens? Well, we then actually show the red ad to a user. <em>But</em>, the red ad isn't very effective and has only a 20% chance of being clicked on. If the user then doesn't click on it (which is probable), then the number of no clicks for the red ad increases. This subsequently changes the values of $a$ and $b$ for the red beta distribution, making it so that when it is sampled from in the next iteration, it is less probable to return a high sampled number. This can be seen in the flow chart below:</p>
 <p><img src="https://drive.google.com/uc?id=13n5ob76xrQS-ATS4l7BqGpDEDKcz78bN" width="600"></p>
@@ -975,7 +913,7 @@ Now, you may be wondering how exactly we just used bayes rule? Bayes rule, as we
 <span class="n">run_experiment</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mi">100000</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -985,7 +923,7 @@ Now, you may be wondering how exactly we just used bayes rule? Bayes rule, as we
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1005,8 +943,7 @@ height=336
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="5.-The-Online-Nature-of-A/B-Testing">5. The Online Nature of A/B Testing<a class="anchor-link" href="#5.-The-Online-Nature-of-A/B-Testing">&#182;</a></h2><h3 id="5.1-Bayesian-Sampling">5.1 Bayesian Sampling<a class="anchor-link" href="#5.1-Bayesian-Sampling">&#182;</a></h3><p>I want to take a moment and pause to consider how far we have come at this point.</p>
 <ul>
@@ -1018,9 +955,7 @@ height=336
 </ul>
 <p>Clearly, we have made some drastic improvements, while at the same time making our methodology far easier to explain, and elegant to implement.</p>
 <h3 id="5.2-The-Online-Nature-of-Bayesian-Methods">5.2 The Online Nature of Bayesian Methods<a class="anchor-link" href="#5.2-The-Online-Nature-of-Bayesian-Methods">&#182;</a></h3><p>Now, one very interesting aspect of the bayesian sampling method is that your measurements become more accurate after every single sample you collect. Why exactly is that? Well, as mentioned earlier, you can see that we don't just update a bandits $a$ and $b$ parameters after collecting all the data; rather, we update it after every time we pulled an arm! Put another way, the <strong>posterior</strong> that we have now <strong>becomes the prior</strong> when we incorporate even more data:</p>
-<p>$$P(\theta_t \mid X) = P(X_t \mid \theta_{t-1}) P(\theta_{t-1})$$</p>
-<p>$$P(\theta_{t+1} \mid X) = P(X_{t+1} \mid \theta_{t}) P(\theta_{t})$$</p>
-<p>We can compare this to a traditional machine learning model, where you fit all of your training data at the same time:</p>
+$$P(\theta_t \mid X) = P(X_t \mid \theta_{t-1}) P(\theta_{t-1})$$$$P(\theta_{t+1} \mid X) = P(X_{t+1} \mid \theta_{t}) P(\theta_{t})$$<p>We can compare this to a traditional machine learning model, where you fit all of your training data at the same time:</p>
 
 <pre><code>fit(Xtrain, Ytrain)</code></pre>
 <p>If we get more data in that case, we need to retrain from scratch. With out bayesian sampling approach, we just add a number to $a$ and a number to $b$. This is an example of what is known as <strong>online learning</strong>. The model will learn and improve after every single sample. Additionally, there won't be any RAM issues because $a$ and $b$ take up constant space. In the same vein, there will be no speed issues either.</p>
@@ -1030,8 +965,7 @@ height=336
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="6.-Finding-a-Threshold-without-$p$-values">6. Finding a Threshold without $p$-values<a class="anchor-link" href="#6.-Finding-a-Threshold-without-$p$-values">&#182;</a></h2><p>Now, even though Bayesian Testing is very efficient, it still takes up resources. For instance, we must store $a$ and $b$ somewhere (a database), generate random numbers for the bandits, and so on. So, if we are certain that one advertisement is better than another, why not just display that advertisement in a static way?</p>
 <p>Perhaps even more importantly, on a deeper level think about the probability that you actually want to know. Most often in the role of a data scientist, especially when performing A/B testing, we are asked the following question:</p>
@@ -1047,12 +981,9 @@ height=336
 </blockquote>
 <p>Yes, they may say they understand, but as pointed out <em>Thinking, Fast and Slow</em>, if they are not well versed in statistics they are most likely performing a <strong>substitution</strong> of one metric (the unintuitive frequentist one that you provided) with what they intuitively wanted to know (the probability that $A$ was better than $B$).</p>
 <p>Well, Bayesian Statistics will once again come to our rescue! Because both advertisement $A$ and $B$ have distributions, we are able to calculate the probability that people intuitively want! Specifically, if we define the click through rate as $\lambda$, then we can find:</p>
-<p>$$P(\lambda_A &gt; \lambda_B)$$</p>
-<h3 id="6.1-The-Joint-Posterior-for-Two-Variants">6.1 The Joint Posterior for Two Variants<a class="anchor-link" href="#6.1-The-Joint-Posterior-for-Two-Variants">&#182;</a></h3><p>I am going to utilize the same experiment from earlier, only now focusing in on the <em>green</em> and <em>blue</em> advertisments. To make the derivations easier to follow, I am going to be referring to the green ad as $A$ and the blue ad as $B$.</p>
+$$P(\lambda_A &gt; \lambda_B)$$<h3 id="6.1-The-Joint-Posterior-for-Two-Variants">6.1 The Joint Posterior for Two Variants<a class="anchor-link" href="#6.1-The-Joint-Posterior-for-Two-Variants">&#182;</a></h3><p>I am going to utilize the same experiment from earlier, only now focusing in on the <em>green</em> and <em>blue</em> advertisments. To make the derivations easier to follow, I am going to be referring to the green ad as $A$ and the blue ad as $B$.</p>
 <p>The goal of the earlier experiement was the find the posterior distributions of the advertisement's click through rates. These posteriors were Beta Distributions with their own respective $a$ and $b$:</p>
-<p>$$P(\lambda_A) = Beta(a=a_A,b=b_A) = \frac{\lambda_A^{a-1} (1- \lambda_A)^{b-1}}{B(a,b)}$$</p>
-<p>$$P(\lambda_B) = Beta(a=a_B,b=b_B) = \frac{\lambda_B^{a-1} (1- \lambda_B)^{b-1}}{B(a,b)}$$</p>
-<p>The final shape of each was as follows:</p>
+$$P(\lambda_A) = Beta(a=a_A,b=b_A) = \frac{\lambda_A^{a-1} (1- \lambda_A)^{b-1}}{B(a,b)}$$$$P(\lambda_B) = Beta(a=a_B,b=b_B) = \frac{\lambda_B^{a-1} (1- \lambda_B)^{b-1}}{B(a,b)}$$<p>The final shape of each was as follows:</p>
 
 </div>
 </div>
@@ -1094,7 +1025,7 @@ height=336
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1104,7 +1035,7 @@ height=336
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1124,16 +1055,11 @@ height=355
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, in our original experiment, after finding the two distributions we kept them as univariate and sampled from them to accomplish our goal. But having these in front of us actually gives us the ability to answer the intuitive question from earlier, namely:</p>
-<p>$$P(\lambda_A &gt; \lambda_B)$$</p>
-<p>Specifically, we can find the the joint distribution of $\lambda_A$ and $\lambda_B$:</p>
-<p>$$P(\lambda_A) = Beta(a=a_A,b=b_A) = \frac{\lambda_A^{a-1} (1- \lambda_A)^{b-1}}{B(a,b)}$$</p>
-<p>$$P(\lambda_B) = Beta(a=a_B,b=b_B) = \frac{\lambda_B^{a-1} (1- \lambda_B)^{b-1}}{B(a,b)}$$</p>
-<p>$$P(\lambda_A, \lambda_B) = Beta(a=a_A,b=b_A) \cdot Beta(a=a_B,b=b_B) = \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)}$$</p>
-<p>While this may look rather intimidating, it's 3d representation is quite intuitive, as seen below:</p>
+$$P(\lambda_A &gt; \lambda_B)$$<p>Specifically, we can find the the joint distribution of $\lambda_A$ and $\lambda_B$:</p>
+$$P(\lambda_A) = Beta(a=a_A,b=b_A) = \frac{\lambda_A^{a-1} (1- \lambda_A)^{b-1}}{B(a,b)}$$$$P(\lambda_B) = Beta(a=a_B,b=b_B) = \frac{\lambda_B^{a-1} (1- \lambda_B)^{b-1}}{B(a,b)}$$$$P(\lambda_A, \lambda_B) = Beta(a=a_A,b=b_A) \cdot Beta(a=a_B,b=b_B) = \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)}$$<p>While this may look rather intimidating, it's 3d representation is quite intuitive, as seen below:</p>
 
 </div>
 </div>
@@ -1226,14 +1152,13 @@ height=355
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=1DjaZowRJdJMQVHAZ2KOhLRQQNBIgfWLQ"></p>
 
@@ -1241,8 +1166,7 @@ height=355
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>On the left you can see the three dimensional representation of the joint distribution. It almost looks like the distribution of ad $A$ was elongated along the $\lambda_B$ axis. In a sense this is what happened. When thinking about how a 3-dimensional plot is actually created, it is helpful to think of sweeping across all values of $\lambda_A$ and $\lambda_B$; in other words, a nested for loop:</p>
 
@@ -1254,11 +1178,9 @@ height=355
 <p>So this should make sense. We can clearly see that the global maximum is located where the respective univariate distributions of $\lambda_A$ and $\lambda_B$ have maximums.</p>
 <p>Now, on the right there is an equivalent representation of this 3-d plot in the form of a heat map. We still have our $\lambda_A$ and $\lambda_B$ axes, only now our third dimension (the joint PDF) is represented in the form of varying shades of color. The corresponding color bar can be seen to the right. What is very nice about this heat map is that it allows us to overlay the line (sheet in three dimensions) $\lambda_A = \lambda_B$. As was the case in basic algebra, this line simply represents where our two axis values are equivalent.</p>
 <p>Why is this so useful? Well, let's think back to the original question we wanted to answer, aka the value we wanted to obtain:</p>
-<p>$$P(\lambda_A &gt; \lambda_B)$$</p>
-<p>This line allows us to get a visual representation of just that! In order to determine the probability that ad $A$ is more effective than ad $B$, we simply need to determine the volume under the above three dimensional sheet, in the region where $\lambda_A$ is greater than $\lambda_B$ (in this case the lower/right triangle created by the red line).</p>
+$$P(\lambda_A &gt; \lambda_B)$$<p>This line allows us to get a visual representation of just that! In order to determine the probability that ad $A$ is more effective than ad $B$, we simply need to determine the volume under the above three dimensional sheet, in the region where $\lambda_A$ is greater than $\lambda_B$ (in this case the lower/right triangle created by the red line).</p>
 <p>If this isn't quite intuitive, consider the following two dimensional scenario: You are given a pdf, $P(X)$, and asked to find the probability that $X &gt; 1$. In order to do so, you know that you must find the area under the curve where $X &gt; 1$:</p>
-<p>$$\int_{x=1}^\infty P(X)$$</p>
-<p>The same principle applies in our situation. We have a joint distribution across $\lambda_A$ and $\lambda_B$. There is a region in our $\lambda_A$ and $\lambda_B$ axes where $\lambda_A &gt; \lambda_B$. We want to find the volume under the curve in this region in order to determine $P(\lambda_A &gt; \lambda_B)$. Now, just looking at the right heat map we can clearly see that <em>nearly all</em> of the volume under the curve lies in this region! Hence, we confirm what we already knew, there is a very high probability that $\lambda_A &gt; \lambda_B$!</p>
+$$\int_{x=1}^\infty P(X)$$<p>The same principle applies in our situation. We have a joint distribution across $\lambda_A$ and $\lambda_B$. There is a region in our $\lambda_A$ and $\lambda_B$ axes where $\lambda_A &gt; \lambda_B$. We want to find the volume under the curve in this region in order to determine $P(\lambda_A &gt; \lambda_B)$. Now, just looking at the right heat map we can clearly see that <em>nearly all</em> of the volume under the curve lies in this region! Hence, we confirm what we already knew, there is a very high probability that $\lambda_A &gt; \lambda_B$!</p>
 <p>We will discuss what this probability is, and also its counterpart, $P(\lambda_B &gt; \lambda_A)$, momentarily. However, it would be remiss of me to not include a visualization of how we arrived at these final posterior beta distributions. Below, we can see the entire experiment play out from this new perspective:</p>
 
 </div>
@@ -1355,14 +1277,13 @@ height=355
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=1OeLv5tLWHcqOchWahzY8JhwUiGvymMJT"></p>
 
@@ -1370,22 +1291,17 @@ height=355
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Above we can see how the posterior distribution takes shape with each iteration. As always, the key thing to keep in mind is that we are <strong>updating our beliefs based on new evidence/observations</strong>.</p>
 <h3 id="6.2-Error-and-Loss-Functions">6.2 Error and Loss Functions<a class="anchor-link" href="#6.2-Error-and-Loss-Functions">&#182;</a></h3><p>Now that we have a handle of how the joint posterior can be utilized to find $P(\lambda_B &gt; \lambda_A)$, we can dig a bit deeper into how we can use this in practice. At the beginning of this section, I brought up the idea of eventually stopping the experiment and just serving the best advertisement. Something we most likely want to know is:</p>
 <blockquote><p>What is the probability that we made a mistake?</p>
 </blockquote>
 <p>For instance, say we gather some evidence and we then choose to display advertisement $A$. What is the probability that our choice was wrong, and $B$ in fact was better? Well, intuitively we can define the probability that we made a mistake as:</p>
-<p>$$P(\lambda_B &gt; \lambda_A)$$</p>
-<p>Which, is the volume under the surface where $\lambda_B &gt; \lambda_A$. We will define an <strong>error probability</strong> as follows:</p>
-<p>$$E[error](A) = \int_0^1 \int_0^{\lambda_A} P(\lambda_A, \lambda_B) d\lambda_B d\lambda_A$$</p>
-<p>Which is simply the <em>expected</em> volume under the surface based on the upper left triangle of our heatmap. Notice that the error is a function of the advertisement, hence, when we choose ad $B$ our error is as follows:</p>
-<p>$$E[error](B) = \int_0^1 \int_{\lambda_A}^1 P(\lambda_A, \lambda_B) d\lambda_B d\lambda_A$$</p>
-<p>If you are slightly rusty when it comes to double integrals, think of it as follows:</p>
-<p>$$E[error](A) = \overbrace{\int_0^1 \overbrace{\int_0^{\lambda_A} P(\lambda_A, \lambda_B) d\lambda_B}^\text{Inner Integral} d\lambda_A}^\text{Outer Integral}$$</p>
-<p>We have an outer and inner integral. In combination they are simply finding the volume under some surface. The way that they do that is the inner integral finds the area under the curve for a particular value of the outer integral. Then the outer integral increments, and the inner integral finds the area under the curve at the new value for the out integral. This repeats for all values in the interval of the outer integral. At the end, each cross sectional area is added together in order to find the total volume. Visually, finding $error(A)$ looks like:</p>
+$$P(\lambda_B &gt; \lambda_A)$$<p>Which, is the volume under the surface where $\lambda_B &gt; \lambda_A$. We will define an <strong>error probability</strong> as follows:</p>
+$$E[error](A) = \int_0^1 \int_0^{\lambda_A} P(\lambda_A, \lambda_B) d\lambda_B d\lambda_A$$<p>Which is simply the <em>expected</em> volume under the surface based on the upper left triangle of our heatmap. Notice that the error is a function of the advertisement, hence, when we choose ad $B$ our error is as follows:</p>
+$$E[error](B) = \int_0^1 \int_{\lambda_A}^1 P(\lambda_A, \lambda_B) d\lambda_B d\lambda_A$$<p>If you are slightly rusty when it comes to double integrals, think of it as follows:</p>
+$$E[error](A) = \overbrace{\int_0^1 \overbrace{\int_0^{\lambda_A} P(\lambda_A, \lambda_B) d\lambda_B}^\text{Inner Integral} d\lambda_A}^\text{Outer Integral}$$<p>We have an outer and inner integral. In combination they are simply finding the volume under some surface. The way that they do that is the inner integral finds the area under the curve for a particular value of the outer integral. Then the outer integral increments, and the inner integral finds the area under the curve at the new value for the out integral. This repeats for all values in the interval of the outer integral. At the end, each cross sectional area is added together in order to find the total volume. Visually, finding $error(A)$ looks like:</p>
 
 </div>
 </div>
@@ -1419,7 +1335,7 @@ height=355
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1429,7 +1345,7 @@ height=355
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1449,8 +1365,7 @@ height=415
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Where above we are taking all of the cross sectional areas signified by the vertical pink lines, and summing them up to find the total volume under the curve. Clearly, the volume will be incredibly small in this case, since nearly all of the volume under the curve is held in the lower right triangle (in the bright spot). However, that is what we would ideally want. If we choose ad $A$, we want the error probability to be small. We can determine this volume via numerical integration:</p>
 
@@ -1471,13 +1386,9 @@ for lambda_b in range(0,1):
 <blockquote><p>The loss function is the amount of uplift that one can expect to be lost by choosing a given variant, given particular values of $\lambda_A$ and $\lambda_B$.</p>
 </blockquote>
 <p>It is defined as follows:</p>
-<p>$$L(\lambda_A, \lambda_B, A) = max(\lambda_B - \lambda_A, 0)$$</p>
-<p>$$L(\lambda_A, \lambda_B, B) = max(\lambda_A - \lambda_B, 0)$$</p>
-<p>For example, suppose we choose to display ad $B$. If the conversion rate for ad $B$ is $\lambda_B = 0.1$ and the conversion rate for ad $A$ is $\lambda_A = 0.15$, then our loss would be:</p>
-<p>$$L(\lambda_A, \lambda_B, B) = max(0.15 - 0.1, 0) = 0.05$$</p>
-<p>In contrast if we choose $A$ our loss would be:</p>
-<p>$$L(\lambda_A, \lambda_B, A) = max(0.1 - 0.15, 0) = 0$$</p>
-<p>While this loss function makes sense when inspected and applied to a single $(\lambda_A, \lambda_B)$ pair, a visualization should make things more clear how it will be applied to alongside out entire error function:</p>
+$$L(\lambda_A, \lambda_B, A) = max(\lambda_B - \lambda_A, 0)$$$$L(\lambda_A, \lambda_B, B) = max(\lambda_A - \lambda_B, 0)$$<p>For example, suppose we choose to display ad $B$. If the conversion rate for ad $B$ is $\lambda_B = 0.1$ and the conversion rate for ad $A$ is $\lambda_A = 0.15$, then our loss would be:</p>
+$$L(\lambda_A, \lambda_B, B) = max(0.15 - 0.1, 0) = 0.05$$<p>In contrast if we choose $A$ our loss would be:</p>
+$$L(\lambda_A, \lambda_B, A) = max(0.1 - 0.15, 0) = 0$$<p>While this loss function makes sense when inspected and applied to a single $(\lambda_A, \lambda_B)$ pair, a visualization should make things more clear how it will be applied to alongside out entire error function:</p>
 
 </div>
 </div>
@@ -1494,7 +1405,7 @@ for lambda_b in range(0,1):
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">lambda_A</span> <span class="o">-</span> <span class="n">lambda_B</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1568,14 +1479,13 @@ for lambda_b in range(0,1):
 <span class="c1"># gif_video.save(&#39;loss_function_animation.gif&#39;, writer=&#39;imagemagick&#39;)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=1jaqT10BVnqo6WIdl_xhTSWkQ9A_tc4Q6"></p>
 
@@ -1583,15 +1493,12 @@ for lambda_b in range(0,1):
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>What we can see is that the loss function will linearly scale the volume moving away from the line $\lambda_A = \lambda_B$, so that volume (probability) further away from the mid line is considered worse. This makes intuitive sense. If the advertisement is right on the line, in other words $A$ and $B$ are nearly identical, then a mistake is not unreasonable. However, if the error is far away from the midline it should be weighted more heavily since it is more egregious.</p>
 <p>Now, to find the expected loss given a joint posterior, we would solve for the expected value of the loss function:</p>
-<p>$$E[L](ad) = \int_0^1 \int_0^1 L(\lambda_A, \lambda_B, ad) P(\lambda_A, \lambda_B) d\lambda_A d\lambda_B$$</p>
-<p>Above we are find the total volume under the entire surface. The difference is that now the surface is actually made up of the loss function times the posterior distribution:</p>
-<p>$$Surface \rightarrow L(\lambda_A, \lambda_B, ad) P(\lambda_A, \lambda_B) d\lambda_A d\lambda_B$$</p>
-<p>Visually, we can see the resulting surface when selecting ad $A$ below:</p>
+$$E[L](ad) = \int_0^1 \int_0^1 L(\lambda_A, \lambda_B, ad) P(\lambda_A, \lambda_B) d\lambda_A d\lambda_B$$<p>Above we are find the total volume under the entire surface. The difference is that now the surface is actually made up of the loss function times the posterior distribution:</p>
+$$Surface \rightarrow L(\lambda_A, \lambda_B, ad) P(\lambda_A, \lambda_B) d\lambda_A d\lambda_B$$<p>Visually, we can see the resulting surface when selecting ad $A$ below:</p>
 
 </div>
 </div>
@@ -1606,7 +1513,7 @@ for lambda_b in range(0,1):
 <span class="n">ad_A</span> <span class="o">=</span> <span class="n">advertisements</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1667,7 +1574,7 @@ for lambda_b in range(0,1):
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1677,7 +1584,7 @@ for lambda_b in range(0,1):
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1697,8 +1604,7 @@ height=406
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>And when selecting ad $B$:</p>
 
@@ -1761,7 +1667,7 @@ height=406
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1771,7 +1677,7 @@ height=406
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1791,8 +1697,7 @@ height=406
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This again makes perfect sense! We want our loss to be very low when choosing $A$ and very high when choosing $B$! I want to note that difference in scale between the $Z$ values of plots above. They are drastically different by an order of magnitude, further proving that our loss function works correctly. In order to find the volume under the respective curves above, we could implement the following:</p>
 
@@ -1812,8 +1717,7 @@ for lambda_a in range(0,1):
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="7.-Confidence-Interval-Approximation-vs.-Beta-Posterior">7. Confidence Interval Approximation vs. Beta Posterior<a class="anchor-link" href="#7.-Confidence-Interval-Approximation-vs.-Beta-Posterior">&#182;</a></h2><p>I want to now take a moment to look at how accurate the confidence interval was that we derived earlier. In particular, we will visualize the approximated gaussian that arises from the Central Limit Theorem and compare that to the Bayesian Beta Posterior. The code is of course hidden, but it is very straight forward. We can see below that our methods converge by the time $N = 500$.</p>
 
@@ -1908,14 +1812,13 @@ for lambda_a in range(0,1):
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://drive.google.com/uc?id=16cuEssxBU94OMej70CH_rubS7ep907z5" width="500"></p>
 
@@ -1923,211 +1826,140 @@ for lambda_a in range(0,1):
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="8.-Alternative-Conjugate-Priors">8. Alternative Conjugate Priors<a class="anchor-link" href="#8.-Alternative-Conjugate-Priors">&#182;</a></h2><p>Working with conjugate priors is a central part of Bayesian Machine Learning. We have already seen that a Beta prior and a Bernoulli Likelihood for a conjugate prior pair for experiments with a binary outcome. What about experiments that are non-binary? That is what we are going to discuss now.</p>
 <p>As we do, it is very important to remember what our goal is: We are trying to find the probability of a parameter, given the data:</p>
-<p>$$P(parameter \mid data)$$</p>
-<p>In the case of earlier experiments the parameter was the click through rate probability:</p>
-<p>$$P(p_{CTR} \mid data)$$</p>
-<p>In the categorical case it will remain similar, while in the gaussian it will slightly differ.</p>
+$$P(parameter \mid data)$$<p>In the case of earlier experiments the parameter was the click through rate probability:</p>
+$$P(p_{CTR} \mid data)$$<p>In the categorical case it will remain similar, while in the gaussian it will slightly differ.</p>
 <h3 id="8.1-Conjugate-Prior-for-a-Die-Roll-(Categorical-Outcome)">8.1 Conjugate Prior for a Die Roll (Categorical Outcome)<a class="anchor-link" href="#8.1-Conjugate-Prior-for-a-Die-Roll-(Categorical-Outcome)">&#182;</a></h3><p>In an experiment where we are rolling a die, we will be using the <a href="https://en.wikipedia.org/wiki/Categorical_distribution"><strong>categorical likelihood</strong></a> as our likelihood:</p>
-<p>$$P(X \mid \theta) = \prod_{n=1}^N \prod_{k=1}^K \theta_k ^{I(x == k)}$$</p>
-<p>Where $I$ is the identity function:</p>
-<p>$$I(true) = 1 \;\;, \;\; I(false) = 0$$</p>
-<p>Our prior will be the <a href="https://en.wikipedia.org/wiki/Dirichlet_distribution"><strong>Dirichlet Prior</strong></a>, which can be thought of a multivariate version of the Beta:</p>
-<p>$$P(\theta) = Dirichlet(\vec{\alpha}) = \frac{1}{B(\vec{a})} \prod_{k=1}^K \theta_k ^{\alpha_k -1}$$</p>
-<p>$$B(\vec{\alpha}) = \frac{\prod_{k=1}^K \Gamma(\alpha_k)}{\Gamma \Big(\sum_{k=1}^K \alpha_k \Big)}$$</p>
-<p>$$\vec{\alpha} = (\alpha_1, ..., \alpha_K)$$</p>
-<p>The next step is to combine the likelihood and the prior to determine the posterior:</p>
-<p>$$P(\theta \mid X) \propto \prod_{n=1}^N \prod_{k=1}^K \theta_k ^{I(x == k)}  \frac{1}{B(\vec{a})} \prod_{k=1}^K \theta_k ^{\alpha_k -1}$$</p>
-<p>We can then combine all of the $\theta_k$'s and move the product over $N$ into the exponent:</p>
-<p>$$P(\theta \mid X) \propto \overbrace{ \prod_{k=1}^K \theta_k ^{\alpha_k -1 + \sum_{n=1}^N I(x_n == k)}}^\text{Form of Dirichlet Distribution}$$</p>
-<p>Which is in the form of a Dirichlet Distribution, just as we wanted. So, our posterior can be written as:</p>
-<p>$$P(\theta \mid X) = Dirichlet(\vec{a}')$$</p>
-<p>$$a_k' = a_k + \sum_{n=1}^N I(x_n==k)$$</p>
-<p>$$a_k' = a_k + \# \; times \; k \; appeared $$</p>
-<h3 id="8.2-Gaussian-Conjugate-Priors">8.2 Gaussian Conjugate Priors<a class="anchor-link" href="#8.2-Gaussian-Conjugate-Priors">&#182;</a></h3><p>Sometimes we will be modeling a real number instead of something that is binary or categorical. Gaussians are a common distribution for modeling real numbers, so we will be using a Gaussian for now.</p>
+$$P(X \mid \theta) = \prod_{n=1}^N \prod_{k=1}^K \theta_k ^{I(x == k)}$$<p>Where $I$ is the identity function:</p>
+$$I(true) = 1 \;\;, \;\; I(false) = 0$$<p>Our prior will be the <a href="https://en.wikipedia.org/wiki/Dirichlet_distribution"><strong>Dirichlet Prior</strong></a>, which can be thought of a multivariate version of the Beta:</p>
+$$P(\theta) = Dirichlet(\vec{\alpha}) = \frac{1}{B(\vec{a})} \prod_{k=1}^K \theta_k ^{\alpha_k -1}$$$$B(\vec{\alpha}) = \frac{\prod_{k=1}^K \Gamma(\alpha_k)}{\Gamma \Big(\sum_{k=1}^K \alpha_k \Big)}$$$$\vec{\alpha} = (\alpha_1, ..., \alpha_K)$$<p>The next step is to combine the likelihood and the prior to determine the posterior:</p>
+$$P(\theta \mid X) \propto \prod_{n=1}^N \prod_{k=1}^K \theta_k ^{I(x == k)}  \frac{1}{B(\vec{a})} \prod_{k=1}^K \theta_k ^{\alpha_k -1}$$<p>We can then combine all of the $\theta_k$'s and move the product over $N$ into the exponent:</p>
+$$P(\theta \mid X) \propto \overbrace{ \prod_{k=1}^K \theta_k ^{\alpha_k -1 + \sum_{n=1}^N I(x_n == k)}}^\text{Form of Dirichlet Distribution}$$<p>Which is in the form of a Dirichlet Distribution, just as we wanted. So, our posterior can be written as:</p>
+$$P(\theta \mid X) = Dirichlet(\vec{a}')$$$$a_k' = a_k + \sum_{n=1}^N I(x_n==k)$$$$a_k' = a_k + \# \; times \; k \; appeared $$<h3 id="8.2-Gaussian-Conjugate-Priors">8.2 Gaussian Conjugate Priors<a class="anchor-link" href="#8.2-Gaussian-Conjugate-Priors">&#182;</a></h3><p>Sometimes we will be modeling a real number instead of something that is binary or categorical. Gaussians are a common distribution for modeling real numbers, so we will be using a Gaussian for now.</p>
 <p>In the Gaussian case we will actually be looking for the probability of the mean, $\mu$, given the data:</p>
-<p>$$P(\mu \mid data)$$</p>
-<p>So $\mu$ is now our parameter and we are trying to update it via bayesian inference.</p>
+$$P(\mu \mid data)$$<p>So $\mu$ is now our parameter and we are trying to update it via bayesian inference.</p>
 <p>One thing that will immediately make this more complicated is that the Gaussian has two parameters; the mean and variance. Since we don't want to over complicate things right off the bat, for now we will only place prior on the mean and assume the variance is fixed.</p>
 <p>To started, we are going to be using the precision (the inverse of variance) instead of the variance itself:</p>
-<p>$$\lambda^{-1} = \sigma^2$$</p>
-<p>We can look in the table of conjugate priors on wikipedia and see that conjugate prior for a gaussian likelihood is also a gaussian:</p>
-<p>$$\text{Likelihood: } P(X \mid \mu) \longrightarrow X \approx N(\mu, \tau^{-1})$$</p>
-<p>$$\text{Prior: } P(\mu) \longrightarrow \mu \approx N(m_0, \lambda_0^{-1})$$</p>
-<p>As always, our first step is to multiply the prior and likelihood to get a proportionality for the posterior:</p>
-<p>$$P(\mu \mid X) \propto 
+$$\lambda^{-1} = \sigma^2$$<p>We can look in the table of conjugate priors on wikipedia and see that conjugate prior for a gaussian likelihood is also a gaussian:</p>
+$$\text{Likelihood: } P(X \mid \mu) \longrightarrow X \approx N(\mu, \tau^{-1})$$$$\text{Prior: } P(\mu) \longrightarrow \mu \approx N(m_0, \lambda_0^{-1})$$<p>As always, our first step is to multiply the prior and likelihood to get a proportionality for the posterior:</p>
+$$P(\mu \mid X) \propto 
 \overbrace{\Big[ \prod_{n=1}^N \frac{1}{\sqrt{\frac{2\pi}{\tau}}} e^{\frac{-\tau}{2} (x_n -\mu)^2}\Big]}^\text{Likelihood}
-\overbrace{\frac{1}{\sqrt{\frac{2\pi}{\lambda_0}}} e^{\frac{-\lambda}{2} (\mu - m_0)^2}}^\text{Prior}$$</p>
-<p>We can then drop our constants and only keep what is in the exponent:</p>
-<p>$$P(\mu \mid X) \propto  
+\overbrace{\frac{1}{\sqrt{\frac{2\pi}{\lambda_0}}} e^{\frac{-\lambda}{2} (\mu - m_0)^2}}^\text{Prior}$$<p>We can then drop our constants and only keep what is in the exponent:</p>
+$$P(\mu \mid X) \propto  
 exp \Big( 
 \frac{-\lambda_0}{2} (\mu - m_0)^2 - 
 \frac{\tau}{2} \sum_{n=1}^N (x_n^2 - 2x_n \mu + \mu^2)
 \Big)
-$$</p>
-<p>We can then collect all of the terms by order of $\mu$, ignoring anything that does not depend on $\mu$ because it goes away with the normalizing constant:</p>
-<p>$$P(\mu \mid X) \propto  
+$$<p>We can then collect all of the terms by order of $\mu$, ignoring anything that does not depend on $\mu$ because it goes away with the normalizing constant:</p>
+$$P(\mu \mid X) \propto  
 exp \Big[
 -\frac{1}{2} \big\{  
 (\lambda_0 + \tau N)\mu^2 -
 2(m_0\lambda_0 + \tau(\sum_{n=1}^N x_n))\mu + ...
 \big\}
 \Big]
-$$</p>
-<p>The next step is to recognize what form of the equation we are looking for. For the posterior we want:</p>
-<p>$$-\frac{1}{2}\lambda(\mu -m)^2 = -\frac{1}{2}(\lambda \mu^2 - 2m\lambda\mu + ...)$$</p>
-<p>Which is actually the exact same form that we just found! This means we just need to equate the two by the degree in $\mu$:</p>
-<p>$$\lambda = \lambda_0 + \tau N$$</p>
-<p>$$m\lambda = m_0 \lambda_0 + \tau \sum_n x_n \leftrightarrow m = \frac{m_0 \lambda_0 + \tau \sum_n x_n}{\lambda_0 + \tau N}$$</p>
-<p>And we have arrived at our closed form solution! Note that the precision term is simpler to solve, while the $m$ term must be solved after because it depends on $\lambda$. We now have our solution for the new $m$ and new $\lambda$ based on the prior parameters and the data we collected.</p>
+$$<p>The next step is to recognize what form of the equation we are looking for. For the posterior we want:</p>
+$$-\frac{1}{2}\lambda(\mu -m)^2 = -\frac{1}{2}(\lambda \mu^2 - 2m\lambda\mu + ...)$$<p>Which is actually the exact same form that we just found! This means we just need to equate the two by the degree in $\mu$:</p>
+$$\lambda = \lambda_0 + \tau N$$$$m\lambda = m_0 \lambda_0 + \tau \sum_n x_n \leftrightarrow m = \frac{m_0 \lambda_0 + \tau \sum_n x_n}{\lambda_0 + \tau N}$$<p>And we have arrived at our closed form solution! Note that the precision term is simpler to solve, while the $m$ term must be solved after because it depends on $\lambda$. We now have our solution for the new $m$ and new $\lambda$ based on the prior parameters and the data we collected.</p>
 <p>It is interesting to note that if you look at the precision it is the precision for $\mu$ and it increases linearly with $N$. So, when $N \rightarrow \infty$ the precision also goes to $\infty$. Next, if you look at the second term for $m$, you will notice that the numerator depends on the sum of $x_n$ and the denominator depends on $N$. This means that in the limit when $N$ is large this will converge to the sample mean of $X$. As we know, in the limit this is equal to $\mu$.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Appendix">Appendix<a class="anchor-link" href="#Appendix">&#182;</a></h2><h3 id="A.1-Closed-Form-Solution-$-\rightarrow-P(\lambda_B-&gt;-\lambda_A)$">A.1 Closed Form Solution $ \rightarrow P(\lambda_B &gt; \lambda_A)$<a class="anchor-link" href="#A.1-Closed-Form-Solution-$-\rightarrow-P(\lambda_B-&gt;-\lambda_A)$">&#182;</a></h3><p>As mentioned earlier when we had been computing $P(\lambda_B &gt; \lambda_A)$ via numerical integration, a closed form solution does exist. I didn't feel the need to use it since it would most likely not be used in practice (since it is not extensible to more than two variants), but it is a great exercise to go through. This derivation is based off of derivations that can be found <a href="http://www.evanmiller.org/bayesian-ab-testing.html#binary_ab_implementation">here</a>.</p>
 <p>Recall the definition of $P(\lambda_B &gt; \lambda_A)$:</p>
-<p>$$P(\lambda_B &gt; \lambda_A) = \int_0^1 \int_{\lambda_A}^1 P(\lambda_A, \lambda_B) d\lambda_B d\lambda_A$$</p>
-<p>Where our joint distribution is defined as:</p>
-<p>$$P(\lambda_A, \lambda_B) = \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)}$$</p>
-<p>And hence, we want to find a closed form solution to the following integral:</p>
-<p>$$P(\lambda_B &gt; \lambda_A) = \int_0^1 \int_{\lambda_A}^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B d\lambda_A$$</p>
-<p>To give you an idea of where we are heading, we will find the the solution to this integral to be:</p>
+$$P(\lambda_B &gt; \lambda_A) = \int_0^1 \int_{\lambda_A}^1 P(\lambda_A, \lambda_B) d\lambda_B d\lambda_A$$<p>Where our joint distribution is defined as:</p>
+$$P(\lambda_A, \lambda_B) = \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)}$$<p>And hence, we want to find a closed form solution to the following integral:</p>
+$$P(\lambda_B &gt; \lambda_A) = \int_0^1 \int_{\lambda_A}^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B d\lambda_A$$<p>To give you an idea of where we are heading, we will find the the solution to this integral to be:</p>
 <p><span style="color:#000099">$$P(\lambda_B > \lambda_A) = \sum_{i=0}^{a_B-1} \frac{B(a_A + i, b_B + b_A)}{(b_B + i)B(1+i, b_B)B(a_A, b_A)}$$</span></p>
 <p>Where:</p>
-<p>$$a_A \rightarrow \text{number of successes for } A + 1$$</p>
-<p>$$a_B \rightarrow \text{number of failures for } A + 1$$</p>
-<p>$$b_A \rightarrow \text{number of successes for } B + 1$$</p>
-<p>$$b_B \rightarrow \text{number of failures for } B + 1$$</p>
-<h4 id="Derivation">Derivation<a class="anchor-link" href="#Derivation">&#182;</a></h4><p>With that said, let's finally get into the derivation. To begin, I want to start with a few simple definitions/clarifications. First, we have the <a href="https://en.wikipedia.org/wiki/Beta_distribution"><strong>Beta Distribution</strong></a>:</p>
-<p>$$Beta(a, b) = \frac{\lambda^{a-1}(1 - \lambda)^{b - 1}}{B(a, b)}$$</p>
-<p>A continuous probability distribution commonly used as a conjugate prior in bayesian inference. We then have the <a href="https://en.wikipedia.org/wiki/Beta_function"><strong>Beta Function</strong></a>:</p>
-<p>$$B(a,b) = \int_0^1 \lambda^{a-1}(1-\lambda)^{b-\lambda}d\lambda$$</p>
-<p>Where the beta function also has a special relationship to the $\Gamma$ function:</p>
-<p>$$B(a,b) = \frac{\Gamma(a) \Gamma(b)}{\Gamma(a+b)}$$</p>
-<p>And $\Gamma$ is:</p>
-<p>$$\Gamma(n) = (n-1)!$$</p>
-<p>Our goal is defined as follows:</p>
+$$a_A \rightarrow \text{number of successes for } A + 1$$$$a_B \rightarrow \text{number of failures for } A + 1$$$$b_A \rightarrow \text{number of successes for } B + 1$$$$b_B \rightarrow \text{number of failures for } B + 1$$<h4 id="Derivation">Derivation<a class="anchor-link" href="#Derivation">&#182;</a></h4><p>With that said, let's finally get into the derivation. To begin, I want to start with a few simple definitions/clarifications. First, we have the <a href="https://en.wikipedia.org/wiki/Beta_distribution"><strong>Beta Distribution</strong></a>:</p>
+$$Beta(a, b) = \frac{\lambda^{a-1}(1 - \lambda)^{b - 1}}{B(a, b)}$$<p>A continuous probability distribution commonly used as a conjugate prior in bayesian inference. We then have the <a href="https://en.wikipedia.org/wiki/Beta_function"><strong>Beta Function</strong></a>:</p>
+$$B(a,b) = \int_0^1 \lambda^{a-1}(1-\lambda)^{b-\lambda}d\lambda$$<p>Where the beta function also has a special relationship to the $\Gamma$ function:</p>
+$$B(a,b) = \frac{\Gamma(a) \Gamma(b)}{\Gamma(a+b)}$$<p>And $\Gamma$ is:</p>
+$$\Gamma(n) = (n-1)!$$<p>Our goal is defined as follows:</p>
 <blockquote><p>Find $P(\lambda_B &gt; \lambda_A)$, the probability that $B$ will beat $A$ in the long run.</p>
 </blockquote>
 <h4 id="Original-Univariate-Distributions">Original Univariate Distributions<a class="anchor-link" href="#Original-Univariate-Distributions">&#182;</a></h4><p>So, for both variant $A$ and $B$ we hold beliefs (probability distributions):</p>
-<p>$$\lambda_A \approx Beta(a_A, b_A) = \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)}$$</p>
-<p>$$\lambda_B \approx Beta(a_B, b_B) = \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)}$$</p>
-<h4 id="Joint-Distributions">Joint Distributions<a class="anchor-link" href="#Joint-Distributions">&#182;</a></h4><p>Because these distributions are independent of eachother, we can find the joint distribution by simply multiplying them together. In order to get the total probability that $\lambda_B &gt; \lambda_A$, we must integrate over the joint distribution where $\lambda_B &gt; \lambda_A$:</p>
-<p>$$P(\lambda_B &gt; \lambda_A) = \int_0^1 \overbrace{\int_{\lambda_A}^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B}^\text{Inner Integral} d\lambda_A$$</p>
-<h4 id="Evaluate-Inner-Integral-using-Incomplete-Beta-Function">Evaluate Inner Integral using Incomplete Beta Function<a class="anchor-link" href="#Evaluate-Inner-Integral-using-Incomplete-Beta-Function">&#182;</a></h4><p>Let's start by evaluating the inner integral. The beta distribution containing $\lambda_A$ can be pulled out because the inner integral is with respect to $\lambda_B$:</p>
-<p>$$\int_0^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \overbrace{\int_{\lambda_A}^1\frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B}^\text{Inner Integral} d\lambda_A$$</p>
-<p>Now, reviewing what we know about the Beta function, the inner integral above looks to be of the exact shape as the <a href="https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function"><strong>regularized incomplete beta function</strong></a>:</p>
-<p>$$I_x(a,b) = \frac{B(x; a,b)}{B(a,b)} = \int_0^x\frac{t^{a-1} (1-t)^{b-1}}{B(a,b)}dt$$</p>
-<p>$$\overbrace{\int_{\lambda_A}^1\frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B}^\text{Inner Integral} \; \; \; \longleftrightarrow \int_0^x\frac{t^{a-1} (1-t)^{b-1}}{B(a,b)}dt$$</p>
-<p>So, we can replace our inner integral with $I_x$, but there is one thing we must look out for; the bounds in our inner integral are swapped with those in the incomplete beta function. To resolve this, we have to hold a very intuitive grasp of the situation at hand. We are trying to solve a double integral and find the volume under a portion of our joint distribution surface. We know that that total volume under the joint distribution must be equal to 1:</p>
-<p>$$\int_0^1 \int_0^1 P(\lambda_A, \lambda_B) d\lambda_A d\lambda_B= 1$$</p>
-<p>Hence, in order to account for the reversed bounds of integration in our inner integral, we simply need to subtract our expression from 1:</p>
-<p>$$P(\lambda_B &gt; \lambda_A) = 1 - \int_0^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} I_{\lambda_A}(a_B, b_B)d\lambda_A$$</p>
-<p>Again, this is to account for the fact that out inner integral was from $\int_{\lambda_A}^1$ and not $\int_0^{\lambda_A}$.</p>
+$$\lambda_A \approx Beta(a_A, b_A) = \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)}$$$$\lambda_B \approx Beta(a_B, b_B) = \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)}$$<h4 id="Joint-Distributions">Joint Distributions<a class="anchor-link" href="#Joint-Distributions">&#182;</a></h4><p>Because these distributions are independent of eachother, we can find the joint distribution by simply multiplying them together. In order to get the total probability that $\lambda_B &gt; \lambda_A$, we must integrate over the joint distribution where $\lambda_B &gt; \lambda_A$:</p>
+$$P(\lambda_B &gt; \lambda_A) = \int_0^1 \overbrace{\int_{\lambda_A}^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B}^\text{Inner Integral} d\lambda_A$$<h4 id="Evaluate-Inner-Integral-using-Incomplete-Beta-Function">Evaluate Inner Integral using Incomplete Beta Function<a class="anchor-link" href="#Evaluate-Inner-Integral-using-Incomplete-Beta-Function">&#182;</a></h4><p>Let's start by evaluating the inner integral. The beta distribution containing $\lambda_A$ can be pulled out because the inner integral is with respect to $\lambda_B$:</p>
+$$\int_0^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \overbrace{\int_{\lambda_A}^1\frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B}^\text{Inner Integral} d\lambda_A$$<p>Now, reviewing what we know about the Beta function, the inner integral above looks to be of the exact shape as the <a href="https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function"><strong>regularized incomplete beta function</strong></a>:</p>
+$$I_x(a,b) = \frac{B(x; a,b)}{B(a,b)} = \int_0^x\frac{t^{a-1} (1-t)^{b-1}}{B(a,b)}dt$$$$\overbrace{\int_{\lambda_A}^1\frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B}^\text{Inner Integral} \; \; \; \longleftrightarrow \int_0^x\frac{t^{a-1} (1-t)^{b-1}}{B(a,b)}dt$$<p>So, we can replace our inner integral with $I_x$, but there is one thing we must look out for; the bounds in our inner integral are swapped with those in the incomplete beta function. To resolve this, we have to hold a very intuitive grasp of the situation at hand. We are trying to solve a double integral and find the volume under a portion of our joint distribution surface. We know that that total volume under the joint distribution must be equal to 1:</p>
+$$\int_0^1 \int_0^1 P(\lambda_A, \lambda_B) d\lambda_A d\lambda_B= 1$$<p>Hence, in order to account for the reversed bounds of integration in our inner integral, we simply need to subtract our expression from 1:</p>
+$$P(\lambda_B &gt; \lambda_A) = 1 - \int_0^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} I_{\lambda_A}(a_B, b_B)d\lambda_A$$<p>Again, this is to account for the fact that out inner integral was from $\int_{\lambda_A}^1$ and not $\int_0^{\lambda_A}$.</p>
 <h4 id="Express-$I$-without-integral">Express $I$ without integral<a class="anchor-link" href="#Express-$I$-without-integral">&#182;</a></h4><p>From here our goal is to now define $I$ in terms that involve no integration. In order to do this we will make use of a recurrence relationship that $I$ has, as well as a base case/identity. We can start by trying to find the identity, $I_{\lambda_A}(1, b)$:</p>
-<p>$$I_{\lambda_A} (a,b) = \int_0^{\lambda_A} \frac{t^{a-1} (1-t)^{b-1}}{B(a,b)}dt$$</p>
-<p>$$I_{\lambda_A} (1,b) = \int_0^{\lambda_A} \frac{(1-t)^{b-1}}{B(1,b)}dt$$</p>
-<p>Where we can solve the integral via u-substitution:</p>
-<p>$$\int (1-t)^{b-1}dt$$</p>
-<p>$$\text{let:   } u = 1- t \text{;   } du = -dt$$</p>
-<p>$$\int u^{b-1}du$$</p>
-<p>Via the power rule we end up with:</p>
-<p>$$\frac{-u^b}{b} = \frac{-(1-t)^b}{b} + C$$</p>
-<p>We also can make use of the following <a href="https://en.wikipedia.org/wiki/Beta_function#Properties">identity</a> concerning the Beta Function:</p>
-<p>$$B(1,b) = \frac{1}{b}$$</p>
-<p>Which we can substitute back into our original expression in order to arrive at a base case identity:</p>
-<p>$$I_{\lambda_A} (1,b) = \frac{\frac{-(1-t)^b}{b}}{\frac{1}{b}} \Big|_0^{\lambda_A} = -(1-t)^b \Big|_0^{\lambda_A} = 1 - (1 - \lambda_A)^b$$</p>
-<p>$$I_{\lambda_A} (1,b) = 1 - (1 - \lambda_A)^b$$</p>
-<p>Now, we can also make use of the following <a href="https://en.wikipedia.org/wiki/Beta_function#Properties_2">recursive relationship</a> that $I$ holds:</p>
-<p>$$I_x(a+1, b) = I_x(a,b) - \frac{x^a(1-x)^b}{aB(a,b)}$$</p>
-<p>Which we can tweak in our case to be (simply subtracting 1 from each $a$ in the case above):</p>
-<p>$$I_{\lambda_A}(a,b) = I_{\lambda_A}(a-1,b) - \frac{\lambda_A^{a_A - 1} (1 - \lambda_A)^{b_A}}{(a_A - 1)B(a_A -1, b_A)}$$</p>
-<p>Now, we still have an $I$ on the right hand side (that contains an integral we want to get rid of), but we are a bit closer to the expression we want. We want to now define the $I$ on the right hand side based on our original recursive relationship; this continues until $I$ is defined entirely recursively:</p>
-<p>$$
+$$I_{\lambda_A} (a,b) = \int_0^{\lambda_A} \frac{t^{a-1} (1-t)^{b-1}}{B(a,b)}dt$$$$I_{\lambda_A} (1,b) = \int_0^{\lambda_A} \frac{(1-t)^{b-1}}{B(1,b)}dt$$<p>Where we can solve the integral via u-substitution:</p>
+$$\int (1-t)^{b-1}dt$$$$\text{let:   } u = 1- t \text{;   } du = -dt$$$$\int u^{b-1}du$$<p>Via the power rule we end up with:</p>
+$$\frac{-u^b}{b} = \frac{-(1-t)^b}{b} + C$$<p>We also can make use of the following <a href="https://en.wikipedia.org/wiki/Beta_function#Properties">identity</a> concerning the Beta Function:</p>
+$$B(1,b) = \frac{1}{b}$$<p>Which we can substitute back into our original expression in order to arrive at a base case identity:</p>
+$$I_{\lambda_A} (1,b) = \frac{\frac{-(1-t)^b}{b}}{\frac{1}{b}} \Big|_0^{\lambda_A} = -(1-t)^b \Big|_0^{\lambda_A} = 1 - (1 - \lambda_A)^b$$$$I_{\lambda_A} (1,b) = 1 - (1 - \lambda_A)^b$$<p>Now, we can also make use of the following <a href="https://en.wikipedia.org/wiki/Beta_function#Properties_2">recursive relationship</a> that $I$ holds:</p>
+$$I_x(a+1, b) = I_x(a,b) - \frac{x^a(1-x)^b}{aB(a,b)}$$<p>Which we can tweak in our case to be (simply subtracting 1 from each $a$ in the case above):</p>
+$$I_{\lambda_A}(a,b) = I_{\lambda_A}(a-1,b) - \frac{\lambda_A^{a_A - 1} (1 - \lambda_A)^{b_A}}{(a_A - 1)B(a_A -1, b_A)}$$<p>Now, we still have an $I$ on the right hand side (that contains an integral we want to get rid of), but we are a bit closer to the expression we want. We want to now define the $I$ on the right hand side based on our original recursive relationship; this continues until $I$ is defined entirely recursively:</p>
+$$
 I_{\lambda_A}(a_A,b_A) = 
 \overbrace{1 - (1 - \lambda_A)^b_A}^\text{Identity/base case} - 
 \overbrace{
 \sum_{j=1}^{a_A-1} \frac{\lambda_A^{a_A - j} (1 - \lambda_A)^{b_A}}{(a_A - j)B(a_A - j, b_A)}
 }^\text{Recursive Portion}
-$$</p>
-<p>Great, we have arrived at an expression for $I$ that doesn't have an integral of $I$ on the right hand side! Equivalently, we can express the above equation as:</p>
-<p>$$
+$$<p>Great, we have arrived at an expression for $I$ that doesn't have an integral of $I$ on the right hand side! Equivalently, we can express the above equation as:</p>
+$$
 I_{\lambda_A}(a_A,b_A) = 
 1 - \sum_{i=0}^{a_A-1} \frac{\lambda_A^{i} (1 - \lambda_A)^{b_A}}{(b_A + i)B(1 + i, b_A)}
-$$</p>
-<h4 id="Substitute-back-into-expression-for-joint-distribution">Substitute back into expression for joint distribution<a class="anchor-link" href="#Substitute-back-into-expression-for-joint-distribution">&#182;</a></h4><p>Now that we have found $I$ in form that involves no integration, we can substitute it into our last expression for the joint distribution:</p>
-<p>$$P(\lambda_B &gt; \lambda_A) = 1 - \int_0^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} I_{\lambda_A}(a_B, b_B)d\lambda_A$$</p>
-<p>$$P(\lambda_B &gt; \lambda_A) = 
+$$<h4 id="Substitute-back-into-expression-for-joint-distribution">Substitute back into expression for joint distribution<a class="anchor-link" href="#Substitute-back-into-expression-for-joint-distribution">&#182;</a></h4><p>Now that we have found $I$ in form that involves no integration, we can substitute it into our last expression for the joint distribution:</p>
+$$P(\lambda_B &gt; \lambda_A) = 1 - \int_0^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} I_{\lambda_A}(a_B, b_B)d\lambda_A$$$$P(\lambda_B &gt; \lambda_A) = 
 1 - \int_0^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} 
 \Big(1 - \sum_{i=0}^{a_B-1} \frac{\lambda_A^{i} (1 - \lambda_A)^{b_B}}{(b_B + i)B(1 + i, b_B)} \Big) d\lambda_A
-$$</p>
-<p>We can make a simplification by splitting the integral into two parts and seeing that the first part is the integral of a probability distribution, which will evaluate to 1:</p>
-<p>$$P(\lambda_B &gt; \lambda_A) = 
+$$<p>We can make a simplification by splitting the integral into two parts and seeing that the first part is the integral of a probability distribution, which will evaluate to 1:</p>
+$$P(\lambda_B &gt; \lambda_A) = 
 1 - \overbrace{\int_0^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} d\lambda_A}^\text{Probability distribution, evaluates to 1}  + 
-\int_0^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)}  \sum_{i=0}^{a_B-1} \frac{\lambda_A^{i} (1 - \lambda_A)^{b_B}}{(b_B + i)B(1 + i, b_B)} d\lambda_A$$</p>
-<p>Next, we can bring the expression outside of the summation inside, collecting like terms:</p>
-<p>$$P(\lambda_B &gt; \lambda_A) = 
-\int_0^1 \overbrace{\frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)}}^\text{Bring inside, collect terms} \sum_{i=0}^{a_B-1} \frac{\lambda_A^{i} (1 - \lambda_A)^{b_B}}{(b_B + i)B(1 + i, b_B)} d\lambda_A$$</p>
-<p>$$
+\int_0^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)}  \sum_{i=0}^{a_B-1} \frac{\lambda_A^{i} (1 - \lambda_A)^{b_B}}{(b_B + i)B(1 + i, b_B)} d\lambda_A$$<p>Next, we can bring the expression outside of the summation inside, collecting like terms:</p>
+$$P(\lambda_B &gt; \lambda_A) = 
+\int_0^1 \overbrace{\frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)}}^\text{Bring inside, collect terms} \sum_{i=0}^{a_B-1} \frac{\lambda_A^{i} (1 - \lambda_A)^{b_B}}{(b_B + i)B(1 + i, b_B)} d\lambda_A$$$$
 P(\lambda_B &gt; \lambda_A) = 
 \int_0^1 \sum_{i=0}^{a_B-1} \frac{\lambda_A^{a_A - 1 + i} (1 - \lambda_A)^{b_A + b_B - 1}}{(b_B + i)B(a_A, b_A)B(1 + i, b_B)} d\lambda_A
-$$</p>
-<p>And then swap the order of the integral and summation:</p>
-<p>$$
+$$<p>And then swap the order of the integral and summation:</p>
+$$
 P(\lambda_B &gt; \lambda_A) = 
 \sum_{i=0}^{a_B-1} \int_0^1 \frac{\lambda_A^{a_A - 1 + i} (1 - \lambda_A)^{b_A + b_B - 1}}{(b_B + i)B(a_A, b_A)B(1 + i, b_B)} d\lambda_A
-$$</p>
-<p>Followed by pulling out the terms that are not with respect to the variable of integration ($d\lambda_A$), and multiplying by $\frac{B(a_A + i, b_A + b_B)}{B(a_A + i, b_A + b_B)}$. This leaves use with a beta distribution inside of the integral, which evaluates to 1:</p>
-<p>$$
+$$<p>Followed by pulling out the terms that are not with respect to the variable of integration ($d\lambda_A$), and multiplying by $\frac{B(a_A + i, b_A + b_B)}{B(a_A + i, b_A + b_B)}$. This leaves use with a beta distribution inside of the integral, which evaluates to 1:</p>
+$$
 P(\lambda_B &gt; \lambda_A) = 
 \sum_{i=0}^{a_B-1} \frac{B(a_A + i, b_A + b_B)}{(b_B + i)B(a_A, b_A)B(1 + i, b_B)} \overbrace{\int_0^1 \frac{\lambda_A^{a_A - 1 + i} (1 - \lambda_A)^{b_A + b_B - 1}}{B(a_A + i, b_A + b_B)}}^\text{A beta distribution} d\lambda_A 
-$$</p>
-<p>Finally, we arrive at our closed form solution:</p>
-<p>$$
+$$<p>Finally, we arrive at our closed form solution:</p>
+$$
 P(\lambda_B &gt; \lambda_A) = 
 \sum_{i=0}^{a_B-1} \frac{B(a_A + i, b_A + b_B)}{(b_B + i)B(a_A, b_A)B(1 + i, b_B)}
-$$</p>
-
+$$
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="A.2-Closed-Form-Loss-Function-$-\rightarrow-L(\lambda_A,-\lambda_B,-ad)$">A.2 Closed Form Loss Function $ \rightarrow L(\lambda_A, \lambda_B, ad)$<a class="anchor-link" href="#A.2-Closed-Form-Loss-Function-$-\rightarrow-L(\lambda_A,-\lambda_B,-ad)$">&#182;</a></h3><p>We can build off of the closed form solution derived about in order to find a closed form loss function. This derivation draws from work <a href="https://www.chrisstucchio.com/blog/2014/bayesian_ab_decision_rule.html">here</a>.</p>
 <p>Recall, the idea behind the loss function (and solving for $P(\lambda_B &gt; \lambda_A)$ in general) was because we wanted to know when we could stop running the test, i.e. that one variant was mathematically proven to be better than the other, within a certain threshold of caring. This looked like:</p>
-<p>$$P(\lambda_B &gt; \lambda_A) = \int_0^1 \int_{\lambda_A}^1 P(\lambda_A, \lambda_B) d\lambda_B d\lambda_A$$</p>
-<p>$$P(\lambda_B &gt; \lambda_A) = \int_0^1 \int_{\lambda_A}^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B d\lambda_A$$</p>
-<p>And we stated that:</p>
+$$P(\lambda_B &gt; \lambda_A) = \int_0^1 \int_{\lambda_A}^1 P(\lambda_A, \lambda_B) d\lambda_B d\lambda_A$$$$P(\lambda_B &gt; \lambda_A) = \int_0^1 \int_{\lambda_A}^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B d\lambda_A$$<p>And we stated that:</p>
 <blockquote><p>The test will be stopped when $P(\lambda_B &gt; \lambda_A)$ is less then some threshold of caring.</p>
 </blockquote>
 <p>In other words:</p>
-<p>$$P(\lambda_B &gt; \lambda_A) \leq \text{Threshold of caring}$$</p>
-<p>To help simplify this derivation, we are going to let our closed form solution from earlier equal $h$:</p>
-<p>$$
+$$P(\lambda_B &gt; \lambda_A) \leq \text{Threshold of caring}$$<p>To help simplify this derivation, we are going to let our closed form solution from earlier equal $h$:</p>
+$$
 P(\lambda_B &gt; \lambda_A) = 
 \sum_{i=0}^{a_B-1} \frac{B(a_A + i, b_A + b_B)}{(b_B + i)B(a_A, b_A)B(1 + i, b_B)} = h(a_A, b_A, b_A, b_B)
-$$</p>
-<p>So, if we want to apply what we learned in A.1 to the loss function, we must first start by updating our equation above to consider the loss function:</p>
-<p>$$L = (\lambda_A - \lambda_B)\int_0^1 \int_{\lambda_A}^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B d\lambda_A$$</p>
-<p>We can distribute across our loss, $(\lambda_A - \lambda_B)$:</p>
-<p>$$L = 
+$$<p>So, if we want to apply what we learned in A.1 to the loss function, we must first start by updating our equation above to consider the loss function:</p>
+$$L = (\lambda_A - \lambda_B)\int_0^1 \int_{\lambda_A}^1 \frac{\lambda_A^{a_A-1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} \cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B d\lambda_A$$<p>We can distribute across our loss, $(\lambda_A - \lambda_B)$:</p>
+$$L = 
 \int_0^1 \int_{\lambda_A}^1 \frac{\lambda_A^{a_A} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} 
 \cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B d\lambda_A - 
 \int_0^1 \int_{\lambda_A}^1 \frac{\lambda_A^{a_A - 1} (1- \lambda_A)^{b_A-1}}{B(a_A,b_A)} 
 \cdot \frac{\lambda_B^{a_B} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B d\lambda_A
-$$</p>
-<p>And then perform some rather simple arithmetic:</p>
+$$<p>And then perform some rather simple arithmetic:</p>
 <p><br></p>
 <p><span style="font-size:12px">
 $$L = 
@@ -2150,18 +1982,16 @@ $$L =
 \cdot \frac{\lambda_B^{a_B-1} (1- \lambda_B)^{b_B-1}}{B(a_B,b_B)} d\lambda_B d\lambda_A
 $$
 </span></p>
-<p>$$L = 
+$$L = 
 \frac{B(a_B + 1, b_B)}{B(a_B,b_B) } h(a_A, b_A, a_B + 1, b_B) - 
 \frac{B(a_A + 1, b_A)}{B(a_A,b_A)} h(a_A + 1, b_A, a_B, b_B)
-$$</p>
-<p>And we end up with the form that our closed form solution was expecting.</p>
+$$<p>And we end up with the form that our closed form solution was expecting.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2><ol>
 <li><a href="http://www.evanmiller.org/bayesian-ab-testing.html">Formulas for Bayesian A/B Testing</a></li>
@@ -2189,6 +2019,19 @@ $$</p>
   });
 </script>
 <form action="javascript:code_toggle()"><input type="submit" id="toggleButton" value="Show Code"></form>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
@@ -2237,7 +2080,7 @@ $$</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2274,7 +2117,7 @@ $$</p>
 <span class="n">plot_func</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2362,7 +2205,7 @@ $$</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2422,7 +2265,7 @@ $$</p>
 <span class="n">display</span><span class="p">(</span><span class="n">html_video</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2465,7 +2308,7 @@ $$</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
