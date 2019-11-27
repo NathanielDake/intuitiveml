@@ -429,7 +429,7 @@ $${n\choose k} = \frac{n!}{k!(n-k)!}$$<p>The binomial coefficient is used to tak
 <p>I also should note that the above is the <em>probability mass function</em>, meaning it represents the probability of getting exactly $k$ successes in $n$ trials. The <em>cumulative distribution function</em> on the other hand is defined as:</p>
 $$F(k \mid n, p) = P(X \leq k) = \sum_{i=0}^k {n\choose i} p^i (1-p)^{n-i}$$<p>This summation will come back to be very important later on, so keep it in mind!</p>
 <p>With that said, we can also write the pmf definition as follows:</p>
-$$P(X=x) = {n\choose k} p^x (1-p)^{n-x}$$<p>And:</p>
+$$P(X=x) = {n\choose x} p^x (1-p)^{n-x}$$<p>And:</p>
 $${n\choose x} = \frac{n!}{x!(n-x)!}$$<p>Where $x = 0,1,2,...,n$. Depending on whether you have seen the binomial distribution before you may be more comfortable with one or another of the above equations.</p>
 <p>What that out of the way, our expected value is updated to reflect the number of flips times the probability of success:</p>
 $$E[X] = np$$<p>As with the bernoulli expectation, this should be rather intuitive. If we flip a coin with a probability of 0.5 for heads 100 times, we would expect to get 50 heads. However, again I find it useful to derive this for good measure.</p>
