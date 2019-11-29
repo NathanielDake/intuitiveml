@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.6" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/readable.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Nathaniel Dake Blog</title>
+
+<style type = "text/css">
+body {
+  font-family: "sans-serif";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Nathaniel Dake Blog</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../Deep_Learning.html">Deep Learning</a>
+</li>
+        
+<li>
+  <a href="../Machine_Learning.html">Machine Learning</a>
+</li>
+        
+<li>
+  <a href="../Mathematics.html">Mathematics</a>
+</li>
+        
+<li>
+  <a href="../AI.html">AI</a>
+</li>
+        
+<li>
+  <a href="../NLP.html">NLP</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="https://github.com/NathanielDake/nathanieldake.github.io"> source </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="4.-Histogram-vs.-PDF-vs.-CDF">4. Histogram vs. PDF vs. CDF<a class="anchor-link" href="#4.-Histogram-vs.-PDF-vs.-CDF">&#182;</a></h1><p>This post is TODO.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>TODO: Fit in the content below somehow</p>
+<ul>
+<li>A very interesting thing to keep in mind with histograms is that they do not necessarily need to be defined for an evenly spaced x axis. Let's start this idea at it's most basic point and see where it takes us</li>
+<li>Consider why histograms/distributions even originated at all-to keep track of counts and get a better idea of which events were more prevalent </li>
+<li>So, let's start with a histogram, which captures data we have already seen and allows us to visualize it's spread at different levels of granularity (bin size). By design, it is <em>not</em> passed in an evenly spaced set of $\mathbb{R}$, rather it is only based off of the data points in the sample it is visualizing. What would happen if we had an infinite number of data points, and an infinite number of bins?</li>
+<li>Well, this leads us to probability distributions. These are an extension of histograms, or more accurately they are what a histogram approaches as the sample size grows to infinity.</li>
+<li>Probability distributions are useful since they can compactly represent <em>an infinite</em> amount of data, assuming that the underlying data generating process is indeed based on the distribution we select</li>
+<li>Now, probability distributions not necessarily defined of $\mathbb{R}$; however, there <em>are</em> defined over a set of evenly spaced input points. For the binomial that may be $[0, n]$, where $n$ is the number of trials, and for the gaussian it may be $\mathbb{R}$, and the poisson all natural numbers, $\mathbb{N}$. Again, all of these sets are evenly spaced, even if they are all not equivalent to $\mathbb{R}$.</li>
+<li>The main idea to keep in mind here is this interplay between a histogram and a probability distribution. A histogram, by design, is <em>not</em> defined over a set of evenly spaced points; rather it captures the frequency of counts in a specific sample. If that sample was evenly spaced our histogram would just look uniform. A probability distribution, a mathematical extension of a histogram, <em>is</em> defined over a set of evenly spaced points. </li>
+<li>Does this seem strange? The reason why this is the case has to do with limits, but a nice way to think about it is as follows. A histogram takes a set of bins (intervals), from the sample determines the counts in each bin, and this count is represented as a height. As we decrease the bin size to something arbitrarily small, and if we had an infinite number of data points in our sample (again, they do not need to be even spaced), we would eventually no area to our bin, just a height. Our probability density function is meant to capture the height at this limit. The idea is that our sample was <em>not</em> evenly spaced, and <em>that is why the height of the histogram and probability density function is not simply uniform-it varies!</em> The height captures this non uniformity. </li>
+<li>Our pdf is then able to take in a set of <em>evenly spaced points</em> because it's structure, <em>by design</em>, encodes the information obtained from the histogram. It knows that some values of this evenly spaced x are more common than others, and it reflects that in the height (function output). Again, the <em>function</em> (pdf) itself is constructed in a way that captures/encodes this non uniformity, and reflects the histogram with an infinite number of points and arbitrarily small bins.</li>
+<li><p>This is a very crucial point to keep in mind when thinking about the empirical nature of a histogram and the mathemtical extension of a pdf.</p>
+</li>
+<li><p>TODO: Add to above</p>
+<ul>
+<li>Histogram is mean to describe empirical distribution of sample</li>
+<li>PDF is meant to describe the underlying distribution (which is kind of the mind projection fallacy): <a href="https://www.lesswrong.com/posts/f6ZLxEWaankRZ2Crv/probability-is-in-the-mind">https://www.lesswrong.com/posts/f6ZLxEWaankRZ2Crv/probability-is-in-the-mind</a></li>
+<li>Jaynes chapter 3, transition from binomial to gaussian (from discrete to </li>
+</ul>
+</li>
+<li><p>Notes to use in above:</p>
+<ul>
+<li>A pdf is, simply described, a function that takes in a data point, $x \in X$, and transforms it into it's respective probability density (a curve height). If we think about this relationship to the histogram, the pdf is really saying that it will transform $x$ to larger numbers (probabilities) if we expect to observe many data points nearby, and lower numbers if we expect to see fewer data points nearby</li>
+<li>if we remember that the relationship between PDF and CDF (CDF is the integral of PDF, PDF is the derivative of CDF) that may help us reason about this. The histogram, while generally overlayed with the PDF, is actually representing chunks of area (i.e. of probability). Because it is dealing with <em>area</em>, these chunks/bins are indeed probability. However, if we make the size of these bin widths finer and finer, to the point where they are infinitesimally small, they will eventually be essentially just height. At this point, they are literally equivalent to the derivative of the CDF (the derivative of probability). That is why we call them densities. In a CDF, if there is a range with a large slope, that corresponds to a density of observations! </li>
+<li>TODO: ADD 1-D VISUALIZATION OF THIS (points scattered on line and 'densely' clustered), then have their CDF, PDF, and histogram all above it!!! THIS IS IDEAL.</li>
+<li>This idea of 'density' corresponds to where the CDF has a very high slope! If the CDF has a very high slope, that means that it's derivative is high, and hence it's PDF will be high. A PDF is a way of representing the slope/rate of change/derivative in the probability of observing a certain range of $x$. </li>
+<li>If we take chunks/areas under the PDF (i.e. bins), these hold probabilities. </li>
+<li><a href="https://www.nathanieldake.com/Mathematics/01-Calculus-01-Fundamental-Theorem-of-Calculus.html">https://www.nathanieldake.com/Mathematics/01-Calculus-01-Fundamental-Theorem-of-Calculus.html</a></li>
+</ul>
+</li>
+</ul>
+<p>We can then <em>abstract</em> from these messy distributions to more theoretical ones, such as the normal. Touch on taleb here.</p>
+<p>Now, when it comes to our implementation, we need to figure out a way to computationally compare the two above empirical CDFS. Let's look at how we may do that.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<hr>
+&copy; 2018 Nathaniel Dake
+
+</div>
+</div>
+</body>
+</html>
