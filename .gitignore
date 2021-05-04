@@ -5,3 +5,5 @@
 *.npz
 .idea
 .DS_Store
+**.vscode
+venv

@@ -18,3 +18,5 @@ theano
 tensorflow
 sklearn
 nltk
+networkx
+jupyterlab

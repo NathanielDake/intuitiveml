@@ -148,7 +148,7 @@ $(document).ready(function () {
 
 <style type = "text/css">
 body {
-  font-family: "sans-serif";
+  font-family: "Spectral-Light";
   padding-top: 66px;
   padding-bottom: 40px;
 }
@@ -851,7 +851,8 @@ for y in Y:
 <p>Where we have two variables, $X_1$ and $X_2$, and then the probability density on our vertical axis. Our probability density function looks like:</p>
 $$p(X_1, X_2)$$<p>Note, the volume under this curve must be equal to 1, since the total volume under the density function represents the probability of our variables $X_1$ and $X_2$.</p>
 <p>Now, what if we were asked to find $P(X_1)$? In order to do that we would need to <em>marginalize</em> out $X_2$. Mathematically, that would look like:</p>
-$$P(X_1) = \int_{x_2= - \infty}^{x_2 = \infty}p(X_1, X_2 = x_2)$$<p>But what can that be viewed as visually? Well, let's think for a moment. We are going through all possible values of $X_1$ (this is not written explicitly, but implied based on the convention of marginalization), and for each we want to find the area under curve at that value (the area under the curve along the $X_2$ axis). Let's take $x_1 = -0.6$ for instance. Visually, when we fix $X_1 = -0.6$, we have the following curve, shown in pink:</p>
+$$P(X_1) = \int_{x_2= - \infty}^{x_2 = \infty}p(X_1, X_2 = x_2) dx_2$$<p>Note: We are now dealing with a function of $X_1$ (i.e. $P(X_1)$ is a function of $X_1$). For any specific value $x_1 \in X_1$ the integral will return the integral with of that slice with respect to $X_2$. If we were to integrate again (i.e. a double integral) with respect to $X_2$ we would just be finding the entire volume under of surface, which of course is simply equal to $1$.</p>
+<p>But what can that be viewed as visually? Well, let's think for a moment. We are going through all possible values of $X_1$ (this is not written explicitly, but implied based on the convention of marginalization. More accurately, this is no different than any other function; $P(X_1)$ as defined above is a function of $X_1$ and when we evaluate for all $x_1 \in X_1$ we arrive at the orange curve shown in the final image below) , and for each we want to find the area under curve at that value (the area under the curve along the $X_2$ axis). Let's take $x_1 = -0.6$ for instance. Visually, when we fix $X_1 = -0.6$, we have the following curve, shown in pink:</p>
 <p><img src="https://drive.google.com/uc?id=13kyapVs6BSdLyM0zkWS_I_76bwZJ_QF5" width="450"></p>
 <p>That curve is occuring in only 2-dimensions (since $X_1$ is fixed). Now, the integral is finding the <em>area</em> under that curve, from $X_2 = -\infty$ to $X_2 = \infty$.</p>
 <p><img src="https://drive.google.com/uc?id=1Ocx9gxX4B9yWOEnq4CyWuj1KVfIYIDFe" width="450"></p>

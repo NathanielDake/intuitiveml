@@ -47,6 +47,7 @@ theme: "readable"
 # "Droid Sans"). Set to NULL to inherit the font used by the Bootsrap
 # theme.
 font: "sans-serif"
+# font: "Spectral-Light"
 
 # Set to True to add a table-of-contents (TOC) to the left-hand side
 # of each of the Jupyter notebook webpages; otherwise, set to False.

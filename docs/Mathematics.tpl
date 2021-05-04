@@ -152,7 +152,7 @@ $(document).ready(function () {
 
 <style type = "text/css">
 body {
-  font-family: "sans-serif";
+  font-family: "Spectral-Light";
   padding-top: 66px;
   padding-bottom: 40px;
 }
