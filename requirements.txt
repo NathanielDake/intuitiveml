@@ -15,8 +15,13 @@ statsmodels
 plotly
 chart-studio
 theano
-tensorflow
 sklearn
 nltk
 networkx
 jupyterlab
+tensorflow
+keras
+gym
+keras
+keras-rl2
+torch

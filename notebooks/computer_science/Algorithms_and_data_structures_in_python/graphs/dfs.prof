@@ -1,0 +1,12 @@
+         5 function calls in 0.055 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.055    0.055 <ipython-input-199-650ec3b8a45b>:4(dfs)
+        1    0.000    0.000    0.055    0.055 <ipython-input-196-be3c82a6749a>:32(wrapper)
+        1    0.055    0.055    0.055    0.055 {method 'enable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 {method 'keys' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 {method 'add' of 'set' objects}
+
+
