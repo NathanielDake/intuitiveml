@@ -19,9 +19,12 @@ sklearn
 nltk
 networkx
 jupyterlab
-# tensorflow
+# tensorflow-macos
+# tensorflow-probability
+darts
 # keras
 # gym
 # keras
 # keras-rl2
 # torch
+properscoring
